@@ -1,0 +1,341 @@
+
+<div class="container-fluid m-0" style="background-color: #fff;">
+  <div class="container module ptbxl" style="margin: auto;">
+		<div class="m-4 p-2"></div>
+    <div class="col-lg-12 center-elements">
+      <div class="section">
+          <h5 class="pt-0 text-bold-400" [innerHTML]="'gtp.title1' | translate"></h5>
+          <h1 class="pt-0 text-bold-700">{{'gtp.title2' | translate}}</h1>
+      </div>
+      <div class="section">
+          <h4 class="pt-0 pb-2"><b>{{'gtp.title3' | translate}}</b></h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+          <div class="center-xs embed-responsive embed-responsive-16by9">
+              <iframe style="width: 99%;" class="embed-responsive-item" src="https://www.youtube.com/embed/jZYPWbYe0jo?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+      </div>
+
+    </div>
+    <ngb-alert type="warning" class="mt-4 mb-2" [dismissible]="false">
+      <div class="center-elements">
+        <p class="mt-2">{{'gtp.thanks1' | translate}}</p>
+        <p>{{'gtp.thanks2' | translate}}</p>
+        <p>{{'gtp.thanks3' | translate}}</p>
+      </div>
+    </ngb-alert>
+
+    <div class="section pt-4">
+        <h3><b>{{'gtp.section1Title' | translate}}</b></h3>
+        <p [innerHTML]="'gtp.section1Content1' | translate"></p>
+        <p>{{'gtp.section1Content2' | translate}}</p>
+    </div>
+    <div class="section pt-4">
+        <h3><b>{{'gtp.section2Title' | translate}}</b></h3>
+        <ul>
+            <li>{{'gtp.section2Content1' | translate}}</li>
+            <li>{{'gtp.section2Content2' | translate}}</li>
+            <li>{{'gtp.section2Content3' | translate}}</li>
+            <li>{{'gtp.section2Content4' | translate}}</li>
+        </ul>
+    </div>
+
+		<div class="row">
+		    <div class="col-lg-8">
+            <div class="section pt-4">
+        		    <h3><b>{{'gtp.section4Title' | translate}}</b></h3>
+                <p>{{'gtp.section4SubTitle' | translate}}</p>
+                <ol>
+        		        <li>{{'gtp.section4Content1' | translate}}</li>
+        		        <li>{{'gtp.section4Content2' | translate}}</li>
+                    <li>{{'gtp.section4Content3' | translate}}</li>
+                    <li>{{'gtp.section4Content4' | translate}}</li>
+                    <li>{{'gtp.section4Content5' | translate}}</li>
+                    <li>{{'gtp.section4Content6' | translate}}</li>
+                    <li>{{'gtp.section4Content7' | translate}}</li>
+        		    </ol>
+                <p>{{'gtp.section4Info' | translate}}</p>
+        		</div>
+		    </div>
+        <div class="col-lg-4 text-center">
+            <img class="img-fluid img-gtp"  src="assets/img/home/gtp/gtp_header.jpg" />
+        </div>
+		</div>
+
+   
+    <div class="section pb-4 pt-4">
+		    <h3><b>{{'gtp.section3Title' | translate}}</b></h3>
+		    <p [innerHTML]="'gtp.section3Content1' | translate"></p>
+		</div>
+	</div>
+</div>
+
+<ng-template #contentGES let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header container row col-12" id="idHeader">
+      <div class="col-8">
+        <h4 class="modal-title">{{'gtp.formFieldGES' | translate}}:</h4>
+      </div>
+      <div class="col-4">
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="container col-12 row" >
+        <p>{{'gtp.templateGESTContent1' | translate}}</p>
+        <p>{{'gtp.templateGESTContent2' | translate}}</p>
+        <p>{{'gtp.templateGESTContent3' | translate}}</p>
+        <ul>
+		        <li>{{'gtp.templateGESTContent3.1' | translate}}</li>
+		        <li>{{'gtp.templateGESTContent3.2' | translate}}</li>
+            <li>{{'gtp.templateGESTContent3.3' | translate}}</li>
+            <li>{{'gtp.templateGESTContent3.4' | translate}}</li>
+            <li>{{'gtp.templateGESTContent3.5' | translate}}</li>
+		    </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #contentDevelopmentalDelay let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header container row col-12" id="idHeader">
+      <div class="col-8">
+        <h4 class="modal-title">{{'gtp.formFieldDevelopmentalDelay' | translate}}:</h4>
+      </div>
+      <div class="col-4">
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class="container col-12 row" >
+          <p>{{'gtp.templateDevelopmentalDelayContent' | translate}}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #contentPrivacyPolicy let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+      <div class="col-8">
+        <h5 class="modal-title">{{'gtp.pp.title1' | translate}}</h5>
+      </div>
+      <div class="col-4">
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class="container col-12 row" >
+        </div>
+        <h1>{{'gtp.pp.title2' | translate}}</h1>
+        <h2>{{'gtp.pp.content' | translate}}</h2>
+        <ol>
+		        <li>{{'gtp.pp.c1.title' | translate}}</li>
+		        <li>{{'gtp.pp.c2.title' | translate}}</li>
+            <li>{{'gtp.pp.c3.title' | translate}}</li>
+            <li>{{'gtp.pp.c4.title' | translate}}</li>
+            <li>{{'gtp.pp.c5.title' | translate}}</li>
+		    </ol>
+
+        <h4 style="margin-top:20px;">1. {{'gtp.pp.c1.title' | translate}}</h4>
+        <p [innerHTML]="'gtp.pp.c1.1' | translate"></p>
+        <p>{{'gtp.pp.c1.2' | translate}}</p>
+
+        <h4 style="margin-top:20px;">2. {{'gtp.pp.c2.title' | translate}}: {{'gtp.pp.c2.extendedtitle' | translate}}</h4>
+        <p>{{'gtp.pp.c2.1' | translate}}</p>
+        <ul>
+		        <li>{{'gtp.pp.c2.1.1' | translate}}</li>
+		        <li>{{'gtp.pp.c2.1.2' | translate}}</li>
+            <li>{{'gtp.pp.c2.1.3' | translate}}</li>
+            <li>{{'gtp.pp.c2.1.4' | translate}}</li>
+		    </ul>
+
+        <h4 style="margin-top:20px;">3. {{'gtp.pp.c3.extendedtitle' | translate}}</h4>
+        <div class="row2">
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h1' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c1' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h2' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c2' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h3' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c3' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h4' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c4' | translate }}</p>
+            </span>
+          </div>
+          <div class="column ml-1">
+            <span>
+              <p class="mb-0"><b>{{'gtp.pp.c3.h5' | translate }}</b></p>
+              <p>{{'gtp.pp.c3.c5' | translate }}</p>
+            </span>
+          </div>
+        </div>
+        <!--<div class="table-responsive-sm">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{'gtp.pp.c3.h1' | translate }}</th>
+                <th>{{'gtp.pp.c3.h2' | translate }}</th>
+                <th>{{'gtp.pp.c3.h3' | translate }}</th>
+                <th>{{'gtp.pp.c3.h4' | translate }}</th>
+                <th>{{'gtp.pp.c3.h5' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{'gtp.pp.c3.c1' | translate }}</td>
+                <td>{{'gtp.pp.c3.c2' | translate }}</td>
+                <td>{{'gtp.pp.c3.c3' | translate }}</td>
+                <td>{{'gtp.pp.c3.c4' | translate }}</td>
+                <td>{{'gtp.pp.c3.c5' | translate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>-->
+
+        <h4 style="margin-top:20px;">4. {{'gtp.pp.c4.title' | translate}}</h4>
+        <p>{{'gtp.pp.c4.1' | translate}}</p>
+        <p>{{'gtp.pp.c4.2' | translate}}</p>
+
+        <h4 style="margin-top:20px;">5. {{'gtp.pp.c5.title' | translate}}</h4>
+        <p>{{'gtp.pp.c5.1' | translate}}</p>
+        <ol type="a">
+		        <li>{{'gtp.pp.c5.1.1' | translate}}</li>
+		        <li>{{'gtp.pp.c5.1.2' | translate}}</li>
+            <li>{{'gtp.pp.c5.1.3' | translate}}</li>
+            <li>{{'gtp.pp.c5.1.4' | translate}}</li>
+            <li>{{'gtp.pp.c5.1.5' | translate}}</li>
+		    </ol>
+        <p [innerHTML]="'gtp.pp.c5.2' | translate"></p>
+        <p>{{'gtp.pp.c5.3' | translate}}</p>
+
+    </div>
+    <div class="modal-footer">
+      <div class="col-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+<ng-template #contentBases let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+      <div class="col-8">
+        <h5 class="modal-title">{{'gtp.pb.title' | translate}}</h5>
+      </div>
+      <div class="col-4">
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+        <div class="container col-12 row" >
+        </div>
+
+        <h4>{{'gtp.pb.c1.title' | translate}}</h4>
+        <p [innerHTML]="'gtp.pb.c1.c1' | translate"></p>
+        <p [innerHTML]="'gtp.pb.c1.c2' | translate"></p>
+
+
+        <h4 style="margin-top:20px;">{{'gtp.pb.c2.title' | translate}}</h4>
+        <p>{{'gtp.pb.c2.1' | translate}}</p>
+        <ul>
+		        <li>{{'gtp.pb.c2.1.1' | translate}}</li>
+		        <li>{{'gtp.pb.c2.1.2' | translate}}</li>
+            <li>{{'gtp.pb.c2.1.3' | translate}}</li>
+		    </ul>
+
+        <h4 style="margin-top:20px;">{{'gtp.pb.c3.title' | translate}}</h4>
+        <p>{{'gtp.pb.c3.1' | translate}}</p>
+        <ol>
+            <li [innerHTML]="'gtp.pb.c3.1.1' | translate"></li>
+            <li>{{'gtp.pb.c3.1.2' | translate}}</li>
+            <li>{{'gtp.pb.c3.1.3' | translate}}</li>
+            <li>{{'gtp.pb.c3.1.4' | translate}}</li>
+            <li>{{'gtp.pb.c3.1.5' | translate}}</li>
+            <li>{{'gtp.pb.c3.1.6' | translate}}</li>
+            <li>{{'gtp.pb.c3.1.7' | translate}}</li>
+        </ol>
+        <p>{{'gtp.pb.c3.2' | translate}}</p>
+
+        <h4 style="margin-top:20px;">{{'gtp.pb.c4.title' | translate}}</h4>
+        <p [innerHTML]="'gtp.pb.c4.1' | translate"></p>
+        <ul>
+            <li>
+              {{'gtp.pb.c4.1.1' | translate}}
+              <ul>
+                <li>{{'gtp.pb.c4.1.1.1' | translate}}</li>
+                <li>{{'gtp.pb.c4.1.1.2' | translate}}</li>
+                <li>{{'gtp.pb.c4.1.1.3' | translate}}</li>
+              </ul>
+            </li>
+            <li>{{'gtp.pb.c4.1.2' | translate}}</li>
+            <li>
+              {{'gtp.pb.c4.1.3' | translate}}
+              <ul>
+                <li>{{'gtp.pb.c4.1.3.1' | translate}}</li>
+                <li>{{'gtp.pb.c4.1.3.2' | translate}}</li>
+                <li>{{'gtp.pb.c4.1.3.3' | translate}}</li>
+              </ul>
+            </li>
+            <li>{{'gtp.pb.c4.1.4' | translate}}</li>
+        </ul>
+        <p [innerHTML]="'gtp.pb.c4.2' | translate"></p>
+        <ul>
+            <li>{{'gtp.pb.c4.2.1' | translate}}</li>
+            <li>{{'gtp.pb.c4.2.2' | translate}}</li>
+            <li>{{'gtp.pb.c4.2.3' | translate}}</li>
+            <li>{{'gtp.pb.c4.2.4' | translate}}</li>
+        </ul>
+        <p>{{'gtp.pb.c4.3' | translate}}</p>
+
+        <h4>{{'gtp.pb.c5.title' | translate}}</h4>
+        <p>{{'gtp.pb.c5.1' | translate}}</p>
+        <p>{{'gtp.pb.c5.2' | translate}}</p>
+        <p>{{'gtp.pb.c5.3' | translate}}</p>
+        <p>{{'gtp.pb.c5.4' | translate}}</p>
+
+        <h4>{{'gtp.pb.c7.title' | translate}}</h4>
+        <p [innerHTML]="'gtp.pb.c7.1' | translate"></p>
+
+    </div>
+    <div class="modal-footer">
+      <div class="col-12 center-elements">
+        <div class="form-actions center">
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click');">{{'generics.Close' | translate }}</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
