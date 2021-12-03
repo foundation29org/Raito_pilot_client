@@ -21,8 +21,13 @@ import {
 
 import { AppComponent } from './app.component';
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
+import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 import { LandPageLayoutComponent } from "./layouts/land-page/land-page-layout.component";
 
+import { AuthService } from './shared/auth/auth.service';
+import { TokenService } from './shared/auth/token.service';
+import { AuthGuard } from './shared/auth/auth-guard.service';
+import { RoleGuard } from './shared/auth/role-guard.service';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
 import { DatePipe } from '@angular/common';
 import { DateService } from 'app/shared/services/date.service';
@@ -36,6 +41,9 @@ import { EventsService } from 'app/shared/services/events.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
 import { environment } from 'environments/environment';
+import { BlobStorageService } from 'app/shared/services/blob-storage.service';
+import { BlobStoragePedService } from 'app/shared/services/blob-storage-ped.service';
+import { BlobStorageSupportService } from 'app/shared/services/blob-storage-support.service';
 
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
@@ -53,7 +61,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 
   @NgModule({
-    declarations: [AppComponent, ContentLayoutComponent, LandPageLayoutComponent, SearchFilterPipe, HighlightSearch, TextTransform, LocalizedDatePipe],
+    declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, LandPageLayoutComponent, SearchFilterPipe, HighlightSearch, TextTransform, LocalizedDatePipe],
     imports: [
       CommonModule,
       BrowserAnimationsModule,
@@ -74,6 +82,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       NgxHotjarModule.forRoot(environment.hotjarSiteId)
     ],
     providers: [
+      AuthService,
+      TokenService,
+      AuthGuard,
+      RoleGuard,
       {
         provide : HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,
@@ -91,6 +103,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       EventsService,
       DialogService,
       Data,
+      BlobStorageService,
+      BlobStoragePedService,
+      BlobStorageSupportService,
       {
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

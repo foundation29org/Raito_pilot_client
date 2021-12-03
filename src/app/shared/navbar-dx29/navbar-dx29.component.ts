@@ -394,4 +394,12 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     return seconds;
   };
 
+  goToLogin(){
+    this.router.navigate(['/login']);
+  }
+
+  goToRegister(){
+    this.router.navigate(['/register']);
+  }
+
 }

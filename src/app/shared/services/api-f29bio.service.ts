@@ -90,4 +90,24 @@ export class Apif29BioService {
         })
     }
 
+    getSuccessorsOfSymptoms(listOfSymptoms){
+        return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/successors/',listOfSymptoms)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
+    getLeavesOfSymptoms(listOfSymptoms){
+        return this.http.post(environment.f29bio+'/api/BioEntity/phenotype/leaves/',listOfSymptoms)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
 }
