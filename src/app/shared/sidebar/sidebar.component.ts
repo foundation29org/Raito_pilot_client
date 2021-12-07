@@ -30,8 +30,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   logoUrl = 'assets/img/logo.png';
   public config: any = {};
   layoutSub: Subscription;
-  urlLogo: string = 'assets/img/logo-Dx29.png';
-  urlLogo2: string = 'assets/img/logo-Dx29.png';
+  urlLogo: string = 'assets/img/logo-raito.png';
+  urlLogo2: string = 'assets/img/logo-raito.png';
   redirectUrl: string = '';
   isHomePage: boolean = false;
   isClinicalPage: boolean = false;

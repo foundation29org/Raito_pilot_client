@@ -16,11 +16,16 @@ import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.comp
 import { PermissionsPageComponent } from "./permissions/permissions-page.component";
 import {PasswordValidator} from "app/shared/directives/password-validator.directive"; //imported to modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
 
 @NgModule({
     exports: [
-        TranslateModule
+        TranslateModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
     ],
     imports: [
         CommonModule,
@@ -29,6 +34,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         TranslateModule,
         CustomFormsModule,
         NgbModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
         MatCheckboxModule
     ],
     declarations: [
@@ -41,7 +48,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         DataProcessingAgreementComponent,
         PrivacyPolicyPageComponent,
         PermissionsPageComponent,
-        PasswordValidator
+        PasswordValidator,
+        MyFilterPipe
     ],
     entryComponents:[TermsConditionsPageComponent, DataProcessingAgreementComponent]
 })

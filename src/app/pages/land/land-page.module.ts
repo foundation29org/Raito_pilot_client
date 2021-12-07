@@ -24,7 +24,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {DndDirective} from "app/shared/directives/dnd.directive";
 import { TimelineComponent } from './diagnosed/timeline/timeline.component';
-import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
+
 
 @NgModule({
     exports: [
@@ -55,8 +55,7 @@ import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
         GtpPageComponent,
         GtpDonatePageComponent,
         TimelineComponent,
-        DndDirective,
-        MyFilterPipe
+        DndDirective
     ]
 })
 export class LandPageModule { }

@@ -1,25 +1,55 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, LOCALE_ID, Injectable, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
 import { sha512 } from "js-sha512";
-import { Observable } from 'rxjs/Observable';
+import {Observable, of, OperatorFunction} from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge } from 'rxjs/operators'
+import { DateAdapter } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+import { SortService} from 'app/shared/services/sort.service';
+import { v4 as uuidv4 } from 'uuid';
 
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { TermsConditionsPageComponent } from "../terms-conditions/terms-conditions-page.component";
 import { DataProcessingAgreementComponent } from "../data-processing-agreement/data-processing-agreement.component";
+import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
+
+export function getCulture() {
+  return sessionStorage.getItem('culture');
+}
+
+@Injectable()
+export class SearchTermService {
+  constructor(private apiDx29ServerService: ApiDx29ServerService) {}
+
+  search(term: string) {
+    if (term === '') {
+        return of([]);
+      }
+      var info = {
+          "text": term,
+          "lang": sessionStorage.getItem('lang')
+      }
+      return this.apiDx29ServerService.searchDiseases(info).pipe(
+        map(response => response)
+      );
+  }
+}
+
 
 @Component({
     selector: 'app-register-page',
     templateUrl: './register-page.component.html',
     styleUrls: ['./register-page.component.scss'],
+    providers: [{ provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService, SearchTermService]
+    
 })
 
 export class RegisterPageComponent implements OnDestroy{
@@ -40,11 +70,27 @@ export class RegisterPageComponent implements OnDestroy{
     emailpar1: string = null;
     emailpar2: string = null;
     urlV2: string = environment.urlDxv2;
+    datainfo: any;
+    phoneCodes:any=[];
+    phoneCodeSelected:String=null;
+    searchDiseaseField: string = '';
+    formatter1 = (x: { name: string }) => x.name;
+    nothingFoundDisease: boolean = false;
+    private subscriptionDiseasesCall: Subscription = new Subscription();
+    callListOfDiseases: boolean = false;
+    listOfFilteredDiseases: any = [];
+    sendSympTerms: boolean = false;
+    myuuid: string = uuidv4();
+    sendTerms: boolean = false;
+    loadingOneDisease: boolean = false;
+    selectedDiseaseIndex: number = -1;
+    actualInfoOneDisease: any = {};
+    @ViewChild("inputManualSymptoms") inputTextAreaElement: ElementRef;
 
     private subscription: Subscription = new Subscription();
 
-    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute) {
-
+    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService,  public searchTermService: SearchTermService) {
+      
       this.subscription.add( this.route.params.subscribe(params => {
         if(params['role']!=undefined){
           this.role = params['role'];
@@ -60,11 +106,58 @@ export class RegisterPageComponent implements OnDestroy{
         this.emailpar2 = paramurlinit.email;
       }
 
+      this.datainfo = {
+        patientName: '',
+        surname: '',
+        street: '',
+        postalCode: '',
+        citybirth: '',
+        provincebirth: '',
+        countrybirth: null,
+        city: '',
+        province: '',
+        country: null,
+        phone1: '',
+        phone2: '',
+        birthDate: null,
+        gender: null,
+        siblings: [],
+        parents: [],
+        actualStep: '0.0',
+        stepClinic: '5.0'
+      };
+      this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
+
+      this.loadPhoneCodes();
     }
 
     ngOnDestroy() {
       this.subscription.unsubscribe();
+
+      if (this.subscriptionDiseasesCall) {
+        this.subscriptionDiseasesCall.unsubscribe();
     }
+    }
+
+    loadPhoneCodes(){
+      //cargar la lista mundial de ciudades
+      this.subscription.add( this.http.get('assets/jsons/phone_codes.json')
+      .subscribe( (res : any) => {
+        for (var i=0;i<res.length;i++){
+          var phoneCodeList=res[i].phone_code.split(/["]/g)
+          var phoneCode="+"+phoneCodeList[1]
+          var countryNameCode="";
+          var countryNameCodeList=[];
+          countryNameCodeList=res[i].name.split(/["]/g)
+          countryNameCode=countryNameCodeList[1]
+          this.phoneCodes.push({countryCode:countryNameCode,countryPhoneCode:phoneCode})
+        }
+        this.phoneCodes.sort(this.sortService.GetSortOrder("countryCode"));
+  
+      }));
+  
+    }
+
 
     // Open content Privacy Policy
     openTerms() {
@@ -151,5 +244,80 @@ export class RegisterPageComponent implements OnDestroy{
     roleChange(role){
       this.subrole = "null";
     }
+
+    closeDatePickerStart(eventData: any, dp?:any) {
+      // get month and year from eventData and close datepicker, thus not allowing user to select date
+      this.datainfo.birthDate=eventData;
+      dp.close();    
+    }
+
+    getLiteral(literal) {
+      return this.translate.instant(literal);
+  }
+
+focusOutFunctionDiseases(){
+  //if (this.searchDiseaseField.trim().length > 3 && this.listOfFilteredDiseases.length==0 && !this.callListOfDiseases) {
+  if (this.searchDiseaseField.trim().length > 3 && !this.callListOfDiseases) {
+      //send text
+      var tempModelTimp = this.searchDiseaseField.trim();
+      this.sendTerms = true;
+      var params: any = {}
+      params.uuid = this.myuuid;
+      params.Term = tempModelTimp;
+      params.Lang = sessionStorage.getItem('lang');
+      params.Found = "No";
+      if(this.listOfFilteredDiseases.length>0){
+          params.Found = "Yes";
+      }
+
+      var d = new Date(Date.now());
+      var a = d.toString();
+      params.Date = a;
+      this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
+          .subscribe((res: any) => {
+          }, (err) => {
+          }));
+  }
+}
+
+showMoreInfoDiagnosePopup(index){
+  this.loadingOneDisease = true;
+  this.selectedDiseaseIndex = index;
+  this.actualInfoOneDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex];
+  this.searchDiseaseField='';
+  this.listOfFilteredDiseases = [];
+}
+
+clearsearchDiseaseField(){
+  this.searchDiseaseField = "";
+  this.listOfFilteredDiseases = [];
+  this.callListOfDiseases = false;
+  this.actualInfoOneDisease = {};
+}
+
+selected($e) {
+  $e.preventDefault();
+  if (!$e.item.error) {
+    this.actualInfoOneDisease = $e.item;
+    console.log($e.item);
+      //this.searchDiseaseField =$e.item
+  }
+}
+
+searchDiseases: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+        text$.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            tap(() => this.callListOfDiseases = true),
+            switchMap(term =>
+                this.searchTermService.search(term).pipe(
+                    tap(() => this.nothingFoundDisease = false),
+                    catchError(() => {
+                        this.nothingFoundDisease = true;
+                        return of([]);
+                    }))
+            ),
+            tap(() => this.callListOfDiseases = false)
+        )
 
 }

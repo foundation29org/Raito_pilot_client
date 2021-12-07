@@ -54,6 +54,7 @@ export class GtpPageComponent implements OnInit, OnDestroy{
     //cargar la lista mundial de ciudades
     this.subscription.add( this.http.get('assets/jsons/phone_codes.json')
     .subscribe( (res : any) => {
+      console.log(res);
       for (var i=0;i<res.length;i++){
         var phoneCodeList=res[i].phone_code.split(/["]/g)
         var phoneCode="+"+phoneCodeList[1]
