@@ -10,6 +10,7 @@ export const ROUTES: RouteInfo[] = [
 export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
 
     {path: '/home', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
+    { path: '/pages/support', title: 'support.support', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, isAnchorLink: false, submenu: [] },
     { path: '/privacy-policy', title: 'registration.Privacy Policy', icon: 'ft-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, isAnchorLink: false, submenu: [] },
 ];
 

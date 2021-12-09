@@ -21,7 +21,7 @@
 				<a class="list-group-item no-border" (click)="SetActive($event, 'PanelExportData')">
 						{{tittleExportData}}
 				</a>
-				<a *ngIf="subrole == 'HaveDiagnosis' && phenotype_id!=''" class="list-group-item no-border" (click)="SetActive($event, 'PanelPermissions')">
+				<a *ngIf="phenotype_id!=''" class="list-group-item no-border" (click)="SetActive($event, 'PanelPermissions')">
 						{{tittlePermissions}}
 				</a>
 			</div>

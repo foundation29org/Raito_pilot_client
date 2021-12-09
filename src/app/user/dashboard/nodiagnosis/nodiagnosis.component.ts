@@ -13,7 +13,6 @@ import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
 import { DateService } from 'app/shared/services/date.service';
 import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
 import { Subscription } from 'rxjs/Subscription';
-import { NgxHotjarService } from 'ngx-hotjar';
 
 @Component({
     selector: 'app-nodiagnosis',
@@ -34,7 +33,7 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
   age: number = null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, protected $hotjar: NgxHotjarService){
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService){
     this.lang = this.authService.getLang();
   }
 
@@ -44,9 +43,7 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
   }
 
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   loadEnvironment(){
     this.getInfoPatient();
@@ -61,7 +58,6 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
     }else{
       this.loadedPatientId = true;
       this.selectedPatient = this.authService.getCurrentPatient();
-      this.$hotjar.tagRecording(['nodiagnosis', this.authService.getIdUser(), this.authService.getCurrentPatient().sub]);
 
       this.loadEnvironment();
     }
@@ -84,7 +80,6 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
       this.loadedPatientId = true;
       this.authService.setCurrentPatient(res);
       this.selectedPatient = res;
-      this.$hotjar.tagRecording(['nodiagnosis', this.authService.getIdUser(), this.authService.getCurrentPatient().sub]);
       this.loadEnvironment();
      }, (err) => {
        console.log(err);
@@ -101,9 +96,7 @@ export class NodiagnosisComponent implements OnInit, OnDestroy{
           this.loadedInfoPatient = true;
           if(this.basicInfoPatient.birthDate!=null && this.basicInfoPatient.birthDate!=''){
             this.ageFromDateOfBirthday(res.patient.birthDate);
-            //this.actualStep = "2.0";
           }else if(this.basicInfoPatient.birthDate==null || this.basicInfoPatient.birthDate==''){
-            //this.actualStep = "1.0";
           }
          }, (err) => {
            console.log(err);

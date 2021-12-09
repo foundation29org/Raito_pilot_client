@@ -28,11 +28,7 @@ export class RoleGuard implements CanActivate {
         }
       }else{
 
-        if(this.authService.getSubRole() != 'HaveDiagnosis'){
-          this.authService.setRedirectUrl('/home');
-        }else{
-          this.authService.setRedirectUrl('/home');
-        }
+        this.authService.setRedirectUrl('/home');
 
       }
       this.router.navigate([this.authService.getLoginUrl()]);

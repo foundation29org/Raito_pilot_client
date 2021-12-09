@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Inject, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Inject, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from 'app/shared/services/config.service';
 import { AuthService } from 'app/shared/auth/auth.service';
@@ -7,6 +7,14 @@ import { DOCUMENT } from '@angular/common';
 import { EventsService} from 'app/shared/services/events.service';
 import { Injectable, Injector } from '@angular/core';
 import { Data } from 'app/shared/services/data.service';
+import { LayoutService } from "app/shared/services/layout.service";
+import { Subscription } from "rxjs";
+
+var fireRefreshEventOnWindow = function() {
+  var evt = document.createEvent("HTMLEvents");
+  evt.initEvent("resize", true, false);
+  window.dispatchEvent(evt);
+};
 
 @Component({
     selector: 'app-full-layout',
@@ -15,7 +23,7 @@ import { Data } from 'app/shared/services/data.service';
 })
 
 @Injectable()
-export class FullLayoutComponent implements OnInit, AfterViewInit {
+export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('sidebarBgImage') sidebarBgImage: ElementRef;
     @ViewChild('appSidebar') appSidebar: ElementRef;
     @ViewChild('wrapper') wrapper: ElementRef;
@@ -26,6 +34,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
         bgImage: 'assets/img/sidebar-bg/01.jpg'
     };
     hideSidebar: boolean;
+    layoutSub: Subscription;
     iscollapsed = false;
     isSidebar_sm = false;
     isSidebar_lg = false;
@@ -43,7 +52,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
     isClinicalPage: boolean = false;
     eventsService: any = null;
 
-    constructor(private elementRef: ElementRef, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService,  private router: Router, private inj: Injector, private dataservice: Data) {
+    constructor(private elementRef: ElementRef, private layoutService: LayoutService, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService,  private router: Router, private inj: Injector, private dataservice: Data) {
       this.eventsService = this.inj.get(EventsService);
           this.isApp = this.document.URL.indexOf( 'http://' ) === -1 && this.document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
           this.role = this.authService.getRole();
@@ -66,6 +75,121 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
 
             }
           );
+
+          //event emitter call from customizer
+    this.layoutSub = layoutService.customizerChangeEmitted$.subscribe(
+      options => {
+        if (options) {
+          if (options.bgColor) {
+            this.bgColor = options.bgColor;
+          }
+          if (options.bgImage) {
+            this.bgImage = options.bgImage;
+          }
+
+          if (options.bgImageDisplay === true) {
+            this.bgImage = options.bgImage;
+          } else if (options.bgImageDisplay === false) {
+            this.bgImage = "";
+          }
+
+          if (options.compactMenu === true) {
+            this.renderer.addClass(this.wrapper.nativeElement, "nav-collapsed");
+            this.renderer.addClass(
+              this.wrapper.nativeElement,
+              "menu-collapsed"
+            );
+          } else if (options.compactMenu === false) {
+            if (
+              this.wrapper.nativeElement.classList.contains("nav-collapsed")
+            ) {
+              this.renderer.removeClass(
+                this.wrapper.nativeElement,
+                "nav-collapsed"
+              );
+              this.renderer.removeClass(
+                this.wrapper.nativeElement,
+                "menu-collapsed"
+              );
+            }
+          }
+
+          if (options.sidebarSize === "sidebar-lg") {
+            this.isSidebar_sm = false;
+            this.isSidebar_lg = true;
+          } else if (options.sidebarSize === "sidebar-sm") {
+            this.isSidebar_sm = true;
+            this.isSidebar_lg = false;
+          } else {
+            this.isSidebar_sm = false;
+            this.isSidebar_lg = false;
+          }
+
+          if (options.layout === "Light") {
+            this.renderer.removeClass(this.document.body, "layout-dark");
+            this.renderer.removeClass(this.document.body, "layout-transparent");
+            this.renderer.removeClass(this.document.body, "bg-hibiscus");
+            this.renderer.removeClass(this.document.body, "bg-purple-pizzazz");
+            this.renderer.removeClass(this.document.body, "bg-blue-lagoon");
+            this.renderer.removeClass(this.document.body, "bg-electric-violet");
+            this.renderer.removeClass(this.document.body, "bg-portage");
+            this.renderer.removeClass(this.document.body, "bg-tundora");
+            this.renderer.removeClass(this.document.body, "bg-glass-1");
+            this.renderer.removeClass(this.document.body, "bg-glass-2");
+            this.renderer.removeClass(this.document.body, "bg-glass-3");
+            this.renderer.removeClass(this.document.body, "bg-glass-4");
+          } else if (options.layout === "Dark") {
+            if (this.document.body.classList.contains("layout-transparent")) {
+              this.renderer.removeClass(
+                this.document.body,
+                "layout-transparent"
+              );
+              this.renderer.removeClass(this.document.body, "bg-hibiscus");
+              this.renderer.removeClass(
+                this.document.body,
+                "bg-purple-pizzazz"
+              );
+              this.renderer.removeClass(this.document.body, "bg-blue-lagoon");
+              this.renderer.removeClass(
+                this.document.body,
+                "bg-electric-violet"
+              );
+              this.renderer.removeClass(this.document.body, "bg-portage");
+              this.renderer.removeClass(this.document.body, "bg-tundora");
+              this.renderer.removeClass(this.document.body, "bg-glass-1");
+              this.renderer.removeClass(this.document.body, "bg-glass-2");
+              this.renderer.removeClass(this.document.body, "bg-glass-3");
+              this.renderer.removeClass(this.document.body, "bg-glass-4");
+
+              this.renderer.addClass(this.document.body, "layout-dark");
+            } else {
+              this.renderer.addClass(this.document.body, "layout-dark");
+            }
+          } else if (options.layout === "Transparent") {
+            this.renderer.addClass(this.document.body, "layout-transparent");
+            this.renderer.addClass(this.document.body, "layout-dark");
+            this.renderer.addClass(this.document.body, "bg-glass-1");
+          }
+
+          if (options.transparentColor) {
+            this.renderer.removeClass(this.document.body, "bg-hibiscus");
+            this.renderer.removeClass(this.document.body, "bg-purple-pizzazz");
+            this.renderer.removeClass(this.document.body, "bg-blue-lagoon");
+            this.renderer.removeClass(this.document.body, "bg-electric-violet");
+            this.renderer.removeClass(this.document.body, "bg-portage");
+            this.renderer.removeClass(this.document.body, "bg-tundora");
+            this.renderer.removeClass(this.document.body, "bg-glass-1");
+            this.renderer.removeClass(this.document.body, "bg-glass-2");
+            this.renderer.removeClass(this.document.body, "bg-glass-3");
+            this.renderer.removeClass(this.document.body, "bg-glass-4");
+            this.renderer.addClass(
+              this.document.body,
+              options.transparentColor
+            );
+          }
+        }
+      }
+    );
     }
 
     ngOnInit() {
@@ -114,6 +238,12 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
         this.maxStep= this.dataservice.steps.maxStep;
       }.bind(this));
 
+      //emit event to customizer
+      this.options.bgColor = this.bgColor;
+      this.options.bgImage = this.bgImage;
+
+      
+      this.layoutService.emitCustomizerChange(this.options);
     }
 
     ngAfterViewInit() {
@@ -121,44 +251,48 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
         if (this.config.layout.dir) {
           this.options.direction = this.config.layout.dir;
         }
-
-
+  
         if (this.config.layout.variant === "Dark") {
-          this.renderer.addClass(this.document.body, 'layout-dark');
-        }
-        else if (this.config.layout.variant === "Transparent") {
-          this.renderer.addClass(this.document.body, 'layout-dark');
-          this.renderer.addClass(this.document.body, 'layout-transparent');
+          this.renderer.addClass(this.document.body, "layout-dark");
+        } else if (this.config.layout.variant === "Transparent") {
+          this.renderer.addClass(this.document.body, "layout-dark");
+          this.renderer.addClass(this.document.body, "layout-transparent");
           if (this.config.layout.sidebar.backgroundColor) {
-            this.renderer.addClass(this.document.body, this.config.layout.sidebar.backgroundColor);
+            this.renderer.addClass(
+              this.document.body,
+              this.config.layout.sidebar.backgroundColor
+            );
+          } else {
+            this.renderer.addClass(this.document.body, "bg-glass-1");
           }
-          else {
-            this.renderer.addClass(this.document.body, 'bg-glass-1');
-          }
-          this.bgColor = 'black';
-          this.options.bgColor = 'black';
-          this.bgImage = '';
-          this.options.bgImage = '';
-          this.bgImage = '';
-          this.renderer.setAttribute(this.sidebarBgImage.nativeElement, 'style', 'display: none');
-
+          this.bgColor = "black";
+          this.options.bgColor = "black";
+          this.bgImage = "";
+          this.options.bgImage = "";
+          this.bgImage = "";
         }
-
-
       }, 0);
 
     }
 
+    ngOnDestroy() {
+      if (this.layoutSub) {
+        this.layoutSub.unsubscribe();
+      }
+    }
+
+    onClick(event) {
+      //initialize window resizer event on sidebar toggle click event
+      setTimeout(() => {
+        fireRefreshEventOnWindow();
+      }, 300);
+    }
+  
 
     toggleHideSidebar($event: boolean): void {
-        setTimeout(() => {
-          if(this.isHomePage){
-            this.hideSidebar = true;
-          }else{
-            this.hideSidebar = $event;
-          }
-
-        }, 0);
+      setTimeout(() => {
+        this.hideSidebar = $event;
+      }, 0);
     }
 
     getOptions($event): void {
