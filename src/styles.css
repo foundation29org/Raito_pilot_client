@@ -10,6 +10,11 @@
   background-color: #353535 !important;
   color: gray !important;
 }*/
+
+.navbar {
+  padding: 0.75rem 1.5rem !important;
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -25,7 +30,7 @@ footer{
 body {
   /* Disables pull-to-refresh but allows overscroll glow effects. */
   overscroll-behavior-y: contain;
-  background-color: #fff;
+  /*background-color: #fff;*/
 }
 
 .spinner-absolute{

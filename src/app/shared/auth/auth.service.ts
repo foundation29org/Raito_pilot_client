@@ -55,11 +55,7 @@ export class AuthService {
       }
       else{
         // is role user
-        if(tokenPayload.subrole != 'HaveDiagnosis'){
-          this.setRedirectUrl('/home')
-        }else{
-          this.setRedirectUrl('/home')
-        }
+        this.setRedirectUrl('/home')
 
       }
       this.setGroup(tokenPayload.group);
@@ -100,11 +96,7 @@ export class AuthService {
       }
     }else{
       // is role user
-      if(tokenPayload.subrole != 'HaveDiagnosis'){
-        this.setRedirectUrl('/home')
-      }else{
-        this.setRedirectUrl('/home')
-      }
+      this.setRedirectUrl('/home')
     }
     this.setGroup(tokenPayload.group);
     //save sessionStorage

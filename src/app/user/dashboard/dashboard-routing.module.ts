@@ -14,8 +14,7 @@ const routes: Routes = [
         component: NodiagnosisComponent,
         data: {
           title: 'menu.Dashboard',
-          expectedRole: ['User'],
-          expectedSubRole: ['NoDiagnosis', 'UncertainDiagnosis', 'HaveDiagnosis']
+          expectedRole: ['User']
         },
         canActivate: [AuthGuard, RoleGuard]
       },

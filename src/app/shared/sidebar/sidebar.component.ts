@@ -119,11 +119,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         else if(this.authService.getRole() != undefined){
           //cargar menú del usuario
-          if(this.authService.getSubRole() != 'HaveDiagnosis'){
-            this.menuItems = ROUTES.filter(menuItem => menuItem);
-          }else{
-            this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
-          }
+          this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
 
         }else if(this.authService.getRole() == undefined){
           this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
@@ -149,11 +145,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     else if(this.authService.getRole() != undefined){
       //cargar menú del usuario
-      if(this.authService.getSubRole() != 'HaveDiagnosis'){
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
-      }else{
-        this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
-      }
+      this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
 
     }else if(this.authService.getRole() == undefined){
       this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);

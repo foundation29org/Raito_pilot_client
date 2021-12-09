@@ -79,7 +79,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
         this.role = res.user.role;
         this.subrole = res.user.subrole;
         this.loading = false;
-        if(this.subrole == 'HaveDiagnosis'){
+        if(this.role == 'User'){
           //load the patient to get the shareWithCommunity value
           this.loadPatientId();
         }

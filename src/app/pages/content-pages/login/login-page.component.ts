@@ -128,14 +128,8 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                  if(this.authService.getRole()=='User'){
                    this.subscription.add( this.patientService.getPatientId()
                    .subscribe( (res : any) => {
-                     if(res==null){
-                       //crear el paciente, y mostrar mensaje de bienvenida, e invitarle a completar los datos básicos
-                       this.createPatient();
-
-                     }else{
-                       this.authService.setCurrentPatient(res);
-                			 this.router.navigate([ url ]);
-                     }
+                      this.authService.setCurrentPatient(res);
+                      this.router.navigate([ url ]);
                      this.sending = false;
                     }, (err) => {
                       console.log(err);
@@ -232,107 +226,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     	   ));
       
 
-    }
-
-    createPatient(){
-      if(this.authGuard.testtoken()){
-        this.sending = true;
-
-        var random_name = Math.random().toString(36).substr(2, 9);
-
-        this.patient = {
-          patientName: 'case-'+random_name,
-          surname: '',
-          street: '',
-          postalCode: '',
-          citybirth: '',
-          provincebirth: '',
-          countrybirth: null,
-          city: '',
-          province: '',
-          country: null,
-          phone1: '',
-          phone2: '',
-          birthDate: null,
-          gender: null,
-          siblings: [],
-          parents: [],
-          actualStep: '0.0',
-          stepClinic: '5.0'
-        };
-
-        if(this.authService.getSubRole()=='HaveDiagnosis'){
-          this.callSwalName();
-        }else{
-          this.saveNewPatient();
-        }
-      }
-    }
-
-    callSwalName(){
-      Swal.fire({
-          title: this.translate.instant("patnodiagdashboard.step1-0.field1.title"),
-          input: 'text',
-          inputAttributes: {
-            autocapitalize: 'off'
-          },
-          showCancelButton: false,
-          confirmButtonText: 'Ok',
-          showLoaderOnConfirm: true,
-          allowOutsideClick: false
-        }).then((result) => {
-          if (result.value) {
-            this.patient.patientName = result.value;
-            this.saveNewPatient();
-          }else{
-            Swal.close();
-            this.callSwalName();
-          }
-        })
-    }
-
-    saveNewPatient(){
-      this.subscription.add( this.http.post(environment.api+'/api/patients/'+this.authService.getIdUser(), this.patient)
-      .subscribe( (res : any) => {
-        this.authService.setCurrentPatient(res.patientInfo);
-        this.sending = false;
-        //this.toastr.success('', this.msgDataSavedOk);
-        if(this.authService.getCurrentPatient()!=null){
-          //ir a la página para meter si tiene diganóstico o no
-          var msg = this.translate.instant("dashboardpatient.msgIntro");
-          if(this.authService.getSubRole()=='HaveDiagnosis'){
-            msg = '<div class="text-left"><ol><li>'+this.translate.instant("welcome.diagnosismsg1")+'</li><li>'+this.translate.instant("welcome.diagnosismsg2")+'</li><li>'+this.translate.instant("welcome.diagnosismsg3")+'</li><li>'+this.translate.instant("welcome.diagnosismsg4")+'​</li><li>'+this.translate.instant("welcome.diagnosismsg5")+'​</li></ol></div>';
-            Swal.fire({
-              title: this.translate.instant("generics.Welcome to dx29"),
-              html: msg,
-              imageUrl: "assets/img/heartswal.jpg",
-              width: "75%",
-              confirmButtonText: 'OK'
-            });
-
-            let url =  this.authService.getRedirectUrl();
-            this.router.navigate([ url ]);
-          //}else if(this.authService.getSubRole()=='NoDiagnosis'){
-          }else{
-            //subrole NoDiagnosis y UncertainDiagnosis
-            let url =  this.authService.getRedirectUrl();
-            this.router.navigate([ url ], { queryParams: { actualStep: "0.0" } });
-          }
-
-
-          //this.router.navigate(['/clinical/diagnosis']);
-        }
-        //this.loadPatients();
-       }, (err) => {
-         console.log(err);
-         this.sending = false;
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           console.log('error');
-           //this.toastr.error('', this.msgDataSavedFail);
-         }
-       }));
     }
 
     launchDemo(){
