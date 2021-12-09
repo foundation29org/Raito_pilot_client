@@ -10,6 +10,16 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 export class ApiDx29ServerService {
     constructor(private http: HttpClient) {}
 
+    getSymptoms(id){
+      return this.http.get(environment.api+'/api/phenotypes/'+id)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+           return err;
+         })
+    }
+    
     getDetectLanguage(text){
       var jsonText = [{ "text": text }];
         return this.http.post(environment.api+'/api/getDetectLanguage', jsonText)
@@ -30,6 +40,16 @@ export class ApiDx29ServerService {
             return err;
         })
     }
+
+    getAzureBlobSasToken(containerName){
+      return this.http.get(environment.api+'/api/getAzureBlobSasTokenWithContainer/'+containerName)
+      .map( (res : any) => {
+          return res.containerSAS;
+      }, (err) => {
+          console.log(err);
+          return err;
+      })
+  }
 
     calculate(info, lang) {
       return this.http.post(environment.api + '/api/gateway/Diagnosis/calculate/'+lang, info)

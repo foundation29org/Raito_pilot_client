@@ -1,67 +1,19 @@
-<section>
-  <div class="row auth-height full-height-vh m-0 grid-hover background-img">
-    <div class="col-12 d-flex justify-content-center">
-          <div class="mt-4 card-body" style="max-width: 1200px;">
-            <div class="row m-0">
-              <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
-                <h1 class="card-title text-bold-500">
-                  {{'preland.t1' | translate }}
-                  <hr class="hr-custom">
-                </h1>
-                
-                <p class="mt-3" [innerHTML]="'preland.t2' | translate"></p>
-              </div>
-              <div class="col-lg-12 col-md-12 py-2">
-                <h4 class="text-center">{{'preland.t2_q' | translate }}</h4>
-                <div class="col-md-12" style="z-index: 2;">
-                  <div class="pt-2 center-elements">
-                    <button [routerLink]="['/undiagnosed']" (click)="lauchEvent('Role - Undiagnosed')" class="mt-2 mr-2 ml-2 btn btn-white round mb-1 h-80"
-                          type="button"><strong>{{'preland.p2.1' | translate }}</strong>
-                        </button>
-                        <button [routerLink]="['/diagnosed']" (click)="lauchEvent('Role - Diagnosed');" type="button"
-                          class="mt-2 mr-2 ml-2 btn btn-white round mb-1 h-80"><strong>{{'preland.p2.2' | translate }}</strong>
-                        </button>
-                  </div>
-                </div>
-              </div>
-              <div class="">
-                <img class="img-1 d-none d-sm-block" src="assets/img/land/checks.png" />
-              </div>
-            </div>
-          </div>
-    </div>
-  </div>
-</section>
-<section style="padding-bottom: 30px !important;" class="d-none d-sm-block">
-  <img class="img-3" src="assets/img/land/last.jpg" />
-  <div class="col-12 d-flex justify-content-center">
-    <div class="card-body" style="max-width: 1200px;">
-      <div class="row m-0">
-        <div class="col-lg-12 justify-content-center align-items-center text-center" style="padding-top: 1.5rem;padding-right: 1.5rem;padding-left: 1.5rem;">
-          <h1 class="card-title text-bold-500">
-            {{'preland.Acknowledgements' | translate }}
-            <hr class="hr-custom">
-          </h1>
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-12 justify-content-center align-items-center text-center">
+            <h1>Why register on RAITO?</h1>
+            <p>RAITO is an easy to operate app where you can enter and track chronologically your medical data like
+                drugs, symtoms, seizures and how do you feel.</p>
+            <p>RAITO helps you store your data wherever you want. In Raito you are the only owner of your data. You can
+                save them in a cloud storage such as OneDrive, GoogleDrive or ¡Cloud or save them on this phone. If you
+                save them in the cloud they will always be accessible and you wont lose them.</p>
+            <h1>What can you expect from RAITO?</h1>
+            <p>RAITO enables you to share your data with your patient organisation and platforms like HealthData 29 so
+                institutions and researchers can get access to the valuable information your anonymously provide on
+                significant benefit, clinical researches and disease data updates.</p>
+            <a routerLink="/register" class="btn btn-dark" title="I want to join">
+                <span class="menu-title">I want to join</span>
+            </a>
         </div>
-      </div>
     </div>
-    
-  </div>
-  <div class="col-12 justify-content-center center-elements offset-md-2 col-md-8">
-    <h4><strong>{{'preland.This site would not be possible' | translate }}:</strong></h4>
-    <div class="row center-elements pad-logos">
-      <div class="col-6 col-sm-3 mb-3 p-4">
-        <img class="img-responsive" src='assets/img/home/logos/hpo.png'>
-      </div>
-      <div class="col-6 col-sm-3 mb-3 p-4">
-        <img class="img-responsive" src='assets/img/home/logos/monarch.png'>
-      </div>
-      <div class="col-6 col-sm-3 mb-3 p-4">
-        <img class="img-responsive" src='assets/img/home/logos/mondo.png'>
-      </div>
-      <div class="col-6 col-sm-3 mb-3 p-4">
-        <img class="img-responsive" src='assets/img/home/logos/orpha.png'>
-      </div>
-    </div>
-  </div>
-</section>
+</div>

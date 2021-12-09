@@ -90,7 +90,7 @@
     "uncertaindiagnosis": "Tengo un diagnóstico, pero no estoy seguro de que sea correcto",
     "msgnewlab": "Haga clic para agregrar el nuevo laboratorio",
     "SearchLabPlaceholder": "Escribe el nombre del laboratorio",
-    "Please select a code":"Código de país del teléfono"
+    "Please select a code":"País"
   },
   "recoverpass":{
     "Account recovery email sent": "Correo electrónico de recuperación de cuenta enviado",
@@ -216,7 +216,7 @@
     "Reject": "Rechazar",
     "Description": "Descripción",
     "Synonyms": "Sinónimos",
-    "Please select": "Por favor, seleccione",
+    "Please select": "Por favor, seleccione género",
     "and": "y",
     "External Links": "Enlaces externos",
     "More Info": "Más información",

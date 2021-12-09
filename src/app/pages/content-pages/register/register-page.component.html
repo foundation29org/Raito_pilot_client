@@ -1,0 +1,191 @@
+<!--Registration Page Starts-->
+<section id="regestration">
+    <div class="container-fluid">
+        <div class="row almost-full-height-vh">
+            <div class="row col-12  align-items-center justify-content-center">
+                <div class="card col-md-12">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 align-items-center">
+                                <div *ngIf="!isVerifyemail && !isFailEmail" class="card-block mx-auto">
+                                  <h2 class="card-title font-large-1 text-center content-header mb-3">{{'registration.Registration' | translate }}</h2>
+                                    <form   (ngSubmit)="onSubmit()" #f="ngForm">
+                                      <div class="form-group">
+                                        <div class="">
+                                            <input type="text" class="form-control" name="userName" id="userName" placeholder="{{'generics.Name' | translate }}" ngModel required #userName="ngModel">
+                                        </div>
+                                        <small class="form-text text-muted danger" *ngIf="!userName.valid && (userName.dirty || userName.touched)">{{'generics.required' | translate }}</small>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="">
+                                            <input type="text" class="form-control" name="lastName" id="lastName" placeholder="{{'personalinfo.Last Name' | translate }}" ngModel required #lastName="ngModel">
+                                        </div>
+                                        <small class="form-text text-muted danger" *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">{{'generics.required' | translate }}</small>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="">
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="{{'generics.Email' | translate }}" [(ngModel)]="emailpar1" ngModel required email #email="ngModel">
+                                        </div>
+                                        <small class="form-text text-muted danger" *ngIf="!email.valid && (email.dirty || email.touched)">{{'generics.entervalidemail' | translate }}</small>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="">
+                                            <input type="email" class="form-control" name="email2" id="email2" placeholder="{{'registration.Repeat email' | translate }}" [(ngModel)]="emailpar2" ngModel required email2 #email2="ngModel" [equalTo]="email">
+                                        </div>
+                                        <small class="form-text text-muted danger" *ngIf="email2.errors?.equalTo">{{'registration.The email do not match' | translate }}</small>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="{{'generics.Password' | translate }}" ngModel required #password="ngModel" minlength="8" maxlength="24" validatePassword="password">
+                                        </div>
+                                        <small *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-muted danger">
+                                          <div *ngIf="password.errors.invalidPassword">
+                                            {{'recoverpass.Password must have' | translate }} {{'(!@#$%^&*(),.?\":{}|<>)'}}
+                                          </div>
+                                          <div *ngIf="password.errors.required">
+                                            {{'recoverpass.Password is required' | translate }}
+                                          </div>
+                                          <div *ngIf="(password.errors.minlength || password.errors.maxlength) && !password.errors.required">
+                                            {{'generics.Passwordlength' | translate }}
+                                          </div>
+                                        </small>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="">
+                                            <input type="password" class="form-control" name="password2" id="password2" placeholder="{{'generics.Repeat password' | translate }}" ngModel required  #password2="ngModel" [equalTo]="password">
+                                        </div>
+                                        <small class="form-text text-muted danger" *ngIf="password2.errors?.equalTo">{{'generics.Passwordnomatch' | translate }}</small>
+                                      </div>
+                                        <div class="form-group">
+                                          <select id="gender" name="gender" class="form-control"  [(ngModel)]="datainfo.gender">
+                                            <option [ngValue]="null" disabled selected>--{{'generics.Please select' | translate }}--</option>
+                                            <option value="male">{{'personalinfo.Male' | translate }}</option>
+                                            <option value="female">{{'personalinfo.Female' | translate }}</option>
+                                          </select>
+                                          <p *ngIf="datainfo.gender==''" class="danger">{{'generics.required' | translate }}</p>
+                                        </div>
+                                        <div class="form-group">
+                                          <div class="">
+                                            <input class="form-control d-none" id="birthDate_" name="birthDate" matInput placeholder="{{'personalinfo.Birth Date' | translate }}"
+                                              readonly [matDatepicker]="pickerOnset" (click)="pickerOnset.open()" [(ngModel)]="datainfo.birthDate">
+                                              <input readonly class="form-control d-inline" (click)="pickerOnset.open()" style="background-color: #fff !important;"  [placeholder]="(datainfo.birthDate!=null) ? (datainfo.birthDate | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+                                              
+                                            <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-none"></mat-datepicker-toggle>
+                                            <mat-datepicker startView="multi-year" (daySelected)="closeDatePickerStart($event, pickerOnset)" touchUi="true" #pickerOnset></mat-datepicker>
+                                            <!--<p *ngIf="datainfo.birthDate ==null || datainfo.birthDate ==''" class="danger">{{'generics.required' | translate }}</p>-->
+                                          </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <select class="form-control" id="countryselectedCode" name="countryselectedCode" [(ngModel)]="countrySelected" #countryselectedCode="ngModel" ngModel [required]="true">
+                                            <option [ngValue]="null" disabled selected>--{{'registration.Please select a code' | translate }}--</option>
+                                            <option *ngFor="let country of countries; let i=index" value="{{country.countryName}}">
+                                                <label *ngIf="lang!='es'" style="color:blue !important">{{country.countryName}}</label>
+                                                <label *ngIf="lang=='es'" style="color:blue !important">{{country.countryNombre}}</label>
+                                            </option>
+                                        </select>
+                                      </div>
+                                      <div *ngIf="!actualInfoOneDisease.name">
+                                        <ng-template #rt let-r="result" let-t="term">
+                                          <strong title="{{r.name}}">{{ r.name}}</strong>
+                                          <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                                            slice:0:140)+'...':(r.desc) }}</span>
+                                        </ng-template>
+                                        <div class="mt-2" style="padding-bottom: 1rem !important;">
+                                          <span class="d-none d-lg-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                                          <input #input type="text" name="searchDiseaseField" id="searchDiseaseField"
+                                            #inputManualSymptoms class="form-control inputSearch2 d-inline data-hj-allow" [(ngModel)]="searchDiseaseField"
+                                            [ngbTypeahead]="searchDiseases" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchDiseases"
+                                            placeholder="{{'dashboardpatient.Search condition' | translate }}"
+                                            (selectItem)="selected($event)" (focusout)="focusOutFunctionDiseases()"/>
+                                            <em *ngIf="callListOfDiseases" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                            <span *ngIf="nothingFoundDisease">
+                                              <span *ngIf="(searchDiseaseField).trim().length>3">
+                                                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
+                                              </span>
+                                            </span>
+                                        </div>
+                                      </div>
+                                      <div *ngIf="actualInfoOneDisease.name" class="mt-2" style="padding-bottom: 1rem !important;">
+                                        <input type="text" class="form-control w-75 d-inline" name="actualInfoOneDisease" id="actualInfoOneDisease" value="{{actualInfoOneDisease.name}}" readonly>
+                                        <button (click)="clearsearchDiseaseField()"
+                                                      class="btn btn-sm ml-2 mb-0 btn-fab danger"
+                                                      href="javascript:void(0)"
+                                                      title="{{'generics.Delete' | translate }}">
+                                                      <em class="fa fa-trash fa-2x"></em>
+                                                    </button>
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                        <div class="">
+                                            <select id="role" name="role" class="form-control" ngModel [(ngModel)]="role" (change)="roleChange(role)">
+                                  		        <option value="Clinical" selected>{{'registration.Im a clinician' | translate }}</option>
+                                              <option value="User">{{'registration.Im a patient' | translate }}</option>
+                                  		      </select>
+                                        </div>
+                                      </div>
+                                      <div class="form-group" *ngIf="role=='User'">
+                                        <div class="">
+                                            <select id="subrole" name="subrole" class="form-control" ngModel [(ngModel)]="subrole">
+                                              <option [value]="null" disabled selected>--{{'registration.select the type of patient1' | translate }}--</option>
+                                  		        <option value="NoDiagnosis">{{'registration.nodiagnosis' | translate }}</option>
+                                              <option value="HaveDiagnosis">{{'registration.havediagnosis' | translate }}</option>
+                                              <option value="UncertainDiagnosis">{{'registration.uncertaindiagnosis' | translate }}</option>
+                                  		      </select>
+                                        </div>
+                                      </div>
+                                      <p *ngIf="!openedTerms" class="font-small-2">
+                                        {{'registration.IMPORTANT NOTE' | translate }}
+                                      </p>
+                                        <div class="form-group col-sm-offset-1">
+                                          <mat-checkbox (click)="openTerms()" [attr.title]="!openedTerms ? 'You must read and understand the privacy policy in order to activate this field.' : 'This field is required'"
+                                              class="example-margin"
+                                              [disabled]="!openedTerms" name="terms" ngModel required #terms="ngModel" id="terms">
+
+                                          </mat-checkbox>
+                                          <label style="margin-bottom: auto !important;">
+                                            <a (click)="openTerms()" class="ml-1 btn-flat">
+                                              <small style="margin-top: 1em;white-space: normal;text-transform: none;letter-spacing: 0px;"> {{'registration.I have read and understood the' | translate }}
+                                              </small>
+                                              <i class="ft-external-link"></i>
+                                            </a>
+                                          </label>
+                                          <small class="form-text text-muted danger" *ngIf="!terms.valid && (terms.dirty || terms.touched) && openedTerms">{{'generics.required' | translate }}</small>
+                                          <small class="form-text text-muted danger" *ngIf="!terms.valid && (terms.dirty || terms.touched) && !openedTerms">{{'registration.It is mandatory to read the privacy policy before continuing' | translate }}</small>
+
+                                        </div>
+                                        <div class="form-group text-center">
+                                            <button (click)="goToLogin()" type="button" class="btn btn-grey btn-outline-grey">{{'generics.Cancel' | translate }}</button>
+                                            <span *ngIf="!sending">
+                                              <div *ngIf="f.valid && openedTerms;then formValid else formError"></div>
+                              								<ng-template #formValid><button class="ml-2 btn btn-primary" type="submit"> {{'registration.Get Started' | translate }}</button></ng-template>
+                              								<ng-template #formError><button class="ml-2 btn btn-primary" type="button" (click)="submitInvalidForm()"> {{'registration.Get Started' | translate }}</button></ng-template>
+                                            </span>
+                                            <span *ngIf="sending">
+                                              <i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
+                                            </span>
+                                        </div>
+                                        <div *ngIf="isEmailBusy" class="form-group text-center">
+                                            <span class="pl-2 text-muted danger">{{'registration.email already exists' | translate }}</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div *ngIf="isVerifyemail" class="card-block mx-auto">
+                                  <div class="col-md-12 mb-2">
+                                    <span class="">{{'registration.Check the email' | translate }} <a mailto="support@foundation29.org" href="mailto:support@foundation29.org">support@foundation29.org</a></span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <button (click)="goToLogin()" type="button" class="btn btn-primary btn-block btn-raised">{{'menu.Login' | translate }}</button>
+                                  </div>
+                                </div>
+                                <div *ngIf="isFailEmail" class="card-block mx-auto">
+                                  <span class="pl-2 text-muted danger">{{'registration.could not be sent to activate' | translate }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Registration Page Ends-->

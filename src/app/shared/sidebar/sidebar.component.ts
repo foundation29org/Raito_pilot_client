@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, Renderer2, AfterViewInit } from "@angular/core";
 
-import { ROUTESHOMEDX} from './sidebar-routes.config';
+import { ROUTES, ROUTESHAVEDIAGNOSIS, ROUTESSUPERADMIN, ROUTESCLINICAL, ROUTESHOMEDX, ROUTESADMINGTP} from './sidebar-routes.config';
 import { RouteInfo } from "./sidebar.metadata";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { customAnimations } from "../animations/custom-animations";
 import { ConfigService } from '../services/config.service';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { EventsService} from 'app/shared/services/events.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
@@ -29,8 +30,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   logoUrl = 'assets/img/logo.png';
   public config: any = {};
   layoutSub: Subscription;
-  urlLogo: string = 'assets/img/logo-Dx29.png';
-  urlLogo2: string = 'assets/img/logo-Dx29.png';
+  urlLogo: string = 'assets/img/logo-raito.png';
+  urlLogo2: string = 'assets/img/logo-raito.png';
   redirectUrl: string = '';
   isHomePage: boolean = false;
   isClinicalPage: boolean = false;
@@ -48,6 +49,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     public translate: TranslateService,
     private configService: ConfigService,
     private layoutService: LayoutService,
+    private authService: AuthService,
     private eventsService: EventsService,
      private dataservice: Data,
   ) {
@@ -83,13 +85,16 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
 
+    this.redirectUrl = this.authService.getRedirectUrl();
+
+
     this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
 
       event => {
         var tempUrl= (event.url).toString().split('?');
         var actualUrl = tempUrl[0];
         var tempUrl1 = (actualUrl).toString();
-        if(tempUrl1.indexOf('/dashboard')!=-1){
+        if(tempUrl1.indexOf('/home')!=-1){
           this.isHomePage = true;
           this.isClinicalPage = false;
         }else{
@@ -100,7 +105,29 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.isHomePage = false;
         }
-        this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
+        if(this.authService.getRole() == 'SuperAdmin'){
+          //cargar menú del Admin
+          this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);
+        }else if(this.authService.getRole() == 'Clinical'){
+          //cargar menú del Clinical
+          this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
+        }
+        else if(this.authService.getRole() == 'Admin'){
+          if(this.authService.getSubRole() == 'AdminGTP'){
+            this.menuItems = ROUTESADMINGTP.filter(menuItem => menuItem);
+          }
+        }
+        else if(this.authService.getRole() != undefined){
+          //cargar menú del usuario
+          if(this.authService.getSubRole() != 'HaveDiagnosis'){
+            this.menuItems = ROUTES.filter(menuItem => menuItem);
+          }else{
+            this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
+          }
+
+        }else if(this.authService.getRole() == undefined){
+          this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
+        }
       }
     );
   }
@@ -108,7 +135,29 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.config = this.configService.templateConf;
-    this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
+    if(this.authService.getRole() == 'SuperAdmin'){
+      //cargar menú del Admin
+      this.menuItems = ROUTESSUPERADMIN.filter(menuItem => menuItem);
+    }else if(this.authService.getRole() == 'Clinical'){
+      //cargar menú del Clinical
+      this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
+    }
+    else if(this.authService.getRole() == 'Admin'){
+      if(this.authService.getSubRole() == 'AdminGTP'){
+        this.menuItems = ROUTESADMINGTP.filter(menuItem => menuItem);
+      }
+    }
+    else if(this.authService.getRole() != undefined){
+      //cargar menú del usuario
+      if(this.authService.getSubRole() != 'HaveDiagnosis'){
+        this.menuItems = ROUTES.filter(menuItem => menuItem);
+      }else{
+        this.menuItems = ROUTESHAVEDIAGNOSIS.filter(menuItem => menuItem);
+      }
+
+    }else if(this.authService.getRole() == undefined){
+      this.menuItems = ROUTESHOMEDX.filter(menuItem => menuItem);
+    }
     if (this.config.layout.sidebar.backgroundColor === 'white') {
       this.logoUrl = 'assets/img/logo-dark.png';
     }

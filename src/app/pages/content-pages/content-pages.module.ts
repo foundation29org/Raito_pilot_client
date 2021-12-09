@@ -6,15 +6,26 @@ import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ErrorPageComponent } from "./error/error-page.component";
+import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
+import { NewPasswordPageComponent } from "./new-password/new-password-page.component";
+import { LoginPageComponent } from "./login/login-page.component";
+import { RegisterPageComponent } from "./register/register-page.component";
 import { TermsConditionsPageComponent } from "./terms-conditions/terms-conditions-page.component";
 import { DataProcessingAgreementComponent } from "./data-processing-agreement/data-processing-agreement.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
+import { PermissionsPageComponent } from "./permissions/permissions-page.component";
+import {PasswordValidator} from "app/shared/directives/password-validator.directive"; //imported to modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
 
 @NgModule({
     exports: [
-        TranslateModule
+        TranslateModule,
+        MatDatepickerModule,
+        MatNativeDateModule 
     ],
     imports: [
         CommonModule,
@@ -23,13 +34,22 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         TranslateModule,
         CustomFormsModule,
         NgbModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
         MatCheckboxModule
     ],
     declarations: [
         ErrorPageComponent,
+        ForgotPasswordPageComponent,
+        LoginPageComponent,
+        RegisterPageComponent,
+        NewPasswordPageComponent,
         TermsConditionsPageComponent,
         DataProcessingAgreementComponent,
-        PrivacyPolicyPageComponent
+        PrivacyPolicyPageComponent,
+        PermissionsPageComponent,
+        PasswordValidator,
+        MyFilterPipe
     ],
     entryComponents:[TermsConditionsPageComponent, DataProcessingAgreementComponent]
 })
