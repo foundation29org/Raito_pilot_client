@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 export class TokenService {
   private token: string;
   private loginUrl: string = '/.';
-  private redirectUrl: string = '/patient/dashboard/nodiagnosis';
+  private redirectUrl: string = '/home';
   private isloggedIn: boolean = false;
   private message: string;
   private iduser: string;

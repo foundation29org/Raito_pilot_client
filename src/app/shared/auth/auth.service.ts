@@ -12,7 +12,7 @@ import { ICurrentPatient } from './ICurrentPatient.interface';
 export class AuthService {
   private token: string;
   private loginUrl: string = '/.';
-  private redirectUrl: string = '/patient/dashboard/nodiagnosis';
+  private redirectUrl: string = '/home';
   private isloggedIn: boolean = false;
   private message: string;
   private iduser: string;
@@ -56,9 +56,9 @@ export class AuthService {
       else{
         // is role user
         if(tokenPayload.subrole != 'HaveDiagnosis'){
-          this.setRedirectUrl('/patient/dashboard/nodiagnosis')
+          this.setRedirectUrl('/home')
         }else{
-          this.setRedirectUrl('/patient/dashboard/withdiagnosis')
+          this.setRedirectUrl('/home')
         }
 
       }
@@ -101,9 +101,9 @@ export class AuthService {
     }else{
       // is role user
       if(tokenPayload.subrole != 'HaveDiagnosis'){
-        this.setRedirectUrl('/patient/dashboard/nodiagnosis')
+        this.setRedirectUrl('/home')
       }else{
-        this.setRedirectUrl('/patient/dashboard/withdiagnosis')
+        this.setRedirectUrl('/home')
       }
     }
     this.setGroup(tokenPayload.group);

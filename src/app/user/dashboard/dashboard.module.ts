@@ -15,9 +15,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { NodiagnosisComponent } from './nodiagnosis/nodiagnosis.component';
-import { WithdiagnosisComponent } from './withdiagnosis/withdiagnosis.component';
-import { PatientCloudComponent } from './patient-cloud/patient-cloud.component';
-import { VennchartComponent } from './vennchart/vennchart.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -47,10 +44,7 @@ import {MatIconModule} from '@angular/material/icon';
     ],
     exports: [TranslateModule],
     declarations: [
-        NodiagnosisComponent,
-        WithdiagnosisComponent,
-        PatientCloudComponent,
-        VennchartComponent
+        NodiagnosisComponent
     ],
     providers: [],
 })

@@ -87,7 +87,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         var tempUrl= (event.url).toString().split('?');
         this.actualUrl = tempUrl[0];
         var tempUrl1 = (this.actualUrl).toString();
-        if(tempUrl1.indexOf('/dashboard')!=-1){
+        if(tempUrl1.indexOf('/home')!=-1){
           this.isHomePage = true;
           this.isClinicalPage = false;
         }else{

@@ -339,50 +339,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
     eventsLang.broadcast('changelang', language);
   }
 
-  registerToDx29V2() {
-    this.lauchEvent("Registration");
-    this.lauchEvent("Registration Top btn");
-    var info = JSON.parse(sessionStorage.getItem('symptoms'));
-    
-    if (info != null) {
-      if (info.Symptoms.length > 0) {
-        for (var index in info.Symptoms) {
-          if(info.Symptoms[index].StartDate!=null){
-            var tempDateStartDate = new Date(info.Symptoms[index].StartDate)
-            var diferenciahorario=tempDateStartDate.getTimezoneOffset();
-            tempDateStartDate.setMinutes ( tempDateStartDate.getMinutes() - diferenciahorario );
-            info.Symptoms[index].StartDate = tempDateStartDate.toUTCString();
-            info.Symptoms[index].StartDate = new Date(Date.parse(info.Symptoms[index].StartDate));
-            
-          }
-          if(info.Symptoms[index].EndDate!=null){
-            var tempDateEndDate = new Date(info.Symptoms[index].EndDate)
-            var diferenciahorario=tempDateEndDate.getTimezoneOffset();
-            tempDateEndDate.setMinutes ( tempDateEndDate.getMinutes() - diferenciahorario );
-            info.Symptoms[index].EndDate = tempDateEndDate.toUTCString();
-            info.Symptoms[index].EndDate = new Date(Date.parse(info.Symptoms[index].EndDate));
-          }
-          
-        }
-        this.subscription.add(this.apiDx29ServerService.createblobOpenDx29(info)
-          .subscribe((res: any) => {
-            sessionStorage.removeItem('symptoms');
-            sessionStorage.removeItem('uuid');
-            if (res.message == 'Done') {
-              window.location.href = environment.urlDxv2 + "/Identity/Account/Register?opendata=" + res.token;
-            } else {
-              window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-            }
-          }));
-      } else {
-        window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-      }
-    } else {
-      window.location.href = environment.urlDxv2 + "/Identity/Account/Register";
-    }
-
-  }
-
   lauchEvent(category) {
     var secs = this.getElapsedSeconds();
     gtag('event', sessionStorage.getItem('uuid'), { "event_category": category, "event_label": secs });

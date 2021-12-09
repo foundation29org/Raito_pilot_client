@@ -29,9 +29,9 @@ export class RoleGuard implements CanActivate {
       }else{
 
         if(this.authService.getSubRole() != 'HaveDiagnosis'){
-          this.authService.setRedirectUrl('/patient/dashboard/nodiagnosis');
+          this.authService.setRedirectUrl('/home');
         }else{
-          this.authService.setRedirectUrl('/patient/dashboard/withdiagnosis');
+          this.authService.setRedirectUrl('/home');
         }
 
       }
@@ -46,10 +46,10 @@ export class RoleGuard implements CanActivate {
 
         //De momento solo tenemos subrole en usuarios y admin
         if((this.authService.getSubRole() != 'HaveDiagnosis')&&(this.authService.getSubRole() != 'AdminGTP')){
-          this.authService.setRedirectUrl('/patient/dashboard/nodiagnosis');
+          this.authService.setRedirectUrl('/home');
         }else{
           if(this.authService.getSubRole() != 'AdminGTP'){
-            this.authService.setRedirectUrl('/patient/dashboard/withdiagnosis');
+            this.authService.setRedirectUrl('/home');
           }
           else{
             this.authService.setRedirectUrl('/admin/dashboard/admingtp')

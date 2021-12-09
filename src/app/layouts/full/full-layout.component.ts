@@ -52,7 +52,7 @@ export class FullLayoutComponent implements OnInit, AfterViewInit {
             event => {
               var tempUrl= (event.url).toString().split('?');
               var tempUrl1 = (tempUrl[0]).toString();
-              if(tempUrl1.indexOf('/dashboard')!=-1){
+              if(tempUrl1.indexOf('/home')!=-1){
                 this.isHomePage = true;
                 this.isClinicalPage = false;
               }else{

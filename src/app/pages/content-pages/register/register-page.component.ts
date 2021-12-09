@@ -1,9 +1,10 @@
-import { Component, ViewChild, OnDestroy, LOCALE_ID, Injectable, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, LOCALE_ID, Injectable, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
+import { EventsService } from 'app/shared/services/events.service';
 import { sha512 } from "js-sha512";
 import {Observable, of, OperatorFunction} from 'rxjs';
 import 'rxjs/add/observable/of';
@@ -52,7 +53,7 @@ export class SearchTermService {
     
 })
 
-export class RegisterPageComponent implements OnDestroy{
+export class RegisterPageComponent implements OnDestroy, OnInit{
 
     @ViewChild('f') registerForm: NgForm;
     sending: boolean = false;
@@ -71,8 +72,8 @@ export class RegisterPageComponent implements OnDestroy{
     emailpar2: string = null;
     urlV2: string = environment.urlDxv2;
     datainfo: any;
-    phoneCodes:any=[];
-    phoneCodeSelected:String=null;
+    countries:any=[];
+    countrySelected:String=null;
     searchDiseaseField: string = '';
     formatter1 = (x: { name: string }) => x.name;
     nothingFoundDisease: boolean = false;
@@ -86,11 +87,14 @@ export class RegisterPageComponent implements OnDestroy{
     selectedDiseaseIndex: number = -1;
     actualInfoOneDisease: any = {};
     @ViewChild("inputManualSymptoms") inputTextAreaElement: ElementRef;
+    lang: string = 'en';
 
     private subscription: Subscription = new Subscription();
 
-    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService,  public searchTermService: SearchTermService) {
+    constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService,  public searchTermService: SearchTermService, private eventsService: EventsService) {
       
+      this.lang = sessionStorage.getItem('lang');
+
       this.subscription.add( this.route.params.subscribe(params => {
         if(params['role']!=undefined){
           this.role = params['role'];
@@ -128,8 +132,21 @@ export class RegisterPageComponent implements OnDestroy{
       };
       this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
 
-      this.loadPhoneCodes();
+      this.loadCountries();
+      
     }
+
+    ngOnInit() {
+
+      this.eventsService.on('changelang', function (lang) {
+          if(lang!=this.lang){
+              this.lang = lang;
+              this.loadCountries();
+          }
+          
+      }.bind(this));
+      
+  }
 
     ngOnDestroy() {
       this.subscription.unsubscribe();
@@ -139,21 +156,33 @@ export class RegisterPageComponent implements OnDestroy{
     }
     }
 
-    loadPhoneCodes(){
-      //cargar la lista mundial de ciudades
+    loadCountries(){
+      this.countries = [];
+      //load countries file
       this.subscription.add( this.http.get('assets/jsons/phone_codes.json')
       .subscribe( (res : any) => {
         for (var i=0;i<res.length;i++){
-          var phoneCodeList=res[i].phone_code.split(/["]/g)
-          var phoneCode="+"+phoneCodeList[1]
-          var countryNameCode="";
-          var countryNameCodeList=[];
-          countryNameCodeList=res[i].name.split(/["]/g)
-          countryNameCode=countryNameCodeList[1]
-          this.phoneCodes.push({countryCode:countryNameCode,countryPhoneCode:phoneCode})
+          /*var phoneCodeList=res[i].phone_code.split(/["]/g)
+          var phoneCode="+"+phoneCodeList[1]*/
+
+          //get english name
+          var countryName="";
+          var countryNameList=[];
+          countryNameList=res[i].name.split(/["]/g)
+          countryName=countryNameList[1]
+          
+          //get spanish name
+          var countryNombre="";
+          var countryNombreList=[];
+          countryNombreList=res[i].nombre.split(/["]/g)
+          countryNombre=countryNombreList[1]
+          this.countries.push({countryName:countryName,countryNombre:countryNombre})
         }
-        this.phoneCodes.sort(this.sortService.GetSortOrder("countryCode"));
-  
+        if(this.lang=='es'){
+          this.countries.sort(this.sortService.GetSortOrder("countryNombre"));
+        }else{
+          this.countries.sort(this.sortService.GetSortOrder("countryName"));
+        }
       }));
   
     }
@@ -208,6 +237,21 @@ export class RegisterPageComponent implements OnDestroy{
 
         var params = this.registerForm.value;
         params.permissions = {};
+        params.gender =this.datainfo.gender;
+
+        if(this.datainfo.birthDate!=null){
+          var tempDateStartDate = new Date(this.datainfo.birthDate)
+          var diferenciahorario=tempDateStartDate.getTimezoneOffset();
+          tempDateStartDate.setMinutes ( tempDateStartDate.getMinutes() - diferenciahorario );
+          params.birthDate = tempDateStartDate.toUTCString();
+          params.birthDate = new Date(Date.parse(params.birthDate));
+          
+        }
+
+        //params.birthDate =this.datainfo.birthDate;
+        params.country =this.countrySelected;
+        params.previousDiagnosis = this.actualInfoOneDisease.id;
+        
         if(params.role=='Clinical'){
           params.subrole= null
         }

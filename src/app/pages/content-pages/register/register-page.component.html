@@ -76,10 +76,11 @@
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <select class="form-control" id="countryselectedPhoneCode" name="countryselectedPhoneCode" [(ngModel)]="phoneCodeSelected" #countryselectedPhoneCode="ngModel" ngModel [required]="true">
+                                          <select class="form-control" id="countryselectedCode" name="countryselectedCode" [(ngModel)]="countrySelected" #countryselectedCode="ngModel" ngModel [required]="true">
                                             <option [ngValue]="null" disabled selected>--{{'registration.Please select a code' | translate }}--</option>
-                                            <option *ngFor="let phoneCode of phoneCodes; let i=index" value="{{phoneCode.countryPhoneCode}}">
-                                                <label style="color:blue !important">{{phoneCode.countryCode}}</label>
+                                            <option *ngFor="let country of countries; let i=index" value="{{country.countryName}}">
+                                                <label *ngIf="lang!='es'" style="color:blue !important">{{country.countryName}}</label>
+                                                <label *ngIf="lang=='es'" style="color:blue !important">{{country.countryNombre}}</label>
                                             </option>
                                         </select>
                                       </div>
@@ -136,7 +137,7 @@
                                         {{'registration.IMPORTANT NOTE' | translate }}
                                       </p>
                                         <div class="form-group col-sm-offset-1">
-                                          <mat-checkbox [attr.title]="!openedTerms ? 'You must read and understand the privacy policy in order to activate this field.' : 'This field is required'"
+                                          <mat-checkbox (click)="openTerms()" [attr.title]="!openedTerms ? 'You must read and understand the privacy policy in order to activate this field.' : 'This field is required'"
                                               class="example-margin"
                                               [disabled]="!openedTerms" name="terms" ngModel required #terms="ngModel" id="terms">
 

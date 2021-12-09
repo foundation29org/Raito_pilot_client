@@ -3,13 +3,13 @@ import { RouteInfo } from './sidebar.metadata';
 //Sidebar menu Routes and data
 export const ROUTES: RouteInfo[] = [
 
-    {path: '/patient/dashboard/nodiagnosis', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
+    {path: '/home', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
     { path: '/privacy-policy', title: 'registration.Privacy Policy', icon: 'ft-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, isAnchorLink: false, submenu: [] },
 ];
 
 export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
 
-    {path: '/patient/dashboard/withdiagnosis', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
+    {path: '/home', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, isAnchorLink: false, submenu: [] },
     { path: '/privacy-policy', title: 'registration.Privacy Policy', icon: 'ft-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, isAnchorLink: false, submenu: [] },
 ];
 

@@ -4,29 +4,18 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 import { NodiagnosisComponent } from './nodiagnosis/nodiagnosis.component';
-import { WithdiagnosisComponent } from './withdiagnosis/withdiagnosis.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: 'nodiagnosis',
+        path: 'home',
         component: NodiagnosisComponent,
         data: {
           title: 'menu.Dashboard',
           expectedRole: ['User'],
-          expectedSubRole: ['NoDiagnosis', 'UncertainDiagnosis']
-        },
-        canActivate: [AuthGuard, RoleGuard]
-      },
-      {
-        path: 'withdiagnosis',
-        component: WithdiagnosisComponent,
-        data: {
-          title: 'menu.Dashboard',
-          expectedRole: ['User'],
-          expectedSubRole: ['HaveDiagnosis']
+          expectedSubRole: ['NoDiagnosis', 'UncertainDiagnosis', 'HaveDiagnosis']
         },
         canActivate: [AuthGuard, RoleGuard]
       },
