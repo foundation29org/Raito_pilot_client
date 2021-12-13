@@ -25,15 +25,15 @@ var fireRefreshEventOnWindow = function() {
 @Injectable()
 export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('sidebarBgImage') sidebarBgImage: ElementRef;
-    @ViewChild('appSidebar') appSidebar: ElementRef;
-    @ViewChild('wrapper') wrapper: ElementRef;
+    @ViewChild("appSidebar", {static: true}) appSidebar: ElementRef;
+    @ViewChild("wrapper", {static: true}) wrapper: ElementRef;
 
     options = {
         direction: 'ltr',
         bgColor: 'black',
         bgImage: 'assets/img/sidebar-bg/01.jpg'
     };
-    hideSidebar: boolean;
+    hideSidebar: boolean = false;
     layoutSub: Subscription;
     iscollapsed = false;
     isSidebar_sm = false;

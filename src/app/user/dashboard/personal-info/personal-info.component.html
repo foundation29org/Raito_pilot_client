@@ -1,0 +1,154 @@
+<div class="col-sm-12">
+    <div class="content-header">Calendar</div>
+    <p class="content-sub-header">This is the most advanced example having various features. This
+        example lists all the events on the calendar with Add new event functionality.</p>
+</div>
+<div class="h-100">
+    <div class="col-sm-12 my-auto">
+        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 align-items-center">
+                        <div class="card mx-auto">
+                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Personal Info' |
+                                translate }}</h2>
+                            <form (ngSubmit)="onSubmit()" #f="ngForm">
+                                <div class="form-group">
+                                    <div class="">
+                                        <input type="text" class="form-control" name="userName" id="userName"
+                                            placeholder="{{'generics.Name' | translate }}" ngModel required
+                                            #userName="ngModel" [(ngModel)]="datainfo.patientName">
+                                    </div>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!userName.valid && (userName.dirty || userName.touched)">{{'generics.required'
+                                        | translate }}</small>
+                                </div>
+                                <div class="form-group">
+                                    <div class="">
+                                        <input type="text" class="form-control" name="lastName" id="lastName"
+                                            placeholder="{{'personalinfo.Last Name' | translate }}" ngModel required
+                                            #lastName="ngModel" [(ngModel)]="datainfo.surname">
+                                    </div>
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">{{'generics.required'
+                                        | translate }}</small>
+                                </div>
+                                <div class="form-group">
+                                    <select id="gender" name="gender" class="form-control"
+                                        [(ngModel)]="datainfo.gender">
+                                        <option [ngValue]="null" disabled selected>--{{'generics.Please select' |
+                                            translate }}--</option>
+                                        <option value="male">{{'personalinfo.Male' | translate }}</option>
+                                        <option value="female">{{'personalinfo.Female' | translate }}</option>
+                                    </select>
+                                    <p *ngIf="datainfo.gender==''" class="danger">{{'generics.required' | translate }}
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <div class="">
+                                        <input class="form-control d-none" id="birthDate_" name="birthDate" matInput
+                                            placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
+                                            [matDatepicker]="pickerOnset" (click)="pickerOnset.open()"
+                                            [(ngModel)]="datainfo.birthDate">
+                                        <input readonly class="form-control d-inline" (click)="pickerOnset.open()"
+                                            style="background-color: #fff !important;"
+                                            [placeholder]="(datainfo.birthDate!=null) ? (datainfo.birthDate | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+
+                                        <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-none">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker startView="multi-year"
+                                            (daySelected)="closeDatePickerStart($event, pickerOnset)" touchUi="true"
+                                            #pickerOnset></mat-datepicker>
+                                        <!--<p *ngIf="datainfo.birthDate ==null || datainfo.birthDate ==''" class="danger">{{'generics.required' | translate }}</p>-->
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="form-control" id="countryselectedCode" name="countryselectedCode"
+                                        [(ngModel)]="datainfo.country" #countryselectedCode="ngModel" ngModel
+                                        [required]="true">
+                                        <option [ngValue]="null" disabled selected>--{{'registration.Please select a
+                                            code' | translate }}--</option>
+                                        <option *ngFor="let country of countries; let i=index"
+                                            value="{{country.countryName}}">
+                                            <label *ngIf="lang!='es'"
+                                                style="color:blue !important">{{country.countryName}}</label>
+                                            <label *ngIf="lang=='es'"
+                                                style="color:blue !important">{{country.countryNombre}}</label>
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="!actualInfoOneDisease.name">
+                                    <ng-template #rt let-r="result" let-t="term">
+                                        <strong title="{{r.name}}">{{ r.name}}</strong>
+                                        <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{
+                                            (r.desc.length>140)? (r.desc |
+                                            slice:0:140)+'...':(r.desc) }}</span>
+                                    </ng-template>
+                                    <div class="mt-2" style="padding-bottom: 1rem !important;">
+                                        <input #input type="text" name="searchDiseaseField" id="searchDiseaseField"
+                                            #inputManualSymptoms
+                                            class="form-control inputSearch2 d-inline data-hj-allow"
+                                            [(ngModel)]="searchDiseaseField" [ngbTypeahead]="searchDiseases"
+                                            [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchDiseases"
+                                            placeholder="{{'dashboardpatient.Search condition' | translate }}"
+                                            (selectItem)="selected($event)" (focusout)="focusOutFunctionDiseases()" />
+                                        <em *ngIf="callListOfDiseases"
+                                            class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                        <span *ngIf="nothingFoundDisease">
+                                            <span *ngIf="(searchDiseaseField).trim().length>3">
+                                                <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' |
+                                                    translate }}</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div *ngIf="actualInfoOneDisease.name" class="mt-2"
+                                    style="padding-bottom: 1rem !important;">
+                                    <input type="text" class="form-control w-75 d-inline" name="actualInfoOneDisease"
+                                        id="actualInfoOneDisease" value="{{actualInfoOneDisease.name}}" readonly>
+                                    <button (click)="clearsearchDiseaseField()"
+                                        class="btn btn-sm ml-2 mb-0 btn-fab danger" href="javascript:void(0)"
+                                        title="{{'generics.Delete' | translate }}">
+                                        <em class="fa fa-trash fa-2x"></em>
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <div class="">
+                                        <select id="group" name="group" class="form-control" ngModel
+                                             [(ngModel)]="datainfo.group">
+                                            <option [value]="null" disabled selected>--{{'registration.Please select a
+                                                group' | translate }}--</option>
+                                            <option value="duchennenetherlands">Duchenne Parent Project Netherlands
+                                            </option>
+                                            <option value="Epilepsy">{{'registration.Patients with epilepsy' | translate
+                                                }}</option>
+                                            <option value="Undiagnosed">{{'registration.I dont have a diagnosis' |
+                                                translate }}</option>
+                                            <option value="None">{{'registration.I dont belong to a patient group' |
+                                                translate }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group text-center">
+                                    <span *ngIf="!sending">
+                                        <div *ngIf="f.valid;then formValid else formError"></div>
+                                        <ng-template #formValid><button class="ml-2 btn btn-primary" type="submit">
+                                                {{'generics.Save' | translate }}</button></ng-template>
+                                        <ng-template #formError><button class="ml-2 btn btn-primary" type="button"
+                                                (click)="submitInvalidForm()"> {{'generics.Save' | translate
+                                                }}</button></ng-template>
+                                    </span>
+                                    <span *ngIf="sending">
+                                        <i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

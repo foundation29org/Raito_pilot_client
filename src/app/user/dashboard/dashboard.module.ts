@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import {MatIconModule} from '@angular/material/icon';
     ],
     exports: [TranslateModule],
     declarations: [
-        NodiagnosisComponent
+        NodiagnosisComponent,
+        PersonalInfoComponent
     ],
     providers: [],
 })

@@ -57,7 +57,7 @@ export class SidebarDirective implements OnInit, AfterViewInit {
             this.toggleHideSidebar.emit(false);
           }
         }else{
-          this.toggleHideSidebar.emit(true);
+          //this.toggleHideSidebar.emit(true);
         }
 
 
