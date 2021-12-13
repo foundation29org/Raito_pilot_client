@@ -13,6 +13,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, me
 import { DateAdapter } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 import { SortService } from 'app/shared/services/sort.service';
+import { DataLocalDBService } from 'app/shared/services/data-localdb.service';
 import { v4 as uuidv4 } from 'uuid';
 
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
@@ -92,7 +93,7 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, public searchTermService: SearchTermService, private eventsService: EventsService) {
+  constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, public searchTermService: SearchTermService, private eventsService: EventsService, public dataLocalDBService: DataLocalDBService) {
 
     this.lang = sessionStorage.getItem('lang');
 
@@ -134,7 +135,11 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
 
     this.loadCountries();
-
+    var isInstantiatedDb= this.dataLocalDBService.isInstantiatedDb()
+    console.log(isInstantiatedDb);
+    var test = this.dataLocalDBService.get('regform');
+    console.log(test);
+    console.log('entra');
   }
 
   ngOnInit() {
@@ -251,7 +256,10 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
       if (params.role == 'Clinical') {
         params.subrole = null
       }
-      this.subscription.add(this.http.post(environment.api + '/api/signup', params)
+      var res = this.dataLocalDBService.put('regform', params)
+      console.log(res);
+      this.sending = false;
+      /*this.subscription.add(this.http.post(environment.api + '/api/signup', params)
         .subscribe((res: any) => {
           if (res.message == 'Account created') {
             this.isVerifyemail = true;
@@ -271,7 +279,7 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
           this.registerForm.reset();
           this.sending = false;
-        }));
+        }));*/
     }
 
 

@@ -40,6 +40,7 @@ import { SearchService } from 'app/shared/services/search.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { DialogService } from 'app/shared/services/dialog.service';
 import { Data } from 'app/shared/services/data.service';
+import { DataLocalDBService } from 'app/shared/services/data-localdb.service';
 import { environment } from 'environments/environment';
 import { BlobStorageService } from 'app/shared/services/blob-storage.service';
 import { BlobStoragePedService } from 'app/shared/services/blob-storage-ped.service';
@@ -103,6 +104,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       EventsService,
       DialogService,
       Data,
+      DataLocalDBService,
       BlobStorageService,
       BlobStoragePedService,
       BlobStorageSupportService,
