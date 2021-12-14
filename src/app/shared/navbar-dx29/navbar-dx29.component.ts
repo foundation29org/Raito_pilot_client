@@ -37,7 +37,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   isUndiagnosedPatientPage: boolean = false;
   isEdHubPage: boolean = false;
   isAboutPage: boolean = false;
-  isGTPPage: boolean = false;
   isDonaPage: boolean = false;
   role: string = 'Clinical';
   subrole: string = 'null';
@@ -45,20 +44,8 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private route: ActivatedRoute, private inj: Injector, private apiDx29ServerService: ApiDx29ServerService) {
-    /*this.translate.use('en');
-    sessionStorage.setItem('lang', 'en');*/
+
     this.loadLanguages();
-
-    /*this.subscription.add( this.route.params.subscribe(params => {
-      console.log(params);
-      if(params['role']!=undefined){
-        this.role = params['role'];
-      }
-      if(params['subrole']!=undefined){
-        this.subrole = params['subrole'];
-      }
-    }));*/
-
 
     this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
 
@@ -67,173 +54,18 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
         console.log(tempUrl);
         if (tempUrl.indexOf('/.') != -1 || tempUrl == '/') {
           this.isHomePage = true;
-          this.isClinicianPage = false;
-          this.isPatientPage = false;
-          this.isEdHubPage = false;
           this.isAboutPage = false;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = false;
           this.role = 'Clinical';
           this.subrole = 'null';
-        } else if (tempUrl.indexOf('/clinician') != -1) {
-          this.isHomePage = false;
-          this.isClinicianPage = true;
-          this.isPatientPage = false;
-          this.isEdHubPage = false;
-          this.isAboutPage = false;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = false;
-          this.role = 'Clinical';
-          this.subrole = 'null';
-        } else if (tempUrl.indexOf('/diagnosed') != -1) {
-          this.isHomePage = false;
-          this.isPatientPage = true;
-          this.isClinicianPage = false;
-          this.isEdHubPage = false;
-          this.isAboutPage = false;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = false;
-          this.role = 'User';
-          this.subrole = 'HaveDiagnosis';
-        } else if (tempUrl.indexOf('/undiagnosed') != -1) {
-          this.isHomePage = false;
-          this.isPatientPage = false;
-          this.isClinicianPage = false;
-          this.isEdHubPage = false;
-          this.isAboutPage = false;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = true;
-          this.role = 'User';
-          this.subrole = 'NoDiagnosis';
-        } else if (tempUrl.indexOf('/education') != -1) {
-          this.isHomePage = false;
-          this.isPatientPage = false;
-          this.isClinicianPage = false;
-          this.isEdHubPage = true;
-          this.isAboutPage = false;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = false;
         } else if (tempUrl.indexOf('/aboutus') != -1) {
           this.isHomePage = false;
-          this.isPatientPage = false;
-          this.isClinicianPage = false;
-          this.isEdHubPage = false;
           this.isAboutPage = true;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = false;
-        } else if (tempUrl.indexOf('/juntoshaciaeldiagnostico') != -1) {
-          this.isHomePage = false;
-          this.isPatientPage = false;
-          this.isClinicianPage = false;
-          this.isEdHubPage = false;
-          this.isAboutPage = false;
-          this.isGTPPage = true;
-          this.isUndiagnosedPatientPage = false;
-          if (tempUrl.indexOf('/juntoshaciaeldiagnostico/donar') != -1) {
-            this.isDonaPage = true;
-          } else {
-            this.isDonaPage = false;
-          }
         } else {
           this.isHomePage = false;
-          this.isClinicianPage = false;
-          this.isPatientPage = false;
-          this.isEdHubPage = false;
           this.isAboutPage = false;
-          this.isGTPPage = false;
-          this.isUndiagnosedPatientPage = false;
-        }
-
-        if (tempUrl.indexOf('patient') != -1) {
-          if (tempUrl.indexOf('role=User') != -1) {///patient;role=User;subrole=HaveDiagnosis
-            this.role = 'User'
-          }
-          if (tempUrl.indexOf('subrole=HaveDiagnosis') != -1) {///patient;role=User;subrole=HaveDiagnosis
-            this.subrole = 'HaveDiagnosis'
-          }
         }
       }
     );
-
-    /*console.log(this.router.url);
-    if ((this.router.url).indexOf('/.') != -1) {
-      this.isHomePage = true;
-      this.isClinicianPage = false;
-      this.isPatientPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = false;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = false;
-      this.role = 'Clinical';
-      this.subrole = 'null';
-    } else if ((this.router.url).indexOf('/clinician') != -1) {
-      this.isHomePage = false;
-      this.isClinicianPage = true;
-      this.isPatientPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = false;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = false;
-      this.role = 'Clinical';
-      this.subrole = 'null';
-    } else if ((this.router.url).indexOf('/diagnosed') != -1) {
-      this.isHomePage = false;
-      this.isPatientPage = true;
-      this.isClinicianPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = false;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = false;
-      this.role = 'User';
-      this.subrole = 'HaveDiagnosis';
-    } else if ((this.router.url).indexOf('/undiagnosed') != -1) {
-      this.isHomePage = false;
-      this.isPatientPage = false;
-      this.isClinicianPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = false;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = true;
-      this.role = 'User';
-      this.subrole = 'NoDiagnosis';
-    } else if ((this.router.url).indexOf('/education') != -1) {
-      this.isHomePage = false;
-      this.isPatientPage = false;
-      this.isClinicianPage = false;
-      this.isEdHubPage = true;
-      this.isAboutPage = false;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = false;
-    } else if ((this.router.url).indexOf('/aboutus') != -1) {
-      this.isHomePage = false;
-      this.isPatientPage = false;
-      this.isClinicianPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = true;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = false;
-    } else if ((this.router.url).indexOf('/juntoshaciaeldiagnostico') != -1) {
-      this.isHomePage = false;
-      this.isPatientPage = false;
-      this.isClinicianPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = false;
-      this.isGTPPage = true;
-      this.isUndiagnosedPatientPage = false;
-      if ((this.router.url).indexOf('/juntoshaciaeldiagnostico/donar') != -1) {
-        this.isDonaPage = true;
-      } else {
-        this.isDonaPage = false;
-      }
-    } else {
-      this.isHomePage = false;
-      this.isClinicianPage = false;
-      this.isPatientPage = false;
-      this.isEdHubPage = false;
-      this.isAboutPage = false;
-      this.isGTPPage = false;
-      this.isUndiagnosedPatientPage = false;
-    }*/
 
     this.layoutSub = layoutService.changeEmitted$.subscribe(
       direction => {

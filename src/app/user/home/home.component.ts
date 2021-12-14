@@ -15,13 +15,13 @@ import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    selector: 'app-nodiagnosis',
-    templateUrl: './nodiagnosis.component.html',
-    styleUrls: ['./nodiagnosis.component.scss'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
     providers: [PatientService,Apif29BioService, ApiDx29ServerService, Apif29NcrService]
 })
 
-export class NodiagnosisComponent implements OnInit, OnDestroy{
+export class HomeComponent implements OnInit, OnDestroy{
   lang:string = '';
   userId: string = '';
   loadedPatientId: boolean = false;

@@ -26,30 +26,11 @@ export function getCulture() {
   return sessionStorage.getItem('culture');
 }
 
-@Injectable()
-export class SearchTermService {
-  constructor(private apiDx29ServerService: ApiDx29ServerService) { }
-
-  search(term: string) {
-    if (term === '') {
-      return of([]);
-    }
-    var info = {
-      "text": term,
-      "lang": sessionStorage.getItem('lang')
-    }
-    return this.apiDx29ServerService.searchDiseases(info).pipe(
-      map(response => response)
-    );
-  }
-}
-
-
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.scss'],
-  providers: [{ provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService, SearchTermService]
+  providers: [{ provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService]
 
 })
 
@@ -70,29 +51,14 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
 
   emailpar1: string = null;
   emailpar2: string = null;
-  urlV2: string = environment.urlDxv2;
   datainfo: any;
-  countries: any = [];
-  countrySelected: string = null;
-  searchDiseaseField: string = '';
-  formatter1 = (x: { name: string }) => x.name;
-  nothingFoundDisease: boolean = false;
   private subscriptionDiseasesCall: Subscription = new Subscription();
-  callListOfDiseases: boolean = false;
-  listOfFilteredDiseases: any = [];
-  sendSympTerms: boolean = false;
   myuuid: string = uuidv4();
-  sendTerms: boolean = false;
-  loadingOneDisease: boolean = false;
-  selectedDiseaseIndex: number = -1;
-  actualInfoOneDisease: any = {};
-  group: string = null;
-  @ViewChild("inputManualSymptoms") inputTextAreaElement: ElementRef;
   lang: string = 'en';
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, public searchTermService: SearchTermService, private eventsService: EventsService) {
+  constructor(private router: Router, private http: HttpClient, public translate: TranslateService, private modalService: NgbModal, private route: ActivatedRoute, private dateAdapter: DateAdapter<Date>, private datePipe: DatePipe, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService) {
 
     this.lang = sessionStorage.getItem('lang');
 
@@ -127,13 +93,9 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
       birthDate: null,
       gender: null,
       siblings: [],
-      parents: [],
-      actualStep: '0.0',
-      stepClinic: '5.0'
+      parents: []
     };
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
-
-    this.loadCountries();
 
   }
 
@@ -142,7 +104,6 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
     this.eventsService.on('changelang', function (lang) {
       if (lang != this.lang) {
         this.lang = lang;
-        this.loadCountries();
       }
 
     }.bind(this));
@@ -156,34 +117,6 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
       this.subscriptionDiseasesCall.unsubscribe();
     }
   }
-
-  loadCountries() {
-    this.countries = [];
-    //load countries file
-    this.subscription.add(this.http.get('assets/jsons/phone_codes.json')
-      .subscribe((res: any) => {
-        //get country name
-        for (let row of res) {
-          var countryName = "";
-          var countryNameList = [];
-          countryNameList = row.name.split(/["]/g)
-          countryName = countryNameList[1]
-
-          var countryNombre = "";
-          var countryNombreList = [];
-          countryNombreList = row.nombre.split(/["]/g)
-          countryNombre = countryNombreList[1]
-          this.countries.push({ countryName: countryName, countryNombre: countryNombre })
-        }
-        if (this.lang == 'es') {
-          this.countries.sort(this.sortService.GetSortOrder("countryNombre"));
-        } else {
-          this.countries.sort(this.sortService.GetSortOrder("countryName"));
-        }
-      }));
-
-  }
-
 
   // Open content Privacy Policy
   openTerms() {
@@ -234,19 +167,6 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
 
       var params = this.registerForm.value;
       params.permissions = {};
-      params.gender = this.datainfo.gender;
-
-      if (this.datainfo.birthDate != null) {
-        var tempDateStartDate = new Date(this.datainfo.birthDate)
-        var diferenciahorario = tempDateStartDate.getTimezoneOffset();
-        tempDateStartDate.setMinutes(tempDateStartDate.getMinutes() - diferenciahorario);
-        params.birthDate = tempDateStartDate.toUTCString();
-        params.birthDate = new Date(Date.parse(params.birthDate));
-
-      }
-      params.country = this.countrySelected;
-      params.previousDiagnosis = this.actualInfoOneDisease.id;
-      params.group = this.group;
 
       if (params.role == 'Clinical') {
         params.subrole = null
@@ -285,80 +205,9 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
     this.subrole = "null";
   }
 
-  closeDatePickerStart(eventData: any, dp?: any) {
-    // get month and year from eventData and close datepicker, thus not allowing user to select date
-    this.datainfo.birthDate = eventData;
-    dp.close();
-  }
-
   getLiteral(literal) {
     return this.translate.instant(literal);
   }
 
-  focusOutFunctionDiseases() {
-    if (this.searchDiseaseField.trim().length > 3 && !this.callListOfDiseases) {
-      //send text
-      var tempModelTimp = this.searchDiseaseField.trim();
-      this.sendTerms = true;
-      var params: any = {}
-      params.uuid = this.myuuid;
-      params.Term = tempModelTimp;
-      params.Lang = sessionStorage.getItem('lang');
-      params.Found = "No";
-      if (this.listOfFilteredDiseases.length > 0) {
-        params.Found = "Yes";
-      }
-
-      var d = new Date(Date.now());
-      var a = d.toString();
-      params.Date = a;
-      this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
-        .subscribe((res: any) => {
-          console.log('feed');
-        }, (err) => {
-          console.log(err);
-        }));
-    }
-  }
-
-  showMoreInfoDiagnosePopup(index) {
-    this.loadingOneDisease = true;
-    this.selectedDiseaseIndex = index;
-    this.actualInfoOneDisease = this.listOfFilteredDiseases[this.selectedDiseaseIndex];
-    this.searchDiseaseField = '';
-    this.listOfFilteredDiseases = [];
-  }
-
-  clearsearchDiseaseField() {
-    this.searchDiseaseField = "";
-    this.listOfFilteredDiseases = [];
-    this.callListOfDiseases = false;
-    this.actualInfoOneDisease = {};
-  }
-
-  selected($e) {
-    $e.preventDefault();
-    if (!$e.item.error) {
-      this.actualInfoOneDisease = $e.item;
-      console.log($e.item);
-      //this.searchDiseaseField =$e.item
-    }
-  }
-
-  searchDiseases: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.callListOfDiseases = true),
-      switchMap(term =>
-        this.searchTermService.search(term).pipe(
-          tap(() => this.nothingFoundDisease = false),
-          catchError(() => {
-            this.nothingFoundDisease = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.callListOfDiseases = false)
-    )
 
 }

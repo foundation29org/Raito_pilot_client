@@ -46,8 +46,6 @@ export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     isIeOrEdge = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) || /Edge/.test(navigator.userAgent);
     role: string;
     isApp: boolean = false;
-    actualStep: string = "0.0";
-    maxStep: string = "0.0";
     isHomePage: boolean = false;
     isClinicalPage: boolean = false;
     eventsService: any = null;
@@ -229,14 +227,6 @@ export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.iscollapsed = this.config.layout.sidebar.collapsed;
       }, 0);
-
-      this.eventsService.on('actualStep', function(actualStep) {
-        this.actualStep= this.dataservice.steps.actualStep;
-      }.bind(this));
-
-      this.eventsService.on('maxStep', function(maxStep) {
-        this.maxStep= this.dataservice.steps.maxStep;
-      }.bind(this));
 
       //emit event to customizer
       this.options.bgColor = this.bgColor;

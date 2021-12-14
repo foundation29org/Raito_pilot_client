@@ -7,6 +7,5 @@ export interface RouteInfo {
     badge: string;
     badgeClass: string;
     isExternalLink: boolean;
-    isAnchorLink: boolean;
     submenu : RouteInfo[];
 }

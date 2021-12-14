@@ -34,12 +34,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   urlLogo2: string = 'assets/img/logo-raito.png';
   redirectUrl: string = '';
   isHomePage: boolean = false;
-  isClinicalPage: boolean = false;
-  actualStep: string = "0.0";
-  maxStep: string = "0.0";
-  showintrowizard: boolean = true;
-  age: any = {};
-  selectedPatient: any = {};
 
   constructor(
     private elementRef: ElementRef,
@@ -96,13 +90,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         var tempUrl1 = (actualUrl).toString();
         if(tempUrl1.indexOf('/home')!=-1){
           this.isHomePage = true;
-          this.isClinicalPage = false;
         }else{
-          if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
-            this.isClinicalPage = true;
-          }else{
-            this.isClinicalPage = false;
-          }
           this.isHomePage = false;
         }
         if(this.authService.getRole() == 'SuperAdmin'){
@@ -130,6 +118,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
+    
     this.config = this.configService.templateConf;
     if(this.authService.getRole() == 'SuperAdmin'){
       //cargar menú del Admin
@@ -157,40 +146,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logoUrl = 'assets/img/logo.png';
     }
 
-    this.eventsService.on('actualStep', function(actualStep) {
-      this.actualStep= this.dataservice.steps.actualStep;
-    }.bind(this));
-
-    this.eventsService.on('maxStep', function(maxStep) {
-      this.maxStep= this.dataservice.steps.maxStep;
-    }.bind(this));
-
-    this.eventsService.on('showIntroWizard', function(showintrowizard) {
-      this.showintrowizard= showintrowizard;
-    }.bind(this));
-
-    this.eventsService.on('selectedPatient', function(selectedPatient) {
-      this.selectedPatient= selectedPatient;
-      var dateRequest2=new Date(this.selectedPatient.birthDate);
-      this.ageFromDateOfBirthday(dateRequest2);
-    }.bind(this));
-
-  }
-
-  ageFromDateOfBirthday(dateOfBirth: any){
-    const today = new Date();
-    const birthDate = new Date(dateOfBirth);
-    var months;
-    months = (today.getFullYear() - birthDate.getFullYear()) * 12;
-    months -= birthDate.getMonth();
-    months += today.getMonth();
-    var age =0;
-    if(months>0){
-      age = Math.floor(months/12)
-    }
-    var res = months <= 0 ? 0 : months;
-    var m=res % 12;
-    this.age = {years:age, months:m }
   }
 
   ngAfterViewInit() {
@@ -233,41 +188,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   ngxWizardFunction(path: string) {
     if (path.indexOf("forms/ngx") !== -1)
       this.router.navigate(["forms/ngx/wizard"], { skipLocationChange: false });
-  }
-
-
-  startWizardAgain(){
-    Swal.fire({
-        title: this.translate.instant("diagnosis.wizardquestionlaunch"),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#33658a',
-        cancelButtonColor: '#B0B6BB',
-        confirmButtonText: this.translate.instant("generics.Yes"),
-        cancelButtonText: this.translate.instant("generics.No"),
-        showLoaderOnConfirm: true,
-        allowOutsideClick: false,
-        reverseButtons:true
-    }).then((result) => {
-      if (result.value) {
-
-        if(this.showintrowizard){
-          this.goToStep('0.0', true, '0.0')
-        }else{
-          this.goToStep('1.0', true, '1.0')
-        }
-      }
-    });
-
-  }
-
-  goToStep(index, save, maxStep){
-    var info = {step: index, save: save, maxStep: maxStep}
-    this.eventsService.broadcast('infoStep', info);
-  }
-
-  goToReports(){
-    this.eventsService.broadcast('setStepWizard', 'reports');
   }
 
 }
