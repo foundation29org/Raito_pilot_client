@@ -16,7 +16,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-import {DndDirective} from "app/shared/directives/dnd.directive";
 
 
 @NgModule({
@@ -42,8 +41,7 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
     ],
     declarations: [
         LandPageComponent,
-        AboutUsPageComponent,
-        DndDirective
+        AboutUsPageComponent
     ]
 })
 export class LandPageModule { }

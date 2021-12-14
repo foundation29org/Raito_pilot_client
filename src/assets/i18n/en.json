@@ -2301,10 +2301,10 @@
     "Look for symptoms": "Look for symptoms",
     "Documents": "Reports",
     "Quick search": "Search",
-    "Drag and drop file here": "Drag and drop a report here",
+    "Drag and drop file here": "Drag and drop a file here",
     "or": "or",
     "Browse for file": "Browse for file",
-    "Accepted files": "Accepted files: pdf, docx, images",
+    "Accepted files": "Accepted files: .vcf, .vcf.gz, .pdf, .docx",
     "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window.",
     "table":{
       "t1": "Find and organize your symptoms",

@@ -8,9 +8,16 @@ import { CustomFormsModule } from 'ngx-custom-validators';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatchHeightModule } from 'app/shared/directives/match-height.directive';
+
 import {MatSelectModule} from '@angular/material/select';
 import { TagInputModule } from 'ngx-chips';
 import { UiSwitchModule } from 'ngx-ui-switch';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+import { HomeComponent } from './home/home.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
 
 @NgModule({
     exports: [
@@ -22,13 +29,18 @@ import { UiSwitchModule } from 'ngx-ui-switch';
         FormsModule,
         CustomFormsModule,
         NgbModule,
+        MatchHeightModule,
         TranslateModule,
         MatSelectModule,
         TagInputModule,
         ReactiveFormsModule,
-        UiSwitchModule
+        UiSwitchModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     declarations: [
+        HomeComponent,
+        PersonalInfoComponent
     ]
 })
 export class UserModule { }

@@ -25,15 +25,15 @@ var fireRefreshEventOnWindow = function() {
 @Injectable()
 export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('sidebarBgImage') sidebarBgImage: ElementRef;
-    @ViewChild('appSidebar') appSidebar: ElementRef;
-    @ViewChild('wrapper') wrapper: ElementRef;
+    @ViewChild("appSidebar", {static: true}) appSidebar: ElementRef;
+    @ViewChild("wrapper", {static: true}) wrapper: ElementRef;
 
     options = {
         direction: 'ltr',
         bgColor: 'black',
         bgImage: 'assets/img/sidebar-bg/01.jpg'
     };
-    hideSidebar: boolean;
+    hideSidebar: boolean = false;
     layoutSub: Subscription;
     iscollapsed = false;
     isSidebar_sm = false;
@@ -46,8 +46,6 @@ export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     isIeOrEdge = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) || /Edge/.test(navigator.userAgent);
     role: string;
     isApp: boolean = false;
-    actualStep: string = "0.0";
-    maxStep: string = "0.0";
     isHomePage: boolean = false;
     isClinicalPage: boolean = false;
     eventsService: any = null;
@@ -229,14 +227,6 @@ export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.iscollapsed = this.config.layout.sidebar.collapsed;
       }, 0);
-
-      this.eventsService.on('actualStep', function(actualStep) {
-        this.actualStep= this.dataservice.steps.actualStep;
-      }.bind(this));
-
-      this.eventsService.on('maxStep', function(maxStep) {
-        this.maxStep= this.dataservice.steps.maxStep;
-      }.bind(this));
 
       //emit event to customizer
       this.options.bgColor = this.bgColor;

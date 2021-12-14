@@ -34,11 +34,6 @@
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
-                  <li class="nav-item mr-2" *ngIf="isGTPPage && !isDonaPage">
-                      <button class="btn btn-primary mr-1 round mb-0 btn-navbar" routerLink="/juntoshaciaeldiagnostico/donar">
-                        <span>{{'homedx.Donate' | translate }}</span>
-                      </button>
-                  </li>
                     <li class="nav-item mr-2 d-none d-sm-inline" ngbDropdown display="dynamic" placement="bottom-right">
                         <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
                             <u>{{currentLang}}</u>
@@ -49,10 +44,10 @@
                             </a>
                         </div>
                     </li>
-                    <li class="nav-item mr-2" *ngIf="!isGTPPage">
+                    <li class="nav-item mr-2">
                       <a class="btn btn-info round mb-0 btn-navbar" (click)="goToLogin()">{{'login.Login' | translate }}</a>
                     </li>
-                    <li class="nav-item" *ngIf="!isGTPPage">
+                    <li class="nav-item">
                       <a class="btn btn-dark white round mb-0 btn-navbar" (click)="goToRegister()">{{'login.Create User' | translate }}</a>
                     </li>
                     <li class="nav-item ml-2 d-inline d-sm-none" ngbDropdown display="dynamic" placement="bottom-right">

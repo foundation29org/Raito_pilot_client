@@ -11,6 +11,10 @@
   color: gray !important;
 }*/
 
+.w-13{
+  width: 13px;
+}
+
 .navbar {
   padding: 0.75rem 1.5rem !important;
 }

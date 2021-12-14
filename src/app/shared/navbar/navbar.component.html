@@ -25,22 +25,6 @@
             </ul>
           </div>
       </div>
-        <div class="d-none d-lg-block" *ngIf="role == 'User'">
-          <div class="navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav m-r-0">
-                <li class="mr-2 active nav-link" *ngIf="actualUrl!='/home'">
-                  <a  [routerLink]="redirectUrl">
-                    <h3 style="margin-bottom: 0;">{{'dashboardpatient.BackMydata' | translate }}</h3>
-                  </a>
-                </li>
-                <li class="mr-2 active nav-link disabled" *ngIf="actualUrl=='/home'">
-                  <a>
-                    <h3 style="margin-bottom: 0;">{{'dashboardpatient.My data' | translate }}</h3>
-                  </a>
-                </li>
-              </ul>
-          </div>
-      </div>
       <div class="d-none d-lg-block" *ngIf="role == 'Admin'">
         <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav m-r-0">

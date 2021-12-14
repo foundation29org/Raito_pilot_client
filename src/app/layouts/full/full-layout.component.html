@@ -9,6 +9,7 @@
   }"
   [dir]="options.direction"
 >
+
 <div
   #appSidebar
   appSidebar
@@ -24,7 +25,7 @@
 </div>
   <app-navbar (toggleHideSidebar)="toggleHideSidebar($event)"></app-navbar>
   <div class="main-panel">
-        <div class="main-content" class="pl-0 mb-2">
+        <div class="main-content mb-2">
           <div [ngClass]="(isClinicalPage && role=='Clinical')?'showmenu':''">
             <div clas="content-wrapper">
                 <div class="container-fluid">
