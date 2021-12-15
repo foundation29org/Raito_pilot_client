@@ -13,6 +13,7 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { SortService } from 'app/shared/services/sort.service';
+import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
@@ -69,8 +70,9 @@ export class MedicalRecordsComponent implements OnInit {
   phenotypeCopy: any = {};
   sendingSymptoms: boolean = false;
   private msgDataSavedFail: string;
+  showButtonScroll: boolean = false;
 
-  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard) {
+  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
       //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
     });
@@ -710,5 +712,67 @@ export class MedicalRecordsComponent implements OnInit {
       }
     }
   }
+
+  showCompleteNcrResultView(symptom, method) {
+    this.ncrResultView = !this.ncrResultView;
+    if (symptom != null) {
+        if(method=='ncr'){
+            //this.markAllText(symptom)
+        }else if(method=='textAnalytics'){
+            this.markAllTextAnalytics(symptom)
+        }
+        
+    }
+}
+
+markAllTextAnalytics(symptom) {
+  this.resultTextNcrCopy = this.resultTextNcr;
+  var text = symptom.text[0].text;
+  if (this.lang != 'en') {//if (this.langDetected != 'en') {
+      text = symptom.text[0].text;
+      var hpo = symptom;
+      var words = [];
+      console.log(hpo);
+      for (var j = 0; j < hpo.text.length; j++) {
+          if(hpo.text[j].positions!=undefined){
+              var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
+              console.log(value);
+              words.push({ args: value })
+          }
+          
+      }
+      this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+  } else {
+      var hpo = symptom;
+      var words = [];
+      for (var j = 0; j < hpo.text.length; j++) {
+          if(hpo.text[j].positions!=undefined){
+              var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
+              console.log(value);
+              words.push({ args: value })
+          }
+          
+      }
+      this.resultTextNcrCopy = this.highlightSearch.transformAll(this.resultTextNcr, words);
+  }
+  this.showScrollButton();
+}
+
+showScrollButton() {
+  setTimeout(() => {
+      var el = document.getElementsByClassName("actualPosition")[0];
+      if (el != undefined) {
+          el.scrollIntoView(true);
+          var height = document.getElementById('idBody').offsetHeight;
+          var docHeight = $(document).height();
+          if (height > docHeight) {
+              this.showButtonScroll = true;
+              this.myFunction();
+          } else {
+              this.showButtonScroll = false;
+          }
+      }
+  }, 100);
+}
 
 }

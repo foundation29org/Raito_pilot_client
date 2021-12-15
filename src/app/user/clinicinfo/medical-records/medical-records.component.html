@@ -105,17 +105,6 @@
                                             <span class="icons-title-symptoms ml-1"
                                                 style="font-weight: normal;">{{'land.SelectSymptoms' | translate
                                                 }}</span>
-                                            <span class="float-right icons-opt-symptoms">
-                                                <em class="mt-1 fa fa-refresh grey ml-2 mr-2"
-                                                    title="{{'land.Start over' | translate }}"
-                                                    (click)="restartInitVars()" style="cursor: pointer;"></em>
-                                                <em class="mt-1 fas fa-copy grey mr-2"
-                                                    title="{{'land.Copy symptoms' | translate }}"
-                                                    (click)="copySymptoms()" style="cursor: pointer;"></em>
-                                                <em class="mt-1 fa fa-download grey mr-2"
-                                                    title="{{'land.Download symptoms' | translate }}"
-                                                    (click)="downloadSymptoms()" style="cursor: pointer;"></em>
-                                            </span>
                                         </th>
                                     </tr>
                                 </thead>
@@ -152,7 +141,8 @@
                                     </table>
                                 </div>
                                 <div>
-                                    <p><button class="ml-2 btn btn-primary" (click)="saveSymptomsToDb();">{{'generics.Save' | translate }}</button></p>
+                                    <p><button class="ml-2 btn btn-primary"
+                                            (click)="saveSymptomsToDb();">{{'generics.Save' | translate }}</button></p>
                                 </div>
                             </div>
                             <div *ngIf="temporalSymptoms.length==0" class="white-space">
@@ -212,51 +202,6 @@
             <h5><strong>{{'land.Where did we get this symptom from' | translate }}</strong></h5>
             <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='manual'">
                 {{'land.The symptom was added manually' | translate }}
-            </span>
-            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncr'">
-                <span *ngFor="let text of temporalSymptoms[selectedInfoSymptomIndex].text ; let j = index">
-                    <span *ngIf="(text.source && j== 0) && langToExtract==lang" class="mb-0">"{{text.source}}"</span>
-                    <span *ngIf="!text.source && j== 0 || langToExtract!=lang" class="mb-0">"{{text.text |
-                        slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text |
-                            slice:(text.positions[0]):(text.positions[1])}}</b> {{text.text |
-                        slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
-                </span>
-                <div class="mt-2">
-                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
-                        (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex], 'ncr')">{{'patdiagdashboard.Show
-                        full text' | translate }}</button>
-                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
-                        (click)="showCompleteNcrResultView(null, 'ncr')">{{'patdiagdashboard.Hide full text' | translate
-                        }}</button>
-                </div>
-                <div *ngIf="ncrResultView">
-                    <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
-                    </span>
-                    <div class="mt-2 text-center">
-                        <a id="initpos"></a>
-                        <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
-                    </div>
-                </div>
-            </span>
-            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncrOld'">
-                <div class="mt-2">
-                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
-                        (click)="showCompleteNcrOldResultView(temporalSymptoms[selectedInfoSymptomIndex])">{{'patdiagdashboard.Show
-                        full text' | translate }}</button>
-                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
-                        (click)="showCompleteNcrOldResultView(null)">{{'patdiagdashboard.Hide full text' | translate
-                        }}</button>
-                </div>
-                <div *ngIf="ncrResultView">
-                    <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
-                    </span>
-                    <div class="mt-2 text-center">
-                        <a id="initpos"></a>
-                        <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
-                    </div>
-                </div>
             </span>
             <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='textAnalytics'">
                 <span *ngFor="let text of temporalSymptoms[selectedInfoSymptomIndex].text ; let j = index">
