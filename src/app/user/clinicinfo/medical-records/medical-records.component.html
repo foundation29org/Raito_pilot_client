@@ -1,1 +1,303 @@
-<p>medical-records works!</p>
+<div class="col-sm-12">
+    <div class="content-header">{{'menu.Genotype' | translate }}</div>
+    <p class="content-sub-header">This is the most advanced example having various features. This
+        example lists all the events on the calendar with Add new event functionality.</p>
+</div>
+<div class="h-100">
+    <div class="col-sm-12 my-auto">
+        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 align-items-center">
+                        <div class="card mx-auto" *ngIf="step=='0'">
+                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Genotype' |
+                                translate }}</h2>
+                            <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
+                                <input type="file" #fileDropRef id="fileDropRef" multiple
+                                    (change)="onFileChangePDF($event);"
+                                    accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                                <svg aria-hidden="true" focusable="false" data-prefix="fal"
+                                    data-icon="arrow-alt-from-bottom" role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 384 512"
+                                    class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
+                                    <path fill="currentColor"
+                                        d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                                        class=""></path>
+                                </svg>
+                                <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
+                                <h3>{{'land.or' | translate }}</h3>
+                                <label class="btn btn-info round"
+                                    style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                    for="fileDropRef">{{'land.Browse for file' | translate }}</label>
+                                <h3 class="mt-2 d-block">{{'dashboardpatient.info extension' | translate }}</h3>
+                            </div>
+                            <p *ngIf="preparingFile">
+                                <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
+                                <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                            </p>
+                            <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
+                                translate }}: {{uploadProgress | async}}%</h4>
+                            <div class="mb-2" id="Widget-line-chart">
+                                <span *ngIf="otherGeneFiles.length==0">
+                                    <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
+                                    <p class="mt-0">{{'generics.No data' | translate }}</p>
+                                </span>
+                                <span *ngIf="otherGeneFiles.length>0">
+                                    <div class="content-wrapper">
+                                        <div class="row col-md-12">
+                                            <div class="mb-4 w-100">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>{{'dashboardpatient.Files uploaded' | translate }}</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <span *ngFor="let onefile of otherGeneFiles; let i = index">
+                                                            <tr>
+                                                                <td style="word-wrap: anywhere;">
+                                                                    {{onefile.simplename}}
+                                                                    <p class="text-muted font-small-3 mb-0">Uploaded:
+                                                                        {{onefile.lastModified | date: 'dd
+                                                                        MMM y': '' : translate.currentLang}}</p>
+                                                                    <p class="text-muted font-small-3 mb-0">File size:
+                                                                        {{onefile.contentLength}}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <a class="danger" (click)="deleteFile(onefile,i);"
+                                                                        href="javascript:void(0)"><i
+                                                                            class="ft-trash"></i></a>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr *ngIf="!onefile.hasResults">
+                                                                <p><button class="ml-2 btn btn-primary"
+                                                                        (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
+                                                                        Extract data from this file</button></p>
+                                                            </tr>
+                                                            <tr *ngIf="onefile.hasResults">
+                                                                <p><button class="ml-2 btn btn-primary"
+                                                                        (click)="openResults(onefile.name);">
+                                                                        Ver resultados</button></p>
+                                                            </tr>
+
+                                                        </span>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card mx-auto" *ngIf="step=='1'">
+                            <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
+                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Genotype' |
+                                translate }}</h2>
+                            <div *ngIf="temporalSymptoms.length>0">
+                                <thead class="pr-1 pl-1">
+                                    <tr>
+                                        <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
+                                            <span class="icons-title-symptoms ml-1"
+                                                style="font-weight: normal;">{{'land.SelectSymptoms' | translate
+                                                }}</span>
+                                            <span class="float-right icons-opt-symptoms">
+                                                <em class="mt-1 fa fa-refresh grey ml-2 mr-2"
+                                                    title="{{'land.Start over' | translate }}"
+                                                    (click)="restartInitVars()" style="cursor: pointer;"></em>
+                                                <em class="mt-1 fas fa-copy grey mr-2"
+                                                    title="{{'land.Copy symptoms' | translate }}"
+                                                    (click)="copySymptoms()" style="cursor: pointer;"></em>
+                                                <em class="mt-1 fa fa-download grey mr-2"
+                                                    title="{{'land.Download symptoms' | translate }}"
+                                                    (click)="downloadSymptoms()" style="cursor: pointer;"></em>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <div class="table-cont">
+                                    <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                        aria-labelledby="HPO">
+                                        <tbody>
+                                            <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                                                <td>
+                                                    <span>
+                                                        <span class="float-right ml-1">
+                                                            <button
+                                                                (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                                                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                                                title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                                                <em class="fa fa-info w-13"></em>
+                                                            </button>
+                                                        </span>
+                                                        <span>
+                                                            <button (click)="changeStateSymptom(i)"
+                                                                class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                                [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
+                                                                href="javascript:void(0)"
+                                                                title="{{'phenotype.Click to check it' | translate }}">
+                                                                <em class="fa fa-check w-13"></em>
+                                                            </button>
+                                                            <span class="ml-1 custom-bold pointer"
+                                                                (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <p><button class="ml-2 btn btn-primary" (click)="saveSymptomsToDb();">{{'generics.Save' | translate }}</button></p>
+                                </div>
+                            </div>
+                            <div *ngIf="temporalSymptoms.length==0" class="white-space">
+                                <tbody></tbody>
+                            </div>
+                        </div>
+                        {{resultTextNcr}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <div class="content-header text-left">
+            <h4>{{temporalSymptoms[selectedInfoSymptomIndex].name }} - {{temporalSymptoms[selectedInfoSymptomIndex].id
+                }}</h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <div class="row col-md-12" class="p-2">
+            <span
+                *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=null || temporalSymptoms[selectedInfoSymptomIndex].comment!=''">
+                <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+                <span
+                    *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def!=null">{{temporalSymptoms[selectedInfoSymptomIndex].def}}
+                </span>
+                <span
+                    *ngIf="temporalSymptoms[selectedInfoSymptomIndex].comment!=''">{{temporalSymptoms[selectedInfoSymptomIndex].comment}}</span>
+            </span>
+            <span
+                *ngIf="temporalSymptoms[selectedInfoSymptomIndex].def==null && temporalSymptoms[selectedInfoSymptomIndex].comment==''">
+                <h5><strong>{{'generics.Description' | translate }}</strong></h5>
+                <span> {{'symptomssection.No description' | translate }} </span>
+            </span>
+        </div>
+
+        <div *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms!=undefined" class="p-2">
+            <h5><strong>{{'generics.Synonyms' | translate }}</strong></h5>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms.length>0">
+                <p *ngFor="let synonym of temporalSymptoms[selectedInfoSymptomIndex].synonyms ; let j = index"
+                    [ngClass]="(j==temporalSymptoms[selectedInfoSymptomIndex].synonyms.length-1)?'mb-0':''">
+                    <span>{{j+1}}. </span> <span *ngIf="synonym.label">{{synonym.label}}</span> <span
+                        *ngIf="!synonym.label">{{synonym}}</span>
+                </p>
+            </span>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].synonyms.length==0">
+                {{'symptomssection.No synonyms' | translate }}
+            </span>
+        </div>
+        <div class="p-2">
+            <h5><strong>{{'land.Where did we get this symptom from' | translate }}</strong></h5>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='manual'">
+                {{'land.The symptom was added manually' | translate }}
+            </span>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncr'">
+                <span *ngFor="let text of temporalSymptoms[selectedInfoSymptomIndex].text ; let j = index">
+                    <span *ngIf="(text.source && j== 0) && langToExtract==lang" class="mb-0">"{{text.source}}"</span>
+                    <span *ngIf="!text.source && j== 0 || langToExtract!=lang" class="mb-0">"{{text.text |
+                        slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text |
+                            slice:(text.positions[0]):(text.positions[1])}}</b> {{text.text |
+                        slice:(text.positions[1]+1):(text.positions[1]+40)}}"</span>
+                </span>
+                <div class="mt-2">
+                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
+                        (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex], 'ncr')">{{'patdiagdashboard.Show
+                        full text' | translate }}</button>
+                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
+                        (click)="showCompleteNcrResultView(null, 'ncr')">{{'patdiagdashboard.Hide full text' | translate
+                        }}</button>
+                </div>
+                <div *ngIf="ncrResultView">
+                    <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
+                    </span>
+                    <div class="mt-2 text-center">
+                        <a id="initpos"></a>
+                        <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
+                    </div>
+                </div>
+            </span>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='ncrOld'">
+                <div class="mt-2">
+                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
+                        (click)="showCompleteNcrOldResultView(temporalSymptoms[selectedInfoSymptomIndex])">{{'patdiagdashboard.Show
+                        full text' | translate }}</button>
+                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
+                        (click)="showCompleteNcrOldResultView(null)">{{'patdiagdashboard.Hide full text' | translate
+                        }}</button>
+                </div>
+                <div *ngIf="ncrResultView">
+                    <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
+                    </span>
+                    <div class="mt-2 text-center">
+                        <a id="initpos"></a>
+                        <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
+                    </div>
+                </div>
+            </span>
+            <span *ngIf="temporalSymptoms[selectedInfoSymptomIndex].inputType=='textAnalytics'">
+                <span *ngFor="let text of temporalSymptoms[selectedInfoSymptomIndex].text ; let j = index">
+                    <span *ngIf="(text.source && j== 0) && text.language!=lang" class="mb-0">"{{text.source |
+                        slice:(text.positions[0]-40):(text.positions[0]-1)}} {{text.source |
+                        slice:(text.positions[0]):(text.positions[1])}} {{text.source |
+                        slice:(text.positions[1]+1):(text.positions[1]+40)}}"
+
+                    </span>
+                    <span *ngIf="!text.source && j== 0 || text.language==lang" class="mb-0">"{{text.text |
+                        slice:(text.positions[0]-40):(text.positions[0]-1)}} <b>{{text.text |
+                            slice:(text.positions[0]):(text.positions[1])}}</b> {{text.text |
+                        slice:(text.positions[1]+1):(text.positions[1]+40)}}"
+                    </span>
+                </span>
+                <div class="mt-2">
+                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
+                        (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex], 'textAnalytics')">{{'patdiagdashboard.Show
+                        full text' | translate }}</button>
+                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
+                        (click)="showCompleteNcrResultView(null, 'textAnalytics')">{{'patdiagdashboard.Hide full text' |
+                        translate }}</button>
+                </div>
+                <div *ngIf="ncrResultView">
+                    <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
+                    </span>
+                    <div class="mt-2 text-center">
+                        <a id="initpos"></a>
+                        <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <span>{{'land.See more information about the symptom' | translate }} <a
+                href="https://hpo.jax.org/app/browse/term/{{temporalSymptoms[selectedInfoSymptomIndex].id}}"
+                target="_blank"
+                title=" {{temporalSymptoms[selectedInfoSymptomIndex].name}} ({{temporalSymptoms[selectedInfoSymptomIndex].id}}):">{{'land.here'
+                | translate }}
+                <i class="ft-external-link"></i></a></span>
+    </div>
+</ng-template>

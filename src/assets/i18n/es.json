@@ -1349,6 +1349,7 @@
     "The invitation has been sent successfully": "La invitación ha sido enviada con éxito",
     "There is already an account with that email": "Ya hay una cuenta con ese correo electrónico",
     "error extension": "El archivo cargado debe tener una extensión .pdf, .docx o archivos de imagen",
+    "info extension": "Ficheros aceptados: .pdf, .docx, o archivos de imagen",
     "medicaltextinfo": "Pega o escribe cualquier texto médico del que desees extraer los fenotipos codificados con HPO, o carga uno o más PDF / docx.",
     "My genes": "Mis genes",
     "Upload reports": "Subir informes",
@@ -1894,7 +1895,7 @@
       "msg4": "Aquí puedes cargar los dos tipos de documento o solo uno de ellos:",
       "msg5": "Datos genéticos completos u otros informes",
       "msg6": "Sube aquí el archivo VCF, o tu informe en formato .pdf o .docx. El formato aceptado del VCF es .vcf o .vcf.gz.",
-      "The file must have": "El archivo debe tener la extensión .vcf, .vcf.gz, .pdf o .docx",
+      "The file must have": "El archivo debe tener la extensión .vcf o .vcf.gz",
       "msg7": "Subir archivo",
       "btn1": "Siguiente"
     },

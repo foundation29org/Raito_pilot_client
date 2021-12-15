@@ -171,4 +171,15 @@ export class ApiDx29ServerService {
         })
     }
 
+    getblob(patientId, blobName){
+      var jsonText = { "patientId": patientId, "blobName": blobName };
+        return this.http.post(environment.api+'/api/getblob', jsonText)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
 }

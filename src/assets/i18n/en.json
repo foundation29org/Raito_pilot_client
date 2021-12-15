@@ -1350,6 +1350,7 @@
     "The invitation has been sent successfully": "The invitation has been sent successfully",
     "There is already an account with that email": "There is already an account with that email",
     "error extension": "The uploaded file must have a .pdf, .docx extension, or image files",
+    "info extension": "Accepted files: .pdf, .docx extension, or image files",
     "medicaltextinfo": "Paste or write any medical text from which you want to extract HPO-coded phenotypes, or load one or more PDF / docx",
     "My genes": "My genes",
     "Upload reports": "Upload reports",
@@ -1893,7 +1894,7 @@
       "msg4": "Here you can load both types of document or just one of them:",
       "msg5": "Complete genetic data or other reports.",
       "msg6": "Upload here the VCF file, or your report in .pdf or .docx format. The accepted format of the VCF is .vcf or .vcf.gz. ",
-      "The file must have": "The file must have .vcf, .vcf.gz, .pdf or .docx extension",
+      "The file must have": "The file must have .vcf, or .vcf.gz extension",
       "msg7": "Upload file",
       "btn1": "Next"
     },
@@ -2304,7 +2305,7 @@
     "Drag and drop file here": "Drag and drop a file here",
     "or": "or",
     "Browse for file": "Browse for file",
-    "Accepted files": "Accepted files: .vcf, .vcf.gz, .pdf, .docx",
+    "Accepted files": "Accepted files: .vcf, .vcf.gz",
     "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window.",
     "table":{
       "t1": "Find and organize your symptoms",

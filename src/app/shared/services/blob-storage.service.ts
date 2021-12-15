@@ -331,8 +331,8 @@ export class BlobStorageService {
         //console.log(result.entries);
         var filesgenovcf = [];
         for (var i = 0; i < result.entries.length; i++) {
-          if(((result.entries[i].name).indexOf('.vcf')!=-1 && result.entries[i].name.indexOf(patternFileNameVcf)!=-1) || (result.entries[i].name).indexOf('genofilepatient')!=-1){
-            if((result.entries[i].name).indexOf('genofilepatient')!=-1){
+          if(((result.entries[i].name).indexOf('.vcf')!=-1 && result.entries[i].name.indexOf(patternFileNameVcf)!=-1) || (result.entries[i].name).indexOf('raitofile/')!=-1){
+            if((result.entries[i].name).indexOf('raitofile/')!=-1){
               //console.log(result.entries[i]);
               filesgenovcf.push(result.entries[i]);
             }else{
@@ -425,8 +425,8 @@ export class BlobStorageService {
         var fileshtml = [];
         for (var i = 0; i < result.entries.length; i++) {
           var temfile = (result.entries[i].name);
-          if(temfile.indexOf('ncrresult.json')!=-1 || temfile.indexOf('.docx')!=-1 || temfile.indexOf('.pdf')!=-1 || temfile.indexOf('.html')!=-1 || temfile.indexOf('.vcf')!=-1 || temfile.indexOf('.vcf.gz')!=-1 || temfile.indexOf('.jpg')!=-1 || temfile.indexOf('.png')!=-1 || temfile.indexOf('.gif')!=-1 || temfile.indexOf('.tiff')!=-1 || temfile.indexOf('.tif')!=-1 || temfile.indexOf('.bmp')!=-1 || temfile.indexOf('.dib')!=-1 || temfile.indexOf('.bpg')!=-1 || temfile.indexOf('.psd')!=-1 || temfile.indexOf('.jpeg')!=-1 || temfile.indexOf('.jpe')!=-1 || temfile.indexOf('.jfif')!=-1){
-            if((result.entries[i].name).indexOf('ncrresult.json')!=-1){
+          if(temfile.indexOf('textanaresult.json')!=-1 || temfile.indexOf('.docx')!=-1 || temfile.indexOf('.pdf')!=-1 || temfile.indexOf('.html')!=-1 || temfile.indexOf('.vcf')!=-1 || temfile.indexOf('.vcf.gz')!=-1 || temfile.indexOf('.jpg')!=-1 || temfile.indexOf('.png')!=-1 || temfile.indexOf('.gif')!=-1 || temfile.indexOf('.tiff')!=-1 || temfile.indexOf('.tif')!=-1 || temfile.indexOf('.bmp')!=-1 || temfile.indexOf('.dib')!=-1 || temfile.indexOf('.bpg')!=-1 || temfile.indexOf('.psd')!=-1 || temfile.indexOf('.jpeg')!=-1 || temfile.indexOf('.jpe')!=-1 || temfile.indexOf('.jfif')!=-1){
+            if((result.entries[i].name).indexOf('textanaresult.json')!=-1){
               result.entries[i].ncrresult = true;
             }
             fileshtml.push(result.entries[i]);
@@ -445,8 +445,8 @@ export class BlobStorageService {
         var filesncr = [];
         for (var i = 0; i < result.entries.length; i++) {
           var temfile = (result.entries[i].name);
-          if(temfile.indexOf('ncrresult.json')!=-1 ){
-            if((result.entries[i].name).indexOf('ncrresult.json')!=-1){
+          if(temfile.indexOf('textanaresult.json')!=-1 ){
+            if((result.entries[i].name).indexOf('textanaresult.json')!=-1){
               result.entries[i].ncrresult = true;
             }
             filesncr.push(result.entries[i]);
