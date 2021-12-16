@@ -5,7 +5,8 @@
     "Dashboard Super Admin": "Dashboard superAdmin",
     "User Profile": "User profile",
     "Basic Info": "Personal information",
-    "Clinical information": "My clinical history",
+    "Clinical information": "Medical records",
+    "Calendar": "Calendar",
     "Patient": "Patient",
     "Personal Info": "Personal data",
     "Phenotype": "My symptoms",
@@ -293,7 +294,10 @@
     "Relationship": "Relationship",
     "Father": "Father",
     "Mother": "Mother",
-    "Select the sex to change the avatar": "Select the sex to change the avatar."
+    "Select the sex to change the avatar": "Select the sex to change the avatar.",
+    "I dont belong to a patient group": "I don't belong to a patient group",
+    "I dont have a diagnosis": "I don't have a diagnosis",
+    "Patients with epilepsy": "Patients with epilepsy"
   },
   "social":{
     "Social patient information": "Social patient information",

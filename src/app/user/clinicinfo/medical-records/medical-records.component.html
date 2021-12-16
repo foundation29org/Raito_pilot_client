@@ -1,5 +1,5 @@
 <div class="col-sm-12">
-    <div class="content-header">{{'menu.Genotype' | translate }}</div>
+    <div class="content-header">{{'menu.Clinical information' | translate }}</div>
     <p class="content-sub-header">This is the most advanced example having various features. This
         example lists all the events on the calendar with Add new event functionality.</p>
 </div>
@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-12 align-items-center">
                         <div class="card mx-auto" *ngIf="step=='0'">
-                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Genotype' |
+                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Clinical information' |
                                 translate }}</h2>
                             <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                 <input type="file" #fileDropRef id="fileDropRef" multiple
@@ -37,7 +37,11 @@
                             </p>
                             <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
                                 translate }}: {{uploadProgress | async}}%</h4>
-                            <div class="mb-2" id="Widget-line-chart">
+
+                            <div><p><button class="ml-2 btn btn-primary"
+                                (click)="newDoc();">
+                                Crear/pegar un informe</button></p></div>
+                            <div *ngIf="loadedGeno" class="mb-2" id="Widget-line-chart">
                                 <span *ngIf="otherGeneFiles.length==0">
                                     <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
                                     <p class="mt-0">{{'generics.No data' | translate }}</p>
@@ -72,9 +76,12 @@
 
                                                             </tr>
                                                             <tr *ngIf="!onefile.hasResults">
-                                                                <p><button class="ml-2 btn btn-primary"
+                                                                <p><button class="ml-2 btn btn-primary" [disabled]="extractingData"
                                                                         (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
-                                                                        Extract data from this file</button></p>
+                                                                        <span *ngIf="!extractingData">Extract data from this file</span>
+                                                                        <span *ngIf="extractingData && !callingTextAnalytics"> <i class="fa fa-spinner fa-spin fa-fw"></i> Leyendo documento</span>
+                                                                        <span *ngIf="extractingData && callingTextAnalytics"><i class="fa fa-spinner fa-spin fa-fw"></i> Analizando documento</span>
+                                                                    </button></p>
                                                             </tr>
                                                             <tr *ngIf="onefile.hasResults">
                                                                 <p><button class="ml-2 btn btn-primary"
@@ -92,6 +99,9 @@
                                         </div>
                                     </div>
                                 </span>
+                            </div>
+                            <div *ngIf="!loadedGeno">
+                                <i class="fa fa-spinner fa-spin fa-fw"></i> Cargando...
                             </div>
                         </div>
                         <div class="card mx-auto" *ngIf="step=='1'">
@@ -149,7 +159,21 @@
                                 <tbody></tbody>
                             </div>
                         </div>
-                        {{resultTextNcr}}
+                        <div class="card mx-auto" *ngIf="step=='2'">
+                            <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
+                            <div class="p-2">
+                                <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
+                                  name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
+                              </div>
+                              <div class="text-center mt-2">
+                                <button type="button" [disabled]="callingTextAnalytics" class="btn btn-lg btn-info round"
+                                  [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
+                                  (click)="startExtractor();">
+                                  <span *ngIf="!callingTextAnalytics">{{'land.Look for symptoms' | translate }}</span>
+                                  <span *ngIf="callingTextAnalytics"><i class="fa fa-spinner fa-spin fa-fw"></i> Analizando texto</span>
+                                </button>
+                              </div>
+                        </div>
                     </div>
                 </div>
             </div>

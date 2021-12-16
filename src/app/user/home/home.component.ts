@@ -6,6 +6,7 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { ToastrService } from 'ngx-toastr';
+import { SortService } from 'app/shared/services/sort.service';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
@@ -31,19 +32,33 @@ export class HomeComponent implements OnInit, OnDestroy{
   basicInfoPatient: any;
   basicInfoPatientCopy: any;
   age: number = null;
+  groups: Array<any> = [];
+  step: string = '0';
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService){
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService){
     this.lang = this.authService.getLang();
   }
 
+  loadGroups(){
+    this.subscription.add( this.apiDx29ServerService.loadGroups()
+    .subscribe( (res : any) => {
+      console.log(res);
+      this.groups = res;
+      this.groups.sort(this.sortService.GetSortOrder("name"));
+    }, (err) => {
+      console.log(err);
+    }));    
+   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initEnvironment();
+  }
 
   loadEnvironment(){
     this.getInfoPatient();
@@ -51,8 +66,8 @@ export class HomeComponent implements OnInit, OnDestroy{
 
 
   initEnvironment(){
-    this.userId = this.authService.getIdUser();
-    this.getUserName();
+    //this.userId = this.authService.getIdUser();
+    //this.getUserName();
     if(this.authService.getCurrentPatient()==null){
       this.loadPatientId();
     }else{
@@ -115,6 +130,42 @@ export class HomeComponent implements OnInit, OnDestroy{
       age--;
     }
     this.age = age;
+  }
+
+  question1(response){
+    
+    if(response=='No'){
+      //set patient Group to none
+      this.setPatientGroup('None');
+      this.step='0';
+    }else{
+      this.step = '1';
+      this.loadGroups();
+    }
+  }
+
+  question2(){
+    this.step = '2';
+  }
+
+  question3(response){
+    this.basicInfoPatient.consentGiven = response;
+    this.step = '3';
+    this.setPatientGroup(this.basicInfoPatient.group);
+  }
+
+  setPatientGroup(group) {
+    this.basicInfoPatient.group=group;
+      this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub, this.basicInfoPatient)
+        .subscribe((res: any) => {
+          
+        }, (err) => {
+          console.log(err);
+        }));
+  }
+
+  goStep(index){
+    this.step = index;
   }
 
 }

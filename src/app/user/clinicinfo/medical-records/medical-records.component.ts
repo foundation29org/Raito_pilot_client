@@ -1,4 +1,4 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
@@ -34,7 +34,7 @@ declare var Docxgen: any;
   styleUrls: ['./medical-records.component.scss'],
   providers: [PatientService, ApiDx29ServerService, { provide: LOCALE_ID, useFactory: getCulture }, Apif29BioService]
 })
-export class MedicalRecordsComponent implements OnInit {
+export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
   preparingFile: boolean = false;
@@ -71,6 +71,8 @@ export class MedicalRecordsComponent implements OnInit {
   sendingSymptoms: boolean = false;
   private msgDataSavedFail: string;
   showButtonScroll: boolean = false;
+  extractingData: boolean = false;
+  callingTextAnalytics: boolean = false;
 
   constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
@@ -108,7 +110,6 @@ export class MedicalRecordsComponent implements OnInit {
           if (vcfFilesOnBlob[i].name.indexOf('raitofile/') != -1) {
             var name = vcfFilesOnBlob[i].name.substr(vcfFilesOnBlob[i].name.lastIndexOf('/') + 1)
             vcfFilesOnBlob[i].simplename = name;
-            console.log(vcfFilesOnBlob[i].contentLength);
             vcfFilesOnBlob[i].contentLength = this.formatBytes(vcfFilesOnBlob[i].contentLength);
             if ((vcfFilesOnBlob[i].name).indexOf('textanaresult.json') == -1) {
               otherGeneFiles.push(vcfFilesOnBlob[i])
@@ -138,6 +139,10 @@ export class MedicalRecordsComponent implements OnInit {
     }));
 
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    }
 
   testResultsAnalytics() {
     for (var i = 0; i < this.otherGeneFiles.length; i++) {
@@ -346,7 +351,7 @@ export class MedicalRecordsComponent implements OnInit {
 
   extractData(blobName, contentType) {
     this.medicalText = '';
-    this.step = '1';
+    this.extractingData = true;
     var url = environment.blobAccessToken.blobAccountUrl + this.accessToken.containerName + '/' + blobName + this.accessToken.sasToken;
     this.blobNameCloud = blobName;
     var xhr = new XMLHttpRequest();
@@ -429,6 +434,7 @@ export class MedicalRecordsComponent implements OnInit {
   }
 
   onSubmitToExtractor() {
+    this.callingTextAnalytics = true;
     var lang = this.lang;
     if (this.langDetected != '') {
       lang = this.langDetected;
@@ -436,11 +442,12 @@ export class MedicalRecordsComponent implements OnInit {
     var jsontestLangText = { "text": this.medicalText };
     this.subscription.add(this.apif29BioService.callTextAnalytics(jsontestLangText)
       .subscribe((res: any) => {
-        console.log(res);
+        this.callingTextAnalytics = false;
         var actualDate = Date.now();
         this.saveResultsToBlob(this.medicalText, res, actualDate);
 
       }, (err) => {
+        this.callingTextAnalytics = false;
         console.log(err);
       }));
   }
@@ -454,6 +461,7 @@ export class MedicalRecordsComponent implements OnInit {
     var fileNameNcr = url + 'textanaresult.json';
     var file = new File([str], fileNameNcr, { type: 'application/json' });
     this.blob.uploadToBlobStorage(this.accessToken, file, fileNameNcr, 'ncrInfofile');
+    this.extractingData = false;
     this.loadResultsAnalytics(infoNcrToSave, true);
   }
 
@@ -511,7 +519,7 @@ export class MedicalRecordsComponent implements OnInit {
   }
 
   openResults(name) {
-    this.step = '1';
+    
     console.log(name);
     var url = name.substr(0, name.lastIndexOf('/') + 1)
     var fileNameNcr = url + 'textanaresult.json';
@@ -578,13 +586,12 @@ export class MedicalRecordsComponent implements OnInit {
     if (hposStrins.length == 0) {
       Swal.fire({
         title: this.translate.instant("phenotype.No symptoms found"),
-        text: this.translate.instant("land.Do you want to add the symptoms manually"),
+        text: '',
         icon: 'warning',
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonColor: '#33658a',
         cancelButtonColor: '#B0B6BB',
-        confirmButtonText: this.translate.instant("land.add the symptoms manually"),
-        cancelButtonText: this.translate.instant("land.try again"),
+        confirmButtonText: 'Ok',
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
         reverseButtons: true
@@ -596,6 +603,7 @@ export class MedicalRecordsComponent implements OnInit {
         }
       });
     } else {
+      this.step = '1';
       this.callGetInfoTempSymptomsJSON(hposStrins);
       for (var j = 0; j < this.temporalSymptoms.length; j++) {
         for (var k = 0; k < this.phenotype.data.length; k++) {
@@ -773,6 +781,14 @@ showScrollButton() {
           }
       }
   }, 100);
+}
+
+newDoc(){
+  this.step = '2';
+}
+
+getLiteral(literal) {
+  return this.translate.instant(literal);
 }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ export function getCulture() {
   providers: [PatientService, ApiDx29ServerService, { provide: LOCALE_ID, useFactory: getCulture }]
 })
 
-export class GenotypeComponent implements OnInit {
+export class GenotypeComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   preparingFile: boolean = false;
   uploadingGenotype: boolean = false;
@@ -87,6 +87,10 @@ export class GenotypeComponent implements OnInit {
     }));
 
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    }
 
   initEnvironment(){
     this.userId = this.authService.getIdUser();

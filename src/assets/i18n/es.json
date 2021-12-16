@@ -5,7 +5,8 @@
     "Dashboard Super Admin": "Panel del superadministrador",
     "User Profile": "Perfil del usuario",
     "Basic Info": "Información básica",
-    "Clinical information": "Mi historial clínico",
+    "Clinical information": "Historial médico",
+    "Calendar": "Calendario",
     "Patient": "Paciente",
     "Personal Info": "Información personal",
     "Social Info": "Información Social",
@@ -292,7 +293,10 @@
     "Relationship": "Parentesco",
     "Father": "Padre",
     "Mother": "Madre",
-    "Select the sex to change the avatar": "Selecciona el sexo para cambiar el avatar."
+    "Select the sex to change the avatar": "Selecciona el sexo para cambiar el avatar.",
+    "I dont belong to a patient group": "No pertenezco a un grupo de pacientes",
+    "I dont have a diagnosis": "No tengo un diagnóstico",
+    "Patients with epilepsy": "Pacientes con epilepsia"
   },
   "social":{
     "Social patient information": "Información social del paciente",

@@ -1,33 +1,94 @@
-
 <div class="h-100">
     <div class="col-sm-12 my-auto">
         <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-12 justify-content-center align-items-center text-center">
-                        <h1>How can i help you?</h1>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="fa fa-search search-ico"></i></span>
+                        <div *ngIf="!loadedInfoPatient">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i>
+                        </div>
+                        <div *ngIf="loadedInfoPatient">
+                            <div *ngIf="basicInfoPatient.group==null || step!='0'">
+                                <div *ngIf="step=='0'">
+                                    <h1>Are you in a patient organization?</h1>
+                                    <div class="center-elements">
+                                        <button class="ml-2 btn btn-primary" (click)="question1('No');">No</button>
+                                        <button class="ml-2 btn btn-primary" (click)="question1('Yes');">Yes</button>
+                                    </div>
+                                </div>
+                                <div *ngIf="step=='1'">
+                                    <h1>Select yout patient organization</h1>
+                                    <select id="group" name="group" class="form-control" ngModel
+                                        [(ngModel)]="basicInfoPatient.group">
+                                        <option [value]="null" disabled selected>--{{'registration.Please select a
+                                            group' | translate }}--</option>
+                                        <option *ngFor="let group of groups" [ngValue]="group.name">
+                                            <span *ngIf="group.name == duchennenetherlands">Duchenne Parent Project
+                                                Netherlands</span>
+                                            <span *ngIf="group.name == 'Stop Sanfilippo'">Stop Sanfilippo</span>
+                                            <span *ngIf="group.name == 'Epilepsy'">{{'personalinfo.Patients with
+                                                epilepsy' | translate }}</span>
+                                            <span
+                                                *ngIf="group.name != 'Stop Sanfilippo' && group.name != 'Epilepsy'  && group.name != 'Undiagnosed'  && group.name != 'None' && group.name != duchennenetherlands">{{group.name}}</span>
+                                            <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a
+                                                diagnosis' | translate }}</span>
+                                            <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a
+                                                patient group' | translate }}</span>
+                                        </option>
+                                    </select>
+                                    <div class="center-elements">
+                                        <button class="ml-2 btn btn-primary" [disabled]="basicInfoPatient.group==null"
+                                            (click)="question2();">Next</button>
+                                    </div>
+                                </div>
+                                <div *ngIf="step=='2'">
+                                    <h1>Do you consent to give your organization access to your data for research purposes?</h1>
+                                    <div class="center-elements">
+                                        <button class="ml-2 btn btn-primary" (click)="question3('No');">No</button>
+                                        <button class="ml-2 btn btn-primary" (click)="question3('Yes');">Yes</button>
+                                    </div>
+                                    <span class="text-muted font-small-2">
+                                        Your data will be anonymised and aggregated with other patient´s to help the development of new drugs, clinical research, study significant benefit and update your disease´s database
+                                    </span>
+                                </div>
+                                <div *ngIf="step=='3'">
+                                    <h1>Thanks you!</h1>
+                                    <div class="center-elements">
+                                        <button class="ml-2 btn btn-primary" (click)="goStep('0')">Continue</button>
+                                    </div>
+                                </div>
                             </div>
-                            <input type="text" class="form-control" aria-label="Search here">
-                            <div class="input-group-append">
-                              <span class="input-group-text"><i class="fa fa-microphone microphone-ico"></i></span>
-                            </div>
-                          </div>
+                            <div *ngIf="basicInfoPatient.group!=null && step=='0'">
+                                <h1>How can i help you?</h1>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-search search-ico"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Search here">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i
+                                                class="fa fa-microphone microphone-ico"></i></span>
+                                    </div>
+                                </div>
 
-                        <a routerLink="/register" class="round btn btn-secondary mt-4 mb-4 btn-block" title="I want to join">
-                            <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> Visualize your data</span>
-                        </a>
-                        <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
-                            <span class="menu-title">Track a seizure</span>
-                        </a>
-                        <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
-                            <span class="menu-title">How do i feel today?</span>
-                        </a>
-                        <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
-                            <span class="menu-title">Report a medical event</span>
-                        </a>
+                                <a routerLink="/register" class="round btn btn-secondary mt-4 mb-4 btn-block"
+                                    title="I want to join">
+                                    <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> Visualize your
+                                        data</span>
+                                </a>
+                                <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
+                                    <span class="menu-title">Track a seizure</span>
+                                </a>
+                                <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
+                                    <span class="menu-title">How do i feel today?</span>
+                                </a>
+                                <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
+                                    <span class="menu-title">Report a medical event</span>
+                                </a>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
