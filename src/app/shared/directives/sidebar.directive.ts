@@ -57,7 +57,7 @@ export class SidebarDirective implements OnInit, AfterViewInit {
             this.toggleHideSidebar.emit(false);
           }
         }else{
-          //this.toggleHideSidebar.emit(true);
+          this.toggleHideSidebar.emit(true);
         }
 
 
@@ -162,6 +162,7 @@ export class SidebarDirective implements OnInit, AfterViewInit {
     }
   }
 
+  // check outside click and close sidebar for smaller screen <992
   // check outside click and close sidebar for smaller screen <992
   @HostListener("document:click", ["$event"])
   onOutsideClick(event) {

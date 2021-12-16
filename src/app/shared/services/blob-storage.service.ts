@@ -197,97 +197,6 @@ export class BlobStorageService {
     }.bind(this));
   }
 
-  loadFilesOnBlobExomizer(containerName,path){
-   this.filesOnBlob = [];
-   this.vcfFilesOnBlob = [];
-   var patternFileNameExomiser;
-   if(path!=null){
-    patternFileNameExomiser=path+'/';
-   }
-   else{
-    patternFileNameExomiser='exomiser/';
-   }
-   //console.log(patternFileNameExomiser)
-   var patternFileNameVcf='vcf/';
-    this.blobService.listBlobsSegmented(containerName, null, {
-      publicAccessLevel: 'blob'
-    }, function(error, result, response) {
-      if (!error) {
-        //console.log(result.entries);
-        var filesgeno = [];
-        var filesgenovcf = [];
-        for (var i = 0; i < result.entries.length; i++) {
-          if(result.entries[i].name.indexOf(patternFileNameExomiser)!=-1){
-            if((result.entries[i].name).indexOf('.json')!=-1) {
-            //if(((result.entries[i].name).indexOf('exomizer')!=-1 && (result.entries[i].name).indexOf('.json')!=-1) || ((result.entries[i].name).indexOf('exomiser')!=-1 && (result.entries[i].name).indexOf('.json')!=-1)){
-              //console.log(result.entries[i]);
-              filesgeno.push(result.entries[i]);
-            }
-          }
-          if(result.entries[i].name.indexOf(patternFileNameVcf)!=-1){
-            if((result.entries[i].name).indexOf('.vcf')!=-1){
-              var extension1 = (result.entries[i].name).substr((result.entries[i].name).lastIndexOf('.'));
-              //console.log(extension1)
-              var pos = (result.entries[i].name).lastIndexOf('.')
-              pos=pos-4;
-              if(pos>0 && extension1 == '.gz'){
-                extension1 = (result.entries[i].name).substr(pos);
-              }
-              if(extension1 == '.vcf' || extension1 == '.vcf.gz'){
-                //console.log(result.entries[i]);
-                filesgenovcf.push(result.entries[i]);
-              }
-            }
-          }
-        }
-        this.filesOnBlob = filesgeno;
-        //console.log(this.filesOnBlob)
-        this.changeFilesExomizerBlob.emit(this.filesOnBlob);
-        this.vcfFilesOnBlob = filesgenovcf;
-        this.changeFilesExomizerBlobVcf.emit(this.vcfFilesOnBlob);
-        //console.log(this.vcfFilesOnBlob)
-        // if result = true, container was created.
-        // if result = false, container already existed.
-      }
-    }.bind(this));
-  }
-
-  loadFilesOnNewBlobExomizerSetting(containerName){
-   this.vcfFilesOnBlob = [];
-   var patternFileNameVcf='vcf/';
-    this.blobService.listBlobsSegmented(containerName, null, {
-      publicAccessLevel: 'blob'
-    }, function(error, result, response) {
-      if (!error) {
-        //console.log(result.entries);
-        var filesgeno = [];
-        var filesgenovcf = [];
-        //console.log(result.entries.length)
-        for (var i = 0; i < result.entries.length; i++) {
-          if(result.entries[i].name.indexOf(patternFileNameVcf)!=-1){
-            if((result.entries[i].name).indexOf('.vcf')!=-1){
-              var extension1 = (result.entries[i].name).substr((result.entries[i].name).lastIndexOf('.'));
-              var pos = (result.entries[i].name).lastIndexOf('.')
-              pos=pos-4;
-              if(pos>0 && extension1 == '.gz'){
-                extension1 = (result.entries[i].name).substr(pos);
-              }
-              if(extension1 == '.vcf' || extension1 == '.vcf.gz'){
-                //console.log(result.entries[i]);
-                filesgenovcf.push(result.entries[i]);
-              }
-
-            }
-          }
-
-        }
-        this.vcfFilesOnBlob = filesgenovcf;
-        //console.log(this.vcfFilesOnBlob)
-        this.changeFilesExomizerBlobVcf.emit(this.vcfFilesOnBlob);
-      }
-    }.bind(this));
-  }
-
   loadFilesVCF(containerName){
    this.vcfFilesOnBlob = [];
    var patternFileNameVcf='vcf/';
@@ -331,8 +240,8 @@ export class BlobStorageService {
         //console.log(result.entries);
         var filesgenovcf = [];
         for (var i = 0; i < result.entries.length; i++) {
-          if(((result.entries[i].name).indexOf('.vcf')!=-1 && result.entries[i].name.indexOf(patternFileNameVcf)!=-1) || (result.entries[i].name).indexOf('genofilepatient')!=-1){
-            if((result.entries[i].name).indexOf('genofilepatient')!=-1){
+          if(((result.entries[i].name).indexOf('.vcf')!=-1 && result.entries[i].name.indexOf(patternFileNameVcf)!=-1) || (result.entries[i].name).indexOf('raitofile/')!=-1){
+            if((result.entries[i].name).indexOf('raitofile/')!=-1){
               //console.log(result.entries[i]);
               filesgenovcf.push(result.entries[i]);
             }else{
@@ -353,25 +262,6 @@ export class BlobStorageService {
         this.changeFilesExomizerBlobVcf.emit(this.vcfFilesOnBlob);
         // if result = true, container was created.
         // if result = false, container already existed.
-      }
-    }.bind(this));
-  }
-
-  loadFilesHtmlExomiserOnBlob(containerName){
-    var patternFileNameExomiser='exomiser/';
-    this.blobService.listBlobsSegmented(containerName, null, {
-      publicAccessLevel: 'blob'
-    }, function(error, result, response) {
-      if (!error) {
-        var fileshtml = [];
-        for (var i = 0; i < result.entries.length; i++) {
-          if(result.entries[i].name.indexOf(patternFileNameExomiser)!=-1){
-            if((result.entries[i].name).indexOf('.html')!=-1){
-              fileshtml.push(result.entries[i]);
-            }
-          }
-        }
-        this.changeFilesHtmlExomiserBlob.emit(fileshtml);
       }
     }.bind(this));
   }
@@ -425,8 +315,8 @@ export class BlobStorageService {
         var fileshtml = [];
         for (var i = 0; i < result.entries.length; i++) {
           var temfile = (result.entries[i].name);
-          if(temfile.indexOf('ncrresult.json')!=-1 || temfile.indexOf('.docx')!=-1 || temfile.indexOf('.pdf')!=-1 || temfile.indexOf('.html')!=-1 || temfile.indexOf('.vcf')!=-1 || temfile.indexOf('.vcf.gz')!=-1 || temfile.indexOf('.jpg')!=-1 || temfile.indexOf('.png')!=-1 || temfile.indexOf('.gif')!=-1 || temfile.indexOf('.tiff')!=-1 || temfile.indexOf('.tif')!=-1 || temfile.indexOf('.bmp')!=-1 || temfile.indexOf('.dib')!=-1 || temfile.indexOf('.bpg')!=-1 || temfile.indexOf('.psd')!=-1 || temfile.indexOf('.jpeg')!=-1 || temfile.indexOf('.jpe')!=-1 || temfile.indexOf('.jfif')!=-1){
-            if((result.entries[i].name).indexOf('ncrresult.json')!=-1){
+          if(temfile.indexOf('textanaresult.json')!=-1 || temfile.indexOf('.docx')!=-1 || temfile.indexOf('.pdf')!=-1 || temfile.indexOf('.html')!=-1 || temfile.indexOf('.vcf')!=-1 || temfile.indexOf('.vcf.gz')!=-1 || temfile.indexOf('.jpg')!=-1 || temfile.indexOf('.png')!=-1 || temfile.indexOf('.gif')!=-1 || temfile.indexOf('.tiff')!=-1 || temfile.indexOf('.tif')!=-1 || temfile.indexOf('.bmp')!=-1 || temfile.indexOf('.dib')!=-1 || temfile.indexOf('.bpg')!=-1 || temfile.indexOf('.psd')!=-1 || temfile.indexOf('.jpeg')!=-1 || temfile.indexOf('.jpe')!=-1 || temfile.indexOf('.jfif')!=-1){
+            if((result.entries[i].name).indexOf('textanaresult.json')!=-1){
               result.entries[i].ncrresult = true;
             }
             fileshtml.push(result.entries[i]);
@@ -445,8 +335,8 @@ export class BlobStorageService {
         var filesncr = [];
         for (var i = 0; i < result.entries.length; i++) {
           var temfile = (result.entries[i].name);
-          if(temfile.indexOf('ncrresult.json')!=-1 ){
-            if((result.entries[i].name).indexOf('ncrresult.json')!=-1){
+          if(temfile.indexOf('textanaresult.json')!=-1 ){
+            if((result.entries[i].name).indexOf('textanaresult.json')!=-1){
               result.entries[i].ncrresult = true;
             }
             filesncr.push(result.entries[i]);

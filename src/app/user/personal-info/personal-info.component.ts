@@ -52,6 +52,7 @@ export class PersonalInfoComponent implements OnInit {
   lang: string = 'en';
   countries: any = [];
   userId: string = '';
+  groups: Array<any> = [];
   selectedPatient: any = {};
   loadedPatientId: boolean = false;
   loadedInfoPatient: boolean = false;
@@ -92,12 +93,25 @@ export class PersonalInfoComponent implements OnInit {
       siblings: [],
       parents: [],
       group: null,
-      previousDiagnosis: null
+      previousDiagnosis: null,
+      consentGiven: 'No'
     };
 
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
     this.loadCountries();
+    this.loadGroups();
 
+   }
+
+   loadGroups(){
+    this.subscription.add( this.apiDx29ServerService.loadGroups()
+    .subscribe( (res : any) => {
+      console.log(res);
+      this.groups = res;
+      this.groups.sort(this.sortService.GetSortOrder("name"));
+    }, (err) => {
+      console.log(err);
+    }));    
    }
 
   ngOnInit(): void {
@@ -173,6 +187,7 @@ export class PersonalInfoComponent implements OnInit {
     this.loadedInfoPatient = false;
     this.subscription.add( this.http.get(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub)
         .subscribe( (res : any) => {
+          console.log(res);
           this.datainfo = res.patient;
           this.datainfo.birthDate=this.dateService.transformDate(res.patient.birthDate);
           this.datainfoCopy = JSON.parse(JSON.stringify(res.patient));
@@ -227,7 +242,6 @@ export class PersonalInfoComponent implements OnInit {
         params.birthDate = tempDateStartDate.toUTCString();
         this.datainfo.birthDate = new Date(Date.parse(params.birthDate));
       }
-      this.datainfo.country = this.countrySelected;
       this.datainfo.previousDiagnosis = this.actualInfoOneDisease.id;
       console.log(this.datainfo);
       this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub, this.datainfo)

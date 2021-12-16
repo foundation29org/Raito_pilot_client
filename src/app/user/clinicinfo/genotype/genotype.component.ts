@@ -1,4 +1,4 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ export function getCulture() {
   providers: [PatientService, ApiDx29ServerService, { provide: LOCALE_ID, useFactory: getCulture }]
 })
 
-export class GenotypeComponent implements OnInit {
+export class GenotypeComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   preparingFile: boolean = false;
   uploadingGenotype: boolean = false;
@@ -38,7 +38,6 @@ export class GenotypeComponent implements OnInit {
   };
 
   filesVcf: any = [];
-  otherGeneFiles: any = [];
   loadedGeno: boolean = false;
   userId: string = '';
   loadedPatientId: boolean = false;
@@ -68,16 +67,6 @@ export class GenotypeComponent implements OnInit {
           }
         }
         var filesVcf = [];
-        var otherGeneFiles = [];
-        for (var i = 0; i < vcfFilesOnBlob.length; i++) {
-          if (vcfFilesOnBlob[i].name.indexOf('genofilepatient-') != -1) {
-            var name = vcfFilesOnBlob[i].name.substr(vcfFilesOnBlob[i].name.indexOf('-') + 1)
-            vcfFilesOnBlob[i].simplename = name;
-            otherGeneFiles.push(vcfFilesOnBlob[i])
-          } else {
-            filesVcf.push(vcfFilesOnBlob[i])
-          }
-        }
         for (var i = 0; i < filesVcf.length; i++) {
           filesVcf[i].nameForShow = ""
         }
@@ -90,8 +79,6 @@ export class GenotypeComponent implements OnInit {
             filesVcf[i].nameForShow = filesVcf[i].name;
           }
         }
-
-        this.otherGeneFiles = otherGeneFiles;
         this.filesVcf = filesVcf;
       } else {
         console.log('no tiene!');
@@ -100,6 +87,10 @@ export class GenotypeComponent implements OnInit {
     }));
 
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    }
 
   initEnvironment(){
     this.userId = this.authService.getIdUser();
@@ -157,12 +148,8 @@ export class GenotypeComponent implements OnInit {
           extension = (filename).substr(pos);
         }
         filename = filename.split(extension)[0];
-        if (extension == '.vcf' || extension == '.vcf.gz' || extension == '.pdf' || extension == '.docx') {
-          if (extension == '.vcf' || extension == '.vcf.gz') {
-            filename = filename + extension;
-          } else {
-            filename = 'genofilepatient-' + filename + extension;
-          }
+        if (extension == '.vcf' || extension == '.vcf.gz') {
+          filename = filename + extension;
           this.uploadingGenotype = true;
           this.uploadProgress = this.blob
             .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
@@ -183,12 +170,8 @@ export class GenotypeComponent implements OnInit {
         var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
         extension = extension.toLowerCase();
         var filename = event[0].name;
-        if (extension == '.vcf' || extension == '.vcf.gz' || extension == '.pdf' || extension == '.docx') {
-          if (extension == '.vcf' || extension == '.vcf.gz') {
-            filename = filename;
-          } else {
-            filename = 'genofilepatient-' + filename;
-          }
+        if (extension == '.vcf' || extension == '.vcf.gz') {
+          filename = filename;
           this.uploadingGenotype = true;
           this.uploadProgress = this.blob
             .uploadToBlobStorage(this.accessToken, event[0], filename, 'patientGenoFiles');
@@ -199,13 +182,10 @@ export class GenotypeComponent implements OnInit {
     }
 }
 
-  deleteFile(file,i, type) {
+  deleteFile(file,i) {
     var filename = '';
-    if(type=='VCF'){
-      filename = file.nameForShow;
-    }else if(type=='Other'){
-      filename = file.simplename;
-    }
+    filename = file.nameForShow;
+    
     Swal.fire({
       title: this.translate.instant("generics.Are you sure delete") + " " + filename + " ?",
       icon: 'warning',
@@ -219,11 +199,7 @@ export class GenotypeComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        if(type=='VCF'){
-          this.deleteVcfFile(file.name,i);
-        }else if(type=='Other'){
-          this.deleteOtherFile(file.name,i);
-        }
+        this.deleteVcfFile(file.name,i);
       }
     });
 
@@ -238,17 +214,6 @@ export class GenotypeComponent implements OnInit {
         }
         this.filesVcf.splice(i, 1);
         this.blob.deleteBlob(this.accessToken.containerName , file);
-  }
-
-  deleteOtherFile(file,i){
-    var enc =false;
-    for(var j = 0; j < this.otherGeneFiles.length && !enc; j++) {
-      if(this.otherGeneFiles[j].name==file){
-        enc = true;
-      }
-    }
-    this.otherGeneFiles.splice(i, 1);
-    this.blob.deleteBlob(this.accessToken.containerName , file);
   }
 
 }

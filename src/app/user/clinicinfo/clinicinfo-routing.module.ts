@@ -6,6 +6,7 @@ import { RoleGuard } from 'app/shared/auth/role-guard.service';
 import { SymptomsComponent } from './symptoms/symptoms.component';
 import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
+import { CalendarsComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,15 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard, RoleGuard]
       },
+      {
+        path: 'calendar',
+        component: CalendarsComponent,
+        data: {
+          title: 'menu.Calendar',
+          expectedRole: ['User']
+        },
+        canActivate: [AuthGuard, RoleGuard]
+      }
     ]
   }
 ];

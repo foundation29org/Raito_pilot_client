@@ -204,7 +204,7 @@ export class SortService {
 
     GetSortFilesNcrName(prop: string, lang: string) {
         return function (a, b) {
-            if (a.origenFile[prop] == 'ncrresult.json') {
+            if (a.origenFile[prop] == 'textanaresult.json') {
                 if (lang == 'es') {
                     a.origenFile[prop] = 'Free Text'
                 } else {

@@ -118,7 +118,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
-    
     this.config = this.configService.templateConf;
     if(this.authService.getRole() == 'SuperAdmin'){
       //cargar menú del Admin

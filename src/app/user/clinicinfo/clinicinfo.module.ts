@@ -23,6 +23,11 @@ import {MatIconModule} from '@angular/material/icon';
 import { SymptomsComponent } from './symptoms/symptoms.component';
 import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
+import { CalendarsComponent } from './calendar/calendar.component';
+import { DateTimePickerComponent } from './calendar/date-time-picker.component';
+import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
+import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomFormsModule } from 'ngx-custom-validators';
 
 import {DndDirective} from "app/shared/directives/dnd.directive";
 
@@ -44,13 +49,20 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
         MatNativeDateModule,
         MatInputModule,
         MatStepperModule,
-        MatIconModule
+        MatIconModule,
+        CalendarModule.forRoot(),
+        NgbModalModule,
+        NgbDatepickerModule,
+        NgbTimepickerModule,
+        CustomFormsModule
     ],
     exports: [TranslateModule],
     declarations: [
         SymptomsComponent,
         GenotypeComponent,
         MedicalRecordsComponent,
+        CalendarsComponent,
+        DateTimePickerComponent,
         DndDirective
     ],
     providers: [],
