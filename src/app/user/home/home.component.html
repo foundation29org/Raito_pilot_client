@@ -76,13 +76,13 @@
                                     <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> Visualize your
                                         data</span>
                                 </a>
-                                <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
+                                <a routerLink="/seizures" class="btn btn-primary btn-block" title="I want to join">
                                     <span class="menu-title">Track a seizure</span>
                                 </a>
-                                <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
+                                <a routerLink="/feel" class="btn btn-primary btn-block" title="I want to join">
                                     <span class="menu-title">How do i feel today?</span>
                                 </a>
-                                <a routerLink="/register" class="btn btn-primary btn-block" title="I want to join">
+                                <a [routerLink]="['/medication', { addOther: true}]" class="btn btn-primary btn-block" title="I want to join">
                                     <span class="menu-title">Report a medical event</span>
                                 </a>
                             </div>

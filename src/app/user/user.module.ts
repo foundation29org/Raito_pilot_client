@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { FeelComponent } from './feel/feel.component';
 
 @NgModule({
     exports: [
@@ -40,7 +41,8 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
     ],
     declarations: [
         HomeComponent,
-        PersonalInfoComponent
+        PersonalInfoComponent,
+        FeelComponent
     ]
 })
 export class UserModule { }

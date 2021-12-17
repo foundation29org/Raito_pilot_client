@@ -7,6 +7,7 @@ import { SymptomsComponent } from './symptoms/symptoms.component';
 import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
 import { CalendarsComponent } from './calendar/calendar.component';
+import { MedicationComponent } from './medication/medication.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,15 @@ const routes: Routes = [
         component: CalendarsComponent,
         data: {
           title: 'menu.Seizures',
+          expectedRole: ['User']
+        },
+        canActivate: [AuthGuard, RoleGuard]
+      },
+      {
+        path: 'medication',
+        component: MedicationComponent,
+        data: {
+          title: 'clinicalinfo.Medication',
           expectedRole: ['User']
         },
         canActivate: [AuthGuard, RoleGuard]

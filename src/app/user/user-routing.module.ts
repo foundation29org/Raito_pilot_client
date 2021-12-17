@@ -6,6 +6,7 @@ import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { FeelComponent } from './feel/feel.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,15 @@ const routes: Routes = [
     component: PersonalInfoComponent,
     data: {
       title: 'menu.Personal Info',
+      expectedRole: ['User']
+    },
+    canActivate: [AuthGuard, RoleGuard]
+  },
+  {
+    path: 'feel',
+    component: FeelComponent,
+    data: {
+      title: 'menu.Feel',
       expectedRole: ['User']
     },
     canActivate: [AuthGuard, RoleGuard]
