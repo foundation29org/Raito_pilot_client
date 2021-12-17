@@ -27,8 +27,7 @@
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
               "src/styles.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/angular-calendar/scss/angular-calendar.scss"
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "src/assets/vendor/pace/pace.min.js",

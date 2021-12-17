@@ -45,7 +45,7 @@
     "@swimlane/ngx-datatable": "^16.0.3",
     "@types/jquery": "^3.3.34",
     "@types/node": "^13.7.1",
-    "angular-calendar": "^0.24.1",
+    "angular-calendar": "^0.28.28",
     "angulartics2": "^8.3.0",
     "apexcharts": "^3.27.2",
     "bootstrap": "4.4.1",

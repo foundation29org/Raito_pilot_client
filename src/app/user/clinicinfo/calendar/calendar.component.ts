@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -9,49 +9,20 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 
-interface MyEvent extends CalendarEvent {
+interface MyEvent{
   _id: any;
   GUID: any;
   type: any;
   duracion: any;
-  disparadores: any;
-  disparadorEnfermo: any;
-  disparadorOtro: any;
-  disparadorNotas: any;
-  descripcion: any;
-  descripcionRigidez: any;
-  descripcionContraccion: any;
-  descripcionOtro: any;
-  descipcionNotas: any;
-  postCrisis: any;
-  postCrisisOtro: any;
-  postCrisisNotas: any;
-  estadoAnimo: any;
-  estadoConsciencia: any;
+  notes: any;
+  start: any;
 }
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
 
 @Component({
   selector: 'app-calendar',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
@@ -72,23 +43,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     event: MyEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: MyEvent }): void => {
-        this.handleEvent('Edit this event', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: MyEvent }): void => {
-        
-        this.eliminarSeizure(event);
-      //this.handleEvent('This event is deleted!', event);
-      }
-    }
-  ];
-
   refresh: Subject<any> = new Subject();
 
   events: MyEvent[] = [];
@@ -97,6 +51,10 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   loading: boolean = false;
   saving: boolean = false;
 
+  private msgDataSavedOk: string;
+  private msgDataSavedFail: string;
+  step: string = '0';
+  activeIds: string[] =[];
   private subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService) { }
@@ -108,7 +66,17 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   ngOnInit() {
 
     this.loadData();
-    //this.loadSampleData();
+    this.addEvent();
+    this.loadTranslations();
+  }
+
+  loadTranslations(){
+    this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
+      this.msgDataSavedOk=res;
+    });
+    this.translate.get('generics.Data saved fail').subscribe((res: string) => {
+      this.msgDataSavedFail=res;
+    });
   }
 
   loadData(){
@@ -128,8 +96,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
             if(res.length>0){
               for(var i = 0; i < res.length; i++) {
                 res[i].start = new Date(res[i].start);
-                res[i].end = new Date(res[i].end);
-                res[i].actions = this.actions;
               }
               this.events = res;
               this.refresh.next();
@@ -155,114 +121,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
      }));
   }
 
-  loadSampleData(){
-    this.events = [
-      {
-        _id: '1',
-        GUID: '',
-        type: null,
-        duracion: {hours: 0, minutes: 0, seconds:0},
-        disparadores:[],
-  		  disparadorEnfermo:"",
-  		  disparadorOtro:"",
-  		  disparadorNotas:"",
-  		  descripcion:[],
-  		  descripcionRigidez:"",
-  		  descripcionContraccion:"",
-  		  descripcionOtro:"",
-  		  descipcionNotas:"",
-  		  postCrisis:[],
-  		  postCrisisOtro:"",
-  		  postCrisisNotas:"",
-  		  estadoAnimo:"",
-  		  estadoConsciencia:"",
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        actions: this.actions
-      },
-      {
-        _id: '2',
-        GUID: '',
-        type: null,
-        duracion: {hours: 0, minutes: 0, seconds:0},
-        disparadores:[],
-  		  disparadorEnfermo:"",
-  		  disparadorOtro:"",
-  		  disparadorNotas:"",
-  		  descripcion:[],
-  		  descripcionRigidez:"",
-  		  descripcionContraccion:"",
-  		  descripcionOtro:"",
-  		  descipcionNotas:"",
-  		  postCrisis:[],
-  		  postCrisisOtro:"",
-  		  postCrisisNotas:"",
-  		  estadoAnimo:"",
-  		  estadoConsciencia:"",
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        actions: this.actions
-      },
-      {
-        _id: '3',
-        GUID: '',
-        type: null,
-        duracion: {hours: 0, minutes: 0, seconds:0},
-        disparadores:[],
-  		  disparadorEnfermo:"",
-  		  disparadorOtro:"",
-  		  disparadorNotas:"",
-  		  descripcion:[],
-  		  descripcionRigidez:"",
-  		  descripcionContraccion:"",
-  		  descripcionOtro:"",
-  		  descipcionNotas:"",
-  		  postCrisis:[],
-  		  postCrisisOtro:"",
-  		  postCrisisNotas:"",
-  		  estadoAnimo:"",
-  		  estadoConsciencia:"",
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-      },
-      {
-        _id: '4',
-        GUID: '',
-        type: null,
-        duracion: {hours: 0, minutes: 0, seconds:0},
-        disparadores:[],
-  		  disparadorEnfermo:"",
-  		  disparadorOtro:"",
-  		  disparadorNotas:"",
-  		  descripcion:[],
-  		  descripcionRigidez:"",
-  		  descripcionContraccion:"",
-  		  descripcionOtro:"",
-  		  descipcionNotas:"",
-  		  postCrisis:[],
-  		  postCrisisOtro:"",
-  		  postCrisisNotas:"",
-  		  estadoAnimo:"",
-  		  estadoConsciencia:"",
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        actions: this.actions,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        },
-        draggable: false
-      }
-    ];
-  }
-
   dayClicked({ date, events }: { date: Date; events: MyEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -279,44 +137,28 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 
   handleEvent(action: string, event: MyEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    //this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
-    if(this.lastEvent!=undefined){
+    /*if(this.lastEvent!=undefined){
       this.newEvent = JSON.parse(JSON.stringify(this.lastEvent));
-    }else{
-      this.newEvent = {
-        _id: null,
-        GUID: '',
-        type: null,
-        duracion: {hours: 0, minutes: 0, seconds:0},
-        disparadores:[],
-  		  disparadorEnfermo:"",
-  		  disparadorOtro:"",
-  		  disparadorNotas:"",
-  		  descripcion:[],
-  		  descripcionRigidez:"",
-  		  descripcionContraccion:"",
-  		  descripcionOtro:"",
-  		  descipcionNotas:"",
-  		  postCrisis:[],
-  		  postCrisisOtro:"",
-  		  postCrisisNotas:"",
-  		  estadoAnimo:"",
-  		  estadoConsciencia:"",
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        actions: this.actions,
       }
+    }else{
+    }*/
+    this.newEvent = {
+      _id: null,
+      GUID: '',
+      type: null,
+      duracion: 0,
+      notes:"",
+      start: startOfDay(new Date()),
     }
 
-    this.events.push(this.newEvent);
+    //this.events.push(this.newEvent);
 
     // this.refresh.next();
-    this.handleEvent('Add new event', this.newEvent);
+    this.handleEvent('Save seizure', this.newEvent);
      this.refresh.next();
   }
 
@@ -333,7 +175,9 @@ export class CalendarsComponent implements OnInit, OnDestroy{
           //this.idSocialInfo = res.socialInfo._id;
           //this.socialInfo = res.socialInfo;
           this.saving = false;
-          //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
+          this.toastr.success('', this.msgDataSavedOk);
+          this.events.push(param);
+          this.addEvent();
          }, (err) => {
            console.log(err);
            this.saving = false;
@@ -349,7 +193,9 @@ export class CalendarsComponent implements OnInit, OnDestroy{
           //this.idSocialInfo = res.socialInfo._id;
           //this.socialInfo = res.socialInfo;
           this.saving = false;
-          //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
+          this.toastr.success('', this.msgDataSavedOk);
+          this.events.push(param);
+          this.addEvent();
          }, (err) => {
            console.log(err.error);
            this.saving = false;
@@ -387,102 +233,26 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       var newEvent = {
         GUID: '',
         type: null,
-        duracion: {hours: 0, minutes: 0, seconds:0},
-        disparadores:[],
-  		  disparadorEnfermo:"",
-  		  disparadorOtro:"",
-  		  disparadorNotas:"",
-  		  descripcion:[],
-  		  descripcionRigidez:"",
-  		  descripcionContraccion:"",
-  		  descripcionOtro:"",
-  		  descipcionNotas:"",
-  		  postCrisis:[],
-  		  postCrisisOtro:"",
-  		  postCrisisNotas:"",
-  		  estadoAnimo:"",
-  		  estadoConsciencia:"",
-        title: 'New event',
+        duracion: 0,
+  		  notes:"",
         start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red
       }
 			var cogerhora = seizurelist[i].Date_Time.split(' ');
 
-
-			var cogerhoraexacta=cogerhora[1].split(':')
-			//$scope.crisisaimportar.hora=cogerhoraexacta[0]+":"+cogerhoraexacta[1];
-
-
-			//$scope.crisisaimportar.duracion=seizurelist[i].length_hr+":"+seizurelist[i].length_min+":"+seizurelist[i].length_sec;
-
-
-
-			var disparadores=[];
-			disparadores.push(seizurelist[i].triggerchangeinmed);
-			disparadores.push(seizurelist[i].triggertired);
-			disparadores.push(seizurelist[i].triggerdiet);
-			disparadores.push(seizurelist[i].triggerAlcDruguse);
-			disparadores.push(seizurelist[i].triggerlight);
-			disparadores.push(seizurelist[i].triggerstress);
-			disparadores.push(seizurelist[i].triggeroverheated);
-			disparadores.push(seizurelist[i].triggerhormonal);
-			newEvent.disparadores = this.obtenerDisparadoresImportar(disparadores);
-
-
-			newEvent.disparadorEnfermo = this.parsearacentos(seizurelist[i].triggersickdescript);//no va
-
-			newEvent.disparadorOtro = this.parsearacentos(seizurelist[i].triggerothervalue);//no va
-
-			newEvent.disparadorNotas = this.parsearacentos(seizurelist[i].triggernotes);//no va
-
-			var descripcion=[];
-			descripcion.push(seizurelist[i].descriptaura);
-			descripcion.push(seizurelist[i].descriptawareness);
-			descripcion.push(seizurelist[i].descripturinebowel);
-			descripcion.push(seizurelist[i].descriptlosscomm);
-			descripcion.push(seizurelist[i].descriptautomove);
-			newEvent.descripcion = this.obtenerDescripcionesImportar(descripcion);
-
-
-			newEvent.descripcionRigidez = this.obtenerParteCuerpo(seizurelist[i].descriptmuscstiffvalue);
-
-			newEvent.descripcionContraccion = this.obtenerParteCuerpo(seizurelist[i].descriptmustwitval);
-
-			newEvent.descripcionOtro = this.parsearacentos(seizurelist[i].descriptothervalue);//no va
-
-
-			newEvent.descipcionNotas = this.parsearacentos(seizurelist[i].descriptnotes);//no va
-
-			var postCrisis=[];
-			postCrisis.push(seizurelist[i].postlosscommuni);
-			postCrisis.push(seizurelist[i].posteventrecalection);
-			postCrisis.push(seizurelist[i].postmusweakness);
-			postCrisis.push(seizurelist[i].postsleepy);
-			newEvent.postCrisis = this.obtenerPostCrisisImportar(postCrisis);
-
-			newEvent.postCrisisOtro = this.parsearacentos(seizurelist[i].postothervalue);
-
-			newEvent.postCrisisNotas = this.parsearacentos(seizurelist[i].postnotes);
-
-			newEvent.estadoAnimo = seizurelist[i].triggermood;//obtener en castellano
+			newEvent.notes = newEvent.notes + this.parsearacentos(seizurelist[i].triggernotes);//no va
+			newEvent.notes = newEvent.notes + this.parsearacentos(seizurelist[i].descriptothervalue);//no va
+			newEvent.notes = newEvent.notes + this.parsearacentos(seizurelist[i].descriptnotes);//no va
+			newEvent.notes = newEvent.notes + this.parsearacentos(seizurelist[i].postnotes);
 
       var parsedate = cogerhora[0]+"T00:00:00.000Z";
       newEvent.GUID= seizurelist[i].GUID.trim();
       newEvent.type = this.obtenerTipoConvImportar(seizurelist[i].type);
       if(parseInt(seizurelist[i].length_min)>=60){
-				newEvent.duracion.hours=(parseInt(seizurelist[i].length_hr)+1);
-        newEvent.duracion.minutes=(parseInt(seizurelist[i].length_min)-60);
-        newEvent.duracion.seconds=(parseInt(seizurelist[i].length_sec));
+        newEvent.duracion = (parseInt(seizurelist[i].length_hr)+1)*60+(parseInt(seizurelist[i].length_min)-60);
 			}else{
-				newEvent.duracion.hours=seizurelist[i].length_hr;
-        newEvent.duracion.minutes=seizurelist[i].length_min;
-        newEvent.duracion.seconds=seizurelist[i].length_sec;
+        newEvent.duracion = seizurelist[i].length_hr*60+seizurelist[i].length_min;
 			}
       newEvent.start=new Date(parsedate);
-      newEvent.end=new Date(parsedate);
-      //newEvent.start=cogerhora[0]+"T"+cogerhoraexacta[0]+":"+cogerhoraexacta[1]+":00.0000000Z";//cambiar dia por mes?
-      newEvent.title = 'Imported '+ i;
 
 			listToUpload.push(newEvent);
     }
@@ -538,31 +308,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
              resultado="Other";
       }
       return resultado;
-  }
-
-  obtenerDisparadoresImportar(arraydisparadores){
-    var resultado  = [];
-        var numeroDisparadores=arraydisparadores.length;
-         for (var i = 0; i<numeroDisparadores;i++){
-             if(arraydisparadores[i]=='Changes in Medication (including late or missed)'){
-                resultado.push("Changes in Medication (including late or missed)");
-             }else if(arraydisparadores[i]=='Irregular Diet'){
-                resultado.push("Irregular Diet");
-             }else if(arraydisparadores[i]=='Bright or flashing lights'){
-                resultado.push("Bright or flashing lights");
-             }else if(arraydisparadores[i]=='Fever or overheated'){
-                resultado.push("Fever or overheated");
-             }else if(arraydisparadores[i]=='Overtired or irregular sleep'){
-                resultado.push("Overtired or irregular sleep");
-             }else if(arraydisparadores[i]=='Alcohol or drug use'){
-                resultado.push("Alcohol or drug use");
-             }else if(arraydisparadores[i]=='Emotional Stress'){
-                resultado.push("Emotional Stress");
-             }else if(arraydisparadores[i]=='Hormonal fluctuations'){
-                resultado.push("Hormonal fluctuations");
-             }
-         }
-    return resultado;
   }
 
   parsearacentos(textoparsear){
@@ -622,64 +367,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     return foo;
 }
 
-  obtenerDescripcionesImportar(arraydisparadores){
-    var resultado  = [];
-        var numeroDisparadores=arraydisparadores.length;
-         for (var i = 0; i<numeroDisparadores;i++){
-             if(arraydisparadores[i]=='Had an aura'){
-                resultado.push("Had an aura");
-             }else if(arraydisparadores[i]=='Change in awareness'){
-                resultado.push("Change in awareness");
-             }else if(arraydisparadores[i]=='Loss of ability to communicate'){
-                resultado.push("Loss of ability to communicate");
-             }else if(arraydisparadores[i]=='Loss of urine or bowel control'){
-                resultado.push("Loss of urine or bowel control");
-             }else if(arraydisparadores[i]=='Automatic repeated movements'){
-                resultado.push("Automatic repeated movements");
-             }
-         }
-    return resultado;
-  }
-
-  obtenerParteCuerpo(formatotraducion){
-      var resultado=formatotraducion;
-      if(formatotraducion=="right arm"){
-             resultado="Right arm";
-      }else if(formatotraducion=="right leg"){
-             resultado="Right leg";
-      }else if(formatotraducion=="right side"){
-             resultado="Right side";
-      }else if(formatotraducion=="left arm"){
-             resultado="Left arm";
-      }else if(formatotraducion=="left leg"){
-             resultado="Left leg";
-      }else if(formatotraducion=="left side"){
-             resultado="Left side";
-      }else if(formatotraducion=="whole body"){
-             resultado="Whole body";
-      }
-
-      return resultado;
-  }
-
-  obtenerPostCrisisImportar(arraydescripciones){
-    var resultado  = [];
-
-        var numeroDisparadores=arraydescripciones.length;
-         for (var i = 0; i<numeroDisparadores;i++){
-             if(arraydescripciones[i]=='Unable to communicate'){
-                resultado.push("Unable to communicate");
-             }else if(arraydescripciones[i]=='Muscle weakness'){
-                resultado.push("Muscle weakness");
-             }else if(arraydescripciones[i]=='Remembers event'){
-                resultado.push("Remembers event");
-             }else if(arraydescripciones[i]=='Sleepy'){
-                resultado.push("Sleepy");
-             }
-         }
-    return resultado;
-  }
-
   saveMassiveSeizures(listToUpload){
     this.subscription.add( this.http.post(environment.api+'/api/massiveseizures/'+this.authService.getCurrentPatient().sub, listToUpload)
     .subscribe( (res : any) => {
@@ -694,10 +381,10 @@ export class CalendarsComponent implements OnInit, OnDestroy{
      }));
   }
 
-  eliminarSeizure(event) {
+  deleteSeizure(event) {
     console.log(event);
     Swal.fire({
-      title: this.translate.instant("generics.Are you sure delete") + " " + event.title + " ?",
+      title: this.translate.instant("generics.Are you sure delete") + "?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#33658a',
@@ -727,52 +414,38 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 
   }
 
-  /*eliminarSeizure(event){
-    this.subscription.add( this.http.delete(environment.api+'/api/seizures/'+event._id)
-    .subscribe( (res : any) => {
-      //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
-     }, (err) => {
-       console.log(err);
-       if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-         this.authGuard.testtoken();
-       }else{
-         //this.toastr.error('', this.msgDataSavedFail, { showCloseButton: true });
-       }
-     }));
-  }*/
-
   clearData(data){
     var emptydata = {
       _id: data._id,
       GUID: '',
       type: null,
-      duracion: {hours: 0, minutes: 0, seconds:0},
-      disparadores:[],
-      disparadorEnfermo:"",
-      disparadorOtro:"",
-      disparadorNotas:"",
-      descripcion:[],
-      descripcionRigidez:"",
-      descripcionContraccion:"",
-      descripcionOtro:"",
-      descipcionNotas:"",
-      postCrisis:[],
-      postCrisisOtro:"",
-      postCrisisNotas:"",
-      estadoAnimo:"",
-      estadoConsciencia:"",
-      title: 'New event',
+      duracion: 0,
+      notes:"",
       start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      actions: this.actions,
     }
     this.modalData.event=emptydata;
     this.refresh.next();
   }
 
   openStats(){
-    this.modal.open(this.modalGraphContent, { size: 'lg' });
+    this.step = '1';
+  }
+
+  goto(index){
+    this.step = index;
+    if(index=='2'){ 
+      this.activeIds = ['init'];
+    }
+  }
+
+  getLiteral(literal) {
+    return this.translate.instant(literal);
+  }
+
+  closeDatePickerStart(eventData: any, dp?: any) {
+    // get month and year from eventData and close datepicker, thus not allowing user to select date
+    this.modalData.event.start = eventData;
+    dp.close();
   }
 }
 //Calendar event handler ends

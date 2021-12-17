@@ -57,7 +57,12 @@ export class SidebarDirective implements OnInit, AfterViewInit {
             this.toggleHideSidebar.emit(false);
           }
         }else{
-          this.toggleHideSidebar.emit(true);
+          if (this.innerWidth < 992) {
+            this.toggleHideSidebar.emit(true);
+          }else{
+            this.toggleHideSidebar.emit(false);
+          }
+          
         }
 
 
@@ -88,6 +93,9 @@ export class SidebarDirective implements OnInit, AfterViewInit {
       this.renderer.removeClass(this.$wrapper, 'nav-collapsed');
       this.renderer.removeClass(this.$wrapper, 'menu-collapsed');
       this.toggleHideSidebar.emit(true);
+    }else{
+      
+      this.toggleHideSidebar.emit(false);
     }
     this.cd.detectChanges();
   }
