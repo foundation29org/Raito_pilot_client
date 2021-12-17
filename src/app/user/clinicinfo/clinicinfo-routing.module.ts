@@ -40,10 +40,10 @@ const routes: Routes = [
         canActivate: [AuthGuard, RoleGuard]
       },
       {
-        path: 'calendar',
+        path: 'seizures',
         component: CalendarsComponent,
         data: {
-          title: 'menu.Calendar',
+          title: 'menu.Seizures',
           expectedRole: ['User']
         },
         canActivate: [AuthGuard, RoleGuard]
