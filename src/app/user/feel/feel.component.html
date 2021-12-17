@@ -1,0 +1,54 @@
+<div class="col-sm-12">
+    <div class="content-header">{{'menu.Feel' | translate }}</div>
+    <p class="content-sub-header">This is the most advanced example having various features. This
+        example lists all the events on the calendar with Add new event functionality.</p>
+</div>
+<div class="h-100">
+    <div class="col-sm-12 my-auto">
+        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 align-items-center">
+                        <div class="card mx-auto" *ngIf="step=='0'">
+                            <h2 class="card-title font-large-1 text-center content-header mb-3">Today i feel:</h2>
+                                    <form (ngSubmit)="onSubmit()" #f="ngForm">
+                                        <div class="form-group">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="mood">Estado de ánimo</label>
+                                                    <div>
+                                                        <div class="btn-group" ngbRadioGroup name="radioBasic" [(ngModel)]="mood" (click)="onSubmit()">
+                                                                <label ngbButtonLabel class="btn-raised btn-danger">
+                                                                        <input ngbButton type="radio" class="d-none" value="Very sad"> <img src='assets/img/icons/muytriste.png'>
+                                                                </label>
+                                                                <label ngbButtonLabel class="btn-raised btn-warning">
+                                                                        <input ngbButton type="radio" class="d-none" value="Sad"> <img src='assets/img/icons/triste.png'>
+                                                                </label>
+                                                                <label ngbButtonLabel class="btn-raised btn-secondary">
+                                                                        <input ngbButton type="radio" class="d-none" value="Normal"> <img src='assets/img/icons/normal.png'>
+                                                                </label>
+                                                                <label ngbButtonLabel class="btn-raised btn-yellow">
+                                                                        <input ngbButton type="radio" class="d-none" value="Happy"> <img src='assets/img/icons/feliz.png'>
+                                                                </label>
+                                                                <label ngbButtonLabel class="btn-raised btn-success">
+                                                                        <input ngbButton type="radio" class="d-none" value="Very happy"> <img src='assets/img/icons/muyfeliz.png'>
+                                                                </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                        </div>
+                        <div *ngIf="step=='1'">
+                            <a routerLink="/home" class="ml-2 btn btn-primary" title="I want to join">
+                                <span class="menu-title">Back</span>
+                            </a>
+                            <h2 class="card-title font-large-1 text-center content-header mb-3">Thanks for sharing!</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
