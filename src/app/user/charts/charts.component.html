@@ -1,0 +1,85 @@
+<div class="row" *ngIf="events.length > 0">
+	<div class="col-sm-12">
+			<div class="card">
+					<div class="card-body">
+							<div class="card-block">
+								<h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Seizures' | translate }}</h2>
+									<div id="line-chart2" class="height-400">
+											<ngx-charts-line-chart  [scheme]="lineChartColorScheme" [results]="lineChartSeizures" [gradient]="lineChartGradient"
+													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
+													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleSeizures">
+											</ngx-charts-line-chart>
+									</div>
+							</div>
+					</div>
+			</div>
+	</div>
+</div>
+<div class="row" *ngIf="feels.length > 0">
+	<div class="col-sm-12">
+			<div class="card">
+					<div class="card-body">
+							<div class="card-block">
+								<h2 class="card-title font-large-1 text-center content-header mb-3">Quality of life</h2>
+									<div id="line-chart2" class="height-400">
+											<ngx-charts-area-chart  [scheme]="lineChartColorScheme" [results]="lineChartHeight" [gradient]="lineChartGradient"
+													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
+													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+													[autoScale]="false" (select)="onSelect($event)">
+											</ngx-charts-area-chart>
+									</div>
+							</div>
+					</div>
+			</div>
+	</div>
+</div>
+<div class="row" *ngIf="medications.length > 0">
+	<div class="col-sm-12">
+			<div class="card">
+					<div class="card-body">
+							<div class="card-block">
+								<h2 class="card-title font-large-1 text-center content-header mb-3">{{'clinicalinfo.Medication' | translate }}</h2>
+									<div id="line-chart2" class="height-400">
+
+											<ngx-charts-line-chart  [scheme]="lineChartColorScheme" [results]="lineChartDrugs" [gradient]="lineChartGradient"
+													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
+													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleDose">
+											</ngx-charts-line-chart>
+
+											<ngx-charts-bar-horizontal-2d  [scheme]="lineChartColorScheme" [results]="lineChartDrugs" [gradient]="lineChartGradient"
+													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
+													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleDose">
+											</ngx-charts-bar-horizontal-2d>
+									</div>
+							</div>
+							<div class="card-block mt-4" *ngIf="actualMedications.length > 0">
+								<div class="col-md-12">
+									<h4>{{'medication.Current drugs' | translate }}</h4>
+								</div>
+								
+								<div class="table-cont">
+									<table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+										aria-labelledby="HPO">
+										<tbody>
+											<span *ngFor="let medication of actualMedications ; let i = index">
+												<tr class="d-block">
+													<td>
+														{{medication.drugTranslate}}
+													</td>
+													<td>
+														{{medication.dose}} {{'medication.mg/day' | translate }}
+													</td>
+												</tr>
+											</span>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+					</div>
+			</div>
+	</div>
+</div>

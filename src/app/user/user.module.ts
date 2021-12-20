@@ -19,6 +19,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { FeelComponent } from './feel/feel.component';
+import { ChartsComponent } from './charts/charts.component';
+
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
     exports: [
@@ -37,12 +40,14 @@ import { FeelComponent } from './feel/feel.component';
         ReactiveFormsModule,
         UiSwitchModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        NgxChartsModule
     ],
     declarations: [
         HomeComponent,
         PersonalInfoComponent,
-        FeelComponent
+        FeelComponent,
+        ChartsComponent
     ]
 })
 export class UserModule { }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, LOCALE_ID } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -36,8 +36,6 @@ export class FeelComponent implements OnInit {
   selectedPatient: any = {};
   loadedPatientId: boolean = false;
   loadedInfoPatient: boolean = false;
-  @ViewChild('f') personalInfoForm: NgForm;
-  mood: string = 'Normal';
   sending: boolean = false;
   private subscription: Subscription = new Subscription();
   step: string = '0';
@@ -96,20 +94,11 @@ export class FeelComponent implements OnInit {
     return this.translate.instant(literal);
   }
 
-  submitInvalidForm() {
-    if (!this.personalInfoForm) { return; }
-    const base = this.personalInfoForm;
-    for (const field in base.form.controls) {
-      if (!base.form.controls[field].valid) {
-        base.form.controls[field].markAsTouched()
-      }
-    }
-  }
-
   //  On submit click, reset field value
-  onSubmit() {
+  onSubmit(newValue) {
     this.sending = true;
-    var value = {value:this.mood};
+    setTimeout(() => {
+      var value = {value:newValue};
       this.subscription.add( this.http.post(environment.api+'/api/feel/'+this.authService.getCurrentPatient().sub, value)
         .subscribe((res: any) => {
           this.step = '1';
@@ -119,6 +108,8 @@ export class FeelComponent implements OnInit {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
           this.sending = false;
         }));
+    }, 200);
+    
   }
 
 }
