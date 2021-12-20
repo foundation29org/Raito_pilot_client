@@ -1,3 +1,9 @@
+<div class="col-sm-12">
+    <div class="content-header">Charts</div>
+    <p class="content-sub-header">This is the most advanced example having various features. This
+        example lists all the events on the calendar with Add new event functionality.</p>
+</div>
+
 <div class="row" *ngIf="events.length > 0">
 	<div class="col-sm-12">
 			<div class="card">
@@ -8,7 +14,21 @@
 											<ngx-charts-line-chart  [scheme]="lineChartColorScheme" [results]="lineChartSeizures" [gradient]="lineChartGradient"
 													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
 													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
-													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleSeizures">
+													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleSeizures" [yAxisTickFormatting]='axisFormat'>
+													<ng-template #tooltipTemplate let-model="model">
+														<span>{{ model.name | date }}: {{ model.value }}</span>
+														<span class="d-block" *ngFor="let type of model.types ; let i = index">
+															{{type.type}}: {{type.count}} 
+														</span>
+													  </ng-template>
+													  <ng-template #seriesTooltipTemplate let-model="model">
+														<div *ngFor="let mod of model; let i = index">
+															<span class="d-block">{{ mod.name |date }}: {{ mod.value }}</span>
+															<span class="d-block" *ngFor="let type of mod.types ; let j = index">
+																{{type.type}}: {{type.count}} 
+															</span>
+														</div>      
+													  </ng-template>
 											</ngx-charts-line-chart>
 									</div>
 							</div>
@@ -26,7 +46,25 @@
 											<ngx-charts-area-chart  [scheme]="lineChartColorScheme" [results]="lineChartHeight" [gradient]="lineChartGradient"
 													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
 													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
-													[autoScale]="false" (select)="onSelect($event)">
+													[autoScale]="false" [showText]="false" (select)="onSelect($event)" [yAxisTicks]= [0,1,2,3,4,5] [yAxisTickFormatting]="percentTickFormatting">
+													<ng-template #tooltipTemplate let-model="model">
+														<span class="d-block">{{ model.name |date }}</span>
+														<span *ngIf="model.value==5">Very happy</span>
+														<span *ngIf="model.value==4">Happy</span>
+														<span *ngIf="model.value==3">Normal</span>
+														<span *ngIf="model.value==2">Sad</span>
+														<span *ngIf="model.value==1">Very sad</span>
+													  </ng-template>
+													  <ng-template #seriesTooltipTemplate let-model="model">
+														<div *ngFor="let mod of model; let i = index">
+															<span class="d-block">{{ mod.name |date }}</span>
+															<span *ngIf="mod.value==5">Very happy</span>
+															<span *ngIf="mod.value==4">Happy</span>
+															<span *ngIf="mod.value==3">Normal</span>
+															<span *ngIf="mod.value==2">Sad</span>
+															<span *ngIf="mod.value==1">Very sad</span>
+														</div>      
+													  </ng-template>
 											</ngx-charts-area-chart>
 									</div>
 							</div>
@@ -36,23 +74,17 @@
 </div>
 <div class="row" *ngIf="medications.length > 0">
 	<div class="col-sm-12">
-			<div class="card">
+			<div class="card" #ContainerRef>
 					<div class="card-body">
-							<div class="card-block">
-								<h2 class="card-title font-large-1 text-center content-header mb-3">{{'clinicalinfo.Medication' | translate }}</h2>
-									<div id="line-chart2" class="height-400">
-
-											<ngx-charts-line-chart  [scheme]="lineChartColorScheme" [results]="lineChartDrugs" [gradient]="lineChartGradient"
-													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
+							<div class="card-block pb-2">
+								<h2 class="card-title font-large-1 text-center content-header mb-3">{{'clinicalinfo.Medication' | translate }} ({{'medication.mg/day' | translate }})</h2>
+									<div id="line-chart2" >
+										<div id="chartdoseAvgDrugs" style="max-height: 400px;" class="ct-chart" height="300px"></div>
+											<ngx-charts-line-chart [view]="[(ContainerRef.offsetWidth-50), 400]" [scheme]="lineChartColorScheme" [results]="lineChartDrugs" [gradient]="lineChartGradient"
+													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="true" [legendPosition]="'below'" [showXAxisLabel]="lineChartShowXAxisLabel"
 													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
 													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleDose">
 											</ngx-charts-line-chart>
-
-											<ngx-charts-bar-horizontal-2d  [scheme]="lineChartColorScheme" [results]="lineChartDrugs" [gradient]="lineChartGradient"
-													[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="lineChartShowLegend" [showXAxisLabel]="lineChartShowXAxisLabel"
-													[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
-													[autoScale]="false" (select)="onSelect($event)" [yAxisLabel]="titleDose">
-											</ngx-charts-bar-horizontal-2d>
 									</div>
 							</div>
 							<div class="card-block mt-4" *ngIf="actualMedications.length > 0">

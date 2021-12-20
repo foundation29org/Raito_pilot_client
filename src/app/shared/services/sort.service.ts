@@ -118,6 +118,17 @@ export class SortService {
         }
     }
 
+    DateSortInver(prop: string) {
+        return function (a, b) {
+            if (new Date(b[prop]).getTime() < new Date(a[prop]).getTime()) {
+                return 1;
+            } else if (new Date(b[prop]).getTime() > new Date(a[prop]).getTime()) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
     GetSortSymptoms() {
         var prop1 = "frequencyId";
         var prop2_1 = "myCase";

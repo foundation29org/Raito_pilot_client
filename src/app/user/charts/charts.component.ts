@@ -54,31 +54,6 @@ export class ChartsComponent implements OnInit, OnDestroy{
   lineChartAutoScale = chartsData.lineChartAutoScale;
   lineChartLineInterpolation = chartsData.lineChartLineInterpolation;
 
-  // Scatter Line Chart Starts
-  scatterlineChart: Chart = {
-    type: 'Line', data: data['ScatterLine'], options: {
-        axisX: { showGrid: false }, axisY: {
-            scaleMinSpace: 30,
-        }, fullWidth: true,
-    },
-    responsiveOptions: [
-        ['screen and (max-width: 640px) and (min-width: 381px)', {
-            axisX: {
-                labelInterpolationFnc: function (value, index) {
-                    return index % 2 === 0 ? value : null;
-                }
-            }
-        }],
-        ['screen and (max-width: 380px)', {
-            axisX: {
-                labelInterpolationFnc: function (value, index) {
-                    return index % 3 === 0 ? value : null;
-                }
-            }
-        }]
-    ],
-};
-
   sending: boolean = false;
   isSafari:boolean = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && !navigator.userAgent.match('CriOS');
   isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
@@ -179,7 +154,23 @@ export class ChartsComponent implements OnInit, OnDestroy{
       this.loadTranslationsElements();
   }
 
-  
+  yAxisTickFormatting(value){ 
+    return this.percentTickFormatting(value);
+  }
+
+  percentTickFormatting(val: any) {
+    return Math.round(val);
+  }
+
+  axisFormat(val) {
+    if(Number.isInteger(val)){
+      return Math.round(val);
+    }else{
+      return '';
+    }
+    
+ }
+
   loadTranslationsElements(){
     this.loadingDataGroup = true;
     this.subscription.add( this.http.get(environment.api+'/api/group/medications/'+this.authService.getGroup())
@@ -317,12 +308,19 @@ export class ChartsComponent implements OnInit, OnDestroy{
           var datagraphseizures =  [];
           for(var i = 0; i < res.length; i++) {
             var splitDate = new Date(res[i].start);
+            var type = res[i].type;
             var stringDate = splitDate.toDateString();
             var foundElementIndex = this.searchService.searchIndex(datagraphseizures, 'stringDate', stringDate);
             if(foundElementIndex!=-1){
               datagraphseizures[foundElementIndex].value++;
+              var foundElementIndexType = this.searchService.searchIndex(datagraphseizures[foundElementIndex].types, 'types', type);
+              if(foundElementIndexType!=-1){
+                datagraphseizures[foundElementIndex].types[foundElementIndexType].count++;
+              }else{
+                datagraphseizures[foundElementIndex].types.push({type:type, count:1});
+              }
             }else{
-              datagraphseizures.push({value: 1, name: splitDate, stringDate: stringDate});
+              datagraphseizures.push({value: 1, name: splitDate, stringDate: stringDate, types: [{type:type, count:1}]});
             }
                
           }
@@ -362,13 +360,27 @@ export class ChartsComponent implements OnInit, OnDestroy{
             for(var i = 0; i < res.length; i++) {
               var foundElementDrugIndex = this.searchService.searchIndex(this.lineChartDrugs, 'name', res[i].drugTranslate);
               var splitDate = new Date(res[i].startDate);
+              var splitDateEnd = null;
+              
+              
               if(foundElementDrugIndex!=-1){
                 this.lineChartDrugs[foundElementDrugIndex].series.push({value: res[i].dose, name: splitDate});
+                if(res[i].endDate==null){
+                  splitDateEnd = new Date();
+                  this.lineChartDrugs[foundElementDrugIndex].series.push({value: res[i].dose, name: splitDateEnd});
+                }
               }else{
-                this.lineChartDrugs.push({name: res[i].drugTranslate, series: [{value: res[i].dose, name: splitDate}]});
+                var seriesfirst = [{value: res[i].dose, name: splitDate}];
+                if(res[i].endDate==null){
+                  splitDateEnd = new Date();
+                  seriesfirst.push({value: res[i].dose, name: splitDateEnd});
+                }
+                this.lineChartDrugs.push({name: res[i].drugTranslate, series: seriesfirst});
+
               }
                 
             }
+
            }
            this.loadedDrugs = true;
           }, (err) => {
@@ -378,6 +390,16 @@ export class ChartsComponent implements OnInit, OnDestroy{
           
   }
 
+  transformDate(value) {
+    let newValue;
+    var format = 'yyyy-MM-dd';
+    if(this.lang == 'es'){
+      format = 'dd-MM-yyyy'
+    }
+    newValue = this.dateService.transformFormatDate(value, format);
+    return newValue;
+  }
+  
   searchTranslationDrugs(){
     for(var i = 0; i < this.medications.length; i++) {
       var foundTranslation = false;
