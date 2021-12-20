@@ -163,6 +163,15 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   }
 
   saveData(param){
+    console.log(param.start);
+    if (param.start != null) {
+      var tempDateStartDate = new Date(param.start)
+      var diferenciahorario = tempDateStartDate.getTimezoneOffset();
+      tempDateStartDate.setMinutes(tempDateStartDate.getMinutes() - diferenciahorario);
+      param.start = tempDateStartDate.toUTCString();
+      param.start = new Date(Date.parse(param.start));
+    }
+    console.log(param.start);
     this.lastEvent = JSON.parse(JSON.stringify(param));
     this.lastEvent._id =null;
     if(this.authGuard.testtoken()){
