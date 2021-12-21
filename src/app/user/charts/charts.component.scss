@@ -5,3 +5,14 @@
 /*::ng-deep .chart-legend {
     display: contents !important;
 }*/
+.optionsCharts{
+    float: inline-end !important;
+}
+
+@media ( max-width: 575px ){
+ .optionsCharts{
+    float: unset !important;
+    display: block;
+    margin-top: 0.75rem !important;
+ }
+}

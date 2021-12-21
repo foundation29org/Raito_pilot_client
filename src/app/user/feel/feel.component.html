@@ -1,48 +1,78 @@
-<div class="col-sm-12">
-    <div class="content-header">{{'menu.Feel' | translate }}</div>
-    <p class="content-sub-header">This is the most advanced example having various features. This
-        example lists all the events on the calendar with Add new event functionality.</p>
-</div>
 <div class="h-100">
-    <div class="col-sm-12 my-auto">
-        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 align-items-center">
-                        <div class="card mx-auto" *ngIf="step=='0'">
-                            <h2 class="card-title font-large-1 text-center content-header mb-3">Today i feel:</h2>
-                                        <div class="form-group">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="mood">Estado de ánimo</label>
-                                                    <div>
-                                                        <div class="btn-group" ngbRadioGroup name="radioBasic">
-                                                            <label ngbButtonLabel class="btn-raised btn-danger">
-                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/muytriste.png' (click)="onSubmit('1')">
-                                                            </label>
-                                                            <label ngbButtonLabel class="btn-raised btn-warning">
-                                                                    <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/triste.png' (click)="onSubmit('2')">
-                                                            </label>
-                                                            <label ngbButtonLabel class="btn-raised btn-secondary">
-                                                                    <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/normal.png' (click)="onSubmit('3')">
-                                                            </label>
-                                                            <label ngbButtonLabel class="btn-raised btn-yellow">
-                                                                    <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/feliz.png' (click)="onSubmit('4')">
-                                                            </label>
-                                                            <label ngbButtonLabel class="btn-raised btn-success">
-                                                                    <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/muyfeliz.png' (click)="onSubmit('5')">
-                                                            </label>
-                                                        </div>
+    <div class="card card-block mx-auto" style="max-width: 30rem !important;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-12 align-items-center">
+                    <div *ngIf="step=='0' || step=='1'">
+                        <button class="pull-right btn btn-primary" (click)="openStats()">
+                            <i class="fa fa-history font-medium-3"></i>
+                        </button>
+                    </div>
+                    <div *ngIf="step=='0'">
+                        <h2 class="font-large-1 text-center content-header mb-3">{{'homeraito.p6' | translate }}</h2>
+                                    <div class="form-group">
+                                            <div class="form-group center-elements">
+                                                <div>
+                                                    <div class="btn-group" style="display: inherit !important;" ngbRadioGroup name="radioBasic">
+                                                        <label ngbButtonLabel class="btn-raised btn-danger">
+                                                            <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/muytriste.png' (click)="onSubmit('1')">
+                                                        </label>
+                                                        <label ngbButtonLabel class="btn-raised btn-warning">
+                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/triste.png' (click)="onSubmit('2')">
+                                                        </label>
+                                                        <label ngbButtonLabel class="btn-raised btn-secondary">
+                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/normal.png' (click)="onSubmit('3')">
+                                                        </label>
+                                                        <label ngbButtonLabel class="btn-raised btn-yellow">
+                                                                <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/feliz.png' (click)="onSubmit('4')">
+                                                        </label>
+                                                        <label ngbButtonLabel class="btn-raised btn-success">
+                                                                <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/muyfeliz.png' (click)="onSubmit('5')">
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                    </div>
+                    </div>
+                    <div *ngIf="step=='1'">
+                        <a routerLink="/home" class="ml-2 btn btn-primary" title="{{'menu.Dashboard' | translate }}">
+                            <span class="menu-title">{{'menu.Dashboard' | translate }}</span>
+                        </a>
+                        <h2 class="font-large-1 text-center content-header mb-3">{{'feels.Thanks for sharing' | translate }}</h2>
+                    </div>
+                    <div *ngIf="step=='2'">
+                        <a (click)="back()" class="ml-2 btn btn-primary" title="{{'generics.Back' | translate }}">
+                            <span class="menu-title">{{'generics.Back' | translate }}</span>
+                        </a>
+                        <div class="table-cont" *ngIf="feels.length>0">
+                            <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                aria-labelledby="HPO">
+                                <tbody>
+                                    <span *ngFor="let feel of feels ; let i = index">
+                                        <tr>
+                                            <td>
+                                                {{feel.date | date}}
+                                            </td>
+                                            <td>
+                                                <span *ngIf="feel.value==5">{{'charts.Very happy' | translate }}</span>
+                                                <span *ngIf="feel.value==4">{{'charts.Happy' | translate }}</span>
+                                                <span *ngIf="feel.value==3">Normal</span>
+                                                <span *ngIf="feel.value==2">{{'charts.Sad' | translate }}</span>
+                                                <span *ngIf="feel.value==1">{{'charts.Very sad' | translate }}</span>
+                                            </td>
+                                            <td>
+                                                <a class="danger"
+                                                                (click)="deleteFeel(feel);"
+                                                                href="javascript:void(0)"><i
+                                                                    class="ft-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    </span>
+                                </tbody>
+                            </table>
                         </div>
-                        <div *ngIf="step=='1'">
-                            <a routerLink="/home" class="ml-2 btn btn-primary" title="I want to join">
-                                <span class="menu-title">Back</span>
-                            </a>
-                            <h2 class="card-title font-large-1 text-center content-header mb-3">Thanks for sharing!</h2>
+                        <div class="table-cont" *ngIf="feels.length==0">
+                            <p>{{'charts.No data saved' | translate }}</p>
                         </div>
                     </div>
                 </div>

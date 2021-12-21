@@ -1,13 +1,13 @@
 <!--Registration Page Starts-->
 
 <div class="h-100">
-  <div class="col-sm-12 my-auto">
+  <div class=""><!--col-sm-12 my-auto-->
       <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
           <div class="card-body">
               <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                   <div *ngIf="!isVerifyemail && !isFailEmail" class="card mx-auto">
-                    <h2 class="card-title font-large-1 text-center content-header mb-3">{{'registration.Registration' | translate }}</h2>
+                    <h2 class="font-large-1 text-center content-header mb-3">{{'registration.Registration' | translate }}</h2>
                       <form   (ngSubmit)="onSubmit()" #f="ngForm">
                         <div class="form-group">
                           <div class="">

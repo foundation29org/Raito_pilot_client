@@ -442,5 +442,9 @@ export class ChartsComponent implements OnInit, OnDestroy{
     //your code here
  }
 
+ test(){
+
+ }
+
 
 }

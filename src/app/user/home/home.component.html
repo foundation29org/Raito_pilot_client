@@ -1,5 +1,5 @@
 <div class="h-100">
-    <div class="col-sm-12 my-auto">
+    <div>
         <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
             <div class="card-body">
                 <div class="row">
@@ -10,14 +10,14 @@
                         <div *ngIf="loadedInfoPatient">
                             <div *ngIf="basicInfoPatient.group==null || step!='0'">
                                 <div *ngIf="step=='0'">
-                                    <h1>Are you in a patient organization?</h1>
+                                    <h1>{{'homeraito.t1' | translate }}</h1>
                                     <div class="center-elements">
-                                        <button class="ml-2 btn btn-primary" (click)="question1('No');">No</button>
-                                        <button class="ml-2 btn btn-primary" (click)="question1('Yes');">Yes</button>
+                                        <button class="mr-1 btn btn-primary" (click)="question1('No');">{{'generics.No' | translate }}</button>
+                                        <button class="ml-1 btn btn-primary" (click)="question1('Yes');">{{'generics.Yes' | translate }}</button>
                                     </div>
                                 </div>
                                 <div *ngIf="step=='1'">
-                                    <h1>Select yout patient organization</h1>
+                                    <h1>{{'homeraito.t2' | translate }}</h1>
                                     <select id="group" name="group" class="form-control" ngModel
                                         [(ngModel)]="basicInfoPatient.group">
                                         <option [value]="null" disabled selected>--{{'registration.Please select a
@@ -37,53 +37,50 @@
                                         </option>
                                     </select>
                                     <div class="center-elements">
-                                        <button class="ml-2 btn btn-primary" [disabled]="basicInfoPatient.group==null"
-                                            (click)="question2();">Next</button>
+                                        <button class="mt-3 btn btn-primary" [disabled]="basicInfoPatient.group==null"
+                                            (click)="question2();">{{'generics.Next' | translate }}</button>
                                     </div>
                                 </div>
                                 <div *ngIf="step=='2'">
-                                    <h1>Do you consent to give your organization access to your data for research purposes?</h1>
+                                    <h1>{{'homeraito.t3' | translate }}</h1>
                                     <div class="center-elements">
-                                        <button class="ml-2 btn btn-primary" (click)="question3('No');">No</button>
-                                        <button class="ml-2 btn btn-primary" (click)="question3('Yes');">Yes</button>
+                                        <button class="mr-1 btn btn-primary" (click)="question3('No');">{{'generics.No' | translate }}</button>
+                                        <button class="ml-1 btn btn-primary" (click)="question3('Yes');">{{'generics.Yes' | translate }}</button>
                                     </div>
                                     <span class="text-muted font-small-2">
-                                        Your data will be anonymised and aggregated with other patient´s to help the development of new drugs, clinical research, study significant benefit and update your disease´s database
+                                        {{'homeraito.p1' | translate }}
                                     </span>
                                 </div>
                                 <div *ngIf="step=='3'">
-                                    <h1>Thanks you!</h1>
+                                    <h1>{{'homeraito.p2' | translate }}</h1>
                                     <div class="center-elements">
-                                        <button class="ml-2 btn btn-primary" (click)="goStep('0')">Continue</button>
+                                        <button class="btn btn-primary" (click)="goStep('0')">{{'wizard.btn' | translate }}</button>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="basicInfoPatient.group!=null && step=='0'">
-                                <h1>How can i help you?</h1>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-search search-ico"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" aria-label="Search here">
+                                <h1>{{'homeraito.p3' | translate }}</h1>
+                                <div class="input-group mb-1">
+                                    <input type="text" class="form-control" aria-label="Search here" [(ngModel)]="searchGpt3">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i
                                                 class="fa fa-microphone microphone-ico"></i></span>
                                     </div>
                                 </div>
+                                <button class="mr-1 btn btn-secondary" (click)="searchOpenAi();"><i class="fa fa-search search-ico"></i> {{'homeraito.Search' | translate }}</button>
 
                                 <a routerLink="/charts" class="round btn btn-secondary mt-4 mb-4 btn-block"
                                     title="I want to join">
-                                    <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> Visualize your
-                                        data</span>
+                                    <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> {{'homeraito.p4' | translate }}</span>
                                 </a>
-                                <a routerLink="/seizures" class="btn btn-primary btn-block" title="I want to join">
-                                    <span class="menu-title">Track a seizure</span>
+                                <a routerLink="/seizures" class="btn btn-primary btn-block" title="{{'homeraito.p5' | translate }}">
+                                    <span class="menu-title">{{'homeraito.p5' | translate }}</span>
                                 </a>
-                                <a routerLink="/feel" class="btn btn-primary btn-block" title="I want to join">
-                                    <span class="menu-title">How do i feel today?</span>
+                                <a routerLink="/feel" class="btn btn-primary btn-block" title="{{'homeraito.p6' | translate }}">
+                                    <span class="menu-title">{{'homeraito.p6' | translate }}</span>
                                 </a>
-                                <a [routerLink]="['/medication', { addOther: true}]" class="btn btn-primary btn-block" title="I want to join">
-                                    <span class="menu-title">Report a medical event</span>
+                                <a [routerLink]="['/medication', { addOther: true}]" class="btn btn-primary btn-block" title="{{'homeraito.p7' | translate }}">
+                                    <span class="menu-title">{{'homeraito.p7' | translate }}</span>
                                 </a>
                             </div>
                         </div>

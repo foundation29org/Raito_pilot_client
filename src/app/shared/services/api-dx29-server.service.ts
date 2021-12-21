@@ -192,4 +192,15 @@ export class ApiDx29ServerService {
        });
     }
 
+    callOpenAi(textf){
+      console.log(textf);
+      return this.http.post(environment.api+'/api/callopenai', textf)
+      .map( (res : any) => {
+          return res;
+      }, (err) => {
+          console.log(err);
+          return err;
+      })
+  }
+
 }

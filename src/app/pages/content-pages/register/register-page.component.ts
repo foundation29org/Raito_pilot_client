@@ -167,15 +167,16 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
 
       var params = this.registerForm.value;
       params.permissions = {};
-
+      params.role = "User";
       if (params.role == 'Clinical') {
         params.subrole = null
       }
+      console.log(params);
       this.subscription.add(this.http.post(environment.api + '/api/signup', params)
         .subscribe((res: any) => {
           if (res.message == 'Account created') {
             this.isVerifyemail = true;
-            Swal.fire('', this.translate.instant("registration.Check the email"), "success");
+            Swal.fire('', this.translate.instant("registration.Check the email")+' support@foundation29.org', "success");
           } else if (res.message == 'Fail sending email') {
             console.log("email fallido");
             this.isFailEmail = true;

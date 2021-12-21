@@ -692,7 +692,7 @@ export class jsPDFService {
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         doc.setTextColor(51, 101, 138)
-        doc.textWithLink("www.dx29.ai", 148, 290, { url: 'https://app.dx29.ai/Identity/Account/Register' });
+        doc.textWithLink("www.raito.ai", 148, 290, { url: 'https://raito29.azurewebsites.net/register' });
         doc.setTextColor(0, 0, 0);
     }
 
@@ -830,7 +830,7 @@ export class jsPDFService {
         
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(10);
-        var url = "https://app.dx29.ai/Identity/Account/Register";
+        var url = "https://raito29.azurewebsites.net/register";
         if(this.lang=='en'){
             doc.textWithLink(this.translate.instant("menu.Register"), 54, lineText, { url: url });
         }else{

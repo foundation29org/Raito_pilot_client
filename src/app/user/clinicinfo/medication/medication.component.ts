@@ -638,6 +638,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
             }else{
               this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
               this.viewMedicationForm = false;
+              this.viewMeditationSection = false;
               this.loadMedications();
 
             }
@@ -657,6 +658,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
         .subscribe( (res : any) => {
             this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
             this.viewMedicationForm = false;
+            this.viewMeditationSection = false;
             this.loadMedications();
             this.sending = false;
          }, (err) => {

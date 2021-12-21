@@ -1,5 +1,5 @@
 <!-- Navbar (Header) Starts -->
-<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" [ngClass]="((role == 'Clinical') && isClinicalPage)?'menuClinic-sm':'p-2'" >
+<nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" style="padding: 0 25px !important;" [ngClass]="((role == 'Clinical') && isClinicalPage)?'menuClinic-sm':''" >
     <div class="container-fluid">
       <div>
           <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
@@ -41,7 +41,7 @@
             </ul>
         </div>
     </div>
-        <div class="navbar-container pl-0">
+        <div class="navbar-container pl-0 pt-2">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement">
