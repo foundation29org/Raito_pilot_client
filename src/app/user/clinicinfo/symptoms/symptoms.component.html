@@ -1,76 +1,72 @@
-<div class="col-sm-12">
-    <div class="content-header">{{'menu.Phenotype' | translate }}</div>
-    <p class="content-sub-header">This is the most advanced example having various features. This
-        example lists all the events on the calendar with Add new event functionality.</p>
-</div>
 <div class="h-100">
-    <div class="col-sm-12 my-auto">
-        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 align-items-center">
-                        <div class="card mx-auto">
-                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Phenotype' | translate }}</h2>
-                            <div>
-                                <ng-template #rt let-r="result" let-t="term">
-                                  <strong title="{{r.name}}">{{ r.name}}</strong>
-                                  <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
-                                    slice:0:140)+'...':(r.desc) }}</span>
-                                </ng-template>
-                                <div class="mt-2" style="padding-bottom: 1rem !important;">
-                                  <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
-                                  <input #input type="text"
-                                    #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
-                                    [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
-                                    placeholder="{{'symptomssection.manualinput' | translate }}"
-                                    (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
-                                    <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                                    <span *ngIf="nothingFoundSymptoms">
-                                      <span *ngIf="(modelTemp).trim().length>3">
-                                        <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
-                                      </span>
-                                    </span>
-                                </div>
-                              </div>
-                              <div *ngIf="phenotype.data.length>0">
-                                <span class="float-right icons-opt-symptoms">
-                                    <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
-                                    (click)="copySymptoms()" style="cursor: pointer;"></em>
-                                    <em class="mt-1 fa fa-download grey mr-2"
-                                    title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
-                                    style="cursor: pointer;"></em>
+    <div class="card card-block mx-auto" style="max-width: 30rem !important;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-12 align-items-center">
+                    <div>
+                        <h2 class="font-large-1 text-center content-header mb-3">{{'menu.Phenotype' | translate }}</h2>
+                        <div>
+                            <ng-template #rt let-r="result" let-t="term">
+                              <strong title="{{r.name}}">{{ r.name}}</strong>
+                              <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
+                                slice:0:140)+'...':(r.desc) }}</span>
+                            </ng-template>
+                            <div class="mt-2" style="padding-bottom: 1rem !important;">
+                              <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                              <input #input type="text"
+                                #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                                placeholder="{{'symptomssection.manualinput' | translate }}"
+                                (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                                <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                                <span *ngIf="nothingFoundSymptoms">
+                                  <span *ngIf="(modelTemp).trim().length>3">
+                                    <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                                   </span>
-                                <div class="table-cont">
-                                  <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
-                                    aria-labelledby="HPO">
-                                    <tbody>
-                                      <tr *ngFor="let hpo of phenotype.data ; let i = index">
-                                        <td>
-                                          <span>
-                                            <span class="float-right ml-1">
-                                              <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
-                                                title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                                                <em class="fa fa-info w-13"></em>
-                                              </button>
-                                              <button (click)="deleteSymptom(hpo, i)"
-                                                class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
-                                                href="javascript:void(0)"
-                                                title="{{'generics.Delete' | translate }}">
-                                                <em class="fa fa-trash w-13"></em>
-                                              </button>
-                                            </span>
-                                            <span>
-                                              <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
-                                            </span>
-                                          </span>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                        </div>
+                                </span>
+                            </div>
+                          </div>
+                          <div *ngIf="phenotype.data.length>0">
+                            <span class="mb-1 float-right icons-opt-symptoms">
+                                <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                                (click)="copySymptoms()" style="cursor: pointer;"></em>
+                                <em class="mt-1 fa fa-download grey mr-2"
+                                title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
+                                style="cursor: pointer;"></em>
+                              </span>
+                            <div class="table-cont">
+                              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                aria-labelledby="HPO">
+                                <tbody>
+                                  <tr *ngFor="let hpo of phenotype.data ; let i = index">
+                                    <td>
+                                      <span>
+                                        <span class="float-right ml-1">
+                                          <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                                            class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                            <em class="fa fa-info w-13"></em>
+                                          </button>
+                                          <button (click)="deleteSymptom(hpo, i)"
+                                            class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
+                                            href="javascript:void(0)"
+                                            title="{{'generics.Delete' | translate }}">
+                                            <em class="fa fa-trash w-13"></em>
+                                          </button>
+                                        </span>
+                                        <span>
+                                          <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                        </span>
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          <!--<div *ngIf="phenotype.data.length==0">
+                            <p>{{'charts.Noseizures' | translate }}</p>
+                          </div>-->
                     </div>
                 </div>
             </div>

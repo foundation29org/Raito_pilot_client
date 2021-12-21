@@ -2,7 +2,9 @@
 <section id="basic-form-layouts">
 	<div class="row">
       <div class="col-sm-12">
-          <div class="content-header">{{'generics.My Profile' | translate }}</div>
+          <div class="content-header">{{'generics.My Profile' | translate }}
+			<span (click)="toggleMenu()" class="chat-app-sidebar-toggle ft-align-justify font-medium-3 mr-2 d-none d-inline d-sm-inline d-md-none"></span>
+		  </div>
       </div>
   </div>
 </section>
@@ -10,7 +12,7 @@
 	<div class="row">
 
 		<div class="col-md-3" style="margin-bottom:1em;">
-			<span (click)="toggleMenu()" class="chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-none d-block d-sm-block d-md-none"></span>
+			
 			<div class="chat-sidebar d-none d-sm-none d-md-block d-lg-block">
 				<a class="list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2" (click)="SetActive($event, 'panelGeneral')">
 						{{tittleGeneral}}
@@ -48,7 +50,7 @@
 								<div class="card-header">
 								</div>
 								<div class="card-body">
-									<div class="px-3">
+									<div>
 										<form class="form" (ngSubmit)="onSubmit()" #f="ngForm" *ngIf="user">
 											<div class="form-body">
 												<div class="row">
@@ -116,7 +118,7 @@
 								<div class="card-header">
 								</div>
 								<div class="card-body">
-									<div class="px-3">
+									<div>
 										<form class="form" (ngSubmit)="onSubmitPass()" #fPass="ngForm" *ngIf="user">
 											<div class="form-group">
 												<div class="input-group mb-3">
@@ -171,7 +173,7 @@
 								<div class="card-header">
 								</div>
 								<div class="card-body">
-									<div class="px-3">
+									<div>
 										<button class="btn btn-danger btn-raised btn-block" type="button" (click)="exportData()">{{'generics.ExportData' | translate }}</button>
 									</div>
 								</div>
@@ -186,7 +188,7 @@
 								<div class="card-header">
 								</div>
 								<div class="card-body">
-									<div class="px-3">
+									<div>
 										<div class="form-body">
 											<div class="row">
 												<div class="col-md-12">

@@ -40,6 +40,9 @@ export class FeelComponent implements OnInit {
   private subscription: Subscription = new Subscription();
   step: string = '0';
 
+  loadedFeels: boolean = false;
+  feels: any = [];
+
   constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService) {
 
     this.lang = sessionStorage.getItem('lang');        
@@ -77,19 +80,6 @@ export class FeelComponent implements OnInit {
      }));
   }
 
-
-  getFeels(){
-    this.loadedInfoPatient = false;
-    this.subscription.add( this.http.get(environment.api+'/api/feels/'+this.authService.getCurrentPatient().sub)
-        .subscribe( (res : any) => {
-          this.loadedInfoPatient = true;
-         }, (err) => {
-           console.log(err);
-           this.loadedInfoPatient = true;
-           this.toastr.error('', this.translate.instant("generics.error try again"));
-         }));
-  }
-
   getLiteral(literal) {
     return this.translate.instant(literal);
   }
@@ -110,6 +100,60 @@ export class FeelComponent implements OnInit {
         }));
     }, 200);
     
+  }
+
+  openStats(){
+    this.step = '2';
+    this.getFeels();
+  }
+
+  getFeels(){
+    this.feels = [];
+    this.subscription.add( this.http.get(environment.api+'/api/feels/'+this.authService.getCurrentPatient().sub)
+        .subscribe( (resFeels : any) => {
+          console.log(resFeels);
+          if(resFeels.message){
+            //no tiene historico de peso
+          }else{
+            this.feels = resFeels;
+          }
+          this.loadedFeels = true;
+         }, (err) => {
+           console.log(err);
+           this.loadedFeels = true;
+           this.toastr.error('', this.translate.instant("generics.error try again"));
+         }));
+  }
+
+  deleteFeel(event) {
+    console.log(event.date);
+    var date = this.dateService.transformDate(event.date);
+    Swal.fire({
+      title: this.translate.instant("generics.Are you sure delete") +' ('+date+ ") ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#33658a',
+      cancelButtonColor: '#B0B6BB',
+      confirmButtonText: this.translate.instant("generics.Accept"),
+      cancelButtonText: this.translate.instant("generics.Cancel"),
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.subscription.add( this.http.delete(environment.api+'/api/feel/'+event._id)
+          .subscribe( (res : any) => {
+            this.feels = this.feels.filter(iEvent => iEvent !== event);
+          }, (err) => {
+            console.log(err);
+          }));
+            }
+    });
+
+  }
+
+  back(){
+    this.step = '0';
   }
 
 }

@@ -182,6 +182,7 @@
     "End Date": "Fecha fin",
     "Historical": "Histórico",
     "No data": "Sin datos",
+    "No files have been uploaded": "No ha cargado ningún fichero",
     "Close": "Cerrar",
     "ExportData": "Exportar datos",
     "It has been successfully removed": "Se ha eliminado correctamente",
@@ -1221,6 +1222,46 @@
     "Send": "Enviar",
     "Old messages": "Mensajes antiguos",
     "Uploading a capture can help us a lot": "Subir una captura puede ayudarnos mucho"
+  },
+  "landraito":{
+    "t1": "¿Por qué registrarse en RAITO?",
+    "p1": "RAITO es una aplicación fácil de operar donde puede ingresar y rastrear cronológicamente sus datos médicos como medicamentos, síntomas, convulsiones y cómo se siente.",
+    "p2": "RAITO te ayuda a almacenar tus datos donde quieras. En Raito eres el único propietario de tus datos. Puedes guardarlos en un almacenamiento en la nube como OneDrive, GoogleDrive o ¡Cloud o guardarlos en este teléfono. Si los guarde en la nube, siempre estarán accesibles y no los perderá.",
+    "t2": "¿Qué puedes esperar de RAITO?", 
+    "p3": "RAITO le permite compartir sus datos con su organización de pacientes y plataformas como HealthData 29 para que las instituciones y los investigadores puedan acceder a la información valiosa que usted proporciona de forma anónima sobre beneficios importantes, investigaciones clínicas y actualizaciones de datos de enfermedades.",
+    "button": "Quiero unirme"
+  },
+  "homeraito":{
+    "t1": "¿Estás en una organización de pacientes?",
+    "t2": "Seleccione su organización de pacientes",
+    "t3": "¿Da su consentimiento para que su organización tenga acceso a sus datos con fines de investigación?",
+    "p1": "Sus datos serán anonimizados y agregados con los de otros pacientes para ayudar al desarrollo de nuevos fármacos, a la investigación clínica, al estudio de beneficios significativos y a la actualización de la base de datos de su enfermedad",
+    "p2": "¡Gracias!",
+    "p3": "¿Cómo puedo ayudarle?",
+    "p4": "Visualiza tus datos",
+    "p5": "Anote una convulsión",
+    "p6": "¿Cómo me siento hoy?",
+    "p7": "Informar de un evento médico",
+    "Search": "Buscar",
+    "Question": "Pregunta",
+    "Response": "Respuesta",
+    "MsgDisclaimer": "Está a punto de probar GTP3 en modo avanzado, por lo que obtendrá una respuesta automática de esta inteligencia artificial. Escriba su nombre si está de acuerdo y lo ha entendido.",
+    "I agree": "Estoy de acuerdo",
+    "Type a question in the text box": "Escriba una pregunta en la caja de texto"
+  },
+  "charts":{
+    "Noseizures": "No hay crisis guardadas",
+    "Quality of life": "Calidad de vida",
+    "Very happy": "Muy feliz",
+    "Happy": "Feliz",
+    "Sad": "Triste",
+    "Very sad": "Muy triste",
+    "I want to answer how I feel today": "Quiero responder cómo me siento hoy",
+    "No data saved": "No hay datos guardados",
+    "There is no drug data stored": "No hay datos de medicamentos guardados"
+  },
+  "feels":{
+    "Thanks for sharing": "Gracias por responder!"
   },
   "homedx": {
     "title": "Diseñado para médicos",

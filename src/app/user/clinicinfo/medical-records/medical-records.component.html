@@ -1,178 +1,186 @@
-<div class="col-sm-12">
-    <div class="content-header">{{'menu.Clinical information' | translate }}</div>
-    <p class="content-sub-header">This is the most advanced example having various features. This
-        example lists all the events on the calendar with Add new event functionality.</p>
-</div>
 <div class="h-100">
-    <div class="col-sm-12 my-auto">
-        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 align-items-center">
-                        <div class="card mx-auto" *ngIf="step=='0'">
-                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Clinical information' |
-                                translate }}</h2>
-                            <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
-                                <input type="file" #fileDropRef id="fileDropRef" multiple
+    <div class="card card-block mx-auto" style="max-width: 30rem !important;">
+        <div class="card-body">
+            <div class="row">
+                <div class="p-0 col-12 col-sm-12 align-items-center">
+                    <div *ngIf="step=='0'">
+                        <h2 class="font-large-1 text-center content-header mb-3">{{'menu.Clinical
+                            information' |
+                            translate }}</h2>
+                        <div class="center-elements">
+                            <span class="mr-1"><button class="ml-2 btn btn-primary" (click)="newDoc();">
+                                    Crear/pegar un informe</button></span>
+                            <span class="ml-1">
+                                <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangePDF($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <svg aria-hidden="true" focusable="false" data-prefix="fal"
-                                    data-icon="arrow-alt-from-bottom" role="img" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 384 512"
-                                    class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
-                                    <path fill="currentColor"
-                                        d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
-                                        class=""></path>
-                                </svg>
-                                <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
-                                <h3>{{'land.or' | translate }}</h3>
-                                <label class="btn btn-info round"
+                                <label class="btn btn-info"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'land.Browse for file' | translate }}</label>
-                                <h3 class="mt-2 d-block">{{'dashboardpatient.info extension' | translate }}</h3>
-                            </div>
-                            <p *ngIf="preparingFile">
-                                <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
-                                <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                            </p>
-                            <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
-                                translate }}: {{uploadProgress | async}}%</h4>
+                            </span>
+                        </div>
+                        <!--<div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
+                            <input type="file" #fileDropRef id="fileDropRef" multiple
+                                (change)="onFileChangePDF($event);"
+                                accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                            <svg aria-hidden="true" focusable="false" data-prefix="fal"
+                                data-icon="arrow-alt-from-bottom" role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 384 512"
+                                class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
+                                <path fill="currentColor"
+                                    d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                                    class=""></path>
+                            </svg>
+                            <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
+                            <h3>{{'land.or' | translate }}</h3>
+                            <label class="btn btn-info round"
+                                style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                for="fileDropRef">{{'land.Browse for file' | translate }}</label>
+                            <h3 class="mt-2 d-block">{{'dashboardpatient.info extension' | translate }}</h3>
+                        </div>-->
+                        <p *ngIf="preparingFile">
+                            <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
+                            <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                        </p>
+                        <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
+                            translate }}: {{uploadProgress | async}}%</h4>
+                        <div *ngIf="loadedGeno" class="mb-2" id="Widget-line-chart">
+                            <span *ngIf="otherGeneFiles.length==0" class="center-elements">
+                                <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
+                                <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
+                            </span>
+                            <span *ngIf="otherGeneFiles.length>0">
+                                <div class="">
+                                    <div class="">
+                                        <div class="mb-4 w-100">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{'dashboardpatient.Files uploaded' | translate }}</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let onefile of otherGeneFiles; let i = index">
+                                                        <td style="word-wrap: anywhere;">
+                                                            {{onefile.simplename}}
+                                                            <p class="text-muted font-small-3 mb-0">Uploaded:
+                                                                {{onefile.lastModified | date: 'dd
+                                                                MMM y': '' : translate.currentLang}}</p>
+                                                            <p class="text-muted font-small-3 mb-0">File size:
+                                                                {{onefile.contentLength}}</p>
+                                                        </td>
+                                                        <td>
 
-                            <div><p><button class="ml-2 btn btn-primary"
-                                (click)="newDoc();">
-                                Crear/pegar un informe</button></p></div>
-                            <div *ngIf="loadedGeno" class="mb-2" id="Widget-line-chart">
-                                <span *ngIf="otherGeneFiles.length==0">
-                                    <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
-                                    <p class="mt-0">{{'generics.No data' | translate }}</p>
-                                </span>
-                                <span *ngIf="otherGeneFiles.length>0">
-                                    <div class="content-wrapper">
-                                        <div class="row col-md-12">
-                                            <div class="mb-4 w-100">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>{{'dashboardpatient.Files uploaded' | translate }}</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <span *ngFor="let onefile of otherGeneFiles; let i = index">
-                                                            <tr>
-                                                                <td style="word-wrap: anywhere;">
-                                                                    {{onefile.simplename}}
-                                                                    <p class="text-muted font-small-3 mb-0">Uploaded:
-                                                                        {{onefile.lastModified | date: 'dd
-                                                                        MMM y': '' : translate.currentLang}}</p>
-                                                                    <p class="text-muted font-small-3 mb-0">File size:
-                                                                        {{onefile.contentLength}}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <a class="danger" (click)="deleteFile(onefile,i);"
-                                                                        href="javascript:void(0)"><i
-                                                                            class="ft-trash"></i></a>
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr *ngIf="!onefile.hasResults">
-                                                                <p><button class="ml-2 btn btn-primary" [disabled]="extractingData"
+                                                            <span *ngIf="!onefile.hasResults">
+                                                                <span><button class="btn btn-primary"
+                                                                        [disabled]="extractingData"
                                                                         (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
-                                                                        <span *ngIf="!extractingData">Extract data from this file</span>
-                                                                        <span *ngIf="extractingData && !callingTextAnalytics"> <i class="fa fa-spinner fa-spin fa-fw"></i> Leyendo documento</span>
-                                                                        <span *ngIf="extractingData && callingTextAnalytics"><i class="fa fa-spinner fa-spin fa-fw"></i> Analizando documento</span>
-                                                                    </button></p>
-                                                            </tr>
-                                                            <tr *ngIf="onefile.hasResults">
-                                                                <p><button class="ml-2 btn btn-primary"
+                                                                        <span *ngIf="!extractingData">Extract</span>
+                                                                        <span
+                                                                            *ngIf="extractingData && !callingTextAnalytics">
+                                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                                                            Leyendo</span>
+                                                                        <span
+                                                                            *ngIf="extractingData && callingTextAnalytics"><i
+                                                                                class="fa fa-spinner fa-spin fa-fw"></i>
+                                                                            Analizando</span>
+                                                                    </button></span>
+                                                            </span>
+                                                            <span *ngIf="onefile.hasResults">
+                                                                <span><button class="btn btn-primary"
                                                                         (click)="openResults(onefile.name);">
-                                                                        Ver resultados</button></p>
-                                                            </tr>
-
-                                                        </span>
-
-                                                    </tbody>
-                                                </table>
+                                                                        Ver resultados</button></span>
+                                                            </span>
+                                                            <a class="danger ml-2" (click)="deleteFile(onefile,i);"
+                                                                href="javascript:void(0)"><i class="ft-trash"></i></a>
+                                                        </td>
 
 
-                                            </div>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+
+
                                         </div>
                                     </div>
-                                </span>
-                            </div>
-                            <div *ngIf="!loadedGeno">
-                                <i class="fa fa-spinner fa-spin fa-fw"></i> Cargando...
-                            </div>
+                                </div>
+                            </span>
                         </div>
-                        <div class="card mx-auto" *ngIf="step=='1'">
-                            <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
-                            <h2 class="card-title font-large-1 text-center content-header mb-3">{{'menu.Genotype' |
-                                translate }}</h2>
-                            <div *ngIf="temporalSymptoms.length>0">
-                                <thead class="pr-1 pl-1">
-                                    <tr>
-                                        <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
-                                            <span class="icons-title-symptoms ml-1"
-                                                style="font-weight: normal;">{{'land.SelectSymptoms' | translate
-                                                }}</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <div class="table-cont">
-                                    <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
-                                        aria-labelledby="HPO">
-                                        <tbody>
-                                            <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
-                                                <td>
-                                                    <span>
-                                                        <span class="float-right ml-1">
-                                                            <button
-                                                                (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                                                                class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
-                                                                title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                                                                <em class="fa fa-info w-13"></em>
-                                                            </button>
-                                                        </span>
-                                                        <span>
-                                                            <button (click)="changeStateSymptom(i)"
-                                                                class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                                                [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
-                                                                href="javascript:void(0)"
-                                                                title="{{'phenotype.Click to check it' | translate }}">
-                                                                <em class="fa fa-check w-13"></em>
-                                                            </button>
-                                                            <span class="ml-1 custom-bold pointer"
-                                                                (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
-                                                        </span>
+                        <div *ngIf="!loadedGeno">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i> Cargando...
+                        </div>
+                    </div>
+                    <div *ngIf="step=='1'">
+                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
+                        <div *ngIf="temporalSymptoms.length>0">
+                            <thead class="pr-1 pl-1">
+                                <tr>
+                                    <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
+                                        <span class="icons-title-symptoms ml-1"
+                                            style="font-weight: normal;">{{'land.SelectSymptoms' | translate
+                                            }}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <div class="table-cont">
+                                <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                    aria-labelledby="HPO">
+                                    <tbody>
+                                        <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
+                                            <td>
+                                                <span>
+                                                    <span class="float-right ml-1">
+                                                        <button
+                                                            (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                                                            class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                                            <em class="fa fa-info w-13"></em>
+                                                        </button>
                                                     </span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <p><button class="ml-2 btn btn-primary"
-                                            (click)="saveSymptomsToDb();">{{'generics.Save' | translate }}</button></p>
-                                </div>
+                                                    <span>
+                                                        <button (click)="changeStateSymptom(i)"
+                                                            class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                            [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
+                                                            href="javascript:void(0)"
+                                                            title="{{'phenotype.Click to check it' | translate }}">
+                                                            <em class="fa fa-check w-13"></em>
+                                                        </button>
+                                                        <span class="ml-1 custom-bold pointer"
+                                                            (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div *ngIf="temporalSymptoms.length==0" class="white-space">
-                                <tbody></tbody>
+                            <div class="center-elements mt-2">
+                                <p><button class="ml-2 btn btn-primary" (click)="saveSymptomsToDb();">{{'generics.Save'
+                                        | translate }}</button></p>
                             </div>
                         </div>
-                        <div class="card mx-auto" *ngIf="step=='2'">
-                            <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
-                            <div class="p-2">
-                                <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
-                                  name="medicalText" placeholder="{{'land.placeholder' | translate }}"></textarea>
-                              </div>
-                              <div class="text-center mt-2">
-                                <button type="button" [disabled]="callingTextAnalytics" class="btn btn-lg btn-info round"
-                                  [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
-                                  (click)="startExtractor();">
-                                  <span *ngIf="!callingTextAnalytics">{{'land.Look for symptoms' | translate }}</span>
-                                  <span *ngIf="callingTextAnalytics"><i class="fa fa-spinner fa-spin fa-fw"></i> Analizando texto</span>
-                                </button>
-                              </div>
+                        <div *ngIf="temporalSymptoms.length==0" class="white-space">
+                            <tbody></tbody>
+                        </div>
+                    </div>
+                    <div *ngIf="step=='2'">
+                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
+                        <div class="p-2">
+                            <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;"
+                                [(ngModel)]="medicalText" name="medicalText"
+                                placeholder="{{'land.placeholder' | translate }}"></textarea>
+                        </div>
+                        <div class="text-center mt-2">
+                            <button type="button" [disabled]="callingTextAnalytics" class="btn btn-lg btn-info round"
+                                [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
+                                (click)="startExtractor();">
+                                <span *ngIf="!callingTextAnalytics">{{'land.Look for symptoms' | translate }}</span>
+                                <span *ngIf="callingTextAnalytics"><i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    Analizando texto</span>
+                            </button>
                         </div>
                     </div>
                 </div>

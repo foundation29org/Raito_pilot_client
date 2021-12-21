@@ -306,11 +306,9 @@ export class SymptomsComponent implements OnInit {
   getPlainInfoSymptoms() {
     var resCopy = "";
     for (let i = 0; i < this.phenotype.data.length; i++) {
-      if (this.phenotype.data[i].checked) {
-        resCopy = resCopy + this.phenotype.data[i].id + " - " + this.phenotype.data[i].name;
-        if (i + 1 < this.phenotype.data.length) {
-          resCopy = resCopy + "\n";
-        }
+      resCopy = resCopy + this.phenotype.data[i].id + " - " + this.phenotype.data[i].name;
+      if (i + 1 < this.phenotype.data.length) {
+        resCopy = resCopy + "\n";
       }
     }
     return resCopy;

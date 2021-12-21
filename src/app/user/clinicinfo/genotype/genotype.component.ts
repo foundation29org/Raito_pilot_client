@@ -56,7 +56,9 @@ export class GenotypeComponent implements OnInit, OnDestroy {
 
     //si tiene VCF
     this.subscription.add(this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
+      
       if (vcfFilesOnBlob.length > 0) {
+        console.log(vcfFilesOnBlob);
         var mindate = 0;
         for (var i = 0; i < vcfFilesOnBlob.length; i++) {
           if ((vcfFilesOnBlob[i].name).indexOf('.vcf') != -1) {
@@ -66,7 +68,7 @@ export class GenotypeComponent implements OnInit, OnDestroy {
             }
           }
         }
-        var filesVcf = [];
+        var filesVcf = vcfFilesOnBlob;
         for (var i = 0; i < filesVcf.length; i++) {
           filesVcf[i].nameForShow = ""
         }
@@ -80,6 +82,7 @@ export class GenotypeComponent implements OnInit, OnDestroy {
           }
         }
         this.filesVcf = filesVcf;
+        console.log(this.filesVcf);
       } else {
         console.log('no tiene!');
       }
