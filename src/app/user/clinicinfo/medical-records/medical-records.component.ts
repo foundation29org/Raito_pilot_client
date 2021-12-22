@@ -468,7 +468,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   addTemporalSymptom(symptom, inputType) {
     var foundElement = this.searchService.search(this.temporalSymptoms, 'id', symptom.id);
     if (!foundElement) {
-      this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: null, percentile: -1, inputType: inputType, importance: '1', polarity: '0', similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
+      this.temporalSymptoms.push({ id: symptom.id, name: symptom.name, new: true, checked: null, percentile: -1, inputType: inputType, importance: '1', polarity: '0', onset: null, similarity: symptom.similarity, positions: symptom.positions, text: symptom.text });
       this.temporalSymptoms.sort(this.sortService.GetSortOrder("name"));
       return true;
     } else {
@@ -682,9 +682,9 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
       for (var i = 0; i <  this.phenotype.data.length; i++) {
           if(this.phenotype.data[i].inputType == undefined){
-            phenotoSave.data.push({id: this.phenotype.data[i].id,name: this.phenotype.data[i].name, inputType: 'unknown', importance: '1', polarity: '0'});
+            phenotoSave.data.push({id: this.phenotype.data[i].id,name: this.phenotype.data[i].name, inputType: 'unknown', importance: '1', polarity: '0', onset: null});
           }else{
-            phenotoSave.data.push({id: this.phenotype.data[i].id,name: this.phenotype.data[i].name, inputType: this.phenotype.data[i].inputType, importance: '1', polarity: '0'});
+            phenotoSave.data.push({id: this.phenotype.data[i].id,name: this.phenotype.data[i].name, inputType: this.phenotype.data[i].inputType, importance: '1', polarity: '0', onset: null});
           }
       }
       this.phenotype = JSON.parse(JSON.stringify(phenotoSave));

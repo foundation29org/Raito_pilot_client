@@ -4,9 +4,19 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div>
-                        <h2 class="font-large-1 text-center content-header mb-3">{{'menu.Genotype' |
+                        <h2 class="text-center content-header mb-3">{{'menu.Genotype' |
                             translate }}</h2>
-                            <div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
+                            <div class="center-elements">
+                                <span class="ml-1">
+                                    <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
+                                        (change)="onFileChangePDF($event);"
+                                        accept=".vcf, .vcf.gz" />
+                                    <label class="btn btn-info"
+                                        style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                        for="fileDropRef">{{'land.Browse for file' | translate }}<span class="font-small-2 d-block">{{'land.Accepted files' | translate }}</span></label>
+                                </span>
+                            </div>
+                            <!--<div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                 <input type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                                     accept=".vcf, .vcf.gz" />
                                 <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
@@ -22,14 +32,14 @@
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'land.Browse for file' | translate }}</label>
                                 <h3 class="mt-2 d-block">{{'land.Accepted files' | translate }}</h3>
-                                </div>
+                                </div>-->
                         <p *ngIf="preparingFile">
                             <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                             <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                         </p>
                         <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
                             translate }}: {{uploadProgress | async}}%</h4>
-                        <div class="mb-2" id="Widget-line-chart">
+                        <div class="mb-2 mt-2" id="Widget-line-chart">
                             <span *ngIf="filesVcf.length==0" class="center-elements">
                                 <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
                                 <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
@@ -53,7 +63,7 @@
                                                                 MMM y': '' : translate.currentLang}}</p>
                                                         </td>
                                                         <td>
-                                                            <a class="danger"
+                                                            <a class="btn btn-primary"
                                                                 (click)="deleteFile(onefile,i);"
                                                                 href="javascript:void(0)"><i
                                                                     class="ft-trash"></i></a>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, LOCALE_ID } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Clipboard } from "@angular/cdk/clipboard"
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
@@ -20,14 +20,20 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { EventsService } from 'app/shared/services/events.service';
+import { DateService } from 'app/shared/services/date.service';
 
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
 
+import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
+
+export function getCulture() {
+  return sessionStorage.getItem('culture');
+}
 
 declare let gtag: any;
 
@@ -53,7 +59,7 @@ export class SearchTermService {
   selector: 'app-symptoms',
   templateUrl: './symptoms.component.html',
   styleUrls: ['./symptoms.component.scss'],
-  providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService],
+  providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }],
 })
 
 
@@ -83,10 +89,12 @@ export class SymptomsComponent implements OnInit {
   sending: boolean = false;
   private msgDataSavedOk: string;
   private msgDataSavedFail: string;
+  today = new Date();
 
-  constructor(private http: HttpClient, private authService: AuthService, public searchTermService: SearchTermService, private sortService: SortService, private searchService: SearchService, private modalService: NgbModal, public translate: TranslateService, private clipboard: Clipboard, private eventsService: EventsService, public jsPDFService: jsPDFService, private apiDx29ServerService: ApiDx29ServerService, private patientService: PatientService, private apif29BioService: Apif29BioService, private authGuard: AuthGuard, public toastr: ToastrService) {
+  constructor(private http: HttpClient, private authService: AuthService, public searchTermService: SearchTermService, private sortService: SortService, private searchService: SearchService, private modalService: NgbModal, public translate: TranslateService, private clipboard: Clipboard, private eventsService: EventsService, public jsPDFService: jsPDFService, private apiDx29ServerService: ApiDx29ServerService, private patientService: PatientService, private apif29BioService: Apif29BioService, private authGuard: AuthGuard, public toastr: ToastrService, private dateAdapter: DateAdapter<Date>, private dateService: DateService) {
     this._startTime = Date.now();
     this.lang = sessionStorage.getItem('lang');
+    this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
   }
 
   ngOnInit(): void {
@@ -98,63 +106,61 @@ export class SymptomsComponent implements OnInit {
     this.initEnvironment();
   }
 
-  loadTranslations(){
+  loadTranslations() {
     this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
-      this.msgDataSavedOk=res;
+      this.msgDataSavedOk = res;
     });
     this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-      this.msgDataSavedFail=res;
+      this.msgDataSavedFail = res;
     });
   }
 
-  initEnvironment(){
+  initEnvironment() {
     this.initVariables();
     this.userId = this.authService.getIdUser();
-    if(this.authService.getCurrentPatient()==null){
+    if (this.authService.getCurrentPatient() == null) {
       this.loadPatientId();
-    }else{
+    } else {
       this.loadedPatientId = true;
       this.selectedPatient = this.authService.getCurrentPatient();
       this.loadSymptoms();
     }
   }
 
-  initVariables(){
+  initVariables() {
     this.phenotype = {
-     validator_id: null,
-     validated: false,
-     inputType: 'manual',
-     date: null,
-     data: [],
-     _id: null
-   };
+      validator_id: null,
+      validated: false,
+      date: null,
+      data: [],
+      _id: null
+    };
 
-   this.phenotypeCopy = {
-     validator_id: null,
-     validated: false,
-     inputType: 'manual',
-     date: null,
-     data: [],
-     _id: null
-   };
- }
+    this.phenotypeCopy = {
+      validator_id: null,
+      validated: false,
+      date: null,
+      data: [],
+      _id: null
+    };
+  }
 
-  loadPatientId(){
+  loadPatientId() {
     this.loadedPatientId = false;
-    this.subscription.add( this.patientService.getPatientId()
-    .subscribe( (res : any) => {
-      console.log(res);
-      if(res==null){
-        this.authService.logout();
-      }else{
-        this.loadedPatientId = true;
-        this.authService.setCurrentPatient(res);
-        this.selectedPatient = res;
-        this.loadSymptoms();
-      }
-     }, (err) => {
-       console.log(err);
-     }));
+    this.subscription.add(this.patientService.getPatientId()
+      .subscribe((res: any) => {
+        console.log(res);
+        if (res == null) {
+          this.authService.logout();
+        } else {
+          this.loadedPatientId = true;
+          this.authService.setCurrentPatient(res);
+          this.selectedPatient = res;
+          this.loadSymptoms();
+        }
+      }, (err) => {
+        console.log(err);
+      }));
   }
 
   searchSymptoms: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
@@ -179,7 +185,7 @@ export class SymptomsComponent implements OnInit {
       var symptom = $e.item;
       var foundElement = this.searchService.search(this.phenotype.data, 'id', symptom.id);
       if (!foundElement) {
-        this.phenotype.data.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', synonyms: symptom.synonyms, def: symptom.desc });
+        this.phenotype.data.push({ id: symptom.id, name: symptom.name, new: true, checked: true, percentile: -1, inputType: 'manual', importance: '1', polarity: '0', onset: null, synonyms: symptom.synonyms, def: symptom.desc });
         this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
         this.optionSymptomAdded = "Manual";
         this.lauchEvent("Symptoms");
@@ -349,131 +355,158 @@ export class SymptomsComponent implements OnInit {
       }.bind(this));
   }
 
-  loadSymptoms(){
+  loadSymptoms() {
     this.loadedSymptoms = false;
-    var para= this.authService.getCurrentPatient();
+    var para = this.authService.getCurrentPatient();
     //cargar el fenotipo del usuario
-    this.subscription.add( this.apiDx29ServerService.getSymptoms(para.sub)
-    .subscribe( (res : any) => {
-      if(res.message){
-        //no tiene fenotipo
-        this.loadedSymptoms = true;
-      }else{
-        if(res.phenotype.data.length>0){
-          res.phenotype.data.sort(this.sortService.GetSortOrder("name"));
-          this.phenotype = res.phenotype;
-          this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
-          var hposStrins =[];
-          this.phenotype.data.forEach(function(element) {
-            hposStrins.push(element.id);
-          });
+    this.subscription.add(this.apiDx29ServerService.getSymptoms(para.sub)
+      .subscribe((res: any) => {
+        if (res.message) {
+          //no tiene fenotipo
+          this.loadedSymptoms = true;
+        } else {
+          if (res.phenotype.data.length > 0) {
+            res.phenotype.data.sort(this.sortService.GetSortOrder("name"));
+            this.phenotype = res.phenotype;
+            this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
+            var hposStrins = [];
+            this.phenotype.data.forEach(function (element) {
+              hposStrins.push(element.id);
+            });
             //get symtoms
             this.callGetInfoTempSymptomsJSON(hposStrins);
 
-          for (var j = 0; j < this.phenotype.data.length; j++) {
-            this.phenotype.data[j].checked = true;
+            for (var j = 0; j < this.phenotype.data.length; j++) {
+              this.phenotype.data[j].checked = true;
+            }
+            this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
+          } else {
+            //no tiene fenotipo
+            this.loadedSymptoms = true;
+            this.phenotype = res.phenotype;
+            this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
           }
-          this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
-        }else{
-          //no tiene fenotipo
-          this.loadedSymptoms = true;
-          this.phenotype = res.phenotype;
-          this.phenotypeCopy = JSON.parse(JSON.stringify(res.phenotype));
         }
-      }
-      this.loadedSymptoms = true;
-     }, (err) => {
-       console.log(err);
-       this.loadedSymptoms = true;
-     }));
+        this.loadedSymptoms = true;
+      }, (err) => {
+        console.log(err);
+        this.loadedSymptoms = true;
+      }));
   }
 
   callGetInfoTempSymptomsJSON(hposStrins) {
     var lang = this.lang;
     this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
-        .subscribe((res: any) => {
+      .subscribe((res: any) => {
 
-            var tamano = Object.keys(res).length;
-            if (tamano > 0) {
-                for (var i in res) {
-                    for (var j = 0; j < this.phenotype.data.length; j++) {
-                        if (res[i].id == this.phenotype.data[j].id) {
-                            this.phenotype.data[j].name = res[i].name;
-                            this.phenotype.data[j].def = res[i].desc;
-                            this.phenotype.data[j].synonyms = res[i].synonyms;
-                            this.phenotype.data[j].comment = res[i].comment;
-                            if (this.phenotype.data[j].importance == undefined) {
-                                this.phenotype.data[j].importance = 1;
-                            }
-                        }
-                    }
+        var tamano = Object.keys(res).length;
+        if (tamano > 0) {
+          for (var i in res) {
+            for (var j = 0; j < this.phenotype.data.length; j++) {
+              if (res[i].id == this.phenotype.data[j].id) {
+                this.phenotype.data[j].name = res[i].name;
+                this.phenotype.data[j].def = res[i].desc;
+                this.phenotype.data[j].synonyms = res[i].synonyms;
+                this.phenotype.data[j].comment = res[i].comment;
+                if (this.phenotype.data[j].importance == undefined) {
+                  this.phenotype.data[j].importance = 1;
                 }
-                console.log(this.phenotype.data);
-                this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
+              }
             }
-            this.lauchEvent("Symptoms");
-            this.focusManualSymptoms();
-
-
-        }, (err) => {
-            console.log(err);
-            this.lauchEvent("Symptoms");
-            this.focusManualSymptoms();
-        }));
-}
-
-focusManualSymptoms() {
-  setTimeout(function () {
-      if (this.phenotype.data.length == 0) {
-          this.inputManualSymptomsElement.nativeElement.focus();
-      }
-  }.bind(this), 200);
-}
-
-saveSymptomsToDb() {
-  if(this.authGuard.testtoken()){
-    this.sending = true;
-
-    var phenotoSave = JSON.parse(JSON.stringify(this.phenotype));
-    phenotoSave.data = [];
-    for (var i = 0; i <  this.phenotype.data.length; i++) {
-        if(this.phenotype.data[i].inputType == undefined){
-          phenotoSave.data.push({id: this.phenotype.data[i].id,name: this.phenotype.data[i].name, inputType: 'unknown', importance: '1', polarity: '0'});
-        }else{
-          phenotoSave.data.push({id: this.phenotype.data[i].id,name: this.phenotype.data[i].name, inputType: this.phenotype.data[i].inputType, importance: '1', polarity: '0'});
+          }
+          console.log(this.phenotype.data);
+          this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
         }
-    }
-    this.phenotype = JSON.parse(JSON.stringify(phenotoSave));
-    this.phenotype.date = Date.now();
-    if(this.phenotype._id==null){
-      this.subscription.add( this.http.post(environment.api+'/api/phenotypes/'+this.authService.getCurrentPatient().sub, this.phenotype)
-      .subscribe( (res : any) => {
-        this.sending = false;
+        this.lauchEvent("Symptoms");
+        this.focusManualSymptoms();
 
-       }, (err) => {
-         console.log(err);
-         this.sending = false;
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           this.toastr.error('', this.msgDataSavedFail);
-         }
-       }));
-    }else{
-      this.subscription.add( this.http.put(environment.api+'/api/phenotypes/'+this.phenotype._id, this.phenotype)
-      .subscribe( (res : any) => {
-        this.sending = false;
-       }, (err) => {
-         console.log(err.error);
-         this.sending = false;
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           this.toastr.error('', this.msgDataSavedFail);
-         }
-       }));
+
+      }, (err) => {
+        console.log(err);
+        this.lauchEvent("Symptoms");
+        this.focusManualSymptoms();
+      }));
+  }
+
+  focusManualSymptoms() {
+    setTimeout(function () {
+      if (this.phenotype.data.length == 0) {
+        this.inputManualSymptomsElement.nativeElement.focus();
+      }
+    }.bind(this), 200);
+  }
+
+  saveSymptomsToDb() {
+    if (this.authGuard.testtoken()) {
+      this.sending = true;
+
+      var phenotoSave = JSON.parse(JSON.stringify(this.phenotype));
+      phenotoSave.data = [];
+      for (var i = 0; i < this.phenotype.data.length; i++) {
+        if (this.phenotype.data[i].inputType == undefined) {
+          phenotoSave.data.push({ id: this.phenotype.data[i].id, inputType: 'unknown' });
+        } else {
+          phenotoSave.data.push({ id: this.phenotype.data[i].id, inputType: this.phenotype.data[i].inputType, importance: '1', polarity: '0', onset: this.phenotype.data[i].onset });
+        }
+      }
+      //this.phenotype = JSON.parse(JSON.stringify(phenotoSave));
+      phenotoSave.date = Date.now();
+      this.phenotype.date = Date.now();
+      if (this.phenotype._id == null) {
+        this.subscription.add(this.http.post(environment.api + '/api/phenotypes/' + this.authService.getCurrentPatient().sub, phenotoSave)
+          .subscribe((res: any) => {
+            this.sending = false;
+            this.phenotype._id = res.phenotype._id;
+          }, (err) => {
+            console.log(err);
+            this.sending = false;
+            if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+              this.authGuard.testtoken();
+            } else {
+              this.toastr.error('', this.msgDataSavedFail);
+            }
+          }));
+      } else {
+        this.subscription.add(this.http.put(environment.api + '/api/phenotypes/' + this.phenotype._id, phenotoSave)
+          .subscribe((res: any) => {
+            this.sending = false;
+          }, (err) => {
+            console.log(err.error);
+            this.sending = false;
+            if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+              this.authGuard.testtoken();
+            } else {
+              this.toastr.error('', this.msgDataSavedFail);
+            }
+          }));
+      }
     }
   }
-}
+
+  closeDatePicker(eventData: any, index: any, dp?: any) {
+    // get month and year from eventData and close datepicker, thus not allowing user to select date
+    this.phenotype.data[index].onset = this.dateService.transformDate(eventData);
+    this.saveSymptomsToDb();
+    dp.close();
+  }
+
+  getLiteral(literal) {
+    return this.translate.instant(literal);
+  }
+
+  updateSymptomsToDb() {
+    this.subscription.add(this.http.put(environment.api + '/api/phenotypes/' + this.phenotype._id, this.phenotype)
+      .subscribe((res: any) => {
+        this.sending = false;
+      }, (err) => {
+        console.log(err.error);
+        this.sending = false;
+        if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+          this.authGuard.testtoken();
+        } else {
+          this.toastr.error('', this.msgDataSavedFail);
+        }
+      }));
+  }
 
 }

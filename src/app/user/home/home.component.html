@@ -67,7 +67,10 @@
                                                 class="fa fa-microphone microphone-ico"></i></span>
                                     </div>
                                 </div>
-                                <button class="mr-1 btn btn-secondary" (click)="searchOpenAi();"><i class="fa fa-search search-ico"></i> {{'homeraito.Search' | translate }}</button>
+                                <button class="mr-1 btn btn-secondary" (click)="searchOpenAi();">
+                                    <span *ngIf="!callingGpt3"><i class="fa fa-search search-ico"></i> {{'homeraito.Search' | translate }}</span>
+                                    <span *ngIf="callingGpt3"><i class="fa fa-spinner fa-spin fa-fw"></i> {{'generics.Please wait' | translate }}</span>
+                                </button>
 
                                 <a routerLink="/charts" class="round btn btn-secondary mt-4 mb-4 btn-block"
                                     title="I want to join">

@@ -16,15 +16,15 @@
 	<div *ngIf="!loading">
 		<div *ngIf="medications.length>0">
 			<div class="row" *ngIf="actualMedications.length>0">
-				<div class="col-md-12">
-					<h4>{{'medication.Current drugs' | translate }}</h4>
+				<div class="col-md-12 mt-4">
+					<h4 class="text-bold-400">{{'medication.Current drugs' | translate }}</h4>
 				</div>
-				<div class="col-md-4" *ngFor="let medication of actualMedications; let i = index">
-					<div class="card bg-darken-4">
+				<div class="col-md-6" *ngFor="let medication of actualMedications; let i = index">
+					<div class="card gradient-red-ocean">
 						<div class="card-body">
-							<div class="card-block pt-2 pb-0">
+							<div class="card-block pb-0">
 								<div class="media">
-									<div class="media-body text-left">
+									<div class="media-body white text-left">
 										<h3 class="font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 										<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
 									</div>
@@ -33,7 +33,7 @@
 							<div class="pt-2 card-block pb-0">
 
 								<div ngbDropdown class="d-inline-block">
-									<button class="btn btn-primary btn-raised btn-round mr-1" id="dropdownBasic1" ngbDropdownToggle>{{'generics.Options' | translate }}</button>
+									<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1" ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 	                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 										<button class="dropdown-item" (click)="updateMedication(medication)">{{'generics.View' | translate }}</button>
 										<button class="dropdown-item" (click)="changeNotes(medication, contentNotes)">{{'generics.notes' | translate }}</button>
@@ -50,18 +50,18 @@
 				</div>
 			</div>
 			<div class="row col-md-12 ml-0" *ngIf="actualMedications.length==0">
-				{{'medication.Currently it is not taking drugs' | translate }}
+				<h4 class="text-bold-400">{{'medication.Currently it is not taking drugs' | translate }}</h4>
 			</div>
 			<div class="row" *ngIf="oldMedications.length>0">
 				<div class="col-md-12 mt-4">
-					<h4>{{'medication.Previous drugs' | translate }}</h4>
+					<h4 class="text-bold-400">{{'medication.Previous drugs' | translate }}</h4>
 				</div>
-				<div class="col-md-4" *ngFor="let medication of oldMedications; let i = index">
-					<div class="card">
+				<div class="col-md-6" *ngFor="let medication of oldMedications; let i = index">
+					<div class="card gradient-red-ocean">
 						<div class="card-body">
-							<div class="card-block pt-2 pb-0">
+							<div class="card-block pb-0">
 								<div class="media">
-									<div class="media-body text-left">
+									<div class="media-body white text-left">
 										<h3 class="font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 										<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
 										<p>{{medication.endDate | date: timeformat}}</p>
@@ -71,7 +71,7 @@
 							</div>
 							<div class="pt-2 card-block pb-0">
 								<div ngbDropdown class="d-inline-block">
-									<button class="btn btn-primary btn-raised btn-round mr-1" id="dropdownBasic1" ngbDropdownToggle>{{'generics.Options' | translate }}</button>
+									<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1" ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 	                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 										<button class="dropdown-item" (click)="updateMedication(medication)">{{'generics.View' | translate }}</button>
 										<button class="dropdown-item" (click)="deleteMedication(medication)">{{'generics.Delete' | translate }}</button>
@@ -83,13 +83,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="row col-md-12" *ngIf="oldMedications.length==0">
+			<div class="row" *ngIf="oldMedications.length==0">
 				<div class="col-md-12 mt-4">
-					<h4>{{'medication.No older drugs' | translate }}</h4>
+					<h4 class="text-bold-400">{{'medication.No older drugs' | translate }}</h4>
 				</div>
 			</div>
-			<div *ngIf="medications.length==0">
-				{{'medication.No saved drugs' | translate }}
+		</div>
+		<div class="row" *ngIf="medications.length==0">
+			<div class="col-md-12 mt-4">
+				<h4 class="text-bold-400">{{'medication.No saved drugs' | translate }}</h4>
 			</div>
 		</div>
 	</div>
@@ -119,7 +121,7 @@
 		<div class="col-xl-3 col-lg-6 col-md-6 col-12">
 			<div class="card gradient-bloody-mary">
 				<div class="card-body">
-					<div class="card-block pt-2 pb-0">
+					<div class="card-block pb-0">
 						<div class="media">
 							<div class="media-body white text-left">
 								<h3 class="font-medium-3 mb-0">{{actualMedication.dose}} {{'medication.mg/day' | translate }}</h3>
@@ -297,7 +299,7 @@
 								<tr *ngFor="let drug of historyDrugSelected ; let i = index">
 									<td>
 										<div ngbDropdown class="ml-1 d-inline-block">
-											<button class="btn btn-primary btn-raised btn-round mr-1" id="dropdownBasic1" ngbDropdownToggle><i class="icon-settings font-medium-4 fa  white align-middle"></i></button>
+											<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1" ngbDropdownToggle><i class="icon-settings font-medium-4 fa  white align-middle"></i></button>
 											<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 												<button class="dropdown-item" (click)="changeNotes(drug, contentNotes)">{{'generics.notes' | translate }}</button>
 												<button *ngIf="!drug.endDate" class="dropdown-item" (click)="changeDose(drug, content)">{{'medication.Change Dose' | translate }}</button>

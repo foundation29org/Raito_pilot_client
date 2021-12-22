@@ -3,11 +3,11 @@
 		<span class="mt-1">Charts </span>
 		<span class="optionsCharts">
 			<span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="true" (click)="test();"
-					style="cursor: not-allowed;">Last month</button></span>
+					style="cursor: not-allowed;">{{'charts.Last month' | translate }}</button></span>
 			<span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="true" (click)="test();"
-					style="cursor: not-allowed;">Last quarter</button></span>
+					style="cursor: not-allowed;">{{'charts.Last quarter' | translate }}</button></span>
 			<span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="true" (click)="test();"
-					style="cursor: not-allowed;">Last year</button></span>
+					style="cursor: not-allowed;">{{'charts.Last year' | translate }}</button></span>
 		</span>
 	</div>
 </div>
@@ -17,7 +17,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="card-block">
-					<h2 class="font-large-1 text-center content-header mb-3">{{'menu.Seizures' | translate }}
+					<h2 class="text-center content-header mb-3">{{'menu.Seizures' | translate }}
 					</h2>
 					<div id="line-chart2" class="height-400">
 						<ngx-charts-line-chart [scheme]="lineChartColorScheme" [results]="lineChartSeizures"
@@ -44,6 +44,13 @@
 					</div>
 				</div>
 			</div>
+			<div class="card-body">
+				<div class="card-block center-elements">
+					<a routerLink="/seizures" class="btn btn-primary" title="{{'homeraito.p5' | translate }}">
+						<span class="menu-title">{{'homeraito.p5' | translate }}</span>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -52,7 +59,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="card-block">
-					<h2 class="font-large-1 text-center content-header mb-3">{{'menu.Seizures' | translate }}
+					<h2 class="text-center content-header mb-3">{{'menu.Seizures' | translate }}
 					</h2>
 					<div class="text-center">
 						<p>{{'charts.Noseizures' | translate }}</p>
@@ -70,7 +77,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="card-block">
-					<h2 class="font-large-1 text-center content-header mb-3">{{'charts.Quality of life' | translate }}</h2>
+					<h2 class="text-center content-header mb-3">{{'charts.Quality of life' | translate }}</h2>
 					<div id="line-chart2" class="height-400">
 						<ngx-charts-area-chart [scheme]="lineChartColorScheme" [results]="lineChartHeight"
 							[gradient]="lineChartGradient" [xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis"
@@ -108,11 +115,12 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="card-block">
-					<h2 class="font-large-1 text-center content-header mb-3">{{'charts.Quality of life' | translate }}
+					<h2 class="text-center content-header mb-3">{{'charts.Quality of life' | translate }}
 					</h2>
 					<div class="text-center">
 						<p>{{'charts.No data saved' | translate }}</p>
-						<a routerLink="/feel" class="btn btn-primary" title="{{'charts.I want to answer how I feel today' | translate }}">
+						<a routerLink="/feel" class="btn btn-primary"
+							title="{{'charts.I want to answer how I feel today' | translate }}">
 							<span class="menu-title">{{'charts.I want to answer how I feel today' | translate }}</span>
 						</a>
 					</div>
@@ -121,12 +129,12 @@
 		</div>
 	</div>
 </div>
-<div class="row" *ngIf="medications.length > 0">
+<div class="row" *ngIf="medications.length > 0 && loadedDrugs">
 	<div class="col-sm-12">
 		<div class="card" #ContainerRef>
 			<div class="card-body">
 				<div class="card-block pb-2">
-					<h2 class="font-large-1 text-center content-header mb-3">{{'clinicalinfo.Medication' |
+					<h2 class="text-center content-header mb-3">{{'clinicalinfo.Medication' |
 						translate }} ({{'medication.mg/day' | translate }})</h2>
 					<div id="line-chart2">
 						<div id="chartdoseAvgDrugs" style="max-height: 400px;" class="ct-chart" height="300px"></div>
@@ -135,8 +143,8 @@
 							[xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis" [legend]="true"
 							[legendPosition]="'below'" [showXAxisLabel]="lineChartShowXAxisLabel"
 							[xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="lineChartShowYAxisLabel"
-							[xAxisLabel]="msgDate" [autoScale]="false" (select)="onSelect($event)"
-							[yAxisLabel]="titleDose">
+							[xAxisLabel]="msgDate" [autoScale]="false" [timeline]="true" [xScaleMax]="today"
+							(select)="onSelect($event)" [yAxisLabel]="titleDose">
 						</ngx-charts-line-chart>
 					</div>
 				</div>
@@ -145,25 +153,30 @@
 						<h4>{{'medication.Current drugs' | translate }}</h4>
 					</div>
 
-					<div class="table-cont">
+					<div class="table-responsive">
 						<table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
 							aria-labelledby="HPO">
 							<tbody>
-								<span *ngFor="let medication of actualMedications ; let i = index">
-									<tr class="d-block">
-										<td>
-											{{medication.drugTranslate}}
-										</td>
-										<td>
-											{{medication.dose}} {{'medication.mg/day' | translate }}
-										</td>
-									</tr>
-								</span>
+								<tr *ngFor="let medication of actualMedications ; let i = index">
+									<td>
+										{{medication.drugTranslate}}
+									</td>
+									<td>
+										{{medication.dose}} {{'medication.mg/day' | translate }}
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
 
+			</div>
+			<div class="card-body">
+				<div class="card-block center-elements">
+					<a routerLink="/medication" class="btn btn-primary" title="{{'homeraito.p7' | translate }}">
+						<span class="menu-title">{{'homeraito.p7' | translate }}</span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -173,7 +186,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="card-block">
-					<h2 class="font-large-1 text-center content-header mb-3">{{'clinicalinfo.Medication' | translate }}
+					<h2 class="text-center content-header mb-3">{{'clinicalinfo.Medication' | translate }}
 					</h2>
 					<div class="text-center">
 						<p>{{'charts.There is no drug data stored' | translate }}</p>

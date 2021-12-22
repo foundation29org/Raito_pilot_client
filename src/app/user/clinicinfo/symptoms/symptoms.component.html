@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div>
-                        <h2 class="font-large-1 text-center content-header mb-3">{{'menu.Phenotype' | translate }}</h2>
+                        <h2 class="text-center content-header mb-3">{{'menu.Phenotype' | translate }}</h2>
                         <div>
                             <ng-template #rt let-r="result" let-t="term">
                               <strong title="{{r.name}}">{{ r.name}}</strong>
@@ -34,7 +34,7 @@
                                 title="{{'land.Download symptoms' | translate }}" (click)="downloadSymptoms()"
                                 style="cursor: pointer;"></em>
                               </span>
-                            <div class="table-cont">
+                            <div class="table-responsive">
                               <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
                                 aria-labelledby="HPO">
                                 <tbody>
@@ -56,6 +56,29 @@
                                         </span>
                                         <span>
                                           <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                          
+                                            <div class="ml-1" style="line-height: 0.5em !important;">
+                                              <input class="form-control d-none" id="onset_{{i}}" name="onset{{i}}" matInput
+                                                  placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
+                                                  [matDatepicker]="pickerOnset" [max]="today" (click)="pickerOnset.open()"
+                                                  [(ngModel)]="hpo.onset">
+                                              <input readonly class="form-control d-none" (click)="pickerOnset.open()">
+                                              <span class="text-muted font-small-2">
+                                                <span *ngIf="!hpo.onset">
+                                                  {{'phenotype.Onset' | translate }}
+                                                </span>
+                                                <span *ngIf="hpo.onset">
+                                                  {{hpo.onset | date: 'y': '' : translate.currentLang}}
+                                                </span>
+                                                
+                                                <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-inline" style="line-height: 0.5em !important;">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker startView="multi-year"
+                                                    (yearSelected)="closeDatePicker($event, i, pickerOnset)" touchUi="true"
+                                                    #pickerOnset></mat-datepicker>
+                                              </span>
+                                              
+                                          </div>
                                         </span>
                                       </span>
                                     </td>

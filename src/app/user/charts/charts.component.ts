@@ -80,6 +80,8 @@ export class ChartsComponent implements OnInit, OnDestroy{
   private subscription: Subscription = new Subscription();
   timeformat="";
   lang='en';
+  formatDate: any = [];
+  today= new Date();
   constructor(private router: Router, private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private adapter: DateAdapter<any>, private searchService: SearchService, private sortService: SortService) {
     this.adapter.setLocale(this.authService.getLang());
     this.lang =this.authService.getLang();
@@ -346,9 +348,9 @@ export class ChartsComponent implements OnInit, OnDestroy{
   }
 
   getDrugs(){
+    this.lineChartDrugs = [];
     this.subscription.add( this.http.get(environment.api+'/api/medications/'+this.authService.getCurrentPatient().sub)
          .subscribe( (res : any) => {
-          console.log(res);
           res.sort(this.sortService.DateSort("startDate"));
           console.log(res);
            this.medications = res;
@@ -368,11 +370,17 @@ export class ChartsComponent implements OnInit, OnDestroy{
                 if(res[i].endDate==null){
                   splitDateEnd = new Date();
                   this.lineChartDrugs[foundElementDrugIndex].series.push({value: res[i].dose, name: splitDateEnd});
+                }else{
+                  splitDateEnd = new Date(res[i].endDate);
+                  this.lineChartDrugs[foundElementDrugIndex].series.push({value: res[i].dose, name: splitDateEnd});
                 }
               }else{
                 var seriesfirst = [{value: res[i].dose, name: splitDate}];
                 if(res[i].endDate==null){
                   splitDateEnd = new Date();
+                  seriesfirst.push({value: res[i].dose, name: splitDateEnd});
+                }else{
+                  splitDateEnd = new Date(res[i].endDate);
                   seriesfirst.push({value: res[i].dose, name: splitDateEnd});
                 }
                 this.lineChartDrugs.push({name: res[i].drugTranslate, series: seriesfirst});
@@ -434,8 +442,15 @@ export class ChartsComponent implements OnInit, OnDestroy{
   }
 
   tickFormatting(d: any) {
-    return d.toLocaleString('es-ES').split(" ")[0];
-
+    if(sessionStorage.getItem('lang')=='es'){
+      this.formatDate = 'es-ES'
+    }else{
+      this.formatDate = 'en-EN'
+    }
+    var options = { year: 'numeric', month: 'short' };
+    //var options = { year: 'numeric', month: 'short', day: 'numeric' };
+    var res = d.toLocaleString(this.formatDate, options)
+    return res;
   }
 
   onSelect(event) {
