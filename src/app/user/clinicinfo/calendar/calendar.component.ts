@@ -6,11 +6,13 @@ import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
+import { DateService } from 'app/shared/services/date.service';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs/Subject';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 interface MyEvent{
   _id: any;
@@ -54,10 +56,11 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   private msgDataSavedOk: string;
   private msgDataSavedFail: string;
   step: string = '0';
-  activeIds: string[] =[];
   private subscription: Subscription = new Subscription();
+  imported: number = 0;
+  modalReference: NgbModalRef;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService) { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -87,34 +90,40 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       if(res.listpatients.length>0){
         this.authService.setPatientList(res.listpatients);
         this.authService.setCurrentPatient(res.listpatients[0]);
-        this.subscription.add( this.http.get(environment.api+'/api/seizures/'+res.listpatients[0].sub)
-        .subscribe( (res : any) => {
-          if(res.message){
-            //no tiene información
-            this.events = [];
-          }else{
-            if(res.length>0){
-              for(var i = 0; i < res.length; i++) {
-                res[i].start = new Date(res[i].start);
-              }
-              this.events = res;
-              this.refresh.next();
-              this.lastEvent = JSON.parse(JSON.stringify(res[0]));
-              this.lastEvent._id =null;
-            }else{
-              this.events = [];
-            }
-
-          }
-          this.loading = false;
-         }, (err) => {
-           console.log(err);
-           this.loading = false;
-         }));
+        this.loadEvents();
       }else{
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
         this.router.navigate(['/user/basicinfo/personalinfo']);
       }
+     }, (err) => {
+       console.log(err);
+       this.loading = false;
+     }));
+  }
+
+  loadEvents(){
+    this.events =[];
+    this.subscription.add( this.http.get(environment.api+'/api/seizures/'+this.authService.getCurrentPatient().sub)
+    .subscribe( (res : any) => {
+      if(res.message){
+        //no tiene información
+        this.events = [];
+      }else{
+        if(res.length>0){
+          for(var i = 0; i < res.length; i++) {
+            res[i].start = new Date(res[i].start);
+          }
+          this.events = res;
+          this.refresh.next();
+          this.lastEvent = JSON.parse(JSON.stringify(res[0]));
+          this.lastEvent._id =null;
+        }else{
+          this.events = [];
+          this.step = '0';
+        }
+
+      }
+      this.loading = false;
      }, (err) => {
        console.log(err);
        this.loading = false;
@@ -163,15 +172,9 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   }
 
   saveData(param){
-    console.log(param.start);
     if (param.start != null) {
-      var tempDateStartDate = new Date(param.start)
-      var diferenciahorario = tempDateStartDate.getTimezoneOffset();
-      tempDateStartDate.setMinutes(tempDateStartDate.getMinutes() - diferenciahorario);
-      param.start = tempDateStartDate.toUTCString();
-      param.start = new Date(Date.parse(param.start));
+      param.start = this.dateService.transformDate(param.start);
     }
-    console.log(param.start);
     this.lastEvent = JSON.parse(JSON.stringify(param));
     this.lastEvent._id =null;
     if(this.authGuard.testtoken()){
@@ -234,6 +237,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   }
 
   uploadSeizures(seizurelist){
+    this.imported = 0;
     var listToUpload = [];
 
     for(var i = 0; i < seizurelist.length; i++) {
@@ -270,10 +274,15 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     this.saveMassiveSeizures(listToUpload);
 
     for(var i = 0; i < listToUpload.length; i++) {
-      this.events.push(listToUpload[i]);
+      console.log(listToUpload[i]);
+      var foundElementDrugIndex = this.searchService.searchIndex(this.events, 'GUID', listToUpload[i].GUID);
+      if(foundElementDrugIndex==-1){
+        this.events.push(listToUpload[i]);
+        this.imported++;
+      }
     }
     this.refresh.next();
-    if(listToUpload.length>0){
+    if(this.imported>0){
       this.toastr.success('', 'Imported seizures: '+ listToUpload.length);
     }else{
       this.toastr.success('', 'It has not imported any seizure because they were all imported, or there were none in the file.');
@@ -380,6 +389,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     this.subscription.add( this.http.post(environment.api+'/api/massiveseizures/'+this.authService.getCurrentPatient().sub, listToUpload)
     .subscribe( (res : any) => {
       //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
+      this.loadEvents();
      }, (err) => {
        console.log(err);
        if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
@@ -407,8 +417,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       if (result.value) {
         this.subscription.add( this.http.delete(environment.api+'/api/seizures/'+event._id)
           .subscribe( (res : any) => {
-            this.events = this.events.filter(iEvent => iEvent !== event);
-            this.refresh.next();
+            this.loadEvents();
             //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
           }, (err) => {
             console.log(err);
@@ -442,9 +451,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 
   goto(index){
     this.step = index;
-    if(index=='2'){ 
-      this.activeIds = ['init'];
-    }
   }
 
   getLiteral(literal) {
@@ -455,6 +461,21 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     // get month and year from eventData and close datepicker, thus not allowing user to select date
     this.modalData.event.start = eventData;
     dp.close();
+  }
+
+  showHelpSeizureTrackerPopup(contentInfoSeizureTracker) {
+    let ngbModalOptions: NgbModalOptions = {
+      keyboard: false,
+      windowClass: 'ModalClass-sm'// xl, lg, sm
+    };
+    this.modalReference = this.modalService.open(contentInfoSeizureTracker, ngbModalOptions);
+  }
+
+  closeModal() {
+    if (this.modalReference != undefined) {
+      this.modalReference.close();
+      this.modalReference = undefined;
+    }
   }
 }
 //Calendar event handler ends

@@ -328,13 +328,11 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
       document.getElementById('content').innerHTML = "";
       this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
       .subscribe( (res : any) => {
-        console.log(res.listpatients)
         if(res.listpatients.length>0){
           this.authService.setPatientList(res.listpatients);
           this.authService.setCurrentPatient(res.listpatients[0]);
           this.subscription.add( this.http.get(environment.api+'/api/exportdata/'+res.listpatients[0].sub)
           .subscribe( (res : any) => {
-            console.log(res);
             var json = JSON.stringify(res);
       			var blob = new Blob([json], {type: "application/json"});
       			var url  = URL.createObjectURL(blob);
@@ -346,9 +344,9 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
             var a = document.createElement('a');
             var dateNow = new Date();
             var stringDateNow = this.dateService.transformDate(dateNow);
-      			a.download    = "dataDx29_"+stringDateNow+".json";
+      			a.download    = "dataRaito_"+stringDateNow+".json";
       			a.href        = url;
-      			a.textContent = "dataDx29_"+stringDateNow+".json";
+      			a.textContent = "dataRaito_"+stringDateNow+".json";
 
       			document.getElementById('content').appendChild(a);
             this.loading = false;
@@ -360,6 +358,43 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.There is no patient data to export"), "warning");
           this.loading = false;
         }
+       }, (err) => {
+         console.log(err);
+         this.loading = false;
+       }));
+    }
+
+    confirmDelete(index, index2) {
+      Swal.fire({
+        title: this.translate.instant("generics.This action will not be reversed"),
+        html: this.translate.instant("generics.confirm delete data"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#33658a',
+        cancelButtonColor: '#B0B6BB',
+        confirmButtonText: this.translate.instant("generics.Yes"),
+        cancelButtonText: this.translate.instant("generics.No"),
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          this.deleteData();
+        }
+      });
+  
+    }
+
+    deleteData(){
+      //cargar los datos del usuario
+      this.loading = true;
+      document.getElementById('content').innerHTML = "";
+      this.subscription.add( this.http.get(environment.api+'/api/deleteaccount/'+this.authService.getIdUser())
+      .subscribe( (res : any) => {
+        console.log(res);
+        window.location.reload();
+        /*this.authService.logout();
+        this.router.navigate([this.authService.getLoginUrl()]);*/
        }, (err) => {
          console.log(err);
          this.loading = false;

@@ -4,19 +4,19 @@
             <div class="row">
                 <div class="p-0 col-12 col-sm-12 align-items-center">
                     <div *ngIf="step=='0'">
-                        <h2 class="font-large-1 text-center content-header mb-3">{{'menu.Clinical
+                        <h2 class="text-center content-header mb-3">{{'menu.Clinical
                             information' |
                             translate }}</h2>
                         <div class="center-elements">
-                            <span class="mr-1"><button class="ml-2 btn btn-primary" (click)="newDoc();">
-                                    Crear/pegar un informe</button></span>
+                            <span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
+                                {{'reports.Create-paste a report' | translate }}</button></span>
                             <span class="ml-1">
                                 <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangePDF($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <label class="btn btn-info"
+                                <label class="btn btn-info customHeight"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
-                                    for="fileDropRef">{{'land.Browse for file' | translate }}</label>
+                                    for="fileDropRef">{{'land.Browse for file' | translate }} <span class="font-small-2 d-block">{{'dashboardpatient.info extension' | translate }}</span></label>
                             </span>
                         </div>
                         <!--<div class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
@@ -44,7 +44,7 @@
                         </p>
                         <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
                             translate }}: {{uploadProgress | async}}%</h4>
-                        <div *ngIf="loadedGeno" class="mb-2" id="Widget-line-chart">
+                        <div *ngIf="loadedGeno" class="mt-2 mb-2" id="Widget-line-chart">
                             <span *ngIf="otherGeneFiles.length==0" class="center-elements">
                                 <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
                                 <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
@@ -57,14 +57,14 @@
                                                 <thead>
                                                     <tr>
                                                         <th>{{'dashboardpatient.Files uploaded' | translate }}</th>
-                                                        <th>Options</th>
+                                                        <th>{{'generics.Options' | translate }}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr *ngFor="let onefile of otherGeneFiles; let i = index">
                                                         <td style="word-wrap: anywhere;">
                                                             {{onefile.simplename}}
-                                                            <p class="text-muted font-small-3 mb-0">Uploaded:
+                                                            <p class="text-muted font-small-3 mb-0">{{'reports.Uploaded' | translate }}:
                                                                 {{onefile.lastModified | date: 'dd
                                                                 MMM y': '' : translate.currentLang}}</p>
                                                             <p class="text-muted font-small-3 mb-0">File size:
@@ -76,23 +76,23 @@
                                                                 <span><button class="btn btn-primary"
                                                                         [disabled]="extractingData"
                                                                         (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
-                                                                        <span *ngIf="!extractingData">Extract</span>
+                                                                        <span *ngIf="!extractingData">{{'reports.Extract' | translate }}</span>
                                                                         <span
                                                                             *ngIf="extractingData && !callingTextAnalytics">
                                                                             <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                                            Leyendo</span>
+                                                                            {{'reports.Reading' | translate }}</span>
                                                                         <span
                                                                             *ngIf="extractingData && callingTextAnalytics"><i
                                                                                 class="fa fa-spinner fa-spin fa-fw"></i>
-                                                                            Analizando</span>
+                                                                                {{'reports.Analysing' | translate }}</span>
                                                                     </button></span>
                                                             </span>
                                                             <span *ngIf="onefile.hasResults">
                                                                 <span><button class="btn btn-primary"
                                                                         (click)="openResults(onefile.name);">
-                                                                        Ver resultados</button></span>
+                                                                        {{'reports.See results' | translate }}</button></span>
                                                             </span>
-                                                            <a class="danger ml-2" (click)="deleteFile(onefile,i);"
+                                                            <a class="btn btn-primary ml-2" (click)="deleteFile(onefile,i);"
                                                                 href="javascript:void(0)"><i class="ft-trash"></i></a>
                                                         </td>
 
@@ -110,11 +110,11 @@
                             </span>
                         </div>
                         <div *ngIf="!loadedGeno">
-                            <i class="fa fa-spinner fa-spin fa-fw"></i> Cargando...
+                            <i class="fa fa-spinner fa-spin fa-fw"></i> {{'reports.Loading' | translate }}...
                         </div>
                     </div>
                     <div *ngIf="step=='1'">
-                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
+                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate }}</button></p>
                         <div *ngIf="temporalSymptoms.length>0">
                             <thead class="pr-1 pl-1">
                                 <tr>
@@ -125,7 +125,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <div class="table-cont">
+                            <div class="table-responsive">
                                 <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
                                     aria-labelledby="HPO">
                                     <tbody>
@@ -167,7 +167,7 @@
                         </div>
                     </div>
                     <div *ngIf="step=='2'">
-                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">Back</button></p>
+                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate }}</button></p>
                         <div class="p-2">
                             <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;"
                                 [(ngModel)]="medicalText" name="medicalText"

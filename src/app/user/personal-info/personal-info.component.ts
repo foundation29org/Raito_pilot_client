@@ -236,11 +236,7 @@ export class PersonalInfoComponent implements OnInit {
       params.gender = this.datainfo.gender;
 
       if (this.datainfo.birthDate != null) {
-        var tempDateStartDate = new Date(this.datainfo.birthDate)
-        var diferenciahorario = tempDateStartDate.getTimezoneOffset();
-        tempDateStartDate.setMinutes(tempDateStartDate.getMinutes() - diferenciahorario);
-        params.birthDate = tempDateStartDate.toUTCString();
-        this.datainfo.birthDate = new Date(Date.parse(params.birthDate));
+        this.datainfo.birthDate  = this.dateService.transformDate(this.datainfo.birthDate );
       }
       this.datainfo.previousDiagnosis = this.actualInfoOneDisease.id;
       console.log(this.datainfo);

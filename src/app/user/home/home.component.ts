@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchGpt3: string = '';
   private subscription: Subscription = new Subscription();
   permGPT3: boolean = false;
+  callingGpt3: boolean = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService) {
     this.lang = this.authService.getLang();
@@ -229,8 +230,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         }.bind(this))
       } else {
         var value = { value: this.searchGpt3 };
+        this.callingGpt3 = true;
         this.subscription.add(this.apiDx29ServerService.callOpenAi(value)
           .subscribe((res: any) => {
+            this.callingGpt3 = false;
             Swal.fire({
               title: this.searchGpt3,
               html: res.choices[0].text,
@@ -243,6 +246,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.setGtp3NumCalls();
           }, (err) => {
             console.log(err);
+            this.callingGpt3 = false;
           }));
       }
     }

@@ -306,9 +306,13 @@ export class MedicationComponent implements OnInit, OnDestroy{
   onSubmitNewDose() {
     if(this.authGuard.testtoken()){
       this.sending = true;
-      //this.http.put(environment.api+'/api/medication/newdose/'+this.medication._id, this.medication)
-      //var paramssend = { medicationId: this.medication._id, patientId: this.authService.getCurrentPatient().sub };
       var paramssend = this.medication._id+'-code-'+this.authService.getCurrentPatient().sub;
+      if (this.medication.startDate != null) {
+        this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
+      }
+      if (this.medication.endDate != null) {
+        this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
+      }
       this.subscription.add( this.http.put(environment.api+'/api/medication/newdose/'+paramssend, this.medication)
 
       .subscribe( (res : any) => {
@@ -344,8 +348,12 @@ export class MedicationComponent implements OnInit, OnDestroy{
 
     if(this.authGuard.testtoken()){
       this.sending = true;
-      //this.http.put(environment.api+'/api/medication/newdose/'+this.medication._id, this.medication)
-      //var paramssend = { medicationId: this.medication._id, patientId: this.authService.getCurrentPatient().sub };
+      if (this.medication.startDate != null) {
+        this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
+      }
+      if (this.medication.endDate != null) {
+        this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
+      }
 
       this.subscription.add( this.http.put(environment.api+'/api/medication/stoptaking/'+this.medication._id, this.medication)
 
@@ -473,8 +481,6 @@ export class MedicationComponent implements OnInit, OnDestroy{
   onSubmitChangeNotes(){
     if(this.authGuard.testtoken()){
       this.sending = true;
-      //this.http.put(environment.api+'/api/medication/newdose/'+this.medication._id, this.medication)
-      //var paramssend = { medicationId: this.medication._id, patientId: this.authService.getCurrentPatient().sub };
 
       this.subscription.add( this.http.put(environment.api+'/api/medication/changenotes/'+this.medication._id, this.medication)
 
@@ -510,8 +516,6 @@ export class MedicationComponent implements OnInit, OnDestroy{
   onSubmitSideEffect(){
     if(this.authGuard.testtoken()){
       this.sending = true;
-      //this.http.put(environment.api+'/api/medication/newdose/'+this.medication._id, this.medication)
-      //var paramssend = { medicationId: this.medication._id, patientId: this.authService.getCurrentPatient().sub };
 
       this.subscription.add( this.http.put(environment.api+'/api/medication/sideeffect/'+this.medication._id, this.medication)
 
@@ -631,6 +635,8 @@ export class MedicationComponent implements OnInit, OnDestroy{
         if(this.medication.endDate==undefined){
           this.medication.endDate = null;
         }
+        this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
+        this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
         this.subscription.add( this.http.post(environment.api+'/api/medication/'+this.authService.getCurrentPatient().sub, this.medication)
         .subscribe( (res : any) => {
             if(res.message=='fail'){
@@ -654,6 +660,11 @@ export class MedicationComponent implements OnInit, OnDestroy{
            this.viewMedicationForm = false;
          }));
       }else{
+        if(this.medication.endDate==undefined){
+          this.medication.endDate = null;
+        }
+        this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
+        this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
         this.subscription.add( this.http.put(environment.api+'/api/medication/'+this.medication._id, this.medication)
         .subscribe( (res : any) => {
             this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
