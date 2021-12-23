@@ -8,9 +8,12 @@
 						<h2 class="text-center content-header mb-3">{{'homeraito.p5' | translate }}</h2>
 						<div class="row">
 							<div class="col-md-12">
-								<button *ngIf="events.length>0" class="pull-right btn btn-sm btn-primary" (click)="openStats()">
+								<button *ngIf="events.length>0" class="pull-right ml-1 btn btn-sm btn-primary" (click)="openStats()">
 									<i class="fa fa-history font-medium-3"></i>
 								</button>
+								<a routerLink="/charts" class="pull-right btn btn-sm btn-primary">
+									<i class="far fa-chart-bar font-medium-3"></i>
+								</a>
 								<span>
 									<label class="btn btn-sm btn-primary">
 										<input id="file" type="file" style="display:none;" accept=".json"

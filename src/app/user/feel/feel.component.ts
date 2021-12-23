@@ -143,7 +143,7 @@ export class FeelComponent implements OnInit {
       if (result.value) {
         this.subscription.add( this.http.delete(environment.api+'/api/feel/'+event._id)
           .subscribe( (res : any) => {
-            this.feels = this.feels.filter(iEvent => iEvent !== event);
+            this.getFeels();
           }, (err) => {
             console.log(err);
           }));
