@@ -10,7 +10,7 @@ export const ROUTES: RouteInfo[] = [
 export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
 
     { path: '/home', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
-    { path: '/charts', title: 'menu.Charts', icon: 'ft-pie-chart', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
+    { path: '/charts', title: 'menu.Charts', icon: 'far fa-chart-bar', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
     { path: '/patient-info', title: 'menu.Basic Info', icon: 'ft-user', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
     {
         path: '', title: 'menu.Personal Info', icon: 'ft-clipboard', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,

@@ -4,9 +4,12 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div *ngIf="step=='1'">
-                        <button *ngIf="feels.length>0" class="pull-right btn btn-primary" (click)="openStats()">
+                        <button class="ml-1 pull-right btn btn-primary" (click)="openStats()">
                             <i class="fa fa-history font-medium-3"></i>
                         </button>
+                        <a routerLink="/charts" class="pull-right btn btn-primary">
+                            <i class="far fa-chart-bar font-medium-3"></i>
+                        </a>
                     </div>
                     <div *ngIf="step=='0'">
                         <h2 class="text-center content-header mb-3">{{'homeraito.p6' | translate }}</h2>
@@ -74,9 +77,12 @@
                         </div>
                     </div>
                     <div *ngIf="step=='0'">
-                        <button *ngIf="feels.length>0" class="pull-right btn btn-primary" (click)="openStats()">
+                        <button class="ml-1 pull-right btn btn-primary" (click)="openStats()">
                             <i class="fa fa-history font-medium-3"></i>
                         </button>
+                        <a routerLink="/charts" class="pull-right btn btn-primary">
+                            <i class="far fa-chart-bar font-medium-3"></i>
+                        </a>
                     </div>
                 </div>
             </div>
