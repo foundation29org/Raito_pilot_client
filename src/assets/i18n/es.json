@@ -11,7 +11,7 @@
     "Patient": "Paciente",
     "Personal Info": "Información personal",
     "Feel": "Feel",
-    "Charts": "Charts",
+    "Charts": "Gráficos",
     "Social Info": "Información Social",
     "Phenotype": "Mis síntomas",
     "Genotype": "Mi información genética",
@@ -765,7 +765,8 @@
     "title": "Síntomas",
     "subtitle": "Añade los síntomas del paciente.",
     "obsolete": "Este paciente contiene síntomas considerados como obsoletos. Se recomienda que los reemplaces por síntomas equivalentes actualizados.",
-    "manualinput": "Escriba un solo síntoma. Ej: no puede caminar",
+    "manualinput": "Escriba un solo síntoma.",
+    "samplemanualinput": "Ej: no puede caminar",
     "searchdoc": "Buscar en un documento",
     "searchtext": "Buscar en un texto",
     "nosymptoms": "El paciente no tiene síntomas.",
@@ -1314,6 +1315,9 @@
     "INFOESPASMOS":"Las agrupaciones de movimientos bruscos, rápidos a menudo se producen en niños de entre 3 meses y dos años, pero puede continuar a través de los años posteriores.",
     "INFOESTATUS":"El estado epiléptico se dice que ocurre cuando una crisis dura demasiado tiempo o cuando las crisis ocurren muy seguidas y la persona no se recupera entre crisis.",
     "Starts At": "Comienza el"
+  },
+  "mydata":{
+    "title": "¿Cómo utilizar mis datos?"
   },
   "homedx": {
     "title": "Diseñado para médicos",
@@ -2419,7 +2423,7 @@
     "Drag and drop file here": "Arrastre y suelte un fichero",
     "or": "o",
     "Browse for file": "Busque el archivo",
-    "Accepted files": "Ficheros aceptados: .vcf, .vcf.gz, .pdf, .docx",
+    "Accepted files": "Ficheros aceptados: .vcf, .vcf.gz",
     "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
     "table":{
       "t1": "Encuentra y organiza tus síntomas",

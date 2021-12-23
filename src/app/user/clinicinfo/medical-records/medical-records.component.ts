@@ -202,7 +202,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     this.subscription.add(this.apiDx29ServerService.getAzureBlobSasToken(this.accessToken.containerName)
       .subscribe((res: any) => {
-        console.log(res);
         this.accessToken.sasToken = '?' + res;
         this.blob.init(this.accessToken);
         this.blob.createContainerIfNotExists(this.accessToken, 'patientGenoFiles');
@@ -251,8 +250,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           extension = (filename).substr(pos);
         }
         filename = filename.split(extension)[0];
-        console.log(event2);
-        console.log(event2.target);
         //event.target.response.content
         if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           var uniqueFileName = this.getUniqueFileName();
@@ -526,7 +523,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     this.temporalSymptoms = [];
     this.subscription.add(this.http.get(this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken)
       .subscribe((res: any) => {
-        console.log(res);
         this.loadResultsAnalytics(res, false);
       }, (err) => {
         console.log(err);
@@ -562,12 +558,15 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
       }
     }
-    console.log(this.temporalSymptoms);
 
     if (countAddedSypmtoms > 0 && showSwal) {
       Swal.fire('', this.translate.instant("land.diagnosed.symptoms.syptomsDetected", {
         value: countAddedSypmtoms
       }), "success");
+
+      setTimeout(function () {
+          Swal.close();
+      }.bind(this), 1500);
     }
 
 
@@ -740,11 +739,9 @@ markAllTextAnalytics(symptom) {
       text = symptom.text[0].text;
       var hpo = symptom;
       var words = [];
-      console.log(hpo);
       for (var j = 0; j < hpo.text.length; j++) {
           if(hpo.text[j].positions!=undefined){
               var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
-              console.log(value);
               words.push({ args: value })
           }
           
@@ -756,7 +753,6 @@ markAllTextAnalytics(symptom) {
       for (var j = 0; j < hpo.text.length; j++) {
           if(hpo.text[j].positions!=undefined){
               var value = text.substring(hpo.text[j].positions[0], hpo.text[j].positions[1]);
-              console.log(value);
               words.push({ args: value })
           }
           

@@ -49,6 +49,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./clinicinfo/clinicinfo.module').then(m => m.ClinicalModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./mydata/mydata.module').then(m => m.MydataModule)
   }
 ];
 

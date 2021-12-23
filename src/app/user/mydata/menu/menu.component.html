@@ -1,0 +1,145 @@
+<section>
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-bold-400"><i class="fas fa-database"></i> <span class="ml-2">{{'mydata.title' |
+                            translate }}</span></h2>
+                </div>
+                <div class="card-body pt-1">
+                    <!--One open panel at a time Starts-->
+                    <ngb-accordion #accordion [closeOthers]="true">
+                        <ngb-panel id="1">
+                            <ng-template ngbPanelTitle>
+                                <h5 class="mb-0"><i class="fa fa-cloud-upload fa-1_5x mr-2 float-left"></i> <span> Where is my
+                                        data?</span> <span class="float-right">
+                                        <span
+                                            [ngClass]="{'ft-chevron-up': isOpen(1), 'ft-chevron-down': !isOpen(1)}"></span>
+                                    </span></h5>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                                <div>
+                                    <p class="text-muted">In raito you are the only owner of your data. You can save them in a cloud storage such as OneDrive, GoogleDrive or iCloud, or save them on this device. If you save them in the cloud they will always be accessible and you won’t lose them.</p>
+                                </div>
+                                <div><p class="danger">Under construction</p></div>
+                            </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="2">
+                            <ng-template ngbPanelTitle>
+                                <h5 class="mb-0"><i class="fas fa-key fa-1_5x mr-2 float-left"></i> <span> Who has access to
+                                        my data?</span> <span class="float-right">
+                                        <span
+                                            [ngClass]="{'ft-chevron-up': isOpen(2), 'ft-chevron-down': !isOpen(2)}"></span>
+                                    </span></h5>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                                <div>
+                                    <p class="danger">*This intitution/professional has requested access to
+                                    your anonymised data. Please select if you want to
+                                    accept, get more information from the requester or deny
+                                    access to your data.</p> 
+                                    <p class="text-muted">
+                                        In RAITO you decide for your data:
+                                        <span>- Who has access to your data</span>
+                                        <span>- What data is shared</span>
+                                        <span>- When and for how long it is shared</span>
+                                        <span>- Consent for editing and new input capabilities</span>
+                                    </p>
+                                    <p class="text-muted">
+                                        Use this dashboard to accept, get informed or deny access to your data at anytime.
+                                    </p>
+                                </div>
+                                <div><p class="danger">Under construction</p></div>
+                            </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="3">
+                            <ng-template ngbPanelTitle>
+                                <h5 class="mb-0"><i class="fas fa-share fa-1_5x mr-2 float-left"></i> <span> I want to share my data</span> <span class="float-right">
+                                        <span
+                                            [ngClass]="{'ft-chevron-up': isOpen(3), 'ft-chevron-down': !isOpen(3)}"></span>
+                                    </span></h5>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                                <div><p class="danger">Under construction</p></div>
+                            </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="4">
+                            <ng-template ngbPanelTitle>
+                                <h5 class="mb-0"><i class="fas fa-file-export fa-1_5x mr-2 float-left"></i> <span> I want to export my data</span> <span class="float-right">
+                                        <span
+                                            [ngClass]="{'ft-chevron-up': isOpen(4), 'ft-chevron-down': !isOpen(4)}"></span>
+                                    </span></h5>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                                <div>
+                                    <p class="text-muted">Exporting your data means that you
+                                    can download a single file with all your
+                                    current data to your device. You can
+                                    them keep this file or share it with
+                                    institutions, researchers or any
+                                    application you select.</p>
+                                    <div class="center-elements">
+										<button class="btn btn-primary" type="button" (click)="exportData()">{{'generics.ExportData' | translate }}</button>
+                                        <div class="d-none"><span id="content"></span></div>
+									</div>
+                                </div>
+                            </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="5">
+                            <ng-template ngbPanelTitle>
+                                <h5 class="mb-0"><i class="fa fa-trash fa-1_5x mr-2 float-left"></i> <span> I want to delete my data</span> <span class="float-right">
+                                        <span
+                                            [ngClass]="{'ft-chevron-up': isOpen(5), 'ft-chevron-down': !isOpen(5)}"></span>
+                                    </span></h5>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                                <div class="center-elements">
+                                    <button class="btn btn-primary" type="button" (click)="confirmDelete()">{{'generics.Delete data' | translate }}</button>
+                                </div>
+                            </ng-template>
+                        </ngb-panel>
+                    </ngb-accordion>
+                    <!--One open panel at a time Ends-->
+                    <div>
+                        <a class="danger font-small-1 mt-2" style="position: relative;top: 8px;" (click)="showHelpFHIRPopup(contentInfoFHIR);">All data saved with FHIR standard</a> <img class="logo-img" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<ng-template #contentInfoFHIR let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+		<h4 class="modal-title"><span class="danger" style="position: relative;top: 8px;">What is FHIR?</span> <img class="logo-img" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' /></h4> 
+      <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+		<p>Fast Healthcare Interoperability Resources (FHIR,
+            pronounced "fire") is a standard describing data
+            formats and elements (known as "resources") and
+            an application programming interface (API) for
+            exchanging electronic health records (EHR). The
+            standard was created by the Health Level Seven
+            International (HL7) health-care standards
+            organization.</p>
+        <p>One of its goals is to facilitate interoperability
+            between legacy health care systems, to make it
+            easy to provide health care information to health
+            care providers and individuals on a wide variety of
+            devices from computers to tablets to cell phones,
+            and to allow third-party application developers to
+            provide medical applications which can be easily
+            integrated into existing systems.</p>
+        <p>FHIR provides an alternative to document-centric
+            approaches by directly exposing discrete data
+            elements as services. For example, basic
+            elements of healthcare like patients, admissions,
+            diagnostic reports and medications can each be
+            retrieved and manipulated via their own resource
+            URLS.</p>
+    </div>
+  </ng-template>

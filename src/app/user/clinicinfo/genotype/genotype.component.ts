@@ -58,6 +58,7 @@ export class GenotypeComponent implements OnInit, OnDestroy {
     this.subscription.add(this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
       
       if (vcfFilesOnBlob.length > 0) {
+        var filesVcf = [];
         console.log(vcfFilesOnBlob);
         var mindate = 0;
         for (var i = 0; i < vcfFilesOnBlob.length; i++) {
@@ -66,9 +67,10 @@ export class GenotypeComponent implements OnInit, OnDestroy {
             if (mindate < d.getTime()) {
               mindate = d.getTime();
             }
+            filesVcf.push(vcfFilesOnBlob[i]);
           }
         }
-        var filesVcf = vcfFilesOnBlob;
+        //var filesVcf = vcfFilesOnBlob;
         for (var i = 0; i < filesVcf.length; i++) {
           filesVcf[i].nameForShow = ""
         }

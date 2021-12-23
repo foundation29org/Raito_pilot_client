@@ -20,9 +20,6 @@
 				<a class="list-group-item no-border" (click)="SetActive($event, 'panelPassword')">
 						{{tittlePassword}}
 				</a>
-				<a class="list-group-item no-border" (click)="SetActive($event, 'PanelExportData')">
-						{{tittleExportData}}
-				</a>
 				<a *ngIf="phenotype_id!=''" class="list-group-item no-border" (click)="SetActive($event, 'PanelPermissions')">
 						{{tittlePermissions}}
 				</a>
@@ -34,7 +31,6 @@
 					<h4 class="form-section">
 						<i [ngClass]="{'ft-user success': activeTittleMenu=='General'}"></i>
 						<i [ngClass]="{'ft-lock danger': activeTittleMenu=='Password'}"></i>
-						<i [ngClass]="{'ft-book danger': activeTittleMenu=='ExportData'}"></i>
 						<i [ngClass]="{'ft-share-2 danger': activeTittleMenu=='Permissions'}"></i>
 						{{ msgActiveTittleMenu }}
 					</h4>
@@ -107,9 +103,6 @@
 										</form>
 									</div>
 								</div>
-								<div class="col-md-12 mb-2">
-									<a class="danger" (click)="confirmDelete()">{{'generics.Delete data' | translate }}</a>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -163,21 +156,6 @@
 													</span>
 												</div>
 										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div *ngIf="activeTittleMenu == 'ExportData'">
-					<div class="row" *ngIf="!loading">
-						<div class="col-md-12">
-							<div class="card" style="margin-top:0px;">
-								<div class="card-header">
-								</div>
-								<div class="card-body">
-									<div>
-										<button class="btn btn-danger btn-raised btn-block" type="button" (click)="exportData()">{{'generics.ExportData' | translate }}</button>
 									</div>
 								</div>
 							</div>

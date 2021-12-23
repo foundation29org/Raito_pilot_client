@@ -11,7 +11,7 @@
     "Patient": "Patient",
     "Personal Info": "Personal data",
     "Feel": "Feel",
-    "Charts": "Gráficos",
+    "Charts": "Charts",
     "Phenotype": "My symptoms",
     "Genotype": "My genetic information",
     "Social Info": "Social information",
@@ -766,7 +766,8 @@
     "title": "Symptoms",
     "subtitle": "Include the patient symptoms.",
     "obsolete": "This patient has symptoms considered as obsolete. It is recommended that you replace them with equivalent and up to date symptoms.",
-    "manualinput": "Type a single symptom. Ex: cannot walk",
+    "manualinput": "Type a single symptom.",
+    "samplemanualinput": "Ex: cannot walk",
     "searchdoc": "Search a document",
     "searchtext": "Search in text",
     "nosymptoms": "The patient does not have symptoms.",
@@ -1315,6 +1316,9 @@
     "INFOESPASMOS":"Clusters of quick, sudden movements often occurring in children between 3 months and two years but can continue through later years.",
     "INFOESTATUS":"Status epilepticus is said to occur when a seizure lasts too long or when seizures occur close together and the person doesn't recover between seizures.",
     "Starts At": "Starts At"
+  },
+  "mydata":{
+    "title": "How to use my data"
   },
   "homedx": {
     "title": "Designed for physicians",
