@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { UserRoutingModule } from "./user-routing.module";
+import { MyDataRoutingModule } from "./mydata-routing.module";
 
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,12 +16,7 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
-import { HomeComponent } from './home/home.component';
-import { PersonalInfoComponent } from './personal-info/personal-info.component';
-import { FeelComponent } from './feel/feel.component';
-import { ChartsComponent } from './charts/charts.component';
-
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -30,7 +25,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ],
     imports: [
         CommonModule,
-        UserRoutingModule,
+        MyDataRoutingModule,
         FormsModule,
         CustomFormsModule,
         NgbModule,
@@ -41,14 +36,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         ReactiveFormsModule,
         UiSwitchModule,
         MatDatepickerModule,
-        MatNativeDateModule,
-        NgxChartsModule
+        MatNativeDateModule
     ],
     declarations: [
-        HomeComponent,
-        PersonalInfoComponent,
-        FeelComponent,
-        ChartsComponent
+        MenuComponent
     ]
 })
-export class UserModule { }
+export class MydataModule { }

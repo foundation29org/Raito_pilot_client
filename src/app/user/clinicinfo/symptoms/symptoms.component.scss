@@ -1,5 +1,5 @@
 .inputSearch2{
-    width: 88%;
+    width: 85%;
     margin-left: 0rem !important;
   }
 
@@ -16,9 +16,3 @@
    ::ng-deep .dropdown-item {
     white-space: normal !important;
   }
-
-  @media ( max-width: 575px ){
-    .inputSearch2{
-      width: 100%;
-    }
-   }

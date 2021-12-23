@@ -2,7 +2,7 @@
     <div class="card card-block mx-auto" style="max-width: 30rem !important;">
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-sm-12 align-items-center">
+                <div class="col-12 col-sm-12 align-items-center pl-0 pr-0">
                     <div>
                         <h2 class="text-center content-header mb-3">{{'menu.Phenotype' | translate }}</h2>
                         <div>
@@ -12,7 +12,7 @@
                                 slice:0:140)+'...':(r.desc) }}</span>
                             </ng-template>
                             <div class="mt-2" style="padding-bottom: 1rem !important;">
-                              <span class="d-none d-sm-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
+                              <span class="d-inline ml-2 mr-2"><i class="fas fa-search"></i></span>
                               <input #input type="text"
                                 #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
                                 [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
@@ -24,10 +24,11 @@
                                     <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                                   </span>
                                 </span>
+                                <span class="d-block text-muted font-small-2" style="margin-left: 3rem !important;">{{'symptomssection.samplemanualinput' | translate }}</span>
                             </div>
                           </div>
                           <div *ngIf="phenotype.data.length>0">
-                            <span class="mb-1 float-right icons-opt-symptoms">
+                            <span class="mr-2 mb-1 float-right icons-opt-symptoms">
                                 <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
                                 (click)="copySymptoms()" style="cursor: pointer;"></em>
                                 <em class="mt-1 fa fa-download grey mr-2"

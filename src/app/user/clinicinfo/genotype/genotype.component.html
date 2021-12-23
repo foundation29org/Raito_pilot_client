@@ -39,9 +39,8 @@
                         </p>
                         <h4 *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
                             translate }}: {{uploadProgress | async}}%</h4>
-                        <div class="mb-2 mt-2" id="Widget-line-chart">
+                        <div *ngIf="loadedGeno" class="mb-2 mt-2" id="Widget-line-chart">
                             <span *ngIf="filesVcf.length==0" class="center-elements">
-                                <p class="mb-0"><i class="danger fa-3x fas fa-ban fa-fw"></i></p>
                                 <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
                             </span>
                             <span *ngIf="filesVcf.length>0">
@@ -77,6 +76,9 @@
                                     </div>
                                 </div>
                             </span>
+                        </div>
+                        <div *ngIf="!loadedGeno" class="center-elements">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i> {{'reports.Loading' | translate }}...
                         </div>
                     </div>
                 </div>
