@@ -19,6 +19,7 @@ export class PatientService {
           if(res.listpatients.length>0){
             this.authService.setPatientList(res.listpatients);
             this.authService.setCurrentPatient(res.listpatients[0]);
+            this.authService.setGroup(res.listpatients[0].group);
             return this.authService.getCurrentPatient();
           }else{
             return null;
