@@ -117,24 +117,30 @@ export class MedicationComponent implements OnInit, OnDestroy{
           break;
 
     }
-    this.loadTranslationsElements();
+    
+    this.loadEnvir();
 
-    //cargar los datos del usuario
+  }
+
+  loadEnvir(){
     this.loading = true;
     this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
-    .subscribe( (res : any) => {
-      if(res.listpatients.length>0){
-        this.authService.setPatientList(res.listpatients);
-        this.authService.setCurrentPatient(res.listpatients[0]);
-      }else{
-        Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
-        this.router.navigate(['/user/basicinfo/personalinfo']);
-      }
-     }, (err) => {
-       console.log(err);
-       this.loading = false;
-     }));
-
+    .subscribe( (res0 : any) => {
+      console.log(res0.listpatients[0].group);
+      if(res0.listpatients.length>0 && res0.listpatients[0].group != null){
+        this.authService.setPatientList(res0.listpatients);
+        this.authService.setCurrentPatient(res0.listpatients[0]);
+        this.authService.setGroup(res0.listpatients[0].group)
+        this.loadTranslationsElements();
+     }else{
+      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
+       this.router.navigate(['/patient-info']);
+     }
+   }, (err) => {
+     console.log(err);
+     this.loading = false;
+     this.toastr.error('', this.translate.instant("generics.error try again"));
+   }));
   }
 
   //traducir cosas
@@ -149,35 +155,25 @@ export class MedicationComponent implements OnInit, OnDestroy{
 
   loadMedications(){
     this.loading = true;
-    this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
-    .subscribe( (res0 : any) => {
-      if(res0.listpatients.length>0){
-        this.authService.setPatientList(res0.listpatients);
-        this.authService.setCurrentPatient(res0.listpatients[0]);
-
-         this.subscription.add( this.http.get(environment.api+'/api/medications/'+this.authService.getCurrentPatient().sub)
-         .subscribe( (res : any) => {
-           this.medications = res;
-           this.searchTranslationDrugs();
-           //agrupar entre actuales y antiguas
-           this.groupMedications();
-           if(this.drugSelected){
-             this.loadHistoryDrugSelected()
-           }
-           this.loading = false;
-          }, (err) => {
-            console.log(err);
-            this.loading = false;
-          }));
-     }else{
-      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
-       this.router.navigate(['/user/basicinfo/personalinfo']);
-     }
-   }, (err) => {
-     console.log(err);
-     this.loading = false;
-     this.toastr.error('', this.translate.instant("generics.error try again"));
-   }));
+    
+     
+       
+    this.subscription.add( this.http.get(environment.api+'/api/medications/'+this.authService.getCurrentPatient().sub)
+    .subscribe( (res : any) => {
+      this.medications = res;
+      this.searchTranslationDrugs();
+      //agrupar entre actuales y antiguas
+      this.groupMedications();
+      if(this.drugSelected){
+        this.loadHistoryDrugSelected()
+      }
+      this.loading = false;
+    }, (err) => {
+      console.log(err);
+      this.loading = false;
+    }));
+     
+   
   }
 
   groupMedications(){
@@ -218,6 +214,8 @@ export class MedicationComponent implements OnInit, OnDestroy{
     this.loadingDataGroup = true;
     this.subscription.add( this.http.get(environment.api+'/api/group/medications/'+this.authService.getGroup())
     .subscribe( (res : any) => {
+      console.log(this.authService.getGroup());
+      console.log(res);
       if(res.medications.data.length == 0){
         //no tiene datos sobre el grupo
       }else{
