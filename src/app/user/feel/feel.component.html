@@ -13,29 +13,108 @@
                     </div>
                     <div *ngIf="step=='0'">
                         <h2 class="text-center content-header mb-3">{{'homeraito.p6' | translate }}</h2>
-                                    <div class="form-group">
-                                            <div class="form-group center-elements">
-                                                <div>
-                                                    <div class="btn-group" style="display: inherit !important;" ngbRadioGroup name="radioBasic">
-                                                        <label ngbButtonLabel class="btn-raised btn-danger">
-                                                            <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/muytriste.png' (click)="onSubmit('1')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-warning">
-                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/triste.png' (click)="onSubmit('2')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-secondary">
-                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/normal.png' (click)="onSubmit('3')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-yellow">
-                                                                <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/feliz.png' (click)="onSubmit('4')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-success">
-                                                                <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/muyfeliz.png' (click)="onSubmit('5')">
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    </div>
+                        <div class="form-group">
+                            <label>How has the patient's quality of life been this week?</label>
+                            <div class="d-block font-small-2 center-elements">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                        id="inlineRadio1a" [(ngModel)]="feel.answers.a1" value="1">
+                                    <label class="form-check-label" for="inlineRadio1a">very bad</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                        id="inlineRadio2a" [(ngModel)]="feel.answers.a1" value="2">
+                                    <label class="form-check-label" for="inlineRadio2a">bad</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                        id="inlineRadio3a" [(ngModel)]="feel.answers.a1" value="3">
+                                    <label class="form-check-label" for="inlineRadio3a">normal</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                        id="inlineRadio4a" [(ngModel)]="feel.answers.a1" value="4">
+                                    <label class="form-check-label" for="inlineRadio4a">good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions1"
+                                        id="inlineRadio5a" [(ngModel)]="feel.answers.a1" value="5">
+                                    <label class="form-check-label" for="inlineRadio5a">very good</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Has the patient been able to go to scholl or go about his/her daily life on a
+                                regular basis?</label>
+                            <div class="d-block font-small-2 center-elements">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                        id="inlineRadio1b" [(ngModel)]="feel.answers.a2" value="1">
+                                    <label class="form-check-label" for="inlineRadio1b">not at all</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                        id="inlineRadio2b" [(ngModel)]="feel.answers.a2" value="2">
+                                    <label class="form-check-label" for="inlineRadio2b">badly</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                        id="inlineRadio3b" [(ngModel)]="feel.answers.a2" value="3">
+                                    <label class="form-check-label" for="inlineRadio3b">normally</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                        id="inlineRadio4b" [(ngModel)]="feel.answers.a2" value="4">
+                                    <label class="form-check-label" for="inlineRadio4b">well</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                        id="inlineRadio5b" [(ngModel)]="feel.answers.a2" value="5">
+                                    <label class="form-check-label" for="inlineRadio5b">very well</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>How has the quality of life of the patient's caregivers been this week?</label>
+                            <div class="d-block font-small-2 center-elements">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions3"
+                                        id="inlineRadio1c" [(ngModel)]="feel.answers.a3" value="1">
+                                    <label class="form-check-label" for="inlineRadio1">very bad</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions3"
+                                        id="inlineRadio2" [(ngModel)]="feel.answers.a3" value="2">
+                                    <label class="form-check-label" for="inlineRadio2c">bad</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions3"
+                                        id="inlineRadio3c" [(ngModel)]="feel.answers.a3" value="3">
+                                    <label class="form-check-label" for="inlineRadio3c">normal</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions3"
+                                        id="inlineRadio4c" [(ngModel)]="feel.answers.a3" value="4">
+                                    <label class="form-check-label" for="inlineRadio4c">good</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions3"
+                                        id="inlineRadio5c" [(ngModel)]="feel.answers.a3" value="5">
+                                    <label class="form-check-label" for="inlineRadio5c">very good</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea maxlength="150" name="notes" class="autoajustable form-control"
+                                [(ngModel)]="feel.note" name="notes"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 center-elements">
+                                <button type="button" class="btn btn-primary" (click)="saveData();">{{'generics.Save' |
+                                    translate }}</button>
+                            </div>
+                        </div>
                     </div>
                     <div *ngIf="step=='1'">
                         <a routerLink="/home" class="ml-2 btn btn-primary" title="{{'menu.Dashboard' | translate }}">
@@ -50,23 +129,47 @@
                         <div class="table-responsive" *ngIf="feels.length>0">
                             <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
                                 aria-labelledby="HPO">
+                                <thead>
+                                    <tr>
+                                        <th>{{'generics.Date' | translate }}</th>
+                                        <th>Q1</th>
+                                        <th>Q2</th>
+                                        <th>Q3</th>
+                                        <th>{{'generics.notes' | translate }}</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr *ngFor="let feel of feels ; let i = index">
                                         <td>
                                             {{feel.date | date}}
                                         </td>
                                         <td>
-                                            <span *ngIf="feel.value==5">{{'charts.Very happy' | translate }}</span>
-                                            <span *ngIf="feel.value==4">{{'charts.Happy' | translate }}</span>
-                                            <span *ngIf="feel.value==3">Normal</span>
-                                            <span *ngIf="feel.value==2">{{'charts.Sad' | translate }}</span>
-                                            <span *ngIf="feel.value==1">{{'charts.Very sad' | translate }}</span>
+                                            <span *ngIf="feel.answers.a1==5">{{'charts.Very happy' | translate }}</span>
+                                            <span *ngIf="feel.answers.a1==4">{{'charts.Happy' | translate }}</span>
+                                            <span *ngIf="feel.answers.a1==3">Normal</span>
+                                            <span *ngIf="feel.answers.a1==2">{{'charts.Sad' | translate }}</span>
+                                            <span *ngIf="feel.answers.a1==1">{{'charts.Very sad' | translate }}</span>
                                         </td>
                                         <td>
-                                            <a class="danger"
-                                                            (click)="deleteFeel(feel);"
-                                                            href="javascript:void(0)"><i
-                                                                class="ft-trash"></i></a>
+                                            <span *ngIf="feel.answers.a2==5">{{'charts.Very happy' | translate }}</span>
+                                            <span *ngIf="feel.answers.a2==4">{{'charts.Happy' | translate }}</span>
+                                            <span *ngIf="feel.answers.a2==3">Normal</span>
+                                            <span *ngIf="feel.answers.a2==2">{{'charts.Sad' | translate }}</span>
+                                            <span *ngIf="feel.answers.a2==1">{{'charts.Very sad' | translate }}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="feel.answers.a3==5">{{'charts.Very happy' | translate }}</span>
+                                            <span *ngIf="feel.answers.a3==4">{{'charts.Happy' | translate }}</span>
+                                            <span *ngIf="feel.answers.a3==3">Normal</span>
+                                            <span *ngIf="feel.answers.a3==2">{{'charts.Sad' | translate }}</span>
+                                            <span *ngIf="feel.answers.a3==1">{{'charts.Very sad' | translate }}</span>
+                                        </td>
+                                        <td>
+                                            {{feel.note}}
+                                        </td>
+                                        <td>
+                                            <a class="danger" (click)="deleteFeel(feel);" href="javascript:void(0)"><i
+                                                    class="ft-trash"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

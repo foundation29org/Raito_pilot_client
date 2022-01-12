@@ -42,6 +42,7 @@ export class FeelComponent implements OnInit {
 
   loadedFeels: boolean = false;
   feels: any = [];
+  feel: any = {answers:{a1:'', a2:'', a3:''}, note:''};
 
   constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService) {
 
@@ -85,21 +86,21 @@ export class FeelComponent implements OnInit {
   }
 
   //  On submit click, reset field value
-  onSubmit(newValue) {
+  saveData(){
+    console.log(this.feel);
     this.sending = true;
     setTimeout(() => {
-      var value = {value:newValue};
-      this.subscription.add( this.http.post(environment.api+'/api/feel/'+this.authService.getCurrentPatient().sub, value)
+      this.subscription.add( this.http.post(environment.api+'/api/feel/'+this.authService.getCurrentPatient().sub, this.feel)
         .subscribe((res: any) => {
           this.step = '1';
           this.sending = false;
+          this.feel = {answers:{a1:'', a2:'', a3:''}, note:''};
         }, (err) => {
           console.log(err);
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
           this.sending = false;
         }));
     }, 200);
-    
   }
 
   openStats(){
