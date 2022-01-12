@@ -269,7 +269,22 @@ export class ChartsComponent implements OnInit, OnDestroy {
           var datagraphheight = [];
           for (var i = 0; i < resFeels.length; i++) {
             var splitDate = new Date(resFeels[i].date);
-            datagraphheight.push({ value: resFeels[i].value, name: splitDate });
+            var numAnswers = 0;
+            var value = 0;
+            if(resFeels[i].a1!=""){
+              numAnswers++;
+              value = value+parseInt(resFeels[i].a1);
+            }
+            if(resFeels[i].a2!=""){
+              numAnswers++;
+              value = value+parseInt(resFeels[i].a2);
+            }
+            if(resFeels[i].a3!=""){
+              numAnswers++;
+              value = value+parseInt(resFeels[i].a3);
+            }
+            var value = value/numAnswers;
+            datagraphheight.push({ value: value, name: splitDate });
           }
 
           this.lineChartHeight = [

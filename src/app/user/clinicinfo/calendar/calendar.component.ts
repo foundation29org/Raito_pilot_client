@@ -1,4 +1,5 @@
 import { Component, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -59,19 +60,28 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   private subscription: Subscription = new Subscription();
   imported: number = 0;
   modalReference: NgbModalRef;
+  seizuresForm: FormGroup;
+  submitted = false;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder) { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
   ngOnInit() {
-
+    this.seizuresForm = this.formBuilder.group({
+      type: ['', Validators.required],
+      duracion: ['', Validators.required],
+      start: ['', Validators.required],
+      notes: []
+  });
     this.loadData();
     this.addEvent();
     this.loadTranslations();
   }
+
+  get f() { return this.seizuresForm.controls; }
 
   loadTranslations(){
     this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
@@ -171,24 +181,27 @@ export class CalendarsComponent implements OnInit, OnDestroy{
      this.refresh.next();
   }
 
-  saveData(param){
-    if (param.start != null) {
-      param.start = this.dateService.transformDate(param.start);
+  saveData(){
+    this.submitted = true;
+    if (this.seizuresForm.invalid) {
+        return;
     }
-    this.lastEvent = JSON.parse(JSON.stringify(param));
+    
+    if (this.seizuresForm.value.start != null) {
+      this.seizuresForm.value.start = this.dateService.transformDate(this.seizuresForm.value.start);
+    }
+    this.lastEvent = JSON.parse(JSON.stringify(this.seizuresForm.value));
     this.lastEvent._id =null;
+    console.log(this.seizuresForm.value);
     if(this.authGuard.testtoken()){
       this.saving = true;
-      delete param.actions;
-      if(param._id==null){
-        delete param._id;
-        this.subscription.add( this.http.post(environment.api+'/api/seizures/'+this.authService.getCurrentPatient().sub, param)
+      this.subscription.add( this.http.post(environment.api+'/api/seizures/'+this.authService.getCurrentPatient().sub, this.seizuresForm.value)
         .subscribe( (res : any) => {
-          //this.idSocialInfo = res.socialInfo._id;
-          //this.socialInfo = res.socialInfo;
           this.saving = false;
           this.toastr.success('', this.msgDataSavedOk);
-          this.events.push(param);
+          this.events.push(this.seizuresForm.value);
+          this.submitted = false;
+          this.seizuresForm.reset();
           this.addEvent();
          }, (err) => {
            console.log(err);
@@ -196,28 +209,8 @@ export class CalendarsComponent implements OnInit, OnDestroy{
            if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
              this.authGuard.testtoken();
            }else{
-             //this.toastr.error('', this.msgDataSavedFail, { showCloseButton: true });
            }
          }));
-      }else{
-        this.subscription.add( this.http.put(environment.api+'/api/seizures/'+param._id, param)
-        .subscribe( (res : any) => {
-          //this.idSocialInfo = res.socialInfo._id;
-          //this.socialInfo = res.socialInfo;
-          this.saving = false;
-          this.toastr.success('', this.msgDataSavedOk);
-          this.events.push(param);
-          this.addEvent();
-         }, (err) => {
-           console.log(err.error);
-           this.saving = false;
-           if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-             this.authGuard.testtoken();
-           }else{
-             //this.toastr.error('', this.msgDataSavedFail, { showCloseButton: true });
-           }
-         }));
-      }
     }
   }
 
@@ -460,6 +453,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   closeDatePickerStart(eventData: any, dp?: any) {
     // get month and year from eventData and close datepicker, thus not allowing user to select date
     this.modalData.event.start = eventData;
+    this.seizuresForm.value.start = eventData;
     dp.close();
   }
 

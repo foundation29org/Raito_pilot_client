@@ -28,7 +28,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12 mt-3">
-								<form action="#" class="form form-horizontal">
+								<form action="#" class="form form-horizontal" [formGroup]="seizuresForm">
 									<div class="form-body">
 										<div class="row">
 											<div class="col-md-12">
@@ -38,8 +38,8 @@
 														title="More info">
 														<em class="fa fa-info w-13"></em>
 													</button>
-													<select name="event-estructure-type" class="form-control"
-														[(ngModel)]="modalData?.event.type" (keyup)="refresh.next()">
+													<select name="event-estructure-type" class="form-control" formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }"
+														(keyup)="refresh.next()">
 														<option value="Unknown">{{'seizures.Unknown' | translate }}</option>
 														<option value="Simple Focal">{{'seizures.Simple Focal' | translate }}</option>
 														<option value="Complex Focal">{{'seizures.Complex Focal' | translate }}</option>
@@ -56,16 +56,18 @@
 														<option value="Status">{{'seizures.Status' | translate }}</option>
 														<option value="Other">{{'seizures.Other' | translate }}</option>
 													</select>
+													<small class="form-text text-muted danger"
+														*ngIf="submitted && f.type.errors">{{'generics.required' | translate }}</small>
 												</div>
 											</div>
 											<div class="col-8">
 												<div class="form-group">
 													<label>{{'seizures.Duration' | translate }}</label>
-													<input type="number" min="0" class="form-control" id="numericos2"
-														name="numericos2" [(ngModel)]="modalData?.event.duracion" digits
-														#numericos2="ngModel">
+													<input type="number" min="0" class="form-control" id="numericos2" formControlName="duracion" [ngClass]="{ 'is-invalid': submitted && f.duracion.errors }"
+														name="numericos2" digits
+														>
 													<small class="form-text text-muted danger"
-														*ngIf="numericos2.errors?.digits">{{'generics.Only integers
+														*ngIf="submitted && f.duracion.errors">{{'generics.Only integers
 														are allowed' | translate }}</small>
 												</div>
 											</div>
@@ -73,6 +75,12 @@
 												<div class="form-group">
 													<label>{{'seizures.Starts At' | translate }}</label>
 													<div class="">
+														<input type="date" formControlName="start" [ngClass]="{ 'is-invalid': submitted && f.start.errors }" value="(start!=null) ? (start | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+														<small class="form-text text-muted danger"
+														*ngIf="submitted && f.start.errors">{{'generics.required' | translate }}</small>
+													</div>
+													<!--
+														<div class="">
 														<input class="form-control d-none" id="start_" name="start"
 															matInput
 															placeholder="{{'personalinfo.Birth Date' | translate }}"
@@ -90,8 +98,8 @@
 														<mat-datepicker startView="multi-year"
 															(daySelected)="closeDatePickerStart($event, pickerOnset)"
 															touchUi="true" #pickerOnset></mat-datepicker>
-														<!--<p *ngIf="datainfo.birthDate ==null || datainfo.birthDate ==''" class="danger">{{'generics.required' | translate }}</p>-->
 													</div>
+													-->
 												</div>
 											</div>
 
@@ -99,9 +107,8 @@
 											<div class="col-md-12 col-12">
 												<div class="form-group">
 													<label>{{'generics.notes' | translate }}</label>
-													<textarea maxlength="150" name="notes"
-														class="autoajustable form-control"
-														[(ngModel)]="modalData?.event.notes" name="notes"></textarea>
+													<textarea maxlength="150" name="notes" formControlName="notes"
+														class="autoajustable form-control" name="notes"></textarea>
 												</div>
 											</div>
 										</div>
@@ -111,7 +118,7 @@
 							</div>
 							<div class="col-md-12 center-elements">
 								<button type="button" class="btn btn-primary"
-									(click)="saveData(modalData?.event);">{{'generics.Save' | translate }}</button>
+									(click)="saveData();">{{'generics.Save' | translate }}</button>
 							</div>
 						</div>
 					</div>

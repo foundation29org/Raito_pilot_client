@@ -13,29 +13,113 @@
                     </div>
                     <div *ngIf="step=='0'">
                         <h2 class="text-center content-header mb-3">{{'homeraito.p6' | translate }}</h2>
-                                    <div class="form-group">
-                                            <div class="form-group center-elements">
-                                                <div>
-                                                    <div class="btn-group" style="display: inherit !important;" ngbRadioGroup name="radioBasic">
-                                                        <label ngbButtonLabel class="btn-raised btn-danger">
-                                                            <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/muytriste.png' (click)="onSubmit('1')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-warning">
-                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/triste.png' (click)="onSubmit('2')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-secondary">
-                                                                <input ngbButton type="radio" class="d-none" > <img src='assets/img/icons/normal.png' (click)="onSubmit('3')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-yellow">
-                                                                <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/feliz.png' (click)="onSubmit('4')">
-                                                        </label>
-                                                        <label ngbButtonLabel class="btn-raised btn-success">
-                                                                <input ngbButton type="radio" class="d-none"> <img src='assets/img/icons/muyfeliz.png' (click)="onSubmit('5')">
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        <span [formGroup]="feelForm">
+                            <div class="form-group">
+                                <label>How has the patient's quality of life been this week?</label>
+                                <div class="d-block font-small-2 center-elements">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="a1" [ngClass]="{ 'is-invalid': submitted && f.a1.errors }"
+                                            value="1">
+                                        <label class="form-check-label">very bad</label>
                                     </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="a1" [ngClass]="{ 'is-invalid': submitted && f.a1.errors }"
+                                            value="2">
+                                        <label class="form-check-label">bad</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="a1" [ngClass]="{ 'is-invalid': submitted && f.a1.errors }"
+                                            value="3">
+                                        <label class="form-check-label">normal</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="a1" [ngClass]="{ 'is-invalid': submitted && f.a1.errors }"
+                                              value="4">
+                                        <label class="form-check-label" >good</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="a1" [ngClass]="{ 'is-invalid': submitted && f.a1.errors }"
+                                              value="5">
+                                        <label class="form-check-label" >very good</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Has the patient been able to go to scholl or go about his/her daily life on a
+                                    regular basis?</label>
+                                <div class="d-block font-small-2 center-elements">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"formControlName="a2" [ngClass]="{ 'is-invalid': submitted && f.a2.errors }"
+                                             value="1">
+                                        <label class="form-check-label" >not at all</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a2" [ngClass]="{ 'is-invalid': submitted && f.a2.errors }"
+                                            value="2">
+                                        <label class="form-check-label" >badly</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a2" [ngClass]="{ 'is-invalid': submitted && f.a2.errors }"
+                                            id="inlineRadio3b"  value="3">
+                                        <label class="form-check-label" for="inlineRadio3b">normally</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a2" [ngClass]="{ 'is-invalid': submitted && f.a2.errors }"
+                                            id="inlineRadio4b"  value="4">
+                                        <label class="form-check-label" for="inlineRadio4b">well</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a2"  [ngClass]="{ 'is-invalid': submitted && f.a2.errors }"
+                                            id="inlineRadio5b"  value="5">
+                                        <label class="form-check-label" for="inlineRadio5b">very well</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>How has the quality of life of the patient's caregivers been this week?</label>
+                                <div class="d-block font-small-2 center-elements">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a3" [ngClass]="{ 'is-invalid': submitted && f.a3.errors }"
+                                             value="1">
+                                        <label class="form-check-label" >very bad</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a3" [ngClass]="{ 'is-invalid': submitted && f.a3.errors }"
+                                            value="2">
+                                        <label class="form-check-label" >bad</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a3" [ngClass]="{ 'is-invalid': submitted && f.a3.errors }"
+                                              value="3">
+                                        <label class="form-check-label" >normal</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio"  formControlName="a3" [ngClass]="{ 'is-invalid': submitted && f.a3.errors }"
+                                             value="4">
+                                        <label class="form-check-label" >good</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="a3" [ngClass]="{ 'is-invalid': submitted && f.a3.errors }"
+                                              value="5">
+                                        <label class="form-check-label" >very good</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea maxlength="150" class="autoajustable form-control" formControlName="note"
+                                   ></textarea>
+                            </div>
+                            <div *ngIf="submitted && (f.a1.errors || f.a2.errors || f.a3.errors)" class="invalid-feedback mb-2">
+                                <div *ngIf="f.a1.errors.required || f.a2.errors.required || f.a3.errors.required">There are no answers to be completed</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 center-elements">
+                                    <button type="button" class="btn btn-primary" (click)="saveData();" type="submit">{{'generics.Save' |
+                                        translate }}</button>
+                                </div>
+                            </div>
+                        </span>
+                        
                     </div>
                     <div *ngIf="step=='1'">
                         <a routerLink="/home" class="ml-2 btn btn-primary" title="{{'menu.Dashboard' | translate }}">
@@ -50,23 +134,47 @@
                         <div class="table-responsive" *ngIf="feels.length>0">
                             <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
                                 aria-labelledby="HPO">
+                                <thead>
+                                    <tr>
+                                        <th>{{'generics.Date' | translate }}</th>
+                                        <th>Q1</th>
+                                        <th>Q2</th>
+                                        <th>Q3</th>
+                                        <th>{{'generics.notes' | translate }}</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr *ngFor="let feel of feels ; let i = index">
                                         <td>
                                             {{feel.date | date}}
                                         </td>
                                         <td>
-                                            <span *ngIf="feel.value==5">{{'charts.Very happy' | translate }}</span>
-                                            <span *ngIf="feel.value==4">{{'charts.Happy' | translate }}</span>
-                                            <span *ngIf="feel.value==3">Normal</span>
-                                            <span *ngIf="feel.value==2">{{'charts.Sad' | translate }}</span>
-                                            <span *ngIf="feel.value==1">{{'charts.Very sad' | translate }}</span>
+                                            <span *ngIf="feel.a1==5">{{'charts.Very happy' | translate }}</span>
+                                            <span *ngIf="feel.a1==4">{{'charts.Happy' | translate }}</span>
+                                            <span *ngIf="feel.a1==3">Normal</span>
+                                            <span *ngIf="feel.a1==2">{{'charts.Sad' | translate }}</span>
+                                            <span *ngIf="feel.a1==1">{{'charts.Very sad' | translate }}</span>
                                         </td>
                                         <td>
-                                            <a class="danger"
-                                                            (click)="deleteFeel(feel);"
-                                                            href="javascript:void(0)"><i
-                                                                class="ft-trash"></i></a>
+                                            <span *ngIf="feel.a2==5">{{'charts.Very happy' | translate }}</span>
+                                            <span *ngIf="feel.a2==4">{{'charts.Happy' | translate }}</span>
+                                            <span *ngIf="feel.a2==3">Normal</span>
+                                            <span *ngIf="feel.a2==2">{{'charts.Sad' | translate }}</span>
+                                            <span *ngIf="feel.a2==1">{{'charts.Very sad' | translate }}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="feel.a3==5">{{'charts.Very happy' | translate }}</span>
+                                            <span *ngIf="feel.a3==4">{{'charts.Happy' | translate }}</span>
+                                            <span *ngIf="feel.a3==3">Normal</span>
+                                            <span *ngIf="feel.a3==2">{{'charts.Sad' | translate }}</span>
+                                            <span *ngIf="feel.a3==1">{{'charts.Very sad' | translate }}</span>
+                                        </td>
+                                        <td>
+                                            {{feel.note}}
+                                        </td>
+                                        <td>
+                                            <a class="danger" (click)="deleteFeel(feel);" href="javascript:void(0)"><i
+                                                    class="ft-trash"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
