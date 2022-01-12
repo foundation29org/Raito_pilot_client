@@ -271,17 +271,17 @@ export class ChartsComponent implements OnInit, OnDestroy {
             var splitDate = new Date(resFeels[i].date);
             var numAnswers = 0;
             var value = 0;
-            if(resFeels[i].answers.a1!=""){
+            if(resFeels[i].a1!=""){
               numAnswers++;
-              value = value+parseInt(resFeels[i].answers.a1);
+              value = value+parseInt(resFeels[i].a1);
             }
-            if(resFeels[i].answers.a2!=""){
+            if(resFeels[i].a2!=""){
               numAnswers++;
-              value = value+parseInt(resFeels[i].answers.a2);
+              value = value+parseInt(resFeels[i].a2);
             }
-            if(resFeels[i].answers.a3!=""){
+            if(resFeels[i].a3!=""){
               numAnswers++;
-              value = value+parseInt(resFeels[i].answers.a3);
+              value = value+parseInt(resFeels[i].a3);
             }
             var value = value/numAnswers;
             datagraphheight.push({ value: value, name: splitDate });

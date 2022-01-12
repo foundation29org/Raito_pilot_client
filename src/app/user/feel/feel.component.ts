@@ -1,5 +1,5 @@
 import { Component, OnInit, LOCALE_ID } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -42,9 +42,10 @@ export class FeelComponent implements OnInit {
 
   loadedFeels: boolean = false;
   feels: any = [];
-  feel: any = {answers:{a1:'', a2:'', a3:''}, note:''};
+  feelForm: FormGroup;
+  submitted = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder) {
 
     this.lang = sessionStorage.getItem('lang');        
 
@@ -53,6 +54,14 @@ export class FeelComponent implements OnInit {
 
   ngOnInit(): void {
     this.initEnvironment();
+
+    this.feelForm = this.formBuilder.group({
+      a1: ['', Validators.required],
+      a2: ['', Validators.required],
+      a3: ['', Validators.required],
+      note: []
+  });
+
   }
 
   initEnvironment(){
@@ -85,16 +94,23 @@ export class FeelComponent implements OnInit {
     return this.translate.instant(literal);
   }
 
+  get f() { return this.feelForm.controls; }
+
   //  On submit click, reset field value
   saveData(){
-    console.log(this.feel);
     this.sending = true;
+    this.submitted = true;
+    if (this.feelForm.invalid) {
+        return;
+    }
+    console.log(this.feelForm.value);
     setTimeout(() => {
-      this.subscription.add( this.http.post(environment.api+'/api/feel/'+this.authService.getCurrentPatient().sub, this.feel)
+      this.subscription.add( this.http.post(environment.api+'/api/feel/'+this.authService.getCurrentPatient().sub, this.feelForm.value)
         .subscribe((res: any) => {
           this.step = '1';
           this.sending = false;
-          this.feel = {answers:{a1:'', a2:'', a3:''}, note:''};
+          this.submitted = false;
+          this.feelForm.reset();
         }, (err) => {
           console.log(err);
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");

@@ -11,6 +11,10 @@
   color: gray !important;
 }*/
 
+.invalid-feedback{
+  display: block !important;
+}
+
 .w-13{
   width: 13px;
 }
