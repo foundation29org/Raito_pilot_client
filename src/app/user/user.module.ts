@@ -19,7 +19,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { FeelComponent } from './feel/feel.component';
-import { ChartsComponent } from './charts/charts.component';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -47,8 +46,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     declarations: [
         HomeComponent,
         PersonalInfoComponent,
-        FeelComponent,
-        ChartsComponent
+        FeelComponent
     ]
 })
 export class UserModule { }

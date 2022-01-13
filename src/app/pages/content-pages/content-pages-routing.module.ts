@@ -6,6 +6,7 @@ import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-p
 import { NewPasswordPageComponent } from "./new-password/new-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
+import { PreRegisterPageComponent } from "./pre-register/pre-register-page.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
 import { PermissionsPageComponent } from "./permissions/permissions-page.component";
 
@@ -39,6 +40,13 @@ const routes: Routes = [
         component: LoginPageComponent,
         data: {
           title: 'menu.Login'
+        }
+      },
+      {
+        path: 'pre-register',
+        component: PreRegisterPageComponent,
+        data: {
+          title: 'menu.Register'
         }
       },
       {

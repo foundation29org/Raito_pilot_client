@@ -4,16 +4,69 @@
         <div class="mt-4 mb-4 card card-block mx-auto" style="max-width: 30rem !important;">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-12 justify-content-center align-items-center text-center">
-                        <h2>{{'landraito.t1' | translate }}</h2>
-                        <p class="text-justify">{{'landraito.p1' | translate }}</p>
-                        <p class="text-justify">{{'landraito.p2' | translate }}</p>
-                        <h2>{{'landraito.t2' | translate }}</h2>
-                        <p class="text-justify">{{'landraito.p3' | translate }}</p>
-                        <a routerLink="/register" class="btn btn-dark" title="I want to join">
+                    <div class="col-lg-12">
+                        <h2 class="text-bold-500">{{'landraito.t1' | translate }}</h2>
+                        <p class="">{{'landraito.p1' | translate }}</p>
+                        <a routerLink="/login" class="btn btn-dark mt-1" title="I want to join">
                             <span class="menu-title">{{'landraito.button' | translate }}</span>
                         </a>
+                        <div class="col-md-12 center-elements">
+                            <img class="w-80 center-elements" style="max-width: 200px !important;" src='assets/img/home/home1.jpg'>
+                        </div>
+                        <div *ngIf="!isApp" class="center-elements">
+                            <h3 class="text-bold-500 mt-5">Disponible para tu móvil y tu tablet</h3>
+                            <p>Usar Raito en teléfono o tablet es gratis y fácil.</p>
+                            <img class="mr-1" style="height: 35px;" src='assets/img/home/ios.png'>
+                            <img class="ml-1" style="height: 35px;" src='assets/img/home/android.png'>
+                        </div>
+                        <h3 class="text-bold-500 mt-5">{{'landraito.t2' | translate }}</h3>
+                        <div class="row mt-3">
+                            <div class="col-3 pr-0 pl-0">
+                                <img class="w-100" src='assets/img/home/home2.jpg'>
+                            </div>
+                            <div class="col-9">
+                                <h5 class="text-bold-500">1. Get on board</h5>
+                                <p>Create your account. We will help you begin to safely upload your data in the your cloud folder. Join the revolution of patient data gathering.</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3 pr-0 pl-0">
+                                <img class="w-100" src='assets/img/home/home3.jpg'>
+                            </div>
+                            <div class="col-9">
+                                <h5 class="text-bold-500">2. Fill your tank</h5>
+                                <p>We will help you register your patient data in an easy way. We will take care of structuring it and storing it safely in your personal cloud folder.</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3 pr-0 pl-0">
+                                <img class="w-100" src='assets/img/home/home4.jpg'>
+                            </div>
+                            <div class="col-9">
+                                <h5 class="text-bold-500">3. Launch</h5>
+                                <p>We provide you the tools to  share your medical data folder and boost your reach with institutions and applications that will help you and other patients.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3 center-elements">
+                            <a routerLink="/login" class="btn btn-dark " title="I want to join">
+                                <span class="menu-title">{{'landraito.button' | translate }}</span>
+                            </a>
+                        </div>
+                        
                     </div>
+                    <section style="padding-bottom: 50px !important;" class="col-lg-12">
+                        <h3 class="text-bold-500 mt-5">{{'land.aboutUs.titlef29' | translate }}</h3>
+                        <span class="">
+                            <p>{{'land.aboutUs.p1f29' | translate }}</p>
+                            <p>{{'land.aboutUs.p2f29' | translate }}</p>
+                            <p>{{'land.aboutUs.p3f29' | translate }}</p>
+                          </span>
+                          <div class="center-elements">
+                            <button (click)="openWeb();" class="mt-2 btn btn-primary mb-1"
+                                  type="button"><strong>{{'land.aboutUs.Who are we' | translate }}</strong>
+                            </button>
+                          </div>
+                      </section>
                 </div>
             </div>
         </div>

@@ -1228,11 +1228,9 @@
     "Uploading a capture can help us a lot": "Subir una captura puede ayudarnos mucho"
   },
   "landraito":{
-    "t1": "¿Por qué registrarse en RAITO?",
-    "p1": "RAITO es una aplicación fácil de operar donde puede ingresar y rastrear cronológicamente sus datos médicos como medicamentos, síntomas, convulsiones y cómo se siente.",
-    "p2": "RAITO te ayuda a almacenar tus datos donde quieras. En Raito eres el único propietario de tus datos. Puedes guardarlos en un almacenamiento en la nube como OneDrive, GoogleDrive o ¡Cloud o guardarlos en este teléfono. Si los guarde en la nube, siempre estarán accesibles y no los perderá.",
-    "t2": "¿Qué puedes esperar de RAITO?", 
-    "p3": "RAITO le permite compartir sus datos con su organización de pacientes y plataformas como HealthData 29 para que las instituciones y los investigadores puedan acceder a la información valiosa que usted proporciona de forma anónima sobre beneficios importantes, investigaciones clínicas y actualizaciones de datos de enfermedades.",
+    "t1": "Tienes el poder de impulsar la medicina",
+    "p1": "Le ayudamos a almacenar mejor la información de sus pacientes para que pueda compartirla y beneficiarse de la investigación clínica y el desarrollo de nuevos medicamentos",
+    "t2": "Cómo funciona",
     "button": "Quiero unirme"
   },
   "homeraito":{

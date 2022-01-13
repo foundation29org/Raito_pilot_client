@@ -1,3 +1,14 @@
 .input-group-text i{
   cursor:pointer;
 }
+
+::ng-deep .chart-legend .horizontal-legend li {
+  display: block !important;
+}
+
+/*::ng-deep .chart-legend {
+  display: contents !important;
+}*/
+.optionsCharts{
+  float: inline-end !important;
+}

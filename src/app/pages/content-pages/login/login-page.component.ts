@@ -38,10 +38,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     email: string;
     userEmail: string;
     patient: any;
-    haveMsg: boolean = false;
-    parts: any = null;
-    secondsNextRelease: number = -1;
-    versionServer:any = {};
     private subscription: Subscription = new Subscription();
     private subscriptionIntervals: Subscription = new Subscription();
     private subscriptionTestForce: Subscription = new Subscription();
@@ -240,7 +236,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     }
     // On registration link click
     onRegister() {
-        this.router.navigate(['/register']);
+        this.router.navigate(['/pre-register']);
     }
 
     testHotjarTrigger(lang){

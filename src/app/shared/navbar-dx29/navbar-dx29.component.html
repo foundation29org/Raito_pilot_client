@@ -2,20 +2,20 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar">
     <div class="container-fluid">
       <div>
-        <button type="button" class="mt-1 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
+        <!--<button type="button" class="mt-1 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
           <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-      </button>
-          <span class="navbar-header-logos d-none d-lg-block">
+      </button>-->
+          <span class="navbar-header-logos">
             <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-raito.png' (click)="lauchEvent('Logo');"/>
             <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo-raito.png' routerLink="/." (click)="lauchEvent('Logo');" style="cursor: pointer;"/>
-            <span class="pt-1 font-large-2 text-bold-600" style="position: absolute;">Raito</span>
+            <span class="font-large-2 text-bold-600" style="position: absolute;top: 20%;font-size: 2rem !important;">Raito</span>
           </span>
 
       </div>
-      <div class="d-none d-lg-block">
+      <!--<div class="d-none d-lg-block">
         <div class="navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav m-r-0">
                 <li class="nav-item mr-2">
@@ -30,7 +30,7 @@
                 </li>
               </ul>
           </div>
-      </div>
+      </div>-->
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
@@ -44,12 +44,12 @@
                             </a>
                         </div>
                     </li>
-                    <li class="nav-item mr-2">
+                    <!--<li class="nav-item mr-2">
                       <a class="btn btn-info round mb-0 btn-navbar" (click)="goToLogin()">{{'login.Login' | translate }}</a>
                     </li>
                     <li class="nav-item">
                       <a class="btn btn-dark white round mb-0 btn-navbar" (click)="goToRegister()">{{'login.Create User' | translate }}</a>
-                    </li>
+                    </li>-->
                     <li class="nav-item ml-2 d-inline d-sm-none" ngbDropdown display="dynamic" placement="bottom-right">
                       <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
                           <u>{{currentLang}}</u>
