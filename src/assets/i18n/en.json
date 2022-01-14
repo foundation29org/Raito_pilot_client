@@ -540,7 +540,9 @@
     "It was not possible to save because the drug already exists on the selected date": "It was not possible to save because the drug already exists on the selected date.",
     "msgDrugNotFoundpart1": "If you do not find the drug,",
     "msgDrugNotFoundpart2": "click here",
-    "msgDrugNotFoundpart3": "to add it to the section of other drugs or supplements"
+    "msgDrugNotFoundpart3": "to add it to the section of other drugs or supplements",
+    "The dose is higher than recommended": "The dose is higher than recommended",
+    "Are you sure you want to save the dose": "Are you sure you want to save the dose?"
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "It was not possible to save because the vaccine already exists on the selected date",
@@ -1254,6 +1256,7 @@
   },
   "charts":{
     "Noseizures": "There are no saved seizures",
+    "in the last": "in the last",
     "Quality of life": "Quality of life",
     "Very happy": "Very happy",
     "Happy": "Happy",
@@ -1261,7 +1264,7 @@
     "Very sad": "Very sad",
     "I want to answer how I feel today": "I want to answer how I feel today",
     "No data saved": "No data saved",
-    "There is no drug data stored": "There is no drug data stored",
+    "There is no drug data stored": "There is no drug data saved",
     "Last month": "Last month",
     "Last quarter": "Last quarter",
     "Last year": "Last year"

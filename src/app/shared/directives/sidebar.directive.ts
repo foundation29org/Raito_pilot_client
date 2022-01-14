@@ -130,20 +130,25 @@ export class SidebarDirective implements OnInit, AfterViewInit {
 
   @HostListener("click", ["$event"])
   onClick(e: any) {
-    if (
-      e.target.parentElement.classList.contains("logo-text") ||
-      e.target.parentElement.classList.contains("logo-img")
-    ) {
-      this.activeLinks = [];
-      this.activeRoute = this.router.url;
-      this.expandActive();
-      this.hideSidebar();
-    } else if (
-      e.target.parentElement.classList.contains("nav-close") ||
-      e.target.classList.contains("nav-close")
-    ) {
-      this.toggleHideSidebar.emit(true);
+    if(e.target.parentElement.classList.contains("moreThings") || e.target.parentElement.classList.contains("swal2-actions")){
+      console.log('entra2');
+    }else{
+      if (
+        e.target.parentElement.classList.contains("logo-text") ||
+        e.target.parentElement.classList.contains("logo-img")
+      ) {
+        this.activeLinks = [];
+        this.activeRoute = this.router.url;
+        this.expandActive();
+        this.hideSidebar();
+      } else if (
+        e.target.parentElement.classList.contains("nav-close") ||
+        e.target.classList.contains("nav-close")
+      ) {
+        this.toggleHideSidebar.emit(true);
+      }
     }
+    
   }
 
   @HostListener("window:resize", ["$event"])
@@ -174,24 +179,30 @@ export class SidebarDirective implements OnInit, AfterViewInit {
   // check outside click and close sidebar for smaller screen <992
   @HostListener("document:click", ["$event"])
   onOutsideClick(event) {
-    if (this.innerWidth < 992) {
-      let clickedComponent = event.target;
-      let inside = false;
-      do {
-        if (clickedComponent === this.el.nativeElement) {
-          inside = true;
+    if(event.target.parentElement.classList.contains("moreThings") || event.target.parentElement.classList.toString().indexOf('swal2')!=-1){
+      console.log('entra');
+    }else{
+      if (this.innerWidth < 992) {
+        let clickedComponent = event.target;
+        let inside = false;
+        do {
+          if (clickedComponent === this.el.nativeElement) {
+            inside = true;
+          }
+          clickedComponent = clickedComponent.parentNode;
+        } while (clickedComponent);
+  
+        if (
+          !this.el.nativeElement.classList.contains("hide-sidebar") &&
+          !inside &&
+          !event.target.classList.contains("navbar-toggle")
+        ) {
+          this.toggleHideSidebar.emit(true);
         }
-        clickedComponent = clickedComponent.parentNode;
-      } while (clickedComponent);
-
-      if (
-        !this.el.nativeElement.classList.contains("hide-sidebar") &&
-        !inside &&
-        !event.target.classList.contains("navbar-toggle")
-      ) {
-        this.toggleHideSidebar.emit(true);
       }
     }
+    
+    
   }
 
 

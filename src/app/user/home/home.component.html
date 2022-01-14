@@ -82,14 +82,14 @@
     <div class="row">
         <div class="col-sm-12 content-header">
             <span class="optionsCharts">
-                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="true"
-                        (click)="test();" style="cursor: not-allowed;">{{'charts.Last month' |
+                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='month'"
+                        (click)="loadDataRangeDate('month');">{{'charts.Last month' |
                         translate }}</button></span>
-                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="true"
-                        (click)="test();" style="cursor: not-allowed;">{{'charts.Last quarter' |
+                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='quarter'"
+                        (click)="loadDataRangeDate('quarter');">{{'charts.Last quarter' |
                         translate }}</button></span>
-                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="true"
-                        (click)="test();" style="cursor: not-allowed;">{{'charts.Last year' |
+                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='year'"
+                        (click)="loadDataRangeDate('year');">{{'charts.Last year' |
                         translate }}</button></span>
             </span>
         </div>
@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-4">
+                                    <div class="mt-4 mb-4">
                                         <div class="card-block center-elements">
                                             <a routerLink="/seizures" class="btn btn-primary"
                                                 title="{{'homeraito.p5' | translate }}">
@@ -159,7 +159,7 @@
                                             <h2 class="text-center content-header mb-3">{{'menu.Seizures' | translate }}
                                             </h2>
                                             <div class="text-center">
-                                                <p>{{'charts.Noseizures' | translate }}</p>
+                                                <p>{{'charts.Noseizures' | translate }} <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} {{rangeDate}}</span></p>
                                                 <a routerLink="/seizures" class="btn btn-primary"
                                                     title="{{'homeraito.p5' | translate }}">
                                                     <span class="menu-title">{{'homeraito.p5' | translate }}</span>
@@ -219,7 +219,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-4">
+                                    <div class="mt-4 mb-4">
                                         <div class="card-block center-elements">
                                             <a routerLink="/feel" class="btn btn-primary"
                                                 title="{{'charts.I want to answer how I feel today' | translate }}">
@@ -240,7 +240,7 @@
                                                 translate }}
                                             </h2>
                                             <div class="text-center">
-                                                <p>{{'charts.No data saved' | translate }}</p>
+                                                <p>{{'charts.No data saved' | translate }} <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} {{rangeDate}}</span></p>
                                                 <a routerLink="/feel" class="btn btn-primary"
                                                     title="{{'charts.I want to answer how I feel today' | translate }}">
                                                     <span class="menu-title">{{'charts.I want to answer how I feel
@@ -301,7 +301,7 @@
                                         </div>
     
                                     </div>
-                                    <div class="mt-4">
+                                    <div class="mt-4 mb-4">
                                         <div class="card-block center-elements">
                                             <a routerLink="/medication" class="btn btn-primary"
                                                 title="{{'homeraito.p7' | translate }}">
@@ -321,7 +321,7 @@
                                                 translate }}
                                             </h2>
                                             <div class="text-center">
-                                                <p>{{'charts.There is no drug data stored' | translate }}</p>
+                                                <p>{{'charts.There is no drug data stored' | translate }} <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} {{rangeDate}}</span></p>
                                                 <a routerLink="/medication" class="btn btn-primary"
                                                     title="{{'homeraito.p7' | translate }}">
                                                     <span class="menu-title">{{'homeraito.p7' | translate }}</span>
@@ -332,32 +332,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<h1>{{'homeraito.p3' | translate }}</h1>
-                                <div class="input-group mb-1">
-                                    <input type="text" class="form-control" aria-label="Search here" [(ngModel)]="searchGpt3">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i
-                                                class="fa fa-microphone microphone-ico"></i></span>
-                                    </div>
-                                </div>
-                                <button class="mr-1 btn btn-secondary" (click)="searchOpenAi();">
-                                    <span *ngIf="!callingGpt3"><i class="fa fa-search search-ico"></i> {{'homeraito.Search' | translate }}</span>
-                                    <span *ngIf="callingGpt3"><i class="fa fa-spinner fa-spin fa-fw"></i> {{'generics.Please wait' | translate }}</span>
-                                </button>
-    
-                                <a routerLink="/charts" class="round btn btn-secondary mt-4 mb-4 btn-block"
-                                    title="I want to join">
-                                    <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> {{'homeraito.p4' | translate }}</span>
-                                </a>
-                                <a routerLink="/seizures" class="btn btn-primary btn-block" title="{{'homeraito.p5' | translate }}">
-                                    <span class="menu-title">{{'homeraito.p5' | translate }}</span>
-                                </a>
-                                <a routerLink="/feel" class="btn btn-primary btn-block" title="{{'homeraito.p6' | translate }}">
-                                    <span class="menu-title">{{'homeraito.p6' | translate }}</span>
-                                </a>
-                                <a [routerLink]="['/medication', { addOther: true}]" class="btn btn-primary btn-block" title="{{'homeraito.p7' | translate }}">
-                                    <span class="menu-title">{{'homeraito.p7' | translate }}</span>
-                                </a>-->
                     </div>
                 </div>
             </div>

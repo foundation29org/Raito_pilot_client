@@ -90,10 +90,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   age: number = null;
   groups: Array<any> = [];
   step: string = '0';
-  searchGpt3: string = '';
   private subscription: Subscription = new Subscription();
-  permGPT3: boolean = false;
-  callingGpt3: boolean = false;
+  rangeDate: string = 'month';
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -267,7 +265,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   initEnvironment(){
-    //this.getGtp3Perm();
     //this.userId = this.authService.getIdUser();
     if(this.authService.getCurrentPatient()==null){
       this.loadPatientId();
@@ -304,40 +301,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
 
   }
-
-  getGtp3Perm() {
-    this.subscription.add(this.http.get(environment.api + '/api/gpt3/' + this.authService.getIdUser())
-      .subscribe((res: any) => {
-        this.permGPT3 = res.gptPermission;
-      }, (err) => {
-        console.log(err);
-      }));
-
-  }
-
-  setGtp3Perm() {
-    var value = { gptPermission: this.permGPT3 };
-    this.subscription.add( this.http.post(environment.api+'/api/gpt3/'+this.authService.getIdUser(), value)
-      .subscribe((res: any) => {
-        if(this.permGPT3){
-          this.searchOpenAi();
-        }
-      }, (err) => {
-        console.log(err);
-      }));
-
-  }
-
-  setGtp3NumCalls() {
-    this.subscription.add( this.http.get(environment.api+'/api/gpt3/numcalls/'+this.authService.getIdUser())
-      .subscribe((res: any) => {
-      }, (err) => {
-        console.log(err);
-      }));
-
-  }
-
-  
 
   getInfoPatient() {
     this.loadedInfoPatient = false;
@@ -406,55 +369,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.step = index;
   }
 
-  searchOpenAi() {
-    if(this.searchGpt3.length<3){
-      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("homeraito.Type a question in the text box"), "warning");
-    }else{
-      if (!this.permGPT3) {
-        Swal.fire({
-          title: 'Disclaimer',
-          html: this.translate.instant("homeraito.MsgDisclaimer"),
-          input: 'text',
-          confirmButtonText: this.translate.instant("homeraito.I agree"),
-          cancelButtonText: this.translate.instant("generics.Cancel"),
-          showCancelButton: true,
-          reverseButtons: true
-        }).then(function (email) {
-          if (email.value) {
-            console.log('acepta');
-            this.permGPT3 = true;
-          } else {
-            console.log('rechaza');
-            this.permGPT3 = false;
-          }
-          this.setGtp3Perm();
-        }.bind(this))
-      } else {
-        var value = { value: this.searchGpt3 };
-        this.callingGpt3 = true;
-        this.subscription.add(this.apiDx29ServerService.callOpenAi(value)
-          .subscribe((res: any) => {
-            this.callingGpt3 = false;
-            Swal.fire({
-              title: this.searchGpt3,
-              html: res.choices[0].text,
-              willClose: () => {
-                this.searchGpt3 = '';
-              }
-            }).then((result) => {
-              this.searchGpt3 = '';
-            })
-            this.setGtp3NumCalls();
-          }, (err) => {
-            console.log(err);
-            this.callingGpt3 = false;
-          }));
-      }
-    }
-    
-
-  }
-
   loadData() {
     //cargar los datos del usuario
     this.loadedFeels = false;
@@ -465,7 +379,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getFeels() {
     this.feels = [];
-    this.subscription.add(this.http.get(environment.api + '/api/feels/' + this.authService.getCurrentPatient().sub)
+    var info = {rangeDate: this.rangeDate}
+    this.subscription.add(this.http.post(environment.api + '/api/feels/dates/' + this.authService.getCurrentPatient().sub, info)
       .subscribe((resFeels: any) => {
         if (resFeels.message) {
           //no tiene historico de peso
@@ -511,7 +426,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getSeizures() {
-    this.subscription.add(this.http.get(environment.api + '/api/seizures/' + this.authService.getCurrentPatient().sub)
+    this.events = [];
+    var info = {rangeDate: this.rangeDate}
+    this.subscription.add(this.http.post(environment.api + '/api/seizures/dates/' + this.authService.getCurrentPatient().sub, info)
       .subscribe((res: any) => {
         if (res.message) {
           //no tiene información
@@ -560,7 +477,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getDrugs() {
     this.lineChartDrugs = [];
-    this.subscription.add(this.http.get(environment.api + '/api/medications/' + this.authService.getCurrentPatient().sub)
+    this.medications = [];
+    var info = {rangeDate: this.rangeDate}
+    this.subscription.add(this.http.post(environment.api + '/api/medications/dates/' + this.authService.getCurrentPatient().sub, info)
       .subscribe((res: any) => {
         res.sort(this.sortService.DateSort("startDate"));
         this.medications = res;
@@ -666,8 +585,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     //your code here
   }
 
-  test() {
-
+  loadDataRangeDate(rangeDate) {
+    this.rangeDate = rangeDate;
+    this.loadData();
   }
 
 }
