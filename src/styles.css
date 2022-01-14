@@ -15,6 +15,9 @@
   background-color: #33b0b3 !important;
 }*/
 
+.app-sidebar{
+  overflow-y: auto;
+}
 .invalid-feedback{
   display: block !important;
 }
