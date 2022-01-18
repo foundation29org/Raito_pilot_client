@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'app/shared/auth/auth.service';
-import { SortService} from 'app/shared/services/sort.service';
+import { SortService } from 'app/shared/services/sort.service';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { PatientService } from 'app/shared/services/patient.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
-import { EventsService} from 'app/shared/services/events.service';
+import { EventsService } from 'app/shared/services/events.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -20,11 +20,11 @@ import { ConfigService } from '../services/config.service';
 
 declare var device;
 declare global {
-    interface Navigator {
-      app: {
-          exitApp: () => any; // Or whatever is the type of the exitApp function
-      }
+  interface Navigator {
+    app: {
+      exitApp: () => any; // Or whatever is the type of the exitApp function
     }
+  }
 }
 
 @Component({
@@ -43,57 +43,59 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public config: any = {};
 
-  isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-    isAndroid: boolean = false;
-    patients: any;
-    currentPatient: any = {};
-    redirectUrl: string = '';
-    actualUrl: string = '';
-    email: string = '';
-    role: string = 'User';
-    roleShare: string = 'Clinical';
-    modalReference: NgbModalRef;
-    @ViewChild('f') sendForm: NgForm;
-    sending: boolean = false;
-    revonking: boolean = false;
-    listOfSharingAccounts: any = [];
-    permissions: any = {};
-    selectedPatient: any = {};
-    shareWithObject: any = {};
-    isMine: boolean = false;
-    message: string = '';
-    indexPermissions: number = -1;
-    loading: boolean = true;
-    myUserId: string = '';
-    myEmail: string = '';
-    isHomePage: boolean = false;
-    isClinicalPage: boolean = false;
-    age: any = {};
-    tasks: any = [];
-    private subscription: Subscription = new Subscription();
+  isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
+  isAndroid: boolean = false;
+  patients: any;
+  currentPatient: any = {};
+  redirectUrl: string = '';
+  actualUrl: string = '';
+  email: string = '';
+  role: string = 'User';
+  roleShare: string = 'Clinical';
+  modalReference: NgbModalRef;
+  @ViewChild('f') sendForm: NgForm;
+  sending: boolean = false;
+  revonking: boolean = false;
+  listOfSharingAccounts: any = [];
+  permissions: any = {};
+  selectedPatient: any = {};
+  shareWithObject: any = {};
+  isMine: boolean = false;
+  message: string = '';
+  indexPermissions: number = -1;
+  loading: boolean = true;
+  myUserId: string = '';
+  myEmail: string = '';
+  isHomePage: boolean = false;
+  isClinicalPage: boolean = false;
+  age: any = {};
+  pendingsTaks: number = 14;
+  totalTaks: number = 0;
+  private subscription: Subscription = new Subscription();
+  tasksLoaded: boolean = false;
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService:ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
-    if (this.isApp){
-        if(device.platform == 'android' || device.platform == 'Android'){
-          this.isAndroid = true;
-        }
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
+    if (this.isApp) {
+      if (device.platform == 'android' || device.platform == 'Android') {
+        this.isAndroid = true;
       }
+    }
 
     this.role = this.authService.getRole();
     this.redirectUrl = this.authService.getRedirectUrl();
 
     this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
       event => {
-        var tempUrl= (event.url).toString().split('?');
+        var tempUrl = (event.url).toString().split('?');
         this.actualUrl = tempUrl[0];
         var tempUrl1 = (this.actualUrl).toString();
-        if(tempUrl1.indexOf('/home')!=-1){
+        if (tempUrl1.indexOf('/home') != -1) {
           this.isHomePage = true;
           this.isClinicalPage = false;
-        }else{
-          if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
+        } else {
+          if (tempUrl1.indexOf('/clinical/diagnosis') != -1) {
             this.isClinicalPage = true;
-          }else{
+          } else {
             this.isClinicalPage = false;
           }
           this.isHomePage = false;
@@ -103,31 +105,35 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.layoutSub = layoutService.changeEmitted$.subscribe(
-    direction => {
-      const dir = direction.direction;
-      if (dir === "rtl") {
-        this.placement = "bottom-left";
-      } else if (dir === "ltr") {
-        this.placement = "bottom-right";
-      }
-    });
+      direction => {
+        const dir = direction.direction;
+        if (dir === "rtl") {
+          this.placement = "bottom-left";
+        } else if (dir === "ltr") {
+          this.placement = "bottom-right";
+        }
+      });
 
   }
 
   ngOnInit() {
     this.config = this.configService.templateConf;
 
+    this.loadPatientId();
 
+    this.eventsService.on('changeprompendings', function (number) {
+      this.loadNotifications();
+    }.bind(this));
   }
 
   ngAfterViewInit() {
-    if(this.config.layout.dir) {
+    if (this.config.layout.dir) {
       const dir = this.config.layout.dir;
-        if (dir === "rtl") {
-          this.placement = "bottom-left";
-        } else if (dir === "ltr") {
-          this.placement = "bottom-right";
-        }
+      if (dir === "rtl") {
+        this.placement = "bottom-left";
+      } else if (dir === "ltr") {
+        this.placement = "bottom-right";
+      }
     }
   }
 
@@ -160,45 +166,57 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   logout() {
-      this.authService.logout();
-      this.router.navigate([this.authService.getLoginUrl()]);
+    this.authService.logout();
+    this.router.navigate([this.authService.getLoginUrl()]);
   }
 
   exit() {
-      navigator.app.exitApp();
+    navigator.app.exitApp();
   }
 
 
-    loadPatientId(){
-      this.subscription.add( this.patientService.getPatientId()
-      .subscribe( (res : any) => {
+  loadPatientId() {
+    this.subscription.add(this.patientService.getPatientId()
+      .subscribe((res: any) => {
         this.authService.setCurrentPatient(res);
+        this.loadNotifications();
         //.sub
-       }, (err) => {
-         console.log(err);
-       }));
+      }, (err) => {
+        console.log(err);
+      }));
+  }
+
+  loadNotifications() {
+    this.tasksLoaded = false;
+    this.totalTaks = 0;
+    if (this.authService.getRole() == 'User') {
+      this.subscription.add(this.patientService.getPatientId()
+        .subscribe((res: any) => {
+          if (res != null) {
+            var info = { rangeDate: '' }
+            this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
+              .subscribe((res: any) => {
+                if(this.pendingsTaks - res.length>0){
+                  this.totalTaks++;
+                }
+                this.tasksLoaded = true;
+              }, (err) => {
+                console.log(err);
+                this.tasksLoaded = true;
+              }));
+          }
+
+        }, (err) => {
+          console.log(err);
+        }));
     }
 
 
+  }
 
 
-   delay(ms: number) {
-       return new Promise( resolve => setTimeout(resolve, ms) );
-   }
-
-   deleteTask(index){
-     var res = [];
-     for(var i = 0; i < this.tasks.length; i++){
-       if(i!=index){
-         res.push(this.tasks[i]);
-       }
-      }
-    this.tasks = res;
-   }
-
-   clearNotifications(){
-     this.tasks = [];
-     this.isCollapsed=true;
-   }
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 }

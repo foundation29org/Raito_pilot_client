@@ -7,12 +7,14 @@ import { DateService } from 'app/shared/services/date.service';
 import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
+import { PatientService } from 'app/shared/services/patient.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  providers: [PatientService]
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('accordion') accordion: NgbAccordion;
@@ -24,11 +26,15 @@ export class MenuComponent implements OnInit, OnDestroy {
   private tittleExportData: string;
   private msgDataSavedOk: string;
   private msgDataSavedFail: string;
+  loadedPatientId: boolean = false;
+  hasGroup: boolean = false;
+  consentgroup: boolean = false;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService) { }
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService) { }
 
   ngOnInit(): void {
     this.loadTranslations();
+    this.loadPatientId();
   }
 
   ngOnDestroy() {
@@ -72,6 +78,44 @@ loadTranslations(){
   this.translate.get('generics.Download').subscribe((res: string) => {
     this.msgDownload=res;
   });
+}
+
+loadPatientId(){
+  this.loadedPatientId = false;
+  this.subscription.add( this.patientService.getPatientId()
+  .subscribe( (res : any) => {
+    if(res==null){
+      this.authService.logout();
+    }else{
+      console.log(res);
+      if(res.group!=null){
+        this.hasGroup = true;
+        this.getConsentGroup();
+      }
+    }
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+getConsentGroup(){
+  this.subscription.add( this.http.get(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub)
+  .subscribe( (res : any) => {
+    console.log(res);
+    this.consentgroup = res.consentgroup;
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+changeConsentGroup(value){
+  var paramssend = { consentgroup: value };
+  this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
+  .subscribe( (res : any) => {
+    this.consentgroup = value;
+   }, (err) => {
+     console.log(err.error);
+   }));
 }
 
 exportData(){

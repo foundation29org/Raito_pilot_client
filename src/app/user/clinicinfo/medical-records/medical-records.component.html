@@ -8,9 +8,9 @@
                             information' |
                             translate }}</h2>
                         <div class="center-elements">
-                            <span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
-                                {{'reports.Create-paste a report' | translate }}</button></span>
-                            <span class="ml-1">
+                            <!--<span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
+                                {{'reports.Create-paste a report' | translate }}</button></span>-->
+                            <span>
                                 <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangePDF($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
@@ -71,7 +71,7 @@
                                                         </td>
                                                         <td>
 
-                                                            <span *ngIf="!onefile.hasResults">
+                                                            <!--<span *ngIf="!onefile.hasResults">
                                                                 <span><button class="btn btn-primary"
                                                                         [disabled]="extractingData"
                                                                         (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
@@ -90,7 +90,7 @@
                                                                 <span><button class="btn btn-primary"
                                                                         (click)="openResults(onefile.name);">
                                                                         {{'reports.See results' | translate }}</button></span>
-                                                            </span>
+                                                            </span>-->
                                                             <a class="btn btn-primary ml-2" (click)="deleteFile(onefile,i);"
                                                                 href="javascript:void(0)"><i class="ft-trash"></i></a>
                                                         </td>

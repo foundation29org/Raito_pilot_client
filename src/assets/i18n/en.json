@@ -4,8 +4,9 @@
     "Dashboard Admin": "Dashboard admin",
     "Dashboard Super Admin": "Dashboard superAdmin",
     "User Profile": "User profile",
-    "Basic Info": "Personal information",
+    "Basic Info": "Patient information",
     "Clinical information": "Medical records",
+    "Questionnaire": "Questionnaire",
     "Calendar": "Calendar",
     "Seizures": "Seizures",
     "Patient": "Patient",
@@ -67,7 +68,7 @@
     "This version is deprecated and will stop working": "This version is deprecated and will stop working"
   },
   "registration":{
-    "Registration": "Registration",
+    "Registration": "User Registration",
     "I have read and understood the": "I have read and understood the Privacy Policy",
     "Privacy Policy": "Privacy policy",
     "Security Policy": "Security policy",
@@ -189,6 +190,7 @@
     "No files have been uploaded": "No files have been uploaded",
     "Close": "Close",
     "ExportData": "Export data",
+    "ShareData": "Share data",
     "It has been successfully removed": "It has been successfully removed",
     "More information": "Further information",
     "Download": "Download",
@@ -231,6 +233,8 @@
     "More Info": "More information",
     "Read more": "Read more",
     "Read less": "Read less",
+    "Show more options": "Show more options",
+    "Hide options": "Hide options",
     "Account name": "Account name",
     "Sharing date": "Sharing date",
     "Account data": "Account data",
@@ -542,7 +546,8 @@
     "msgDrugNotFoundpart2": "click here",
     "msgDrugNotFoundpart3": "to add it to the section of other drugs or supplements",
     "The dose is higher than recommended": "The dose is higher than recommended",
-    "Are you sure you want to save the dose": "Are you sure you want to save the dose?"
+    "Are you sure you want to save the dose": "Are you sure you want to save the dose?",
+    "Select drug": "Select drug"
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "It was not possible to save because the vaccine already exists on the selected date",

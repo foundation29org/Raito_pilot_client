@@ -46,7 +46,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   adverseEffectsLang: any;
   locale: string;
   panelMedication: boolean = false;
-  drugSelected: string = '';
+  drugSelected: string = null;
   historyDrugSelected: any = [];
   recommendedDoses: any = [];
   viewMeditationSection: boolean = false;
@@ -56,6 +56,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   minDateChangeDose = new Date();
   section: any = null;
   newTreatment: boolean = false;
+  showDetails: boolean = false;
   private subscription: Subscription = new Subscription();
   showOnlyQuestion: Boolean = true;
   timeformat = "";
@@ -406,7 +407,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.actualMedication = {};
     this.historyDrugSelected = [];
     this.panelMedication = true;
-    this.drugSelected = '';
+    this.drugSelected = null;
     this.viewMedicationForm = false;
   }
 

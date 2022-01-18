@@ -26,8 +26,10 @@
 														title="More info">
 														<em class="fa fa-info w-13"></em>
 													</button>
+													{{type}}
 													<select name="event-estructure-type" class="form-control" formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }"
 														(keyup)="refresh.next()">
+														<option [ngValue]="null" disabled selected>--Select the type of seizure--</option>
 														<option value="Unknown">{{'seizures.Unknown' | translate }}</option>
 														<option value="Simple Focal">{{'seizures.Simple Focal' | translate }}</option>
 														<option value="Complex Focal">{{'seizures.Complex Focal' | translate }}</option>
@@ -90,12 +92,27 @@
 													-->
 												</div>
 											</div>
+											<div class="form-group col-md-12">
+												<label>State</label>
+												<div class="d-block font-small-2">
+													<div class="form-check form-check-inline">
+														<input class="form-check-input" type="radio" formControlName="state"
+															 value="asleep">
+														<label class="form-check-label" >Patient was asleep</label>
+													</div>
+													<div class="form-check form-check-inline">
+														<input class="form-check-input" type="radio"  formControlName="state"
+															value="awake">
+														<label class="form-check-label" >Patient was awake</label>
+													</div>
+												</div>
+											</div>
 
 
 											<div class="col-md-12 col-12">
 												<div class="form-group">
 													<label>{{'generics.notes' | translate }}</label>
-													<textarea maxlength="150" name="notes" formControlName="notes"
+													<textarea maxlength="150" name="notes" formControlName="notes" placeholder="Write down any details"
 														class="autoajustable form-control" name="notes"></textarea>
 												</div>
 											</div>
@@ -134,6 +151,7 @@
 										<th>{{'seizures.Seizure type' | translate }}</th>
 										<th>{{'seizures.Duration' | translate }}</th>
 										<th>{{'generics.Date' | translate }}</th>
+										<th>State</th>
 										<th>{{'generics.Options' | translate }}</th>
 									</tr>
 								</thead>
@@ -147,6 +165,9 @@
 										</td>
 										<td>
 											{{event.start |date}}
+										</td>
+										<td>
+											{{event.state}}
 										</td>
 										<td>
 											<a class="danger" (click)="deleteSeizure(event);"

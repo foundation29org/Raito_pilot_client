@@ -4,8 +4,9 @@
     "Dashboard Admin": "Panel del administrador",
     "Dashboard Super Admin": "Panel del superadministrador",
     "User Profile": "Perfil del usuario",
-    "Basic Info": "Información básica",
+    "Basic Info": "Información del paciente",
     "Clinical information": "Historial médico",
+    "Questionnaire": "Cuestionario",
     "Calendar": "Calendario",
     "Seizures": "Convulsiones",
     "Patient": "Paciente",
@@ -67,7 +68,7 @@
     "This version is deprecated and will stop working": "Esta versión está obsoleta y dejará de funcionar"
   },
   "registration":{
-    "Registration": "Registro",
+    "Registration": "Registro de usuario",
     "I have read and understood the": "He leído y entendido la Política de Privacidad.",
     "Privacy Policy": "Política de privacidad",
     "Security Policy": "Política de seguridad",
@@ -188,6 +189,7 @@
     "No files have been uploaded": "No ha cargado ningún fichero",
     "Close": "Cerrar",
     "ExportData": "Exportar datos",
+    "ShareData": "Compartir data",
     "It has been successfully removed": "Se ha eliminado correctamente",
     "More information": "Más información",
     "Download": "Descargar",
@@ -230,6 +232,8 @@
     "More Info": "Más información",
     "Read more": "Ver más",
     "Read less": "Ver menos",
+    "Show more options": "Mostrar más opciones",
+    "Hide options": "Ocultar opciones",
     "Account name": "Nombre de la cuenta",
     "Sharing date": "Fecha de compartición",
     "Account data": "Datos de la cuenta",
@@ -541,7 +545,8 @@
     "msgDrugNotFoundpart2": "clic aquí",
     "msgDrugNotFoundpart3": "para añadirla a la sección de otros medicamentos o suplementos",
     "The dose is higher than recommended": "La dosis es superior a la recomendada",
-    "Are you sure you want to save the dose": "¿Estás seguro de que quieres guardar la dosis?"
+    "Are you sure you want to save the dose": "¿Estás seguro de que quieres guardar la dosis?",
+    "Select drug": "Selecciona medicamento"
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "No fue posible guardar porque la vacuna ya existe en la fecha seleccionada",

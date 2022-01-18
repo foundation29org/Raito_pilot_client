@@ -94,7 +94,7 @@ export class PersonalInfoComponent implements OnInit {
       parents: [],
       group: null,
       previousDiagnosis: null,
-      consentGiven: 'No'
+      consentGivenGTP: 'No'
     };
 
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));

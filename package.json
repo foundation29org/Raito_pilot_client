@@ -24,6 +24,7 @@
   "private": true,
   "dependencies": {
     "@akveo/ng2-completer": "^9.0.1",
+    "@angular-slider/ngx-slider": "^2.0.3",
     "@angular/animations": "9.0.1",
     "@angular/cdk": "^9.0.0",
     "@angular/common": "9.0.1",

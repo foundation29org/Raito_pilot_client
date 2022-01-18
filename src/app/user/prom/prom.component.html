@@ -1,0 +1,289 @@
+<div class="h-100">
+    <div class="card card-block mx-auto" style="max-width: 30rem !important;">
+        <div class="card-body pb-0">
+            <div class="row">
+                <div class="col-12 col-sm-12 align-items-center">
+                    <div>
+                        <a routerLink="/home" class="btn btn-primary" title="{{'menu.Dashboard' | translate }}">
+                            <span class="menu-title">{{'menu.Dashboard' | translate }}</span>
+                        </a>
+                        <span *ngIf="newproms.length>0 && step+1<=newproms.length" class="text-muted float-right">{{step+1}} /{{newproms.length}} </span>
+                    </div>
+                    <h2 class="text-center content-header mb-3">{{'menu.Questionnaire' | translate }}</h2>
+                    <div *ngIf="newproms.length>0 && loadedProms">
+                        <div class="card mb-0">
+                            <div class="mb-3">
+                                <div *ngIf="step+1<=newproms.length">
+                                    <div *ngIf="actualProm.idProm==1">
+                                        <h4 class="">What is your country of residence?</h4>
+                                        <div class="form-group">
+                                            <select class="form-control" id="countryselectedCode" name="countryselectedCode" [(ngModel)]="actualProm.data">
+                                                <option [ngValue]="null" disabled selected>--{{'registration.Please select a
+                                                    code' | translate }}--</option>
+                                                <option *ngFor="let country of countries; let i=index"
+                                                    value="{{country.countryName}}">
+                                                    <label *ngIf="lang!='es'"
+                                                        style="color:blue !important">{{country.countryName}}</label>
+                                                    <label *ngIf="lang=='es'"
+                                                        style="color:blue !important">{{country.countryNombre}}</label>
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==2">
+                                        <h4 class="">How old is the patient in years?</h4>
+                                        <input type="number" min="0" class="form-control" [(ngModel)]="actualProm.data">
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==3">
+                                        <h4 class="">How many different anti-epileptic drugs have you taken until today?</h4>
+                                        <input type="number" min="0" class="form-control" [(ngModel)]="actualProm.data">
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==4">
+                                        <h4 class="">Have you taken Stiripentol-Diacomit or Cannabidiol-Epidyolex in the past?</h4>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="None of these" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >None of these</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Stiripentol-Diacomit" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Stiripentol-Diacomit</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Cannabidiol-Epidyolex" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Cannabidiol-Epidyolex</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Both of these" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Both of these</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==5">
+                                        <h4 class="">Which has been the impact of those drugs in your quality of life?</h4>
+                                        <label>* quality of life means not only seizure reduction but overall improvement in the life of the patient</label>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="Very much improved" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Very much improved</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Much improved" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Much improved</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Minimally improved" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Minimally improved</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="No improvement or change" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >No improvement or change</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Negative change" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Negative change</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="awake">
+                                                <label class="form-check-label" >Not sure</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==6">
+                                        <h4 class="">How did you access fenfluramine?</h4>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="Clinical trial" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Clinical trial</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Compassionate use" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Compassionate use</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Open label studies" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Open label studies</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==7">
+                                        <h4 class="">Are you currently taking fenfluramine?</h4>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="No, in the past, but not currently" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >No, in the past, but not currently</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Yes, for more than one year now" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Yes, for more than one year now</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Yes, for less than 3 months now" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Yes, for less than 3 months now</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==8">
+                                        <h4 class="">Which has been the impact of fenfluramine in your quality of life?</h4>
+                                        <label>* quality of life means not only seizure reduction but overall improvement in the life of the patient</label>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="Very much improved" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Very much improved</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Much improved" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Much improved</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Minimally improved" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Minimally improved</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="No improvement or change" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >No improvement or change</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Negative change" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Negative change</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Not sure" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Not sure</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==9">
+                                        <h4 class="">Have you reduced the number or the dose of other anti-epileptic treatments as a result of adding fenfluramine?</h4>
+                                        <div class="center-elements">
+                                            <button type="button" class="mr-1 btn btn-primary" (click)="setValue('No')">{{'generics.No' | translate }}</button>
+                                            <button type="button" class="ml-1 btn btn-dark" (click)="setValue('Yes')">{{'generics.Yes' | translate }}</button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==10">
+                                        <h4 class="">Which were the reasons for these adjustments?</h4>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="Because we have better seizure control" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Because we have better seizure control</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="In order to follow pharmacokinetic interactions" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >In order to follow pharmacokinetic interactions</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Required to eliminate treatment with stiripendol to access the treatment with fenfluramine" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Required to eliminate treatment with stiripendol to access the treatment with fenfluramine</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Dont know" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Don’t know</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==11">
+                                        <h4 class="">Would a better seizure control lead you to change your lifestyle?</h4>
+                                        <div class="d-block font-small-2">
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                     value="A better seizure control" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >A better seizure control encourages us to enjoy a more ‘normal’ life, even with activities that could potentially trigger seizures</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="Not sure" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >Not sure. Both seizure frequency and enjoying a more normal life are equally important to us</label>
+                                            </div>
+                                            <div class="form-check form-check-block">
+                                                <input class="form-check-input" type="radio" name="state"
+                                                    value="A better seizure control does not encourage" [(ngModel)]="actualProm.data">
+                                                <label class="form-check-label" >A better seizure control does not encourage us to enjoy a  more ‘normal’ life, because we don’t want to risk seizures by doing activities that could trigger them</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==12">
+                                        <h4 class="">Has the patient experienced improvements while taking fenfluramine in symptoms other than seizures? Which ones?</h4>
+                                        <section class="example-section">
+                                            <h4 class="">Select your toppings:</h4>
+                                            <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom12.Behavior">Behavior</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="OverallHappiness" [(ngModel)]="prom12.OverallHappiness">Overall happiness</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="Sleep" [(ngModel)]="prom12.Sleep">Sleep</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="Autonomy" [(ngModel)]="prom12.Autonomy">Autonomy</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="AbilityToLeaveTheHouse" [(ngModel)]="prom12.AbilityToLeaveTheHouse">Ability to leave the house</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="AbilityToAttendSchool" [(ngModel)]="prom12.AbilityToAttendSchool">Ability to attend school</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="AbilityToEnjoyActivities" [(ngModel)]="prom12.AbilityToEnjoyActivities">Ability to enjoy activities such as outdoor playing and going to the beach or pool</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="abilityToTravelWithThePatient" [(ngModel)]="prom12.abilityToTravelWithThePatient">It improved my family’s ability to travel with the patient</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="opportunitiesForSocialInteractions" [(ngModel)]="prom12.opportunitiesForSocialInteractions">It improved the patient’s opportunities for social interactions</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="cognitiveSkills" [(ngModel)]="prom12.cognitiveSkills">It improved patient’s cognitive skills</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="capacityToWork" [(ngModel)]="prom12.capacityToWork">It improved my (parent/caregiver) capacity to work (fewer work absences)</mat-checkbox></p>
+                                            <p class="mb-0"><mat-checkbox name="NoOtherImprovements" [(ngModel)]="prom12.NoOtherImprovements">No other improvements or not sure</mat-checkbox></p>
+                                          </section>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==13">
+                                        <h4 class="">How would you rate the overall state of the patient including seizure and non-seizure improvements?</h4>
+                                        <div class="form-group">
+                                            <ngx-slider [(value)]="actualProm.data" [options]="options" ></ngx-slider>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="actualProm.idProm==14">
+                                        <h4 class="">Can you provide a short testimony of how fenfluramine has impacted the quality of life of the patient and their family?</h4>
+                                        <div class="form-group">
+                                            <textarea name="answer" id="answer" rows="4" class="form-control" placeholder="Enter your text here" [(ngModel)]="actualProm.data"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="step+1>newproms.length">
+                                    You have completed today's questions. Thanks!
+                                </div>
+                                <small class="form-text text-muted danger" *ngIf="actualProm.data==null && goNext">{{'generics.required' | translate }}</small>
+                            </div>
+                            <div class="card-footer" *ngIf="step+1<=newproms.length">
+                                <div class="col-md-12 center-elements mt-2">
+                                    <div class="form-actions center" *ngIf="!sending">
+                                        <button *ngIf="step+1>1" type="button" class="float-left btn btn-primary btn-raised" (click)="previousProm()">{{'generics.Previous' | translate }}</button>
+                                        
+                                        <button *ngIf="step+1<newproms.length" type="button" class="float-right btn btn-primary btn-raised" (click)="nextProm()">{{'generics.Next' | translate }}</button>
+                                        <button *ngIf="step+1==newproms.length" type="button" class="float-right btn btn-primary btn-raised" (click)="nextProm()">{{'generics.Finish' | translate }}</button>
+                                        <!--<button type="button" class="btn btn-raised btn-primary" (click)="saveSymptomsOfDiseaseSuggested()">{{'generics.Save' | translate }}</button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="center-elements" *ngIf="loadedProms && newproms.length==0">
+                        There is nothing new to show
+                    </div>
+                    <div class="center-elements" *ngIf="!loadedProms">
+                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
