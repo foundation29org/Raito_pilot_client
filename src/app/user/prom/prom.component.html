@@ -18,235 +18,235 @@
                                 <div class="mb-3">
                                     <div *ngIf="step+1<=newproms.length">
                                         <div *ngIf="actualProm.idProm==1">
-                                            <h4 class="">How old is the patient in years?</h4>
+                                            <h4 class="">{{'prom.q1' | translate }}</h4>
                                             <input type="number" min="0" class="form-control" [(ngModel)]="actualProm.data">
                                         </div>
                                         <div *ngIf="actualProm.idProm==2">
-                                            <h4 class="">How many different anti-epileptic drugs have you taken until today?</h4>
+                                            <h4 class="">{{'prom.q2' | translate }}</h4>
                                             <input type="number" min="0" class="form-control" [(ngModel)]="actualProm.data">
                                         </div>
                                         <div *ngIf="actualProm.idProm==3">
-                                            <h4 class="">Have you taken Stiripentol-Diacomit or Cannabidiol-Epidyolex in the past?</h4>
+                                            <h4 class="">{{'prom.q3' | translate }}</h4>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="None of these" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >None of these</label>
+                                                    <label class="form-check-label" >{{'prom.a3.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Stiripentol-Diacomit" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Stiripentol-Diacomit</label>
+                                                    <label class="form-check-label" >{{'prom.a3.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Cannabidiol-Epidyolex" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Cannabidiol-Epidyolex</label>
+                                                    <label class="form-check-label" >{{'prom.a3.3' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Both of these" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Both of these</label>
+                                                    <label class="form-check-label" >{{'prom.a3.4' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==4">
-                                            <h4 class="">Which has been the impact of those drugs in your quality of life?</h4>
-                                            <label>* quality of life means not only seizure reduction but overall improvement in the life of the patient</label>
+                                            <h4 class="">{{'prom.q4' | translate }}</h4>
+                                            <label>{{'prom.q4sub' | translate }}</label>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="Very much improved" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Very much improved</label>
+                                                    <label class="form-check-label" >{{'prom.a4.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Much improved" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Much improved</label>
+                                                    <label class="form-check-label" >{{'prom.a4.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Minimally improved" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Minimally improved</label>
+                                                    <label class="form-check-label" >{{'prom.a4.3' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="No improvement or change" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >No improvement or change</label>
+                                                    <label class="form-check-label" >{{'prom.a4.4' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Negative change" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Negative change</label>
+                                                    <label class="form-check-label" >{{'prom.a4.5' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="awake">
-                                                    <label class="form-check-label" >Not sure</label>
+                                                    <label class="form-check-label" >{{'prom.a4.6' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==5">
-                                            <h4 class="">How did you access fenfluramine?</h4>
+                                            <h4 class="">{{'prom.q5' | translate }}</h4>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="Clinical trial" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Clinical trial</label>
+                                                    <label class="form-check-label" >{{'prom.a5.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Compassionate use" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Compassionate use</label>
+                                                    <label class="form-check-label" >{{'prom.a5.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Open label studies" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Open label studies</label>
+                                                    <label class="form-check-label" >{{'prom.a5.3' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==6">
-                                            <h4 class="">Are you currently taking fenfluramine?</h4>
+                                            <h4 class="">{{'prom.q6' | translate }}</h4>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="No, in the past, but not currently" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >No, in the past, but not currently</label>
+                                                    <label class="form-check-label" >{{'prom.a6.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Yes, for more than one year now" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Yes, for more than one year now</label>
+                                                    <label class="form-check-label" >{{'prom.a6.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Yes, for less than 3 months now" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Yes, for less than 3 months now</label>
+                                                    <label class="form-check-label" >{{'prom.a6.3' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==7">
-                                            <h4 class="">Which has been the impact of fenfluramine in your quality of life?</h4>
-                                            <label>* quality of life means not only seizure reduction but overall improvement in the life of the patient</label>
+                                            <h4 class="">{{'prom.q7' | translate }}</h4>
+                                            <label>{{'prom.q7sub' | translate }}</label>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="Very much improved" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Very much improved</label>
+                                                    <label class="form-check-label" >{{'prom.a7.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Much improved" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Much improved</label>
+                                                    <label class="form-check-label" >{{'prom.a7.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Minimally improved" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Minimally improved</label>
+                                                    <label class="form-check-label" >{{'prom.a7.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="No improvement or change" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >No improvement or change</label>
+                                                    <label class="form-check-label" >{{'prom.a7.3' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Negative change" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Negative change</label>
+                                                    <label class="form-check-label" >{{'prom.a7.4' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Not sure" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Not sure</label>
+                                                    <label class="form-check-label" >{{'prom.a7.5' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==8">
-                                            <h4 class="">Have you reduced the number or the dose of other anti-epileptic treatments as a result of adding fenfluramine?</h4>
+                                            <h4 class="">{{'prom.q8' | translate }}</h4>
                                             <div class="center-elements">
                                                 <button type="button" class="mr-1 btn btn-primary" (click)="setValue('No')">{{'generics.No' | translate }}</button>
                                                 <button type="button" class="ml-1 btn btn-dark" (click)="setValue('Yes')">{{'generics.Yes' | translate }}</button>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==9">
-                                            <h4 class="">Which were the reasons for these adjustments?</h4>
+                                            <h4 class="">{{'prom.q9' | translate }}</h4>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="Because we have better seizure control" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Because we have better seizure control</label>
+                                                    <label class="form-check-label" >{{'prom.a9.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="In order to follow pharmacokinetic interactions" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >In order to follow pharmacokinetic interactions</label>
+                                                    <label class="form-check-label" >{{'prom.a9.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Required to eliminate treatment with stiripendol to access the treatment with fenfluramine" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Required to eliminate treatment with stiripendol to access the treatment with fenfluramine</label>
+                                                    <label class="form-check-label" >{{'prom.a9.3' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Dont know" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Don’t know</label>
+                                                    <label class="form-check-label" >{{'prom.a9.4' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==10">
-                                            <h4 class="">Would a better seizure control lead you to change your lifestyle?</h4>
+                                            <h4 class="">{{'prom.q10' | translate }}</h4>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                          value="A better seizure control" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >A better seizure control encourages us to enjoy a more ‘normal’ life, even with activities that could potentially trigger seizures</label>
+                                                    <label class="form-check-label" >{{'prom.a10.1' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="Not sure" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >Not sure. Both seizure frequency and enjoying a more normal life are equally important to us</label>
+                                                    <label class="form-check-label" >{{'prom.a10.2' | translate }}</label>
                                                 </div>
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
                                                         value="A better seizure control does not encourage" [(ngModel)]="actualProm.data">
-                                                    <label class="form-check-label" >A better seizure control does not encourage us to enjoy a  more ‘normal’ life, because we don’t want to risk seizures by doing activities that could trigger them</label>
+                                                    <label class="form-check-label" >{{'prom.a10.3' | translate }}</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==11">
-                                            <h4 class="">Has the patient experienced improvements while taking fenfluramine in symptoms other than seizures? Which ones?</h4>
+                                            <h4 class="">{{'prom.q11' | translate }}</h4>
                                             <section class="example-section">
-                                                <h5 class="">Select your toppings:</h5>
-                                                <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom11.Behavior">Behavior</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="OverallHappiness" [(ngModel)]="prom11.OverallHappiness">Overall happiness</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="Sleep" [(ngModel)]="prom11.Sleep">Sleep</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="Autonomy" [(ngModel)]="prom11.Autonomy">Autonomy</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="AbilityToLeaveTheHouse" [(ngModel)]="prom11.AbilityToLeaveTheHouse">Ability to leave the house</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="AbilityToAttendSchool" [(ngModel)]="prom11.AbilityToAttendSchool">Ability to attend school</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="AbilityToEnjoyActivities" [(ngModel)]="prom11.AbilityToEnjoyActivities">Ability to enjoy activities such as outdoor playing and going to the beach or pool</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="abilityToTravelWithThePatient" [(ngModel)]="prom11.abilityToTravelWithThePatient">It improved my family’s ability to travel with the patient</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="opportunitiesForSocialInteractions" [(ngModel)]="prom11.opportunitiesForSocialInteractions">It improved the patient’s opportunities for social interactions</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="cognitiveSkills" [(ngModel)]="prom11.cognitiveSkills">It improved patient’s cognitive skills</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="capacityToWork" [(ngModel)]="prom11.capacityToWork">It improved my (parent/caregiver) capacity to work (fewer work absences)</mat-checkbox></p>
-                                                <p class="mb-0"><mat-checkbox name="NoOtherImprovements" [(ngModel)]="prom11.NoOtherImprovements">No other improvements or not sure</mat-checkbox></p>
+                                                <h5 class="">{{'prom.q11sub' | translate }}</h5>
+                                                <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom11.Behavior">{{'prom.a11.1' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="OverallHappiness" [(ngModel)]="prom11.OverallHappiness">{{'prom.a11.2' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="Sleep" [(ngModel)]="prom11.Sleep">{{'prom.a11.3' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="Autonomy" [(ngModel)]="prom11.Autonomy">{{'prom.a11.4' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="AbilityToLeaveTheHouse" [(ngModel)]="prom11.AbilityToLeaveTheHouse">{{'prom.a11.5' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="AbilityToAttendSchool" [(ngModel)]="prom11.AbilityToAttendSchool">{{'prom.a11.6' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="AbilityToEnjoyActivities" [(ngModel)]="prom11.AbilityToEnjoyActivities">{{'prom.a11.7' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="abilityToTravelWithThePatient" [(ngModel)]="prom11.abilityToTravelWithThePatient">{{'prom.a11.8' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="opportunitiesForSocialInteractions" [(ngModel)]="prom11.opportunitiesForSocialInteractions">{{'prom.a11.9' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="cognitiveSkills" [(ngModel)]="prom11.cognitiveSkills">{{'prom.a11.10' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="capacityToWork" [(ngModel)]="prom11.capacityToWork">{{'prom.a11.11' | translate }}</mat-checkbox></p>
+                                                <p class="mb-0"><mat-checkbox name="NoOtherImprovements" [(ngModel)]="prom11.NoOtherImprovements">{{'prom.a11.12' | translate }}</mat-checkbox></p>
                                               </section>
                                         </div>
                                         <div *ngIf="actualProm.idProm==12">
-                                            <h4 class="">How would you rate the overall state of the patient including seizure and non-seizure improvements?</h4>
+                                            <h4 class="">{{'prom.q12' | translate }}</h4>
                                             <div class="form-group">
                                                 <ngx-slider [(value)]="actualProm.data" [options]="options" ></ngx-slider>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==13">
-                                            <h4 class="">Can you provide a short testimony of how fenfluramine has impacted the quality of life of the patient and their family?</h4>
+                                            <h4 class="">{{'prom.q13' | translate }}</h4>
                                             <div class="form-group">
-                                                <textarea name="answer" id="answer" rows="4" class="form-control" placeholder="Enter your text here" [(ngModel)]="actualProm.data"></textarea>
+                                                <textarea name="answer" id="answer" rows="4" class="form-control" placeholder="{{'prom.Enter your text here' | translate }}" [(ngModel)]="actualProm.data"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div *ngIf="step+1>newproms.length">
-                                        You have completed today's questions. Thanks!
+                                        {{'prom.You have completed' | translate }}
                                     </div>
                                     <small class="form-text text-muted danger" *ngIf="actualProm.data==null && goNext">{{'generics.required' | translate }}</small>
                                 </div>
@@ -264,11 +264,11 @@
                             </div>
                         </div>
                         <div class="center-elements" *ngIf="loadedProms && newproms.length==0">
-                            No further questions for today
+                            {{'prom.No further questions for today' | translate }}
                         </div>
                     </div>
                     <div *ngIf="!pendind && loadedProms" class="center-elements" style="position: sticky; top: 95vh; z-index: 1;height: 0px;">
-                        <button type="button" class="mr-1 btn btn-primary" (click)="saveChanges()">Save changes</button>
+                        <button type="button" class="mr-1 btn btn-primary" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
                     </div>
                     <div *ngIf="!pendind && loadedProms">
                         <div *ngFor="let prom of newproms ; let i = index">
@@ -278,230 +278,230 @@
                                 <span *ngIf="!prom.hasAnswer"><em class="fa fa-times w-13 danger"></em></span>
                             </p>
                             <div *ngIf="prom.idProm==1">
-                                <h4 class="">How old is the patient in years?</h4>
+                                <h4 class="">{{'prom.q1' | translate }}</h4>
                                 <input type="number" min="0" class="form-control" [(ngModel)]="prom.data">
                             </div>
                             <div *ngIf="prom.idProm==2">
-                                <h4 class="">How many different anti-epileptic drugs have you taken until today?</h4>
+                                <h4 class="">{{'prom.q2' | translate }}</h4>
                                 <input type="number" min="0" class="form-control" [(ngModel)]="prom.data">
                             </div>
                             <div *ngIf="prom.idProm==3">
-                                <h4 class="">Have you taken Stiripentol-Diacomit or Cannabidiol-Epidyolex in the past?</h4>
+                                <h4 class="">{{'prom.q3' | translate }}</h4>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id3"
                                              value="None of these" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >None of these</label>
+                                        <label class="form-check-label" >{{'prom.a3.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id3"
                                             value="Stiripentol-Diacomit" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Stiripentol-Diacomit</label>
+                                        <label class="form-check-label" >{{'prom.a3.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id3"
                                             value="Cannabidiol-Epidyolex" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Cannabidiol-Epidyolex</label>
+                                        <label class="form-check-label" >{{'prom.a3.3' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id3"
                                             value="Both of these" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Both of these</label>
+                                        <label class="form-check-label" >{{'prom.a3.4' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==4">
-                                <h4 class="">Which has been the impact of those drugs in your quality of life?</h4>
-                                <label>* quality of life means not only seizure reduction but overall improvement in the life of the patient</label>
+                                <h4 class="">{{'prom.q4' | translate }}</h4>
+                                <label>{{'prom.q4sub' | translate }}</label>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id4"
                                              value="Very much improved" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Very much improved</label>
+                                        <label class="form-check-label" >{{'prom.a4.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id4"
                                             value="Much improved" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Much improved</label>
+                                        <label class="form-check-label" >{{'prom.a4.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id4"
                                             value="Minimally improved" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Minimally improved</label>
+                                        <label class="form-check-label" >{{'prom.a4.3' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id4"
                                             value="No improvement or change" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >No improvement or change</label>
+                                        <label class="form-check-label" >{{'prom.a4.4' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id4"
                                             value="Negative change" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Negative change</label>
+                                        <label class="form-check-label" >{{'prom.a4.5' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id4"
                                             value="awake">
-                                        <label class="form-check-label" >Not sure</label>
+                                        <label class="form-check-label" >{{'prom.a4.6' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==5">
-                                <h4 class="">How did you access fenfluramine?</h4>
+                                <h4 class="">{{'prom.q5' | translate }}</h4>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id5"
                                              value="Clinical trial" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Clinical trial</label>
+                                        <label class="form-check-label" >{{'prom.a5.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id5"
                                             value="Compassionate use" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Compassionate use</label>
+                                        <label class="form-check-label" >{{'prom.a5.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id5"
                                             value="Open label studies" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Open label studies</label>
+                                        <label class="form-check-label" >{{'prom.a5.3' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==6">
-                                <h4 class="">Are you currently taking fenfluramine?</h4>
+                                <h4 class="">{{'prom.q6' | translate }}</h4>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id6"
                                              value="No, in the past, but not currently" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >No, in the past, but not currently</label>
+                                        <label class="form-check-label" >{{'prom.a6.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id6"
                                             value="Yes, for more than one year now" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Yes, for more than one year now</label>
+                                        <label class="form-check-label" >{{'prom.a6.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id6"
                                             value="Yes, for less than 3 months now" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Yes, for less than 3 months now</label>
+                                        <label class="form-check-label" >{{'prom.a6.3' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==7">
-                                <h4 class="">Which has been the impact of fenfluramine in your quality of life?</h4>
-                                <label>* quality of life means not only seizure reduction but overall improvement in the life of the patient</label>
+                                <h4 class="">{{'prom.q7' | translate }}</h4>
+                                <label>{{'prom.q7sub' | translate }}</label>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id7"
                                              value="Very much improved" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Very much improved</label>
+                                        <label class="form-check-label" >{{'prom.a7.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id7"
                                             value="Much improved" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Much improved</label>
+                                        <label class="form-check-label" >{{'prom.a7.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id7"
                                             value="Minimally improved" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Minimally improved</label>
+                                        <label class="form-check-label" >{{'prom.a7.3' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id7"
                                             value="No improvement or change" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >No improvement or change</label>
+                                        <label class="form-check-label" >{{'prom.a7.4' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id7"
                                             value="Negative change" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Negative change</label>
+                                        <label class="form-check-label" >{{'prom.a7.5' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id7"
                                             value="Not sure" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Not sure</label>
+                                        <label class="form-check-label" >{{'prom.a7.6' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==8">
-                                <h4 class="">Have you reduced the number or the dose of other anti-epileptic treatments as a result of adding fenfluramine?</h4>
+                                <h4 class="">{{'prom.q8' | translate }}</h4>
                                 <div class="center-elements">
                                     <button type="button" class="mr-1 btn btn-primary" (click)="prom.data='No'">{{'generics.No' | translate }}</button>
                                     <button type="button" class="ml-1 btn btn-dark" (click)="prom.data='Yes'">{{'generics.Yes' | translate }}</button>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==9">
-                                <h4 class="">Which were the reasons for these adjustments?</h4>
+                                <h4 class="">{{'prom.q9' | translate }}</h4>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id9"
                                              value="Because we have better seizure control" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Because we have better seizure control</label>
+                                        <label class="form-check-label" >{{'prom.a9.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id9"
                                             value="In order to follow pharmacokinetic interactions" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >In order to follow pharmacokinetic interactions</label>
+                                        <label class="form-check-label" >{{'prom.a9.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id9"
                                             value="Required to eliminate treatment with stiripendol to access the treatment with fenfluramine" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Required to eliminate treatment with stiripendol to access the treatment with fenfluramine</label>
+                                        <label class="form-check-label" >{{'prom.a9.3' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id9"
                                             value="Dont know" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Don’t know</label>
+                                        <label class="form-check-label" >{{'prom.a9.4' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==10">
-                                <h4 class="">Would a better seizure control lead you to change your lifestyle?</h4>
+                                <h4 class="">{{'prom.q10' | translate }}</h4>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id10"
                                              value="A better seizure control" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >A better seizure control encourages us to enjoy a more ‘normal’ life, even with activities that could potentially trigger seizures</label>
+                                        <label class="form-check-label" >{{'prom.a10.1' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id10"
                                             value="Not sure" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >Not sure. Both seizure frequency and enjoying a more normal life are equally important to us</label>
+                                        <label class="form-check-label" >{{'prom.a10.2' | translate }}</label>
                                     </div>
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id10"
                                             value="A better seizure control does not encourage" [(ngModel)]="prom.data">
-                                        <label class="form-check-label" >A better seizure control does not encourage us to enjoy a  more ‘normal’ life, because we don’t want to risk seizures by doing activities that could trigger them</label>
+                                        <label class="form-check-label" >{{'prom.a10.3' | translate }}</label>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==11">
-                                <h4 class="">Has the patient experienced improvements while taking fenfluramine in symptoms other than seizures? Which ones?</h4>
+                                <h4 class="">{{'prom.q11' | translate }}</h4>
                                 <section class="example-section">
-                                    <h5 class="">Select your toppings:</h5>
-                                    <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom11.Behavior">Behavior</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="OverallHappiness" [(ngModel)]="prom11.OverallHappiness">Overall happiness</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Sleep" [(ngModel)]="prom11.Sleep">Sleep</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Autonomy" [(ngModel)]="prom11.Autonomy">Autonomy</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="AbilityToLeaveTheHouse" [(ngModel)]="prom11.AbilityToLeaveTheHouse">Ability to leave the house</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="AbilityToAttendSchool" [(ngModel)]="prom11.AbilityToAttendSchool">Ability to attend school</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="AbilityToEnjoyActivities" [(ngModel)]="prom11.AbilityToEnjoyActivities">Ability to enjoy activities such as outdoor playing and going to the beach or pool</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="abilityToTravelWithThePatient" [(ngModel)]="prom11.abilityToTravelWithThePatient">It improved my family’s ability to travel with the patient</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="opportunitiesForSocialInteractions" [(ngModel)]="prom11.opportunitiesForSocialInteractions">It improved the patient’s opportunities for social interactions</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="cognitiveSkills" [(ngModel)]="prom11.cognitiveSkills">It improved patient’s cognitive skills</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="capacityToWork" [(ngModel)]="prom11.capacityToWork">It improved my (parent/caregiver) capacity to work (fewer work absences)</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="NoOtherImprovements" [(ngModel)]="prom11.NoOtherImprovements">No other improvements or not sure</mat-checkbox></p>
+                                    <h5 class="">{{'prom.q11sub' | translate }}</h5>
+                                    <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom11.Behavior">{{'prom.a11.1' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="OverallHappiness" [(ngModel)]="prom11.OverallHappiness">{{'prom.a11.2' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Sleep" [(ngModel)]="prom11.Sleep">{{'prom.a11.3' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Autonomy" [(ngModel)]="prom11.Autonomy">{{'prom.a11.4' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="AbilityToLeaveTheHouse" [(ngModel)]="prom11.AbilityToLeaveTheHouse">{{'prom.a11.5' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="AbilityToAttendSchool" [(ngModel)]="prom11.AbilityToAttendSchool">{{'prom.a11.6' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="AbilityToEnjoyActivities" [(ngModel)]="prom11.AbilityToEnjoyActivities">{{'prom.a11.7' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="abilityToTravelWithThePatient" [(ngModel)]="prom11.abilityToTravelWithThePatient">{{'prom.a11.8' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="opportunitiesForSocialInteractions" [(ngModel)]="prom11.opportunitiesForSocialInteractions">{{'prom.a11.9' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="cognitiveSkills" [(ngModel)]="prom11.cognitiveSkills">{{'prom.a11.10' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="capacityToWork" [(ngModel)]="prom11.capacityToWork">{{'prom.a11.11' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="NoOtherImprovements" [(ngModel)]="prom11.NoOtherImprovements">{{'prom.a11.12' | translate }}</mat-checkbox></p>
                                   </section>
                             </div>
                             <div *ngIf="prom.idProm==12">
-                                <h4 class="">How would you rate the overall state of the patient including seizure and non-seizure improvements?</h4>
+                                <h4 class="">{{'prom.q12' | translate }}</h4>
                                 <div class="form-group">
                                     <ngx-slider [(value)]="prom.data" [options]="options" ></ngx-slider>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==13">
-                                <h4 class="">Can you provide a short testimony of how fenfluramine has impacted the quality of life of the patient and their family?</h4>
+                                <h4 class="">{{'prom.q13' | translate }}</h4>
                                 <div class="form-group">
-                                    <textarea name="answer" id="answer" rows="4" class="mb-5 form-control" placeholder="Enter your text here" [(ngModel)]="prom.data"></textarea>
+                                    <textarea name="answer" id="answer" rows="4" class="mb-5 form-control" placeholder="{{'prom.Enter your text here' | translate }}" [(ngModel)]="prom.data"></textarea>
                                 </div>
                             </div>
                         </div>

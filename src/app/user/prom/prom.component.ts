@@ -65,22 +65,11 @@ export class PromComponent {
   };
   value: number = 0;
   numSaved: number = 0;
-  options: Options = {
-    showTicksValues: true,
-    stepsArray: [
-      { value: -4, legend: "Bad" },
-      { value: -3 },
-      { value: -2 },
-      { value: -1 },
-      { value: 0 },
-      { value: 1 },
-      { value: 2 },
-      { value: 3 },
-      { value: 4, legend: "Good" }
-    ]
-  };
+  options: Options = {};
   goNext: boolean = false;
   pendind: boolean = false;
+  a121: string = '';
+  a122: string = '';
 
 
   constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
@@ -95,6 +84,27 @@ export class PromComponent {
     this.lang = sessionStorage.getItem('lang');        
 
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
+
+    this.translate.get('prom.a12.1').subscribe((res: string) => {
+      this.a121 = res;
+    });
+    this.translate.get('prom.a12.2').subscribe((res: string) => {
+      this.a122 = res;
+      this.options = {
+        showTicksValues: true,
+        stepsArray: [
+          { value: -4, legend: this.a121},
+          { value: -3 },
+          { value: -2 },
+          { value: -1 },
+          { value: 0 },
+          { value: 1 },
+          { value: 2 },
+          { value: 3 },
+          { value: 4, legend: this.a122}
+        ]
+      }
+    });
    }
 
    init() {
