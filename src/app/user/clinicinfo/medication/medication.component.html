@@ -297,7 +297,7 @@
 													</div>
 													<div *ngIf="showDetails">
 														<div class="row mt-2">
-															<div class="col-md-2">
+															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="schedule">{{'medication.Schedule' | translate }}</label>
 																	<select id="schedule" name="schedule" class="form-control"
@@ -347,7 +347,7 @@
 																	<p class="font-small-2">{{'medication.Compassionate Use Description' |
 																		translate }}</p>
 																	<select id="compassionateUse" name="compassionateUse"
-																		class="form-control col-md-3" [(ngModel)]="medication.compassionateUse">
+																		class="form-control col-md-6" [(ngModel)]="medication.compassionateUse">
 																		<option value="yes">{{'generics.Yes' | translate }}</option>
 																		<option value="no">{{'generics.No' | translate }}</option>
 																		<option value="Don't know">{{'generics.Dont know' | translate }}

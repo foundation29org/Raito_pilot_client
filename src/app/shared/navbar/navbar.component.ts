@@ -69,7 +69,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   isHomePage: boolean = false;
   isClinicalPage: boolean = false;
   age: any = {};
-  pendingsTaks: number = 14;
+  pendingsTaks: number = 13;
   totalTaks: number = 0;
   private subscription: Subscription = new Subscription();
   tasksLoaded: boolean = false;

@@ -1,5 +1,6 @@
 import { Component, OnInit, LOCALE_ID } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +21,7 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
 import { Options } from "@angular-slider/ngx-slider";
+import { lineChartShowXAxisLabel } from 'app/shared/configs/general-charts.config';
 
 export function getCulture() {
   return sessionStorage.getItem('culture');
@@ -31,7 +33,7 @@ export function getCulture() {
   styleUrls: ['./prom.component.scss'],
   providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService]
 })
-export class PromComponent implements OnInit {
+export class PromComponent {
   lang: string = 'en';
   userId: string = '';
   selectedPatient: any = {};
@@ -44,11 +46,10 @@ export class PromComponent implements OnInit {
   loadedProms: boolean = false;
   proms: any = [];
   newproms: any = [];
-  totalTaks: number = 14;
-  pendingsTaks: number = 14;
-  countries: any = [];
+  totalTaks: number = 13;
+  pendingsTaks: number = 13;
   actualProm: any = {};
-  prom12: any = {
+  prom11: any = {
     "Behavior": false,
     "OverallHappiness": false,
     "Sleep": false,
@@ -63,6 +64,7 @@ export class PromComponent implements OnInit {
     "NoOtherImprovements": false
   };
   value: number = 0;
+  numSaved: number = 0;
   options: Options = {
     showTicksValues: true,
     stepsArray: [
@@ -78,22 +80,30 @@ export class PromComponent implements OnInit {
     ]
   };
   goNext: boolean = false;
+  pendind: boolean = false;
 
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder) {
-
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
+    this.subscription.add( this.route.params.subscribe(params => {
+      if(params['pendind']!=undefined){
+        this.pendind = params['pendind'];
+      }else{
+        this.pendind = false;
+      }
+      this.init();
+    }));
     this.lang = sessionStorage.getItem('lang');        
 
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
    }
 
-  ngOnInit(): void {
+   init() {
     this.initEnvironment();
     this.loadPromQuestions();
-    this.loadCountries();
   }
 
   loadPromQuestions(){
+    this.newproms = [];
     this.newproms.push({idProm:1, data:null})
     this.newproms.push({idProm:2, data:null})
     this.newproms.push({idProm:3, data:null})
@@ -107,7 +117,6 @@ export class PromComponent implements OnInit {
     this.newproms.push({idProm:11, data:null})
     this.newproms.push({idProm:12, data:null})
     this.newproms.push({idProm:13, data:null})
-    this.newproms.push({idProm:14, data:null})
   }
 
   filterNewProms(){
@@ -130,6 +139,26 @@ export class PromComponent implements OnInit {
     this.loadedProms = true;
   }
 
+  showAll(){
+    this.numSaved = 0;
+    for(var i=0;i<this.newproms.length;i++){
+      var foundProm = false;
+      for(var j=0;j<this.proms.length && !foundProm;j++){
+        if(this.newproms[i].idProm == this.proms[j].idProm){
+          this.newproms[i] = this.proms[j];
+          this.newproms[i].hasAnswer = true;
+          this.numSaved++;
+          foundProm = true;
+        }
+      }
+      if(!foundProm){
+        this.newproms[i].hasAnswer = false;
+      }
+    }
+    this.actualProm = this.newproms[this.step];
+    this.loadedProms = true;
+  }
+
   initEnvironment(){
     this.userId = this.authService.getIdUser();
     console.log(this.authService.getCurrentPatient());
@@ -140,33 +169,6 @@ export class PromComponent implements OnInit {
       this.selectedPatient = this.authService.getCurrentPatient();
       this.getProms();
     }
-  }
-
-  loadCountries() {
-    this.countries = [];
-    //load countries file
-    this.subscription.add(this.http.get('assets/jsons/phone_codes.json')
-      .subscribe((res: any) => {
-        //get country name
-        for (let row of res) {
-          var countryName = "";
-          var countryNameList = [];
-          countryNameList = row.name.split(/["]/g)
-          countryName = countryNameList[1]
-
-          var countryNombre = "";
-          var countryNombreList = [];
-          countryNombreList = row.nombre.split(/["]/g)
-          countryNombre = countryNombreList[1]
-          this.countries.push({ countryName: countryName, countryNombre: countryNombre })
-        }
-        if (this.lang == 'es') {
-          this.countries.sort(this.sortService.GetSortOrder("countryNombre"));
-        } else {
-          this.countries.sort(this.sortService.GetSortOrder("countryName"));
-        }
-      }));
-
   }
 
   loadPatientId(){
@@ -198,7 +200,13 @@ export class PromComponent implements OnInit {
         this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res:any)=>{
           this.proms = res;
-          this.filterNewProms();
+          console.log(this.pendind);
+          if(this.pendind){
+            this.filterNewProms();
+          }else{
+            this.showAll();
+          }
+          
           this.totalTaks = this.totalTaks - res.length;
           this.pendingsTaks = this.totalTaks;
           console.log(res);
@@ -249,6 +257,22 @@ export class PromComponent implements OnInit {
         }));
   }
 
+  saveChanges(){
+    console.log(this.newproms);
+    this.sending = true;
+      this.subscription.add( this.http.post(environment.api+'/api/proms/'+this.authService.getCurrentPatient().sub, this.newproms)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.sending = false;
+          this.init();
+          this.eventsService.broadcast('changeprompendings', '');
+        }, (err) => {
+          console.log(err);
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          this.sending = false;
+        }));
+  }
+
   previousProm(){
     this.step--;
     this.actualProm = this.newproms[this.step];
@@ -256,15 +280,15 @@ export class PromComponent implements OnInit {
 
   nextProm(){
     this.goNext = true;
-    if(this.actualProm.idProm==12){
+    if(this.actualProm.idProm==11){
       var foundElementTrue = false;
-      for(var i in this.prom12) {
-        if(this.prom12[i]){
+      for(var i in this.prom11) {
+        if(this.prom11[i]){
           foundElementTrue = true;
         }
       }
       if(foundElementTrue){
-        this.actualProm.data = this.prom12;
+        this.actualProm.data = this.prom11;
       }
       
     }

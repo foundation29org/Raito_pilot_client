@@ -59,7 +59,7 @@
                             <p class="d-none">Notifications</p>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                              <a *ngIf="totalTaks>0 && tasksLoaded" class="dropdown-item py-1"  routerLink="/prom">
+                              <a *ngIf="totalTaks>0 && tasksLoaded" class="dropdown-item py-1" [routerLink]="['/prom', { pendind: true}]">
                                 <span class="">
                                   You have datapoints to complete
                                 </span>
