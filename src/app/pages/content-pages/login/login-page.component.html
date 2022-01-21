@@ -1,18 +1,12 @@
 <!--Login Page Starts-->
 <section id="login">
-  <ngb-alert *ngIf="haveMsg" type="light" class="mb-0 mt-3 alert-yellow" [dismissible]="false">
-    <div class="mt-3">
-      <h4>{{'InfoSystem.TitleNewVersion' | translate }} <span *ngIf="parts">in {{parts.days}}d {{parts.hours}}h {{parts.minutes}}m {{parts.seconds}}s </span></h4>
-      <p>{{'InfoSystem.SubtitleNewVersion1' | translate }} {{startTime|date:'h a'}} {{'generics.and' | translate }} {{finishTime|date:'h a'}} ({{finishTime|date:'z'}}) {{'InfoSystem.SubtitleNewVersion2' | translate }} {{finishTime|date:'MMM d, y'}}. {{'InfoSystem.SubtitleNewVersion3' | translate }}</p>
-    </div>
-    </ngb-alert>
       <div class="container-fluid"><!-- gradient-red-pink-->
-          <div [ngClass]="(haveMsg==true)?'row almost-xl-height-vh':'row almost-full-height-vh'">
+          <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-center">
-                <div class="card bg-blue-grey bg-darken-3 text-center width-400">
+                <div class="card text-center width-400 mt-4">
                     <div class="card-body">
                         <div class="card-block">
-                           <h2 style="margin-bottom: 1rem;" class="text-center white mt-3">{{'login.Login' | translate }}</h2>
+                           <h2 style="margin-bottom: 1rem;" class="text-center">{{'login.Login' | translate }}</h2>
                             <form  (ngSubmit)="onSubmit()" #f="ngForm">
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -27,16 +21,16 @@
                                         <small class="form-text text-muted danger" *ngIf="!password.valid && (password.dirty || password.touched)">{{'generics.required' | translate }}</small>
                                     </div>
                                 </div>
-                                <div class="form-group" *ngIf="!sending">
+                                <div class="" *ngIf="!sending">
                                     <div class="col-md-12">
                                       <div *ngIf="f.valid;then formValid else formError"></div>
-                                      <ng-template #formValid><button class="btn btn-primary btn-raised btn-block" type="submit"> {{'login.Login' | translate }}</button></ng-template>
-                                      <ng-template #formError><button class="btn btn-primary btn-raised btn-block" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formValid><button class="btn btn-dark btn-block mb-0" type="submit"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formError><button class="btn btn-dark btn-block mb-0" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
                                     </div>
                                     <!--<a class="white" (click)="launchDemo()">Demo</a>-->
                                 </div>
                                 <div  class="form-group" *ngIf="sending">
-                                  <i class="fa fa-spinner fa-spin fa-3x fa-fw white"></i>
+                                  <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
                                 </div>
                                 <div *ngIf="isBlockedAccount" class="form-group">
                                     <div class="col-md-12 danger">
@@ -82,12 +76,29 @@
                         </div>
                     </div>
                     <div class="card-footer" style="background: none;">
-                        <div class="float-left white centerdiv"><a (click)="onForgotPassword()">{{'login.Recover Password' | translate }}</a></div>
-                        <div class="float-right white centerdiv"><a (click)="onRegister()">{{'login.Create User' | translate }}</a></div>
+                        <div class="float-left centerdiv"><a (click)="onForgotPassword()">{{'login.Recover Password' | translate }}</a></div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+          <div class="col-12 d-flex align-items-center justify-content-center">
+              <div class="card text-center width-400">
+                  <div class="card-body">
+                      <div class="card-block">
+                         <h2 style="margin-bottom: 1rem;" class="text-center">First time here?</h2>
+                         <p class="">Create an account clicking here:</p>
+                         <div class="col-md-12 centerdiv">
+                             <button class="btn btn-dark btn-block" (click)="onRegister()">{{'login.Create User' | translate }}</button>
+                            </div>
+                         <p class="">----- or Log in with -----</p>
+                         <button type="button" class="btn btn-social btn-dark mr-2"><i class="fa fa-google"></i>Google</button>
+                         <button type="button" class="btn btn-social btn-dark mr-2"><i class="fas fa-cloud"></i>iCloud</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
 </section>
 <!--Login Page Ends-->

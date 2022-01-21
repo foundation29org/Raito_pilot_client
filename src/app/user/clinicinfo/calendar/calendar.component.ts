@@ -21,6 +21,7 @@ interface MyEvent{
   type: any;
   duracion: any;
   notes: any;
+  state: any,
   start: any;
 }
 
@@ -71,9 +72,10 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.seizuresForm = this.formBuilder.group({
-      type: ['', Validators.required],
+      type: [null, Validators.required],
       duracion: ['', Validators.required],
       start: ['', Validators.required],
+      state: [],
       notes: []
   });
     this.loadData();
@@ -170,6 +172,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       GUID: '',
       type: null,
       duracion: 0,
+      state:"",
       notes:"",
       start: startOfDay(new Date()),
     }
@@ -240,6 +243,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
         GUID: '',
         type: null,
         duracion: 0,
+        state:"",
   		  notes:"",
         start: startOfDay(new Date()),
       }
@@ -431,6 +435,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       GUID: '',
       type: null,
       duracion: 0,
+      state:"",
       notes:"",
       start: startOfDay(new Date()),
     }

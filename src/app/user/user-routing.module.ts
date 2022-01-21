@@ -7,7 +7,7 @@ import { RoleGuard } from 'app/shared/auth/role-guard.service';
 import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { FeelComponent } from './feel/feel.component';
-import { ChartsComponent } from './charts/charts.component';
+import { PromComponent } from './prom/prom.component';
 
 const routes: Routes = [
   {
@@ -38,10 +38,10 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard]
   },
   {
-    path: 'charts',
-    component: ChartsComponent,
+    path: 'prom',
+    component: PromComponent,
     data: {
-      title: 'menu.Charts',
+      title: 'Prom',
       expectedRole: ['User']
     },
     canActivate: [AuthGuard, RoleGuard]

@@ -8,13 +8,13 @@
                             information' |
                             translate }}</h2>
                         <div class="center-elements">
-                            <span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
-                                {{'reports.Create-paste a report' | translate }}</button></span>
-                            <span class="ml-1">
+                            <!--<span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
+                                {{'reports.Create-paste a report' | translate }}</button></span>-->
+                            <span>
                                 <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangePDF($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <label class="btn btn-info customHeight"
+                                <label class="btn btn-dark customHeight"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'land.Browse for file' | translate }} <span class="font-small-2 d-block">{{'dashboardpatient.info extension' | translate }}</span></label>
                             </span>
@@ -33,7 +33,7 @@
                             </svg>
                             <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                             <h3>{{'land.or' | translate }}</h3>
-                            <label class="btn btn-info round"
+                            <label class="btn btn-dark round"
                                 style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                 for="fileDropRef">{{'land.Browse for file' | translate }}</label>
                             <h3 class="mt-2 d-block">{{'dashboardpatient.info extension' | translate }}</h3>
@@ -71,7 +71,7 @@
                                                         </td>
                                                         <td>
 
-                                                            <span *ngIf="!onefile.hasResults">
+                                                            <!--<span *ngIf="!onefile.hasResults">
                                                                 <span><button class="btn btn-primary"
                                                                         [disabled]="extractingData"
                                                                         (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
@@ -90,7 +90,7 @@
                                                                 <span><button class="btn btn-primary"
                                                                         (click)="openResults(onefile.name);">
                                                                         {{'reports.See results' | translate }}</button></span>
-                                                            </span>
+                                                            </span>-->
                                                             <a class="btn btn-primary ml-2" (click)="deleteFile(onefile,i);"
                                                                 href="javascript:void(0)"><i class="ft-trash"></i></a>
                                                         </td>
@@ -249,16 +249,16 @@
                     </span>
                 </span>
                 <div class="mt-2">
-                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
+                    <button *ngIf="!ncrResultView" type="button" class="btn btn-dark round mb-0"
                         (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex], 'textAnalytics')">{{'patdiagdashboard.Show
                         full text' | translate }}</button>
-                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
+                    <button *ngIf="ncrResultView" type="button" class="btn btn-dark round mb-0"
                         (click)="showCompleteNcrResultView(null, 'textAnalytics')">{{'patdiagdashboard.Hide full text' |
                         translate }}</button>
                 </div>
                 <div *ngIf="ncrResultView">
                     <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
+                        <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">Go top</button>
                     </span>
                     <div class="mt-2 text-center">
                         <a id="initpos"></a>

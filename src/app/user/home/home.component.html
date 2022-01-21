@@ -1,97 +1,402 @@
-<div class="h-100">
-    <div>
-        <div class="mt-4 card card-block mx-auto" style="max-width: 30rem !important;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-12 justify-content-center align-items-center text-center">
-                        <div *ngIf="!loadedInfoPatient">
-                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                        </div>
-                        <div *ngIf="loadedInfoPatient">
-                            <div *ngIf="basicInfoPatient.group==null || step!='0'">
-                                <div *ngIf="step=='0'">
-                                    <h1>{{'homeraito.t1' | translate }}</h1>
-                                    <div class="center-elements">
-                                        <button class="mr-1 btn btn-primary" (click)="question1('No');">{{'generics.No' | translate }}</button>
-                                        <button class="ml-1 btn btn-primary" (click)="question1('Yes');">{{'generics.Yes' | translate }}</button>
-                                    </div>
-                                </div>
-                                <div *ngIf="step=='1'">
-                                    <h1>{{'homeraito.t2' | translate }}</h1>
-                                    <select id="group" name="group" class="form-control" ngModel
-                                        [(ngModel)]="basicInfoPatient.group">
-                                        <option [value]="null" disabled selected>--{{'registration.Please select a
-                                            group' | translate }}--</option>
-                                        <option *ngFor="let group of groups" [ngValue]="group.name">
-                                            <span *ngIf="group.name == duchennenetherlands">Duchenne Parent Project
-                                                Netherlands</span>
-                                            <span *ngIf="group.name == 'Stop Sanfilippo'">Stop Sanfilippo</span>
-                                            <span *ngIf="group.name == 'Epilepsy'">{{'personalinfo.Patients with
-                                                epilepsy' | translate }}</span>
-                                            <span
-                                                *ngIf="group.name != 'Stop Sanfilippo' && group.name != 'Epilepsy'  && group.name != 'Undiagnosed'  && group.name != 'None' && group.name != duchennenetherlands">{{group.name}}</span>
-                                            <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a
-                                                diagnosis' | translate }}</span>
-                                            <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a
-                                                patient group' | translate }}</span>
-                                        </option>
-                                    </select>
-                                    <div class="center-elements">
-                                        <button class="mt-3 btn btn-primary" [disabled]="basicInfoPatient.group==null"
-                                            (click)="question2();">{{'generics.Next' | translate }}</button>
-                                    </div>
-                                </div>
-                                <div *ngIf="step=='2'">
-                                    <h1>{{'homeraito.t3' | translate }}</h1>
-                                    <div class="center-elements">
-                                        <button class="mr-1 btn btn-primary" (click)="question3('No');">{{'generics.No' | translate }}</button>
-                                        <button class="ml-1 btn btn-primary" (click)="question3('Yes');">{{'generics.Yes' | translate }}</button>
-                                    </div>
-                                    <span class="text-muted font-small-2">
-                                        {{'homeraito.p1' | translate }}
-                                    </span>
-                                </div>
-                                <div *ngIf="step=='3'">
-                                    <h1>{{'homeraito.p2' | translate }}</h1>
-                                    <div class="center-elements">
-                                        <button class="btn btn-primary" (click)="goStep('0')">{{'wizard.btn' | translate }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="basicInfoPatient.group!=null && step=='0'">
-                                <h1>{{'homeraito.p3' | translate }}</h1>
-                                <div class="input-group mb-1">
-                                    <input type="text" class="form-control" aria-label="Search here" [(ngModel)]="searchGpt3">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i
-                                                class="fa fa-microphone microphone-ico"></i></span>
-                                    </div>
-                                </div>
-                                <button class="mr-1 btn btn-secondary" (click)="searchOpenAi();">
-                                    <span *ngIf="!callingGpt3"><i class="fa fa-search search-ico"></i> {{'homeraito.Search' | translate }}</span>
-                                    <span *ngIf="callingGpt3"><i class="fa fa-spinner fa-spin fa-fw"></i> {{'generics.Please wait' | translate }}</span>
-                                </button>
-
-                                <a routerLink="/charts" class="round btn btn-secondary mt-4 mb-4 btn-block"
-                                    title="I want to join">
-                                    <span class="menu-title"><i class="fas fa-chart-bar mr-2"></i> {{'homeraito.p4' | translate }}</span>
-                                </a>
-                                <a routerLink="/seizures" class="btn btn-primary btn-block" title="{{'homeraito.p5' | translate }}">
-                                    <span class="menu-title">{{'homeraito.p5' | translate }}</span>
-                                </a>
-                                <a routerLink="/feel" class="btn btn-primary btn-block" title="{{'homeraito.p6' | translate }}">
-                                    <span class="menu-title">{{'homeraito.p6' | translate }}</span>
-                                </a>
-                                <a [routerLink]="['/medication', { addOther: true}]" class="btn btn-primary btn-block" title="{{'homeraito.p7' | translate }}">
-                                    <span class="menu-title">{{'homeraito.p7' | translate }}</span>
-                                </a>
+<div class="mt-4 card card-block mx-auto" *ngIf="!loadedInfoPatient" style="max-width: 30rem !important;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 center-elements">
+                <div>
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-4 card card-block mx-auto" *ngIf="loadedInfoPatient && (basicInfoPatient.group==null || step!='0')"
+    style="max-width: 30rem !important;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div *ngIf="!loadedInfoPatient">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+                <div *ngIf="loadedInfoPatient">
+                    <div *ngIf="basicInfoPatient.group==null || step!='0'"
+                        class="justify-content-center align-items-center text-center">
+                        <div *ngIf="step=='0'">
+                            <h1>{{'homeraito.t1' | translate }}</h1>
+                            <div class="center-elements">
+                                <button class="mr-1 btn btn-primary" (click)="question1('No');">{{'generics.No' |
+                                    translate }}</button>
+                                <button class="ml-1 btn btn-primary" (click)="question1('Yes');">{{'generics.Yes' |
+                                    translate }}</button>
                             </div>
                         </div>
-
-
+                        <div *ngIf="step=='1'">
+                            <h1>{{'homeraito.t2' | translate }}</h1>
+                            <select id="group" name="group" class="form-control" ngModel
+                                [(ngModel)]="basicInfoPatient.group">
+                                <option [value]="null" disabled selected>--{{'registration.Please select a
+                                    group' | translate }}--</option>
+                                <option *ngFor="let group of groups" [ngValue]="group.name">
+                                    <span *ngIf="group.name == duchennenetherlands">Duchenne Parent Project
+                                        Netherlands</span>
+                                    <span *ngIf="group.name == 'Stop Sanfilippo'">Stop Sanfilippo</span>
+                                    <span *ngIf="group.name == 'Epilepsy'">{{'personalinfo.Patients with
+                                        epilepsy' | translate }}</span>
+                                    <span
+                                        *ngIf="group.name != 'Stop Sanfilippo' && group.name != 'Epilepsy'  && group.name != 'Undiagnosed'  && group.name != 'None' && group.name != duchennenetherlands">{{group.name}}</span>
+                                    <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a
+                                        diagnosis' | translate }}</span>
+                                    <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a
+                                        patient group' | translate }}</span>
+                                </option>
+                            </select>
+                            <div class="center-elements">
+                                <button class="mt-3 btn btn-primary" [disabled]="basicInfoPatient.group==null"
+                                    (click)="question2();">{{'generics.Next' | translate }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='2'">
+                            <h1>{{'homeraito.t3' | translate }}</h1>
+                            <div class="center-elements">
+                                <button class="mr-1 btn btn-primary" (click)="question3('No');">{{'generics.No' |
+                                    translate }}</button>
+                                <button class="ml-1 btn btn-primary" (click)="question3('Yes');">{{'generics.Yes' |
+                                    translate }}</button>
+                            </div>
+                            <span class="text-muted font-small-2">
+                                {{'homeraito.p1' | translate }}
+                            </span>
+                        </div>
+                        <div *ngIf="step=='3'">
+                            <h1>{{'homeraito.p2' | translate }}</h1>
+                            <div class="center-elements">
+                                <button class="btn btn-primary" (click)="goStep('0')">{{'wizard.btn' | translate
+                                    }}</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="" *ngIf="loadedInfoPatient && basicInfoPatient.group!=null && step=='0'">
+    <div class="row">
+        <div class="col-sm-12 content-header">
+            <span class="optionsCharts">
+                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='month'"
+                        (click)="loadDataRangeDate('month');">{{'charts.Last month' |
+                        translate }}</button></span>
+                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='quarter'"
+                        (click)="loadDataRangeDate('quarter');">{{'charts.Last quarter' |
+                        translate }}</button></span>
+                <span><button class="btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='year'"
+                        (click)="loadDataRangeDate('year');">{{'charts.Last year' |
+                        translate }}</button></span>
+            </span>
+        </div>
+    </div>
+    <div class="mx-auto" style="max-width: 30rem !important;">
+        <div>
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div *ngIf="!loadedInfoPatient">
+                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                    </div>
+                    <div>
+                        <div class="row" *ngIf="events.length > 0 && loadedEvents">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="">
+                                        <div class="card-block">
+                                            <h2 class="text-center content-header mb-3">{{'menu.Seizures' | translate }}
+                                            </h2>
+                                            <div id="line-chart2" class="height-300">
+                                                <ngx-charts-line-chart [scheme]="lineChartColorScheme"
+                                                    [results]="lineChartSeizures" [gradient]="lineChartGradient"
+                                                    [xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis"
+                                                    [legend]="lineChartShowLegend"
+                                                    [showXAxisLabel]="lineChartShowXAxisLabel"
+                                                    [xAxisTickFormatting]="tickFormatting"
+                                                    [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+                                                    [autoScale]="false" (select)="onSelect($event)"
+                                                    [yAxisLabel]="titleSeizures" [yAxisTickFormatting]='axisFormat'>
+                                                    <ng-template #tooltipTemplate let-model="model">
+                                                        <span>{{ model.name | date }}: {{ model.value }}</span>
+                                                        <span class="d-block"
+                                                            *ngFor="let type of model.types ; let i = index">
+                                                            {{type.type}}: {{type.count}}
+                                                        </span>
+                                                    </ng-template>
+                                                    <ng-template #seriesTooltipTemplate let-model="model">
+                                                        <div *ngFor="let mod of model; let i = index">
+                                                            <span class="d-block">{{ mod.name |date }}: {{ mod.value
+                                                                }}</span>
+                                                            <span class="d-block"
+                                                                *ngFor="let type of mod.types ; let j = index">
+                                                                {{type.type}}: {{type.count}}
+                                                            </span>
+                                                        </div>
+                                                    </ng-template>
+                                                </ngx-charts-line-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 mb-4">
+                                        <div class="card-block center-elements">
+                                            <a routerLink="/seizures" class="btn btn-primary"
+                                                title="{{'homeraito.p5' | translate }}">
+                                                <span class="menu-title">{{'homeraito.p5' | translate }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="events.length == 0 && loadedEvents">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-block">
+                                            <h2 class="text-center content-header mb-3">{{'menu.Seizures' | translate }}
+                                            </h2>
+                                            <div class="text-center">
+                                                <p>{{'charts.Noseizures' | translate }}
+                                                    <span *ngIf="rangeDate!=''">
+                                                        {{'charts.in the last' | translate }}
+                                                        <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                            }}</span>
+                                                    </span>
+                                                </p>
+                                                <a routerLink="/seizures" class="btn btn-primary"
+                                                    title="{{'homeraito.p5' | translate }}">
+                                                    <span class="menu-title">{{'homeraito.p5' | translate }}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="feels.length > 0">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="">
+                                        <div class="card-block">
+                                            <h2 class="text-center content-header mb-3">{{'charts.Quality of life' |
+                                                translate }}</h2>
+                                            <div id="line-chart2" class="height-300">
+                                                <ngx-charts-area-chart [scheme]="lineChartColorScheme"
+                                                    [results]="lineChartHeight" [gradient]="lineChartGradient"
+                                                    [xAxis]="lineChartShowXAxis" [yAxis]="lineChartShowYAxis"
+                                                    [legend]="lineChartShowLegend"
+                                                    [showXAxisLabel]="lineChartShowXAxisLabel"
+                                                    [xAxisTickFormatting]="tickFormatting"
+                                                    [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+                                                    [autoScale]="false" [showText]="false" (select)="onSelect($event)"
+                                                    [yAxisTicks]=[0,1,2,3,4,5] [yScaleMax]="5"
+                                                    [yAxisTickFormatting]="percentTickFormatting">
+                                                    <ng-template #tooltipTemplate let-model="model">
+                                                        <span class="d-block">{{ model.name |date }}</span>
+                                                        <span *ngIf="model.value==5">{{'charts.Very happy' | translate
+                                                            }}</span>
+                                                        <span *ngIf="model.value==4">{{'charts.Happy' | translate
+                                                            }}</span>
+                                                        <span *ngIf="model.value==3">Normal</span>
+                                                        <span *ngIf="model.value==2">{{'charts.Sad' | translate
+                                                            }}</span>
+                                                        <span *ngIf="model.value==1">{{'charts.Very sad' | translate
+                                                            }}</span>
+                                                    </ng-template>
+                                                    <ng-template #seriesTooltipTemplate let-model="model">
+                                                        <div *ngFor="let mod of model; let i = index">
+                                                            <span class="d-block">{{ mod.name |date }}</span>
+                                                            <span *ngIf="mod.value==5">{{'charts.Very happy' | translate
+                                                                }}</span>
+                                                            <span *ngIf="mod.value==4">{{'charts.Happy' | translate
+                                                                }}</span>
+                                                            <span *ngIf="mod.value==3">Normal</span>
+                                                            <span *ngIf="mod.value==2">{{'charts.Sad' | translate
+                                                                }}</span>
+                                                            <span *ngIf="mod.value==1">{{'charts.Very sad' | translate
+                                                                }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </ngx-charts-area-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 mb-4">
+                                        <div class="card-block center-elements">
+                                            <a routerLink="/feel" class="btn btn-primary"
+                                                title="{{'charts.I want to answer how I feel today' | translate }}">
+                                                <span class="menu-title">{{'charts.I want to answer how I feel today' |
+                                                    translate }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="feels.length == 0 && loadedFeels">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-block">
+                                            <h2 class="text-center content-header mb-3">{{'charts.Quality of life' |
+                                                translate }}
+                                            </h2>
+                                            <div class="text-center">
+                                                <p>{{'charts.No data saved' | translate }}
+                                                    <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }}
+                                                        <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                            }}</span></span>
+                                                </p>
+                                                <a routerLink="/feel" class="btn btn-primary"
+                                                    title="{{'charts.I want to answer how I feel today' | translate }}">
+                                                    <span class="menu-title">{{'charts.I want to answer how I feel
+                                                        today' | translate }}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="medications.length > 0 && loadedDrugs">
+                            <div class="col-sm-12">
+                                <div class="card" #ContainerRef>
+                                    <div class="">
+                                        <div class="card-block pb-2">
+                                            <h2 class="text-center content-header mb-3">{{'clinicalinfo.Medication' |
+                                                translate }} ({{'medication.mg/day' | translate }})</h2>
+                                            <div id="line-chart2">
+                                                <div id="chartdoseAvgDrugs" style="max-height: 300px;" class="ct-chart"
+                                                    height="200px"></div>
+                                                <ngx-charts-line-chart [view]="[(ContainerRef.offsetWidth-30), 300]"
+                                                    [scheme]="lineChartColorScheme" [results]="lineChartDrugs"
+                                                    [gradient]="lineChartGradient" [xAxis]="lineChartShowXAxis"
+                                                    [yAxis]="lineChartShowYAxis" [legend]="true"
+                                                    [legendPosition]="'below'"
+                                                    [showXAxisLabel]="lineChartShowXAxisLabel"
+                                                    [xAxisTickFormatting]="tickFormatting"
+                                                    [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+                                                    [autoScale]="false" [xScaleMax]="today" (select)="onSelect($event)"
+                                                    [yAxisLabel]="titleDose">
+                                                    <!--[timeline]="true"-->
+                                                </ngx-charts-line-chart>
+                                                <span class="ml-2">
+                                                    <input type="checkbox" [(ngModel)]="normalized"
+                                                        (change)="normalizedChanged(normalized)" /> {{'homeraito.Normalized' | translate }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-block mt-4" *ngIf="actualMedications.length > 0">
+                                            <div class="col-md-12">
+                                                <h4>{{'medication.Current drugs' | translate }}</h4>
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                <table
+                                                    class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
+                                                    aria-labelledby="HPO">
+                                                    <tbody>
+                                                        <tr
+                                                            *ngFor="let medication of actualMedications ; let i = index">
+                                                            <td>
+                                                                {{medication.drugTranslate}}
+                                                            </td>
+                                                            <td>
+                                                                {{medication.dose}} {{'medication.mg/day' | translate }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-4 mb-4">
+                                        <div class="card-block center-elements">
+                                            <a routerLink="/medication" class="btn btn-primary"
+                                                title="{{'homeraito.p7' | translate }}">
+                                                <span class="menu-title">{{'homeraito.p7' | translate }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="medications.length == 0 && loadedDrugs">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-block">
+                                            <h2 class="text-center content-header mb-3">{{'clinicalinfo.Medication' |
+                                                translate }}
+                                            </h2>
+                                            <div class="text-center">
+                                                <p>{{'charts.There is no drug data stored' | translate }} <span
+                                                        *ngIf="rangeDate!=''">{{'charts.in the last' | translate }}
+                                                        <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                            }}</span></span></p>
+                                                <a routerLink="/medication" class="btn btn-primary"
+                                                    title="{{'homeraito.p7' | translate }}">
+                                                    <span class="menu-title">{{'homeraito.p7' | translate }}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
+                            <div class="col-sm-12">
+                                <div class="card" #ContainerRef1>
+                                    <div class="">
+                                        <div class="card-block pb-2">
+                                            <h2 class="text-center content-header mb-3">Medication vs Seizures</h2>
+                                            <div id="line-chart2">
+                                                <div id="chartdoseAvgDrugs" style="max-height: 300px;" class="ct-chart"
+                                                    height="200px"></div>
+                                                <ngx-charts-line-chart [view]="[(ContainerRef1.offsetWidth-30), 300]"
+                                                    [scheme]="lineChartColorScheme" [results]="lineDrugsVsSeizures"
+                                                    [gradient]="lineChartGradient" [xAxis]="lineChartShowXAxis"
+                                                    [yAxis]="lineChartShowYAxis" [legend]="true" [legendPosition]="'below'"
+                                                    [showXAxisLabel]="lineChartShowXAxisLabel"
+                                                    [xAxisTickFormatting]="tickFormatting"
+                                                    [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
+                                                    [autoScale]="false" [xScaleMax]="today" (select)="onSelect($event)"
+                                                    [yAxisLabel]="titleDrugsVsDrugs">
+                                                    <!--[timeline]="true"-->
+                                                </ngx-charts-line-chart>
+                                                <span class="ml-2">
+                                                    <input type="checkbox" [(ngModel)]="normalized2"
+                                                        (change)="normalizedChanged2(normalized2)" /> {{'homeraito.Normalized' | translate }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

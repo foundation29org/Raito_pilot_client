@@ -11,7 +11,7 @@
                                     <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                         (change)="onFileChangePDF($event);"
                                         accept=".vcf, .vcf.gz" />
-                                    <label class="btn btn-info"
+                                    <label class="btn btn-dark"
                                         style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                         for="fileDropRef">{{'land.Browse for file' | translate }}<span class="font-small-2 d-block">{{'land.Accepted files' | translate }}</span></label>
                                 </span>
@@ -28,7 +28,7 @@
                                 </svg>
                                 <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                                 <h3>{{'land.or' | translate }}</h3>
-                                <label class="btn btn-info round"
+                                <label class="btn btn-dark round"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'land.Browse for file' | translate }}</label>
                                 <h3 class="mt-2 d-block">{{'land.Accepted files' | translate }}</h3>

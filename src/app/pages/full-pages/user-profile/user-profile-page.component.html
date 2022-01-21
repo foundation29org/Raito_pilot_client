@@ -59,6 +59,16 @@
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
+															<label for="lastName">{{'personalinfo.Last Name' | translate }}</label>
+															<input type="text" id="lastName" class="form-control"  name="lastName" [(ngModel)]="user.lastName" required #lastName="ngModel">
+															<small class="form-text text-muted danger" *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">{{'generics.required' | translate }}</small>
+														</div>
+													</div>
+												</div>
+												<h4 class="form-section"><i class="ft-settings warning"></i> {{'profile.Settings' | translate }}</h4>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
 															<label for="lang">{{'generics.Lang' | translate }}</label>
 															<select id="lang" name="lang" class="form-control"  [(ngModel)]="user.lang" #langselected (ngModelChange)="onChangeLang($event, langselected.value)">
 																<option *ngFor="let lang of langs" [ngValue]="lang.code"> {{lang.name}}</option>
@@ -67,7 +77,6 @@
 														</div>
 													</div>
 												</div>
-												<h4 class="form-section"><i class="ft-settings warning"></i> {{'profile.Settings' | translate }}</h4>
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
@@ -91,8 +100,8 @@
 											</div>
 											<div class="form-actions center" *ngIf="!sending">
 												<div *ngIf="f.valid;then formValid else formError"></div>
-												<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary mr-1" type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
-												<ng-template #formError><button class="btn btn-raised btn-raised btn-primary mr-1" type="button" (click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
+												<ng-template #formValid><button class="btn btn-dark" type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
+												<ng-template #formError><button class="btn btn-dark" type="button" (click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
 												<!--<button type="button" (click)="resetForm()" class="btn btn-raised btn-raised btn-warning">
 													<i class="ft-x"></i> {{'generics.Cancel' | translate }}
 												</button>-->
@@ -146,8 +155,8 @@
 												<div class="form-group" *ngIf="!sending">
 														<div class="text-center mt-3">
 															<div *ngIf="fPass.valid;then formValid else formError"></div>
-															<ng-template #formValid><button class="btn btn-danger btn-raised btn-block" type="submit">{{'generics.Submit' | translate }}</button></ng-template>
-															<ng-template #formError><button class="btn btn-danger btn-raised btn-block" type="button" (click)="submitInvalidPassForm()">{{'generics.Submit' | translate }}</button></ng-template>
+															<ng-template #formValid><button class="btn btn-dark" type="submit">{{'generics.Submit' | translate }}</button></ng-template>
+															<ng-template #formError><button class="btn btn-dark" type="button" (click)="submitInvalidPassForm()">{{'generics.Submit' | translate }}</button></ng-template>
 														</div>
 												</div>
 												<div class="form-group pt-2 text-center" *ngIf="sending">

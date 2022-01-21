@@ -58,7 +58,7 @@ export class AuthService {
         this.setRedirectUrl('/home')
 
       }
-      this.setGroup(tokenPayload.group);
+      //this.setGroup(tokenPayload.group);
 
       this.setPlatform(sessionStorage.getItem('platform'));
       if(sessionStorage.getItem('platform')!=undefined){
@@ -98,7 +98,7 @@ export class AuthService {
       // is role user
       this.setRedirectUrl('/home')
     }
-    this.setGroup(tokenPayload.group);
+    //this.setGroup(tokenPayload.group);
     //save sessionStorage
     sessionStorage.setItem('token', token)
   }

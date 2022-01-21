@@ -11,8 +11,23 @@
   color: gray !important;
 }*/
 
+/*body{
+  background-color: #33b0b3 !important;
+}*/
+
+.dropdown-item.active{
+  background-color: #343a40;
+}
+
+.app-sidebar{
+  overflow-y: auto;
+}
 .invalid-feedback{
   display: block !important;
+}
+
+.w-80 {
+  width: 80% !important;
 }
 
 .w-13{

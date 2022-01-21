@@ -19,9 +19,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { FeelComponent } from './feel/feel.component';
-import { ChartsComponent } from './charts/charts.component';
+import { PromComponent } from './prom/prom.component';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
 @NgModule({
@@ -42,13 +44,15 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         UiSwitchModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        NgxChartsModule
+        NgxChartsModule,
+        MatCheckboxModule,
+        NgxSliderModule
     ],
     declarations: [
         HomeComponent,
         PersonalInfoComponent,
         FeelComponent,
-        ChartsComponent
+        PromComponent
     ]
 })
 export class UserModule { }

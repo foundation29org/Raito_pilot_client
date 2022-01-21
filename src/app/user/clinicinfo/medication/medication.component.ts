@@ -6,28 +6,28 @@ import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { DateService } from 'app/shared/services/date.service';
 import { ToastrService } from 'ngx-toastr';
-import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
+import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
-import { Data} from 'app/shared/services/data.service';
+import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import {DateAdapter} from '@angular/material/core';
-import { SortService} from 'app/shared/services/sort.service';
+import { DateAdapter } from '@angular/material/core';
+import { SortService } from 'app/shared/services/sort.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    selector: 'app-medication',
-    templateUrl: './medication.component.html',
-    styleUrls: ['./medication.component.scss']
+  selector: 'app-medication',
+  templateUrl: './medication.component.html',
+  styleUrls: ['./medication.component.scss']
 })
 
-export class MedicationComponent implements OnInit, OnDestroy{
+export class MedicationComponent implements OnInit, OnDestroy {
   //Variable Declaration
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
-  isSafari:boolean = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && !navigator.userAgent.match('CriOS');
-  isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
+  isSafari: boolean = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && !navigator.userAgent.match('CriOS');
+  isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
   @ViewChild('f') medicationForm: NgForm;
   medications: any;
   medication: any;
@@ -46,44 +46,46 @@ export class MedicationComponent implements OnInit, OnDestroy{
   adverseEffectsLang: any;
   locale: string;
   panelMedication: boolean = false;
-  drugSelected: string = '';
+  drugSelected: string = null;
   historyDrugSelected: any = [];
+  recommendedDoses: any = [];
   viewMeditationSection: boolean = false;
   modalReference: NgbModalRef;
   today = new Date();
   startDate = new Date();
   minDateChangeDose = new Date();
-  section : any = null;
+  section: any = null;
   newTreatment: boolean = false;
+  showDetails: boolean = false;
   private subscription: Subscription = new Subscription();
   showOnlyQuestion: Boolean = true;
-  timeformat="";
+  timeformat = "";
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService) {
-      this.adapter.setLocale(this.authService.getLang());
-      switch(this.authService.getLang()){
-        case 'en':
-          this.timeformat="M/d/yy";
-          break;
-        case 'es':
-            this.timeformat="d/M/yy";
-            break;
-        case 'nl':
-            this.timeformat="d-M-yy";
-            break;
-        default:
-            this.timeformat="M/d/yy";
-            break;
+    this.adapter.setLocale(this.authService.getLang());
+    switch (this.authService.getLang()) {
+      case 'en':
+        this.timeformat = "M/d/yy";
+        break;
+      case 'es':
+        this.timeformat = "d/M/yy";
+        break;
+      case 'nl':
+        this.timeformat = "d-M-yy";
+        break;
+      default:
+        this.timeformat = "M/d/yy";
+        break;
 
+    }
+
+    this.subscription.add(this.route.params.subscribe(params => {
+      console.log(params);
+      if (params['addOther']) {
+        console.log('entra');
+        this.newMedication();
       }
-
-      this.subscription.add( this.route.params.subscribe(params => {
-        console.log(params);
-        if(params['addOther']){
-          console.log('entra');
-          this.newMedication();
-        }
-      }));
+    }));
 
   }
 
@@ -102,106 +104,107 @@ export class MedicationComponent implements OnInit, OnDestroy{
 
     this.loadTranslations();
     this.adapter.setLocale(this.authService.getLang());
-    switch(this.authService.getLang()){
+    switch (this.authService.getLang()) {
       case 'en':
-        this.timeformat="M/d/yy";
+        this.timeformat = "M/d/yy";
         break;
       case 'es':
-          this.timeformat="d/M/yy";
-          break;
+        this.timeformat = "d/M/yy";
+        break;
       case 'nl':
-          this.timeformat="d-M-yy";
-          break;
+        this.timeformat = "d-M-yy";
+        break;
       default:
-          this.timeformat="M/d/yy";
-          break;
+        this.timeformat = "M/d/yy";
+        break;
 
     }
-    
+
     this.loadEnvir();
+    this.loadRecommendedDose();
 
   }
 
-  loadEnvir(){
+  loadEnvir() {
     this.loading = true;
-    this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
-    .subscribe( (res0 : any) => {
-      console.log(res0.listpatients[0].group);
-      if(res0.listpatients.length>0 && res0.listpatients[0].group != null){
-        this.authService.setPatientList(res0.listpatients);
-        this.authService.setCurrentPatient(res0.listpatients[0]);
-        this.authService.setGroup(res0.listpatients[0].group)
-        this.loadTranslationsElements();
-     }else{
-      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
-       this.router.navigate(['/patient-info']);
-     }
-   }, (err) => {
-     console.log(err);
-     this.loading = false;
-     this.toastr.error('', this.translate.instant("generics.error try again"));
-   }));
+    this.subscription.add(this.http.get(environment.api + '/api/patients-all/' + this.authService.getIdUser())
+      .subscribe((res0: any) => {
+        console.log(res0.listpatients[0].group);
+        if (res0.listpatients.length > 0 && res0.listpatients[0].group != null) {
+          this.authService.setPatientList(res0.listpatients);
+          this.authService.setCurrentPatient(res0.listpatients[0]);
+          this.authService.setGroup(res0.listpatients[0].group)
+          this.loadTranslationsElements();
+        } else {
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
+          this.router.navigate(['/patient-info']);
+        }
+      }, (err) => {
+        console.log(err);
+        this.loading = false;
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+      }));
   }
 
   //traducir cosas
-  loadTranslations(){
+  loadTranslations() {
     this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
-      this.msgDataSavedOk=res;
+      this.msgDataSavedOk = res;
     });
     this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-      this.msgDataSavedFail=res;
+      this.msgDataSavedFail = res;
     });
   }
 
-  loadMedications(){
+  loadMedications() {
     this.loading = true;
-    
-     
-       
-    this.subscription.add( this.http.get(environment.api+'/api/medications/'+this.authService.getCurrentPatient().sub)
-    .subscribe( (res : any) => {
-      this.medications = res;
-      this.searchTranslationDrugs();
-      //agrupar entre actuales y antiguas
-      this.groupMedications();
-      if(this.drugSelected){
-        this.loadHistoryDrugSelected()
-      }
-      this.loading = false;
-    }, (err) => {
-      console.log(err);
-      this.loading = false;
-    }));
-     
-   
+
+
+
+    this.subscription.add(this.http.get(environment.api + '/api/medications/' + this.authService.getCurrentPatient().sub)
+      .subscribe((res: any) => {
+        this.medications = res;
+        this.searchTranslationDrugs();
+        //agrupar entre actuales y antiguas
+        this.groupMedications();
+        if (this.drugSelected) {
+          this.loadHistoryDrugSelected()
+        }
+        this.loading = false;
+      }, (err) => {
+        console.log(err);
+        this.loading = false;
+      }));
+
+
   }
 
-  groupMedications(){
+  groupMedications() {
     this.actualMedications = [];
     this.oldMedications = [];
-    for(var i = 0; i < this.medications.length; i++) {
-      if(!this.medications[i].endDate){
+    for (var i = 0; i < this.medications.length; i++) {
+      if (!this.medications[i].endDate) {
         this.actualMedications.push(this.medications[i]);
-      }else{
+      } else {
         var medicationFound = false;
-        if(this.actualMedications.length>0){
-          for(var j = 0; j < this.actualMedications.length && !medicationFound; j++) {
-            if(this.medications[i].drug == this.actualMedications[j].drug){
+        if (this.actualMedications.length > 0) {
+          for (var j = 0; j < this.actualMedications.length && !medicationFound; j++) {
+            if (this.medications[i].drug == this.actualMedications[j].drug) {
               medicationFound = true;
             }
           }
         }
 
-        if(!medicationFound){
-          if(this.oldMedications.length>0){
-            for(var j = 0; j < this.oldMedications.length && !medicationFound; j++) {
-              if(this.medications[i].drug == this.oldMedications[j].drug){
+        if (!medicationFound) {
+          if (this.oldMedications.length > 0) {
+            for (var j = 0; j < this.oldMedications.length && !medicationFound; j++) {
+              if (this.medications[i].drug == this.oldMedications[j].drug) {
                 medicationFound = true;
               }
             }
           }
         }
-        if(!medicationFound){
+        if (!medicationFound) {
           this.oldMedications.push(this.medications[i]);
         }
 
@@ -209,49 +212,49 @@ export class MedicationComponent implements OnInit, OnDestroy{
     }
   }
 
-  loadTranslationsElements(){
+  loadTranslationsElements() {
 
     this.loadingDataGroup = true;
-    this.subscription.add( this.http.get(environment.api+'/api/group/medications/'+this.authService.getGroup())
-    .subscribe( (res : any) => {
-      console.log(this.authService.getGroup());
-      console.log(res);
-      if(res.medications.data.length == 0){
-        //no tiene datos sobre el grupo
-      }else{
-        this.dataGroup = res.medications.data;
-        this.drugsLang = [];
-        this.sideEffectsLang = [];
-        this.adverseEffectsLang = [];
-        if(this.dataGroup.drugs.length>0){
-          for(var i = 0; i < this.dataGroup.drugs.length; i++) {
-            var found = false;
-            for(var j = 0; j < this.dataGroup.drugs[i].translations.length && !found; j++) {
-                if(this.dataGroup.drugs[i].translations[j].code == this.authService.getLang()){
-                  if(this.dataGroup.drugs[i].drugsSideEffects!=undefined){
-                    this.drugsLang.push({name:this.dataGroup.drugs[i].name, translation: this.dataGroup.drugs[i].translations[j].name, drugsSideEffects: this.dataGroup.drugs[i].drugsSideEffects});
-                  }else{
-                    this.drugsLang.push({name:this.dataGroup.drugs[i].name, translation: this.dataGroup.drugs[i].translations[j].name});
+    this.subscription.add(this.http.get(environment.api + '/api/group/medications/' + this.authService.getGroup())
+      .subscribe((res: any) => {
+        console.log(this.authService.getGroup());
+        console.log(res);
+        if (res.medications.data.length == 0) {
+          //no tiene datos sobre el grupo
+        } else {
+          this.dataGroup = res.medications.data;
+          this.drugsLang = [];
+          this.sideEffectsLang = [];
+          this.adverseEffectsLang = [];
+          if (this.dataGroup.drugs.length > 0) {
+            for (var i = 0; i < this.dataGroup.drugs.length; i++) {
+              var found = false;
+              for (var j = 0; j < this.dataGroup.drugs[i].translations.length && !found; j++) {
+                if (this.dataGroup.drugs[i].translations[j].code == this.authService.getLang()) {
+                  if (this.dataGroup.drugs[i].drugsSideEffects != undefined) {
+                    this.drugsLang.push({ name: this.dataGroup.drugs[i].name, translation: this.dataGroup.drugs[i].translations[j].name, drugsSideEffects: this.dataGroup.drugs[i].drugsSideEffects });
+                  } else {
+                    this.drugsLang.push({ name: this.dataGroup.drugs[i].name, translation: this.dataGroup.drugs[i].translations[j].name });
                   }
                   found = true;
                 }
+              }
             }
+            this.drugsLang.sort(this.sortService.GetSortOrder("translation"));
+
           }
-          this.drugsLang.sort(this.sortService.GetSortOrder("translation"));
 
-        }
-
-        if(this.dataGroup.sideEffects.length>0){
-          for(var i = 0; i < this.dataGroup.sideEffects.length; i++) {
-            var found = false;
-            for(var j = 0; j < this.dataGroup.sideEffects[i].translationssideEffect.length && !found; j++) {
-                if(this.dataGroup.sideEffects[i].translationssideEffect[j].code == this.authService.getLang()){
-                    this.sideEffectsLang.push({name: this.dataGroup.sideEffects[i].name, translation: this.dataGroup.sideEffects[i].translationssideEffect[j].name});
-                    found = true;
+          if (this.dataGroup.sideEffects.length > 0) {
+            for (var i = 0; i < this.dataGroup.sideEffects.length; i++) {
+              var found = false;
+              for (var j = 0; j < this.dataGroup.sideEffects[i].translationssideEffect.length && !found; j++) {
+                if (this.dataGroup.sideEffects[i].translationssideEffect[j].code == this.authService.getLang()) {
+                  this.sideEffectsLang.push({ name: this.dataGroup.sideEffects[i].name, translation: this.dataGroup.sideEffects[i].translationssideEffect[j].name });
+                  found = true;
                 }
+              }
             }
           }
-        }
 
           /*if(this.dataGroup.adverseEffects.length>0){
             for(var i = 0; i < this.dataGroup.adverseEffects.length; i++) {
@@ -266,23 +269,23 @@ export class MedicationComponent implements OnInit, OnDestroy{
           }*/
 
 
-      }
-      this.loadingDataGroup = false;
-      this.loadMedications();
-     }, (err) => {
-       console.log(err);
-       this.loadingDataGroup = false;
-       this.loadMedications();
-     }));
+        }
+        this.loadingDataGroup = false;
+        this.loadMedications();
+      }, (err) => {
+        console.log(err);
+        this.loadingDataGroup = false;
+        this.loadMedications();
+      }));
 
   }
 
-  searchTranslationDrugs(){
-    for(var i = 0; i < this.medications.length; i++) {
+  searchTranslationDrugs() {
+    for (var i = 0; i < this.medications.length; i++) {
       var foundTranslation = false;
-      for(var j = 0; j < this.drugsLang.length && !foundTranslation; j++) {
-        if(this.drugsLang[j].name == this.medications[i].drug){
-          for(var k = 0; k < this.drugsLang[j].translation.length && !foundTranslation; k++) {
+      for (var j = 0; j < this.drugsLang.length && !foundTranslation; j++) {
+        if (this.drugsLang[j].name == this.medications[i].drug) {
+          for (var k = 0; k < this.drugsLang[j].translation.length && !foundTranslation; k++) {
             this.medications[i].drugTranslate = this.drugsLang[j].translation;
             foundTranslation = true;
           }
@@ -291,7 +294,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
     }
   }
 
-  changeDose(medication, customContent){
+  changeDose(medication, customContent) {
     this.medication = {};
     this.medication = JSON.parse(JSON.stringify(medication));
     this.medication.startDate = this.dateService.transformDate(medication.startDate);
@@ -302,37 +305,61 @@ export class MedicationComponent implements OnInit, OnDestroy{
   }
 
   onSubmitNewDose() {
-    if(this.authGuard.testtoken()){
+    var validDose = this.testDose();
+    if (validDose) {
+      this.sendChangeDose();
+    } else {
+      Swal.fire({
+        title: this.translate.instant("medication.The dose is higher than recommended"),
+        html: this.translate.instant("medication.Are you sure you want to save the dose"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0CC27E',
+        cancelButtonColor: '#FF586B',
+        confirmButtonText: this.translate.instant("generics.Yes"),
+        cancelButtonText: this.translate.instant("generics.No"),
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.value) {
+          this.sendChangeDose();
+        }
+      });
+    }
+  }
+
+  sendChangeDose() {
+    if (this.authGuard.testtoken()) {
       this.sending = true;
-      var paramssend = this.medication._id+'-code-'+this.authService.getCurrentPatient().sub;
+      var paramssend = this.medication._id + '-code-' + this.authService.getCurrentPatient().sub;
       if (this.medication.startDate != null) {
         this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
       }
       if (this.medication.endDate != null) {
         this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
       }
-      this.subscription.add( this.http.put(environment.api+'/api/medication/newdose/'+paramssend, this.medication)
+      this.subscription.add(this.http.put(environment.api + '/api/medication/newdose/' + paramssend, this.medication)
 
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+        .subscribe((res: any) => {
+          this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
           this.sending = false;
           this.modalReference.close();
           this.viewMedicationForm = false;
           this.loadMedications();
-       }, (err) => {
-         this.modalReference.close();
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           this.toastr.error('', this.translate.instant("generics.Data saved fail"));
-         }
-         this.sending = false;
-         this.viewMedicationForm = false;
-       }));
+        }, (err) => {
+          this.modalReference.close();
+          if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+            this.authGuard.testtoken();
+          } else {
+            this.toastr.error('', this.translate.instant("generics.Data saved fail"));
+          }
+          this.sending = false;
+          this.viewMedicationForm = false;
+        }));
     }
   }
 
-  stopTaking(medication, customContent){
+  stopTaking(medication, customContent) {
     this.medication = {};
     this.medication = JSON.parse(JSON.stringify(medication));
     this.medication.startDate = this.dateService.transformDate(medication.startDate);
@@ -344,7 +371,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
 
   onSubmitStopTaking() {
 
-    if(this.authGuard.testtoken()){
+    if (this.authGuard.testtoken()) {
       this.sending = true;
       if (this.medication.startDate != null) {
         this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
@@ -353,38 +380,38 @@ export class MedicationComponent implements OnInit, OnDestroy{
         this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
       }
 
-      this.subscription.add( this.http.put(environment.api+'/api/medication/stoptaking/'+this.medication._id, this.medication)
+      this.subscription.add(this.http.put(environment.api + '/api/medication/stoptaking/' + this.medication._id, this.medication)
 
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+        .subscribe((res: any) => {
+          this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
           this.sending = false;
           this.viewMedicationForm = false;
           this.loadMedications();
           this.modalReference.close();
-       }, (err) => {
-         this.modalReference.close();
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           this.toastr.error('', this.translate.instant("generics.Data saved fail"));
-         }
-         this.sending = false;
-         this.viewMedicationForm = false;
-       }));
+        }, (err) => {
+          this.modalReference.close();
+          if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+            this.authGuard.testtoken();
+          } else {
+            this.toastr.error('', this.translate.instant("generics.Data saved fail"));
+          }
+          this.sending = false;
+          this.viewMedicationForm = false;
+        }));
     }
   }
 
-  newMedication(){
+  newMedication() {
     this.viewMeditationSection = true;
     this.medication = {};
     this.actualMedication = {};
     this.historyDrugSelected = [];
     this.panelMedication = true;
-    this.drugSelected = '';
+    this.drugSelected = null;
     this.viewMedicationForm = false;
   }
 
-  updateMedication(medication){
+  updateMedication(medication) {
     this.drugSelected = medication.drug;
     this.findSideEffects();
     //this.drugSelected.translation =medication.drugTranslate;
@@ -399,12 +426,12 @@ export class MedicationComponent implements OnInit, OnDestroy{
     this.panelMedication = true;
   }
 
-  back(){
-      this.viewMeditationSection = false;
-      this.viewMedicationForm = false;
+  back() {
+    this.viewMeditationSection = false;
+    this.viewMedicationForm = false;
   }
 
-  onChangeDrug(value){
+  onChangeDrug(value) {
     //comprobar si es un medicamento actual o antiguo, si no es ninguno de los dos, mostrar el formulario
     this.findSideEffects();
 
@@ -417,22 +444,22 @@ export class MedicationComponent implements OnInit, OnDestroy{
     //this.viewMedicationForm = true;
   }
 
-  findSideEffects(){
-    var enc= false;
+  findSideEffects() {
+    var enc = false;
     this.sideEffectsLang = [];
-    for(var i = 0; i < this.drugsLang.length && !enc; i++) {
-      if(this.drugSelected == this.drugsLang[i].name){
-        if(this.drugsLang[i].drugsSideEffects!=undefined){
-          if(this.dataGroup.sideEffects.length>0){
-            for(var j = 0; j < this.dataGroup.sideEffects.length; j++) {
-              for(var posi = 0; posi < this.drugsLang[i].drugsSideEffects.length; posi++) {
-                if(this.drugsLang[i].drugsSideEffects[posi]==this.dataGroup.sideEffects[j].name){
+    for (var i = 0; i < this.drugsLang.length && !enc; i++) {
+      if (this.drugSelected == this.drugsLang[i].name) {
+        if (this.drugsLang[i].drugsSideEffects != undefined) {
+          if (this.dataGroup.sideEffects.length > 0) {
+            for (var j = 0; j < this.dataGroup.sideEffects.length; j++) {
+              for (var posi = 0; posi < this.drugsLang[i].drugsSideEffects.length; posi++) {
+                if (this.drugsLang[i].drugsSideEffects[posi] == this.dataGroup.sideEffects[j].name) {
                   var found = false;
-                  for(var k = 0; k < this.dataGroup.sideEffects[j].translationssideEffect.length && !found; k++) {
-                      if(this.dataGroup.sideEffects[j].translationssideEffect[k].code == this.authService.getLang()){
-                          this.sideEffectsLang.push({name: this.dataGroup.sideEffects[j].name, translation: this.dataGroup.sideEffects[j].translationssideEffect[k].name});
-                          found = true;
-                      }
+                  for (var k = 0; k < this.dataGroup.sideEffects[j].translationssideEffect.length && !found; k++) {
+                    if (this.dataGroup.sideEffects[j].translationssideEffect[k].code == this.authService.getLang()) {
+                      this.sideEffectsLang.push({ name: this.dataGroup.sideEffects[j].name, translation: this.dataGroup.sideEffects[j].translationssideEffect[k].name });
+                      found = true;
+                    }
                   }
                 }
               }
@@ -445,30 +472,30 @@ export class MedicationComponent implements OnInit, OnDestroy{
     }
   }
 
-  newDose(){
+  newDose() {
     this.medication = {};
     this.medication.drug = this.drugSelected;
     this.viewMedicationForm = true;
   }
 
-  editDrug(actualMedication){
+  editDrug(actualMedication) {
     this.medication = actualMedication;
     this.loadHistoryDrugSelected();
     this.medication.startDate = this.dateService.transformDate(actualMedication.startDate);
     this.medication.endDate = this.dateService.transformDate(actualMedication.endDate);
     this.startDate = new Date(this.medication.startDate);
-    this.viewMedicationForm=true;
+    this.viewMedicationForm = true;
     this.viewMeditationSection = true;
   }
-  deleteEndDate(){
-    this.medication.endDate=null;
+  deleteEndDate() {
+    this.medication.endDate = null;
   }
 
-  fieldchanged(){
+  fieldchanged() {
     this.startDate = new Date(this.medication.startDate);
   }
 
-  changeNotes(drug, contentNotes){
+  changeNotes(drug, contentNotes) {
     this.medication = {};
     this.medication = JSON.parse(JSON.stringify(drug));
     this.medication.startDate = this.dateService.transformDate(drug.startDate);
@@ -476,32 +503,32 @@ export class MedicationComponent implements OnInit, OnDestroy{
     this.modalReference = this.modalService.open(contentNotes);
   }
 
-  onSubmitChangeNotes(){
-    if(this.authGuard.testtoken()){
+  onSubmitChangeNotes() {
+    if (this.authGuard.testtoken()) {
       this.sending = true;
 
-      this.subscription.add( this.http.put(environment.api+'/api/medication/changenotes/'+this.medication._id, this.medication)
+      this.subscription.add(this.http.put(environment.api + '/api/medication/changenotes/' + this.medication._id, this.medication)
 
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+        .subscribe((res: any) => {
+          this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
           this.sending = false;
           this.viewMedicationForm = false;
           this.loadMedications();
           this.modalReference.close();
-       }, (err) => {
-         this.modalReference.close();
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           this.toastr.error('', this.translate.instant("generics.Data saved fail"));
-         }
-         this.sending = false;
-         this.viewMedicationForm = false;
-       }));
+        }, (err) => {
+          this.modalReference.close();
+          if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+            this.authGuard.testtoken();
+          } else {
+            this.toastr.error('', this.translate.instant("generics.Data saved fail"));
+          }
+          this.sending = false;
+          this.viewMedicationForm = false;
+        }));
     }
   }
 
-  changeSideEffect(drug, contentSideEffect){
+  changeSideEffect(drug, contentSideEffect) {
     this.drugSelected = drug.drug;
     this.findSideEffects();
     this.medication = {};
@@ -511,58 +538,58 @@ export class MedicationComponent implements OnInit, OnDestroy{
     this.modalReference = this.modalService.open(contentSideEffect);
   }
 
-  onSubmitSideEffect(){
-    if(this.authGuard.testtoken()){
+  onSubmitSideEffect() {
+    if (this.authGuard.testtoken()) {
       this.sending = true;
 
-      this.subscription.add( this.http.put(environment.api+'/api/medication/sideeffect/'+this.medication._id, this.medication)
+      this.subscription.add(this.http.put(environment.api + '/api/medication/sideeffect/' + this.medication._id, this.medication)
 
-      .subscribe( (res : any) => {
-        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+        .subscribe((res: any) => {
+          this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
           this.sending = false;
           this.viewMedicationForm = false;
           this.loadMedications();
           this.modalReference.close();
-       }, (err) => {
-         this.modalReference.close();
-         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-           this.authGuard.testtoken();
-         }else{
-           this.toastr.error('', this.translate.instant("generics.Data saved fail"));
-         }
-         this.sending = false;
-         this.viewMedicationForm = false;
-       }));
+        }, (err) => {
+          this.modalReference.close();
+          if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+            this.authGuard.testtoken();
+          } else {
+            this.toastr.error('', this.translate.instant("generics.Data saved fail"));
+          }
+          this.sending = false;
+          this.viewMedicationForm = false;
+        }));
     }
   }
 
-  loadHistoryDrugSelected(){
+  loadHistoryDrugSelected() {
     this.historyDrugSelected = [];
     this.actualMedication = {};
-    for(var i = 0; i < this.medications.length; i++) {
-      if(this.drugSelected == this.medications[i].drug){
+    for (var i = 0; i < this.medications.length; i++) {
+      if (this.drugSelected == this.medications[i].drug) {
         this.historyDrugSelected.push(this.medications[i]);
       }
     }
-    if(this.historyDrugSelected.length > 0){
-      if(!this.historyDrugSelected[0].endDate){
+    if (this.historyDrugSelected.length > 0) {
+      if (!this.historyDrugSelected[0].endDate) {
         this.actualMedication = this.historyDrugSelected[0];
       }
     }
   }
 
-  deleteDose(medication){
+  deleteDose(medication) {
     Swal.fire({
-        title: this.translate.instant("generics.Are you sure?"),
-        html: this.translate.instant("generics.Delete")+': '+ medication.drugTranslate+' <br> (Dose: '+medication.dose+')',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#0CC27E',
-        cancelButtonColor: '#FF586B',
-        confirmButtonText: this.translate.instant("generics.Delete"),
-        cancelButtonText: this.translate.instant("generics.No, cancel"),
-        showLoaderOnConfirm: true,
-        allowOutsideClick: false
+      title: this.translate.instant("generics.Are you sure?"),
+      html: this.translate.instant("generics.Delete") + ': ' + medication.drugTranslate + ' <br> (Dose: ' + medication.dose + ')',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0CC27E',
+      cancelButtonColor: '#FF586B',
+      confirmButtonText: this.translate.instant("generics.Delete"),
+      cancelButtonText: this.translate.instant("generics.No, cancel"),
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false
     }).then((result) => {
       if (result.value) {
         this.confirmedDeleteDose(medication);
@@ -570,29 +597,29 @@ export class MedicationComponent implements OnInit, OnDestroy{
     });
   }
 
-  confirmedDeleteDose(medication){
+  confirmedDeleteDose(medication) {
 
     //Borrar la dosis
-    this.subscription.add( this.http.delete(environment.api+'/api/medication/'+medication._id)
-    .subscribe( (res : any) => {
-      this.loadMedications();
-    }, (err) => {
-      console.log(err);
-    }));
+    this.subscription.add(this.http.delete(environment.api + '/api/medication/' + medication._id)
+      .subscribe((res: any) => {
+        this.loadMedications();
+      }, (err) => {
+        console.log(err);
+      }));
   }
 
-  deleteMedication(medication){
+  deleteMedication(medication) {
     Swal.fire({
-        title: this.translate.instant("generics.Are you sure?"),
-        html: this.translate.instant("generics.Delete")+': '+ medication.drugTranslate,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#0CC27E',
-        cancelButtonColor: '#FF586B',
-        confirmButtonText: this.translate.instant("generics.Delete"),
-        cancelButtonText: this.translate.instant("generics.No, cancel"),
-        showLoaderOnConfirm: true,
-        allowOutsideClick: false
+      title: this.translate.instant("generics.Are you sure?"),
+      html: this.translate.instant("generics.Delete") + ': ' + medication.drugTranslate,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0CC27E',
+      cancelButtonColor: '#FF586B',
+      confirmButtonText: this.translate.instant("generics.Delete"),
+      cancelButtonText: this.translate.instant("generics.No, cancel"),
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false
     }).then((result) => {
       if (result.value) {
         this.confirmedDeleteMedication(medication);
@@ -600,17 +627,17 @@ export class MedicationComponent implements OnInit, OnDestroy{
     });
   }
 
-  confirmedDeleteMedication(medication){
-    var paramssend = medication.drug+'-code-'+this.authService.getCurrentPatient().sub;
-      this.subscription.add( this.http.delete(environment.api+'/api/medications/'+paramssend,medication.drug)
-      .subscribe( (res : any) => {
+  confirmedDeleteMedication(medication) {
+    var paramssend = medication.drug + '-code-' + this.authService.getCurrentPatient().sub;
+    this.subscription.add(this.http.delete(environment.api + '/api/medications/' + paramssend, medication.drug)
+      .subscribe((res: any) => {
         this.loadMedications();
-       }, (err) => {
-         console.log(err);
-       }));
+      }, (err) => {
+        console.log(err);
+      }));
   }
 
-  cancel(){
+  cancel() {
     //this.viewMeditationSection = false;
     this.viewMedicationForm = false;
   }
@@ -620,26 +647,68 @@ export class MedicationComponent implements OnInit, OnDestroy{
     const base = this.medicationForm;
     for (const field in base.form.controls) {
       if (!base.form.controls[field].valid) {
-          base.form.controls[field].markAsTouched()
+        base.form.controls[field].markAsTouched()
       }
     }
   }
 
-  onSubmit() {
+  testDose() {
+    this.medication.dose = this.medication.dose.replace(",", '.');
+    var maxDose = 0;
+    var actualRecommendedDoses = this.recommendedDoses[this.medication.drug];
+    if (actualRecommendedDoses.data == 'onlykids') {
+      maxDose = actualRecommendedDoses.kids.maintenancedose.max;
+    }
+    if (actualRecommendedDoses.data == 'yes') {
+      maxDose = actualRecommendedDoses.adults.maintenancedose.max;
+    }
+    if (Number(this.medication.dose) > Number(maxDose)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-    if(this.authGuard.testtoken()){
+  onSubmit() {
+    var validDose = this.testDose();
+    if (validDose) {
+      this.sendData();
+    } else {
+      Swal.fire({
+        title: this.translate.instant("medication.The dose is higher than recommended"),
+        html: this.translate.instant("medication.Are you sure you want to save the dose"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0CC27E',
+        cancelButtonColor: '#FF586B',
+        confirmButtonText: this.translate.instant("generics.Yes"),
+        cancelButtonText: this.translate.instant("generics.No"),
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.value) {
+          this.sendData();
+        }
+      });
+
+    }
+
+  }
+
+  sendData() {
+    if (this.authGuard.testtoken()) {
       this.sending = true;
-      if(this.medication._id==null){
-        if(this.medication.endDate==undefined){
+      if (this.medication._id == null) {
+        if (this.medication.endDate == undefined) {
           this.medication.endDate = null;
         }
         this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
         this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
-        this.subscription.add( this.http.post(environment.api+'/api/medication/'+this.authService.getCurrentPatient().sub, this.medication)
-        .subscribe( (res : any) => {
-            if(res.message=='fail'){
+        this.subscription.add(this.http.post(environment.api + '/api/medication/' + this.authService.getCurrentPatient().sub, this.medication)
+          .subscribe((res: any) => {
+            if (res.message == 'fail') {
               this.toastr.error('', this.translate.instant("medication.It has been impossible to save because there are doses in the range of dates"));
-            }else{
+            } else {
               this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
               this.viewMedicationForm = false;
               this.viewMeditationSection = false;
@@ -648,43 +717,55 @@ export class MedicationComponent implements OnInit, OnDestroy{
             }
             this.sending = false;
 
-         }, (err) => {
-           if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-             this.authGuard.testtoken();
-           }else{
-             this.toastr.error('', this.translate.instant("generics.Data saved fail"));
-           }
-           this.sending = false;
-           this.viewMedicationForm = false;
-         }));
-      }else{
-        if(this.medication.endDate==undefined){
+          }, (err) => {
+            if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+              this.authGuard.testtoken();
+            } else {
+              this.toastr.error('', this.translate.instant("generics.Data saved fail"));
+            }
+            this.sending = false;
+            this.viewMedicationForm = false;
+          }));
+      } else {
+        if (this.medication.endDate == undefined) {
           this.medication.endDate = null;
         }
         this.medication.startDate = this.dateService.transformDate(this.medication.startDate);
         this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
-        this.subscription.add( this.http.put(environment.api+'/api/medication/'+this.medication._id, this.medication)
-        .subscribe( (res : any) => {
+        this.subscription.add(this.http.put(environment.api + '/api/medication/' + this.medication._id, this.medication)
+          .subscribe((res: any) => {
             this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
             this.viewMedicationForm = false;
             this.viewMeditationSection = false;
             this.loadMedications();
             this.sending = false;
-         }, (err) => {
-           if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
-             this.authGuard.testtoken();
-           }else{
-             this.toastr.error('', this.translate.instant("generics.Data saved fail"));
-           }
-           this.sending = false;
-           this.viewMedicationForm = false;
-         }));
+          }, (err) => {
+            if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
+              this.authGuard.testtoken();
+            } else {
+              this.toastr.error('', this.translate.instant("generics.Data saved fail"));
+            }
+            this.sending = false;
+            this.viewMedicationForm = false;
+          }));
       }
 
     }
   }
 
-  selectOtherDrug(){
+  selectOtherDrug() {
+
+  }
+
+
+  loadRecommendedDose() {
+    this.recommendedDoses = [];
+    //load countries file
+    this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
+      .subscribe((res: any) => {
+        console.log(res)
+        this.recommendedDoses = res;
+      }));
 
   }
 
