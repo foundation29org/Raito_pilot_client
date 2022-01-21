@@ -24,8 +24,8 @@
                                 <div class="" *ngIf="!sending">
                                     <div class="col-md-12">
                                       <div *ngIf="f.valid;then formValid else formError"></div>
-                                      <ng-template #formValid><button class="btn btn-primary btn-block mb-0" type="submit"> {{'login.Login' | translate }}</button></ng-template>
-                                      <ng-template #formError><button class="btn btn-primary btn-block mb-0" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formValid><button class="btn btn-dark btn-block mb-0" type="submit"> {{'login.Login' | translate }}</button></ng-template>
+                                      <ng-template #formError><button class="btn btn-dark btn-block mb-0" type="button" (click)="submitInvalidForm()"> {{'login.Login' | translate }}</button></ng-template>
                                     </div>
                                     <!--<a class="white" (click)="launchDemo()">Demo</a>-->
                                 </div>
@@ -88,10 +88,12 @@
                       <div class="card-block">
                          <h2 style="margin-bottom: 1rem;" class="text-center">First time here?</h2>
                          <p class="">Create an account clicking here:</p>
-                         <div class="col-md-12 centerdiv"><a class="btn btn-primary btn-block" (click)="onRegister()">{{'login.Create User' | translate }}</a></div>
+                         <div class="col-md-12 centerdiv">
+                             <button class="btn btn-dark btn-block" (click)="onRegister()">{{'login.Create User' | translate }}</button>
+                            </div>
                          <p class="">----- or Log in with -----</p>
-                         <button type="button" class="btn btn-social btn-google mr-2"><i class="fa fa-google"></i>Google</button>
-                         <button type="button" class="btn btn-social btn-google mr-2"><i class="fas fa-cloud"></i>iCloud</button>
+                         <button type="button" class="btn btn-social btn-dark mr-2"><i class="fa fa-google"></i>Google</button>
+                         <button type="button" class="btn btn-social btn-dark mr-2"><i class="fas fa-cloud"></i>iCloud</button>
                       </div>
                   </div>
               </div>

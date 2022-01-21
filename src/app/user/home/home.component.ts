@@ -66,6 +66,9 @@ export class HomeComponent implements OnInit, OnDestroy {
    private msgDate: string;
    private titleSeizures: string;
    private titleDose: string;
+   private titleDrugsVsNormalized: string;
+   titleDrugsVsDrugs: string;
+   private titleDrugsVsNoNormalized: string;
    private group: string;
    actualMedications: any;
    loadedFeels: boolean = false;
@@ -95,10 +98,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   rangeDate: string = 'month';
   normalized: boolean = false;
+  normalized2: boolean = true;
   maxValue: number = 0;
   maxValueDrugsVsSeizu: number = 0;
   minDate = new Date();
+  minDateRange = new Date();
   drugsBefore: boolean = false;
+  datesarray = [];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -230,6 +236,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     this.translate.get('medication.Dose mg').subscribe((res: string) => {
       this.titleDose = res;
+    });
+    this.translate.get('homeraito.Normalized').subscribe((res: string) => {
+      this.titleDrugsVsNormalized= res;
+      this.titleDrugsVsDrugs = this.titleDrugsVsNormalized;
+    });
+    this.translate.get('homeraito.Not normalized').subscribe((res: string) => {
+      this.titleDrugsVsNoNormalized= res;
     });
   }
 
@@ -379,7 +392,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadedFeels = false;
     this.getFeels();
     this.getSeizures();
-    
+    this.calculateMinDate();
   }
 
   getFeels() {
@@ -527,44 +540,51 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getStructure(res){
     var lineChartDrugs = [];
+    this.datesarray = [];
     for (var i = 0; i < res.length; i++) {
       var foundElementDrugIndex = this.searchService.searchIndex(lineChartDrugs, 'name', res[i].drugTranslate);
       var splitDate = new Date(res[i].startDate);
-      if(splitDate<this.minDate){
-        this.minDate= splitDate;
-        this.drugsBefore=true;
+      if(splitDate<this.minDateRange){
+        splitDate = this.minDateRange
       }
-      var splitDateEnd = null;
-
-
-      if (foundElementDrugIndex != -1) {
-        if(this.maxValue<Number(res[i].dose)){
-          this.maxValue=Number(res[i].dose);
+        if(splitDate<this.minDate){
+          this.minDate= splitDate;
+          this.drugsBefore=true;
         }
-        lineChartDrugs[foundElementDrugIndex].series.push({ value: res[i].dose, name: splitDate });
-        if (res[i].endDate == null) {
-          splitDateEnd = new Date();
-          lineChartDrugs[foundElementDrugIndex].series.push({ value: res[i].dose, name: splitDateEnd });
+        var splitDateEnd = null;
+  
+  
+        if (foundElementDrugIndex != -1) {
+          if(this.maxValue<Number(res[i].dose)){
+            this.maxValue=Number(res[i].dose);
+          }
+          lineChartDrugs[foundElementDrugIndex].series.push({ value: parseInt(res[i].dose), name: splitDate.toDateString() });
+          if (res[i].endDate == null) {
+            splitDateEnd = new Date();
+            lineChartDrugs[foundElementDrugIndex].series.push({ value: parseInt(res[i].dose), name: splitDateEnd.toDateString() });
+          } else {
+            splitDateEnd = new Date(res[i].endDate);
+            lineChartDrugs[foundElementDrugIndex].series.push({ value: parseInt(res[i].dose), name: splitDateEnd.toDateString() });
+          }
         } else {
-          splitDateEnd = new Date(res[i].endDate);
-          lineChartDrugs[foundElementDrugIndex].series.push({ value: res[i].dose, name: splitDateEnd });
+          if(this.maxValue<Number(res[i].dose)){
+            this.maxValue=Number(res[i].dose);
+          }
+          var seriesfirst = [{ value: parseInt(res[i].dose), name: splitDate.toDateString() }];
+          if (res[i].endDate == null) {
+            splitDateEnd = new Date();
+            seriesfirst.push({ value: parseInt(res[i].dose), name: splitDateEnd.toDateString() });
+          } else {
+            splitDateEnd = new Date(res[i].endDate);
+            seriesfirst.push({ value: parseInt(res[i].dose), name: splitDateEnd.toDateString() });
+          }
+          lineChartDrugs.push({ name: res[i].drugTranslate, series: seriesfirst });
+  
         }
-      } else {
-        if(this.maxValue<Number(res[i].dose)){
-          this.maxValue=Number(res[i].dose);
-        }
-        var seriesfirst = [{ value: res[i].dose, name: splitDate }];
-        if (res[i].endDate == null) {
-          splitDateEnd = new Date();
-          seriesfirst.push({ value: res[i].dose, name: splitDateEnd });
-        } else {
-          splitDateEnd = new Date(res[i].endDate);
-          seriesfirst.push({ value: res[i].dose, name: splitDateEnd });
-        }
-        lineChartDrugs.push({ name: res[i].drugTranslate, series: seriesfirst });
-
-      }
-
+        this.datesarray.push(splitDate.toDateString());
+        this.datesarray.push(splitDateEnd.toDateString());
+      
+      
     }
     return lineChartDrugs;
   }
@@ -642,14 +662,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadDataRangeDate(rangeDate) {
     this.rangeDate = rangeDate;
+    this.calculateMinDate();
     this.normalized = false;
+    this.normalized2 = false;
     this.loadData();
   }
+
+  calculateMinDate(){
+    var period = 31;
+    if(this.rangeDate == 'quarter'){
+      period = 90;
+    }else if(this.rangeDate == 'year'){
+      period = 365;
+    }
+    var actualDate = new Date();
+    var pastDate=new Date(actualDate);
+    pastDate.setDate(pastDate.getDate() - period);
+    this.minDateRange = pastDate;
+  } 
 
   normalizedChanged(normalized){
     this.normalized = normalized;
     if(this.normalized){
-      this.titleDose =''
+      this.titleDose = this.titleDrugsVsNormalized;
     }else{
       this.translate.get('medication.Dose mg').subscribe((res: string) => {
         this.titleDose = res;
@@ -695,14 +730,55 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getDataNormalizedDrugsVsSeizures(){
-    /*this.events 
-    this.medications*/
-    //this.medications.sort(this.sortService.DateSort("startDate"));
-    //this.events.sort(this.sortService.DateSort("start"));
     var meds = this.getStructure(this.medications);
     var seizu = this.getStructure2(this.events);
-    console.log(meds);
-    console.log(seizu);
+    var copymeds = JSON.parse(JSON.stringify(meds));
+    for (var i = 0; i < meds.length; i++) {
+      for (var j = 0; j < meds[i].series.length; j=j+2) {
+        var foundDate = false;
+        var actualDate = meds[i].series[j].name;
+        var nextDate = meds[i].series[j+1].name;
+        for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+          var theDate = new Date(actualDate);
+          theDate.setDate(theDate.getDate()+1);
+          actualDate = theDate.toDateString();
+          if(actualDate != nextDate){
+            copymeds[i].series.push({value: meds[i].series[j].value,name:actualDate})
+            this.datesarray.push(actualDate)
+          }
+          
+        }
+        if(meds[i].series[j+2]!=undefined){
+        var actualDate = meds[i].series[j+1].name;
+        var nextDate = meds[i].series[j+2].name;
+        for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+          var theDate = new Date(actualDate);
+          theDate.setDate(theDate.getDate()+1);
+          actualDate = theDate.toDateString();
+          if(actualDate != nextDate){
+            copymeds[i].series.push({value: 0,name:actualDate})
+            this.datesarray.push(actualDate)
+          }
+          
+        }
+
+        }
+        
+      }
+      copymeds[i].series.sort(this.sortService.DateSortInver("name"));
+    }
+    meds = JSON.parse(JSON.stringify(copymeds));
+    
+    for (var i = 0; i < seizu.length; i++) {
+      seizu[i].name = seizu[i].stringDate;
+    }
+    for (var i = 0; i < this.datesarray.length; i++) {
+      var foundDate = this.searchService.search(seizu, 'name', this.datesarray[i]);
+      if(!foundDate){
+        seizu.push({ value: 0, name: this.datesarray[i], stringDate: this.datesarray[i],types: []});
+      }
+    }
+    
     this.maxValueDrugsVsSeizu = 0;
     for (var i = 0; i < this.lineChartSeizures[0].series.length; i++) {
       if(this.maxValueDrugsVsSeizu<Number(this.lineChartSeizures[0].series[i].value)){
@@ -726,27 +802,39 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.lineDrugsVsSeizures.push({ name: meds[i].name, series: meds[i].series })
       }
     }
-    console.log(this.lineDrugsVsSeizures);
     
     //this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(this.lineChartDrugsCopy));
-
-    var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
-    for (var i = 0; i < this.lineDrugsVsSeizures.length; i++) {
-      for (var j = 0; j < this.lineDrugsVsSeizures[i].series.length; j++) {
-        if(this.lineDrugsVsSeizures[i].name==this.titleSeizures){
-          templineChartDrugs[i].series[j].value = percen*this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
-        }else{
-          templineChartDrugs[i].series[j].value = this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
+    if(this.normalized2){
+      var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
+      for (var i = 0; i < this.lineDrugsVsSeizures.length; i++) {
+        for (var j = 0; j < this.lineDrugsVsSeizures[i].series.length; j++) {
+          if(this.lineDrugsVsSeizures[i].name==this.titleSeizures){
+            templineChartDrugs[i].series[j].value = percen*this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
+          }else{
+            templineChartDrugs[i].series[j].value = this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
+          }
+          
+          var splitDateEnd1 = new Date(this.lineDrugsVsSeizures[i].series[j].name);
+          var splitDateEnd = this.tickFormattingDay(splitDateEnd1)
+          templineChartDrugs[i].series[j].name = splitDateEnd;
         }
-        
-        var splitDateEnd1 = new Date(this.lineDrugsVsSeizures[i].series[j].name);
-        var splitDateEnd = this.tickFormattingDay(splitDateEnd1)
-        templineChartDrugs[i].series[j].name = splitDateEnd;
+        this.lineDrugsVsSeizures[i].series.sort(this.sortService.DateSortInver("name"));
       }
+      this.lineDrugsVsSeizures = [];
+      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));
+      console.log(this.lineDrugsVsSeizures);
     }
-    this.lineDrugsVsSeizures = [];
-    this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));
+  }
 
+  normalizedChanged2(normalized){
+    this.normalized2 = normalized;
+    if(this.normalized2){
+      this.titleDrugsVsDrugs = this.titleDrugsVsNormalized;
+    }else{
+      this.titleDrugsVsDrugs = this.titleDrugsVsNoNormalized;
+    }
+     this.getDataNormalizedDrugsVsSeizures();
+    
   }
 
 }

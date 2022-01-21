@@ -9,7 +9,8 @@
         </div>
     </div>
 </div>
-<div class="mt-4 card card-block mx-auto" *ngIf="loadedInfoPatient && (basicInfoPatient.group==null || step!='0')" style="max-width: 30rem !important;">
+<div class="mt-4 card card-block mx-auto" *ngIf="loadedInfoPatient && (basicInfoPatient.group==null || step!='0')"
+    style="max-width: 30rem !important;">
     <div class="card-body">
         <div class="row">
             <div class="col-lg-12 ">
@@ -78,7 +79,7 @@
         </div>
     </div>
 </div>
-<div class="" *ngIf="loadedInfoPatient && basicInfoPatient.group!=null && step=='0'" >
+<div class="" *ngIf="loadedInfoPatient && basicInfoPatient.group!=null && step=='0'">
     <div class="row">
         <div class="col-sm-12 content-header">
             <span class="optionsCharts">
@@ -101,7 +102,7 @@
                     <div *ngIf="!loadedInfoPatient">
                         <i class="fa fa-spinner fa-spin fa-fw"></i>
                     </div>
-                    <div>    
+                    <div>
                         <div class="row" *ngIf="events.length > 0 && loadedEvents">
                             <div class="col-sm-12">
                                 <div class="card">
@@ -159,7 +160,17 @@
                                             <h2 class="text-center content-header mb-3">{{'menu.Seizures' | translate }}
                                             </h2>
                                             <div class="text-center">
-                                                <p>{{'charts.Noseizures' | translate }} <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} {{rangeDate}}</span></p>
+                                                <p>{{'charts.Noseizures' | translate }}
+                                                    <span *ngIf="rangeDate!=''">
+                                                        {{'charts.in the last' | translate }}
+                                                        <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                            }}</span>
+                                                    </span>
+                                                </p>
                                                 <a routerLink="/seizures" class="btn btn-primary"
                                                     title="{{'homeraito.p5' | translate }}">
                                                     <span class="menu-title">{{'homeraito.p5' | translate }}</span>
@@ -186,8 +197,7 @@
                                                     [xAxisTickFormatting]="tickFormatting"
                                                     [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
                                                     [autoScale]="false" [showText]="false" (select)="onSelect($event)"
-                                                    [yAxisTicks]=[0,1,2,3,4,5]
-                                                    [yScaleMax] = "5"
+                                                    [yAxisTicks]=[0,1,2,3,4,5] [yScaleMax]="5"
                                                     [yAxisTickFormatting]="percentTickFormatting">
                                                     <ng-template #tooltipTemplate let-model="model">
                                                         <span class="d-block">{{ model.name |date }}</span>
@@ -240,7 +250,15 @@
                                                 translate }}
                                             </h2>
                                             <div class="text-center">
-                                                <p>{{'charts.No data saved' | translate }} <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} {{rangeDate}}</span></p>
+                                                <p>{{'charts.No data saved' | translate }}
+                                                    <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }}
+                                                        <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                            }}</span></span>
+                                                </p>
                                                 <a routerLink="/feel" class="btn btn-primary"
                                                     title="{{'charts.I want to answer how I feel today' | translate }}">
                                                     <span class="menu-title">{{'charts.I want to answer how I feel
@@ -275,7 +293,8 @@
                                                     <!--[timeline]="true"-->
                                                 </ngx-charts-line-chart>
                                                 <span class="ml-2">
-                                                    <input type="checkbox" [(ngModel)]="normalized" (change)="normalizedChanged(normalized)"/> Normalized
+                                                    <input type="checkbox" [(ngModel)]="normalized"
+                                                        (change)="normalizedChanged(normalized)" /> {{'homeraito.Normalized' | translate }}
                                                 </span>
                                             </div>
                                         </div>
@@ -283,7 +302,7 @@
                                             <div class="col-md-12">
                                                 <h4>{{'medication.Current drugs' | translate }}</h4>
                                             </div>
-    
+
                                             <div class="table-responsive">
                                                 <table
                                                     class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
@@ -302,7 +321,7 @@
                                                 </table>
                                             </div>
                                         </div>
-    
+
                                     </div>
                                     <div class="mt-4 mb-4">
                                         <div class="card-block center-elements">
@@ -324,7 +343,14 @@
                                                 translate }}
                                             </h2>
                                             <div class="text-center">
-                                                <p>{{'charts.There is no drug data stored' | translate }} <span *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} {{rangeDate}}</span></p>
+                                                <p>{{'charts.There is no drug data stored' | translate }} <span
+                                                        *ngIf="rangeDate!=''">{{'charts.in the last' | translate }}
+                                                        <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                            translate }}</span>
+                                                        <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                            }}</span></span></p>
                                                 <a routerLink="/medication" class="btn btn-primary"
                                                     title="{{'homeraito.p7' | translate }}">
                                                     <span class="menu-title">{{'homeraito.p7' | translate }}</span>
@@ -335,7 +361,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
+                        <div class="row"
+                            *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
                             <div class="col-sm-12">
                                 <div class="card" #ContainerRef1>
                                     <div class="">
@@ -347,18 +374,21 @@
                                                 <ngx-charts-line-chart [view]="[(ContainerRef1.offsetWidth-30), 300]"
                                                     [scheme]="lineChartColorScheme" [results]="lineDrugsVsSeizures"
                                                     [gradient]="lineChartGradient" [xAxis]="lineChartShowXAxis"
-                                                    [yAxis]="false" [legend]="true"
-                                                    [legendPosition]="'below'"
+                                                    [yAxis]="lineChartShowYAxis" [legend]="true" [legendPosition]="'below'"
                                                     [showXAxisLabel]="lineChartShowXAxisLabel"
                                                     [xAxisTickFormatting]="tickFormatting"
                                                     [showYAxisLabel]="lineChartShowYAxisLabel" [xAxisLabel]="msgDate"
                                                     [autoScale]="false" [xScaleMax]="today" (select)="onSelect($event)"
-                                                    [yAxisLabel]="">
+                                                    [yAxisLabel]="titleDrugsVsDrugs">
                                                     <!--[timeline]="true"-->
                                                 </ngx-charts-line-chart>
+                                                <span class="ml-2">
+                                                    <input type="checkbox" [(ngModel)]="normalized2"
+                                                        (change)="normalizedChanged2(normalized2)" /> {{'homeraito.Normalized' | translate }}
+                                                </span>
                                             </div>
                                         </div>
-    
+
                                     </div>
                                 </div>
                             </div>
@@ -368,5 +398,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>

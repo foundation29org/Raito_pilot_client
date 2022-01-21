@@ -48,8 +48,8 @@
                                   <div class="form-actions">
                                     <span *ngIf="!sending">
                                       <div *ngIf="f.valid;then formValid else formError"></div>
-                                      <ng-template #formValid><button class="btn btn-raised btn-primary" type="submit"> {{'support.Send' | translate }}</button></ng-template>
-                                      <ng-template #formError><button class="btn btn-raised btn-primary" type="button" (click)="submitInvalidForm()">{{'support.Send' | translate }}</button></ng-template>
+                                      <ng-template #formValid><button class="btn btn-dark" type="submit"> {{'support.Send' | translate }}</button></ng-template>
+                                      <ng-template #formError><button class="btn btn-dark" type="button" (click)="submitInvalidForm()">{{'support.Send' | translate }}</button></ng-template>
                                     </span>
                                     <span *ngIf="sending">
                                       <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>

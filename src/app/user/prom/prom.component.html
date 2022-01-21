@@ -10,8 +10,8 @@
                         <!--<span *ngIf="newproms.length>0 && step+1<=newproms.length && pendind" class="text-muted float-right">{{step+1}} /{{newproms.length}} </span>-->
                     </div>
                     <h2 class="text-center content-header mb-3">{{'menu.Questionnaire' | translate }}</h2>
-                    <p *ngIf="newproms.length>0 && step+1<=newproms.length && pendind" class="mb-0"><ngb-progressbar type="info" [value]="((step+1)/newproms.length)*100"><b>{{step+1}} /{{newproms.length}}</b></ngb-progressbar></p>
-                    <p *ngIf="newproms.length>0 && step+1<=newproms.length && !pendind" class="mb-0"><ngb-progressbar type="info" [value]="((numSaved)/newproms.length)*100"><b>{{numSaved}} /{{newproms.length}}</b></ngb-progressbar></p>
+                    <p *ngIf="newproms.length>0 && step+1<=newproms.length && pendind" class="mb-0"><ngb-progressbar type="dark" height="2rem" [value]="((step+1)/newproms.length)*100"><b>{{step+1}} /{{newproms.length}}</b></ngb-progressbar></p>
+                    <p *ngIf="newproms.length>0 && step+1<=newproms.length && !pendind" class="mb-0"><ngb-progressbar type="dark" height="2rem" [value]="((numSaved)/newproms.length)*100"><b>{{numSaved}} /{{newproms.length}}</b></ngb-progressbar></p>
                     <div *ngIf="pendind">
                         <div *ngIf="newproms.length>0 && loadedProms">
                             <div class="card mb-0">
@@ -253,10 +253,10 @@
                                 <div class="card-footer" *ngIf="step+1<=newproms.length">
                                     <div class="col-md-12 center-elements mt-2">
                                         <div class="form-actions center" *ngIf="!sending">
-                                            <button *ngIf="step+1>1" type="button" class="float-left btn btn-primary btn-raised" (click)="previousProm()">{{'generics.Previous' | translate }}</button>
+                                            <button *ngIf="step+1>1" type="button" class="float-left btn btn-dark" (click)="previousProm()">{{'generics.Previous' | translate }}</button>
                                             
-                                            <button *ngIf="step+1<newproms.length" type="button" class="float-right btn btn-primary btn-raised" (click)="nextProm()">{{'generics.Next' | translate }}</button>
-                                            <button *ngIf="step+1==newproms.length" type="button" class="float-right btn btn-primary btn-raised" (click)="nextProm()">{{'generics.Finish' | translate }}</button>
+                                            <button *ngIf="step+1<newproms.length" type="button" class="float-right btn btn-dark" (click)="nextProm()">{{'generics.Next' | translate }}</button>
+                                            <button *ngIf="step+1==newproms.length" type="button" class="float-right btn btn-dark" (click)="nextProm()">{{'generics.Finish' | translate }}</button>
                                             <!--<button type="button" class="btn btn-raised btn-primary" (click)="saveSymptomsOfDiseaseSuggested()">{{'generics.Save' | translate }}</button>-->
                                         </div>
                                     </div>
@@ -268,7 +268,7 @@
                         </div>
                     </div>
                     <div *ngIf="!pendind && loadedProms" class="center-elements" style="position: sticky; top: 95vh; z-index: 1;height: 0px;">
-                        <button type="button" class="mr-1 btn btn-primary" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
+                        <button type="button" class="mr-1 btn btn-dark" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
                     </div>
                     <div *ngIf="!pendind && loadedProms">
                         <div *ngFor="let prom of newproms ; let i = index">

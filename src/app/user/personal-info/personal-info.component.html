@@ -139,9 +139,9 @@
                             <div class="form-group text-center">
                                 <span *ngIf="!sending">
                                     <div *ngIf="f.valid;then formValid else formError"></div>
-                                    <ng-template #formValid><button class="ml-2 btn btn-primary" type="submit">
+                                    <ng-template #formValid><button class="ml-2 btn btn-dark" type="submit">
                                             {{'generics.Save' | translate }}</button></ng-template>
-                                    <ng-template #formError><button class="ml-2 btn btn-primary" type="button"
+                                    <ng-template #formError><button class="ml-2 btn btn-dark" type="button"
                                             (click)="submitInvalidForm()"> {{'generics.Save' | translate
                                             }}</button></ng-template>
                                 </span>

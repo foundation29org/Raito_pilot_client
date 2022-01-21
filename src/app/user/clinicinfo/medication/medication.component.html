@@ -15,8 +15,8 @@
 
 					<section id="listMeditationSection" *ngIf="!viewMeditationSection">
 						<div class="row">
-							<div class="col-sm-12">
-								<button *ngIf="!loading" type="button" class="btn mt-2 btn-primary"
+							<div class="col-sm-12 center-elements">
+								<button *ngIf="!loading" type="button" class="btn mt-2 btn-dark"
 									(click)="newMedication()">{{'medication.New drug or dose' | translate }}</button>
 							</div>
 						</div>
@@ -120,8 +120,8 @@
 								</div>
 							</div>
 							<div class="row" *ngIf="medications.length==0">
-								<div class="col-md-12 mt-4">
-									<!--<h4 class="text-bold-400">{{'medication.No saved drugs' | translate }}</h4>-->
+								<div class="col-md-12 mt-4 center-elements">
+									<p class="text-bold-400">{{'medication.No saved drugs' | translate }}</p>
 								</div>
 							</div>
 						</div>
@@ -139,7 +139,7 @@
 							</div>
 							<div class=""
 								*ngIf="(!loading && drugSelected && !viewMedicationForm) && (actualMedication.endDate || !actualMedication.startDate)">
-								<button type="button" class="btn btn-primary" (click)="newDose()">{{'medication.New Dose' | translate
+								<button type="button" class="btn btn-dark" (click)="newDose()">{{'medication.New Dose' | translate
 									}}</button>
 							</div>
 						</div>
@@ -285,12 +285,12 @@
 															</div>
 														</div>
 													</div>
-													<div *ngIf="!showDetails" class="">
+													<div *ngIf="!showDetails" class="text-muted">
 														<a class="" style="cursor: pointer;" (click)="showDetails=!showDetails;">
 															{{'generics.Show more options' | translate }} <i class="fas fa-chevron-down"></i>
 														  </a>
 													</div>
-													<div *ngIf="showDetails" class="">
+													<div *ngIf="showDetails" class="text-muted">
 														<a class="" style="cursor: pointer;" (click)="showDetails=!showDetails;">
 															{{'generics.Hide options' | translate }} <i class="fas fa-chevron-up"></i>
 														  </a>
@@ -371,10 +371,10 @@
 													}}</span>-->
 												<div class="border-top form-actions center" *ngIf="!sending">
 													<div *ngIf="f.valid;then formValid else formError"></div>
-													<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary"
+													<ng-template #formValid><button class="btn btn-dark"
 															type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 															}}</button></ng-template>
-													<ng-template #formError><button class="btn btn-raised btn-raised btn-primary"
+													<ng-template #formError><button class="btn btn-dark"
 															type="button" (click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i>
 															{{'generics.Save' | translate }}</button></ng-template>
 												</div>
@@ -537,12 +537,12 @@
 		</div>
 		<div class="modal-footer">
 			<div class="form-actions center" *ngIf="!sending">
-				<button type="button" class="btn btn-secondary btn-raised"
+				<button type="button" class="btn btn-secondary"
 					(click)="c('Close click')">{{'generics.Cancel' | translate }}</button>
 				<div *ngIf="f.valid;then formValid else formError"></div>
-				<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary"
+				<ng-template #formValid><button class="btn btn-dark"
 						type="submit">{{'generics.Save' | translate }}</button></ng-template>
-				<ng-template #formError><button class="btn btn-raised btn-raised btn-primary" type="button"
+				<ng-template #formError><button class="btn btn-dark" type="button"
 						(click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 						}}</button></ng-template>
 			</div>
@@ -593,12 +593,12 @@
 		<div class="modal-footer">
 
 			<div class="form-actions center" *ngIf="!sending">
-				<button type="button" class="btn btn-secondary btn-raised"
+				<button type="button" class="btn btn-secondary"
 					(click)="c('Close click')">{{'generics.Cancel' | translate }}</button>
 				<div *ngIf="f.valid;then formValid else formError"></div>
-				<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary"
+				<ng-template #formValid><button class="btn btn-dark"
 						type="submit">{{'generics.Save' | translate }}</button></ng-template>
-				<ng-template #formError><button class="btn btn-raised btn-raised btn-primary" type="button"
+				<ng-template #formError><button class="btn btn-dark" type="button"
 						(click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 						}}</button></ng-template>
 			</div>
@@ -641,12 +641,12 @@
 		<div class="modal-footer">
 
 			<div class="form-actions center" *ngIf="!sending">
-				<button type="button" class="btn btn-secondary btn-raised"
+				<button type="button" class="btn btn-secondary"
 					(click)="c('Close click')">{{'generics.Cancel' | translate }}</button>
 				<div *ngIf="f.valid;then formValid else formError"></div>
-				<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary"
+				<ng-template #formValid><button class="btn btn-dark"
 						type="submit">{{'generics.Save' | translate }}</button></ng-template>
-				<ng-template #formError><button class="btn btn-raised btn-raised btn-primary" type="button"
+				<ng-template #formError><button class="btn btn-dark" type="button"
 						(click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 						}}</button></ng-template>
 			</div>
@@ -700,12 +700,12 @@
 		<div class="modal-footer">
 
 			<div class="form-actions center" *ngIf="!sending">
-				<button type="button" class="btn btn-secondary btn-raised"
+				<button type="button" class="btn btn-secondary"
 					(click)="c('Close click')">{{'generics.Cancel' | translate }}</button>
 				<div *ngIf="f.valid;then formValid else formError"></div>
-				<ng-template #formValid><button class="btn btn-raised btn-raised btn-primary"
+				<ng-template #formValid><button class="btn btn-raised btn-dark"
 						type="submit">{{'generics.Save' | translate }}</button></ng-template>
-				<ng-template #formError><button class="btn btn-raised btn-raised btn-primary" type="button"
+				<ng-template #formError><button class="btn btn-raised btn-dark" type="button"
 						(click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 						}}</button></ng-template>
 			</div>

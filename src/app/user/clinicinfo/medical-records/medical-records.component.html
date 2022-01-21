@@ -14,7 +14,7 @@
                                 <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangePDF($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <label class="btn btn-info customHeight"
+                                <label class="btn btn-dark customHeight"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'land.Browse for file' | translate }} <span class="font-small-2 d-block">{{'dashboardpatient.info extension' | translate }}</span></label>
                             </span>
@@ -33,7 +33,7 @@
                             </svg>
                             <h3 class="mt-2">{{'land.Drag and drop file here' | translate }}</h3>
                             <h3>{{'land.or' | translate }}</h3>
-                            <label class="btn btn-info round"
+                            <label class="btn btn-dark round"
                                 style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                 for="fileDropRef">{{'land.Browse for file' | translate }}</label>
                             <h3 class="mt-2 d-block">{{'dashboardpatient.info extension' | translate }}</h3>
@@ -249,16 +249,16 @@
                     </span>
                 </span>
                 <div class="mt-2">
-                    <button *ngIf="!ncrResultView" type="button" class="btn btn-info round mb-0"
+                    <button *ngIf="!ncrResultView" type="button" class="btn btn-dark round mb-0"
                         (click)="showCompleteNcrResultView(temporalSymptoms[selectedInfoSymptomIndex], 'textAnalytics')">{{'patdiagdashboard.Show
                         full text' | translate }}</button>
-                    <button *ngIf="ncrResultView" type="button" class="btn btn-info round mb-0"
+                    <button *ngIf="ncrResultView" type="button" class="btn btn-dark round mb-0"
                         (click)="showCompleteNcrResultView(null, 'textAnalytics')">{{'patdiagdashboard.Hide full text' |
                         translate }}</button>
                 </div>
                 <div *ngIf="ncrResultView">
                     <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                        <button type="button" class="btn btn-info round mb-0" (click)="goToTop()">Go top</button>
+                        <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">Go top</button>
                     </span>
                     <div class="mt-2 text-center">
                         <a id="initpos"></a>
