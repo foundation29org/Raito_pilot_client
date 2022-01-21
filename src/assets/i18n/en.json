@@ -65,7 +65,10 @@
     "The account is not activated": "The account is not activated. Click on 'Activate account' in the verification email.",
     "The account is blocked by an administrator": "The account is blocked by an administrator.",
     "Go to the new version": "Go to the new version",
-    "This version is deprecated and will stop working": "This version is deprecated and will stop working"
+    "This version is deprecated and will stop working": "This version is deprecated and will stop working",
+    "First time here": "First time here?",
+    "Create an account clicking here": "Create an account clicking here:",
+    "or Log in with": "or Log in with"
   },
   "registration":{
     "Registration": "User Registration",
@@ -1489,6 +1492,14 @@
     "t1": "You have the power to boost medicine",
     "p1": "We help you store better your patient information so you can share it and benefit from clinical research and new drug developments",
     "t2": "How it works",
+    "t2.1t": "Get on board",
+    "t2.1a": "Create your account. We will help you begin to safely upload your data in the your cloud folder. Join the revolution of patient data gathering.",
+    "t2.2t": "Fill your tank",
+    "t2.2a": "We will help you register your patient data in an easy way. We will take care of structuring it and storing it safely in your personal cloud folder.",
+    "t2.3t": "Launch",
+    "t2.3a": "We provide you the tools to  share your medical data folder and boost your reach with institutions and applications that will help you and other patients.",
+    "t3.1": "Available for your mobile and tablet",
+    "t3.2": "Use Raito on phone or tablet is free and easy",
     "button": "I want to join"
   },
   "homeraito":{
@@ -1610,6 +1621,20 @@
     "FHIR3": "FHIR provides an alternative to document-centric approaches by directly exposing discrete data elements as services. For example, basic elements of healthcare like patients, admissions, diagnostic reports and medications can each be retrieved and manipulated via their own resource URLS.",
     "sharepart1": "Sharing your data means that you can send an anonymized copy of your data to institutions, researchers or to whom you consider through any application of your choice.",
     "sharepart2": "We will generate a structured file with all your data in RAITO that is best suited to share with researchers and institutions. This kind of file is not a text document easily readable but it is meant to be easy to gather specific data."
+  },
+  "prereg":{
+    "title": "This is how we manage data",
+    "subtitle": "You need to read the complete text of the Privacy Policy for legal purposes, but we really don't like this requirement so we made a summary for you.",
+    "t1": "Where is your data",
+    "a1": "You choose in which cloud provider you store your patient medical data. We help you create a folder in the cloud. We call this folder: POD (Personal Online Datastore).",
+    "t2": "Who has access",
+    "a2.1": "You may share the patient medical data anonymously with your Patient Organization or anyone you want.",
+    "a2.2": "You can all times deny or accept access to your folder.",
+    "t3": "Which data we use",
+    "a3": "In order to use RAITO we need to know some user details: name, last name, email and National ID.",
+    "t4": "Who else uses your data",
+    "a4": "A third party provider will process your National ID for verification and then it will be deleted.",
+    "readPolicy": "Read the full version of the Privacy Policy here"
   }
 }
 

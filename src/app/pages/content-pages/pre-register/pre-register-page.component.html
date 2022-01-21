@@ -4,8 +4,8 @@
           <div class="card-body">
               <div class="row">
                   <div class="col-lg-12">
-                    <h3 class="text-bold-500">This is how we manage data</h3>
-                    <p>You need to read the complete text of the Privacy Policy for legal purposes, but we really don't like this requirement so we made a summary for you.</p>
+                    <h3 class="text-bold-500">{{'prereg.title' | translate }}</h3>
+                    <p>{{'prereg.subtitle' | translate }}</p>
                   </div>
                   <div class="col-lg-12">
                     <div class="card bg-blue-grey bg-darken-3">
@@ -16,33 +16,33 @@
                               <img src="assets/img/home/fondo.jpg" style="position: absolute;" alt="Random first slide">
                               <div class="carousel-caption">
                                 <img src="assets/img/home/carru1.jpg" class="carrusel-img" alt="Random first slide">
-                                <h3 class="mt-3">1. Where is your data</h3>
-                                <p>You choose in which cloud provider you store your patient medical data. We help you create a folder in the cloud. We call this folder: POD (Personal Online Datastore).</p>
+                                <h3 class="mt-3">1. {{'prereg.t1' | translate }}</h3>
+                                <p>{{'prereg.a1' | translate }}</p>
                               </div>
                             </ng-template>
                             <ng-template ngbSlide>
                               <img src="assets/img/home/fondo.jpg" style="position: absolute;" alt="Random first slide">
                               <div class="carousel-caption">
                                 <img src="assets/img/home/carru2.jpg" class="carrusel-img" alt="Random first slide">
-                                <h3 class="mt-3">2. Who has access</h3>
-                                <p>You may share the patient medical data anonymously with your Patient Organization or anyone you want.</p>
-                                <p>You can all times deny or accept access to your folder.</p>
+                                <h3 class="mt-3">2. {{'prereg.t2' | translate }}</h3>
+                                <p>{{'prereg.a2.1' | translate }}</p>
+                                <p>{{'prereg.a2.2' | translate }}</p>
                               </div>
                             </ng-template>
                             <ng-template ngbSlide>
                               <img src="assets/img/home/fondo.jpg" style="position: absolute;" alt="Random first slide">
                               <div class="carousel-caption">
                                 <img src="assets/img/home/carru3.jpg" class="carrusel-img" alt="Random first slide">
-                                <h3 class="mt-3">3. Which data we use</h3>
-                                <p>In order to use RAITO we need to know some user details: name, last name, email and National ID.</p>
+                                <h3 class="mt-3">3. {{'prereg.t3' | translate }}</h3>
+                                <p>{{'prereg.a3' | translate }}</p>
                               </div>
                             </ng-template>
                             <ng-template ngbSlide>
                               <img src="assets/img/home/fondo.jpg" style="position: absolute;" alt="Random first slide">
                               <div class="carousel-caption">
                                 <img src="assets/img/home/carru4.jpg" class="carrusel-img" alt="Random first slide">
-                                <h3 class="mt-3">4. Who else uses your data</h3>
-                                <p>A third party provider will process your National ID for verification and then it will be deleted.</p>
+                                <h3 class="mt-3">4. {{'prereg.t4' | translate }}</h3>
+                                <p>{{'prereg.a4' | translate }}</p>
                               </div>
                             </ng-template>
                           </ngb-carousel>
@@ -53,16 +53,16 @@
                   </div>
                   <div class="col-md-12 center-elements">
                     <a (click)="openTerms()" class="ml-1 info">
-                      <small style="margin-top: 1em;white-space: normal;text-transform: none;letter-spacing: 0px;"> Read the full version of the Privacy Policy here</small>
+                      <small style="margin-top: 1em;white-space: normal;text-transform: none;letter-spacing: 0px;"> {{'prereg.readPolicy' | translate }}</small>
                     </a>
                     
                   </div>
                   <div class="col-md-12 center-elements mt-2">
                     <a routerLink="/login" class="btn btn-dark mt-1 mr-1" title="I want to join">
-                      <span class="menu-title">Reject</span>
+                      <span class="menu-title">{{'generics.Reject' | translate }}</span>
                   </a>
                   <a routerLink="/register" class="btn btn-dark mt-1 ml-1" title="I want to join">
-                    <span class="menu-title">Accept</span>
+                    <span class="menu-title">{{'generics.Accept' | translate }}</span>
                 </a>
                   </div>
                 </div>
