@@ -65,7 +65,10 @@
     "The account is not activated": "La cuenta no está activada. Haga clic en 'Activar cuenta' en el correo electrónico de verificación.",
     "The account is blocked by an administrator": "La cuenta está bloqueada por un administrador.",
     "Go to the new version": "Ir a la nueva versión",
-    "This version is deprecated and will stop working": "Esta versión está obsoleta y dejará de funcionar"
+    "This version is deprecated and will stop working": "Esta versión está obsoleta y dejará de funcionar",
+    "First time here": "¿Primera vez aquí?",
+    "Create an account clicking here": "Cree una cuenta haciendo clic aquí:",
+    "or Log in with": "o inicie sesión con"
   },
   "registration":{
     "Registration": "Registro de usuario",
@@ -1490,6 +1493,14 @@
     "t1": "Tienes el poder de impulsar la medicina",
     "p1": "Le ayudamos a almacenar mejor la información de sus pacientes para que pueda compartirla y beneficiarse de la investigación clínica y el desarrollo de nuevos medicamentos",
     "t2": "Cómo funciona",
+    "t2.1t": "Sube a bordo",
+    "t2.1a": "Crea tu cuenta. Te ayudaremos a empezar a subir tus datos de forma segura en la carpeta de tu nube. Únete a la revolución de la recopilación de datos de pacientes.",
+    "t2.2t": "Llena tu depósito",
+    "t2.2a": "Te ayudamos a registrar los datos de tus pacientes de forma sencilla. Nos encargaremos de estructurarlos y de almacenarlos de forma segura en tu carpeta personal en la nube.",
+    "t2.3t": "Lanzamiento",
+    "t2.3a": "Te proporcionamos las herramientas para compartir tu carpeta de datos médicos y potenciar tu alcance con instituciones y aplicaciones que te ayudarán a ti y a otros pacientes.",
+    "t3.1": "Disponible para tu móvil y tu tablet",
+    "t3.2": "Usa Raito en teléfono o tablet es gratis y fácil.",
     "button": "Quiero unirme"
   },
   "homeraito":{
@@ -1611,5 +1622,19 @@
     "FHIR3": "FHIR ofrece una alternativa a los enfoques centrados en los documentos al exponer directamente elementos de datos discretos como servicios. Por ejemplo, los elementos básicos de la atención sanitaria, como los pacientes, los ingresos, los informes de diagnóstico y los medicamentos, pueden recuperarse y manipularse a través de sus propias URL de recursos.",
     "sharepart1": "Compartir tus datos significa que puedes enviar una copia anonimizada de tus datos a instituciones, investigadores o a quien consideres a través de cualquier aplicación de tu elección.",
     "sharepart2": "Generaremos un archivo estructurado con todos tus datos en RAITO que es el más adecuado para compartir con investigadores e instituciones. Este tipo de archivo no es un documento de texto fácilmente legible, sino que está pensado para facilitar la recopilación de datos específicos."
+  },
+  "prereg":{
+    "title": "Así es como gestionamos los datos",
+    "subtitle": "Tienes que leer el texto completo de la Política de Privacidad por motivos legales, pero realmente no nos gusta este requisito, así que hemos hecho un resumen para ti.",
+    "t1": "Dónde están tus datos",
+    "a1": "Tú eliges en qué proveedor de la nube almacenas los datos médicos de tus pacientes. Nosotros te ayudamos a crear una carpeta en la nube. A esta carpeta la llamamos POD (Personal Online Datastore).",
+    "t2": "Quién tiene acceso",
+    "a2.1": "Puede compartir los datos médicos del paciente de forma anónima con su Organización de Pacientes o con quien quiera.",
+    "a2.2": "Puede negar o aceptar en todo momento el acceso a su carpeta.",
+    "t3": "Qué datos utilizamos",
+    "a3": "Para utilizar RAITO necesitamos conocer algunos datos del usuario: nombre, apellidos, correo electrónico y DNI.",
+    "t4": "Quién más utiliza tus datos",
+    "a4": "Un tercer proveedor procesará tu DNI para su verificación y luego será eliminado.",
+    "readPolicy": "Lea la versión completa de la política de privacidad aquí"
   }
 }
