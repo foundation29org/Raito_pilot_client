@@ -255,7 +255,13 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 			newEvent.notes = newEvent.notes + this.parsearacentos(seizurelist[i].postnotes);
 
       var parsedate = cogerhora[0]+"T00:00:00.000Z";
-      newEvent.GUID= seizurelist[i].GUID.trim();
+      console.log(seizurelist[i]);
+      if(seizurelist[i].GUID==undefined){
+        newEvent.GUID= seizurelist[i].DateTimeEntered;
+      }else{
+        newEvent.GUID= seizurelist[i].GUID.trim();
+      }
+      
       newEvent.type = this.obtenerTipoConvImportar(seizurelist[i].type);
       if(parseInt(seizurelist[i].length_min)>=60){
         newEvent.duracion = (parseInt(seizurelist[i].length_hr)+1)*60+(parseInt(seizurelist[i].length_min)-60);

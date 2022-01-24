@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   step: string = '0';
   private subscription: Subscription = new Subscription();
   rangeDate: string = 'month';
-  normalized: boolean = false;
+  normalized: boolean = true;
   normalized2: boolean = true;
   maxValue: number = 0;
   maxValueDrugsVsSeizu: number = 0;
@@ -523,8 +523,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           var datagraphseizures = [];
           
           this.lineChartDrugs = this.getStructure(res);
-
+          
           this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
+          this.normalizedChanged(this.normalized);
           if(this.events.length>0){
             this.getDataNormalizedDrugsVsSeizures();
           }
@@ -663,8 +664,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadDataRangeDate(rangeDate) {
     this.rangeDate = rangeDate;
     this.calculateMinDate();
-    this.normalized = false;
-    this.normalized2 = false;
+    this.normalized = true;
+    this.normalized2 = true;
     this.loadData();
   }
 
