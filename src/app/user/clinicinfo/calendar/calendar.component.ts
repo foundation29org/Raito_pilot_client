@@ -8,6 +8,7 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
 import { DateService } from 'app/shared/services/date.service';
+import { SortService } from 'app/shared/services/sort.service';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -64,7 +65,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   seizuresForm: FormGroup;
   submitted = false;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder, private sortService: SortService) { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -122,6 +123,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
         this.events = [];
       }else{
         if(res.length>0){
+          res.sort(this.sortService.DateSort("start"));
           for(var i = 0; i < res.length; i++) {
             res[i].start = new Date(res[i].start);
           }
@@ -266,7 +268,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       if(parseInt(seizurelist[i].length_min)>=60){
         newEvent.duracion = (parseInt(seizurelist[i].length_hr)+1)*60+(parseInt(seizurelist[i].length_min)-60);
 			}else{
-        newEvent.duracion = seizurelist[i].length_hr*60+seizurelist[i].length_min;
+        newEvent.duracion = seizurelist[i].length_hr*60+parseInt(seizurelist[i].length_min);
 			}
       newEvent.start=new Date(parsedate);
 
@@ -275,22 +277,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 
     //guardar en la base de datos listToUpload
     this.saveMassiveSeizures(listToUpload);
-
-    for(var i = 0; i < listToUpload.length; i++) {
-      console.log(listToUpload[i]);
-      var foundElementDrugIndex = this.searchService.searchIndex(this.events, 'GUID', listToUpload[i].GUID);
-      if(foundElementDrugIndex==-1){
-        this.events.push(listToUpload[i]);
-        this.imported++;
-      }
-    }
-    this.refresh.next();
-    if(this.imported>0){
-      this.toastr.success('', 'Imported seizures: '+ listToUpload.length);
-    }else{
-      this.toastr.success('', 'It has not imported any seizure because they were all imported, or there were none in the file.');
-    }
-
   }
 
   obtenerTipoConvImportar(formatotraducion){
@@ -392,6 +378,20 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     this.subscription.add( this.http.post(environment.api+'/api/massiveseizures/'+this.authService.getCurrentPatient().sub, listToUpload)
     .subscribe( (res : any) => {
       //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
+      for(var i = 0; i < listToUpload.length; i++) {
+        console.log(listToUpload[i]);
+        var foundElementDrugIndex = this.searchService.searchIndex(this.events, 'GUID', listToUpload[i].GUID);
+        if(foundElementDrugIndex==-1){
+          this.events.push(listToUpload[i]);
+          this.imported++;
+        }
+      }
+      this.refresh.next();
+      if(this.imported>0){
+        this.toastr.success('', 'Imported seizures: '+ listToUpload.length);
+      }else{
+        this.toastr.success('', 'It has not imported any seizure because they were all imported, or there were none in the file.');
+      }
       this.loadEvents();
      }, (err) => {
        console.log(err);
