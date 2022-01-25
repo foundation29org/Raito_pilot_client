@@ -36,8 +36,6 @@
                                     <option value="male">{{'personalinfo.Male' | translate }}</option>
                                     <option value="female">{{'personalinfo.Female' | translate }}</option>
                                 </select>
-                                <p *ngIf="datainfo.gender==''" class="danger">{{'generics.required' | translate }}
-                                </p>
                             </div>
                             <div class="form-group">
                                 <div class="">
@@ -60,8 +58,7 @@
 
                             <div class="form-group">
                                 <select class="form-control" id="countryselectedCode" name="countryselectedCode"
-                                    [(ngModel)]="datainfo.country" #countryselectedCode="ngModel" ngModel
-                                    [required]="true">
+                                    [(ngModel)]="datainfo.country" #countryselectedCode="ngModel" ngModel>
                                     <option [ngValue]="null" disabled selected>--{{'registration.Please select a
                                         code' | translate }}--</option>
                                     <option *ngFor="let country of countries; let i=index"
@@ -110,8 +107,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="">
-                                    <select id="group" name="group" class="form-control" ngModel
-                                            [(ngModel)]="datainfo.group">
+                                    <select id="group" name="group" class="form-control" ngModel #group="ngModel"
+                                            [(ngModel)]="datainfo.group" [required]="true">
                                         <option [value]="null" disabled selected>--{{'registration.Please select a
                                             group' | translate }}--</option>
                                             <option *ngFor="let group of groups" [ngValue]="group.name">
@@ -133,6 +130,9 @@
                                         <option value="None">{{'registration.I dont belong to a patient group' |
                                             translate }}</option>-->
                                     </select>
+                                    <small class="form-text text-muted danger"
+                                    *ngIf="!group.valid && (group.dirty || group.touched)">{{'generics.required'
+                                    | translate }}</small>
                                 </div>
                             </div>
 

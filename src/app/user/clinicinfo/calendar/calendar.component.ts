@@ -226,7 +226,12 @@ export class CalendarsComponent implements OnInit, OnDestroy{
         reader.readAsText(file, "UTF-8");
         reader.onload = (evt:any) => {
           var seizuresToUpload=JSON.parse(evt.target.result);
-          this.uploadSeizures(seizuresToUpload.Seizures);
+          if(seizuresToUpload.Seizures==undefined){
+            this.toastr.error('', this.translate.instant("seizures.invalidFile"));
+          }else{
+            this.uploadSeizures(seizuresToUpload.Seizures);
+          }
+          
         }
         reader.onerror = function (evt) {
             console.log('error reading file');

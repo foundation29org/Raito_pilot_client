@@ -1540,7 +1540,8 @@
     "Last year": "Último año",
     "month": "mes",
     "quarter": "trimestre",
-    "year": "año"
+    "year": "año",
+    "Drugs vs Seizures": "Medicamentos vs Convulsiones"
   },
   "reports":{
     "Create-paste a report": "Crear/pegar un informe",
@@ -1591,7 +1592,8 @@
     "Patient was asleep": "El paciente estaba dormido",
     "Patient was awake": "El paciente estaba despierto",
     "Write down any details": "Anote cualquier detalle",
-    "State": "Estado"
+    "State": "Estado",
+    "invalidFile": "El fichero importado no es el correcto"
   },
   "mydata":{
     "title": "¿Cómo utilizar mis datos?",

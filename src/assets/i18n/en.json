@@ -1539,7 +1539,8 @@
     "Last year": "Last year",
     "month": "month",
     "quarter": "quarter",
-    "year": "year"
+    "year": "year",
+    "Drugs vs Seizures": "Drugs vs Seizures"
   },
   "reports":{
     "Create-paste a report": "Create/paste a report",
@@ -1590,7 +1591,8 @@
     "Patient was asleep": "Patient was asleep",
     "Patient was awake": "Patient was awake",
     "Write down any details": "Write down any details",
-    "State": "State"
+    "State": "State",
+    "invalidFile": "The imported file is invalid"
   },
   "mydata":{
     "title": "How to use my data",

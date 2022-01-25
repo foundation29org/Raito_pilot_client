@@ -54,10 +54,26 @@ export class HomeComponent implements OnInit, OnDestroy {
    lineChartShowYAxisLabel = chartsData.lineChartShowYAxisLabel;
  
    lineChartColorScheme = chartsData.lineChartColorScheme;
+   lineChartOneColorScheme = chartsData.lineChartOneColorScheme;
  
    // line, area
    lineChartAutoScale = chartsData.lineChartAutoScale;
    lineChartLineInterpolation = chartsData.lineChartLineInterpolation;
+
+
+   //Bar Charts
+    barChartView: any[] = chartsData.barChartView;
+
+    // options
+    barChartShowYAxis = chartsData.barChartShowYAxis;
+    barChartShowXAxis = chartsData.barChartShowXAxis;
+    barChartGradient = chartsData.barChartGradient;
+    barChartShowLegend = chartsData.barChartShowLegend;
+    barChartShowXAxisLabel = chartsData.barChartShowXAxisLabel;
+    barChartXAxisLabel = chartsData.barChartXAxisLabel;
+    barChartShowYAxisLabel = chartsData.barChartShowYAxisLabel;
+    barChartYAxisLabel = chartsData.barChartYAxisLabel;
+    barChartColorScheme = chartsData.barChartColorScheme;
 
    private msgDataSavedOk: string;
    private msgDataSavedFail: string;
@@ -273,10 +289,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         }
         this.loadingDataGroup = false;
+        this.calculateMinDate();
         this.loadData();
       }, (err) => {
         console.log(err);
         this.loadingDataGroup = false;
+        this.calculateMinDate();
         this.loadData();
       }));
 
@@ -403,6 +421,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (resFeels.message) {
           //no tiene historico de peso
         } else {
+          resFeels.sort(this.sortService.DateSortInver("date"));
           this.feels = resFeels;
           this.heightHistory = resFeels;
           var datagraphheight = [];
@@ -423,7 +442,15 @@ export class HomeComponent implements OnInit, OnDestroy {
               value = value+parseInt(resFeels[i].a3);
             }
             var value = value/numAnswers;
-            datagraphheight.push({ value: value, name: splitDate });
+            var foundDateIndex = this.searchService.searchIndex(datagraphheight, 'name', splitDate.toDateString());
+            if(foundDateIndex != -1){
+              //There cannot be two on the same day
+              datagraphheight[foundDateIndex].name = splitDate.toDateString();
+              datagraphheight[foundDateIndex].value = value;
+            }else{
+              datagraphheight.push({ value: value, name: splitDate.toDateString() });
+            }
+            
           }
 
           this.lineChartHeight = [
@@ -460,10 +487,12 @@ export class HomeComponent implements OnInit, OnDestroy {
             var datagraphseizures = [];
             
             datagraphseizures = this.getStructure2(res);
+            console.log(datagraphseizures);
+            var respseizures = this.add0Seizures(datagraphseizures);
             this.lineChartSeizures = [
               {
                 "name": this.titleSeizures,
-                "series": datagraphseizures
+                "series": respseizures
               }
             ];
             this.getDrugs();
@@ -478,6 +507,74 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log(err);
         this.loadedEvents = true;
       }));
+  }
+
+  add0Seizures(datagraphseizures){
+    //var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
+    var maxDateTemp = new Date();
+    var maxDate = maxDateTemp.toDateString();
+    
+    var minDate = this.minDateRange.toDateString();
+    
+    var splitLastDate = datagraphseizures[datagraphseizures.length-1].stringDate;
+    var splitFirstDate = datagraphseizures[0].stringDate;
+    console.log(minDate);
+    console.log(splitFirstDate);
+    console.log(maxDate);
+    console.log(splitLastDate);
+      if(splitLastDate<maxDate){
+        console.log('hay mayires');
+        datagraphseizures.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
+      }
+      if(new Date(minDate)<new Date(splitFirstDate)){
+        console.log('hay menores');
+        console.log(minDate);
+        datagraphseizures.push({value: 0,name:minDate,stringDate:minDate, types: []})
+      }
+      var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
+      datagraphseizures.sort(this.sortService.DateSortInver("stringDate"));
+      console.log(datagraphseizures);
+    for (var j = 0; j < datagraphseizures.length; j=j+1) {
+      var foundDate = false;
+      var actualDate = datagraphseizures[j].stringDate;
+      if(datagraphseizures[j+1]!=undefined){
+        var nextDate = datagraphseizures[j+1].stringDate;
+        //stringDate
+        for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+          var theDate = new Date(actualDate);
+          theDate.setDate(theDate.getDate()+1);
+          actualDate = theDate.toDateString();
+          if(actualDate != nextDate){
+            copydatagraphseizures.push({value: 0,name:actualDate,stringDate:actualDate, types: []})
+          }else{
+            foundDate = true;
+          }
+          
+        }
+        if(datagraphseizures[j+2]!=undefined){
+        var actualDate = datagraphseizures[j+1].stringDate;
+        var nextDate = datagraphseizures[j+2].stringDate;
+        for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+          var theDate = new Date(actualDate);
+          theDate.setDate(theDate.getDate()+1);
+          actualDate = theDate.toDateString();
+          if(actualDate != nextDate){
+            copydatagraphseizures.push({value: 0,name:actualDate,stringDate:actualDate, types: []})
+          }
+          
+        }
+  
+        }
+      }
+    }
+    copydatagraphseizures.sort(this.sortService.DateSortInver("stringDate"));
+    for (var j = 0; j < copydatagraphseizures.length; j++) {
+      copydatagraphseizures[j].name = copydatagraphseizures[j].stringDate
+      var theDate = new Date(copydatagraphseizures[j].name);
+      copydatagraphseizures[j].name = this.tickFormattingDay(theDate)
+    }
+    console.log(copydatagraphseizures);
+    return copydatagraphseizures;
   }
 
   getStructure2(res){
@@ -687,9 +784,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.normalized){
       this.titleDose = this.titleDrugsVsNormalized;
     }else{
-      this.translate.get('medication.Dose mg').subscribe((res: string) => {
-        this.titleDose = res;
-      });
+      this.titleDose = this.titleDrugsVsNoNormalized;
     }
       var templineChartDrugs = JSON.parse(JSON.stringify(this.lineChartDrugsCopy));
       this.lineChartDrugs = [];
@@ -733,6 +828,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getDataNormalizedDrugsVsSeizures(){
     var meds = this.getStructure(this.medications);
     var seizu = this.getStructure2(this.events);
+    seizu = this.add0Seizures(seizu);
     var copymeds = JSON.parse(JSON.stringify(meds));
     for (var i = 0; i < meds.length; i++) {
       for (var j = 0; j < meds[i].series.length; j=j+2) {
