@@ -10,7 +10,6 @@ import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstr
 import { PatientService } from 'app/shared/services/patient.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
-import { EventsService } from 'app/shared/services/events.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -72,9 +71,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   pendingsTaks: number = 13;
   totalTaks: number = 0;
   private subscription: Subscription = new Subscription();
-  tasksLoaded: boolean = false;
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private eventsService: EventsService, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
     if (this.isApp) {
       if (device.platform == 'android' || device.platform == 'Android') {
         this.isAndroid = true;
@@ -120,10 +118,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.config = this.configService.templateConf;
 
     this.loadPatientId();
-
-    this.eventsService.on('changeprompendings', function (number) {
-      this.loadNotifications();
-    }.bind(this));
   }
 
   ngAfterViewInit() {
@@ -179,44 +173,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription.add(this.patientService.getPatientId()
       .subscribe((res: any) => {
         this.authService.setCurrentPatient(res);
-        this.loadNotifications();
         //.sub
       }, (err) => {
         console.log(err);
       }));
-  }
-
-  loadNotifications() {
-    this.tasksLoaded = false;
-    this.totalTaks = 0;
-    if (this.authService.getRole() == 'User') {
-      this.subscription.add(this.patientService.getPatientId()
-        .subscribe((res: any) => {
-          if (res != null) {
-            var info = { rangeDate: '' }
-            this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
-              .subscribe((res: any) => {
-                if(this.pendingsTaks - res.length>0){
-                  this.totalTaks++;
-                }
-                this.tasksLoaded = true;
-              }, (err) => {
-                console.log(err);
-                this.tasksLoaded = true;
-              }));
-          }
-
-        }, (err) => {
-          console.log(err);
-        }));
-    }
-
-
-  }
-
-
-  delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

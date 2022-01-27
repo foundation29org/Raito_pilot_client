@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DateService } from 'app/shared/services/date.service';
-import { EventsService } from 'app/shared/services/events.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { Observable, of, OperatorFunction } from 'rxjs';
@@ -72,7 +71,7 @@ export class PromComponent {
   a122: string = '';
 
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
     this.subscription.add( this.route.params.subscribe(params => {
       if(params['pendind']!=undefined){
         this.pendind = params['pendind'];
@@ -240,7 +239,6 @@ export class PromComponent {
             this.actualProm = this.newproms[this.step];
           }
           this.goNext = false;
-          this.eventsService.broadcast('changeprompendings', '');
         }, (err) => {
           console.log(err);
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
@@ -259,7 +257,6 @@ export class PromComponent {
             this.actualProm = this.newproms[this.step];
           }
           this.goNext = false;
-          this.eventsService.broadcast('changeprompendings', '');
         }, (err) => {
           console.log(err);
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
@@ -275,7 +272,6 @@ export class PromComponent {
           console.log(res);
           this.sending = false;
           this.init();
-          this.eventsService.broadcast('changeprompendings', '');
         }, (err) => {
           console.log(err);
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");

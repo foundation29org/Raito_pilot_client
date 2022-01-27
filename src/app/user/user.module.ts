@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { FeelComponent } from './feel/feel.component';
 import { PromComponent } from './prom/prom.component';
+import { ComboChartComponent, ComboSeriesVerticalComponent } from './home/combo-chart';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -52,7 +53,9 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
         HomeComponent,
         PersonalInfoComponent,
         FeelComponent,
-        PromComponent
+        PromComponent,
+        ComboChartComponent,
+        ComboSeriesVerticalComponent
     ]
 })
 export class UserModule { }

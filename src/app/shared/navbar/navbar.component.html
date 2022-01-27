@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" style="padding: 0 25px !important;" [ngClass]="((role == 'Clinical') && isClinicalPage)?'menuClinic-sm':''" >
     <div class="container-fluid">
       <div>
-          <button type="button" class="mt-2 d-lg-none navbar-toggle float-left" data-toggle="collapse" (click)="toggleSidebar()">
+          <button type="button" class="mt-2 d-lg-none navbar-toggle float-left white" data-toggle="collapse" (click)="toggleSidebar()">
               <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -44,64 +44,9 @@
         <div class="navbar-container pl-0 pt-2">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
-                  <!--<li class="nav-item mr-2" *ngIf="totalTaks>0 && tasksLoaded">
-                    <a class="nav-link position-relative" id="dropdownBasic2" title="{{'topnavbar.Notifications' | translate }}" routerLink="/prom" >
-                        <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
-                        <span class="notification badge badge-pill badge-danger">{{totalTaks}}</span>
-                        <p class="d-none">Notifications</p>
-                    </a>
-
-                 </li>-->
-                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement" *ngIf="totalTaks>0 && tasksLoaded">
-                        <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'topnavbar.Notifications' | translate }}">
-                            <i class="ft-bell font-medium-3 blue-grey darken-4"></i>
-                            <span *ngIf="totalTaks>0" class="notification badge badge-pill badge-danger">{{totalTaks}}</span>
-                            <p class="d-none">Notifications</p>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                              <a *ngIf="totalTaks>0 && tasksLoaded" class="dropdown-item py-1" [routerLink]="['/prom', { pendind: true}]">
-                                <span class="">
-                                  {{'prom.You have datapoints to complete' | translate }}
-                                </span>
-                              </a>
-                              <a *ngIf="totalTaks==0 && tasksLoaded" class="dropdown-item py-1">
-                                <span class="noti-text">
-                                  {{'topnavbar.There are no notifications to show' | translate }}
-                                </span>
-                              </a>
-                              
-                                <!--<a class="dropdown-item noti-container py-3 border-bottom border-bottom-blue-grey border-bottom-lighten-4" style="cursor: pointer;" *ngFor="let task of tasks ; let j = index">
-                                    <i class="ft-bell info float-left d-block font-large-1mt-1 mr-2"></i>
-                                    <span class="noti-wrapper">
-                                        <span class="noti-title line-height-1 d-block text-bold-400 info">{{'topnavbar.Analyzing information' | translate }}</span>
-                                        <span class="noti-text">
-                                          <span>
-                                            <strong>{{'topnavbar.Patient' | translate }}: </strong>
-                                            <span *ngIf="task.status!='Succeeded'">{{task.patientName}}</span>
-                                            <span *ngIf="task.status=='Succeeded'"><a class="primary" (click)="goToPatient(task.patientId, j)">{{task.patientName}}</a></span>
-                                          </span>
-                                          <span class="ml-2">
-                                            <strong>{{'topnavbar.Status' | translate }}: </strong>
-                                            <span *ngIf="task.status=='Created'">{{'topnavbar.Created' | translate }}</span>
-                                            <span *ngIf="task.status=='Running'">{{'topnavbar.Running' | translate }}</span>
-                                            <span *ngIf="task.status=='Succeeded'">{{'topnavbar.Succeeded' | translate }}</span>
-                                            <span *ngIf="task.status=='Failed'">{{'topnavbar.Failed' | translate }}</span>
-                                          </span>
-                                        </span>
-                                    </span>
-                                    <a *ngIf="task.status=='Failed' || task.status=='Succeeded'" class="float-right close-task" data-original-title="" title="{{'generics.Close' | translate }}" (click)="deleteTask(j)">
-                                      <i class="ft-x"></i>
-                                    </a>
-                                </a>
-                                <a *ngIf="tasks.length>0" class="noti-footer primary text-center d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="clearNotifications();">{{'topnavbar.Clear notifications' | translate }}</a>
-                                <span *ngIf="tasks.length==0" class="noti-footer text-center text-muted d-block border-top border-top-blue-grey border-top-lighten-4 text-bold-400 py-1" (click)="isCollapsed = !isCollapsed">{{'topnavbar.There are no notifications to show' | translate }}</span>-->
-                           
-                          </div>
-
-                    </li>
-                  <li class="nav-item mr-2" ngbDropdown display="dynamic" [placement]="placement">
+                  <li class="nav-item mr-2" ngbDropdown display="dynamic">
                       <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                          <i class="ft-user font-medium-3 blue-grey darken-4"></i>
+                          <i class="ft-user font-medium-3 white"></i>
                           <p class="d-none">{{'navbar.User Settings' | translate }}</p>
                       </a>
                       <div ngbDropdownMenu aria-labelledby="dropdownBasic3">

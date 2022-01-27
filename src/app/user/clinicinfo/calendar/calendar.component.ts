@@ -55,6 +55,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   activeDayIsOpen: boolean = true;
   loading: boolean = false;
   saving: boolean = false;
+  importing: boolean = false;
 
   private msgDataSavedOk: string;
   private msgDataSavedFail: string;
@@ -242,7 +243,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   uploadSeizures(seizurelist){
     this.imported = 0;
     var listToUpload = [];
-
+    this.importing = true;
     for(var i = 0; i < seizurelist.length; i++) {
       //inicio variables
 
@@ -384,7 +385,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     .subscribe( (res : any) => {
       //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
       for(var i = 0; i < listToUpload.length; i++) {
-        console.log(listToUpload[i]);
         var foundElementDrugIndex = this.searchService.searchIndex(this.events, 'GUID', listToUpload[i].GUID);
         if(foundElementDrugIndex==-1){
           this.events.push(listToUpload[i]);
@@ -392,6 +392,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
         }
       }
       this.refresh.next();
+      this.importing = false;
       if(this.imported>0){
         this.toastr.success('', 'Imported seizures: '+ listToUpload.length);
       }else{
@@ -400,6 +401,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       this.loadEvents();
      }, (err) => {
        console.log(err);
+       this.importing = false;
        if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
          this.authGuard.testtoken();
        }else{

@@ -15,6 +15,32 @@
   background-color: #33b0b3 !important;
 }*/
 
+.popover .popover-header {
+  background-color: #4d4a4a;
+  border-color: #060606;
+  color: white;
+}
+
+.btn-white, .btn-white {
+  background-color: #fff !important;
+  color: #343a40 !important;
+  border-color: #fff;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 1rem;
+}
+
+.btn-white:hover {
+  color: #ffffff !important;
+  background-color: #343a40 !important;
+  border-color: rgb(24, 23, 23) !important;
+}
+
+.btn-white:focus, .btn-white.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem #222222 !important;
+}
+
+
 .dropdown-item.active{
   background-color: #343a40;
 }

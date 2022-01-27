@@ -92,6 +92,14 @@
   transform: rotate(45deg);
 }
 
+p{
+  font-size: 11px !important;
+}
+
+span{
+  font-size: 11px !important;
+}
+
 @media ( max-width: 350px ){
 
   .optionsCharts > span > button{

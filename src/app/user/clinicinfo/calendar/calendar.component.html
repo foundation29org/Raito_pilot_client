@@ -23,7 +23,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<label>{{'seizures.Seizure type' | translate }}</label> <button
-														(click)="goto('2');" class="btn btn-sm mr-1 mb-0 btn-fab"
+														(click)="goto('2');" class="btn btn-sm btn-primary round ml-1 mb-0 btn-fab"
 														title="More info">
 														<em class="fa fa-info w-13"></em>
 													</button>
@@ -156,10 +156,14 @@
 						<div class="mt-4 pb-0 card-footer col-md-12">
 							<div class="center-elements">
 								<span>
-									<label class="btn btn-sm btn-dark">
+									<label class="btn btn-sm btn-dark" *ngIf="!importing">
 										<input id="file" type="file" style="display:none;" accept=".json"
 											(change)="onImport($event)" />
 										{{'seizures.Import from seizure tracker' | translate }}
+									</label>
+									<label *ngIf="importing" class="text-center">
+										<i class="fa fa-spinner fa-spin fa-fw"></i>
+										{{'generics.Please wait' | translate }}
 									</label>
 									<a (click)="showHelpSeizureTrackerPopup(contentInfoSeizureTracker);"
 										class="ml-2 info" title="{{'seizures.I need help' | translate }}">

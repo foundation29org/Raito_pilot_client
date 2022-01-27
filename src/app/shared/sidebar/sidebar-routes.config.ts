@@ -12,7 +12,7 @@ export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
     { path: '/home', title: 'menu.Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
     { path: '/patient-info', title: 'menu.Basic Info', icon: 'ft-user', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
     {
-        path: '', title: 'menu.Personal Info', icon: 'ft-clipboard', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
+        path: '', title: 'menu.Personal Info', icon: 'fas fa-microscope', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
             { path: '/symptoms', title: 'menu.Phenotype', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             //{ path: '/genotype', title: 'menu.Genotype', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
