@@ -4,15 +4,12 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div *ngIf="step=='0' || step=='1'">
-                        <a routerLink="/home" class="btn btn-primary" title="{{'menu.Dashboard' | translate }}">
-                            <span class="menu-title">{{'menu.Dashboard' | translate }}</span>
-                        </a>
-                        <button class="ml-1 pull-right btn btn-primary" (click)="openStats()">
+                        <button class="ml-1 pull-right btn btn-primary btn-sm" (click)="openStats()">
                             <i class="fa fa-history font-medium-3"></i>
                         </button>
                     </div>
                     <div *ngIf="step=='0'">
-                        <h2 class="text-center content-header mb-3">{{'homeraito.p6' | translate }}</h2>
+                        <h2 class="content-header mt-0 mb-2">{{'homeraito.p6' | translate }}</h2>
                         <span [formGroup]="feelForm">
                             <div class="form-group">
                                 <label>{{'feel.q1' | translate }}</label>

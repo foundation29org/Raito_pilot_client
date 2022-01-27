@@ -1,12 +1,40 @@
 .navbar {
-  top: 91% !important;
+  //top: 91% !important;
+  top: -webkit-calc(100% - 50px);
+  top: calc(100% - 50px);
   background-color: #343a40;
   //border-top-left-radius: 1.5rem;
   //border-top-right-radius: 1.5rem;
 }
 
+.navbar .navbar-nav {
+  display: flex;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-container{
+  width: 100%;
+}
+
 .dropdown-toggle::after {
   display:none;
+}
+
+.navbar-expand-lg .navbar-nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.dropdown-item {
+  line-height: 1rem;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -78,11 +106,11 @@
 
 @media ( max-width: 991px ){
 .navbar-container {
-    width: unset !important;
+    width: 100% !important;
   }
 
   .navbar-header {
-      width: unset !important;
+      width: 100% !important;
     }
 
     .menuClinic-sm{
@@ -116,9 +144,6 @@
 }
 
 @media (max-width: 320px) {
-  .navbar .navbar-nav{
-    display: ruby-base !important;
-  }
   .logo-img{
     width: 40px;
   }

@@ -211,13 +211,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.basicInfoPatient.group!=null){
       this.valueprogressbar = 20;
     }
-    if(this.medications.length > 0){
+    if(this.medications.length > 0 && !this.showNotiDrugs){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.events.length > 0){
+    if(this.events.length > 0 && !this.showNotiSeizu){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.feels.length > 0){
+    if(this.feels.length > 0 && !this.showNotiFeel){
       this.valueprogressbar=this.valueprogressbar+20;
     }
     if(this.basicInfoPatient.consentGivenGTP){
@@ -651,7 +651,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           if (res.length > 0) {
             res.sort(this.sortService.DateSortInver("date"));
-            this.showNotiSeizu = this.showNotifications(res[res.length-1].start, 7)
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, 7)
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -868,7 +868,6 @@ getWeek(newdate, dowOffset?) {
         console.log(res);
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
-          console.log(res);
           this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 14)
           this.searchTranslationDrugs();
           this.groupMedications();
