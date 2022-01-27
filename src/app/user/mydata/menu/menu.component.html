@@ -5,7 +5,8 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div>
-                        <h2 class="text-center content-header mb-3">{{'mydata.title' | translate }}</h2>
+                        <h2 class="text-center content-header">{{'mydata.title' | translate }}</h2>
+                        <p>{{'mydata.desc' | translate }}</p>
                         <!--One open panel at a time Starts-->
                     <ngb-accordion #accordion [closeOthers]="true">
                         <ngb-panel id="1">
@@ -117,7 +118,7 @@
                     <div>
                         <a class="danger font-small-1 mt-2" style="position: relative;top: 8px;"
                             (click)="showHelpFHIRPopup(contentInfoFHIR);">{{'mydata.All data saved with FHIR standard' | translate }}</a> <img
-                            class="logo-img" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
+                            class="logo-img mt-1" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
                     </div>
                     </div>
                 </div>

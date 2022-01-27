@@ -656,17 +656,22 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.medication.dose = this.medication.dose.replace(",", '.');
     var maxDose = 0;
     var actualRecommendedDoses = this.recommendedDoses[this.medication.drug];
-    if (actualRecommendedDoses.data == 'onlykids') {
-      maxDose = actualRecommendedDoses.kids.maintenancedose.max;
-    }
-    if (actualRecommendedDoses.data == 'yes') {
-      maxDose = actualRecommendedDoses.adults.maintenancedose.max;
-    }
-    if (Number(this.medication.dose) > Number(maxDose)) {
-      return false;
-    } else {
+    if(actualRecommendedDoses==undefined){
       return true;
+    }else{
+      if (actualRecommendedDoses.data == 'onlykids') {
+        maxDose = actualRecommendedDoses.kids.maintenancedose.max;
+      }
+      if (actualRecommendedDoses.data == 'yes') {
+        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
+      }
+      if (Number(this.medication.dose) > Number(maxDose)) {
+        return false;
+      } else {
+        return true;
+      }
     }
+    
   }
 
   onSubmit() {

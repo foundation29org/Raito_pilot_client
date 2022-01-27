@@ -16,7 +16,7 @@
 					<section id="listMeditationSection" *ngIf="!viewMeditationSection">
 						<div class="row">
 							<div class="col-sm-12 center-elements">
-								<button *ngIf="!loading" type="button" class="btn mt-2 btn-dark"
+								<button *ngIf="!loading" type="button" class="btn btn-dark"
 									(click)="newMedication()">{{'medication.New drug or dose' | translate }}</button>
 							</div>
 						</div>
@@ -28,11 +28,11 @@
 						<div *ngIf="!loading">
 							<div *ngIf="medications.length>0">
 								<div class="row" *ngIf="actualMedications.length>0">
-									<div class="col-md-12 mt-4">
+									<div class="col-md-12 mt-2">
 										<h4 class="text-bold-400">{{'medication.Current drugs' | translate }}</h4>
 									</div>
 									<div class="col-md-12" *ngFor="let medication of actualMedications; let i = index">
-										<div class="card gradient-red-ocean">
+										<div class="card gradient-red-ocean mt-0">
 											<div class="card-body">
 												<div class="card-block pb-0">
 													<div class="media">
@@ -78,11 +78,11 @@
 									<h4 class="text-bold-400">{{'medication.Currently it is not taking drugs' | translate }}</h4>
 								</div>
 								<div class="row" *ngIf="oldMedications.length>0">
-									<div class="col-md-12 mt-4">
+									<div class="col-md-12 mt-2">
 										<h4 class="text-bold-400">{{'medication.Previous drugs' | translate }}</h4>
 									</div>
 									<div class="col-md-12" *ngFor="let medication of oldMedications; let i = index">
-										<div class="card gradient-red-ocean">
+										<div class="card gradient-red-ocean mt-0">
 											<div class="card-body">
 												<div class="card-block pb-0">
 													<div class="media">
@@ -113,14 +113,14 @@
 										</div>
 									</div>
 								</div>
-								<div class="row" *ngIf="oldMedications.length==0">
+								<!--<div class="row" *ngIf="oldMedications.length==0">
 									<div class="col-md-12 mt-4">
 										<h4 class="text-bold-400">{{'medication.No older drugs' | translate }}</h4>
 									</div>
-								</div>
+								</div>-->
 							</div>
 							<div class="row" *ngIf="medications.length==0">
-								<div class="col-md-12 mt-4 center-elements">
+								<div class="col-md-12 center-elements">
 									<p class="text-bold-400">{{'medication.No saved drugs' | translate }}</p>
 								</div>
 							</div>

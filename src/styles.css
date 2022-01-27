@@ -15,6 +15,59 @@
   background-color: #33b0b3 !important;
 }*/
 
+p{
+  font-size: 11px !important;
+}
+
+span{
+  font-size: 11px !important;
+}
+
+form label {
+  color: #75787d;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0px;
+  font-weight: 500;
+}
+
+.form-control{
+  font-size: 11px;
+}
+.card{
+  font-size: 11px;
+}
+
+form .form-group {
+  margin-bottom: 1rem;
+}
+
+.popover .popover-header {
+  background-color: #343a40;
+  border-color: #060606;
+  color: white;
+}
+
+.btn-white, .btn-white {
+  background-color: #fff !important;
+  color: #343a40 !important;
+  border-color: #fff;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 1rem;
+}
+
+.btn-white:hover {
+  color: #ffffff !important;
+  background-color: #343a40 !important;
+  border-color: rgb(24, 23, 23) !important;
+}
+
+.btn-white:focus, .btn-white.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem #222222 !important;
+}
+
+
 .dropdown-item.active{
   background-color: #343a40;
 }
@@ -40,10 +93,6 @@
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-p{
-  font-size: 1rem;
 }
 
 footer{
@@ -346,10 +395,10 @@ mark{
 
 @media ( max-width: 575px ){
   body{
-    font-size: 0.8rem !important;
+    font-size: 11px !important;
   }
   p {
-    font-size: 0.8rem !important;
+    font-size: 11px !important;
   }
   h1, .h1 {
     font-size: 1.4rem;
