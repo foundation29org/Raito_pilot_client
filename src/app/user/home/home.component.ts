@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -167,7 +168,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   showNotiFeel: boolean = false;
   showNotiDrugs: boolean = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService) {
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
     this.lang = this.authService.getLang();
     switch (this.authService.getLang()) {
@@ -211,13 +212,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.basicInfoPatient.group!=null){
       this.valueprogressbar = 20;
     }
-    if(this.medications.length > 0){
+    if(this.medications.length > 0 && !this.showNotiDrugs){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.events.length > 0){
+    if(this.events.length > 0 && !this.showNotiSeizu){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.feels.length > 0){
+    if(this.feels.length > 0 && !this.showNotiFeel){
       this.valueprogressbar=this.valueprogressbar+20;
     }
     if(this.basicInfoPatient.consentGivenGTP){
@@ -242,6 +243,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   setCheck2(bool){
     this.checks.check2 = bool;
+    this.setChecks();
+  }
+
+  setCheck3(bool){
+    this.checks.check3 = bool;
+    this.router.navigate(['/patient-info']);
+    this.setChecks();
+  }
+
+  setCheck4(bool){
+    this.checks.check4 = bool;
     this.setChecks();
   }
 
@@ -520,8 +532,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (response == 'No') {
       //set patient Group to none
-      this.setPatientGroup('None');
-      this.step = '0';
+      //this.setPatientGroup('None');
+      this.step = '4';
     } else {
       this.step = '1';
       this.loadGroups();
@@ -534,6 +546,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   question3(response) {
     this.basicInfoPatient.consentGivenGTP = response;
+    console.log(this.basicInfoPatient.consentGivenGTP);
     this.step = '3';
     this.setPatientGroup(this.basicInfoPatient.group);
   }
@@ -651,7 +664,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           if (res.length > 0) {
             res.sort(this.sortService.DateSortInver("date"));
-            this.showNotiSeizu = this.showNotifications(res[res.length-1].start, 7)
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, 7)
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -868,7 +881,6 @@ getWeek(newdate, dowOffset?) {
         console.log(res);
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
-          console.log(res);
           this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 14)
           this.searchTranslationDrugs();
           this.groupMedications();

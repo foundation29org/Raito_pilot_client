@@ -5,15 +5,12 @@
 				<div class="col-12 col-sm-12 align-items-center">
 					<div *ngIf="step=='0'">
 						<div>
-							<a routerLink="/home" class="btn btn-primary" title="{{'menu.Dashboard' | translate }}">
-								<span class="menu-title">{{'menu.Dashboard' | translate }}</span>
-							</a>
-							<button *ngIf="events.length>0" class="ml-1 pull-right btn btn-primary"
+							<button *ngIf="events.length>0" class="ml-1 pull-right btn btn-primary btn-sm"
 								(click)="openStats()">
 								<i class="fa fa-history font-medium-3"></i>
 							</button>
 						</div>
-						<h2 class="text-center content-header mb-3">{{'homeraito.p5' | translate }}</h2>
+						<h2 class="content-header mt-0 mb-2">{{'homeraito.p5' | translate }}</h2>
 
 						<div class="row">
 							<div class="col-md-12">

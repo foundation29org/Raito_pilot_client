@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div>
-                        <h2 class="text-center content-header">{{'mydata.title' | translate }}</h2>
+                        <h2 class="content-header mt-0">{{'mydata.title' | translate }}</h2>
                         <p>{{'mydata.desc' | translate }}</p>
                         <!--One open panel at a time Starts-->
                     <ngb-accordion #accordion [closeOthers]="true">
@@ -22,6 +22,7 @@
                                 </div>
                                 <div>
                                     <p class="danger">{{'generics.Under construction' | translate }}</p>
+                                    <img class="w-100" src='assets/img/pages/democontainer.jpg'>
                                 </div>
                             </ng-template>
                         </ngb-panel>
@@ -73,7 +74,7 @@
                                 <div>
                                     <p class="text-muted">{{'mydata.sharepart1' | translate }}</p>
                                     <p class="text-muted">{{'mydata.sharepart2' | translate }}</p>
-                                    <p class="danger">{{'generics.Under construction' | translate }}</p>
+                                    <p class="danger">{{'generics.construction' | translate }}</p>
                                     <div class="center-elements">
                                         <button class="btn btn-dark" type="button">{{'generics.ShareData' | translate }}</button>
                                     </div>
@@ -139,7 +140,5 @@
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
         <p>{{'mydata.FHIR1' | translate }}</p>
-        <p>{{'mydata.FHIR2' | translate }}</p>
-        <p>{{'mydata.FHIR3' | translate }}</p>
     </div>
 </ng-template>
