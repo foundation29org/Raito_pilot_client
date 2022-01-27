@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit, OnDestroy {
    actualHeight: any;
    settingHeight: boolean = false;
    footHeight: any;
-   heightHistory: any = [];
  
    //Chart Data
    lineChartSeizures = [];
@@ -161,8 +160,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   showRightYAxisLabel: boolean = true;
   yAxisLabelRight: string = 'Dose mg/kg';
   valueprogressbar=0;
-
+  checks: any = {};
   consentgroup: boolean = false;
+  recommendedDoses: any = [];
+  showNotiSeizu: boolean = false;
+  showNotiFeel: boolean = false;
+  showNotiDrugs: boolean = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -220,6 +223,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.basicInfoPatient.consentGivenGTP){
       this.valueprogressbar=this.valueprogressbar+20;
     }
+  }
+
+  getChecks(){
+    this.subscription.add( this.http.get(environment.api+'/api/patient/checks/'+this.authService.getCurrentPatient().sub)
+    .subscribe( (res : any) => {
+      console.log(res);
+      this.checks = res.checks;
+     }, (err) => {
+       console.log(err.error);
+     }));
+  }
+  
+  setCheck1(bool){
+    this.checks.check1 = bool;
+    this.setChecks();
+  }
+
+  setCheck2(bool){
+    this.checks.check2 = bool;
+    this.setChecks();
+  }
+
+  setChecks(){
+    var paramssend = { checks: this.checks };
+    this.subscription.add( this.http.put(environment.api+'/api/patient/checks/'+this.authService.getCurrentPatient().sub, paramssend)
+    .subscribe( (res : any) => {
+      
+     }, (err) => {
+       console.log(err.error);
+     }));
   }
 
   getConsentGroup(){
@@ -281,6 +314,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadNotifications();
     this.getInfoPatient();
     this.getConsentGroup();
+    this.getChecks();
   }
 
   loadNotifications() {
@@ -410,6 +444,18 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.selectedPatient = this.authService.getCurrentPatient();
       this.loadEnvironment();
     }
+    this.loadRecommendedDose();
+  }
+
+  loadRecommendedDose() {
+    this.recommendedDoses = [];
+    //load countries file
+    this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
+      .subscribe((res: any) => {
+        console.log(res)
+        this.recommendedDoses = res;
+      }));
+
   }
 
   loadPatientId(){
@@ -504,6 +550,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   goStep(index) {
     this.step = index;
+    this.updateProgress();
   }
 
   loadData() {
@@ -524,7 +571,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           resFeels.sort(this.sortService.DateSortInver("date"));
           this.feels = resFeels;
-          this.heightHistory = resFeels;
+          if(this.feels.length>0){
+            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, 7)
+          }else{
+            this.showNotiFeel = false;
+          }
+          
           var datagraphheight = [];
           for (var i = 0; i < resFeels.length; i++) {
             var splitDate = new Date(resFeels[i].date);
@@ -571,6 +623,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
   }
 
+  showNotifications(date, period){
+    //this.today
+    var pastDate=new Date(date);
+    pastDate.setDate(pastDate.getDate() + period);
+    if(pastDate<this.today){
+      console.log(pastDate);
+      console.log(this.today);
+      console.log('Han pasado '+period+' dias');
+      return true;
+    }else{
+      console.log('No han pasado '+period+' dias');
+      return false;
+    }
+  }
+
   getSeizures() {
     this.events = [];
     this.lineChartSeizures = [];
@@ -583,6 +650,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.events = [];
         } else {
           if (res.length > 0) {
+            res.sort(this.sortService.DateSortInver("date"));
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].start, 7)
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -608,6 +677,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.getDrugs();
           } else {
             this.events = [];
+            this.showNotiSeizu = false;
             this.getDrugs();
           }
 
@@ -795,8 +865,11 @@ getWeek(newdate, dowOffset?) {
       .subscribe((res: any) => {
         
         this.medications = res;
+        console.log(res);
         if (this.medications.length > 0) {
-          //res.sort(this.sortService.DateSortInver("startDate"));
+          res.sort(this.sortService.DateSortInver("date"));
+          console.log(res);
+          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 14)
           this.searchTranslationDrugs();
           this.groupMedications();
           var datagraphseizures = [];
@@ -810,6 +883,8 @@ getWeek(newdate, dowOffset?) {
           /*if(this.events.length>0){
             this.getDataNormalizedDrugsVsSeizures();
           }*/
+        }else{
+          this.showNotiDrugs = false;
         }
         this.loadedDrugs = true;
         this.updateProgress();
@@ -1115,6 +1190,22 @@ getWeek(newdate, dowOffset?) {
     this.minDateRange = pastDate;
   } 
 
+  getMaxValueRecommededDrug(name){
+    var maxDose = 0;
+    var actualRecommendedDoses = this.recommendedDoses[name];
+    if(actualRecommendedDoses==undefined){
+      return maxDose;
+    }else{
+      if (actualRecommendedDoses.data == 'onlykids') {
+        maxDose = actualRecommendedDoses.kids.maintenancedose.max;
+      }
+      if (actualRecommendedDoses.data == 'yes') {
+        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
+      }
+      return maxDose;
+    }
+  }
+
   normalizedChanged(normalized){
     this.normalized = normalized;
     if(this.normalized){
@@ -1126,9 +1217,13 @@ getWeek(newdate, dowOffset?) {
       this.lineChartDrugs = [];
       var maxValue = 0;
       for (var i = 0; i < this.lineChartDrugsCopy.length; i++) {
+        var maxValueRecommededDrug = this.getMaxValueRecommededDrug(this.lineChartDrugsCopy[i].name);
+        if(maxValueRecommededDrug==0){
+          maxValueRecommededDrug = this.maxValue;
+        }
         for (var j = 0; j < this.lineChartDrugsCopy[i].series.length; j++) {
           if(this.normalized){
-            templineChartDrugs[i].series[j].value = this.normalize(this.lineChartDrugsCopy[i].series[j].value, 0, this.maxValue);
+            templineChartDrugs[i].series[j].value = this.normalize(this.lineChartDrugsCopy[i].series[j].value, 0, maxValueRecommededDrug);
           }
           templineChartDrugs[i].series[j].name = this.lineChartDrugsCopy[i].series[j].name;
           if(maxValue<this.lineChartDrugsCopy[i].series[j].value){

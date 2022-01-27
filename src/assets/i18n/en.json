@@ -1553,6 +1553,8 @@
     "noti3a": "Let's start with: how do you feel?",
     "noti4a": "Your container doesn't have seizures data.",
     "noti4b": "Do you have an event to introduce?",
+    "noti5a": "Your container doesn't have drugs data.",
+    "noti5b": "Do you have any drug to introduce?",
     "Answer": "Answer"
   },
   "reports":{

@@ -22,11 +22,9 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
-													<label>{{'seizures.Seizure type' | translate }}</label> <button
-														(click)="goto('2');" class="btn btn-sm btn-primary round ml-1 mb-0 btn-fab"
-														title="More info">
-														<em class="fa fa-info w-13"></em>
-													</button>
+													<label>{{'seizures.Seizure type' | translate }}</label> 
+														<em class="ft-info font-small-2" style="cursor: pointer;position: absolute;margin-top: 0.275rem !important;margin-left: 0.25rem !important;" (click)="goto('2');" title="More info"></em>
+													
 													{{type}}
 													<select name="event-estructure-type" class="form-control"
 														formControlName="type"
@@ -166,7 +164,7 @@
 										{{'generics.Please wait' | translate }}
 									</label>
 									<a (click)="showHelpSeizureTrackerPopup(contentInfoSeizureTracker);"
-										class="ml-2 info" title="{{'seizures.I need help' | translate }}">
+										class="ml-2 dark" title="{{'seizures.I need help' | translate }}">
 										{{'seizures.I need help' | translate }}
 									</a>
 								</span>

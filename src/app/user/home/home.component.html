@@ -50,7 +50,9 @@
                                 </option>
                             </select>
                             <div class="center-elements">
-                                <button class="mt-3 btn btn-primary" [disabled]="basicInfoPatient.group==null"
+                                <button class="mt-3 btn btn-dark mr-1"
+                                    (click)="step='0'">{{'generics.Previous' | translate }}</button>
+                                <button class="mt-3 btn btn-primary ml-1" [disabled]="basicInfoPatient.group==null"
                                     (click)="question2();">{{'generics.Next' | translate }}</button>
                             </div>
                         </div>
@@ -65,11 +67,17 @@
                             <span class="text-muted font-small-2">
                                 {{'homeraito.p1' | translate }}
                             </span>
+                            <div class="center-elements">
+                                <button class="mt-3 btn btn-dark"
+                                    (click)="step='1'">{{'generics.Previous' | translate }}</button>
+                            </div>
                         </div>
                         <div *ngIf="step=='3'">
                             <h1>{{'homeraito.p2' | translate }}</h1>
                             <div class="center-elements">
-                                <button class="btn btn-primary" (click)="goStep('0')">{{'wizard.btn' | translate
+                                <button class="btn btn-dark mr-1"
+                                    (click)="step='2'">{{'generics.Previous' | translate }}</button>
+                                <button class="btn btn-primary ml-1" (click)="goStep('0')">{{'wizard.btn' | translate
                                     }}</button>
                             </div>
                         </div>
@@ -86,10 +94,10 @@
                 <div class="pl-2 pr-2 pt-2">
                     <h4 class="text-bold-500">{{'topnavbar.Notifications' | translate }}</h4>
                 </div>
-                <div class="pl-2 pr-2 pb-2" style="line-height: 1em;">
+                <div class="pl-2 pr-2 pb-2" style="line-height: 1.2em;">
                     <!--One notification-->
-                    <div class="row font-small-3">
-                        <div class="col-1 pr-0">
+                    <div class="row font-small-3 mb-1" *ngIf="!checks.check1">
+                        <div class="col-1 mt-1 pr-0">
                             <em class="fas fa-info-circle"></em>
                         </div>
                         <div class="col-7 pl-2 pr-0">
@@ -97,15 +105,15 @@
                             <p class="">{{'charts.noti1b' | translate }}</p>
                         </div>
                         <div class="col-4">
-                            <a class="btn btn-white btn-sm w-100">
+                            <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck1(true)">
                                 <span class="">
                                     Ok
                                 </span>
                               </a>
                         </div>
                     </div>
-                    <div class="row font-small-3">
-                        <div class="col-1 pr-0">
+                    <div class="row font-small-3 mb-1" *ngIf="!checks.check2">
+                        <div class="col-1 mt-1 pr-0">
                             <em class="fas fa-info-circle"></em>
                         </div>
                         <div class="col-7 pl-2 pr-0">
@@ -113,60 +121,77 @@
                             <p class="">{{'charts.noti2b' | translate }}</p>
                         </div>
                         <div class="col-4">
-                            <a class="btn btn-white btn-sm w-100">
+                            <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck2(true)">
                                 <span class="">
                                     Ok
                                 </span>
                               </a>
                         </div>
                     </div>
-                    <div class="row font-small-3" *ngIf="feels.length == 0 && loadedFeels">
-                        <div class="col-1 pr-0">
-                            <em class="ft-heart"></em>
+                    <div *ngIf="checks.check1 && checks.check2">
+                        <div class="row font-small-3 mb-1" *ngIf="(events.length == 0 || showNotiSeizu)&& loadedEvents">
+                            <div class="col-1 mt-1 pr-0">
+                                <em class="fas fa-bolt"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="mb-0" *ngIf="events.length == 0">{{'charts.noti4a' | translate }}</p>
+                                <p class="">{{'charts.noti4b' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/seizures">
+                                    <span class="">
+                                        {{'charts.Answer' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
                         </div>
-                        <div class="col-7 pl-2 pr-0">
-                            <p class="mb-0">{{'charts.noti3a' | translate }}</p>
+                        <div class="row font-small-3 mb-1" *ngIf="(medications.length == 0 || showNotiDrugs) && loadedDrugs">
+                            <div class="col-1 mt-1 pr-0">
+                                <em class="fas fa-capsules"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="mb-0" *ngIf="medications.length == 0">{{'charts.noti5a' | translate }}</p>
+                                <p class="">{{'charts.noti5b' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/medication">
+                                    <span class="">
+                                        {{'charts.Answer' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <a class="btn btn-white btn-sm w-100" routerLink="/feel">
-                                <span class="">
-                                    {{'charts.Answer' | translate }}
-                                </span>
-                              </a>
+                        <div class="row font-small-3 mb-1" *ngIf="events.length > 0 && medications.length > 0 && (feels.length == 0 || showNotiFeel) && loadedFeels">
+                            <div class="col-1 mt-1 pr-0">
+                                <em class="ft-heart"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="mb-0">{{'charts.noti3a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/feel">
+                                    <span class="">
+                                        {{'charts.Answer' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3" *ngIf="totalTaks>0 && tasksLoaded">
+                            <div class="col-1 mt-1 pr-0">
+                                <em class="ft-bell"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="mb-0">{{'prom.You have datapoints to complete' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" [routerLink]="['/prom', { pendind: true}]">
+                                    <span class="">
+                                        {{'charts.Answer' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="row font-small-3" *ngIf="events.length == 0 && loadedEvents">
-                        <div class="col-1 pr-0">
-                            <em class="fas fa-bolt"></em>
-                        </div>
-                        <div class="col-7 pl-2 pr-0">
-                            <p class="mb-0">{{'charts.noti4a' | translate }}</p>
-                            <p class="">{{'charts.noti4b' | translate }}</p>
-                        </div>
-                        <div class="col-4">
-                            <a class="btn btn-white btn-sm w-100" routerLink="/seizures">
-                                <span class="">
-                                    {{'charts.Answer' | translate }}
-                                </span>
-                              </a>
-                        </div>
-                    </div>
-                    <div class="row font-small-3" *ngIf="totalTaks>0 && tasksLoaded">
-                        <div class="col-1 pr-0">
-                            <em class="ft-bell"></em>
-                        </div>
-                        <div class="col-7 pl-2 pr-0">
-                            <p class="mb-0">{{'prom.You have datapoints to complete' | translate }}</p>
-                        </div>
-                        <div class="col-4">
-                            <a class="btn btn-white btn-sm w-100" [routerLink]="['/prom', { pendind: true}]">
-                                <span class="">
-                                    {{'charts.Answer' | translate }}
-                                </span>
-                              </a>
-                        </div>
-                    </div>
-                    
                 </div>
             </div>
         </div>

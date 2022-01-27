@@ -18,15 +18,15 @@
                                 <div class="mb-3">
                                     <div *ngIf="step+1<=newproms.length">
                                         <div *ngIf="actualProm.idProm==1">
-                                            <h4 class="">{{'prom.q1' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q1' | translate }}</p>
                                             <input type="number" min="0" class="form-control" [(ngModel)]="actualProm.data">
                                         </div>
                                         <div *ngIf="actualProm.idProm==2">
-                                            <h4 class="">{{'prom.q2' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q2' | translate }}</p>
                                             <input type="number" min="0" class="form-control" [(ngModel)]="actualProm.data">
                                         </div>
                                         <div *ngIf="actualProm.idProm==3">
-                                            <h4 class="">{{'prom.q3' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q3' | translate }}</p>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==4">
-                                            <h4 class="">{{'prom.q4' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q4' | translate }}</p>
                                             <label>{{'prom.q4sub' | translate }}</label>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==5">
-                                            <h4 class="">{{'prom.q5' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q5' | translate }}</p>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
@@ -107,7 +107,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==6">
-                                            <h4 class="">{{'prom.q6' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q6' | translate }}</p>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
@@ -127,7 +127,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==7">
-                                            <h4 class="">{{'prom.q7' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q7' | translate }}</p>
                                             <label>{{'prom.q7sub' | translate }}</label>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
@@ -163,14 +163,14 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==8">
-                                            <h4 class="">{{'prom.q8' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q8' | translate }}</p>
                                             <div class="center-elements">
                                                 <button type="button" class="mr-1 btn btn-primary" (click)="setValue('No')">{{'generics.No' | translate }}</button>
                                                 <button type="button" class="ml-1 btn btn-dark" (click)="setValue('Yes')">{{'generics.Yes' | translate }}</button>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==9">
-                                            <h4 class="">{{'prom.q9' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q9' | translate }}</p>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
@@ -195,7 +195,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==10">
-                                            <h4 class="">{{'prom.q10' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q10' | translate }}</p>
                                             <div class="d-block font-small-2">
                                                 <div class="form-check form-check-block">
                                                     <input class="form-check-input" type="radio" name="state"
@@ -215,7 +215,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==11">
-                                            <h4 class="">{{'prom.q11' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q11' | translate }}</p>
                                             <section class="example-section">
                                                 <h5 class="">{{'prom.q11sub' | translate }}</h5>
                                                 <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom11.Behavior">{{'prom.a11.1' | translate }}</mat-checkbox></p>
@@ -233,13 +233,13 @@
                                               </section>
                                         </div>
                                         <div *ngIf="actualProm.idProm==12">
-                                            <h4 class="">{{'prom.q12' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q12' | translate }}</p>
                                             <div class="form-group">
                                                 <ngx-slider [(value)]="actualProm.data" [options]="options" ></ngx-slider>
                                             </div>
                                         </div>
                                         <div *ngIf="actualProm.idProm==13">
-                                            <h4 class="">{{'prom.q13' | translate }}</h4>
+                                            <p class="mb-1">{{'prom.q13' | translate }}</p>
                                             <div class="form-group">
                                                 <textarea name="answer" id="answer" rows="4" class="form-control" placeholder="{{'prom.Enter your text here' | translate }}" [(ngModel)]="actualProm.data"></textarea>
                                             </div>
@@ -267,9 +267,6 @@
                             {{'prom.No further questions for today' | translate }}
                         </div>
                     </div>
-                    <div *ngIf="!pendind && loadedProms" class="center-elements" style="position: sticky; top: 95vh; z-index: 1;height: 0px;">
-                        <button type="button" class="mr-1 btn btn-dark" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
-                    </div>
                     <div *ngIf="!pendind && loadedProms">
                         <div *ngFor="let prom of newproms ; let i = index">
                             
@@ -278,15 +275,15 @@
                                 <span *ngIf="!prom.hasAnswer"><em class="fa fa-times w-13 danger"></em></span>
                             </p>
                             <div *ngIf="prom.idProm==1">
-                                <h4 class="">{{'prom.q1' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q1' | translate }}</p>
                                 <input type="number" min="0" class="form-control" [(ngModel)]="prom.data">
                             </div>
                             <div *ngIf="prom.idProm==2">
-                                <h4 class="">{{'prom.q2' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q2' | translate }}</p>
                                 <input type="number" min="0" class="form-control" [(ngModel)]="prom.data">
                             </div>
                             <div *ngIf="prom.idProm==3">
-                                <h4 class="">{{'prom.q3' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q3' | translate }}</p>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id3"
@@ -311,7 +308,7 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==4">
-                                <h4 class="">{{'prom.q4' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q4' | translate }}</p>
                                 <label>{{'prom.q4sub' | translate }}</label>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
@@ -347,7 +344,7 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==5">
-                                <h4 class="">{{'prom.q5' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q5' | translate }}</p>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id5"
@@ -367,7 +364,7 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==6">
-                                <h4 class="">{{'prom.q6' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q6' | translate }}</p>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id6"
@@ -387,7 +384,7 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==7">
-                                <h4 class="">{{'prom.q7' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q7' | translate }}</p>
                                 <label>{{'prom.q7sub' | translate }}</label>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
@@ -423,14 +420,14 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==8">
-                                <h4 class="">{{'prom.q8' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q8' | translate }}</p>
                                 <div class="center-elements">
                                     <button type="button" class="mr-1 btn btn-primary" (click)="prom.data='No'">{{'generics.No' | translate }}</button>
                                     <button type="button" class="ml-1 btn btn-dark" (click)="prom.data='Yes'">{{'generics.Yes' | translate }}</button>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==9">
-                                <h4 class="">{{'prom.q9' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q9' | translate }}</p>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id9"
@@ -455,7 +452,7 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==10">
-                                <h4 class="">{{'prom.q10' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q10' | translate }}</p>
                                 <div class="d-block font-small-2">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id10"
@@ -475,7 +472,7 @@
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==11">
-                                <h4 class="">{{'prom.q11' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q11' | translate }}</p>
                                 <section class="example-section">
                                     <h5 class="">{{'prom.q11sub' | translate }}</h5>
                                     <p class="mb-0"><mat-checkbox name="Behavior" [(ngModel)]="prom11.Behavior">{{'prom.a11.1' | translate }}</mat-checkbox></p>
@@ -493,17 +490,20 @@
                                   </section>
                             </div>
                             <div *ngIf="prom.idProm==12">
-                                <h4 class="">{{'prom.q12' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q12' | translate }}</p>
                                 <div class="form-group">
                                     <ngx-slider [(value)]="prom.data" [options]="options" ></ngx-slider>
                                 </div>
                             </div>
                             <div *ngIf="prom.idProm==13">
-                                <h4 class="">{{'prom.q13' | translate }}</h4>
+                                <p class="mb-1">{{'prom.q13' | translate }}</p>
                                 <div class="form-group">
-                                    <textarea name="answer" id="answer" rows="4" class="mb-5 form-control" placeholder="{{'prom.Enter your text here' | translate }}" [(ngModel)]="prom.data"></textarea>
+                                    <textarea name="answer" id="answer" rows="4" class="mb-3 form-control" placeholder="{{'prom.Enter your text here' | translate }}" [(ngModel)]="prom.data"></textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div *ngIf="!pendind && loadedProms" class="center-elements" style="position: sticky; top: 100vh; z-index: 1;">
+                            <button type="button" class="mr-1 btn btn-dark" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
                         </div>
                     </div>
                     <div class="center-elements" *ngIf="!loadedProms">

@@ -1554,6 +1554,8 @@
     "noti3a": "Empecemos por: ¿cómo te sientes?",
     "noti4a": "Tu contenedor no tiene datos de convulsiones.",
     "noti4b": "¿Tienes algún evento que presentar?",
+    "noti5a": "Tu contenedor no tiene datos de medicamentos.",
+    "noti5b": "¿Tienes algún medicamento que presentar?",
     "Answer": "Responder"
   },
   "reports":{
