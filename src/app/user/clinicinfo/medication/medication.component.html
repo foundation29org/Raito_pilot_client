@@ -207,6 +207,14 @@
 																			</span>
 																			
 																		</span>
+																		<span *ngIf="recommendedDoses[medication.drug].data=='onlyadults'">
+																			<span class="d-block">Dosis recomendada para adults</span>
+																			<span class="text-muted">
+																				<span *ngIf="recommendedDoses[medication.drug].adults.initialdose.min!='0' || recommendedDoses[medication.drug].adults.initialdose.max!='0'">
+																					Inicial: {{recommendedDoses[medication.drug].adults.initialdose.min}}-{{recommendedDoses[medication.drug].adults.initialdose.max}} mg/kg</span>
+																				<span class="d-block">Mantenimiento: {{recommendedDoses[medication.drug].adults.maintenancedose.min}}-{{recommendedDoses[medication.drug].adults.maintenancedose.max}} mg/kg</span>
+																			</span>
+																		</span>
 																		<span *ngIf="recommendedDoses[medication.drug].data=='yes'">
 																			<span class="d-block">Dosis recomendada para niños</span>
 																			<span class="text-muted">

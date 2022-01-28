@@ -662,6 +662,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
       if (actualRecommendedDoses.data == 'onlykids') {
         maxDose = actualRecommendedDoses.kids.maintenancedose.max;
       }
+      if (actualRecommendedDoses.data == 'onlyadults') {
+        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
+      }
       if (actualRecommendedDoses.data == 'yes') {
         maxDose = actualRecommendedDoses.adults.maintenancedose.max;
       }

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -29,8 +30,17 @@ export class MenuComponent implements OnInit, OnDestroy {
   loadedPatientId: boolean = false;
   hasGroup: boolean = false;
   consentgroup: boolean = false;
+  activeIds = [];
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService) { }
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute) { 
+    this.subscription.add(this.route
+      .queryParams
+      .subscribe(params => {
+        if(params['panel']!=undefined){
+          this.activeIds=[params['panel']]
+        }
+      }));
+  }
 
   ngOnInit(): void {
     this.loadTranslations();
@@ -91,6 +101,9 @@ loadPatientId(){
       if(res.group!=null){
         this.hasGroup = true;
         this.getConsentGroup();
+        if(this.accordion){
+          this.accordion.activeIds=this.activeIds;
+        }
       }
     }
    }, (err) => {

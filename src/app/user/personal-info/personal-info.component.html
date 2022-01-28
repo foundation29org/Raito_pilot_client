@@ -114,8 +114,8 @@
                                             <option *ngFor="let group of groups" [ngValue]="group.name">
                                                 <span *ngIf="group.name == duchennenetherlands">Duchenne Parent Project Netherlands</span>
                                                 <span *ngIf="group.name == 'Stop Sanfilippo'">Stop Sanfilippo</span>
-                                                <span *ngIf="group.name == 'Epilepsy'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
-                                                <span *ngIf="group.name != 'Stop Sanfilippo' && group.name != 'Epilepsy'  && group.name != 'Undiagnosed'  && group.name != 'None' && group.name != duchennenetherlands">{{group.name}}</span>
+                                                <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
+                                                <span *ngIf="group.name != 'Stop Sanfilippo' && group.name != 'Dravet Syndrome European Federation'  && group.name != 'Undiagnosed'  && group.name != 'None' && group.name != duchennenetherlands">{{group.name}}</span>
                                                 <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
                                                 <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
 
@@ -123,7 +123,7 @@
                                                 </option>
                                         <!--<option value="duchennenetherlands">Duchenne Parent Project Netherlands
                                         </option>
-                                        <option value="Epilepsy">{{'registration.Patients with epilepsy' | translate
+                                        <option value="Dravet Syndrome European Federation">{{'registration.Patients with epilepsy' | translate
                                             }}</option>
                                         <option value="Undiagnosed">{{'registration.I dont have a diagnosis' |
                                             translate }}</option>

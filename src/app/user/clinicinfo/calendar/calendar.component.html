@@ -66,7 +66,7 @@
 											<div class="col-8">
 												<div class="form-group">
 													<label>{{'seizures.Duration' | translate }}</label>
-													<input type="number" min="0" class="form-control" id="numericos2"
+													<input type="number" min="0" class="col-5 form-control" id="numericos2"
 														formControlName="duracion"
 														[ngClass]="{ 'is-invalid': submitted && f.duracion.errors }"
 														name="numericos2" digits>
@@ -144,7 +144,7 @@
 								</form>
 							</div>
 							<div class="col-md-12 center-elements">
-								<button type="button" class="btn btn-dark" (click)="saveData();">{{'generics.Save' |
+								<button type="button" class="btn btn-dark" (click)="saveData();">{{'generics.SaveAndClose' |
 									translate }}</button>
 							</div>
 						</div>
@@ -160,8 +160,8 @@
 										<i class="fa fa-spinner fa-spin fa-fw"></i>
 										{{'generics.Please wait' | translate }}
 									</label>
-									<a (click)="showHelpSeizureTrackerPopup(contentInfoSeizureTracker);"
-										class="ml-2 dark" title="{{'seizures.I need help' | translate }}">
+									<a *ngIf="!importing" (click)="showHelpSeizureTrackerPopup(contentInfoSeizureTracker);"
+										class="d-block dark" title="{{'seizures.I need help' | translate }}">
 										{{'seizures.I need help' | translate }}
 									</a>
 								</span>
