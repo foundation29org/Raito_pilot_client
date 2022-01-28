@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.feels.length > 0 && !this.showNotiFeel){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.basicInfoPatient.consentGivenGTP){
+    if(this.basicInfoPatient.consentgroup){
       this.valueprogressbar=this.valueprogressbar+20;
     }
   }
@@ -255,6 +255,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   setCheck4(bool){
     this.checks.check4 = bool;
     this.setChecks();
+    this.router.navigate(['/mydata'], { queryParams: { panel : '2' } })
+    //this.router.navigate(['/mydata'], { newTreatment: true });
   }
 
   setChecks(){
@@ -501,6 +503,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadedInfoPatient = false;
     this.subscription.add(this.http.get(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub)
       .subscribe((res: any) => {
+        console.log(res);
         this.basicInfoPatient = res.patient;
         this.basicInfoPatient.birthDate = this.dateService.transformDate(res.patient.birthDate);
         this.basicInfoPatientCopy = JSON.parse(JSON.stringify(res.patient));
@@ -545,8 +548,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   question3(response) {
-    this.basicInfoPatient.consentGivenGTP = response;
-    console.log(this.basicInfoPatient.consentGivenGTP);
+    this.basicInfoPatient.consentgroup = response;
+    console.log(this.basicInfoPatient.consentgroup);
     this.step = '3';
     this.setPatientGroup(this.basicInfoPatient.group);
   }
@@ -892,9 +895,9 @@ getWeek(newdate, dowOffset?) {
           this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
           this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
           this.normalizedChanged(this.normalized);
-          /*if(this.events.length>0){
+          if(this.events.length>0){
             this.getDataNormalizedDrugsVsSeizures();
-          }*/
+          }
         }else{
           this.showNotiDrugs = false;
         }
@@ -1210,6 +1213,9 @@ getWeek(newdate, dowOffset?) {
     }else{
       if (actualRecommendedDoses.data == 'onlykids') {
         maxDose = actualRecommendedDoses.kids.maintenancedose.max;
+      }
+      if (actualRecommendedDoses.data == 'onlyadults') {
+        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
       }
       if (actualRecommendedDoses.data == 'yes') {
         maxDose = actualRecommendedDoses.adults.maintenancedose.max;

@@ -209,6 +209,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
           this.submitted = false;
           this.seizuresForm.reset();
           this.addEvent();
+          this.router.navigate(['/home']);
          }, (err) => {
            console.log(err);
            this.saving = false;
