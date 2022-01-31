@@ -250,6 +250,7 @@ import {
       }
   
       this.yDomainLine = this.getYDomainLine();
+      console.log(this.yDomainLine);
       this.seriesDomain = this.getSeriesDomain();
   
       this.xScaleLine = this.getXScaleLine(this.xDomainLine, this.dims.width);
@@ -379,6 +380,7 @@ import {
       let min = Math.min(...domain);
       const max = Math.max(...domain);
       if (this.yRightAxisScaleFactor) {
+        
         const minMax = this.yRightAxisScaleFactor(min, max);
         return [Math.min(0, minMax.min), minMax.max];
       } else {
@@ -494,7 +496,7 @@ import {
     }
   
     updateYAxisWidth({ width }): void {
-      this.yAxisWidth = width + 20;
+      this.yAxisWidth = width -30;
       this.update();
     }
   
