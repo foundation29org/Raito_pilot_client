@@ -64,6 +64,7 @@ export class PromComponent {
   options: Options = {};
   goNext: boolean = false;
   pendind: boolean = false;
+  showListQuestionnaires: boolean = true;
   a121: string = '';
   a122: string = '';
 
@@ -72,6 +73,7 @@ export class PromComponent {
     this.subscription.add( this.route.params.subscribe(params => {
       if(params['pendind']!=undefined){
         this.pendind = params['pendind'];
+        this.showListQuestionnaires = false;
       }else{
         this.pendind = false;
       }

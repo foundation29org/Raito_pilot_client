@@ -1108,10 +1108,6 @@ getWeek(newdate, dowOffset?) {
       }
       this.lineChartSeries = JSON.parse(JSON.stringify(templineChartDrugs));
       console.log(this.lineChartSeries);
-
-      this.lineDrugsVsSeizures = [];
-      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(this.lineChartSeries ));;
-      this.lineDrugsVsSeizures.push({ name: this.titleSeizures, series: seizu })
       
       /*var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
       for (var i = 0; i < this.lineDrugsVsSeizures.length; i++) {
@@ -1125,10 +1121,6 @@ getWeek(newdate, dowOffset?) {
       }
       this.lineDrugsVsSeizures = [];
       this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));*/
-    }else{
-      this.lineDrugsVsSeizures = [];
-      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(this.lineChartSeries ));;
-      this.lineDrugsVsSeizures.push({ name: this.titleSeizures, series: seizu })
     }
   }
 
