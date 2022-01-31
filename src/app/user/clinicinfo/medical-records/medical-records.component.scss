@@ -39,3 +39,7 @@
     height: 55px !important;
     width: 200px !important;
   }
+
+  .dropdown-toggle::after {
+    display:none;
+  }

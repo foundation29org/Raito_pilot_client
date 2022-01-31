@@ -38,7 +38,9 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
   preparingFile: boolean = false;
+  preparingFileEmergency: boolean = false;
   uploadingGenotype: boolean = false;
+  uploadingEmergency: boolean = false;
   accessToken: IBlobAccessToken = {
     // tslint:disable-next-line:max-line-length
     sasToken: environment.blobAccessToken.sasToken,
@@ -48,12 +50,14 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   };
 
   otherGeneFiles: any = [];
+  emergencyFiles: any = [];
   filesNcr: any = [];
   loadedGeno: boolean = false;
   userId: string = '';
   loadedPatientId: boolean = false;
   selectedPatient: any = {};
   uploadProgress: Observable<number>;
+  uploadProgress2: Observable<number>;
   medicalText: string = '';
   langDetected: string = '';
   lang: string = 'en';
@@ -99,12 +103,14 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     this.subscription.add(this.blob.change.subscribe(uploaded => {
       this.uploadingGenotype = false;
+      this.uploadingEmergency = false;
     }));
 
     //si tiene VCF
     this.subscription.add(this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
       if (vcfFilesOnBlob.length > 0) {
         var otherGeneFiles = [];
+        var emergencyFiles = [];
         var filesNcr = [];
         for (var i = 0; i < vcfFilesOnBlob.length; i++) {
           if (vcfFilesOnBlob[i].name.indexOf('raitofile/') != -1) {
@@ -112,13 +118,19 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
             vcfFilesOnBlob[i].simplename = name;
             vcfFilesOnBlob[i].contentLength = this.formatBytes(vcfFilesOnBlob[i].contentLength);
             if ((vcfFilesOnBlob[i].name).indexOf('textanaresult.json') == -1) {
-              otherGeneFiles.push(vcfFilesOnBlob[i])
+              if (vcfFilesOnBlob[i].name.indexOf('raitofile/emergency/') != -1) {
+                emergencyFiles.push(vcfFilesOnBlob[i])
+              }else{
+                otherGeneFiles.push(vcfFilesOnBlob[i])
+              }
+              
             } else {
               filesNcr.push(vcfFilesOnBlob[i]);
             }
 
           }
         }
+        this.emergencyFiles = emergencyFiles;
         this.otherGeneFiles = otherGeneFiles;
         this.filesNcr = filesNcr;
         this.testResultsAnalytics();
@@ -236,6 +248,8 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   onFileChangePDF(event) {
+    console.log('1');
+    console.log(event);
     this.preparingFile = true;
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -258,7 +272,41 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           this.uploadProgress = this.blob
             .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
         } else {
-          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
+          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
+        }
+
+      }
+
+    }
+  }
+
+  onFileEmergencyChange(event) {
+    console.log('2');
+    console.log(event);
+    this.preparingFileEmergency = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event2: any) => { // called once readAsDataURL is completed
+        this.preparingFileEmergency = false;
+        var filename = event.target.files[0].name;
+        var extension = filename.substr(filename.lastIndexOf('.'));
+        var pos = (filename).lastIndexOf('.')
+        pos = pos - 4;
+        if (pos > 0 && extension == '.gz') {
+          extension = (filename).substr(pos);
+        }
+        filename = filename.split(extension)[0];
+        //event.target.response.content
+        if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          var uniqueFileName = this.getUniqueFileName();
+          filename = 'raitofile/emergency/' + uniqueFileName + '/' + filename + extension;
+          this.uploadingEmergency = true;
+          console.log(filename);
+          this.uploadProgress2 = this.blob
+            .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
+        } else {
+          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
         }
 
       }
@@ -281,7 +329,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         this.uploadProgress = this.blob
           .uploadToBlobStorage(this.accessToken, event[0], filename, 'patientGenoFiles');
       } else {
-        Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
+        Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
       }
 
     }
@@ -313,7 +361,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  deleteFile(file, i) {
+  deleteFile(file, i, option) {
     var filename = '';
     filename = file.simplename;
     Swal.fire({
@@ -329,7 +377,12 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.deleteOtherFile(file.name, i);
+        if(option=='emergency'){
+          this.deleteEmergencyFile(file.name, i);
+        }else{
+          this.deleteOtherFile(file.name, i);
+        }
+        
       }
     });
 
@@ -343,6 +396,17 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       }
     }
     this.otherGeneFiles.splice(i, 1);
+    this.blob.deleteBlob(this.accessToken.containerName, file);
+  }
+
+  deleteEmergencyFile(file, i) {
+    var enc = false;
+    for (var j = 0; j < this.emergencyFiles.length && !enc; j++) {
+      if (this.emergencyFiles[j].name == file) {
+        enc = true;
+      }
+    }
+    this.emergencyFiles.splice(i, 1);
     this.blob.deleteBlob(this.accessToken.containerName, file);
   }
 
@@ -416,7 +480,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
   startExtractor() {
     if (this.medicalText.length < 5) {
-      Swal.fire('', this.translate.instant("land.placeholderError"), "error");
+      Swal.fire('', this.translate.instant("land.placeholderError"), "warning");
     } else {
       var testLangText = this.medicalText.substr(0, 4000)
       this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
@@ -781,6 +845,10 @@ showScrollButton() {
 
 newDoc(){
   this.step = '2';
+}
+
+shareFile(){
+  this.step = 'share'
 }
 
 getLiteral(literal) {

@@ -159,7 +159,7 @@ export class GenotypeComponent implements OnInit, OnDestroy {
           this.uploadProgress = this.blob
             .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
         } else {
-          Swal.fire(this.translate.instant("patnodiagdashboard.step3-2.The file must have"), '', "error");
+          Swal.fire(this.translate.instant("patnodiagdashboard.step3-2.The file must have"), '', "warning");
         }
 
       }
@@ -181,7 +181,7 @@ export class GenotypeComponent implements OnInit, OnDestroy {
           this.uploadProgress = this.blob
             .uploadToBlobStorage(this.accessToken, event[0], filename, 'patientGenoFiles');
         } else {
-          Swal.fire(this.translate.instant("patnodiagdashboard.step3-2.The file must have"), '', "error");
+          Swal.fire(this.translate.instant("patnodiagdashboard.step3-2.The file must have"), '', "warning");
         }
 
     }

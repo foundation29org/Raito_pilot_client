@@ -153,7 +153,7 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
   //  On submit click, reset field value
   onSubmit() {
     if (this.registerForm.value.role == 'User' && (this.registerForm.value.subrole == 'null' || this.registerForm.value.subrole == null)) {
-      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.select the type of patient1"), "error");
+      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.select the type of patient1"), "warning");
     } else {
       this.sending = true;
       this.isVerifyemail = false;
@@ -180,16 +180,16 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
           } else if (res.message == 'Fail sending email') {
             console.log("email fallido");
             this.isFailEmail = true;
-            Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.could not be sent to activate"), "error");
+            Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.could not be sent to activate"), "warning");
           } else if (res.message == 'user exists') {
             this.isEmailBusy = true;
-            Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.email already exists"), "error");
+            Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.email already exists"), "warning");
           }
           this.registerForm.reset();
           this.sending = false;
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.registerForm.reset();
           this.sending = false;
         }));

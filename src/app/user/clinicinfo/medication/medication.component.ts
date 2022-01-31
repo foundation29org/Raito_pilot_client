@@ -717,10 +717,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
             if (res.message == 'fail') {
               this.toastr.error('', this.translate.instant("medication.It has been impossible to save because there are doses in the range of dates"));
             } else {
-              this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+              this.router.navigate(['/home']);
+              /*this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
               this.viewMedicationForm = false;
               this.viewMeditationSection = false;
-              this.loadMedications();
+              this.loadMedications();*/
 
             }
             this.sending = false;
@@ -742,11 +743,12 @@ export class MedicationComponent implements OnInit, OnDestroy {
         this.medication.endDate = this.dateService.transformDate(this.medication.endDate);
         this.subscription.add(this.http.put(environment.api + '/api/medication/' + this.medication._id, this.medication)
           .subscribe((res: any) => {
-            this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
+            this.router.navigate(['/home']);
+            /*this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
             this.viewMedicationForm = false;
             this.viewMeditationSection = false;
             this.loadMedications();
-            this.sending = false;
+            this.sending = false;*/
           }, (err) => {
             if (err.error.message == 'Token expired' || err.error.message == 'Invalid Token') {
               this.authGuard.testtoken();

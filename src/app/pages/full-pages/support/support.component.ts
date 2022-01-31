@@ -94,7 +94,7 @@ export class SupportComponent implements OnDestroy{
 
   onFileChange(event: any): void {
     if((event.target.files[0].size /1024/1024) + this.totalSize > 4000){
-      Swal.fire('Space limit exceeded. Delete some file or hire more space.', '', "error");
+      Swal.fire('Space limit exceeded. Delete some file or hire more space.', '', "warning");
     }else{
       console.log(event.target.files[0]);
 

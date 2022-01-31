@@ -6,6 +6,7 @@
     "User Profile": "Perfil del usuario",
     "Basic Info": "Información del paciente",
     "Clinical information": "Historial médico",
+    "My documents": "Mis documentos",
     "Questionnaire": "Cuestionario",
     "Calendar": "Calendario",
     "Seizures": "Crisis epilépticas",
@@ -1427,6 +1428,7 @@
     "Thanks for sharing": "Gracias por responder!"
   },
   "prom":{
+    "subtitle":"Aquí puedes encontrar los cuestionarios enviados por tu Organización de Pacientes para que los rellenes y así poder obtener datos anónimos en beneficio de toda la comunidad y mejorar la investigación y mostrar un beneficio significativo.",
     "You have datapoints to complete": "Tiene que responder a importantes preguntas de la comunidad",
     "You have completed": "Has completado las preguntas de hoy. Gracias.",
     "No further questions for today": "No hay más preguntas por hoy",
@@ -1627,7 +1629,12 @@
     "What is FHIR": "¿Qué es FHIR?",
     "FHIR1": "FHIR, que se pronuncia 'fire', son las siglas de Fast Healthcare Interoperability Resources. Es un lenguaje común utilizado por múltiples sistemas de información médica. Al igual que los lenguajes comunes, permite la comunicación entre ellos. Tener sus datos en FHIR significa que puede llevarlos a muchos hospitales del mundo y ellos podrán leerlos e incorporarlos a su historia clínica.",
     "sharepart1": "Compartir tus datos significa que puedes enviar una copia anonimizada de tus datos a instituciones, investigadores o a quien consideres a través de cualquier aplicación de tu elección.",
-    "sharepart2": "Generaremos un archivo estructurado con todos tus datos en RAITO que es el más adecuado para compartir con investigadores e instituciones. Este tipo de archivo no es un documento de texto fácilmente legible, sino que está pensado para facilitar la recopilación de datos específicos."
+    "sharepart2": "Generaremos un archivo estructurado con todos tus datos en RAITO que es el más adecuado para compartir con investigadores e instituciones. Este tipo de archivo no es un documento de texto fácilmente legible, sino que está pensado para facilitar la recopilación de datos específicos.",
+    "Password is incorrect": "La contraseña es incorrecta",
+    "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",
+    "please enter your password": "Por seguridad, introduce tu contraseña",
+    "Write your password here": "Escribe aquí tu contraseña",
+    "Deletedata": "Borrar mis datos"
   },
   "prereg":{
     "title": "Así es como gestionamos los datos",
@@ -1642,5 +1649,10 @@
     "t4": "Quién más utiliza tus datos",
     "a4": "Un tercer proveedor procesará tu DNI para su verificación y luego será eliminado.",
     "readPolicy": "Lea la versión completa de la política de privacidad aquí"
+  },
+  "documents":{
+    "medicalRecordsSubtitle": "Sube aquí cualquier archivo que quieras tener a mano.",
+    "emergencyTitle": "Protocolos de emergencia",
+    "emergencySubtitle": "Sube aquí archivos importantes que describan cómo actuar en caso de emergencias."
   }
 }

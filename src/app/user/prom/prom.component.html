@@ -4,6 +4,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <h2 class="content-header mt-0 mb-2">{{'menu.Questionnaire' | translate }}</h2>
+                    <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
                     <p *ngIf="newproms.length>0 && step+1<=newproms.length && pendind" class="mb-0"><ngb-progressbar type="dark" height="2rem" [value]="((step+1)/newproms.length)*100"><b>{{step+1}} /{{newproms.length}}</b></ngb-progressbar></p>
                     <p *ngIf="newproms.length>0 && step+1<=newproms.length && !pendind" class="mb-0"><ngb-progressbar type="dark" height="2rem" [value]="((numSaved)/newproms.length)*100"><b>{{numSaved}} /{{newproms.length}}</b></ngb-progressbar></p>
                     <div *ngIf="pendind">
@@ -340,18 +341,17 @@
                             <div *ngIf="prom.idProm==6">
                                 <p class="mb-1">{{'prom.q6' | translate }}</p>
                                 <section class="example-section">
-                                    <p class="mb-0"><mat-checkbox name="Brightorpatternedlights" [(ngModel)]="prom6.Brightorpatternedlights">{{'prom.a6.1' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Warmorcoldtemperatures" [(ngModel)]="prom6.Warmorcoldtemperatures">{{'prom.a6.2' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Physicalmovementoractivity" [(ngModel)]="prom6.Physicalmovementoractivity">{{'prom.a6.3' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Noise" [(ngModel)]="prom6.Noise">{{'prom.a6.4' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Geometricpatterns" [(ngModel)]="prom6.Geometricpatterns">{{'prom.a6.5' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Changesinemotionalstate" [(ngModel)]="prom6.Changesinemotionalstate">{{'prom.a6.6' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Tiredness" [(ngModel)]="prom6.Tiredness">{{'prom.a6.7' | translate }}</mat-checkbox></p>
-                                    <p class="mb-0"><mat-checkbox name="Other" [(ngModel)]="prom6.Other">{{'prom.a6.8' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Brightorpatternedlights" [(ngModel)]="prom.data.Brightorpatternedlights">{{'prom.a6.1' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Warmorcoldtemperatures" [(ngModel)]="prom.data.Warmorcoldtemperatures">{{'prom.a6.2' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Physicalmovementoractivity" [(ngModel)]="prom.data.Physicalmovementoractivity">{{'prom.a6.3' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Noise" [(ngModel)]="prom.data.Noise">{{'prom.a6.4' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Geometricpatterns" [(ngModel)]="prom.data.Geometricpatterns">{{'prom.a6.5' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Changesinemotionalstate" [(ngModel)]="prom.data.Changesinemotionalstate">{{'prom.a6.6' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Tiredness" [(ngModel)]="prom.data.Tiredness">{{'prom.a6.7' | translate }}</mat-checkbox></p>
+                                    <p class="mb-0"><mat-checkbox name="Other" [(ngModel)]="prom.data.Other">{{'prom.a6.8' | translate }}</mat-checkbox></p>
                                     <p *ngIf="prom.data.Other">
                                         <input type="text" class="form-control" name="prom.other" placeholder="{{'prom.a6.9' | translate }}" [(ngModel)]="prom.other">
                                     </p>
-                                    {{prom|json}}
                                 </section>
                             </div>
                             <div *ngIf="prom.idProm==7">
@@ -371,7 +371,7 @@
                             </div>
                             <div *ngIf="prom.idProm==8">
                                 <p class="mb-1">{{'prom.q8' | translate }}</p>
-                                <div class="d-block font-small-2">
+                                <div class="d-block font-small-2 mb-3">
                                     <div class="form-check form-check-block">
                                         <input class="form-check-input" type="radio" name="id8"
                                                 value="Reduction in seizures" [(ngModel)]="prom.data">
@@ -387,7 +387,7 @@
                                             value="Improvement in other symptoms" [(ngModel)]="prom.data">
                                         <label class="form-check-label" >{{'prom.a8.3' | translate }}</label>
                                     </div>
-                                    <p *ngIf="prom.data=='Improvement in other symptoms'">
+                                    <p *ngIf="prom.data=='Improvement in other symptoms'" class="mt-2">
                                         <input type="text" class="form-control" name="prom.other" placeholder="{{'prom.a8.4' | translate }}" [(ngModel)]="prom.other">
                                     </p>
                                 </div>

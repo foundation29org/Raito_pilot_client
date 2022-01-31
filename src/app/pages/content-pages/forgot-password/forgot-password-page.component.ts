@@ -49,13 +49,13 @@ export class ForgotPasswordPageComponent implements OnDestroy{
          //errores de fallos
          var errormsg=err.error.message;
          if(errormsg == 'Fail sending email'){
-           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
          }else if(errormsg == 'account not activated'){
-           Swal.fire(this.translate.instant("generics.Warning"),this.translate.instant("login.The account is not activated"), "error");
+           Swal.fire(this.translate.instant("generics.Warning"),this.translate.instant("login.The account is not activated"), "warning");
          }else if(errormsg == 'user not exists'){
-           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("recoverpass.no account"), "error");
+           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("recoverpass.no account"), "warning");
          }else{
-           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
          }
        }));
     }

@@ -115,7 +115,7 @@ export class PromComponent {
     this.newproms.push({idProm:3, data:null})
     this.newproms.push({idProm:4, data:null})
     this.newproms.push({idProm:5, data:null})
-    this.newproms.push({idProm:6, data:null})
+    this.newproms.push({idProm:6, data:this.prom6})
     this.newproms.push({idProm:7, data:null})
     this.newproms.push({idProm:8, data:null})
   }
@@ -201,7 +201,7 @@ export class PromComponent {
         this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res:any)=>{
           this.proms = res;
-          console.log(this.pendind);
+          console.log(res);
           if(this.pendind){
             this.filterNewProms();
           }else{
@@ -233,7 +233,7 @@ export class PromComponent {
           this.goNext = false;
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
   }
@@ -251,7 +251,7 @@ export class PromComponent {
           this.goNext = false;
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
   }
@@ -266,7 +266,7 @@ export class PromComponent {
           this.init();
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
   }

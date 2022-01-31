@@ -6,6 +6,7 @@
     "User Profile": "User profile",
     "Basic Info": "Patient information",
     "Clinical information": "Medical records",
+    "My documents": "My documents",
     "Questionnaire": "Questionnaire",
     "Calendar": "Calendar",
     "Seizures": "Seizures",
@@ -1426,6 +1427,7 @@
     "Thanks for sharing": "Thanks!"
   },
   "prom":{
+    "subtitle":"You can find here questionnaires sent by your Patient Organization for you to fill so they can get anonymized data to benefit all the community and improve research and show signiicant benefit.",
     "You have datapoints to complete": "You have community questions to answer",
     "You have completed": "You have completed today's community questions. Thanks!",
     "No further questions for today": "No further questions for today",
@@ -1626,7 +1628,12 @@
     "What is FHIR": "What is FHIR?",
     "FHIR1": "FHIR, pronounced 'fire', stands for Fast Healthcare Interoperability Resources. It is a common language used by multiple medical information systems. As common languages do, it allows communication between them. Having your data in FHIR means that you can take it to many hospitals in the world and they will be able to read it and incorporate in your medical record.",
     "sharepart1": "Sharing your data means that you can send an anonymized copy of your data to institutions, researchers or to whom you consider through any application of your choice.",
-    "sharepart2": "We will generate a structured file with all your data in RAITO that is best suited to share with researchers and institutions. This kind of file is not a text document easily readable but it is meant to be easy to gather specific data."
+    "sharepart2": "We will generate a structured file with all your data in RAITO that is best suited to share with researchers and institutions. This kind of file is not a text document easily readable but it is meant to be easy to gather specific data.",
+    "Password is incorrect": "Password is incorrect",
+    "we will close your session": "For your security, we will close your session.",
+    "please enter your password": "For security reasons, please enter your password",
+    "Write your password here": "Write your password here",
+    "Deletedata": "Delete my data"
   },
   "prereg":{
     "title": "This is how we manage data",
@@ -1641,6 +1648,11 @@
     "t4": "Who else uses your data",
     "a4": "A third party provider will process your National ID for verification and then it will be deleted.",
     "readPolicy": "Read the full version of the Privacy Policy here"
+  },
+  "documents":{
+    "medicalRecordsSubtitle": "Upload here any file you want have readily available.",
+    "emergencyTitle": "Emergency protocols",
+    "emergencySubtitle": "Upload here important files that describe how to act in case of emergencies."
   }
 }
 

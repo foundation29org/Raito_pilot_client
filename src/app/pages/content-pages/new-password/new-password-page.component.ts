@@ -57,12 +57,12 @@ export class NewPasswordPageComponent implements OnDestroy{
            //errores de fallos
            var errormsg=err.error.message;
            if(errormsg == 'invalid link'){
-             Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("recoverpass.invalidLink"), "error");
+             Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("recoverpass.invalidLink"), "warning");
            }else if(errormsg == 'link expired'){
-             Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("recoverpass.expiredLink"), "error");
+             Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("recoverpass.expiredLink"), "warning");
              this.showlink = true;
            }else{
-             Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+             Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
            }
            this.sending = false;
            this.newPasswordForm.reset();

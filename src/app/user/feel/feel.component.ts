@@ -1,5 +1,6 @@
 import { Component, OnInit, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -45,7 +46,7 @@ export class FeelComponent implements OnInit {
   feelForm: FormGroup;
   submitted = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private router: Router) {
 
     this.lang = sessionStorage.getItem('lang');        
 
@@ -111,9 +112,10 @@ export class FeelComponent implements OnInit {
           this.sending = false;
           this.submitted = false;
           this.feelForm.reset();
+          this.router.navigate(['/home']);
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
     }, 200);

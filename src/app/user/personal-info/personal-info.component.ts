@@ -228,7 +228,7 @@ export class PersonalInfoComponent implements OnInit {
   onSubmit() {
     console.log('eop');
     if (this.personalInfoForm.value.role == 'User' && (this.personalInfoForm.value.subrole == 'null' || this.personalInfoForm.value.subrole == null)) {
-      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.select the type of patient1"), "error");
+      Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.select the type of patient1"), "warning");
     } else {
       this.sending = true;
       var params = this.personalInfoForm.value;
@@ -245,7 +245,7 @@ export class PersonalInfoComponent implements OnInit {
           this.sending = false;
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
     }
