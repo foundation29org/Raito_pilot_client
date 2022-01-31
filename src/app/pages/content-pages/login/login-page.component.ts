@@ -213,7 +213,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
 
                     });
 
-                     //Swal.fire(this.translate.instant("generics.Warning"),this.translate.instant("login.The account is not activated"), "error");
+                     //Swal.fire(this.translate.instant("generics.Warning"),this.translate.instant("login.The account is not activated"), "warning");
                    }else if(message == "Account is blocked"){
                      this.isBlocked = true;
                    }

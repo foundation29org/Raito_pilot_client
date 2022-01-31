@@ -42,7 +42,7 @@ export class PermissionsPageComponent implements OnDestroy{
 
          }, (err) => {
            //errores de fallos
-           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
          }));
       }
     }

@@ -45,23 +45,20 @@ export class PromComponent {
   loadedProms: boolean = false;
   proms: any = [];
   newproms: any = [];
-  totalTaks: number = 13;
-  pendingsTaks: number = 13;
+  totalTaks: number = 8;
+  pendingsTaks: number = 8;
   actualProm: any = {};
-  prom11: any = {
-    "Behavior": false,
-    "OverallHappiness": false,
-    "Sleep": false,
-    "Autonomy": false,
-    "AbilityToLeaveTheHouse": false,
-    "AbilityToAttendSchool": false,
-    "AbilityToEnjoyActivities": false,
-    "abilityToTravelWithThePatient": false,
-    "opportunitiesForSocialInteractions": false,
-    "cognitiveSkills": false,
-    "capacityToWork": false,
-    "NoOtherImprovements": false
+  prom6: any = {
+    "Brightorpatternedlights": false,
+    "Warmorcoldtemperatures": false,
+    "Physicalmovementoractivity": false,
+    "Noise": false,
+    "Geometricpatterns": false,
+    "Changesinemotionalstate": false,
+    "Tiredness": false,
+    "Other": false
   };
+  prom8: string = '';
   value: number = 0;
   numSaved: number = 0;
   options: Options = {};
@@ -118,14 +115,9 @@ export class PromComponent {
     this.newproms.push({idProm:3, data:null})
     this.newproms.push({idProm:4, data:null})
     this.newproms.push({idProm:5, data:null})
-    this.newproms.push({idProm:6, data:null})
+    this.newproms.push({idProm:6, data:this.prom6})
     this.newproms.push({idProm:7, data:null})
     this.newproms.push({idProm:8, data:null})
-    this.newproms.push({idProm:9, data:null})
-    this.newproms.push({idProm:10, data:null})
-    this.newproms.push({idProm:11, data:null})
-    this.newproms.push({idProm:12, data:null})
-    this.newproms.push({idProm:13, data:null})
   }
 
   filterNewProms(){
@@ -209,7 +201,7 @@ export class PromComponent {
         this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res:any)=>{
           this.proms = res;
-          console.log(this.pendind);
+          console.log(res);
           if(this.pendind){
             this.filterNewProms();
           }else{
@@ -241,7 +233,7 @@ export class PromComponent {
           this.goNext = false;
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
   }
@@ -259,7 +251,7 @@ export class PromComponent {
           this.goNext = false;
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
   }
@@ -274,7 +266,7 @@ export class PromComponent {
           this.init();
         }, (err) => {
           console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "error");
+          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
           this.sending = false;
         }));
   }
@@ -286,18 +278,23 @@ export class PromComponent {
 
   nextProm(){
     this.goNext = true;
-    if(this.actualProm.idProm==11){
+    if(this.actualProm.idProm==6){
       var foundElementTrue = false;
-      for(var i in this.prom11) {
-        if(this.prom11[i]){
+      for(var i in this.prom6) {
+        if(this.prom6[i]){
           foundElementTrue = true;
         }
       }
       if(foundElementTrue){
-        this.actualProm.data = this.prom11;
+        this.actualProm.data = this.prom6;
       }
       
     }
+    /*if(this.actualProm.idProm==8){
+      if(this.actualProm.data=='Improvement in other symptoms'){
+
+      }
+    }*/
     if(this.actualProm.data!=null){
       if(this.actualProm._id){
         this.updateProm();

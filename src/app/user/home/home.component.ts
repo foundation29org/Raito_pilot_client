@@ -1064,6 +1064,7 @@ getWeek(newdate, dowOffset?) {
     }
     if(this.rangeDate == 'quarter' || this.rangeDate == 'year'){
       seizu = this.groupPerWeek(seizu);
+      seizu = this.add0Seizures(seizu);
     }
 
     this.maxValueDrugsVsSeizu = 0;
@@ -1079,15 +1080,40 @@ getWeek(newdate, dowOffset?) {
     }else{
       percen = this.maxValueDrugsVsSeizu/this.maxValue
     }
-    this.lineDrugsVsSeizures = [];
-    this.lineDrugsVsSeizures = meds;
-    this.lineDrugsVsSeizures.push({ name: this.titleSeizures, series: seizu })
+    
 
     this.barChart = seizu;
     console.log(copymeds);
     this.lineChartSeries = copymeds;
     if(this.normalized2){
-      var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
+
+      var templineChartDrugs = JSON.parse(JSON.stringify(this.lineChartSeries));
+      console.log(this.lineChartSeries);
+      var maxValue = 0;
+      for (var i = 0; i < this.lineChartSeries.length; i++) {
+        var maxValueRecommededDrug = this.getMaxValueRecommededDrug(this.lineChartSeries[i].name);
+        if(maxValueRecommededDrug==0){
+          maxValueRecommededDrug = this.maxValue;
+        }
+        for (var j = 0; j < this.lineChartSeries[i].series.length; j++) {
+          if(this.normalized){
+            templineChartDrugs[i].series[j].value = this.normalize(this.lineChartSeries[i].series[j].value, 0, maxValueRecommededDrug);
+          }
+          templineChartDrugs[i].series[j].name = this.lineChartSeries[i].series[j].name;
+          if(maxValue<this.lineChartSeries[i].series[j].value){
+            maxValue= this.lineChartSeries[i].series[j].value;
+          }
+        }
+        templineChartDrugs[i].series.sort(this.sortService.DateSortInver("name"));
+      }
+      this.lineChartSeries = JSON.parse(JSON.stringify(templineChartDrugs));
+      console.log(this.lineChartSeries);
+
+      this.lineDrugsVsSeizures = [];
+      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(this.lineChartSeries ));;
+      this.lineDrugsVsSeizures.push({ name: this.titleSeizures, series: seizu })
+      
+      /*var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
       for (var i = 0; i < this.lineDrugsVsSeizures.length; i++) {
         for (var j = 0; j < this.lineDrugsVsSeizures[i].series.length; j++) {
           if(this.lineDrugsVsSeizures[i].name==this.titleSeizures){
@@ -1098,7 +1124,11 @@ getWeek(newdate, dowOffset?) {
         }
       }
       this.lineDrugsVsSeizures = [];
-      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));
+      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));*/
+    }else{
+      this.lineDrugsVsSeizures = [];
+      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(this.lineChartSeries ));;
+      this.lineDrugsVsSeizures.push({ name: this.titleSeizures, series: seizu })
     }
   }
 

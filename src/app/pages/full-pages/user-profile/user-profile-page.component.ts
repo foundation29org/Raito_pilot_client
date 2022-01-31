@@ -295,20 +295,20 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
             if(res.message == "password changed"){
               Swal.fire('', this.translate.instant("recoverpass.Password changed"), "success");
             }else if(res.message == "Login failed" || res.message == "Not found"){
-              Swal.fire('', this.translate.instant("profile.The current password is incorrect"), "error");
+              Swal.fire('', this.translate.instant("profile.The current password is incorrect"), "warning");
             }else if(res.message == "Account is temporarily locked"){
-              Swal.fire('', this.translate.instant("login.Account is temporarily locked"), "error");
+              Swal.fire('', this.translate.instant("login.Account is temporarily locked"), "warning");
               this.authService.logout();
               this.router.navigate([this.authService.getLoginUrl()]);
             }else if(res.message == "Account is unactivated"){
-              Swal.fire('', this.translate.instant("login.The account is not activated"), "error");
+              Swal.fire('', this.translate.instant("login.The account is not activated"), "warning");
             }
             this.sending = false;
             this.passwordForm.reset();
          }, (err) => {
            //errores de fallos
            var errormsg=err.error.message;
-           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again")+' error: '+ errormsg, "error");
+           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again")+' error: '+ errormsg, "warning");
            this.sending = false;
            this.passwordForm.reset();
          }));

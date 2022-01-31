@@ -16,12 +16,12 @@ export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
         submenu: [
             { path: '/symptoms', title: 'menu.Phenotype', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             //{ path: '/genotype', title: 'menu.Genotype', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { path: '/medical-records', title: 'menu.Clinical information', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/seizures', title: 'menu.Seizures', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/medication', title: 'clinicalinfo.Medication', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/prom', title: 'menu.Questionnaire', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },
+    { path: '/medical-records', title: 'menu.My documents', icon: 'fas fa-folder-open', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/feel', title: 'homeraito.p6', icon: 'ft-heart', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/mydata', title: 'mydata.title', icon: 'fas fa-database', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/pages/support', title: 'support.support', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

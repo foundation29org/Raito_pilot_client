@@ -68,8 +68,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   isHomePage: boolean = false;
   isClinicalPage: boolean = false;
   age: any = {};
-  pendingsTaks: number = 13;
-  totalTaks: number = 0;
   private subscription: Subscription = new Subscription();
 
   constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {

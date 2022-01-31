@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +10,7 @@ import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstr
 import { Subscription } from 'rxjs/Subscription';
 import { PatientService } from 'app/shared/services/patient.service';
 import Swal from 'sweetalert2';
+import { sha512 } from "js-sha512";
 
 @Component({
   selector: 'app-menu',
@@ -31,8 +32,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   hasGroup: boolean = false;
   consentgroup: boolean = false;
   activeIds = [];
+  myEmail: string = '';
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -45,6 +47,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadTranslations();
     this.loadPatientId();
+    this.loadMyEmail()
   }
 
   ngOnDestroy() {
@@ -190,33 +193,66 @@ confirmDelete(index, index2) {
     reverseButtons: true
   }).then((result) => {
     if (result.value) {
-      this.deleteData();
+      Swal.fire({
+        title: this.translate.instant("mydata.please enter your password"),
+        inputPlaceholder: this.translate.instant("mydata.Write your password here"),
+        input: 'password',
+        confirmButtonText: this.translate.instant("mydata.Deletedata"),
+        cancelButtonText: this.translate.instant("generics.Cancel"),
+        showCancelButton: true,
+        reverseButtons: true
+      }).then(function (pw) {
+        if (pw.value) {
+          var password = sha512(pw.value);
+          this.deleteData(password);
+        } else {
+          console.log('rechaza');
+        }
+        
+      }.bind(this))
+      
     }
   });
 
 }
 
-deleteData(){
+loadMyEmail(){
+  this.subscription.add( this.http.get(environment.api+'/api/users/email/'+this.authService.getIdUser())
+    .subscribe( (res : any) => {
+      this.myEmail = res.email;
+    }, (err) => {
+      console.log(err);
+    }));
+}
+
+deleteData(password){
   //cargar los datos del usuario
   this.loading = true;
-  
-  this.subscription.add( this.http.get(environment.api+'/api/deleteaccount/'+this.authService.getIdUser())
+  var info = {password: password, email: this.myEmail}
+  this.subscription.add( this.http.post(environment.api+'/api/deleteaccount/'+this.authService.getIdUser(), info)
   .subscribe( (res : any) => {
-    console.log(res);
-    Swal.fire({
-      title: this.translate.instant("generics.It has been successfully removed"),
-      icon: 'success',
-      showCancelButton: false,
-      showConfirmButton: false,
-      allowOutsideClick: false
-  }).then((result) => {
-
-  });
-    setTimeout(function () {
-      
-      Swal.close();
-      window.location.reload();
-  }.bind(this), 1500);
+    if(res.message=='The case has been eliminated'){
+      Swal.fire({
+        title: this.translate.instant("generics.It has been successfully removed"),
+        icon: 'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      }).then((result) => {
+    
+      });
+        setTimeout(function () {
+          
+          Swal.close();
+          window.location.reload();
+      }.bind(this), 1500);
+    }else{
+      Swal.fire(this.translate.instant("mydata.Password is incorrect"), this.translate.instant("mydata.we will close your session"), "warning");
+      this.authService.logout();
+      this.router.navigate([this.authService.getLoginUrl()]);
+    }
+    
+    
     
     /*this.authService.logout();
     this.router.navigate([this.authService.getLoginUrl()]);*/

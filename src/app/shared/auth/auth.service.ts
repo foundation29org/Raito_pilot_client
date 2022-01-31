@@ -140,15 +140,16 @@ export class AuthService {
     this.role = null;
     this.subrole = null;
     this.group = null;
-    this.lang = null;
     this.platform = null;
     this.expToken = null;
     this.isloggedIn = false;
     this.message = null;
     this.currentPatient = null;
     this.patientList = null;
+    this.lang = sessionStorage.getItem('lang');
     //if(!this.getIsApp()){
       sessionStorage.clear();
+      sessionStorage.setItem('lang', this.lang);
     //}
   }
 
