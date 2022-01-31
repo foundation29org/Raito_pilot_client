@@ -259,7 +259,7 @@ import {
       this.setColors();
       this.legendOptions = this.getLegendOptions();
   
-      this.transform = `translate(60 , ${this.margin[0]})`;
+      this.transform = `translate(75 , ${this.margin[0]})`;
       //this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
       console.log(this.transform);
     }

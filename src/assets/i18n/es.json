@@ -1428,7 +1428,7 @@
     "Thanks for sharing": "Gracias por responder!"
   },
   "prom":{
-    "subtitle":"Aquí puedes encontrar los cuestionarios enviados por tu Organización de Pacientes para que los rellenes y así poder obtener datos anónimos en beneficio de toda la comunidad y mejorar la investigación y mostrar un beneficio significativo.",
+    "subtitle":"Hay cuestionarios de su Organización de Pacientes para recabar su opinión",
     "You have datapoints to complete": "Tiene que responder a importantes preguntas de la comunidad",
     "You have completed": "Has completado las preguntas de hoy. Gracias.",
     "No further questions for today": "No hay más preguntas por hoy",
@@ -1600,7 +1600,7 @@
     "desc": "Tu contenedor es tu propio espacio personal para almacenar tus datos y compartirlos para tu propia gestión e investigación de la enfermedad. Aquí puedes gestionar tu contenedor.",
     "q1": "Ubicación del contenedor",
     "a1": "En Raito eres el único dueño de tus datos.Tus datos serán respaldados periódicamente en OneDrive, GoogleDrive o iCloud dependiendo de tu dispositivo.",
-    "q2": "Proyectos de investigación",
+    "q2": "Organizaciones de pacientes",
     "a2.1": "Actualmente está compartiendo datos con la comunidad de la red de datos del DSEF.",
     "a2.2": "Siga este enlace para obtener más información: <a href='https://dravet.eu/' target='_blank'>https://dravet.eu/</a>",
     "a2.3": "Contacta con la organización: <a href='info@dravet.com'>info@dravet.com</a>",

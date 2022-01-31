@@ -581,56 +581,36 @@
                                         <div id="line-chart2">
                                             <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
                                                 height="200px"></div>
-                                            <ngx-charts-line-chart [view]="[(ContainerRef1.offsetWidth-30), 100]"
-                                                [scheme]="lineChartColorScheme" [results]="lineDrugsVsSeizures"
-                                                [gradient]="lineChartGradient" [xAxis]="false"
-                                                [yAxis]="lineChartShowYAxis" [legend]="false"
-                                                [legendPosition]="'below'" [showXAxisLabel]="false"
-                                                [xAxisTickFormatting]="tickFormatting" [showYAxisLabel]="false"
-                                                [xAxisLabel]="msgDate" [autoScale]="false" [xScaleMax]="today"
-                                                (select)="onSelect($event)" [yAxisLabel]="titleDrugsVsDrugs">
-                                            </ngx-charts-line-chart>
+                                                <combo-chart-component
+                                                [view]="[(ContainerRef1.offsetWidth-90), 200]"
+                                                [scheme]="comboBarScheme"
+                                                [colorSchemeLine]="lineChartScheme"
+                                                [results]="barChart"
+                                                [animations]="animations"
+                                                [lineChart]="lineChartSeries"
+                                                [yAxisTickFormatting]="yLeftTickFormat"
+                                                [yLeftAxisScaleFactor]="yLeftAxisScale"
+                                                [yRightAxisScaleFactor]="yRightAxisScale"
+                                                [yRightAxisTickFormatting]="yRightTickFormat"
+                                                [gradient]="gradient"
+                                                [xAxis]="showXAxis"
+                                                [yAxis]="showYAxis"
+                                                [legend]="showLegend"
+                                                [legendTitle]="legendTitle"
+                                                [legendPosition]="legendPosition"
+                                                [showGridLines]="showGridLines"
+                                                [showXAxisLabel]="showXAxisLabel"
+                                                [showYAxisLabel]="showYAxisLabel"
+                                                [showRightYAxisLabel]="showYAxisLabel"
+                                                [xAxisLabel]="xAxisLabel"
+                                                [yAxisLabel]="yAxisLabel"
+                                                [yAxisLabelRight]="yAxisLabelRight">
+                                                </combo-chart-component>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="card mb-1 mt-1" #ContainerRef2>
-                                <div class="mb-2">
-                                    <div class="card-block p-2">
-
-                                <div id="line-chartcombo" class="height-100">
-                                    <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
-                                                    height="200px"></div>
-                                    <combo-chart-component
-                                    [view]="[(ContainerRef2.offsetWidth-90), 200]"
-                                    [scheme]="comboBarScheme"
-                                    [colorSchemeLine]="lineChartScheme"
-                                    [results]="barChart"
-                                    [animations]="animations"
-                                    [lineChart]="lineChartSeries"
-                                    [yAxisTickFormatting]="yLeftTickFormat"
-                                    [yLeftAxisScaleFactor]="yLeftAxisScale"
-                                    [yRightAxisScaleFactor]="yRightAxisScale"
-                                    [yRightAxisTickFormatting]="yRightTickFormat"
-                                    [gradient]="gradient"
-                                    [xAxis]="showXAxis"
-                                    [yAxis]="showYAxis"
-                                    [legend]="showLegend"
-                                    [legendTitle]="legendTitle"
-                                    [legendPosition]="legendPosition"
-                                    [showGridLines]="showGridLines"
-                                    [showXAxisLabel]="showXAxisLabel"
-                                    [showYAxisLabel]="showYAxisLabel"
-                                    [showRightYAxisLabel]="showYAxisLabel"
-                                    [xAxisLabel]="xAxisLabel"
-                                    [yAxisLabel]="yAxisLabel"
-                                    [yAxisLabelRight]="yAxisLabelRight">
-                                    </combo-chart-component>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>
