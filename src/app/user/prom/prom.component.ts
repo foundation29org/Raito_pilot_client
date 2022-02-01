@@ -73,7 +73,7 @@ export class PromComponent {
     this.subscription.add( this.route.params.subscribe(params => {
       if(params['pendind']!=undefined){
         this.pendind = params['pendind'];
-        this.showListQuestionnaires = false;
+        //this.showListQuestionnaires = false;
       }else{
         this.pendind = false;
       }

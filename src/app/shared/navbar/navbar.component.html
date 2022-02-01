@@ -22,18 +22,22 @@
                       <p class="d-none">{{'menu.Dashboard' | translate }}</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <!--<li class="nav-item">
                     <a class="nav-link" routerLink="/patient-info">
                       <i class="ft-user font-medium-3 white" [ngClass]="{'grey': actualUrl=='/patient-info'}"></i>
                       <p class="d-none">{{'menu.Basic Info' | translate }}</p>
                     </a>
-                  </li>
+                  </li>-->
                   <li class="nav-item" ngbDropdown display="dynamic">
                     <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'menu.Personal Info' | translate }}">
-                        <i class="fas fa-microscope font-medium-3 white" [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/medication' || actualUrl=='/prom'}"></i>
+                        <i class="fas fa-microscope font-medium-3 white" [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
                         <p class="d-none">{{'navbar.menu.Personal Info' | translate }}</p>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                      <a class="dropdown-item" routerLink="/feel">
+                        <span>{{'homeraito.p6' | translate }}</span>
+                      </a>
+                      <div class="dropdown-divider"></div>
                         <a class="dropdown-item" routerLink="/symptoms">
                             <span>{{'menu.Phenotype' | translate }}</span>
                         </a>
@@ -46,12 +50,20 @@
                           <span>{{'clinicalinfo.Medication' | translate }}</span>
                         </a>
                         <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" routerLink="/medical-records">
+                          <span>{{'menu.My documents' | translate }}</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" routerLink="/anthropometry">
+                          <span>{{'clinicalinfo.Anthropometry' | translate }}</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" routerLink="/prom">
                           <span>{{'menu.Questionnaire' | translate }}</span>
                         </a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                   <a class="nav-link" routerLink="/feel">
                     <i class="ft-heart font-medium-3 white" [ngClass]="{'grey': actualUrl=='/feel'}"></i>
                     <p class="d-none">{{'homeraito.p6' | translate }}</p>
@@ -62,22 +74,27 @@
                     <i class="fas fa-folder-open font-medium-3 white" [ngClass]="{'grey': actualUrl=='/medical-records'}"></i>
                     <p class="d-none">{{'menu.My documents' | translate }}</p>
                   </a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                   <a class="nav-link" routerLink="/mydata">
-                    <i class="fas fa-database font-medium-3 white" [ngClass]="{'grey': actualUrl=='/mydata'}"></i>
+                    <i class="fas fa-archive font-medium-3 white" [ngClass]="{'grey': actualUrl=='/mydata'}"></i>
                     <p class="d-none">{{'mydata.title' | translate }}</p>
                   </a>
                 </li>
                   <li class="nav-item" ngbDropdown display="dynamic">
                       <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                          <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy'}"></i>
+                          <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
                           <p class="d-none">{{'navbar.User Settings' | translate }}</p>
                       </a>
                       <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
                           <a class="dropdown-item" routerLink="/pages/profile">
                               <i class="ft-edit fa-xs mr-2"></i>
                               <span>{{'navbar.My Profile' | translate }}</span>
+                          </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" routerLink="/patient-info">
+                            <i class="ft-user fa-xs mr-2"></i>
+                            <span>{{'navbar.Patient profile' | translate }}</span>
                           </a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" routerLink="/pages/support">

@@ -2,7 +2,7 @@
 <section id="basic-form-layouts">
 	<div class="row">
       <div class="col-sm-12">
-          <div class="content-header">{{'generics.My Profile' | translate }}
+          <div class="content-header">{{'navbar.My Profile' | translate }}
 			<span (click)="toggleMenu()" class="chat-app-sidebar-toggle ft-align-justify font-medium-3 mr-2 d-none d-inline d-sm-inline d-md-none"></span>
 		  </div>
       </div>
@@ -98,7 +98,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="form-actions center" *ngIf="!sending">
+											<div class="form-actions mt-0 pb-0 center" *ngIf="!sending">
 												<div *ngIf="f.valid;then formValid else formError"></div>
 												<ng-template #formValid><button class="btn btn-dark" type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
 												<ng-template #formError><button class="btn btn-dark" type="button" (click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
@@ -153,7 +153,7 @@
 												<small class="form-text text-muted danger" *ngIf="password2.errors?.equalTo">{{'generics.Passwordnomatch' | translate }}</small>
 											</div>
 												<div class="form-group" *ngIf="!sending">
-														<div class="text-center mt-3">
+														<div class="text-center mt-4">
 															<div *ngIf="fPass.valid;then formValid else formError"></div>
 															<ng-template #formValid><button class="btn btn-dark" type="submit">{{'generics.Submit' | translate }}</button></ng-template>
 															<ng-template #formError><button class="btn btn-dark" type="button" (click)="submitInvalidPassForm()">{{'generics.Submit' | translate }}</button></ng-template>

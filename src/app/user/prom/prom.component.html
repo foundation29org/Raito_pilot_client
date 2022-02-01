@@ -3,7 +3,12 @@
         <div class="card-body pb-0">
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
-                    <h2 class="content-header mt-0 mb-2">{{'menu.Questionnaire' | translate }}</h2>
+                    <h2 class="content-header mt-0 mb-2" *ngIf="showListQuestionnaires">{{'menu.Questionnaire' | translate }}</h2>
+                    <h2 class="content-header mt-0 mb-2" *ngIf="!showListQuestionnaires">Test questionnaire
+                        <a (click)="showListQuestionnaires=true;" class="btn btn-primary float-right" title="{{'generics.Back' | translate }}">
+                            <span class="menu-title">{{'generics.Back' | translate }}</span>
+                        </a>
+                    </h2>
                     <div *ngIf="showListQuestionnaires">
                         <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
                         <span>Test questionnaire {{newproms.length-pendingsTaks}}/{{newproms.length}}</span> <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;">
@@ -13,9 +18,6 @@
                           </a>
                     </div>
                     <div *ngIf="!showListQuestionnaires">
-                        <a (click)="showListQuestionnaires=true;" class="btn btn-primary" title="{{'generics.Back' | translate }}">
-                            <span class="menu-title">{{'generics.Back' | translate }}</span>
-                        </a>
                         <p>Test questionnaire</p> 
                         <p *ngIf="newproms.length>0 && step+1<=newproms.length && pendind" class="mb-0"><ngb-progressbar type="dark" height="2rem" [value]="((step+1)/newproms.length)*100"><b>{{step+1}} /{{newproms.length}}</b></ngb-progressbar></p>
                         <p *ngIf="newproms.length>0 && step+1<=newproms.length && !pendind" class="mb-0"><ngb-progressbar type="dark" height="2rem" [value]="((numSaved)/newproms.length)*100"><b>{{numSaved}} /{{newproms.length}}</b></ngb-progressbar></p>

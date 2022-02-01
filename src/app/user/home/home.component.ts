@@ -81,7 +81,6 @@ export class HomeComponent implements OnInit, OnDestroy {
    private transHeight: string;
    private msgDate: string;
    private titleSeizures: string;
-   private dosemg: string;
    private titleDose: string;
    private titleDrugsVsNormalized: string;
    titleDrugsVsDrugs: string;
@@ -110,6 +109,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   basicInfoPatient: any;
   basicInfoPatientCopy: any;
   age: number = null;
+  weight: string;
   groups: Array<any> = [];
   step: string = '0';
   private subscription: Subscription = new Subscription();
@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
 
   showRightYAxisLabel: boolean = true;
-  yAxisLabelRight: string = 'Dose mg/kg';
+  yAxisLabelRight: string;
   valueprogressbar=0;
   checks: any = {};
   consentgroup: boolean = false;
@@ -399,7 +399,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.titleSeizures = res;
     });
     this.translate.get('medication.Dose mg').subscribe((res: string) => {
-      this.dosemg = res;
+      this.yAxisLabelRight = res;
     });
     this.translate.get('homeraito.Normalized').subscribe((res: string) => {
       this.titleDrugsVsNormalized= res;
@@ -575,6 +575,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getFeels();
     this.getSeizures();
     this.calculateMinDate();
+    this.getWeightAndAge();
   }
 
   getFeels() {
@@ -1227,13 +1228,54 @@ getWeek(newdate, dowOffset?) {
     this.minDateRange = pastDate;
   } 
 
+  getWeightAndAge() {
+    if(this.authService.getCurrentPatient().birthDate == null){
+      this.age = null;
+    }else{
+      this.ageFromDateOfBirthday(this.authService.getCurrentPatient().birthDate);
+    }
+    this.subscription.add(this.patientService.getPatientWeight()
+      .subscribe((res: any) => {
+        console.log(res);
+        if (res.message == 'There are no weight') {
+        }else if(res.message == 'old weight'){
+          console.log(res.weight)
+          this.weight = res.weight.value
+        }else{
+          this.weight = res.weight.value
+        }
+      }, (err) => {
+        console.log(err);
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+      }));
+  }
+  
+
   getMaxValueRecommededDrug(name){
     var maxDose = 0;
     var actualRecommendedDoses = this.recommendedDoses[name];
-    if(actualRecommendedDoses==undefined){
+    console.log(this.weight);
+    if(actualRecommendedDoses==undefined || !this.weight){
       return maxDose;
     }else{
-      if (actualRecommendedDoses.data == 'onlykids') {
+      if(this.age<18){
+        if(actualRecommendedDoses.data != 'onlyadults'){
+          if(actualRecommendedDoses.kids.perkg=='no'){
+            maxDose = actualRecommendedDoses.kids.maintenancedose.max
+          }else{
+            maxDose = actualRecommendedDoses.kids.maintenancedose.max * Number(this.weight);
+          }
+        }
+      }else{
+        if(actualRecommendedDoses.data != 'onlykids'){
+          if(actualRecommendedDoses.adults.perkg=='no'){
+            maxDose = actualRecommendedDoses.adults.maintenancedose.max
+          }else{
+            maxDose = actualRecommendedDoses.adults.maintenancedose.max * Number(this.weight);
+          }
+        }
+      }
+      /*if (actualRecommendedDoses.data == 'onlykids') {
         maxDose = actualRecommendedDoses.kids.maintenancedose.max;
       }
       if (actualRecommendedDoses.data == 'onlyadults') {
@@ -1241,7 +1283,7 @@ getWeek(newdate, dowOffset?) {
       }
       if (actualRecommendedDoses.data == 'yes') {
         maxDose = actualRecommendedDoses.adults.maintenancedose.max;
-      }
+      }*/
       return maxDose;
     }
   }

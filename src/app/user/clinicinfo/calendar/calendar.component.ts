@@ -9,6 +9,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
 import { DateService } from 'app/shared/services/date.service';
 import { SortService } from 'app/shared/services/sort.service';
+import { PatientService } from 'app/shared/services/patient.service';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,7 +30,8 @@ interface MyEvent{
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  providers: [PatientService]
 })
 
 export class CalendarsComponent implements OnInit, OnDestroy{
@@ -66,7 +68,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   seizuresForm: FormGroup;
   submitted = false;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder, private sortService: SortService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder, private sortService: SortService, private patientService: PatientService) { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -99,11 +101,9 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   loadData(){
     this.events = [];
     this.loading = true;
-    this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
+    this.subscription.add( this.patientService.getPatientId()
     .subscribe( (res : any) => {
-      if(res.listpatients.length>0){
-        this.authService.setPatientList(res.listpatients);
-        this.authService.setCurrentPatient(res.listpatients[0]);
+      if(res!=null){
         this.loadEvents();
       }else{
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");

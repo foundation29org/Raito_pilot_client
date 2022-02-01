@@ -138,12 +138,10 @@ exportData(){
   //cargar los datos del usuario
   this.loading = true;
   document.getElementById('content').innerHTML = "";
-  this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
-  .subscribe( (res : any) => {
-    if(res.listpatients.length>0){
-      this.authService.setPatientList(res.listpatients);
-      this.authService.setCurrentPatient(res.listpatients[0]);
-      this.subscription.add( this.http.get(environment.api+'/api/exportdata/'+res.listpatients[0].sub)
+  this.subscription.add( this.patientService.getPatientId()
+  .subscribe( (res1 : any) => {
+    if(res1!=null){
+      this.subscription.add( this.http.get(environment.api+'/api/exportdata/'+this.authService.getCurrentPatient().sub)
       .subscribe( (res : any) => {
         var json = JSON.stringify(res);
         var blob = new Blob([json], {type: "application/json"});
