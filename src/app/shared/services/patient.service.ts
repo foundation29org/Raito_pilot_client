@@ -29,41 +29,21 @@ export class PatientService {
          })
     }
 
-    getPatientsClinical(){
+    getPatientWeight(){
       //cargar las faqs del knowledgeBaseID
-      return this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
+      return this.http.get(environment.api+'/api/weight/'+this.authService.getCurrentPatient().sub)
         .map( (res : any) => {
-          if(res.listpatients.length>0){
-            this.authService.setPatientList(res.listpatients);
-            /*
-            if(this.authService.getCurrentPatient()==null){
-              this.authService.setCurrentPatient(res.listpatients[0]);
-            }
-            */
-            return res.listpatients;
-          }else{
-            return [];
-          }
+          return res;
          }, (err) => {
            console.log(err);
          })
     }
 
-    getPatientsClinicalSuperAdmin(idUser){
+    getPatientHeight(){
       //cargar las faqs del knowledgeBaseID
-      return this.http.get(environment.api+'/api/patients-all/'+idUser)
+      return this.http.get(environment.api+'/api/height/'+this.authService.getCurrentPatient().sub)
         .map( (res : any) => {
-          if(res.listpatients.length>0){
-            this.authService.setPatientList(res.listpatients);
-            /*
-            if(this.authService.getCurrentPatient()==null){
-              this.authService.setCurrentPatient(res.listpatients[0]);
-            }
-            */
-            return res.listpatients;
-          }else{
-            return [];
-          }
+          return res;
          }, (err) => {
            console.log(err);
          })

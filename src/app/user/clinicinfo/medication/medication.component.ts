@@ -5,6 +5,7 @@ import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { DateService } from 'app/shared/services/date.service';
+import { PatientService } from 'app/shared/services/patient.service';
 import { ToastrService } from 'ngx-toastr';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,7 +20,8 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-medication',
   templateUrl: './medication.component.html',
-  styleUrls: ['./medication.component.scss']
+  styleUrls: ['./medication.component.scss'],
+  providers: [PatientService]
 })
 
 export class MedicationComponent implements OnInit, OnDestroy {
@@ -60,8 +62,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   showOnlyQuestion: Boolean = true;
   timeformat = "";
+  settings: any = {
+    lengthunit: null,
+    massunit: null
+  };
+  age: any = {};
+  weight: string;
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
-    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService) {
+    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService) {
     this.adapter.setLocale(this.authService.getLang());
     switch (this.authService.getLang()) {
       case 'en':
@@ -78,14 +86,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
         break;
 
     }
-
-    this.subscription.add(this.route.params.subscribe(params => {
-      console.log(params);
-      if (params['addOther']) {
-        console.log('entra');
-        this.newMedication();
-      }
-    }));
 
   }
 
@@ -123,18 +123,30 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.loadEnvir();
     this.loadRecommendedDose();
 
+    this.loadSettingsUser();
   }
+
+  loadSettingsUser() {
+    //cargar preferencias de la cuenta
+    this.subscription.add(this.http.get(environment.api + '/api/users/settings/' + this.authService.getIdUser())
+      .subscribe((res: any) => {
+        this.settings.lengthunit = res.user.lengthunit;
+        this.settings.massunit = res.user.massunit;
+      }, (err) => {
+        console.log(err);
+      }));
+  }
+
+
 
   loadEnvir() {
     this.loading = true;
-    this.subscription.add(this.http.get(environment.api + '/api/patients-all/' + this.authService.getIdUser())
+    this.subscription.add(this.patientService.getPatientId()
       .subscribe((res0: any) => {
-        console.log(res0.listpatients[0].group);
-        if (res0.listpatients.length > 0 && res0.listpatients[0].group != null) {
-          this.authService.setPatientList(res0.listpatients);
-          this.authService.setCurrentPatient(res0.listpatients[0]);
-          this.authService.setGroup(res0.listpatients[0].group)
+        console.log(res0);
+        if (res0 != null && res0.group != null) {
           this.loadTranslationsElements();
+          this.getWeight();
         } else {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
           this.router.navigate(['/patient-info']);
@@ -144,6 +156,138 @@ export class MedicationComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.toastr.error('', this.translate.instant("generics.error try again"));
       }));
+  }
+
+  getWeight() {
+    if(this.authService.getCurrentPatient().birthDate == null){
+      this.age = null;
+    }else{
+      this.ageFromDateOfBirthday(this.authService.getCurrentPatient().birthDate);
+    }
+    this.subscription.add(this.patientService.getPatientWeight()
+      .subscribe((res: any) => {
+        if (res.message == 'There are no weight') {
+          Swal.fire({
+            title: this.translate.instant("medication.The weight is needed"),
+            html: '<span>'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span>',
+            inputPlaceholder: this.translate.instant("medication.Write the patient weight")+ ' ('+this.settings.massunit+')',
+            input: 'text',
+            confirmButtonText: this.translate.instant("generics.Save"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showCancelButton: false,
+            reverseButtons: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            footer: '<span class="">'+this.translate.instant("medication.if you want to change")+ '<a href="/pages/profile"> '+this.translate.instant("medication.here")+'</a></span>'
+          }).then(function (weight) {
+            if (weight.value) {
+              this.submitWeight(weight.value);
+              this.checkBirthDate();
+            } else {
+              console.log('rechaza');
+            }
+
+          }.bind(this))
+        }else if(res.message == 'old weight'){
+          console.log(res.weight)
+          Swal.fire({
+            title: this.translate.instant("medication.No weight update"),
+            html: '<span>'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span>',
+            inputPlaceholder: this.translate.instant("medication.Write the patient weight")+ ' ('+this.settings.massunit+')',
+            input: 'text',
+            inputValue: res.weight.value,
+            confirmButtonText: this.translate.instant("generics.Save"),
+            cancelButtonText: this.translate.instant("generics.Cancel"),
+            showCancelButton: false,
+            reverseButtons: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            footer: '<span class="">'+this.translate.instant("medication.if you want to change")+ '<a href="/pages/profile"> '+this.translate.instant("medication.here")+'</a></span>'
+          }).then(function (weight) {
+            if (weight.value) {
+              this.submitWeight(weight.value);
+              this.checkBirthDate();
+            } else {
+              console.log('rechaza');
+            }
+
+          }.bind(this))
+        }else{
+          this.weight = res.weight.value
+          this.checkBirthDate();
+        }
+      }, (err) => {
+        console.log(err);
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+      }));
+  }
+
+  checkBirthDate(){
+    if(this.age==null){
+      Swal.fire({
+        title: this.translate.instant("medication.The recommended doses depend on"),
+        html: '<span class="d-block">'+this.translate.instant("medication.Select date of birth")+'</span><span class="d-block"><input id="datepicker" type="date"></span>',
+        didOpen:function(){
+          console.log(Swal.getHtmlContainer());
+          console.log($('#datepicker').val);
+        },
+        confirmButtonText: this.translate.instant("generics.Save"),
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then(function(result) {
+        if(result.value){
+         console.log($('#datepicker').val());
+         this.saveBirthDate($('#datepicker').val())
+        }
+      }.bind(this));
+    }
+  }
+
+  saveBirthDate(birthDate){
+    var paramssend = { birthDate: birthDate };
+    this.subscription.add( this.http.put(environment.api+'/api/patient/birthdate/'+this.authService.getCurrentPatient().sub, paramssend)
+    .subscribe( (res : any) => {
+      this.ageFromDateOfBirthday(birthDate);
+     }, (err) => {
+       console.log(err.error);
+     }));
+  }
+
+  ageFromDateOfBirthday(dateOfBirth: any){
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    var months;
+    months = (today.getFullYear() - birthDate.getFullYear()) * 12;
+    months -= birthDate.getMonth();
+    months += today.getMonth();
+    var age =0;
+    if(months>0){
+      age = Math.floor(months/12)
+    }
+    var res = months <= 0 ? 0 : months;
+    var m=res % 12;
+    this.age = {years:age, months:m }
+  }
+
+  submitWeight(weight) {
+
+    if (this.authGuard.testtoken()) {
+      weight = weight.replace(',', '.');
+      var parseMassunit = weight;
+      if (this.settings.massunit == 'lb') {
+        parseMassunit = parseMassunit / 2.2046;
+      }
+      var info = {value:parseMassunit};
+      this.subscription.add(this.http.post(environment.api + '/api/weight/' + this.authService.getCurrentPatient().sub, info)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.weight = res.weight.value
+          this.toastr.success('', this.msgDataSavedOk);
+        }, (err) => {
+          console.log(err);
+        }));
+
+    }
   }
 
   //traducir cosas
@@ -653,28 +797,53 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   testDose() {
-    this.medication.dose = this.medication.dose.replace(",", '.');
-    var maxDose = 0;
     var actualRecommendedDoses = this.recommendedDoses[this.medication.drug];
-    if(actualRecommendedDoses==undefined){
+    this.medication.dose = this.medication.dose.replace(",", '.');
+    if (actualRecommendedDoses == undefined) {
       return true;
     }else{
-      if (actualRecommendedDoses.data == 'onlykids') {
-        maxDose = actualRecommendedDoses.kids.maintenancedose.max;
-      }
-      if (actualRecommendedDoses.data == 'onlyadults') {
-        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
-      }
-      if (actualRecommendedDoses.data == 'yes') {
-        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
-      }
-      if (Number(this.medication.dose) > Number(maxDose)) {
+
+    }
+    var maxRecommended = 0;
+    if(this.age.years<18){
+      if(actualRecommendedDoses.data != 'onlyadults'){
+        if(actualRecommendedDoses.kids.perkg=='no'){
+          maxRecommended = actualRecommendedDoses.kids.maintenancedose.max
+        }else{
+          maxRecommended = actualRecommendedDoses.kids.maintenancedose.max * Number(this.weight);
+        }
+      }else{
         return false;
-      } else {
-        return true;
       }
+      
+    }else{
+      if(actualRecommendedDoses.data != 'onlykids'){
+        if(actualRecommendedDoses.adults.perkg=='no'){
+          maxRecommended = actualRecommendedDoses.adults.maintenancedose.max
+        }else{
+          maxRecommended = actualRecommendedDoses.adults.maintenancedose.max * Number(this.weight);
+        }
+      }else{
+        return false;
+      }
+      
     }
     
+    /*if (actualRecommendedDoses.data == 'onlykids') {
+      maxRecommended = actualRecommendedDoses.kids.maintenancedose.max;
+    }
+    if (actualRecommendedDoses.data == 'onlyadults') {
+      maxRecommended = actualRecommendedDoses.adults.maintenancedose.max;
+    }
+    if (actualRecommendedDoses.data == 'yes') {
+      maxRecommended = actualRecommendedDoses.adults.maintenancedose.max;
+    }*/
+    if (Number(this.medication.dose) > Number(maxRecommended)) {
+      return false;
+    } else {
+      return true;
+    }
+
   }
 
   onSubmit() {

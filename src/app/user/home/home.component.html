@@ -58,9 +58,11 @@
                         </div>
                         <div *ngIf="step=='2'">
                             <h2>{{'homeraito.t3' | translate }}</h2>
-                            <span class="text-muted font-small-2">
+                            <p class="text-muted font-small-2">
                                 {{'homeraito.p1' | translate }}
-                            </span>
+                            </p>
+                            <p class="text-muted font-small-2 mt-2">{{'homeraito.p1.1' | translate }}</p>
+                            
                             <div class="center-elements mt-1">
                                 <button class="mr-1 btn btn-primary" style="width: 100px;" (click)="question3(false);">{{'generics.No' |
                                     translate }}</button>
@@ -493,7 +495,7 @@
                                                     <label class="container pl-0">
                                                         <input type="checkbox" [(ngModel)]="normalized" (change)="normalizedChanged(normalized)">
                                                         <span class="checkmark"></span>
-                                                      </label>{{titleDose}}
+                                                      </label><span style="margin-left: 0.2rem !important;">{{titleDose}}</span>
                                                 </span>
                                             </div>
                                             <div class="col-4">
@@ -574,7 +576,7 @@
                                                     <label class="container pl-0">
                                                         <input type="checkbox" [(ngModel)]="normalized2" (change)="normalizedChanged2(normalized2)">
                                                         <span class="checkmark"></span>
-                                                      </label>{{titleDrugsVsDrugs}} 
+                                                      </label><span style="margin-left: 0.2rem !important;">{{titleDrugsVsDrugs}}</span> 
                                                 </span>
                                             </div>
                                         </div>
@@ -582,7 +584,7 @@
                                             <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
                                                 height="200px"></div>
                                                 <combo-chart-component
-                                                [view]="[(ContainerRef1.offsetWidth-90), 200]"
+                                                [view]="[(ContainerRef1.offsetWidth-90), 100]"
                                                 [scheme]="comboBarScheme"
                                                 [colorSchemeLine]="lineChartScheme"
                                                 [results]="barChart"

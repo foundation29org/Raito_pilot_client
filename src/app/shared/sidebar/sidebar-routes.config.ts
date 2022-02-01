@@ -23,7 +23,7 @@ export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
     },
     { path: '/medical-records', title: 'menu.My documents', icon: 'fas fa-folder-open', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/feel', title: 'homeraito.p6', icon: 'ft-heart', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    { path: '/mydata', title: 'mydata.title', icon: 'fas fa-database', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    { path: '/mydata', title: 'mydata.title', icon: 'fas fa-archive', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/pages/support', title: 'support.support', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     { path: '/privacy-policy', title: 'registration.Privacy Policy', icon: 'ft-shield', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 ];

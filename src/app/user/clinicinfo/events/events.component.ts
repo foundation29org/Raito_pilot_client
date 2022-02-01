@@ -11,6 +11,7 @@ import { Subject } from 'rxjs/Subject';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { TranslateService } from '@ngx-translate/core';
+import { PatientService } from 'app/shared/services/patient.service';
 import { Subscription } from 'rxjs/Subscription';
 
 interface MyEvent extends CalendarEvent {
@@ -53,6 +54,7 @@ const colors: any = {
   selector: 'app-events',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './events.component.html',
+  providers: [PatientService],
   styleUrls: ['./events.component.scss']
 })
 
@@ -99,7 +101,7 @@ export class EventsComponent implements OnInit, OnDestroy{
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService) { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -114,12 +116,10 @@ export class EventsComponent implements OnInit, OnDestroy{
   loadData(){
     this.events = [];
     this.loading = true;
-    this.subscription.add( this.http.get(environment.api+'/api/patients-all/'+this.authService.getIdUser())
-    .subscribe( (res : any) => {
-      if(res.listpatients.length>0){
-        this.authService.setPatientList(res.listpatients);
-        this.authService.setCurrentPatient(res.listpatients[0]);
-        this.subscription.add( this.http.get(environment.api+'/api/seizures/'+res.listpatients[0].sub)
+    this.subscription.add( this.patientService.getPatientId()
+    .subscribe( (res1 : any) => {
+      if(res1!=null){
+        this.subscription.add( this.http.get(environment.api+'/api/seizures/'+this.authService.getCurrentPatient().sub)
         .subscribe( (res : any) => {
           if(res.message){
             //no tiene información
