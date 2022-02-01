@@ -29,8 +29,8 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
   @ViewChild('fWeight') weightForm: NgForm;
   @ViewChild('fHeight') heightForm: NgForm;
   patient: any;
-  loadingWeight:boolean = false;
-  loadingHeight:boolean = false;
+  loadedWeight:boolean = false;
+  loadedHeight:boolean = false;
   selectedWeight: any;
   selectedHeight: any;
   actualWeight: any;
@@ -204,8 +204,8 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
 
   loadData(){
     //cargar los datos del usuario
-    this.loadingWeight = true;
-    this.loadingHeight = true;
+    this.loadedWeight = false;
+    this.loadedHeight = false;
     //cargar el weight del usuario
     this.subscription.add( this.patientService.getPatientWeight()
     .subscribe( (res : any) => {
@@ -271,10 +271,10 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
 
 
       }
-      this.loadingWeight = false;
+      this.loadedWeight = true;
      }, (err) => {
        console.log(err);
-       this.loadingWeight = false;
+       this.loadedWeight = true;
      }));
 
      //cargar el height del usuario
@@ -339,10 +339,10 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
           }));
 
        }
-       this.loadingHeight = false;
+       this.loadedHeight = true;
       }, (err) => {
         console.log(err);
-        this.loadingHeight = false;
+        this.loadedHeight = true;
       }));
   }
 
