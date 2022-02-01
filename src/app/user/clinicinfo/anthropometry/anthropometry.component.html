@@ -8,21 +8,16 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="content-header mt-0 mb-2">{{'clinicalinfo.Anthropometry' | translate }}
-									<span *ngIf="!settingWeight && !settingHeight && !loadingWeight" class="d-block">
-										
-					
-										
-									</span>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 center-elements" *ngIf="loadingWeight">
+						<div class="col-md-12 center-elements" *ngIf="!loadedWeight">
 							<div>
 								<p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
 							</div>
 						</div>
 						<!--Statistics cards Starts-->
-						<div class="" *ngIf="!settingWeight && !settingHeight && !loadingWeight">
+						<div class="" *ngIf="!settingWeight && !settingHeight && loadedWeight">
 							<div class="row p-2" *ngIf="!actualWeight._id">
 								<div class="col-10">
 									<p class="text-bold-500 mb-0">{{'anthropometry.Weight' | translate }}</p>
