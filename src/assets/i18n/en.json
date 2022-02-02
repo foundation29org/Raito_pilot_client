@@ -471,6 +471,7 @@
     "The weight is needed": "The weight is needed to calculate the recommended dose for the patient",
     "Write the patient weight": "Write the patient's weight",
     "The recommended doses depend on": "The patient age is needed to calculate the recommended dose",
+    "There is patient information needed": "There is patient information needed to calculate the recommended dose",
     "Select date of birth": "Select date of birth",
     "No weight update": "It's been over a week since you updated the weight",
     "We do not have recommended dose data for this drug": "We do not have recommended dose data for this drug",

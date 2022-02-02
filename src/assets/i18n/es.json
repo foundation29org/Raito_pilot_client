@@ -470,6 +470,7 @@
     "The weight is needed": "El peso es necesario para calcular la dosis recomendada para el paciente.",
     "Write the patient weight": "Escriba el peso del paciente",
     "The recommended doses depend on": "La edad del paciente es necesaria para calcular la dosis recomendada",
+    "There is patient information needed": "Hay información del paciente necesaria para calcular la dosis recomendada",
     "Select date of birth": "Seleccione la fecha de nacimiento",
     "No weight update": "Ha pasado más de una semana desde que actualizaste el peso",
     "We do not have recommended dose data for this drug": "No tenemos datos de dosis recomendada para esté medicamento",

@@ -33,6 +33,11 @@ export class AuthService {
   getEnvironment():boolean{
     if(sessionStorage.getItem('token')){
       this.setLang(sessionStorage.getItem('lang'));
+      if(sessionStorage.getItem('lang')=='es'){
+        sessionStorage.setItem('culture', 'es-ES');
+      }else{
+        sessionStorage.setItem('culture', 'en-EN');
+      }
       this.setAuthenticated(sessionStorage.getItem('token'));
       const tokenPayload = decode(sessionStorage.getItem('token'));
       this.setIdUser(tokenPayload.sub);

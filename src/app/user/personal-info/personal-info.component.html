@@ -111,7 +111,7 @@
                                             [(ngModel)]="datainfo.group" [required]="true">
                                         <option [value]="null" disabled selected>--{{'registration.Please select a
                                             group' | translate }}--</option>
-                                            <option *ngFor="let group of groups" [ngValue]="group.name">
+                                            <option *ngFor="let group of groups" [ngValue]="group._id">
                                                 <span *ngIf="group.name == duchennenetherlands">Duchenne Parent Project Netherlands</span>
                                                 <span *ngIf="group.name == 'Stop Sanfilippo'">Stop Sanfilippo</span>
                                                 <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
