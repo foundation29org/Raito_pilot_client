@@ -57,7 +57,7 @@ export class PreRegisterPageComponent implements OnDestroy, OnInit, AfterViewChe
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      windowClass: 'ModalClass-xl'
+      windowClass: 'ModalClass-sm'
     };
     const modalRef = this.modalService.open(TermsConditionsPageComponent, ngbModalOptions);
     modalRef.componentInstance.role = this.role;
