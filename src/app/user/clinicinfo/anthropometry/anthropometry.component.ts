@@ -226,7 +226,7 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
         if(this.settings.massunit == 'lb'){
           this.actualWeight.value = this.actualWeight.value * 2.2046;
         }
-        this.actualWeight.value= parseFloat(this.actualWeight.value).toFixed(2);
+        this.actualWeight.value= parseFloat(this.actualWeight.value).toFixed(1);
         //res.weights.data.sort(this.sortService.GetSortOrder("date"));// los ordeno por nombre?
 
         //cargar el histórico del peso
@@ -253,6 +253,10 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
                   splitDateString=splitDate.toLocaleString('en-US').split(",")[0];
               }*/
               //datagraphweight.push({value: resweight[i].value, name: splitDate[0]});
+              if(this.settings.massunit == 'lb'){
+                resweight[i].value = resweight[i].value * 2.2046;
+              }
+              resweight[i].value= parseFloat(resweight[i].value).toFixed(1);
               datagraphweight.push({value: resweight[i].value, name: splitDate});
 
             }
@@ -304,7 +308,7 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
              inches: inches
            };
          }
-         this.actualHeight.value= parseFloat(this.actualHeight.value).toFixed(2);
+         this.actualHeight.value= parseFloat(this.actualHeight.value).toFixed(1);
          //res.heights.data.sort(this.sortService.GetSortOrder("date"));// los ordeno por nombre?
 
          //cargar el histórico de la altura
@@ -321,6 +325,21 @@ export class AnthropometryComponent implements OnInit, OnDestroy{
 
                var splitDate = new Date(resheight[i].date);
                 //datagraphweight.push({value: resweight[i].value, name: splitDate[0]});
+                if(this.settings.lengthunit == 'ft'){
+                  resheight[i].value = resheight[i].value / 30.48;
+       
+                  /*var foot = Math.floor(this.actualHeight.value);
+                  var inches = Math.floor((this.actualHeight.value - foot)*2.54);
+                  this.footHeight = {
+                    feet: foot,
+                    inches: inches
+                  };*/
+                  
+                }
+                resheight[i].value= parseFloat(resheight[i].value).toFixed(1);
+                
+
+
                 datagraphheight.push({value: resheight[i].value, name: splitDate});
 
 

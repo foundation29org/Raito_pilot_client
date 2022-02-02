@@ -2,8 +2,13 @@
     max-height: 300px;
     overflow-y: auto;
     width:93%;
-   }
+}
 
-   ::ng-deep ngb-typeahead-window.dropdown-menu {
+::ng-deep ngb-typeahead-window.dropdown-menu {
     font-size: 0.8rem !important;
-   }
+}
+
+::ng-deep .mat-focus-indicator{
+    line-height: 0px !important;
+    height: 0px !important;
+}

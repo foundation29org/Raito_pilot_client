@@ -9,6 +9,7 @@ import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { PatientService } from 'app/shared/services/patient.service';
+import { TermsConditionsPageComponent } from "app/pages/content-pages/terms-conditions/terms-conditions-page.component";
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
 
@@ -258,6 +259,16 @@ deleteData(password){
      console.log(err);
      this.loading = false;
    }));
+}
+
+openTerms() {
+  let ngbModalOptions: NgbModalOptions = {
+    backdrop: 'static',
+    keyboard: false,
+    windowClass: 'ModalClass-xl'
+  };
+  const modalRef = this.modalService.open(TermsConditionsPageComponent, ngbModalOptions);
+  modalRef.componentInstance.role = 'Dravet';
 }
 
 }

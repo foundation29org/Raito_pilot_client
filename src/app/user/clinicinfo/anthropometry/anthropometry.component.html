@@ -1,4 +1,4 @@
-<!--User Profile Starts-->
+<!--Weight and height-->
 <div class="h-100">
     <div class="card card-block mx-auto" style="max-width: 30rem !important;">
         <div class="card-body">
@@ -107,12 +107,12 @@
 													<h4 class="form-section"><i class="ft-user danger"></i> {{'anthropometry.Weight' |
 														translate }}</h4>
 													<div class="row">
-														<div class="col-md-6">
+														<div class="col-sm-6">
 															<div class="form-group">
-																<label for="weight">{{'anthropometry.Weight' | translate }} <span
+																<label class="mb-0" for="weight">{{'anthropometry.Weight' | translate }} <span
 																		*ngIf="settings.massunit == 'kg'">(kg)</span><span
 																		*ngIf="settings.massunit == 'lb'">(lb)</span></label>
-																<input type="text" id="weight" class="form-control" name="weight"
+																<input type="text" id="weight" class="form-control w-50" name="weight"
 																	[(ngModel)]="selectedWeight.value" required weight #weight="ngModel"
 																	pattern="[0-9]+([\,\.][0-9]+)?$">
 																<small class="form-text text-muted danger"
@@ -125,11 +125,11 @@
 																		href="/pages/profile">{{'medication.here' | translate }}</a></span>
 															</div>
 														</div>
-														<div class="col-md-6">
+														<div class="col-sm-6">
 															<div class="form-group">
-																<label for="date">* {{'generics.Date' | translate }}</label>
+																<label class="mb-0" for="date">{{'generics.Date' | translate }}</label>
 																<div>
-																	<input class="form-control w-75 d-inline" id="date" name="date" matInput
+																	<input class="form-control w-50 d-inline" id="date" name="date" matInput
 																		[matDatepicker]="picker" [(ngModel)]="selectedWeight.date" required
 																		date #date="ngModel">
 																	<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -142,7 +142,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="form-actions center">
+												<div class="form-actions">
 													<button type="button" (click)="resetFormWeight()"
 														class="btn btn-secondary mr-1">
 														<i class="ft-x"></i> {{'generics.Cancel' | translate }}
@@ -173,11 +173,11 @@
 													<h4 class="form-section"><i class="ft-user danger"></i> {{'anthropometry.Height' |
 														translate }}</h4>
 													<div class="row">
-														<div class="col-md-6" *ngIf="settings.lengthunit == 'cm'">
+														<div class="col-sm-6" *ngIf="settings.lengthunit == 'cm'">
 															<div class="form-group">
-																<label for="height">{{'anthropometry.Height' | translate }}
+																<label class="mb-0" for="height">{{'anthropometry.Height' | translate }}
 																	<span>(cm)</span></label>
-																<input type="text" id="height" class="form-control" name="height"
+																<input type="text" id="height" class="form-control w-50" name="height"
 																	[(ngModel)]="selectedHeight.value" required height #height="ngModel"
 																	pattern="[0-9]+([\,\.][0-9]+)?$">
 																<small class="form-text text-muted danger"
@@ -191,10 +191,10 @@
 															</div>
 														</div>
 					
-														<div class="col-md-3" *ngIf="settings.lengthunit == 'ft'">
+														<div class="col-sm-3" *ngIf="settings.lengthunit == 'ft'">
 															<div class="form-group">
-																<label for="feet"><span>{{'anthropometry.Feet' | translate }}</span></label>
-																<input type="text" id="feet" class="form-control" name="feet"
+																<label class="mb-0" for="feet"><span>{{'anthropometry.Feet' | translate }}</span></label>
+																<input type="text" id="feet" class="form-control w-50" name="feet"
 																	[(ngModel)]="footHeight.feet" required feet #feet="ngModel"
 																	pattern="[0-9]+">
 																<small class="form-text text-muted danger"
@@ -205,11 +205,11 @@
 																	| translate }}</small>
 															</div>
 														</div>
-														<div class="col-md-3" *ngIf="settings.lengthunit == 'ft'">
+														<div class="col-sm-3" *ngIf="settings.lengthunit == 'ft'">
 															<div class="form-group">
-																<label for="inches"><span>{{'anthropometry.Inches' | translate
+																<label class="mb-0" for="inches"><span>{{'anthropometry.Inches' | translate
 																		}}</span></label>
-																<input type="text" id="inches" class="form-control" name="inches"
+																<input type="text" id="inches" class="form-control w-50" name="inches"
 																	[(ngModel)]="footHeight.inches" required inches #inches="ngModel"
 																	pattern="[0-9]+">
 																<small class="form-text text-muted danger"
@@ -220,11 +220,11 @@
 																	| translate }}</small>
 															</div>
 														</div>
-														<div class="col-md-6">
+														<div class="col-sm-6">
 															<div class="form-group">
-																<label for="date">* {{'generics.Date' | translate }}</label>
+																<label class="mb-0" for="date">{{'generics.Date' | translate }}</label>
 																<div>
-																	<input class="form-control w-75 d-inline" id="date" name="date" matInput
+																	<input class="form-control w-50 d-inline" id="date" name="date" matInput
 																		[matDatepicker]="picker" [(ngModel)]="selectedHeight.date" required
 																		date #date="ngModel">
 																	<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -237,7 +237,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="form-actions center">
+												<div class="form-actions">
 													<button type="button" (click)="resetFormHeight()"
 														class="btn btn-secondary mr-1">
 														<i class="ft-x"></i> {{'generics.Cancel' | translate }}
