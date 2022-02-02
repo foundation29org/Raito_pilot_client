@@ -193,7 +193,7 @@
     "No data": "Sin datos",
     "No files have been uploaded": "No ha cargado ningún fichero",
     "Close": "Cerrar",
-    "ExportData": "Exportar datos",
+    "ExportData": "Descargar",
     "ShareData": "Compartir data",
     "It has been successfully removed": "Se ha eliminado correctamente",
     "More information": "Más información",
@@ -471,13 +471,13 @@
     "Write the patient weight": "Escriba el peso del paciente",
     "The recommended doses depend on": "La edad del paciente es necesaria para calcular la dosis recomendada",
     "There is patient information needed": "Hay información del paciente necesaria para calcular la dosis recomendada",
-    "Select date of birth": "Seleccione la fecha de nacimiento",
+    "Select date of birth": "Fecha de nacimiento",
     "No weight update": "Ha pasado más de una semana desde que actualizaste el peso",
     "We do not have recommended dose data for this drug": "No tenemos datos de dosis recomendada para esté medicamento",
     "You have as unit of mass": "You have as unit of mass",
     "if you want to change": "Si quieres cambiar las unidades, hazlo ",
     "here": "aquí",
-    "Patients weight": "Peso del paciente",
+    "Patients weight": "Peso",
     "of": "de"
   },
   "vaccinations":{
@@ -613,6 +613,7 @@
   },
   "symptomssection":{
     "title": "Síntomas",
+    "subtitleheader": "Al introducir tus síntomas, ayudas a describir mejor tu enfermedad para tu comunidad.",
     "subtitle": "Añade los síntomas del paciente.",
     "obsolete": "Este paciente contiene síntomas considerados como obsoletos. Se recomienda que los reemplaces por síntomas equivalentes actualizados.",
     "manualinput": "Escriba un solo síntoma.",
@@ -1642,7 +1643,7 @@
     "Reject consent": "Retirar acceso",
     "I want to share my data": "Compartir mis datos",
     "I want to export my data": "Descargar mis datos",
-    "exportText": "Exportar sus datos significa que usted puede descargar un único archivo con todos sus datos actuales a su dispositivo. Usted puede conservar este archivo o compartirlo con instituciones, investigadores o cualquier aplicación que elijas.",
+    "exportText": "Se descargará en tu dispositivo un único archivo con todos tus datos actuales. Puedes guardar este archivo o compartirlo con instituciones, investigadores a través de cualquier aplicación que elijas.",
     "I want to delete my data": "Eliminar mi contenedor",
     "All data saved with FHIR standard": "Todos los datos guardados con el estándar FHIR",
     "What is FHIR": "¿Qué es FHIR?",
@@ -1676,7 +1677,7 @@
     "emergencySubtitle": "Sube aquí archivos importantes que describan cómo actuar en caso de emergencias."
   },
   "termsDravet":{
-    "title": "Política de privacidad DSEF",
+    "title": "Política de privacidad",
     "t1": "¿Quién es el responsable del tratamiento de sus datos?",
     "a1.1": "De acuerdo con la normativa vigente, se informa al interesado que los datos facilitados serán tratados por la Federación Europea del Síndrome de Dravet (en adelante, 'DSEF'), cuyos datos de contacto son los siguientes:",
     "a1.2": "Sede social: c/o Irena Bibic, Don Rafaela Radice 11, 21 251 Zrnovnica, Split, Croacia",

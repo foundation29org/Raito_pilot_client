@@ -194,7 +194,7 @@
     "No data": "No data",
     "No files have been uploaded": "No files have been uploaded",
     "Close": "Close",
-    "ExportData": "Export data",
+    "ExportData": "Download",
     "ShareData": "Share data",
     "It has been successfully removed": "It has been successfully removed",
     "More information": "Further information",
@@ -472,13 +472,13 @@
     "Write the patient weight": "Write the patient's weight",
     "The recommended doses depend on": "The patient age is needed to calculate the recommended dose",
     "There is patient information needed": "There is patient information needed to calculate the recommended dose",
-    "Select date of birth": "Select date of birth",
+    "Select date of birth": "Date of birth",
     "No weight update": "It's been over a week since you updated the weight",
     "We do not have recommended dose data for this drug": "We do not have recommended dose data for this drug",
     "You have as unit of mass": "You have as unit of mass",
     "if you want to change": "If you want to change the units, do it",
     "here": "here",
-    "Patients weight": "Patient's weight",
+    "Patients weight": "Weight",
     "of": "of"
   },
   "vaccinations":{
@@ -614,6 +614,7 @@
   },
   "symptomssection":{
     "title": "Symptoms",
+    "subtitleheader": "By entering your symptoms you help better describe your disease for your community.",
     "subtitle": "Include the patient symptoms.",
     "obsolete": "This patient has symptoms considered as obsolete. It is recommended that you replace them with equivalent and up to date symptoms.",
     "manualinput": "Type a single symptom.",
@@ -1641,7 +1642,7 @@
     "Reject consent": "Revoke access",
     "I want to share my data": "Share my data",
     "I want to export my data": "Download my data",
-    "exportText": "Exporting your data means that you can download a single file with all your current data to your device. You can them keep this file or share it with institutions, researchers or any application you select.",
+    "exportText": "A single file with all your current data will be downloaded to your device. You can them keep this file or share it with institutions, researchers through any application you choose.",
     "I want to delete my data": "Delete my container",
     "All data saved with FHIR standard": "All data saved with FHIR standard",
     "What is FHIR": "What is FHIR?",
@@ -1675,7 +1676,7 @@
     "emergencySubtitle": "Upload here important files that describe how to act in case of emergencies."
   },
   "termsDravet":{
-    "title": "Privacy policy DSEF",
+    "title": "Privacy policy",
     "t1": "Who is the one responsible for the processing of your data?",
     "a1.1": "In accordance with current regulations, the interested party is informed that the information provided will be processed by Dravet Syndrome European Federation (hereinafter, 'DSEF), whose contact information is as follows:",
     "a1.2": "Registered office: c/o Irena Bibic, Don Rafaela Radice 11, 21 251 Zrnovnica, Split, Croatia",

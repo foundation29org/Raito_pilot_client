@@ -171,7 +171,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
           if(this.age==null){
             Swal.fire({
               title: this.translate.instant("medication.There is patient information needed"),
-              html: '<form class="form"><span class="d-block">'+this.translate.instant("medication.Select date of birth")+'</span><span class="d-block"><input id="datepicker" type="date"></span>'+'<span class="mt-1">'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span><span class="d-block"><input id="weight" type="text"></span></form>',
+              html: '<form class="form"><span class="d-block">'+this.translate.instant("medication.Select date of birth")+'</span><span class="d-block mb-2"><input id="datepicker" type="date"></span>'+'<span class="mt-1">'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+')</span><span class="d-block"><input id="weight" type="text"></span></form>',
               preConfirm: () => {
                 if ($('#datepicker').val() && $('#weight').val()) {
                    // Handle return value 
