@@ -164,30 +164,62 @@ export class MedicationComponent implements OnInit, OnDestroy {
     }else{
       this.ageFromDateOfBirthday(this.authService.getCurrentPatient().birthDate);
     }
+    var patt = new RegExp('[0-9]+([\,\.][0-9]+)?$');
     this.subscription.add(this.patientService.getPatientWeight()
       .subscribe((res: any) => {
         if (res.message == 'There are no weight') {
-          Swal.fire({
-            title: this.translate.instant("medication.The weight is needed"),
-            html: '<span>'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span>',
-            inputPlaceholder: this.translate.instant("medication.Write the patient weight")+ ' ('+this.settings.massunit+')',
-            input: 'text',
-            confirmButtonText: this.translate.instant("generics.Save"),
-            cancelButtonText: this.translate.instant("generics.Cancel"),
-            showCancelButton: false,
-            reverseButtons: true,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            footer: '<span class="">'+this.translate.instant("medication.if you want to change")+ '<a href="/pages/profile"> '+this.translate.instant("medication.here")+'</a></span>'
-          }).then(function (weight) {
-            if (weight.value) {
-              this.submitWeight(weight.value);
-              this.checkBirthDate();
-            } else {
-              console.log('rechaza');
-            }
-
-          }.bind(this))
+          if(this.age==null){
+            Swal.fire({
+              title: this.translate.instant("medication.There is patient information needed"),
+              html: '<form class="form"><span class="d-block">'+this.translate.instant("medication.Select date of birth")+'</span><span class="d-block"><input id="datepicker" type="date"></span>'+'<span class="mt-1">'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span><span class="d-block"><input id="weight" type="text"></span></form>',
+              preConfirm: () => {
+                if ($('#datepicker').val() && $('#weight').val()) {
+                   // Handle return value 
+                   var weight = $('#weight').val();
+                   if(!patt.test(weight.toString())){
+                    Swal.showValidationMessage(this.translate.instant("anthropometry.Invalid weight"))
+                   }
+                } else {
+                  Swal.showValidationMessage(this.translate.instant("generics.requiredfieldsmissing"))   
+                }
+              },
+              confirmButtonText: this.translate.instant("generics.Save"),
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+            }).then(function(result) {
+              if(result.value){
+               this.submitWeight($('#weight').val());
+               this.saveBirthDate($('#datepicker').val())
+              }
+            }.bind(this));
+          }else{
+            Swal.fire({
+              title: this.translate.instant("medication.The weight is needed"),
+              html: '<span>'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span>',
+              inputPlaceholder: this.translate.instant("medication.Write the patient weight")+ ' ('+this.settings.massunit+')',
+              input: 'text',
+              inputValidator: (value) => {
+                if (!patt.test(value)) {
+                  return this.translate.instant("anthropometry.Invalid weight")
+                }
+              },
+              confirmButtonText: this.translate.instant("generics.Save"),
+              cancelButtonText: this.translate.instant("generics.Cancel"),
+              showCancelButton: false,
+              reverseButtons: true,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              footer: '<span class="">'+this.translate.instant("medication.if you want to change")+ '<a href="/pages/profile"> '+this.translate.instant("medication.here")+'</a></span>'
+            }).then(function (weight) {
+              if (weight.value) {
+                this.submitWeight(weight.value);
+              } else {
+                console.log('rechaza');
+              }
+  
+            }.bind(this))
+          }
+          
         }else if(res.message == 'old weight'){
           console.log(res.weight)
           Swal.fire({
@@ -196,6 +228,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
             inputPlaceholder: this.translate.instant("medication.Write the patient weight")+ ' ('+this.settings.massunit+')',
             input: 'text',
             inputValue: res.weight.value,
+            inputValidator: (value) => {
+              if (!patt.test(value)) {
+                return this.translate.instant("anthropometry.Invalid weight")
+              }
+            },
             confirmButtonText: this.translate.instant("generics.Save"),
             cancelButtonText: this.translate.instant("generics.Cancel"),
             showCancelButton: false,
@@ -230,6 +267,12 @@ export class MedicationComponent implements OnInit, OnDestroy {
         didOpen:function(){
           console.log(Swal.getHtmlContainer());
           console.log($('#datepicker').val);
+        },
+        preConfirm: () => {
+          if (!$('#datepicker').val()) {
+             // Handle return value 
+             Swal.showValidationMessage(this.translate.instant("generics.requiredfieldsmissing"))
+          }
         },
         confirmButtonText: this.translate.instant("generics.Save"),
         allowOutsideClick: false,

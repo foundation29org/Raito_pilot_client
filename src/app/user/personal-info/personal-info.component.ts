@@ -49,7 +49,7 @@ export class SearchTermService {
   selector: 'app-personal-info',
   templateUrl: './personal-info.component.html',
   styleUrls: ['./personal-info.component.scss'],
-  providers: [PatientService, SearchTermService, { provide: LOCALE_ID, useFactory: getCulture, useValue: 'es-ES' }, ApiDx29ServerService]
+  providers: [PatientService, SearchTermService, { provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService]
 })
 export class PersonalInfoComponent implements OnInit, OnDestroy {
   lang: string = 'en';

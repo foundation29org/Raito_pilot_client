@@ -31,6 +31,14 @@ span{
   font-size: 11px !important;
 }
 
+.swal2-icon > span{
+  font-size: 1rem !important;
+}
+
+/*body{
+  font-size: 11px !important;
+}*/
+
 .dark{
   color: #343a40;
 }
