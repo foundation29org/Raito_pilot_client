@@ -1646,7 +1646,11 @@
     "All data saved with FHIR standard": "Todos los datos guardados con el estándar FHIR",
     "What is FHIR": "¿Qué es FHIR?",
     "FHIR1": "FHIR, que se pronuncia 'fire', son las siglas de Fast Healthcare Interoperability Resources. Es un lenguaje común utilizado por múltiples sistemas de información médica. Al igual que los lenguajes comunes, permite la comunicación entre ellos. Tener sus datos en FHIR significa que puede llevarlos a muchos hospitales del mundo y ellos podrán leerlos e incorporarlos a su historia clínica.",
-    "sharepart1": "Puedes descargar o compartir un informe resumen de tus datos. También puedes descargar o enviar una copia anonimizada completa de tus datos, que no es un documento fácilmente legible, pero vale para facilitar la recopilación y análisis de datos.",
+    "sharepart1": "Puedes descargar o compartir un informe resumido de sus datos. También puede descargar o compartir una copia anónima de sus datos para la investigación.",
+    "sharetitle1": "Informe resumido",
+    "sharecontent1": "El informe incluye gráficos de convulsiones, calidad de vida y medicación, así como su lista de síntomas.",
+    "sharetitle2": "Datos para la investigación",
+    "sharecontent2": "El archivo generado está destinado a la agregación y el análisis de datos.",
     "Password is incorrect": "La contraseña es incorrecta",
     "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",
     "please enter your password": "Por seguridad, introduce tu contraseña",
@@ -1703,6 +1707,7 @@
   "pdf":{
     "grap1": "El siguiente gráfico muestra cómo evoluciona el número de convulsiones.",
     "grap2": "El siguiente gráfico muestra cómo evoluciona la calidad de vida.",
-    "grap3": "El siguiente gráfico muestra la medicación en el tiempo. La dosis está normalizada a la dosis recomendada por medicamento."
+    "grap3": "El siguiente gráfico muestra la medicación en el tiempo. La dosis está normalizada a la dosis recomendada por medicamento.",
+    "contentDemo": "Los datos que aparecen a continuación no son los suyos, sino una plantilla para mostrar los datos que contiene el informe."
   }
 }
