@@ -194,7 +194,7 @@
     "No files have been uploaded": "No ha cargado ningún fichero",
     "Close": "Cerrar",
     "ExportData": "Descargar",
-    "ShareData": "Compartir data",
+    "ShareData": "Compartir",
     "It has been successfully removed": "Se ha eliminado correctamente",
     "More information": "Más información",
     "Download": "Descargar",
@@ -211,7 +211,7 @@
     "Upload": "Subir",
     "There are no results for the search": "No hay resultados para la búsqueda",
     "Sort": "Ordenar por",
-    "Welcome to dx29": "Bienvenido a Dx29",
+    "Welcome to dx29": "Bienvenido a Raito",
     "Please enter the basic data": "Añade información sobre tu condición y tus síntomas.",
     "Change": "Cambiar",
     "Foundation 29": "Fundación 29",
@@ -226,7 +226,7 @@
     "Show": "Mostrar",
     "Hide": "Ocultar",
     "Details": "Details",
-    "Dx29 score":"Puntuación Dx29",
+    "Dx29 score":"Puntuación Raito",
     "Accept": "Aceptar",
     "Reject": "Rechazar",
     "Description": "Descripción",
@@ -550,7 +550,7 @@
     "Gene score": "Puntuación del genotipo",
     "Overall score": "Puntuación general",
     "Calculating genes and their score": "Cálculo de genes y su puntuación",
-    "Calculating Dx29 score": "Cálculo de la puntuación Dx29",
+    "Calculating Dx29 score": "Cálculo de la puntuación Raito",
     "New case": "Ayudar a un paciente",
     "Help another patient": "Ayudar a otro paciente",
     "Cases": "Mis casos",
@@ -564,7 +564,7 @@
     "Genetic information": "Información genética",
     "Notes and Conclusion": "Notas",
     "Diagnosis powered by genes": "Diagnóstico impulsado por genes",
-    "DashboardTitle": "Dx29 es sólo para uso de investigación. No diagnostica, produce una lista clasificada de genes sospechosos que proporcionan asistencia para casos de enfermedades raras. Los pacientes deben discutir sus hallazgos con su proveedor de atención médica. Nuestros resultados clínicos utilizan un conjunto de algoritmos de puntuación que comparan la similitud semántica de cada uno de sus hallazgos clínicos con los que normalmente presenta cada enfermedad. La alta similitud resulta en una puntuación alta para una enfermedad.",
+    "DashboardTitle": "Raito es sólo para uso de investigación. No diagnostica, produce una lista clasificada de genes sospechosos que proporcionan asistencia para casos de enfermedades raras. Los pacientes deben discutir sus hallazgos con su proveedor de atención médica. Nuestros resultados clínicos utilizan un conjunto de algoritmos de puntuación que comparan la similitud semántica de cada uno de sus hallazgos clínicos con los que normalmente presenta cada enfermedad. La alta similitud resulta en una puntuación alta para una enfermedad.",
     "MsgExtractorField": "Se le advierte que no ingrese los siguientes datos personales de campo o identificación del paciente cuyo caso se está revisando, bajo su responsabilidad",
     "MsgUploadFileType": "Subir PDF, DOCX, o imagen",
     "The monarch service is down": "El servicio Monarch está caído",
@@ -697,7 +697,7 @@
   },
   "sharesection":{
     "Sharing menu": "Menú de compartición",
-    "Invite": "Invitar a usar Dx29",
+    "Invite": "Invitar a usar Raito",
     "What can it be done": "¿Qué se puede hacer con el caso?",
     "Write a message for the receptor": "Escribe un mensaje para darle contexto al receptor.",
     "Role": "Rol"
@@ -849,10 +849,10 @@
   },
   "dataprocessing": {
     "I agree with the": "Estoy de acuerdo con el",
-    "data processing by DX29": "tratamiento de datos por Dx29.",
-    "title": "ACUERDO DE TRATAMIENTO DE DATOS POR PARTE DE Dx29",
-    "p1-1": "El servicio prestado por Fundación 29 de Febrero a través de la herramienta Dx29 está enfocado a ayudar a profesionales de la medicina y la genética durante el proceso de diagnóstico de enfermedades raras, reduciendo el tiempo y haciéndolo más preciso. Usando algoritmos de inteligencia artificial, ayuda a los especialistas a incorporar información del paciente para identificar síntomas y buscar conexiones entre los mismos, guiándoles en la identificación de nuevos síntomas. Finalmente, Dx29 sugiere una lista clasificada de patologías para que el profesional considere la realización de nuevas pruebas y así confirmar el diagnóstico final. Los algoritmos utilizados durante este proceso se mejoran periódicamente con los datos aportados por los especialistas.",
-    "p1-2": "Los usuarios son profesionales especialistas, relacionados con la medicina y la genética (en adelante, 'el usuario' / 'los usuarios'), que quieren hacer uso del servicio prestado por Dx29. Como tales, son RESPONSABLES DEL TRATAMIENTO de los datos de sus pacientes",
+    "data processing by DX29": "tratamiento de datos por Raito.",
+    "title": "ACUERDO DE TRATAMIENTO DE DATOS POR PARTE DE Raito",
+    "p1-1": "El servicio prestado por Fundación 29 de Febrero a través de la herramienta Raito está enfocado a ayudar a profesionales de la medicina y la genética durante el proceso de diagnóstico de enfermedades raras, reduciendo el tiempo y haciéndolo más preciso. Usando algoritmos de inteligencia artificial, ayuda a los especialistas a incorporar información del paciente para identificar síntomas y buscar conexiones entre los mismos, guiándoles en la identificación de nuevos síntomas. Finalmente, Raito sugiere una lista clasificada de patologías para que el profesional considere la realización de nuevas pruebas y así confirmar el diagnóstico final. Los algoritmos utilizados durante este proceso se mejoran periódicamente con los datos aportados por los especialistas.",
+    "p1-2": "Los usuarios son profesionales especialistas, relacionados con la medicina y la genética (en adelante, 'el usuario' / 'los usuarios'), que quieren hacer uso del servicio prestado por Raito. Como tales, son RESPONSABLES DEL TRATAMIENTO de los datos de sus pacientes",
     "p1-3": "De esta forma Fundación 29 será el ENCARGADO DEL TRATAMIENTO de los datos para proveer del servicio con la finalidad expresada en el párrafo primero.",
     "p1-4": "Para la prestación de dicho servicio es necesario que el ENCARGADO tenga acceso y realice tratamientos de datos de carácter personal de los pacientes",
     "p1-5": "Ambas partes, RESPONSABLE y ENCARGADO, reconocen cumplir con todas las obligaciones derivadas de la normativa comunitaria y nacional en materia de protección de datos, en especial las relativas al derecho de información, consentimiento y deber de secreto, y a la adopción de las medidas de seguridad técnicas y organizativas que garanticen la seguridad de los datos personales.",
@@ -903,7 +903,7 @@
   "homepatientdx": {
     "title": "Donando sangre puedes salvar una vida",
     "subtitle": "Donando tus datos médicos, puedes salvar muchas",
-    "titlep1.1": "Regístrate como paciente en Dx29 y ayúda a otros pacientes como tú.",
+    "titlep1.1": "Regístrate como paciente en Raito y ayúda a otros pacientes como tú.",
     "titlep1.2": "Con la información de todos los donantes queremos avanzar en el conocimiento de las enfermedades raras para que otros pacientes puedan finalmente tener un diagnóstico",
     "titlep2.1.1": "Cada vez que visitas a un medico o te hacen una prueba, generas datos de salud.",
     "titlep2.1.2": "Tú eres el único propietario de esos datos y decides cómo se deben usar.",
@@ -917,7 +917,7 @@
     "titlep3.3": "Tus datos apoyarán proyectos de investigación",
     "subtitlep3.3": "Con el fin de valorar tu adecuación al programa, cedemos los datos de salud del menor a tu cargo a profesionales de la salud para que emitan una opinión.",
     "titlep4.1": "Cómo donar tus datos",
-    "subtitlep4.1": "Date de alta como paciente en Dx29",
+    "subtitlep4.1": "Date de alta como paciente en Raito",
     "subtitlep4.2": "y sigue un sencillo proceso para compartir tus datos médicos (diagnóstico, informes, síntomas...). Podrás completarlo aunque no tengas un diagnóstico todavía.",
     "subtitlep4.3": "Al finalizar el proceso obtendrás un informe descargable que resume tu condición y una representación gráfica de tu situación en el complejo universo de las enfermedades raras y tu carnet de donante de datos digital.",
     "titlep5": "Ayúdanos a conseguir más donantes",
@@ -925,12 +925,12 @@
     "titlep5.2": "Comparte esta imagen en tus redes sociales.",
     "titlep5.3": "Pídele a tu medico que se de alta como profesional.",
     "subtitlep5.3": "Regístrate",
-    "Dx29 for patients": "Dx29 para pacientes"
+    "Dx29 for patients": "Raito para pacientes"
   },
   "dashboardpatient": {
     "My data": "Mis datos",
     "BackMydata": "Volver a mis datos",
-    "msgIntro": "Dx29 is a tool to change the way we do medicine. With Dx29 you can indicate the symptoms you have as a patient. This information is important so that we can use it to diagnose other patients as the information we have in current databases is not correct. Your data are yours, we will only use them to improve the diagnostic engines, always with anonymous information. In exchange, we will try to give you features that will help you on a daily basis, such as a map that indicates where you are compared to other patients like you or a report that helps you explain your condition. But the most important thing is that with your help you will be able to help others like you. Can you help us?",
+    "msgIntro": "Raito is a tool to change the way we do medicine. With Raito you can indicate the symptoms you have as a patient. This information is important so that we can use it to diagnose other patients as the information we have in current databases is not correct. Your data are yours, we will only use them to improve the diagnostic engines, always with anonymous information. In exchange, we will try to give you features that will help you on a daily basis, such as a map that indicates where you are compared to other patients like you or a report that helps you explain your condition. But the most important thing is that with your help you will be able to help others like you. Can you help us?",
     "Calculating your position on the map": "Calculando tu posición en el mapa",
     "Condition": "Condición",
     "This is you": "Este eres tú!!",
@@ -968,7 +968,7 @@
     "Enter at least one symptom to see the patient map": "No tienes síntomas todavía. Introduce al menos un síntoma para ver el mapa de paciente.",
     "Loading data": "Cargando información",
     "Share": "Compartir",
-    "Send invite to use Dx29": "Paciente – envía invitación para unirse a Dx29",
+    "Send invite to use Dx29": "Paciente – envía invitación para unirse a Raito",
     "Share your data anonymously": "Médico",
     "Invite": "Invitar",
     "Shared with": "Casos compartidos",
@@ -1030,7 +1030,7 @@
     "Invited": "Invitado"
   },
   "footer":{
-    "Dx29info": "Dx29 es una herramienta de búsqueda y referencia que se proporciona con fines informativos y no pretende sustituir el juicio o la experiencia del clínico. No debe utilizarse para diagnosticar o tratar afecciones médicas."
+    "Dx29info": "Raito es una herramienta de búsqueda y referencia que se proporciona con fines informativos y no pretende sustituir el juicio o la experiencia del clínico. No debe utilizarse para diagnosticar o tratar afecciones médicas."
   },
   "patdiagdashboard":{
     "Show full text": "Mostrar todo el texto",
@@ -1042,12 +1042,12 @@
     }
   },
   "InfoSystem":{
-    "titleReload": "Hay una nueva versión disponible de Dx29",
+    "titleReload": "Hay una nueva versión disponible de Raito",
     "bodyReload": "Se va a recargar la página automáticamente para que estés actualizado",
-    "TitleNewVersion": "Se acerca una nueva versión de Dx29",
-    "SubtitleNewVersion1": "Dx29 estará en mantenimiento entre las",
+    "TitleNewVersion": "Se acerca una nueva versión de Raito",
+    "SubtitleNewVersion1": "Raito estará en mantenimiento entre las",
     "SubtitleNewVersion2": "del",
-    "SubtitleNewVersion3": "Por favor, evita usar Dx29. Los cambios no pueden ser guardados durante este período.",
+    "SubtitleNewVersion3": "Por favor, evita usar Raito. Los cambios no pueden ser guardados durante este período.",
     "Spanishtranslations": "Algunas traducciones en español son automáticas. Si ves algo raro, escribe a support@foundation29.org",
     "Spanishtranslations2": "Algunas traducciones en español son automáticas. Si ves algo raro, escribe a <a href='mailto:support@foundation29.org'>support@foundation29.org</a>"
   },
@@ -1148,14 +1148,14 @@
     "Email sent to": "Email enviado a",
     "Sponsor": "Haz clic aquí para saber todo sobre",
     "click here": "ESTÁ AQUÍ",
-    "If you want to know how Dx29": "Si quieres saber como funciona Dx29 y la precisión de sus resultados pulsa",
+    "If you want to know how Dx29": "Si quieres saber como funciona Raito y la precisión de sus resultados pulsa",
     "you have to select": "¡Estupendo! Ahora tiene que seleccionar los síntomas, para eliminar errores y ser precisos en el diagnóstico, es un paso muy importante para ayudar a tu paciente. Tienes que seleccionar entre 5 y 10 “síntomas guía”. Los síntomas guía son los que consideras que caracterizan a tu paciente y que tu ojo clínico te dice que son importantes.",
     "remembertitle": "El número mínimo de síntomas es 2",
     "remember": "Se recomienda añadir al menos 5.",
     "Do not show this message again": "No volver a mostrar este mensaje",
     "When you have selected them": "Cuando los hayas seleccionados tienes que hacer clic en el botón “Ver enfermedades propuestas”.",
     "InfoDx29":{
-      "title":"La precisión de Dx29",
+      "title":"La precisión de Raito",
       "p1": "Nuestro algoritmo de cálculo de enfermedades analiza y procesa los síntomas que nos indiques y, en base a esta información, te propone un listado de posibles diagnósticos.",
       "p3": "Para ganarnos tu confianza, lo hemos puesto a prueba generando distintos escenarios. No existen suficientes datos públicos y anónimos de pacientes, por lo que hemos realizado simulaciones del siguiente modo:",
       "p5": "Hemos creado un listado de pacientes. Para una lista de aproximadamente 10000 enfermedades, basándonos en la información de los síntomas que proporciona tanto <a href='https://www.orpha.net/consor/cgi-bin/index.php' target='_blank'>Orphanet</a> como <a href='https://www.omim.org/' target='_blank'>OMIM</a> de las mismas, conseguimos dos tipos de pacientes:<ul><li>Los ideales, cuyos síntomas están formado únicamente por una selección de los síntomas conocidos de esa enfermedad.</li><li>Los realistas. El conjunto de los síntomas de estos pacientes, a diferencia de los anteriores, contendrá síntomas no tan precisos. Esto se entiende mejor con el ejemplo de convulsiones epilépticas de inicio focal. En algunos pacientes, en lugar de incluir este síntoma, hemos incluido convulsiones epilépticas, un término que es menos preciso que el anterior según <a href='https://hpo.jax.org/' target='_blank'>HPO</a>.</li></ul>",
@@ -1163,7 +1163,7 @@
       "p9": "Los resultados de estas pruebas son los que mostramos a continuación. Como podrás ver, nuestro algoritmo depende muy fuertemente de la calidad de los síntomas que nos facilites. Así, cuánto más preciso seas con los síntomas de entrada, mejores resultados podremos darte.",
       "p11": "Con los pacientes ideales predecimos la enfermedad correcta entre las 10 primeras en un 91.9 % (top-10) de las veces.",
       "p12": "Por otro lado, con los pacientes realistas el porcentaje de acierto en el top 10 es de 51.1%.",
-      "p13": "Si tienes alguna duda sobre cómo funciona Dx29 os sobre cómo te podemos ayudar, ponte en contacto con nosotros.",
+      "p13": "Si tienes alguna duda sobre cómo funciona Raito os sobre cómo te podemos ayudar, ponte en contacto con nosotros.",
       "Percentage of success of the disease": "Porcentaje de acierto de la enfermedad",
       "Ideal patients": "Pacientes ideales",
       "Position of the disease": "Posición de la enfermedad",
@@ -1211,7 +1211,7 @@
       "button": "Quiero registrarme, es gratis!"
     },
     "swal":{
-      "title": "Regístrate para utilizar la capacidad total de Dx29",
+      "title": "Regístrate para utilizar la capacidad total de Raito",
       "title2": "de forma totalmente gratuita",
       "subtitle": "Prepárate para recibir tus nuevos poderes",
       "p1": "Nos hemos tomado la molestia de prepararte para tu nuevo rol, por lo tanto, <ins>tendrás en tu nuevo perfil los síntomas y enfermedades que has obtenido</ins> para que tu despegue sea lo más cómodo posible.",
@@ -1226,10 +1226,10 @@
     "add the symptoms manually": "Añadir manualmente",
     "try again": "Intentarlo de nuevo",
     "aboutUs":{
-      "title": "¿Qué es Dx29?",
+      "title": "¿Qué es Raito?",
       "p2": "Si ya tienes un diagnóstico, podrás generar tu historial médico y también estar al día de los ensayos clínicos y grupos de pacientes de tu enfermedad.",
-      "p1": "Dx29 es un proyecto sin ánimo de lucro para ayudar a los pacientes y a los médicos a entender la enfermedad del paciente. Es un software completamente gratuito para el análisis y la gestión de sus síntomas, la creación y el intercambio de su historial médico y la ayuda para llegar a un diagnóstico.",
-      "p3": "Los datos de Dx29 sólo pueden ser compartidos por su propietario. La Fundación 29 nunca los compartirá con nadie. En el futuro, incluiremos una funcionalidad para que los pacientes puedan almacenar sus propios datos en su espacio de datos privado. Si quieres estar al día de los avances de este y otros proyectos, inscríbete aquí:",
+      "p1": "Raito es un proyecto sin ánimo de lucro para ayudar a los pacientes y a los médicos a entender la enfermedad del paciente. Es un software completamente gratuito para el análisis y la gestión de sus síntomas, la creación y el intercambio de su historial médico y la ayuda para llegar a un diagnóstico.",
+      "p3": "Los datos de Raito sólo pueden ser compartidos por su propietario. La Fundación 29 nunca los compartirá con nadie. En el futuro, incluiremos una funcionalidad para que los pacientes puedan almacenar sus propios datos en su espacio de datos privado. Si quieres estar al día de los avances de este y otros proyectos, inscríbete aquí:",
       "btn1": "Visitar la página web de Foundation 29",
       "Who are we": "Visita nuestra web",
       "titlef29": "¿Qué es Fundación 29?",
@@ -1258,12 +1258,8 @@
       },
       "timeline":{
         "title":"Vamos a ayudarte a construir una línea de tiempo de sus síntomas. Estos datos pueden mejorar la gestión de tu enfermedad y ayudar a otros pacientes como usted en su odisea diagnóstica. Hay dos pasos sencillos:",
-        "subtitlea": "En este informe, el usuario de Dx29 describe los síntomas del paciente con el objetivo de mejorar la comunicación médico-paciente.",
-        "subtitleb": "Se recomienda llevar el informe a la siguiente visita médica para que tanto el paciente como el médico ayuden a precisar más los",
-        "subtitlec": "contenidos.",
-        "subtitle1": "Este informe ha sido generado con Dx29, una herramienta de asistencia al diagnóstico a través de la descripción sintomatológica",
-        "subtitle2": "de precisión desarrollada por Fundación 29 de Febrero (www.foundation29.org). Juntos aceleramos el proceso de diagnóstico de",
-        "subtitle3": "enfermedades raras y su tratamiento de una forma fácil y sencilla.",
+        "subtitlea": "Este informe muestra los datos incluidos en Raito con el objetivo de mejorar la comunicación paciente-médico. Se recomienda llevar",
+        "subtitleb": "el informe a la siguiente visita médica para que tanto el paciente como el médico puedan ayudar a perfeccionar los contenidos.",
         "footer1": "Somos una organización sin ánimo de lucro que diseña y crea herramientas para la gestión de los pacientes de sus propios datos,",
         "footer2": "revolucionando el diagnóstico y el manejo de las enfermedades raras. Damos el poder a los pacientes y los médicos para que utilicen",
         "footer3": "sus datos médicos en su beneficio y el de la comunidad. Creemos que hay una forma mejor de hacer las cosas centrados en el paciente",
@@ -1305,9 +1301,9 @@
         "Appendix2Title":"Síntomas sin información cronológica",
         "Symptoms":"Síntomas",
         "WaitDownload":"Por favor, espera se están descargando los datos de tu cronología.",
-        "p1":"Si quieres guardar tu cronología para poder editarla, descargarla y/o compartirla con tu médico en cualquier momento, registrate en Dx29.",
+        "p1":"Si quieres guardar tu cronología para poder editarla, descargarla y/o compartirla con tu médico en cualquier momento, registrate en Raito.",
         "p2": "Nos hemos tomado la molestia de prepararte para tu nuevo rol, por lo tanto, <ins>tendrás en tu nuevo perfil todos los datos que has introducido </ins> para que tu despegue sea lo más cómodo posible.",
-        "p3":"Además de esto, Dx29 te dará otros poderes, que incluyen:",
+        "p3":"Además de esto, Raito te dará otros poderes, que incluyen:",
         "Whats":"¿Qué es esto?",
         "WorkPC":"Para utilizar esta herramienta, de forma más sencilla,  recomendamos el uso de un ordenador",
         "Duration":"Duración",
@@ -1379,7 +1375,7 @@
         "t1":"La comunidad necesita tu ayuda",
         "p1": "Los datos que tú nos puedes dar sobre tu enfermedad, al completar los distintos pasos de la cronología, son muy importantes. Porque esa información no viene directamente de las bases de datos tradicionales, que se usan para hacer los diagnósticos y contienen información imprecisa sobre las enfermedades raras.",
         "p2": "En Fundación 29 queremos cambiar la forma en la que se hace Medicina. Queremos que los datos de los pacientes se usen y que se pueda hacer más investigación con ellos.",
-        "p3": "Estamos construyendo una herramienta para agilizar el diagnóstico de enfermedades raras (Dx29) y necesitamos tus datos para hacerla más precisa y así poder ayudar a más y más pacientes.",
+        "p3": "Estamos construyendo una herramienta para agilizar el diagnóstico de enfermedades raras (Raito) y necesitamos tus datos para hacerla más precisa y así poder ayudar a más y más pacientes.",
         "p4": "Únete a nuestra revolución donándonos estos datos y dejando aquí tu dirección de correo electrónico. Además, te mantendremos informado de todos nuestros avances."
       }
     }
@@ -1397,7 +1393,7 @@
     "p2.1": "Quiero un diagnóstico",
     "p2.2": "Quiero saber más sobre mi enfermedad",
     "p3": "Añadir síntomas",
-    "t4title": "Ventajas de registrarse en Dx29",
+    "t4title": "Ventajas de registrarse en Raito",
     "t5": "Nuestro ecosistema",
     "t6": "Premios",
     "Institutions": "Instituciones",
@@ -1410,7 +1406,7 @@
     "home":{
       "keywords": "diagnóstico, diagnosticar, enfermedad rara, síndrome, enfermedad, pronóstico, síntomas, HPO, epilepsia, crisis epiléptica, status epiléctico, convulsiones, retraso en el desarrollo, temblores, palpitaciones, tónica-clónica, mioclónica, pediatría, genética, neurología, extracción de síntomas, enfermedad genética",
       "description": "Extracción y curado de síntomas HPO desde texto y documentos. IA que ayuda al diagnóstico de enfermedades raras. Totalmente gratuita para médicos y pacientes.",
-      "title": "Dx29: Extrae síntomas y ayuda al diagnóstico"
+      "title": "Raito: Extrae síntomas y ayuda al diagnóstico"
     },
     "physicians":{
       "keywords": "Comprobador de síntomas, diagnostico genético virtual, diagnosticar enfermedades raras, síntomas de enfermedades raras, enfermedades raras",
@@ -1613,7 +1609,9 @@
     "Patient was awake": "El paciente estaba despierto",
     "Write down any details": "Anote cualquier detalle",
     "State": "Estado",
-    "invalidFile": "El fichero importado no es el correcto"
+    "invalidFile": "El fichero importado no es el correcto",
+    "These are the symptoms included in Raito by the user": "Estos son los síntomas incluidos en Raito por el usuario:",
+    "No symptoms have been added in Raito": "No ha añadido síntomas en Raito."
   },
   "mydata":{
     "title": "Mi contenedor de datos",
@@ -1648,8 +1646,7 @@
     "All data saved with FHIR standard": "Todos los datos guardados con el estándar FHIR",
     "What is FHIR": "¿Qué es FHIR?",
     "FHIR1": "FHIR, que se pronuncia 'fire', son las siglas de Fast Healthcare Interoperability Resources. Es un lenguaje común utilizado por múltiples sistemas de información médica. Al igual que los lenguajes comunes, permite la comunicación entre ellos. Tener sus datos en FHIR significa que puede llevarlos a muchos hospitales del mundo y ellos podrán leerlos e incorporarlos a su historia clínica.",
-    "sharepart1": "Compartir tus datos significa que puedes enviar una copia anonimizada de tus datos a instituciones, investigadores o a quien consideres a través de cualquier aplicación de tu elección.",
-    "sharepart2": "Generaremos un archivo estructurado con todos tus datos en RAITO que es el más adecuado para compartir con investigadores e instituciones. Este tipo de archivo no es un documento de texto fácilmente legible, sino que está pensado para facilitar la recopilación de datos específicos.",
+    "sharepart1": "Puedes descargar o compartir un informe resumen de tus datos. También puedes descargar o enviar una copia anonimizada completa de tus datos, que no es un documento fácilmente legible, pero vale para facilitar la recopilación y análisis de datos.",
     "Password is incorrect": "La contraseña es incorrecta",
     "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",
     "please enter your password": "Por seguridad, introduce tu contraseña",
@@ -1667,7 +1664,7 @@
     "a3": "Raito sólo almacenará el nombre y la información de contacto, mientras que tus datos médicos se guardarán donde tú elijas. Puedes almacenarlos en tu dispositivo o en tu proveedor de almacenamiento en la nube. Raito te ayudará con esto. A esta carpeta la llamamos tu propio contenedor de datos.",
     "t4": "Quién más utiliza tus datos",
     "a4": "Nadie más tiene acceso a tus datos. Tus datos son tuyos y están seguros.",
-    "t6": "¿Qué datos se comparten con f29?",
+    "t6": "¿Qué datos se comparten con F29?",
     "a6": "Raito recoge datos básicos de información del usuario. Para poder ofrecerte los servicios de Raito, recogemos tu nombre y tu correo electrónico. El resto de datos que incluyes en Raito se guardan en tu propio dispositivo o en tu propio servicio de almacenamiento en la nube, por lo que F29 no tiene acceso a ellos.",
     "readPolicy": "Lea la versión completa de la política de privacidad aquí"
   },
@@ -1702,5 +1699,10 @@
     "a7": "Los datos personales facilitados no serán cedidos a terceros sin previa autorización del titular de los mismos.",
     "footer1": "No obstante lo anterior, el interesado podrá contactar con DSEF a través de info@dravet.eu",
     "footer2": "Asimismo, cuando el interesado considere que el ejercicio de sus derechos no ha sido efectivo, podrá presentar una reclamación ante la Agencia Croata de Protección de Datos."
+  },
+  "pdf":{
+    "grap1": "El siguiente gráfico muestra cómo evoluciona el número de convulsiones.",
+    "grap2": "El siguiente gráfico muestra cómo evoluciona la calidad de vida.",
+    "grap3": "El siguiente gráfico muestra la medicación en el tiempo. La dosis está normalizada a la dosis recomendada por medicamento."
   }
 }

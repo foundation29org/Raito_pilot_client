@@ -50,11 +50,7 @@ export class BlobStorageService {
 
   createContainerIfNotExists(accessToken: IBlobAccessToken, section: string){
 
-      if(section=='map'){
-        //this.loadMapOnBlob(accessToken.containerName);
-      }else if(section=='ncr'){
-        //this.loadMapOnBlob(accessToken.containerName);
-      }else if(section=='patientGenoFiles'){
+      if(section=='patientGenoFiles'){
         this.loadPatientGenoFiles(accessToken.containerName);
       }else{
         this.loadFilesOnBlob(accessToken.containerName);
@@ -71,7 +67,7 @@ export class BlobStorageService {
 
     this.blobService.singleBlobPutThresholdInBytes = customBlockSize;
     var metadata = {
-        category: 'Dx29',
+        category: 'Raito',
         type: 'sample'
     }
     var extension = filename.substr(filename.lastIndexOf('.'));
@@ -130,10 +126,7 @@ export class BlobStorageService {
         //call to nodejs for call microsoft genomics
         this.uploaded = true;
         this.change.emit(this.uploaded);
-        if(section=='map'){
-          console.log("loadMapOnBlob()")
-          this.loadMapOnBlob(accessToken.containerName);
-        }else if(section=='ncrOrigenfile' || section=='ncrInfofile'){
+        if(section=='ncrOrigenfile' || section=='ncrInfofile'){
           console.log("file ncr upload")
           this.loadNcrResultsFilesPatientBlob(accessToken.containerName);
         }else if(section=='patientGenoFiles'){
@@ -146,33 +139,6 @@ export class BlobStorageService {
 
       }
     };
-  }
-
-  loadMapOnBlob(containerName){
-    this.filesMapOnBlob = [];
-    this.blobService.listBlobsSegmented(containerName, null, {
-      publicAccessLevel: 'blob'
-    }, function(error, resultMap, response) {
-      if (!error) {
-        //console.log(resultMap.entries);
-        var filesMap = [];
-        for (var i = 0; i < resultMap.entries.length; i++) {
-          //console.log(i)
-          //console.log((resultMap.entries[i].name).indexOf('myMapdx29'))
-          if((resultMap.entries[i].name).indexOf('myMapdx29')==0){
-            //console.log("FILES MAP FOUND")
-            filesMap.push(resultMap.entries[i]);
-          }
-        }
-        this.filesMapOnBlob = filesMap;
-        //console.log(this.filesMapOnBlob)
-        //console.log(this.changeFilesBlob.emit(this.filesMapOnBlob))
-        this.changeFilesMapBlob.emit(this.filesMapOnBlob);
-        // if result = true, container was created.
-        // if result = false, container already existed.
-      }
-    }.bind(this));
-
   }
 
   loadFilesOnBlob(containerName){
@@ -272,7 +238,6 @@ export class BlobStorageService {
     }, function(error, result, response) {
       if (!error) {
         this.loadFilesOnBlob(containerName);
-        //this.loadMapOnBlob(containerName);
         // if result = true, container was created.
         // if result = false, container already existed.
       }
@@ -286,7 +251,6 @@ export class BlobStorageService {
       if (!error) {
         this.loadFilesOnBlob(containerName);
         this.loadFilesVCF(containerName);
-        //this.loadMapOnBlob(containerName);
         // if result = true, container was created.
         // if result = false, container already existed.
       }

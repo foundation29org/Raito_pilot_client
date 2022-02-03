@@ -9,6 +9,10 @@ import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { PatientService } from 'app/shared/services/patient.service';
+import { SortService } from 'app/shared/services/sort.service';
+import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
+import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
+import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import { TermsConditionsPageComponent } from "app/pages/content-pages/terms-conditions/terms-conditions-page.component";
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
@@ -17,7 +21,7 @@ import { sha512 } from "js-sha512";
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  providers: [PatientService]
+  providers: [PatientService, ApiDx29ServerService, jsPDFService, Apif29BioService]
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('accordion') accordion: NgbAccordion;
@@ -34,8 +38,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   consentgroup: boolean = false;
   activeIds = [];
   myEmail: string = '';
+  lang: string = 'en';
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -43,6 +48,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           this.activeIds=[params['panel']]
         }
       }));
+      this.lang = sessionStorage.getItem('lang');
   }
 
   ngOnInit(): void {
@@ -175,6 +181,76 @@ exportData(){
      console.log(err);
      this.loading = false;
    }));
+}
+
+exportPDF(){
+  var infoDiseases = [];//this.getPlainInfoDiseases();
+  var phenotype = [];
+  this.subscription.add(this.apiDx29ServerService.getSymptoms(this.authService.getCurrentPatient().sub)
+    .subscribe(async (res: any) => {
+      if (!res.message) {
+        if (res.phenotype.data.length > 0) {
+          res.phenotype.data.sort(this.sortService.GetSortOrder("name"));
+          phenotype = res.phenotype.data;
+
+          var hposStrins = [];
+          phenotype.forEach(function (element) {
+              hposStrins.push(element.id);
+            });
+            //get symtoms
+            var phenotype2 = await this.callGetInfoTempSymptomsJSON(hposStrins, phenotype);
+            console.log(phenotype2);
+            this.jsPDFService.generateResultsPDF(phenotype2, infoDiseases, this.lang)
+            //phenotype = this.callGetInfoTempSymptomsJSON(hposStrins, phenotype);
+        }else{
+          this.jsPDFService.generateResultsPDF(phenotype, infoDiseases, this.lang)
+        }
+      }else{
+        this.jsPDFService.generateResultsPDF(phenotype, infoDiseases, this.lang)
+      }
+      
+    }, (err) => {
+      console.log(err);
+    }));
+  
+}
+
+async callGetInfoTempSymptomsJSON(hposStrins, phenotype) {
+  return new Promise(async function (resolve, reject) {
+    var lang = this.lang;
+    this.subscription.add(this.apif29BioService.getInfoOfSymptoms(lang, hposStrins)
+      .subscribe((res: any) => {
+  
+        var tamano = Object.keys(res).length;
+        if (tamano > 0) {
+          for (var i in res) {
+            for (var j = 0; j < phenotype.length; j++) {
+              if (res[i].id == phenotype[j].id) {
+                phenotype[j].name = res[i].name;
+                phenotype[j].def = res[i].desc;
+                phenotype[j].synonyms = res[i].synonyms;
+                phenotype[j].comment = res[i].comment;
+                if (phenotype[j].importance == undefined) {
+                  phenotype[j].importance = 1;
+                }
+              }
+            }
+          }
+          phenotype.sort(this.sortService.GetSortOrder("name"));
+        }
+        resolve (phenotype);
+  
+      }, (err) => {
+        resolve ([]);
+      }));
+  }.bind(this));
+  
+}
+
+loadSymptoms() {
+  var para = this.authService.getCurrentPatient();
+  //cargar el fenotipo del usuario
+  
 }
 
 confirmDelete(index, index2) {

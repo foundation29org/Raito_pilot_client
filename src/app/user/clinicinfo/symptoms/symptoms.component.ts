@@ -323,6 +323,9 @@ export class SymptomsComponent implements OnInit {
   downloadSymptoms() {
     if (this.phenotype.data.length != 0) {
       var infoDiseases = [];//this.getPlainInfoDiseases();
+      console.log(this.phenotype.data);
+      console.log(infoDiseases);
+      console.log(this.lang);
       this.jsPDFService.generateResultsPDF(this.phenotype.data, infoDiseases, this.lang)
     } else {
       Swal.fire(this.translate.instant("land.In order to download the symptoms"), '', "warning");
