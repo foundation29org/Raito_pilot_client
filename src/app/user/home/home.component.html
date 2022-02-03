@@ -232,6 +232,11 @@
                                   </a>
                             </div>
                         </div>
+                        <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && events.length > 0 && medications.length > 0 && feels.length > 0">
+                            <div class="col-7">
+                                <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
