@@ -58,9 +58,9 @@ export class jsPDFService {
         }
 
         //Add QR
-        var img_qr = new Image();
+        /*var img_qr = new Image();
         img_qr.src = "assets/img/elements/qr.png"
-        doc.addImage(img_qr, 'png', 160, 5, 32, 30);
+        doc.addImage(img_qr, 'png', 160, 5, 32, 30);*/
 
         this.newHeatherAndFooter(doc);
         positionY += 25;
@@ -165,7 +165,7 @@ export class jsPDFService {
         
         var date = this.getDate();
         if(save){
-            doc.save('Dx29_Timeline_' + date +'.pdf');
+            doc.save('Raito_Timeline_' + date +'.pdf');
             return;
         }else{
             var pdfBase64 = doc.output('datauristring');
@@ -247,7 +247,7 @@ export class jsPDFService {
             posInit = positionY;
         }
         var calendarIcon = new Image();
-        calendarIcon.src = "assets/img/pdf/ft-calendar.png"//https://dx29.ai/assets/img/pdf/ft-calendar.png
+        calendarIcon.src = "assets/img/pdf/ft-calendar.png"
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         
         doc.setFillColor(255, 255, 255);
@@ -317,7 +317,7 @@ export class jsPDFService {
         positionY += 10;
         doc.setTextColor(0, 0, 0);
         var calendarIcon = new Image();
-        calendarIcon.src = "assets/img/pdf/ft-help.png"//https://dx29.ai/assets/img/pdf/ft-help.png
+        calendarIcon.src = "assets/img/pdf/ft-help.png"
         doc.addImage(calendarIcon, 'png', 15, (positionY+4), 7, 7);
         doc.setFillColor(255, 255, 255);
         var heightRect = (5*(listSymptomsNullInfo.length)+5);
@@ -871,23 +871,23 @@ export class jsPDFService {
         // Cabecera inicial
         var img_logo = new Image();
         img_logo.src = "assets/img/logo-raito.png"
-        doc.addImage(img_logo, 'png', 20, 10, 29, 17);
+        doc.addImage(img_logo, 'png', 20, 10, 20, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         var actualDate = new Date();
         var dateHeader = this.getFormatDate(actualDate);
         if(lang=='es'){
-            this.writeHeader(doc, 89, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-            this.writeDataHeader(doc, 82, 7, dateHeader);
+            this.writeHeader(doc, 89, 0, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 87, 5, dateHeader);
         }else{
-            this.writeHeader(doc, 93, 2, this.translate.instant("land.diagnosed.timeline.RegDate"));
-            this.writeDataHeader(doc, 88, 7, dateHeader);
+            this.writeHeader(doc, 93, 0, this.translate.instant("land.diagnosed.timeline.RegDate"));
+            this.writeDataHeader(doc, 90, 5, dateHeader);
         }
 
        //Add QR
-        var img_qr = new Image();
+        /*var img_qr = new Image();
         img_qr.src = "assets/img/elements/qr.png"
-        doc.addImage(img_qr, 'png', 160, 5, 32, 30);
+        doc.addImage(img_qr, 'png', 160, 5, 32, 30);*/
 
         this.newHeatherAndFooter(doc);
 
@@ -900,24 +900,78 @@ export class jsPDFService {
         doc.setTextColor(117, 120, 125)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitlea"), 10, lineText += 5)
         doc.text(this.translate.instant("land.diagnosed.timeline.subtitleb"), 10, lineText += 5)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitlec"), 10, lineText += 5)
         lineText += 5
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle1"), 10, lineText += 5)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle2"), 10, lineText += 5)
-        doc.text(this.translate.instant("land.diagnosed.timeline.subtitle3"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
+
+        //Seizures
+        this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.text(this.translate.instant("pdf.grap1"), 10, lineText += 5)
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
+        var img_seizures = new Image();
+        img_seizures.src = "assets/img/pages/demo/seizures.jpg"
+        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 110, 30);
+        lineText += 35
+
+        //Quality of life
+        this.newSectionDoc(doc,this.translate.instant("charts.Quality of life"),'',null,lineText += 10)
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.text(this.translate.instant("pdf.grap2"), 10, lineText += 5)
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
+        var img_seizures = new Image();
+        img_seizures.src = "assets/img/pages/demo/qol.jpg"
+        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 110, 30);
+        lineText += 35
+
+        //Drugs
+        this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
+        doc.setFontSize(9);
+        doc.setTextColor(117, 120, 125)
+        doc.text(this.translate.instant("pdf.grap3"), 10, lineText += 5)
+        doc.setTextColor(0, 0, 0)
+        doc.setFontSize(10);
+        var img_seizures = new Image();
+        img_seizures.src = "assets/img/pages/demo/drugs.jpg"
+        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 111, 48);
+        lineText += 53
+
+        var img_seizures = new Image();
+        img_seizures.src = "assets/img/pages/demo/dose_"+lang+".jpg"
+        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 154, 29);
+        //lineText += 34
+
+        doc.addPage()
+        this.newHeatherAndFooter(doc)
+        lineText = 20;
+        
         //Symptoms
         const obj = infoSymptoms;
         this.newSectionDoc(doc,this.translate.instant("diagnosis.Symptoms"),'',null,lineText += 10)
-        this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
-        this.writeHeaderText(doc, 175, lineText, "Id");
-        lineText += 5;
-        for (var i = 0; i < obj.length; i++) {
-            lineText = this.writeText(doc, 10, lineText, obj[i].name);
-            lineText = this.writeLinkHP(doc, 175, lineText, (obj[i].id).toUpperCase());
+        if(obj.length>0){
+            doc.setFontSize(9);
+            doc.setTextColor(117, 120, 125)
+            doc.text(this.translate.instant("seizures.These are the symptoms included in Raito by the user"), 10, lineText += 5)
+            doc.setTextColor(0, 0, 0)
+            doc.setFontSize(10);
+            lineText += 2;
+            this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
+            this.writeHeaderText(doc, 175, lineText, "Id");
+            lineText += 5;
+            for (var i = 0; i < obj.length; i++) {
+                lineText = this.writeText(doc, 10, lineText, obj[i].name);
+                lineText = this.writeLinkHP(doc, 175, lineText, (obj[i].id).toUpperCase());
+                lineText += 7;
+            }
+        }else{
+            lineText = this.writeText(doc, 10, lineText+= 7, this.translate.instant("seizures.No symptoms have been added in Raito"));
             lineText += 7;
         }
+        
 
         //Diseases
         if(infoDiseases.length>0){
@@ -952,7 +1006,7 @@ export class jsPDFService {
 
         // Save file
         var date = this.getDate();
-        doc.save('Dx29_Report_' + date + '.pdf');
+        doc.save('Raito_Report_' + date + '.pdf');
 
     }
 
