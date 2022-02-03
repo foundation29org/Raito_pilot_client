@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   yAxisTicksSeizures = [];
   yAxisTicksDrugs = [];
 
-  pendingsTaks: number = 13;
+  pendingsTaks: number = 8;
   totalTaks: number = 0;
   tasksLoaded: boolean = false;
 
