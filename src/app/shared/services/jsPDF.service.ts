@@ -692,7 +692,7 @@ export class jsPDFService {
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         doc.setTextColor(51, 101, 138)
-        doc.textWithLink("www.raito.ai", 148, 290, { url: 'https://raito29.azurewebsites.net/register' });
+        doc.textWithLink("https://raito29.azurewebsites.net", 148, 290, { url: 'https://raito29.azurewebsites.net' });
         doc.setTextColor(0, 0, 0);
     }
 
@@ -905,6 +905,9 @@ export class jsPDFService {
         doc.setFontSize(10);
 
         //Seizures
+        doc.setFontSize(9);
+        doc.setTextColor(249, 66, 58)
+        doc.text(this.translate.instant("pdf.contentDemo"), 10, lineText += 5)
         this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
@@ -912,8 +915,8 @@ export class jsPDFService {
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
         var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/seizures.jpg"
-        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 110, 30);
+        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image3.png"
+        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);
         lineText += 35
 
         //Quality of life
@@ -924,8 +927,8 @@ export class jsPDFService {
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
         var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/qol.jpg"
-        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 110, 30);
+        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image2.png"
+        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);
         lineText += 35
 
         //Drugs
@@ -936,8 +939,8 @@ export class jsPDFService {
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
         var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/drugs.jpg"
-        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 111, 48);
+        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image1.png"
+        doc.addImage(img_seizures, 'png', 30, lineText+5, 111, 48);
         lineText += 53
 
         var img_seizures = new Image();

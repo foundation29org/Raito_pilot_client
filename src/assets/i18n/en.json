@@ -195,7 +195,7 @@
     "No files have been uploaded": "No files have been uploaded",
     "Close": "Close",
     "ExportData": "Download",
-    "ShareData": "Share data",
+    "ShareData": "Share",
     "It has been successfully removed": "It has been successfully removed",
     "More information": "Further information",
     "Download": "Download",
@@ -1645,7 +1645,11 @@
     "All data saved with FHIR standard": "All data saved with FHIR standard",
     "What is FHIR": "What is FHIR?",
     "FHIR1": "FHIR, pronounced 'fire', stands for Fast Healthcare Interoperability Resources. It is a common language used by multiple medical information systems. As common languages do, it allows communication between them. Having your data in FHIR means that you can take it to many hospitals in the world and they will be able to read it and incorporate in your medical record.",
-    "sharepart1": "You can download or share a summary report of your data. You can also download or send a complete anonymized copy of your data, which is not an easily readable document, but is useful to facilitate data collection and analysis.",
+    "sharepart1": "You can download or share a summary report of your data. You can also download or share an anonymized copy of your data for research.",
+    "sharetitle1": "Summary report",
+    "sharecontent1": "The report includes seizure, quality of life and medication graphs, as well as your list of symptoms.",
+    "sharetitle2": "Data for research",
+    "sharecontent2": "The generated file is intended for data aggregation and analysis.",
     "Password is incorrect": "Password is incorrect",
     "we will close your session": "For your security, we will close your session.",
     "please enter your password": "For security reasons, please enter your password",
@@ -1702,7 +1706,8 @@
   "pdf":{
     "grap1": "The following graph shows how the number of seizures evolves.",
     "grap2": "The following graph shows how the quality of life evolves.",
-    "grap3": "The following graph shows the medication in through time. The dose is normalized to the recommended dose per drug."
+    "grap3": "The following graph shows the medication in through time. The dose is normalized to the recommended dose per drug.",
+    "contentDemo": "The data below is not your data, but a template to show you what data the report contains."
   }
 }
 

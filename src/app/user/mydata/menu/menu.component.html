@@ -75,23 +75,34 @@
                                 <div>
                                     <div *ngIf="!showShare">
                                         <p class="text-muted">{{'mydata.sharepart1' | translate }}</p>
-                                        <div class="center-elements">
-                                            <button *ngIf="!showOption" class="btn btn-dark mr-1" type="button"
-                                            (click)="showOption=!showOption">{{'generics.ExportData' | translate }}</button>
-                                            <button *ngIf="showOption" class="btn btn-dark btn-sm d-block" (click)="showOption=false;">{{'generics.Back' | translate }}</button>
-                                            <button *ngIf="showOption" class="btn btn-dark mr-1" type="button"
-                                            (click)="exportData()">JSON</button>
-                                            <button *ngIf="showOption" class="btn btn-dark mr-1" type="button"
-                                            (click)="exportPDF()">PDF</button>
-                                            <div class="d-none"><span id="content"></span></div>
-                                            <button *ngIf="!showOption" class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare&&showOption=!showOption">{{'generics.ShareData' | translate }}</button>
+                                        <div class="row">
+                                            
+                                            <div class="col-md-12">
+                                                <p class="content-header mt-0 mb-0">{{'mydata.sharetitle1' | translate }}</p>
+                                                <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
+                                            </div>
+                                            <span class="col-md-12 center-elements">
+                                                <button class="btn btn-dark mr-1" type="button"
+                                                (click)="exportPDF()">{{'generics.ExportData' | translate }}</button>
+                                                <button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>
+                                            </span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="content-header mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
+                                                <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
+                                            </div>
+                                            <span class="col-md-12 center-elements">
+                                                <button class="btn btn-dark mr-1" type="button"
+                                                (click)="exportData()">{{'generics.ExportData' | translate }}</button>
+                                                <div class="d-none"><span id="content"></span></div>
+                                                <button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>
+                                            </span>
                                         </div>
                                     </div>
                                     <div *ngIf="showShare" class="center-elements">
-                                        <button class="btn btn-dark btn-sm d-block" (click)="showShare=false;showOption=false;showShare2=false;">{{'generics.Back' | translate }}</button>
-                                        <button *ngIf="showOption && !showShare2" class="btn btn-dark ml-1" type="button" (click)="showShare2=!showShare2">JSON</button>
-                                        <button *ngIf="showOption && !showShare2" class="btn btn-dark ml-1" type="button" (click)="showShare2=!showShare2">PDF</button>
-                                        <div *ngIf="showShare2">
+                                        <button class="btn btn-dark btn-sm d-block" (click)="showShare=false;">{{'generics.Back' | translate }}</button>
+                                        <div>
                                             <p class="danger">{{'generics.Under construction' | translate }}</p>
                                             <img class="w-100" src='assets/img/pages/demoshare.jpg'>
                                         </div>
