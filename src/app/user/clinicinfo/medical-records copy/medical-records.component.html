@@ -21,7 +21,7 @@
                             <div class="center-elements">
                                 <!--<span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
                                     {{'reports.Create-paste a report' | translate }}</button></span>-->
-
+                                
                             </div>
                             <span *ngIf="preparingFile">
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
@@ -39,51 +39,27 @@
                                             <div class="mb-4 w-100">
                                                 {{'dashboardpatient.Files uploaded' | translate }}
                                                 <p *ngFor="let onefile of otherGeneFiles; let i = index">
-                                                    <span class="d-inline-block text-muted"
-                                                        style="word-wrap: anywhere;width: 90%;">
-                                                        <span *ngIf="!onefile.hasResults">
-                                                            {{onefile.simplename}}
-                                                            <span class="d-block">
-                                                                {{'reports.Reading' | translate }}
-                                                            </span>
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            <!--<a class="info"
-                                                            (click)="extractData(onefile.name, onefile.contentSettings.contentType, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>-->
-                                                        </span>
-                                                        <!--<span *ngIf="extractingData && blobNameCloud == onefile.name" class="d-block">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}</span>-->
-                                                        <a *ngIf="onefile.hasResults" class="info"
-                                                            (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
-
+                                                    <span class="d-inline-block text-muted" style="word-wrap: anywhere;width: 90%;">
+                                                        {{onefile.name}} {{onefile.contentSettings.contentType}}
+                                                        <a *ngIf="!onefile.hasResults" (click)="extractData(onefile.name, onefile.contentSettings.contentType);">{{onefile.simplename}}</a>
+                                                        <a *ngIf="onefile.hasResults" (click)="openResults(onefile.name);">{{onefile.simplename}}</a>
                                                     </span>
-                                                    <span class="nav-item" ngbDropdown display="dynamic"
-                                                        placement="bottom-right"
-                                                        style="position: absolute; right: 0px;">
-                                                        <a class="position-relative colorlink"
-                                                            style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
-                                                            ngbDropdownToggle
-                                                            title="{{'generics.Options' | translate }}">
-                                                            <i class="fas fa-ellipsis-v font-small-3 dark"></i>
+                                                    <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" style="position: absolute; right: 0px; z-index: 1;">
+                                                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
+                                                          ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                                                          <i class="fas fa-ellipsis-v font-small-3 dark"></i>
                                                         </a>
-                                                        <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
-                                                            class="dropdown">
-                                                            <a class="dropdown-item py-1" href="javascript:;"
-                                                                (click)="shareFile(onefile,i);">
-                                                                <i class="ft-share-2 fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Share' | translate
-                                                                    }}</span>
+                                                        <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}" class="dropdown">
+                                                            <a class="dropdown-item py-1" href="javascript:;" (click)="shareFile(onefile,i);">
+                                                                <i class="ft-share-2 fa-xs"></i><span class="ml-2 black">{{'generics.Share' | translate }}</span>
+                                                              </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;" (click)="deleteFile(onefile,i,'general');">
+                                                              <i class="ft-trash danger fa-xs"></i><span class="ml-2 black">{{'generics.Delete' | translate }}</span>
                                                             </a>
-                                                            <a class="dropdown-item py-1" href="javascript:;"
-                                                                (click)="deleteFile(onefile,i,'general');">
-                                                                <i class="ft-trash danger fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Delete' | translate
-                                                                    }}</span>
-                                                            </a>
-                                                        </div>
-                                                    </span>
+                                                          </div>
+                                                      </span>
                                                 </p>
-
+    
                                                 <!--<table class="table">
                                                     <thead>
                                                         <tr>
@@ -138,9 +114,9 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>-->
-
-
-
+    
+    
+    
                                             </div>
                                         </div>
                                     </div>
@@ -164,7 +140,7 @@
                                 <p class="text-muted">{{'documents.emergencySubtitle' | translate }}</p>
                             </div>
                             <div class="center-elements">
-
+                                
                             </div>
                             <span *ngIf="preparingFileEmergency">
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
@@ -182,43 +158,23 @@
                                             <div class="mb-4 w-100">
                                                 {{'dashboardpatient.Files uploaded' | translate }}
                                                 <p *ngFor="let onefile of emergencyFiles; let i = index">
-                                                    <span class="d-inline-block text-muted"
-                                                        style="word-wrap: anywhere;width: 90%;">
-                                                        <span *ngIf="!onefile.hasResults">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}
-                                                        </span>
-                                                        <!--<span *ngIf="extractingData && blobNameCloud == onefile.name" class="d-block">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}</span>-->
-                                                        <a *ngIf="onefile.hasResults" class="info"
-                                                            (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
+                                                    <span class="d-inline-block text-muted" style="word-wrap: anywhere;width: 90%;">
+                                                        {{onefile.simplename}}
                                                     </span>
-                                                    <span class="nav-item" ngbDropdown display="dynamic"
-                                                        placement="bottom-right"
-                                                        style="position: absolute; right: 0px;">
-                                                        <a class="position-relative colorlink"
-                                                            style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
-                                                            ngbDropdownToggle
-                                                            title="{{'generics.Options' | translate }}">
-                                                            <i class="fas fa-ellipsis-v font-small-3 dark"></i>
+                                                    <span class="nav-item" ngbDropdown display="dynamic" placement="bottom-right" style="position: absolute; right: 0px; z-index: 1;">
+                                                        <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
+                                                          ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                                                          <i class="fas fa-ellipsis-v font-small-3 dark"></i>
                                                         </a>
-                                                        <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
-                                                            class="dropdown">
-                                                            <a class="dropdown-item py-1" href="javascript:;"
-                                                                (click)="shareFile(onefile,i);">
-                                                                <i class="ft-share-2 fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Share' | translate
-                                                                    }}</span>
+                                                        <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}" class="dropdown">
+                                                            <a class="dropdown-item py-1" href="javascript:;" (click)="shareFile(onefile,i);">
+                                                                <i class="ft-share-2 fa-xs"></i><span class="ml-2 black">{{'generics.Share' | translate }}</span>
+                                                              </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;" (click)="deleteFile(onefile,i, 'emergency');">
+                                                              <i class="ft-trash danger fa-xs"></i><span class="ml-2 black">{{'generics.Delete' | translate }}</span>
                                                             </a>
-                                                            <a class="dropdown-item py-1" href="javascript:;"
-                                                                (click)="deleteFile(onefile,i, 'emergency');">
-                                                                <i class="ft-trash danger fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Delete' | translate
-                                                                    }}</span>
-                                                            </a>
-                                                        </div>
-                                                    </span>
+                                                          </div>
+                                                      </span>
                                                 </p>
                                             </div>
                                         </div>
@@ -231,8 +187,7 @@
                         </div>
                     </div>
                     <div *ngIf="step=='1'">
-                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate
-                                }}</button></p>
+                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate }}</button></p>
                         <div *ngIf="temporalSymptoms.length>0">
                             <thead class="pr-1 pl-1">
                                 <tr>
@@ -285,8 +240,7 @@
                         </div>
                     </div>
                     <div *ngIf="step=='2'">
-                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate
-                                }}</button></p>
+                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate }}</button></p>
                         <div class="p-2">
                             <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;"
                                 [(ngModel)]="medicalText" name="medicalText"
@@ -303,8 +257,7 @@
                         </div>
                     </div>
                     <div *ngIf="step=='share'">
-                        <button class="btn btn-dark btn-sm" (click)="step='0';">{{'generics.Back' | translate
-                            }}</button>
+                        <button class="btn btn-dark btn-sm" (click)="step='0';">{{'generics.Back' | translate }}</button>
                         <p class="danger">{{'generics.Under construction' | translate }}</p>
                         <img class="w-100" src='assets/img/pages/demoshare.jpg'>
                     </div>
@@ -401,29 +354,5 @@
                 title=" {{temporalSymptoms[selectedInfoSymptomIndex].name}} ({{temporalSymptoms[selectedInfoSymptomIndex].id}}):">{{'land.here'
                 | translate }}
                 <i class="ft-external-link"></i></a></span>
-    </div>
-</ng-template>
-
-<ng-template #contentviewDoc id="contentviewDoc" let-c="close" let-d="dismiss" appendTo="body">
-    <div class="modal-header" id="idHeader">
-        <div class="content-header text-left">
-            <h4>{{nameTitle}}</h4>
-        </div>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body content-wrapper p-2" id="idBody">
-        <div class="p-2">
-            <div>
-                <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">Go top</button>
-                </span>
-                <div class="mt-2 text-center">
-                    <a id="initpos"></a>
-                    <div style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
-                </div>
-            </div>
-        </div>
     </div>
 </ng-template>
