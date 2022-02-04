@@ -64,7 +64,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   temporalSymptoms: any = [];
   resultTextNcr: string = '';
   resultTextNcrCopy: string = '';
-  blobNameCloud: string = '';
   step: string = '0';
   ncrResultView: boolean = false;
   selectedInfoSymptomIndex: number = -1;
@@ -448,7 +447,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   extractData(blobName, contentType) {
     this.extractingData = true;
     var url = environment.blobAccessToken.blobAccountUrl + this.accessToken.containerName + '/' + blobName + this.accessToken.sasToken;
-    this.blobNameCloud = blobName;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
@@ -456,13 +454,13 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       var myBlob = xhr.response; // Note: not oReq.responseText
       const file3 = new File([myBlob], blobName, { type: contentType, lastModified: new Date().getTime() });
       if (contentType != "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-        this.callParser(file3);
+        this.callParser(file3, blobName);
       } else {
         //obtener texto del word
         let reader = new FileReader();
         reader.readAsDataURL(file3); // converts the blob to base64 and calls onload
         reader.onload = function () {
-          this.getTextFromDocx(reader.result);
+          this.getTextFromDocx(reader.result, blobName);
         }.bind(this);
       }
 
@@ -470,16 +468,16 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     xhr.send();
   }
 
-  getTextFromDocx(data) {
+  getTextFromDocx(data, blobName) {
     this.loadFile(data, function (err, content) {
       if (err) { console.log(err); };
       var doc = new Docxgen(content);
       var text = doc.getFullText();
-      this.startExtractor(text);
+      this.startExtractor(text, blobName);
     }.bind(this))
   }
 
-  callParser(file) {
+  callParser(file, blobName) {
 
     var oReq = new XMLHttpRequest();
     var lang = this.authService.getLang();
@@ -500,7 +498,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         text = target.response.content
         text = text.split("\n").join(" ");
       }
-      this.startExtractor(text);
+      this.startExtractor(text, blobName);
 
     }.bind(this);
     oReq.send(file);
@@ -512,18 +510,18 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     JSZipUtils.getBinaryContent(url, callback);
   }
 
-  startExtractor(text) {
+  startExtractor(text, blobName) {
     if (text.length < 5) {
       Swal.fire('', this.translate.instant("land.placeholderError"), "warning");
     } else {
       var actualDate = Date.now();
-      this.saveResultsToBlob(text, [], actualDate);
+      this.saveResultsToBlob(text, [], actualDate, blobName);
     }
   }
 
-  saveResultsToBlob(medicalText, data, actualDate) {
-    var infoNcrToSave = { medicalText: medicalText, data: data, date: actualDate, blobName: this.blobNameCloud };
-    var url = this.blobNameCloud.substr(0, this.blobNameCloud.lastIndexOf('/') + 1)
+  saveResultsToBlob(medicalText, data, actualDate, blobName) {
+    var infoNcrToSave = { medicalText: medicalText, data: data, date: actualDate, blobName: blobName };
+    var url = blobName.substr(0, blobName.lastIndexOf('/') + 1)
     var str = JSON.stringify(infoNcrToSave);
     var fileNameNcr = url + 'textanaresult.json';
     var file = new File([str], fileNameNcr, { type: 'application/json' });

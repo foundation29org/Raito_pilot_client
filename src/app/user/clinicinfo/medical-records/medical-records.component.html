@@ -50,9 +50,6 @@
                                                             <!--<a class="info"
                                                             (click)="extractData(onefile.name, onefile.contentSettings.contentType, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>-->
                                                         </span>
-                                                        <!--<span *ngIf="extractingData && blobNameCloud == onefile.name" class="d-block">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}</span>-->
                                                         <a *ngIf="onefile.hasResults" class="info"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
 
@@ -83,64 +80,6 @@
                                                         </div>
                                                     </span>
                                                 </p>
-
-                                                <!--<table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>{{'dashboardpatient.Files uploaded' | translate }}</th>
-                                                            <th>{{'generics.Options' | translate }}</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr *ngFor="let onefile of otherGeneFiles; let i = index">
-                                                            <td style="word-wrap: anywhere;">
-                                                                {{onefile.simplename}}
-                                                            </td>
-                                                            <td>
-                                                                <span *ngIf="!onefile.hasResults">
-                                                                    <span><button class="btn btn-primary"
-                                                                            [disabled]="extractingData"
-                                                                            (click)="extractData(onefile.name, onefile.contentSettings.contentType);">
-                                                                            <span *ngIf="!extractingData">{{'reports.Extract' | translate }}</span>
-                                                                            <span
-                                                                                *ngIf="extractingData && !callingTextAnalytics">
-                                                                                <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                                                {{'reports.Reading' | translate }}</span>
-                                                                            <span
-                                                                                *ngIf="extractingData && callingTextAnalytics"><i
-                                                                                    class="fa fa-spinner fa-spin fa-fw"></i>
-                                                                                    {{'reports.Analysing' | translate }}</span>
-                                                                        </button></span>
-                                                                </span>
-                                                                <span *ngIf="onefile.hasResults">
-                                                                    <span><button class="btn btn-primary"
-                                                                            (click)="openResults(onefile.name);">
-                                                                            {{'reports.See results' | translate }}</button></span>
-                                                                </span>
-                                                                <span class="mt-1 nav-item" ngbDropdown display="dynamic" placement="bottom-right" style="z-index: 1;">
-                                                                    <a class="position-relative colorlink" style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
-                                                                      ngbDropdownToggle title="{{'generics.Options' | translate }}">
-                                                                      <i class="fas fa-ellipsis-v font-small-3 secondary"></i>
-                                                                    </a>
-                                                                    <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}" class="dropdown">
-                                                                        <a class="dropdown-item py-1" href="javascript:;" (click)="deleteFile(onefile,i);">
-                                                                            <i class="ft-trash danger"></i><span class="ml-2 black">{{'generics.Delete' | translate }}</span>
-                                                                          </a>
-                                                                        <a class="dropdown-item py-1" href="javascript:;" (click)="deleteFile(onefile,i);">
-                                                                            <i class="ft-trash danger"></i><span class="ml-2 black">{{'generics.Delete' | translate }}</span>
-                                                                          </a>
-                                                                        <a class="dropdown-item py-1" href="javascript:;" (click)="deleteFile(onefile,i);">
-                                                                          <i class="ft-trash danger"></i><span class="ml-2 black">{{'generics.Delete' | translate }}</span>
-                                                                        </a>
-                                                                      </div>
-                                                                  </span>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>-->
-
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -185,12 +124,14 @@
                                                     <span class="d-inline-block text-muted"
                                                         style="word-wrap: anywhere;width: 90%;">
                                                         <span *ngIf="!onefile.hasResults">
+                                                            {{onefile.simplename}}
+                                                            <span class="d-block">
+                                                                {{'reports.Reading' | translate }}
+                                                            </span>
                                                             <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}
+                                                            <!--<a class="info"
+                                                            (click)="extractData(onefile.name, onefile.contentSettings.contentType, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>-->
                                                         </span>
-                                                        <!--<span *ngIf="extractingData && blobNameCloud == onefile.name" class="d-block">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}</span>-->
                                                         <a *ngIf="onefile.hasResults" class="info"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
                                                     </span>
