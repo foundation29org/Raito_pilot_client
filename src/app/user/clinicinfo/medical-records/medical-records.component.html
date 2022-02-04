@@ -50,9 +50,6 @@
                                                             <!--<a class="info"
                                                             (click)="extractData(onefile.name, onefile.contentSettings.contentType, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>-->
                                                         </span>
-                                                        <!--<span *ngIf="extractingData && blobNameCloud == onefile.name" class="d-block">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}</span>-->
                                                         <a *ngIf="onefile.hasResults" class="info"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
 
@@ -188,9 +185,6 @@
                                                             <i class="fa fa-spinner fa-spin fa-fw"></i>
                                                             {{'reports.Reading' | translate }}
                                                         </span>
-                                                        <!--<span *ngIf="extractingData && blobNameCloud == onefile.name" class="d-block">
-                                                            <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            {{'reports.Reading' | translate }}</span>-->
                                                         <a *ngIf="onefile.hasResults" class="info"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
                                                     </span>
