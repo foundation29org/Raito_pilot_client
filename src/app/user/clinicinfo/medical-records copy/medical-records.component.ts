@@ -58,6 +58,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   selectedPatient: any = {};
   uploadProgress: Observable<number>;
   uploadProgress2: Observable<number>;
+  medicalText: string = '';
   langDetected: string = '';
   lang: string = 'en';
   resTextAnalyticsSegments = [];
@@ -76,7 +77,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   showButtonScroll: boolean = false;
   extractingData: boolean = false;
   callingTextAnalytics: boolean = false;
-  nameTitle: string = '';
 
   constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
@@ -108,7 +108,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     //si tiene VCF
     this.subscription.add(this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
-      console.log(vcfFilesOnBlob);
       if (vcfFilesOnBlob.length > 0) {
         var otherGeneFiles = [];
         var emergencyFiles = [];
@@ -132,7 +131,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           }
         }
         this.emergencyFiles = emergencyFiles;
-        console.log(this.emergencyFiles);
         this.otherGeneFiles = otherGeneFiles;
         this.filesNcr = filesNcr;
         this.testResultsAnalytics();
@@ -169,25 +167,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           enc = true;
         }
       }
-      if(!this.otherGeneFiles[i].hasResults){
-        this.extractData(this.otherGeneFiles[i].name, this.otherGeneFiles[i].contentSettings.contentType);
-      }
 
-    }
-
-    for (var i = 0; i < this.emergencyFiles.length; i++) {
-      var enc = false;
-      for (var j = 0; j < this.filesNcr.length && !enc; j++) {
-        var urlorigin = this.emergencyFiles[i].name.substr(0, this.emergencyFiles[i].name.lastIndexOf('/') + 1)
-        var urlncr = this.filesNcr[j].name.substr(0, this.filesNcr[j].name.lastIndexOf('/') + 1)
-        if (urlorigin == urlncr) {
-          this.emergencyFiles[i].hasResults = true;
-          enc = true;
-        }
-      }
-      if(!this.emergencyFiles[i].hasResults){
-        this.extractData(this.emergencyFiles[i].name, this.emergencyFiles[i].contentSettings.contentType);
-      }
     }
   }
 
@@ -294,6 +274,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
             console.log(filename);
             console.log(extension);
             console.log(event.target.files[0].type);
+            //this.extractData();
         } else {
           Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
         }
@@ -413,39 +394,28 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
   deleteOtherFile(file, i) {
     var enc = false;
-    var file2 = '';
     for (var j = 0; j < this.otherGeneFiles.length && !enc; j++) {
-      file2 = this.otherGeneFiles[j].name.substr(0, this.otherGeneFiles[j].name.lastIndexOf('/') + 1);
-      file2 = file2+'textanaresult.json';
       if (this.otherGeneFiles[j].name == file) {
         enc = true;
       }
     }
     this.otherGeneFiles.splice(i, 1);
     this.blob.deleteBlob(this.accessToken.containerName, file);
-    if(enc){
-      this.blob.deleteBlob(this.accessToken.containerName, file2);
-    }
   }
 
   deleteEmergencyFile(file, i) {
     var enc = false;
-    var file2 = '';
     for (var j = 0; j < this.emergencyFiles.length && !enc; j++) {
-      file2 = this.emergencyFiles[j].name.substr(0, this.emergencyFiles[j].name.lastIndexOf('/') + 1);
-      file2 = file2+'textanaresult.json';
       if (this.emergencyFiles[j].name == file) {
         enc = true;
       }
     }
     this.emergencyFiles.splice(i, 1);
     this.blob.deleteBlob(this.accessToken.containerName, file);
-    if(enc){
-      this.blob.deleteBlob(this.accessToken.containerName, file2);
-    }
   }
 
   extractData(blobName, contentType) {
+    this.medicalText = '';
     this.extractingData = true;
     var url = environment.blobAccessToken.blobAccountUrl + this.accessToken.containerName + '/' + blobName + this.accessToken.sasToken;
     this.blobNameCloud = blobName;
@@ -475,7 +445,8 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       if (err) { console.log(err); };
       var doc = new Docxgen(content);
       var text = doc.getFullText();
-      this.startExtractor(text);
+      this.medicalText = text;
+      this.startExtractor();
     }.bind(this))
   }
 
@@ -493,14 +464,13 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       var target: any = {};
       target = file2;
       //target--> status, strategy, content
-      var text = '';
       if (target.response.content == undefined) {
-        text = '';
+        self.medicalText = '';
       } else {
-        text = target.response.content
-        text = text.split("\n").join(" ");
+        self.medicalText = target.response.content
+        self.medicalText = self.medicalText.split("\n").join(" ");
       }
-      this.startExtractor(text);
+      this.startExtractor();
 
     }.bind(this);
     oReq.send(file);
@@ -512,16 +482,44 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     JSZipUtils.getBinaryContent(url, callback);
   }
 
-  startExtractor(text) {
-    if (text.length < 5) {
+  startExtractor() {
+    if (this.medicalText.length < 5) {
       Swal.fire('', this.translate.instant("land.placeholderError"), "warning");
     } else {
-      var actualDate = Date.now();
-      this.saveResultsToBlob(text, [], actualDate);
+      var testLangText = this.medicalText.substr(0, 4000)
+      this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
+        .subscribe((res: any) => {
+          this.langDetected = res[0].language;
+          this.onSubmitToExtractor();
+        }, (err) => {
+          console.log(err);
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+        }));
     }
   }
 
+  onSubmitToExtractor() {
+    this.callingTextAnalytics = true;
+    var lang = this.lang;
+    if (this.langDetected != '') {
+      lang = this.langDetected;
+    }
+    var jsontestLangText = { "text": this.medicalText };
+    this.subscription.add(this.apif29BioService.callTextAnalytics(jsontestLangText)
+      .subscribe((res: any) => {
+        this.callingTextAnalytics = false;
+        var actualDate = Date.now();
+        this.saveResultsToBlob(this.medicalText, res, actualDate);
+
+      }, (err) => {
+        this.callingTextAnalytics = false;
+        console.log(err);
+      }));
+  }
+
+
   saveResultsToBlob(medicalText, data, actualDate) {
+
     var infoNcrToSave = { medicalText: medicalText, data: data, date: actualDate, blobName: this.blobNameCloud };
     var url = this.blobNameCloud.substr(0, this.blobNameCloud.lastIndexOf('/') + 1)
     var str = JSON.stringify(infoNcrToSave);
@@ -529,6 +527,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     var file = new File([str], fileNameNcr, { type: 'application/json' });
     this.blob.uploadToBlobStorage(this.accessToken, file, fileNameNcr, 'ncrInfofile');
     this.extractingData = false;
+    this.loadResultsAnalytics(infoNcrToSave, true);
   }
 
   addTemporalSymptom(symptom, inputType) {
@@ -584,25 +583,104 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       }));
   }
 
-  openResults(name, contentviewDoc, nameTitle) {
-    this.nameTitle = nameTitle;
+  openResults(name) {
+    
+    console.log(name);
     var url = name.substr(0, name.lastIndexOf('/') + 1)
     var fileNameNcr = url + 'textanaresult.json';
-    var url2 = this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken;
-    console.log(url2);
+    this.temporalSymptoms = [];
     this.subscription.add(this.http.get(this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken)
       .subscribe((res: any) => {
-        this.resultTextNcr = res.medicalText;
-        this.resultTextNcrCopy = res.medicalText;
-        let ngbModalOptions: NgbModalOptions = {
-          keyboard: false,
-          windowClass: 'ModalClass-sm'// xl, lg, sm
-        };
-        this.modalReference = this.modalService.open(contentviewDoc, ngbModalOptions);
+        this.loadResultsAnalytics(res, false);
       }, (err) => {
         console.log(err);
       }));
 
+  }
+
+  loadResultsAnalytics(res, showSwal) {
+    this.temporalSymptoms = [];
+    this.resTextAnalyticsSegments = res.data[1].segments;
+    var countAddedSypmtoms = 0;
+    for (let i = 0; i < this.resTextAnalyticsSegments.length; i++) {
+      for (let j = 0; j < this.resTextAnalyticsSegments[i].annotations.length; j++) {
+        var foundHPO = false;
+        if (this.resTextAnalyticsSegments[i].annotations[j].links != null) {
+          for (let k = 0; k < this.resTextAnalyticsSegments[i].annotations[j].links.length && !foundHPO; k++) {
+            if (this.resTextAnalyticsSegments[i].annotations[j].links[k].dataSource == 'HPO') {
+              var text = [];
+              if (this.resTextAnalyticsSegments[i].source) {
+                text = [{ positions: [this.resTextAnalyticsSegments[i].annotations[j].offset, this.resTextAnalyticsSegments[i].annotations[j].offset + this.resTextAnalyticsSegments[i].annotations[j].length], text: this.resTextAnalyticsSegments[i].text, source: this.resTextAnalyticsSegments[i].source.text }];
+              } else {
+                text = [{ positions: [this.resTextAnalyticsSegments[i].annotations[j].offset, this.resTextAnalyticsSegments[i].annotations[j].offset + this.resTextAnalyticsSegments[i].annotations[j].length], text: this.resTextAnalyticsSegments[i].text }];
+              }
+              var symptomExtractor = { id: this.resTextAnalyticsSegments[i].annotations[j].links[k].id, name: this.resTextAnalyticsSegments[i].annotations[j].text, new: true, positions: null, text: text };
+              var isAdded = this.addTemporalSymptom(symptomExtractor, 'textAnalytics');
+              if (isAdded) {
+                countAddedSypmtoms++;
+              }
+              foundHPO = true;
+            }
+          }
+        }
+
+      }
+    }
+
+    if (countAddedSypmtoms > 0 && showSwal) {
+      Swal.fire('', this.translate.instant("land.diagnosed.symptoms.syptomsDetected", {
+        value: countAddedSypmtoms
+      }), "success");
+
+      setTimeout(function () {
+          Swal.close();
+      }.bind(this), 1500);
+    }
+
+
+
+    this.resultTextNcr = res.medicalText;
+    this.resultTextNcrCopy = res.medicalText;
+
+    this.medicalText = '';
+
+    //getInfo symptoms
+    var hposStrins = [];
+    this.temporalSymptoms.forEach(function (element) {
+      hposStrins.push(element.id);
+    });
+
+    if (hposStrins.length == 0) {
+      Swal.fire({
+        title: this.translate.instant("phenotype.No symptoms found"),
+        text: '',
+        icon: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#33658a',
+        cancelButtonColor: '#B0B6BB',
+        confirmButtonText: 'Ok',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+
+        } else {
+
+        }
+      });
+    } else {
+      this.step = '1';
+      this.callGetInfoTempSymptomsJSON(hposStrins);
+      for (var j = 0; j < this.temporalSymptoms.length; j++) {
+        for (var k = 0; k < this.phenotype.data.length; k++) {
+          if(this.temporalSymptoms[j].id==this.phenotype.data[k].id){
+            this.temporalSymptoms[j].checked = true;
+          }
+        }
+      }
+      
+    }
   }
 
   back(index) {
