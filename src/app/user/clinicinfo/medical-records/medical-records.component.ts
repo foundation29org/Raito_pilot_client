@@ -107,7 +107,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     //si tiene VCF
     this.subscription.add(this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
-      console.log(vcfFilesOnBlob);
       if (vcfFilesOnBlob.length > 0) {
         var otherGeneFiles = [];
         var emergencyFiles = [];
@@ -131,7 +130,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           }
         }
         this.emergencyFiles = emergencyFiles;
-        console.log(this.emergencyFiles);
         this.otherGeneFiles = otherGeneFiles;
         this.filesNcr = filesNcr;
         this.testResultsAnalytics();
@@ -267,8 +265,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   onFileChangePDF(event) {
-    console.log('1');
-    console.log(event);
     this.preparingFile = true;
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -290,9 +286,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           this.uploadingGenotype = true;
           this.uploadProgress = this.blob
             .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
-            console.log(filename);
-            console.log(extension);
-            console.log(event.target.files[0].type);
         } else {
           Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
         }
@@ -303,8 +296,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   onFileEmergencyChange(event) {
-    console.log('2');
-    console.log(event);
     this.preparingFileEmergency = true;
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -324,7 +315,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
           var uniqueFileName = this.getUniqueFileName();
           filename = 'raitofile/emergency/' + uniqueFileName + '/' + filename + extension;
           this.uploadingEmergency = true;
-          console.log(filename);
           this.uploadProgress2 = this.blob
             .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
         } else {
@@ -587,7 +577,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     var url = name.substr(0, name.lastIndexOf('/') + 1)
     var fileNameNcr = url + 'textanaresult.json';
     var url2 = this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken;
-    console.log(url2);
     this.subscription.add(this.http.get(this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken)
       .subscribe((res: any) => {
         this.resultTextNcr = res.medicalText;
