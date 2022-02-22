@@ -358,6 +358,7 @@ resetPermisions(){
   var dateNow = new Date();
   var stringDateNow = this.dateService.transformDate(dateNow);
   this.newPermission={
+    _id: null,
     basicData:{r:false, w:false,d:false},
     seizures:{r:false, w:false,d:false},
     meds:{r:false, w:false,d:false},
@@ -365,7 +366,8 @@ resetPermisions(){
     docs:{r:false, w:false,d:false},
     notes:'',
     date: stringDateNow,
-    token: this.getUniqueFileName()
+    token: this.getUniqueFileName(),
+    operations:[]
   };
 }
 
@@ -411,7 +413,7 @@ openModal(modaltemplate){
   let ngbModalOptions: NgbModalOptions = {
         backdrop : 'static',
         keyboard : false,
-        windowClass: 'ModalClass-lg'// xl, lg, sm
+        windowClass: 'ModalClass-xl'// xl, lg, sm
   };
   this.modalReference = this.modalService.open(modaltemplate, ngbModalOptions);
 }
@@ -451,10 +453,22 @@ setGeneralShare(){
 
 setCustomShare(){
   this.loadedShareData = false;
-  this.listCustomShare.push(this.newPermission)
+  if(this.newPermission._id == null){
+    this.listCustomShare.push(this.newPermission)
+  }else{
+    var found = false;
+    for (var i = 0; i <= this.listCustomShare.length && !found; i++) {
+      if(this.listCustomShare[i]._id==this.newPermission._id){
+        this.listCustomShare[i] = this.newPermission;
+        found = true;
+      }
+    }
+  }
+  
   this.subscription.add( this.patientService.setCustomShare(this.listCustomShare)
   .subscribe( (res : any) => {
     console.log(res);
+    this.resetPermisions();
     this.showNewCustom=false;
     //this.listCustomShare = res.customShare;
     this.loadedShareData = true;
@@ -481,14 +495,14 @@ setCustomShare(){
 }*/
 
 getUniqueFileName() {
-  var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@$^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var passwordLength = 16;
   var password = "";
   for (var i = 0; i <= passwordLength; i++) {
     var randomNumber = Math.floor(Math.random() * chars.length);
     password += chars.substring(randomNumber, randomNumber +1);
    }
-   var url = this.authService.getCurrentPatient().sub+'?pw='+password
+   var url = environment.api+'/?key='+this.authService.getCurrentPatient().sub+'&token='+password
    //var url = password
   return url;
 }
@@ -501,6 +515,12 @@ makeid(length) {
     result += Math.floor(Math.random() * charactersLength);
   }
   return result;
+}
+
+editcustom(i){
+  this.newPermission= this.listCustomShare[i];
+  console.log(this.newPermission);
+  this.showNewCustom = true;
 }
 
 confirmRevoke(i){
@@ -540,6 +560,18 @@ revokePermission(i){
 
 addCustom(){
   this.showNewCustom = true;
+}
+
+cancelCustom(){
+  this.showNewCustom = false;
+}
+
+closeModalShare() {
+  if (this.modalReference != undefined) {
+    this.showNewCustom = false;
+    this.modalReference.close();
+    this.modalReference = undefined;
+  }
 }
 
 }

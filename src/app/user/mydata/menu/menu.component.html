@@ -267,7 +267,7 @@
     <span class="font-small-2 d-block mt-1">{{'patdiagdashboard.msgshare' | translate }}</span>
   </h4>
 
-        <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+        <button type="button" class="close" aria-label="Close" (click)="closeModalShare();">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -314,13 +314,15 @@
     </div>
     <div class="col-md-12">
       <div class="center-elements" *ngIf="!sending">
+        <button class="btn btn-secondary mr-1" (click)="cancelCustom()"><span>Cancel</span></button>
         <div *ngIf="f.valid;then formValid else formError"></div>
         <ng-template #formValid>
-          <button class="btn btn-dark" (click)="sendShare()"><span>Add</span></button>
+          <button class="btn btn-dark ml-1" (click)="sendShare()"><span *ngIf="newPermission._id==null">Add</span><span *ngIf="newPermission._id!=null">Update</span></button>
         </ng-template>
         <ng-template #formError>
-          <button class="btn btn-dark" type="button" disabled="true" (click)="submitInvalidForm()"> <span>Add</span></button>
+          <button class="btn btn-dark ml-1" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="newPermission._id==null">Add</span><span *ngIf="newPermission._id!=null">Update</span></button>
         </ng-template>
+        
       </div>
       <div class="center-elements" *ngIf="sending">
         <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
@@ -346,7 +348,7 @@
             <th style="width:20%">feel</th>
             <th style="width:20%">docs</th>
             <th style="width:20%">notes</th>
-            <th style="width:20%">token</th>
+            <th style="width:20%">URL</th>
             <th style="width:20%">Operations</th>
             <th style="width:20%">Date</th>
             <th style="width:10%">{{'generics.Options' | translate }}</th>
@@ -367,6 +369,11 @@
               <span class="pull-right">
                 <a class="danger" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
                   <i class="ft-x"></i>
+                </a>
+              </span>
+              <span class="pull-right mr-2">
+                <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
+                  <i class="ft-edit"></i>
                 </a>
               </span>
             </td>
