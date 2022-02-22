@@ -49,4 +49,71 @@ export class PatientService {
          })
     }
 
+    getGeneralShare(){
+      //cargar las faqs del knowledgeBaseID
+      return this.http.get(environment.api+'/api/openraito/patient/generalshare/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    setGeneralShare(info){
+      //cargar las faqs del knowledgeBaseID
+      return this.http.post(environment.api+'/api/openraito/patient/generalshare/'+this.authService.getCurrentPatient().sub, info)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    getCustomShare(){
+      //cargar las faqs del knowledgeBaseID
+      return this.http.get(environment.api+'/api/openraito/patient/cusmtomshare/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    setCustomShare(info){
+      //cargar las faqs del knowledgeBaseID
+      return this.http.post(environment.api+'/api/openraito/patient/cusmtomshare/'+this.authService.getCurrentPatient().sub, info)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    getDocuments(){
+      return this.http.get(environment.api+'/api/documents/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    addDocument(info){
+      return this.http.post(environment.api+'/api/document/'+this.authService.getCurrentPatient().sub, info)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    deleteDocument(documentId){
+      return this.http.delete(environment.api+'/api/document/'+documentId)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
 }
