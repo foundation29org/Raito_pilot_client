@@ -7,7 +7,7 @@
                         <h2 class="content-header mt-0 mb-2">{{'menu.My documents' | translate }}</h2>
                         <div>
                             <span class="float-right">
-                                <a *ngIf="!importing" (click)="createDocument(contentDocument, general);" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'general');" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
                                     title="">
                                     +
                                 </a>
@@ -76,6 +76,12 @@
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
+                                                                (click)="editDocument(onefile,updateDocument);">
+                                                                <i class="ft-edit fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="deleteFile(onefile,i,'general');">
                                                                 <i class="ft-trash danger fa-xs"></i><span
                                                                     class="ml-2 black">{{'generics.Delete' | translate
@@ -95,7 +101,7 @@
                         </div>
                         <div>
                             <span class="float-right">
-                                <a *ngIf="!importing" (click)="createDocument(contentDocument, emergency);" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'emergency');" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
                                     title="">
                                     +
                                 </a>
@@ -158,6 +164,12 @@
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
                                                                     class="ml-2 black">{{'generics.Share' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;"
+                                                                (click)="editDocument(onefile,updateDocument);">
+                                                                <i class="ft-edit fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Edit' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
@@ -438,6 +450,66 @@
                     </div>
                     <div class="col-md-12 center-elements">
                         <button type="button" class="btn btn-dark" [disabled]="preparingFile" (click)="saveData();">{{'generics.SaveAndClose' |
+                            translate }}</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #updateDocument let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        Update document
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <form action="#" class="form form-horizontal" [formGroup]="documentForm">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>Título</label>
+                                <input type="text" class="col-5 form-control" id="title2" formControlName="name"
+                                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }" name="title2">
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f.name.errors">{{'generics.required' | translate }}</small>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea maxlength="150" name="description" formControlName="description"
+                                    placeholder="{{'seizures.Write down any details' | translate }}"
+                                    class="autoajustable form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>{{'seizures.Starts At' | translate }}</label>
+                                <div class="">
+                                    <input type="date" formControlName="dateDoc"
+                                        [ngClass]="{ 'is-invalid': submitted && f.dateDoc.errors }"
+                                        value="(dateDoc!=null) ? (dateDoc | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f.dateDoc.errors">{{'generics.required' |
+                                        translate }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                File: {{simplename}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-12 center-elements">
+                        <button type="button" class="btn btn-dark" [disabled]="preparingFile" (click)="updateData();">{{'generics.SaveAndClose' |
                             translate }}</button>
                     </div>
                 </div>

@@ -85,6 +85,11 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   dataFile: any = {};
   typedocument: string = '';
 
+  loadedDocs: boolean = false;
+  docs: any = [];
+  actualDoc: any = {};
+  simplename: string = '';
+
   constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch, private formBuilder: FormBuilder, private dateService: DateService) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
       //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
@@ -111,7 +116,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     this.subscription.add(this.blob.change.subscribe(uploaded => {
       this.uploadingGenotype = false;
       this.uploadingEmergency = false;
-      
+      this.getDocs();
     }));
 
     //si tiene VCF
@@ -140,6 +145,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         }
         this.emergencyFiles = emergencyFiles;
         this.otherGeneFiles = otherGeneFiles;
+        console.log(this.emergencyFiles);
         this.filesNcr = filesNcr;
         this.testResultsAnalytics();
       } else {
@@ -234,6 +240,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   getAzureBlobSasToken() {
+    this.getDocs();
     this.loadSymptoms();
     this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
     this.accessToken.patientId = this.authService.getCurrentPatient().sub;
@@ -346,6 +353,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         if (this.modalReference != undefined) {
           this.modalReference.close();
           this.modalReference = undefined;
+          this.dataFile = {};
         }
     }else{
       this.uploadingEmergency = true;
@@ -355,6 +363,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
               this.modalReference.close();
               this.modalReference = undefined;
             }
+            this.dataFile = {};
     }
     
   }
@@ -460,10 +469,37 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         }else{
           this.deleteOtherFile(file.name, i);
         }
-        
+        this.deleteReferenceFile(file.name);
       }
     });
 
+  }
+
+  deleteReferenceFile(url){
+    console.log(this.docs);
+    var documentId=null;
+    var enc = false;
+    for (var i = 0; i < this.docs.length && !enc; i++) {
+      if(this.docs[i].url==url){
+        documentId = this.docs[i]._id;
+        enc = true;
+      }
+    }
+    if(enc){
+      this.subscription.add( this.http.delete(environment.api+'/api/document/'+documentId)
+      .subscribe( (res : any) => {
+        console.log(res);
+        this.getDocs();
+       }, (err) => {
+         console.log(err);
+         this.saving = false;
+         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+           this.authGuard.testtoken();
+         }else{
+         }
+       }));
+    }
+    
   }
 
   deleteOtherFile(file, i) {
@@ -882,6 +918,90 @@ saveData(){
          }
        }));
   }
+}
+
+editDocument(file, updateDocument){
+  var enc = false;
+  for (var i = 0; i < this.docs.length && !enc; i++) {
+    if(this.docs[i].url==file.name){
+      this.actualDoc = this.docs[i];
+      this.simplename = file.simplename;
+      enc = true;
+    }
+  }
+  if(enc){
+    
+    this.documentForm = this.formBuilder.group({
+      name: [this.actualDoc.name, Validators.required],
+      dateDoc: [this.dateService.transformDate(this.actualDoc.dateDoc), Validators.required],
+      url:this.actualDoc.url,
+      description: [this.actualDoc.description]
+  });
+    let ngbModalOptions: NgbModalOptions = {
+      keyboard: false,
+      windowClass: 'ModalClass-sm'// xl, lg, sm
+    };
+    this.modalReference = this.modalService.open(updateDocument, ngbModalOptions);
+  }
+}
+
+updateData(){
+  this.submitted = true;
+  if (this.documentForm.invalid) {
+      return;
+  }
+  
+  if (this.documentForm.value.dateDoc != null) {
+    this.documentForm.value.dateDoc = this.dateService.transformDate(this.documentForm.value.dateDoc);
+  }
+
+  
+  if(this.authGuard.testtoken()){
+    this.saving = true;
+    this.documentForm.value.url=this.dataFile.url;
+    this.actualDoc.name = this.documentForm.value.name;
+    this.actualDoc.description = this.documentForm.value.description;
+    this.actualDoc.dateDoc = this.documentForm.value.dateDoc;
+    this.subscription.add( this.http.put(environment.api+'/api/document/'+this.actualDoc._id, this.actualDoc)
+      .subscribe( (res : any) => {
+        this.saving = false;
+        this.submitted = false;
+        this.documentForm.reset();
+        if (this.modalReference != undefined) {
+          this.modalReference.close();
+          this.modalReference = undefined;
+          this.dataFile = {};
+        }
+       }, (err) => {
+         console.log(err);
+         this.saving = false;
+         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+           this.authGuard.testtoken();
+         }else{
+         }
+       }));
+  }
+}
+
+getDocs() {
+  this.docs = [];
+  this.loadedDocs = false;
+  this.subscription.add(this.http.get(environment.api + '/api/documents/' + this.authService.getCurrentPatient().sub)
+    .subscribe((resDocs: any) => {
+      if (resDocs.message) {
+        //no tiene historico de docs
+      } else {
+        resDocs.sort(this.sortService.DateSortInver("date"));
+        this.docs = resDocs;
+
+      }
+
+      this.loadedDocs = true;
+    }, (err) => {
+      console.log(err);
+      this.loadedDocs = true;
+      this.toastr.error('', this.translate.instant("generics.error try again"));
+    }));
 }
 
 }
