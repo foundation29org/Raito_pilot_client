@@ -496,7 +496,7 @@ setCustomShare(){
 
 getUniqueFileName() {
   var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@$^*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var passwordLength = 16;
+  var passwordLength = 20;
   var password = "";
   for (var i = 0; i <= passwordLength; i++) {
     var randomNumber = Math.floor(Math.random() * chars.length);

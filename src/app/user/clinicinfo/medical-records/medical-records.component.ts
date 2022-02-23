@@ -1,4 +1,5 @@
 import { Component, OnInit, LOCALE_ID, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
@@ -13,6 +14,7 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { SortService } from 'app/shared/services/sort.service';
+import { DateService } from 'app/shared/services/date.service';
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 
 import Swal from 'sweetalert2';
@@ -76,8 +78,14 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   extractingData: boolean = false;
   callingTextAnalytics: boolean = false;
   nameTitle: string = '';
+  submitted = false;
+  saving: boolean = false;
 
-  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch) {
+  documentForm: FormGroup;
+  dataFile: any = {};
+  typedocument: string = '';
+
+  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch, private formBuilder: FormBuilder, private dateService: DateService) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
       //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
     });
@@ -103,6 +111,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     this.subscription.add(this.blob.change.subscribe(uploaded => {
       this.uploadingGenotype = false;
       this.uploadingEmergency = false;
+      
     }));
 
     //si tiene VCF
@@ -294,6 +303,63 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     }
   }
+
+  onFileChangeStep1(event) {
+    this.preparingFile = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event2: any) => { // called once readAsDataURL is completed
+        this.preparingFile = false;
+        var filename = event.target.files[0].name;
+        var extension = filename.substr(filename.lastIndexOf('.'));
+        var pos = (filename).lastIndexOf('.')
+        pos = pos - 4;
+        if (pos > 0 && extension == '.gz') {
+          extension = (filename).substr(pos);
+        }
+        filename = filename.split(extension)[0];
+        //event.target.response.content
+        if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          var uniqueFileName = this.getUniqueFileName();
+          if(this.typedocument=='general'){
+            filename = 'raitofile/' + uniqueFileName + '/' + filename + extension;
+          }else{
+            filename = 'raitofile/emergency/' + uniqueFileName + '/' + filename + extension;
+          }
+          this.dataFile = {event:event.target.files[0], url: filename, name: event.target.files[0].name}
+          
+        } else {
+          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
+        }
+
+      }
+
+    }
+  }
+
+  onFileChangeStep2(){
+    if(this.typedocument=='general'){
+      this.uploadingGenotype = true;
+      this.uploadProgress = this.blob
+        .uploadToBlobStorage(this.accessToken, this.dataFile.event, this.dataFile.url, 'patientGenoFiles');
+        if (this.modalReference != undefined) {
+          this.modalReference.close();
+          this.modalReference = undefined;
+        }
+    }else{
+      this.uploadingEmergency = true;
+          this.uploadProgress2 = this.blob
+            .uploadToBlobStorage(this.accessToken, this.dataFile.event, this.dataFile.url, 'patientGenoFiles');
+            if (this.modalReference != undefined) {
+              this.modalReference.close();
+              this.modalReference = undefined;
+            }
+    }
+    
+  }
+
+  
 
   onFileEmergencyChange(event) {
     this.preparingFileEmergency = true;
@@ -766,6 +832,56 @@ shareFile(){
 
 getLiteral(literal) {
   return this.translate.instant(literal);
+}
+
+get f() { return this.documentForm.controls; }
+
+createDocument(contentDocument, typedocument){
+  this.typedocument = typedocument;
+  this.documentForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    dateDoc: ['', Validators.required],
+    url:'',
+    description: []
+});
+
+  let ngbModalOptions: NgbModalOptions = {
+    keyboard: false,
+    windowClass: 'ModalClass-sm'// xl, lg, sm
+  };
+  this.modalReference = this.modalService.open(contentDocument, ngbModalOptions);
+}
+
+saveData(){
+  this.submitted = true;
+  if (this.documentForm.invalid) {
+      return;
+  }
+  
+  if (this.documentForm.value.dateDoc != null) {
+    this.documentForm.value.dateDoc = this.dateService.transformDate(this.documentForm.value.dateDoc);
+  }
+
+  
+  if(this.authGuard.testtoken()){
+    this.saving = true;
+    this.documentForm.value.url=this.dataFile.url;
+    console.log(this.documentForm.value);
+    this.subscription.add( this.http.post(environment.api+'/api/document/'+this.authService.getCurrentPatient().sub, this.documentForm.value)
+      .subscribe( (res : any) => {
+        this.saving = false;
+        this.submitted = false;
+        this.documentForm.reset();
+        this.onFileChangeStep2();
+       }, (err) => {
+         console.log(err);
+         this.saving = false;
+         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+           this.authGuard.testtoken();
+         }else{
+         }
+       }));
+  }
 }
 
 }
