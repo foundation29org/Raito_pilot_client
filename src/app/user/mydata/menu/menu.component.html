@@ -106,9 +106,9 @@
                                             </div>
                                             <div class="col-md-12 center-elements">
                                                 <button class="btn btn-dark mr-1" type="button"
-                                                (click)="share(shareTo, 'General')">General</button>
+                                                (click)="share(shareTo, 'General')">Public sharing</button>
                                                 <button class="btn btn-dark mr-1" type="button"
-                                                (click)="share(shareCustom, 'Custom')">Custom sharing</button>
+                                                (click)="share(shareCustom, 'Custom')">Private sharing</button>
                                             </div>
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@
 <ng-template #shareTo let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header pb-0" id="idHeader">
         <h4>{{'dashboardpatient.Share' | translate }}
-    <span class="font-small-2 d-block mt-1">{{'patdiagdashboard.msgshare' | translate }}</span>
+    <span class="font-small-2 d-block mt-1"></span>
   </h4>
 
         <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
@@ -205,35 +205,12 @@
     <div *ngIf="loadedShareData">
       <div class="mt-2">
         <div class="form-group col-md-12">
-                <p class="mb-1">Basic data</p>
+                <p class="mb-1">Permissions</p>
                 <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="newPermission.basicData.r" [(ngModel)]="newPermission.basicData.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="newPermission.basicData.w" [(ngModel)]="newPermission.basicData.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="newPermission.basicData.d" [(ngModel)]="newPermission.basicData.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Seizures</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="seizures.r" [(ngModel)]="newPermission.seizures.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="seizures.w" [(ngModel)]="newPermission.seizures.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="seizures.d" [(ngModel)]="newPermission.seizures.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Drugs</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="meds.r" [(ngModel)]="newPermission.meds.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="meds.w" [(ngModel)]="newPermission.meds.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="meds.d" [(ngModel)]="newPermission.meds.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Feels</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="feel.r" [(ngModel)]="newPermission.feel.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="feel.w" [(ngModel)]="newPermission.feel.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="feel.d" [(ngModel)]="newPermission.feel.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Docs</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="docs.r" [(ngModel)]="newPermission.docs.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="docs.w" [(ngModel)]="newPermission.docs.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="docs.d" [(ngModel)]="newPermission.docs.d">Delete</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">Data from the patient profile section</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">Medical information such as documents, seizures, drugs, symptoms, etc.</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">Devices information</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">Genetic information</mat-checkbox></span>
                 </section>
                 <label for="notes">Notes</label>
                 <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
@@ -243,10 +220,10 @@
       <div class="center-elements" *ngIf="!sending">
         <div *ngIf="f.valid;then formValid else formError"></div>
         <ng-template #formValid>
-          <button class="btn btn-dark" (click)="sendShare()"><span>{{'dashboardpatient.Share' | translate }}</span></button>
+          <button class="btn btn-dark" (click)="sendShare()"><span>{{'generics.Save' | translate }}</span></button>
         </ng-template>
         <ng-template #formError>
-          <button class="btn btn-dark" type="button" disabled="true" (click)="submitInvalidForm()"> <span>{{'dashboardpatient.Share' | translate }}</span></button>
+          <button class="btn btn-dark" type="button" disabled="true" (click)="submitInvalidForm()"> <span>{{'generics.Save' | translate }}</span></button>
         </ng-template>
       </div>
       <div class="center-elements" *ngIf="sending">
@@ -256,15 +233,16 @@
     </div>
   </form>
   <div class="modal-body">
-    <p class="mb-0">Operations:</p>
-    <span>{{newPermission.operations|json}}</span>
+    <p class="mb-0"><strong>The accesses to your data will be shown here:</strong></p>
+    <span *ngIf="newPermission.operations.length>0">{{newPermission.operations|json}}</span>
+    <span *ngIf="newPermission.operations.length==0">Nobody has accessed your data</span>
   </div>
   
 </ng-template>
 <ng-template #shareCustom let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header pb-0" id="idHeader">
         <h4>{{'dashboardpatient.Share' | translate }}
-    <span class="font-small-2 d-block mt-1">{{'patdiagdashboard.msgshare' | translate }}</span>
+    <span class="font-small-2 d-block mt-1"></span>
   </h4>
 
         <button type="button" class="close" aria-label="Close" (click)="closeModalShare();">
@@ -278,35 +256,12 @@
     <div *ngIf="loadedShareData && showNewCustom">
       <div class="mt-2">
         <div class="form-group col-md-12">
-                <p class="mb-1">Basic data</p>
+                <p class="mb-1">Permissions</p>
                 <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="newPermission.basicData.r" [(ngModel)]="newPermission.basicData.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="newPermission.basicData.w" [(ngModel)]="newPermission.basicData.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="newPermission.basicData.d" [(ngModel)]="newPermission.basicData.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Seizures</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="seizures.r" [(ngModel)]="newPermission.seizures.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="seizures.w" [(ngModel)]="newPermission.seizures.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="seizures.d" [(ngModel)]="newPermission.seizures.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Drugs</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="meds.r" [(ngModel)]="newPermission.meds.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="meds.w" [(ngModel)]="newPermission.meds.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="meds.d" [(ngModel)]="newPermission.meds.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Feels</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="feel.r" [(ngModel)]="newPermission.feel.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="feel.w" [(ngModel)]="newPermission.feel.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="feel.d" [(ngModel)]="newPermission.feel.d">Delete</mat-checkbox></span>
-                </section>
-                <p class="mb-1">Docs</p>
-                <section class="example-section">
-                    <span class="mr-2"><mat-checkbox name="docs.r" [(ngModel)]="newPermission.docs.r">Read</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="docs.w" [(ngModel)]="newPermission.docs.w">Write</mat-checkbox></span>
-                    <span class="mr-2"><mat-checkbox name="docs.d" [(ngModel)]="newPermission.docs.d">Delete</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">Data from the patient profile section</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">Medical information such as documents, seizures, drugs, symptoms, etc.</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">Devices information</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">Genetic information</mat-checkbox></span>
                 </section>
                 <label for="notes">Notes</label>
                 <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
@@ -332,37 +287,47 @@
   </form>
 
   <div *ngIf="!showNewCustom">
-    <button class="btn btn-dark float-right m-2" type="button" (click)="addCustom()">Add</button>
+    <button class="btn btn-dark m-2" type="button" (click)="addCustom()">Add</button>
   </div>
   <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="listCustomShare.length>0 && !showNewCustom && !sending && !loading">
     <div>
-      <h5>{{'dashboardpatient.Shared with' | translate }}:</h5>
+      <h5>Customized sharing:</h5>
     </div>
     <div class="table-responsive">
       <table class="col-md-12 table" *ngIf="loadedShareData">
         <thead>
           <tr>
-            <th style="width:20%">basicData</th>
-            <th style="width:20%">seizures</th>
-            <th style="width:20%">meds</th>
-            <th style="width:20%">feel</th>
-            <th style="width:20%">docs</th>
+            <th style="width:10%">patientInfo</th>
+            <th style="width:10%">medicalInfo</th>
+            <th style="width:10%">devicesInfo</th>
+            <th style="width:10%">genomicsInfo</th>
             <th style="width:20%">notes</th>
-            <th style="width:20%">URL</th>
-            <th style="width:20%">Operations</th>
+            <th style="width:10%">URL</th>
+            <th style="width:10%">Operations</th>
             <th style="width:20%">Date</th>
             <th style="width:10%">{{'generics.Options' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let oneCustomShare of listCustomShare ; let i = index">
-            <td>{{oneCustomShare.basicData|json}}</td>
-            <td>{{oneCustomShare.seizures|json}}</td>
-            <td>{{oneCustomShare.meds|json}}</td>
-            <td>{{oneCustomShare.feel|json}}</td>
-            <td>{{oneCustomShare.docs|json}}</td>
+            <td>
+                <em *ngIf="oneCustomShare.data.patientInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.patientInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
+            </td>
             <td>{{oneCustomShare.notes}}</td>
-            <td>{{oneCustomShare.token}}</td>
+            <td><a class="btn btn-info btn-sm" (click)="copyClipboard(oneCustomShare.token)">Copy url</a></td>
             <td>{{oneCustomShare.operations|json}}</td>
             <td>{{oneCustomShare.date | date}}</td>
             <td>

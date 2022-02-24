@@ -70,15 +70,20 @@
                                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                             class="dropdown">
                                                             <a class="dropdown-item py-1" href="javascript:;"
+                                                                (click)="editDocument(onefile,updateDocument);">
+                                                                <i class="ft-edit fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
                                                                     class="ml-2 black">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a class="dropdown-item py-1" href="javascript:;"
-                                                                (click)="editDocument(onefile,updateDocument);">
-                                                                <i class="ft-edit fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                            <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                                <i class="ft-download fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
@@ -161,15 +166,20 @@
                                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                             class="dropdown">
                                                             <a class="dropdown-item py-1" href="javascript:;"
+                                                                (click)="editDocument(onefile,updateDocument);">
+                                                                <i class="ft-edit fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
                                                                     class="ml-2 black">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a class="dropdown-item py-1" href="javascript:;"
-                                                                (click)="editDocument(onefile,updateDocument);">
-                                                                <i class="ft-edit fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                            <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                                <i class="ft-download fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"

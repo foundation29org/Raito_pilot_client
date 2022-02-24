@@ -17,6 +17,7 @@ import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import { TermsConditionsPageComponent } from "app/pages/content-pages/terms-conditions/terms-conditions-page.component";
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
+import { Clipboard } from "@angular/cdk/clipboard"
 
 @Component({
   selector: 'app-menu',
@@ -47,7 +48,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   listCustomShare = [];
   showNewCustom: boolean = false;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -358,12 +359,7 @@ resetPermisions(){
   var dateNow = new Date();
   var stringDateNow = this.dateService.transformDate(dateNow);
   this.newPermission={
-    _id: null,
-    basicData:{r:false, w:false,d:false},
-    seizures:{r:false, w:false,d:false},
-    meds:{r:false, w:false,d:false},
-    feel:{r:false, w:false,d:false},
-    docs:{r:false, w:false,d:false},
+    data:{patientInfo:false, medicalInfo:false,devicesInfo:false, genomicsInfo:false},
     notes:'',
     date: stringDateNow,
     token: this.getUniqueFileName(),
@@ -470,7 +466,7 @@ setCustomShare(){
     console.log(res);
     this.resetPermisions();
     this.showNewCustom=false;
-    //this.listCustomShare = res.customShare;
+    this.listCustomShare = res.customShare;
     this.loadedShareData = true;
    }, (err) => {
      console.log(err);
@@ -572,6 +568,21 @@ closeModalShare() {
     this.modalReference.close();
     this.modalReference = undefined;
   }
+}
+
+copyClipboard(data){
+  this.clipboard.copy(data);
+      Swal.fire({
+        icon: 'success',
+        html: this.translate.instant("generics.Copied to the clipboard"),
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
+
+      setTimeout(function () {
+        Swal.close();
+      }, 2000);
 }
 
 }
