@@ -71,7 +71,7 @@ export class PatientService {
 
     getCustomShare(){
       //cargar las faqs del knowledgeBaseID
-      return this.http.get(environment.api+'/api/openraito/patient/cusmtomshare/'+this.authService.getCurrentPatient().sub)
+      return this.http.get(environment.api+'/api/openraito/patient/customshare/'+this.authService.getCurrentPatient().sub)
         .map( (res : any) => {
           return res;
          }, (err) => {
@@ -81,7 +81,27 @@ export class PatientService {
 
     setCustomShare(info){
       //cargar las faqs del knowledgeBaseID
-      return this.http.post(environment.api+'/api/openraito/patient/cusmtomshare/'+this.authService.getCurrentPatient().sub, info)
+      return this.http.post(environment.api+'/api/openraito/patient/customshare/'+this.authService.getCurrentPatient().sub, info)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    getIndividualShare(){
+      //cargar las faqs del knowledgeBaseID
+      return this.http.get(environment.api+'/api/openraito/patient/individualshare/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    setIndividualShare(info){
+      //cargar las faqs del knowledgeBaseID
+      return this.http.post(environment.api+'/api/openraito/patient/individualshare/'+this.authService.getCurrentPatient().sub, info)
         .map( (res : any) => {
           return res;
          }, (err) => {

@@ -265,6 +265,15 @@
                 </section>
                 <label for="notes">Notes</label>
                 <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
+                <section class="example-section" *ngIf="mode=='Individual'">
+                  <label for="status" class="mt-2">Status</label>
+                  <select id="status" class="d-block" name="status{{i}}" [(ngModel)]="newPermission.status">
+                    <option value="Pending">Pending</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </section>
+                
         </div>
     </div>
     <div class="col-md-12">
@@ -348,4 +357,119 @@
       <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
     </div>
   </div>
+  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="individualsShare.length>0 && !showNewCustom && !sending && !loading">
+    <div>
+      <h5>Customized sharing:</h5>
+    </div>
+    <div class="table-responsive">
+      <table class="col-md-12 table" *ngIf="loadedShareData">
+        <thead>
+          <tr>
+            <th style="width:10%">Requester</th>
+            <th style="width:10%">patientInfo</th>
+            <th style="width:10%">medicalInfo</th>
+            <th style="width:10%">devicesInfo</th>
+            <th style="width:10%">genomicsInfo</th>
+            <th style="width:20%">notes</th>
+            <th style="width:10%">Status</th>
+            <th style="width:10%">Operations</th>
+            <th style="width:20%">Date</th>
+            <th style="width:10%">{{'generics.Options' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let oneCustomShare of individualsShare ; let i = index">
+            <td>
+              <a class="info" data-original-title="" title="{{'generics.Read more' | translate }}" (click)="openRequester(clinicalProfilePanel)">
+                <i class="ft-eye"></i>
+              </a>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.patientInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.patientInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>{{oneCustomShare.notes}}</td>
+            <td>
+              <select id="status" name="status{{i}}" [(ngModel)]="oneCustomShare.status" (change)="fieldStatusChanged(oneCustomShare)">
+								<option value="Pending">Pending</option>
+								<option value="Accepted">Accepted</option>
+                <option value="Rejected">Rejected</option>
+							</select>
+            </td>
+            <td>{{oneCustomShare.operations|json}}</td>
+            <td>{{oneCustomShare.date | date}}</td>
+            <td>
+              <span class="pull-right">
+                <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editindividual(i)">
+                  <i class="ft-edit"></i>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #clinicalProfilePanel let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header pb-0" id="idHeader">
+      <h4>Profile
+  <span class="font-small-2 d-block mt-1"></span>
+</h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="closeModalProfile();">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+<div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" >
+  <div class="card dash2-user">
+    <div class="card-content">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
+                <h4 class="mb-0 mt-2">
+                    Doctor Felipe Dos Santos
+                </h4>
+                <p class="grey">felipedoc@gmail.com</p>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="dash-followers mr-4">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="ml-2">
+                                <h5 class="mb-0">
+                                  Geneticist
+                                </h5>
+                                <span class="grey">Specialty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                  <div class="ml-2">
+                      <h5 class="mb-0">
+                        I am a family doctor and a specialist in genetics from the UMA
+                      </h5>
+                      <span class="grey">Description</span>
+                  </div>
+  
+              </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
 </ng-template>

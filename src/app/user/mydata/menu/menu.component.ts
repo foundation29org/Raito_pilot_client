@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('accordion') accordion: NgbAccordion;
   data: any[];
   modalReference: NgbModalRef;
+  modalProfileReference: NgbModalRef;
   loading: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
@@ -46,6 +47,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('f') sendForm: NgForm;
   mode: string = 'General';
   listCustomShare = [];
+  individualsShare = [];
   showNewCustom: boolean = false;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard) { 
@@ -374,6 +376,7 @@ share(shareTo, mode){
     this.loadGeneralShare();
   }else{
     this.loadCustomShare();
+    this.getIndividualShare();
   }
   
   this.openModal(shareTo);
@@ -405,6 +408,32 @@ loadCustomShare(){
    }));
 }
 
+getIndividualShare(){
+  this.subscription.add( this.patientService.getIndividualShare()
+  .subscribe( (res : any) => {
+    console.log(res);
+    this.individualsShare = res.individualsShare;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+openRequester(clinicalProfilePanel){
+  let ngbModalOptions: NgbModalOptions = {
+    backdrop : 'static',
+    keyboard : false,
+    windowClass: 'ModalClass-sm'// xl, lg, sm
+};
+this.modalProfileReference = this.modalService.open(clinicalProfilePanel, ngbModalOptions);
+}
+
+closeModalProfile() {
+  if (this.modalProfileReference != undefined) {
+    this.modalProfileReference.close();
+    this.modalProfileReference = undefined;
+  }
+}
+
 openModal(modaltemplate){
   let ngbModalOptions: NgbModalOptions = {
         backdrop : 'static',
@@ -412,6 +441,13 @@ openModal(modaltemplate){
         windowClass: 'ModalClass-xl'// xl, lg, sm
   };
   this.modalReference = this.modalService.open(modaltemplate, ngbModalOptions);
+}
+
+editindividual(i){
+  this.newPermission= this.individualsShare[i];
+  this.mode = 'Individual';
+  console.log(this.newPermission);
+  this.showNewCustom = true;
 }
 
 submitInvalidForm() {
@@ -428,8 +464,44 @@ sendShare(){
   console.log(this.newPermission);
   if(this.mode=='General'){
     this.setGeneralShare();
+  }else if(this.mode=='Individual'){
+    this.setIndividualShare();
   }else{
     this.setCustomShare();
+  }
+}
+
+fieldStatusChanged(oneCustomShare){
+  console.log(oneCustomShare);
+  this.newPermission = oneCustomShare;
+  this.setIndividualShare();
+}
+
+setIndividualShare(){
+  console.log(this.newPermission);
+  if(this.newPermission._id != null){
+    var found = false;
+    for (var i = 0; i <= this.individualsShare.length && !found; i++) {
+      if(this.individualsShare[i]._id==this.newPermission._id){
+        this.individualsShare[i] = this.newPermission;
+        found = true;
+      }
+    }
+    if(found){
+      var info = {individualsShare: this.individualsShare}
+      this.subscription.add( this.patientService.setIndividualShare(info)
+      .subscribe( (res : any) => {
+        console.log(res);
+        this.getIndividualShare();
+        this.resetPermisions();
+        this.showNewCustom=false;
+        this.loadedShareData = true;
+      }, (err) => {
+        console.log(err);
+        this.loadedShareData = true;
+      }));
+    }
+    
   }
 }
 
@@ -515,6 +587,7 @@ makeid(length) {
 
 editcustom(i){
   this.newPermission= this.listCustomShare[i];
+  this.mode = 'Custom';
   console.log(this.newPermission);
   this.showNewCustom = true;
 }
