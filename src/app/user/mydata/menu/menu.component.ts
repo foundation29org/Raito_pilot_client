@@ -47,7 +47,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('f') sendForm: NgForm;
   mode: string = 'General';
   listCustomShare = [];
-  individualsShare = [];
+  individualShare = [];
   showNewCustom: boolean = false;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard) { 
@@ -412,7 +412,7 @@ getIndividualShare(){
   this.subscription.add( this.patientService.getIndividualShare()
   .subscribe( (res : any) => {
     console.log(res);
-    this.individualsShare = res.individualsShare;
+    this.individualShare = res.individualShare;
    }, (err) => {
      console.log(err);
    }));
@@ -444,7 +444,7 @@ openModal(modaltemplate){
 }
 
 editindividual(i){
-  this.newPermission= this.individualsShare[i];
+  this.newPermission= this.individualShare[i];
   this.mode = 'Individual';
   console.log(this.newPermission);
   this.showNewCustom = true;
@@ -481,14 +481,14 @@ setIndividualShare(){
   console.log(this.newPermission);
   if(this.newPermission._id != null){
     var found = false;
-    for (var i = 0; i <= this.individualsShare.length && !found; i++) {
-      if(this.individualsShare[i]._id==this.newPermission._id){
-        this.individualsShare[i] = this.newPermission;
+    for (var i = 0; i <= this.individualShare.length && !found; i++) {
+      if(this.individualShare[i]._id==this.newPermission._id){
+        this.individualShare[i] = this.newPermission;
         found = true;
       }
     }
     if(found){
-      var info = {individualsShare: this.individualsShare}
+      var info = {individualShare: this.individualShare}      
       this.subscription.add( this.patientService.setIndividualShare(info)
       .subscribe( (res : any) => {
         console.log(res);

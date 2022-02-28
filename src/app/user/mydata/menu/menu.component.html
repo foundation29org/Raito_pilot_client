@@ -357,7 +357,7 @@
       <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
     </div>
   </div>
-  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="individualsShare.length>0 && !showNewCustom && !sending && !loading">
+  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
     <div>
       <h5>Customized sharing:</h5>
     </div>
@@ -378,7 +378,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let oneCustomShare of individualsShare ; let i = index">
+          <tr *ngFor="let oneCustomShare of individualShare ; let i = index">
             <td>
               <a class="info" data-original-title="" title="{{'generics.Read more' | translate }}" (click)="openRequester(clinicalProfilePanel)">
                 <i class="ft-eye"></i>
