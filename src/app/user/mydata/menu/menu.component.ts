@@ -570,7 +570,8 @@ getUniqueFileName() {
     var randomNumber = Math.floor(Math.random() * chars.length);
     password += chars.substring(randomNumber, randomNumber +1);
    }
-   var url = environment.api+'/?key='+this.authService.getCurrentPatient().sub+'&token='+password
+   //var url = environment.urlRaito+'/?key='+this.authService.getCurrentPatient().sub+'&token='+password
+   var url = '/?key='+this.authService.getCurrentPatient().sub+'&token='+password
    //var url = password
   return url;
 }
@@ -644,7 +645,8 @@ closeModalShare() {
 }
 
 copyClipboard(data){
-  this.clipboard.copy(data);
+  var urlcopy = environment.urlOpenRaito+data;
+  this.clipboard.copy(urlcopy);
       Swal.fire({
         icon: 'success',
         html: this.translate.instant("generics.Copied to the clipboard"),
