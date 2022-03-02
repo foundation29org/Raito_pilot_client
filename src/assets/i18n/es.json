@@ -220,6 +220,7 @@
     "Resend": "Reenviar",
     "Shared": "Compartido",
     "Pending": "Pendiente",
+    "Accepted":"Aceptado",
     "Guest": "Invitado",
     "Rejected": "Rechazado",
     "Copy": "Copiar",
@@ -1709,5 +1710,24 @@
     "grap2": "El siguiente gráfico muestra cómo evoluciona la calidad de vida.",
     "grap3": "El siguiente gráfico muestra la medicación en el tiempo. La dosis está normalizada a la dosis recomendada por medicamento.",
     "contentDemo": "Los datos que aparecen a continuación no son los suyos, sino una plantilla para mostrar los datos que contiene el informe."
+  },
+  "open":{
+    "Public sharing": "Compartición pública",
+    "Private sharing": "Compartir en privado",
+    "Permissions": "Permisos",
+    "perm1title": "Información del paciente",
+    "perm1desc": "Datos de la sección de perfil del paciente",
+    "perm2title": "Información médica",
+    "perm2desc": "Información médica como documentos, convulsiones, medicamentos, síntomas, etc.",
+    "perm3title": "Información de dispositivos",
+    "perm3desc": "Información sobre dispositivos",
+    "perm4title": "Información genética",
+    "perm4desc": "Información genética",
+    "The accesses to your data will be shown here": "Los accesos a tus datos se mostrarán aquí",
+    "Nobody has accessed your data": "Nadie ha accedido a tus datos",
+    "Customized sharing": "Compartición personalizada",
+    "Operations": "Operaciones",
+    "Copy url": "Copiar URL",
+    "Requester": "Solicitante"
   }
 }
