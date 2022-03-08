@@ -5,7 +5,7 @@
 Dx29 client
 ===============================================================================================================================
 
-[![Build status](https://f29.visualstudio.com/Raito/_apis/build/status/dev/Raito-client-dev?branchName=develop)](https://f29.visualstudio.com/Raito/_build/latest?definitionId=115?branchName=develop)
+[![Build status](https://f29.visualstudio.com/Raito/_apis/build/status/dev/Raito-client-dev?branchName=develop)](https://f29.visualstudio.com/Raito/_build/latest?definitionId=115)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 #### 1. Overview 
