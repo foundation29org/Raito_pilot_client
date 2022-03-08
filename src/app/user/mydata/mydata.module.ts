@@ -15,7 +15,7 @@ import { TagInputModule } from 'ngx-chips';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MenuComponent } from './menu/menu.component';
 
 
@@ -36,7 +36,8 @@ import { MenuComponent } from './menu/menu.component';
         ReactiveFormsModule,
         UiSwitchModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatCheckboxModule
     ],
     declarations: [
         MenuComponent

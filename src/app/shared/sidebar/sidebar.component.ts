@@ -157,7 +157,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.logoUrl = 'assets/img/logo.png';
     }
-    this.getGtp3Perm();
+    //this.getGtp3Perm();
   }
 
   ngAfterViewInit() {

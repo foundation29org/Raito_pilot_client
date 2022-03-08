@@ -7,6 +7,7 @@
         f29bio:undefined, // f29Bio sevice URL 
         f29api: undefined, // f29api service URL
         hotjarSiteId:undefined, // Horjar ID
-        urlDxv2:undefined // url dx29 v2 
+        urlDxv2:undefined, // url dx29 v2 
+        urlOpenRaito:undefined // url openraito 
         };
     

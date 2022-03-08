@@ -7,12 +7,16 @@
                         <h2 class="content-header mt-0 mb-2">{{'menu.My documents' | translate }}</h2>
                         <div>
                             <span class="float-right">
-                                <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
+                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'general');" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                    title="">
+                                    +
+                                </a>
+                                <!--<input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangePDF($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
                                 <label class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
-                                    for="fileDropRef">+</label>
+                                    for="fileDropRef">+</label>-->
                             </span>
                             <div class="">
                                 <p class="content-header mt-0 mb-0">{{'menu.Clinical information' | translate }}</p>
@@ -23,10 +27,10 @@
                                     {{'reports.Create-paste a report' | translate }}</button></span>-->
 
                             </div>
-                            <span *ngIf="preparingFile">
+                            <!--<span *ngIf="preparingFile">
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                                 <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                            </span>
+                            </span>-->
                             <span *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
                                 translate }}: {{uploadProgress | async}}%</span>
                             <div *ngIf="loadedGeno" class="mt-2 mb-2" id="Widget-line-chart">
@@ -66,9 +70,20 @@
                                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                             class="dropdown">
                                                             <a class="dropdown-item py-1" href="javascript:;"
+                                                                (click)="editDocument(onefile,updateDocument);">
+                                                                <i class="ft-edit fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
                                                                     class="ml-2 black">{{'generics.Share' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                                <i class="ft-download fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
@@ -91,12 +106,16 @@
                         </div>
                         <div>
                             <span class="float-right">
-                                <input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;"
+                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'emergency');" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                    title="">
+                                    +
+                                </a>
+                                <!--<input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;"
                                     (change)="onFileEmergencyChange($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
                                 <label class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
-                                    for="fileDropRef2">+</label>
+                                    for="fileDropRef2">+</label>-->
                             </span>
                             <div class="">
                                 <p class="content-header mt-0 mb-0">{{'documents.emergencyTitle' | translate }}</p>
@@ -147,9 +166,20 @@
                                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                             class="dropdown">
                                                             <a class="dropdown-item py-1" href="javascript:;"
+                                                                (click)="editDocument(onefile,updateDocument);">
+                                                                <i class="ft-edit fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
                                                                     class="ml-2 black">{{'generics.Share' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                                <i class="ft-download fa-xs"></i><span
+                                                                    class="ml-2 black">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
@@ -366,5 +396,135 @@
                 </div>
             </div>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #contentDocument let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        New document
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <form action="#" class="form form-horizontal" [formGroup]="documentForm">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>Título</label>
+                                <input type="text" class="col-5 form-control" id="title2" formControlName="name"
+                                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }" name="title2">
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f.name.errors">{{'generics.required' | translate }}</small>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea maxlength="150" name="description" formControlName="description"
+                                    placeholder="{{'seizures.Write down any details' | translate }}"
+                                    class="autoajustable form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>{{'seizures.Starts At' | translate }}</label>
+                                <div class="">
+                                    <input type="date" formControlName="dateDoc"
+                                        [ngClass]="{ 'is-invalid': submitted && f.dateDoc.errors }"
+                                        value="(dateDoc!=null) ? (dateDoc | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f.dateDoc.errors">{{'generics.required' |
+                                        translate }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
+                                    (change)="onFileChangeStep1($event);"
+                                    accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                                <label class="text-bold-500 btn btn-primary btn-sm font-small-3 danger mb-0"
+                                    style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                    for="fileDropRef">Select document</label>
+                                    <span *ngIf="preparingFile">
+                                        <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
+                                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                                    </span>
+                                    <span class="d-block">{{dataFile.name}} </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-12 center-elements">
+                        <button type="button" class="btn btn-dark" [disabled]="preparingFile" (click)="saveData();">{{'generics.SaveAndClose' |
+                            translate }}</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #updateDocument let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        Update document
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <form action="#" class="form form-horizontal" [formGroup]="documentForm">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>Título</label>
+                                <input type="text" class="col-5 form-control" id="title2" formControlName="name"
+                                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }" name="title2">
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && f.name.errors">{{'generics.required' | translate }}</small>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea maxlength="150" name="description" formControlName="description"
+                                    placeholder="{{'seizures.Write down any details' | translate }}"
+                                    class="autoajustable form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>{{'seizures.Starts At' | translate }}</label>
+                                <div class="">
+                                    <input type="date" formControlName="dateDoc"
+                                        [ngClass]="{ 'is-invalid': submitted && f.dateDoc.errors }"
+                                        value="(dateDoc!=null) ? (dateDoc | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
+                                    <small class="form-text text-muted danger"
+                                        *ngIf="submitted && f.dateDoc.errors">{{'generics.required' |
+                                        translate }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                File: {{simplename}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-12 center-elements">
+                        <button type="button" class="btn btn-dark" [disabled]="preparingFile" (click)="updateData();">{{'generics.SaveAndClose' |
+                            translate }}</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
     </div>
 </ng-template>

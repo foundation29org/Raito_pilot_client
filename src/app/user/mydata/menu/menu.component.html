@@ -99,6 +99,18 @@
                                                 <button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>
                                             </span>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="content-header mt-0 mb-0">{{'dashboardpatient.Share' | translate }}</p>
+                                                <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
+                                            </div>
+                                            <div class="col-md-12 center-elements">
+                                                <button class="btn btn-dark mr-1" type="button"
+                                                (click)="share(shareTo, 'General')">{{'open.Public sharing' | translate }}</button>
+                                                <button class="btn btn-dark mr-1" type="button"
+                                                (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div *ngIf="showShare" class="center-elements">
                                         <button class="btn btn-dark btn-sm d-block" (click)="showShare=false;">{{'generics.Back' | translate }}</button>
@@ -174,4 +186,290 @@
             <iframe style="width: 99%;min-height: 200px;" class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/JrXgNVb4bME" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
+</ng-template>
+
+<ng-template #shareTo let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header pb-0" id="idHeader">
+        <h4>{{'dashboardpatient.Share' | translate }}
+    <span class="font-small-2 d-block mt-1"></span>
+  </h4>
+
+        <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<div *ngIf="!loadedShareData" class="center-elements mt-3 mb-3">
+  <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+</div>
+  <form #f="ngForm">
+    <div *ngIf="loadedShareData">
+      <div class="mt-2">
+        <div class="form-group col-md-12">
+                <p class="mb-1">{{'open.Permissions' | translate }}</p>
+                <section class="example-section">
+                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">{{'open.perm2desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">{{'open.perm3desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">{{'open.perm4desc' | translate }}</mat-checkbox></span>
+                </section>
+                <label for="notes">{{'generics.notes' | translate }}</label>
+                <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
+        </div>
+    </div>
+    <div class="col-md-12">
+      <div class="center-elements" *ngIf="!sending">
+        <div *ngIf="f.valid;then formValid else formError"></div>
+        <ng-template #formValid>
+          <button class="btn btn-dark" (click)="sendShare()"><span>{{'generics.Save' | translate }}</span></button>
+        </ng-template>
+        <ng-template #formError>
+          <button class="btn btn-dark" type="button" disabled="true" (click)="submitInvalidForm()"> <span>{{'generics.Save' | translate }}</span></button>
+        </ng-template>
+      </div>
+      <div class="center-elements" *ngIf="sending">
+        <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+      </div>
+    </div>
+    </div>
+  </form>
+  <div class="modal-body">
+    <p class="mb-0"><strong>{{'open.The accesses to your data will be shown here' | translate }}:</strong></p>
+    <span *ngIf="newPermission.operations.length>0">{{newPermission.operations|json}}</span>
+    <span *ngIf="newPermission.operations.length==0">{{'open.Nobody has accessed your data' | translate }}</span>
+  </div>
+  
+</ng-template>
+<ng-template #shareCustom let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header pb-0" id="idHeader">
+        <h4>{{'dashboardpatient.Share' | translate }}
+    <span class="font-small-2 d-block mt-1"></span>
+  </h4>
+
+        <button type="button" class="close" aria-label="Close" (click)="closeModalShare();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<div *ngIf="!loadedShareData" class="center-elements mt-3 mb-3">
+  <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+</div>
+  <form #f="ngForm">
+    <div *ngIf="loadedShareData && showNewCustom">
+      <div class="mt-2">
+        <div class="form-group col-md-12">
+                <p class="mb-1">{{'open.Permissions' | translate }}</p>
+                <section class="example-section">
+                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">{{'open.perm2desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">{{'open.perm3desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">{{'open.perm4desc' | translate }}</mat-checkbox></span>
+                </section>
+                <label for="notes">{{'generics.notes' | translate }}</label>
+                <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
+                <section class="example-section" *ngIf="mode=='Individual'">
+                  <label for="status" class="mt-2">{{'generics.Status' | translate }}</label>
+                  <select id="status" class="d-block" name="status{{i}}" [(ngModel)]="newPermission.status">
+                    <option value="Pending">{{'generics.Pending' | translate }}</option>
+                    <option value="Accepted">{{'generics.Accepted' | translate }}</option>
+                    <option value="Rejected">{{'generics.Rejected' | translate }}</option>
+                  </select>
+                </section>
+                
+        </div>
+    </div>
+    <div class="col-md-12">
+      <div class="center-elements" *ngIf="!sending">
+        <button class="btn btn-secondary mr-1" (click)="cancelCustom()"><span>{{'generics.Cancel' | translate }}</span></button>
+        <div *ngIf="f.valid;then formValid else formError"></div>
+        <ng-template #formValid>
+          <button class="btn btn-dark ml-1" (click)="sendShare()"><span *ngIf="newPermission._id==null">{{'generics.Add' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
+        </ng-template>
+        <ng-template #formError>
+          <button class="btn btn-dark ml-1" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="newPermission._id==null">{{'generics.Add' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
+        </ng-template>
+        
+      </div>
+      <div class="center-elements" *ngIf="sending">
+        <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+      </div>
+    </div>
+    </div>
+  </form>
+
+  <div *ngIf="!showNewCustom">
+    <button class="btn btn-dark m-2" type="button" (click)="addCustom()">{{'generics.Add' | translate }}</button>
+  </div>
+  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="listCustomShare.length>0 && !showNewCustom && !sending && !loading">
+    <div>
+      <h5>{{'open.Customized sharing' | translate }}:</h5>
+    </div>
+    <div class="table-responsive">
+      <table class="col-md-12 table" *ngIf="loadedShareData">
+        <thead>
+          <tr>
+            <th style="width:10%">{{'open.perm1title' | translate }}</th>
+            <th style="width:10%">{{'open.perm2title' | translate }}</th>
+            <th style="width:10%">{{'open.perm3title' | translate }}</th>
+            <th style="width:10%">{{'open.perm4title' | translate }}</th>
+            <th style="width:20%">{{'generics.notes' | translate }}</th>
+            <th style="width:10%">URL</th>
+            <th style="width:10%">{{'open.Operations' | translate }}</th>
+            <th style="width:20%">{{'generics.Date' | translate }}</th>
+            <th style="width:10%">{{'generics.Options' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let oneCustomShare of listCustomShare ; let i = index">
+            <td>
+                <em *ngIf="oneCustomShare.data.patientInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.patientInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>{{oneCustomShare.notes}}</td>
+            <td><a class="btn btn-info btn-sm" (click)="copyClipboard(oneCustomShare.token)">{{'open.Copy url' | translate }}</a></td>
+            <td>{{oneCustomShare.operations|json}}</td>
+            <td>{{oneCustomShare.date | date}}</td>
+            <td>
+              <span class="pull-right">
+                <a class="danger" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
+                  <i class="ft-x"></i>
+                </a>
+              </span>
+              <span class="pull-right mr-2">
+                <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
+                  <i class="ft-edit"></i>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+    </div>
+  </div>
+  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
+    <div>
+      <h5>{{'open.Customized sharing' | translate }}:</h5>
+    </div>
+    <div class="table-responsive">
+      <table class="col-md-12 table" *ngIf="loadedShareData">
+        <thead>
+          <tr>
+            <th style="width:10%">{{'open.Requester' | translate }}</th>
+            <th style="width:10%">{{'open.perm1title' | translate }}</th>
+            <th style="width:10%">{{'open.perm2title' | translate }}</th>
+            <th style="width:10%">{{'open.perm3title' | translate }}</th>
+            <th style="width:10%">{{'open.perm4title' | translate }}</th>
+            <th style="width:20%">{{'generics.notes' | translate }}</th>
+            <th style="width:10%">{{'generics.Status' | translate }}</th>
+            <th style="width:10%">{{'open.Operations' | translate }}</th>
+            <th style="width:20%">{{'generics.Date' | translate }}</th>
+            <th style="width:10%">{{'generics.Options' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let oneCustomShare of individualShare ; let i = index">
+            <td>
+              <a class="info" data-original-title="" title="{{'generics.Read more' | translate }}" (click)="openRequester(clinicalProfilePanel)">
+                <i class="ft-eye"></i>
+              </a>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.patientInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.patientInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>
+                <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
+                <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
+            </td>
+            <td>{{oneCustomShare.notes}}</td>
+            <td>
+              <select id="status" name="status{{i}}" [(ngModel)]="oneCustomShare.status" (change)="fieldStatusChanged(oneCustomShare)">
+								<option value="Pending">{{'generics.Pending' | translate }}</option>
+								<option value="Accepted">{{'generics.Accepted' | translate }}</option>
+                <option value="Rejected">{{'generics.Rejected' | translate }}</option>
+							</select>
+            </td>
+            <td>{{oneCustomShare.operations|json}}</td>
+            <td>{{oneCustomShare.date | date}}</td>
+            <td>
+              <span class="pull-right">
+                <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editindividual(i)">
+                  <i class="ft-edit"></i>
+                </a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #clinicalProfilePanel let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header pb-0" id="idHeader">
+      <h4>Profile
+  <span class="font-small-2 d-block mt-1"></span>
+</h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="closeModalProfile();">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+<div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" >
+  <div class="card dash2-user">
+    <div class="card-content">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
+                <h4 class="mb-0 mt-2">
+                    Doctor Felipe Dos Santos
+                </h4>
+                <p class="grey">felipedoc@gmail.com</p>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="dash-followers mr-4">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="ml-2">
+                                <h5 class="mb-0">
+                                  Geneticist
+                                </h5>
+                                <span class="grey">Specialty</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                  <div class="ml-2">
+                      <h5 class="mb-0">
+                        I am a family doctor and a specialist in genetics from the UMA
+                      </h5>
+                      <span class="grey">{{'generics.Description' | translate }}</span>
+                  </div>
+  
+              </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
 </ng-template>
