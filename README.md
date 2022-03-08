@@ -5,7 +5,7 @@
 Dx29 client
 ===============================================================================================================================
 
-[![Build Status](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_apis/build/status/Dx29%20Client/Dev/Dx29%20-%20DEV%20-%20client-%20Github?branchName=develop)](https://f29.visualstudio.com/Health29%20for%20Diagnosis/_build/latest?definitionId=49&branchName=develop)
+[![Build Status](https://f29.visualstudio.com/Raito/_apis/build/status/Raito%20Client/Prod/Raito%20-%20PROD%20-%20client-%20Github?branchName=main)](https://f29.visualstudio.com/Raito/_build/latest?definitionId=113&branchName=main)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 #### 1. Overview 
