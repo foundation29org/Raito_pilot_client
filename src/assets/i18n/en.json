@@ -221,6 +221,7 @@
     "Resend": "Resend",
     "Shared": "Shared",
     "Pending": "Pending",
+    "Accepted":"Accepted",
     "Guest": "Guest",
     "Rejected": "Rejected",
     "Copy": "Copy",
@@ -1708,6 +1709,25 @@
     "grap2": "The following graph shows how the quality of life evolves.",
     "grap3": "The following graph shows the medication in through time. The dose is normalized to the recommended dose per drug.",
     "contentDemo": "The data below is not your data, but a template to show you what data the report contains."
+  },
+  "open":{
+    "Public sharing": "Public sharing",
+    "Private sharing": "Private sharing",
+    "Permissions": "Permissions",
+    "perm1title": "Patient information",
+    "perm1desc": "Data from the patient profile section",
+    "perm2title": "Medical information",
+    "perm2desc": "Medical information such as documents, seizures, drugs, symptoms, etc.",
+    "perm3title": "Devices information",
+    "perm3desc": "Devices information",
+    "perm4title": "Genetic information",
+    "perm4desc": "Genetic information",
+    "The accesses to your data will be shown here": "The accesses to your data will be shown here",
+    "Nobody has accessed your data": "Nobody has accessed your data",
+    "Customized sharing": "Customized sharing",
+    "Operations": "Operations",
+    "Copy url": "Copy URL",
+    "Requester": "Requester"
   }
 }
 

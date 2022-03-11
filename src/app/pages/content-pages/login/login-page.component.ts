@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PatientService } from '../../../../app/shared/services/patient.service';
 import { EventsService} from 'app/shared/services/events.service';
 import { Injectable, Injector } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -47,7 +48,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
 
     urlV2: string = environment.urlDxv2;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector, public toastr: ToastrService) {
       //var param = router.parseUrl(router.url).queryParams["email","key"];
       var param = router.parseUrl(router.url).queryParams;
       if(param.email && param.key){
@@ -216,7 +217,9 @@ export class LoginPageComponent implements OnDestroy, OnInit{
                      //Swal.fire(this.translate.instant("generics.Warning"),this.translate.instant("login.The account is not activated"), "warning");
                    }else if(message == "Account is blocked"){
                      this.isBlocked = true;
-                   }
+                   }else{
+                    this.toastr.error('', message);
+                  }
       		    }
     	       }
     	   ));

@@ -1,4 +1,5 @@
 import { Component, OnInit, LOCALE_ID, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
@@ -13,6 +14,7 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { SortService } from 'app/shared/services/sort.service';
+import { DateService } from 'app/shared/services/date.service';
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 
 import Swal from 'sweetalert2';
@@ -76,8 +78,19 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   extractingData: boolean = false;
   callingTextAnalytics: boolean = false;
   nameTitle: string = '';
+  submitted = false;
+  saving: boolean = false;
 
-  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch) {
+  documentForm: FormGroup;
+  dataFile: any = {};
+  typedocument: string = '';
+
+  loadedDocs: boolean = false;
+  docs: any = [];
+  actualDoc: any = {};
+  simplename: string = '';
+
+  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch, private formBuilder: FormBuilder, private dateService: DateService) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
       //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
     });
@@ -103,6 +116,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     this.subscription.add(this.blob.change.subscribe(uploaded => {
       this.uploadingGenotype = false;
       this.uploadingEmergency = false;
+      this.getDocs();
     }));
 
     //si tiene VCF
@@ -131,6 +145,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         }
         this.emergencyFiles = emergencyFiles;
         this.otherGeneFiles = otherGeneFiles;
+        console.log(this.emergencyFiles);
         this.filesNcr = filesNcr;
         this.testResultsAnalytics();
       } else {
@@ -225,6 +240,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   getAzureBlobSasToken() {
+    this.getDocs();
     this.loadSymptoms();
     this.accessToken.containerName = this.authService.getCurrentPatient().sub.substr(1);
     this.accessToken.patientId = this.authService.getCurrentPatient().sub;
@@ -294,6 +310,65 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     }
   }
+
+  onFileChangeStep1(event) {
+    this.preparingFile = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event2: any) => { // called once readAsDataURL is completed
+        this.preparingFile = false;
+        var filename = event.target.files[0].name;
+        var extension = filename.substr(filename.lastIndexOf('.'));
+        var pos = (filename).lastIndexOf('.')
+        pos = pos - 4;
+        if (pos > 0 && extension == '.gz') {
+          extension = (filename).substr(pos);
+        }
+        filename = filename.split(extension)[0];
+        //event.target.response.content
+        if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          var uniqueFileName = this.getUniqueFileName();
+          if(this.typedocument=='general'){
+            filename = 'raitofile/' + uniqueFileName + '/' + filename + extension;
+          }else{
+            filename = 'raitofile/emergency/' + uniqueFileName + '/' + filename + extension;
+          }
+          this.dataFile = {event:event.target.files[0], url: filename, name: event.target.files[0].name}
+          
+        } else {
+          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
+        }
+
+      }
+
+    }
+  }
+
+  onFileChangeStep2(){
+    if(this.typedocument=='general'){
+      this.uploadingGenotype = true;
+      this.uploadProgress = this.blob
+        .uploadToBlobStorage(this.accessToken, this.dataFile.event, this.dataFile.url, 'patientGenoFiles');
+        if (this.modalReference != undefined) {
+          this.modalReference.close();
+          this.modalReference = undefined;
+          this.dataFile = {};
+        }
+    }else{
+      this.uploadingEmergency = true;
+          this.uploadProgress2 = this.blob
+            .uploadToBlobStorage(this.accessToken, this.dataFile.event, this.dataFile.url, 'patientGenoFiles');
+            if (this.modalReference != undefined) {
+              this.modalReference.close();
+              this.modalReference = undefined;
+            }
+            this.dataFile = {};
+    }
+    
+  }
+
+  
 
   onFileEmergencyChange(event) {
     this.preparingFileEmergency = true;
@@ -394,10 +469,37 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         }else{
           this.deleteOtherFile(file.name, i);
         }
-        
+        this.deleteReferenceFile(file.name);
       }
     });
 
+  }
+
+  deleteReferenceFile(url){
+    console.log(this.docs);
+    var documentId=null;
+    var enc = false;
+    for (var i = 0; i < this.docs.length && !enc; i++) {
+      if(this.docs[i].url==url){
+        documentId = this.docs[i]._id;
+        enc = true;
+      }
+    }
+    if(enc){
+      this.subscription.add( this.http.delete(environment.api+'/api/document/'+documentId)
+      .subscribe( (res : any) => {
+        console.log(res);
+        this.getDocs();
+       }, (err) => {
+         console.log(err);
+         this.saving = false;
+         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+           this.authGuard.testtoken();
+         }else{
+         }
+       }));
+    }
+    
   }
 
   deleteOtherFile(file, i) {
@@ -766,6 +868,140 @@ shareFile(){
 
 getLiteral(literal) {
   return this.translate.instant(literal);
+}
+
+get f() { return this.documentForm.controls; }
+
+createDocument(contentDocument, typedocument){
+  this.typedocument = typedocument;
+  this.documentForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    dateDoc: ['', Validators.required],
+    url:'',
+    description: []
+});
+
+  let ngbModalOptions: NgbModalOptions = {
+    keyboard: false,
+    windowClass: 'ModalClass-sm'// xl, lg, sm
+  };
+  this.modalReference = this.modalService.open(contentDocument, ngbModalOptions);
+}
+
+saveData(){
+  this.submitted = true;
+  if (this.documentForm.invalid) {
+      return;
+  }
+  
+  if (this.documentForm.value.dateDoc != null) {
+    this.documentForm.value.dateDoc = this.dateService.transformDate(this.documentForm.value.dateDoc);
+  }
+
+  
+  if(this.authGuard.testtoken()){
+    this.saving = true;
+    this.documentForm.value.url=this.dataFile.url;
+    console.log(this.documentForm.value);
+    this.subscription.add( this.http.post(environment.api+'/api/document/'+this.authService.getCurrentPatient().sub, this.documentForm.value)
+      .subscribe( (res : any) => {
+        this.saving = false;
+        this.submitted = false;
+        this.documentForm.reset();
+        this.onFileChangeStep2();
+       }, (err) => {
+         console.log(err);
+         this.saving = false;
+         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+           this.authGuard.testtoken();
+         }else{
+         }
+       }));
+  }
+}
+
+editDocument(file, updateDocument){
+  var enc = false;
+  for (var i = 0; i < this.docs.length && !enc; i++) {
+    if(this.docs[i].url==file.name){
+      this.actualDoc = this.docs[i];
+      this.simplename = file.simplename;
+      enc = true;
+    }
+  }
+  if(enc){
+    
+    this.documentForm = this.formBuilder.group({
+      name: [this.actualDoc.name, Validators.required],
+      dateDoc: [this.dateService.transformDate(this.actualDoc.dateDoc), Validators.required],
+      url:this.actualDoc.url,
+      description: [this.actualDoc.description]
+  });
+    let ngbModalOptions: NgbModalOptions = {
+      keyboard: false,
+      windowClass: 'ModalClass-sm'// xl, lg, sm
+    };
+    this.modalReference = this.modalService.open(updateDocument, ngbModalOptions);
+  }
+}
+
+updateData(){
+  this.submitted = true;
+  if (this.documentForm.invalid) {
+      return;
+  }
+  
+  if (this.documentForm.value.dateDoc != null) {
+    this.documentForm.value.dateDoc = this.dateService.transformDate(this.documentForm.value.dateDoc);
+  }
+
+  
+  if(this.authGuard.testtoken()){
+    this.saving = true;
+    this.documentForm.value.url=this.dataFile.url;
+    this.actualDoc.name = this.documentForm.value.name;
+    this.actualDoc.description = this.documentForm.value.description;
+    this.actualDoc.dateDoc = this.documentForm.value.dateDoc;
+    this.subscription.add( this.http.put(environment.api+'/api/document/'+this.actualDoc._id, this.actualDoc)
+      .subscribe( (res : any) => {
+        this.saving = false;
+        this.submitted = false;
+        this.documentForm.reset();
+        if (this.modalReference != undefined) {
+          this.modalReference.close();
+          this.modalReference = undefined;
+          this.dataFile = {};
+        }
+       }, (err) => {
+         console.log(err);
+         this.saving = false;
+         if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+           this.authGuard.testtoken();
+         }else{
+         }
+       }));
+  }
+}
+
+getDocs() {
+  this.docs = [];
+  this.loadedDocs = false;
+  this.subscription.add(this.http.get(environment.api + '/api/documents/' + this.authService.getCurrentPatient().sub)
+    .subscribe((resDocs: any) => {
+      if (resDocs.message) {
+        //no tiene historico de docs
+      } else {
+        resDocs.sort(this.sortService.DateSortInver("date"));
+        this.docs = resDocs;
+
+      }
+
+      this.loadedDocs = true;
+    }, (err) => {
+      console.log(err);
+      this.loadedDocs = true;
+      this.toastr.error('', this.translate.instant("generics.error try again"));
+    }));
 }
 
 }
