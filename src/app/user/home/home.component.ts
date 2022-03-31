@@ -882,7 +882,6 @@ getWeek(newdate, dowOffset?) {
       .subscribe((res: any) => {
         
         this.medications = res;
-        console.log(res);
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
           this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 14)
@@ -947,10 +946,12 @@ getWeek(newdate, dowOffset?) {
             splitDateEnd = new Date(res[i].endDate);
             seriesfirst.push({ value: parseInt(res[i].dose), name: splitDateEnd.toDateString() });
           }
-          lineChartDrugs.push({ name: res[i].drugTranslate, series: seriesfirst });
-  
+          if(res[i].drugTranslate==undefined){
+            lineChartDrugs.push({ name: res[i].drug, series: seriesfirst });
+          }else{
+            lineChartDrugs.push({ name: res[i].drugTranslate, series: seriesfirst });
+          }
         }     
-      
     }
 
     var copymeds = JSON.parse(JSON.stringify(lineChartDrugs));
