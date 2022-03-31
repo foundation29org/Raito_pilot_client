@@ -28,7 +28,7 @@
                       <p class="d-none">{{'menu.Basic Info' | translate }}</p>
                     </a>
                   </li>-->
-                  <li class="nav-item" ngbDropdown display="dynamic">
+                  <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
                     <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'menu.Personal Info' | translate }}">
                         <i class="fas fa-microscope font-medium-3 white" [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
                         <p class="d-none">{{'navbar.menu.Personal Info' | translate }}</p>
@@ -81,7 +81,7 @@
                     <p class="d-none">{{'mydata.title' | translate }}</p>
                   </a>
                 </li>
-                  <li class="nav-item" ngbDropdown display="dynamic">
+                  <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
                       <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
                           <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
                           <p class="d-none">{{'navbar.User Settings' | translate }}</p>
