@@ -3,16 +3,23 @@
         <div class="card-body pb-0">
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
+                    <a *ngIf="!showListQuestionnaires" (click)="showListQuestionnaires=true;init();" class="btn btn-primary float-right" title="{{'generics.Back' | translate }}">
+                        <span class="menu-title">{{'generics.Back' | translate }}</span>
+                    </a>
                     <h2 class="content-header mt-0 mb-2" *ngIf="showListQuestionnaires">{{'menu.Questionnaire' | translate }}</h2>
-                    <h2 class="content-header mt-0 mb-2" *ngIf="!showListQuestionnaires">Test questionnaire
-                        <a (click)="showListQuestionnaires=true;" class="btn btn-primary float-right" title="{{'generics.Back' | translate }}">
-                            <span class="menu-title">{{'generics.Back' | translate }}</span>
-                        </a>
-                    </h2>
+                    <h2 class="content-header mt-0 mb-2" *ngIf="!showListQuestionnaires">Test questionnaire</h2>
+                </div>
+                    <div class="col-12 col-sm-12 align-items-center">
+
+                   
                     <div *ngIf="showListQuestionnaires">
                         <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
-                        <span>Test questionnaire {{newproms.length-pendingsTaks}}/{{newproms.length}}</span> <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;">
-                            <span class="">
+                        <span>Test questionnaire {{newproms.length-pendingsTaks}}/{{newproms.length}}</span> <span *ngIf="(newproms.length-pendingsTaks)==(newproms.length)"><i class="ml-1 success fa fa-check"></i></span>
+                        <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;">
+                            <span class="" *ngIf="(newproms.length-pendingsTaks)==(newproms.length)">
+                                {{'prom.See answers' | translate }}
+                            </span>
+                            <span class="" *ngIf="(newproms.length-pendingsTaks)!=(newproms.length)">
                                 {{'charts.Answer' | translate }}
                             </span>
                           </a>

@@ -2,12 +2,20 @@
   width: 100%;
 }
 
+.small-width {
+  max-width: 30rem !important;
+}
+
+.max-width {
+  max-width: 900px !important;
+}
+
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }
 
 ::ng-deep .btn{
-  margin-bottom: 0 !important;
+  /*margin-bottom: 0 !important;*/
 }
 
 ::ng-deep .cal-event-action{
@@ -26,12 +34,8 @@
   padding: 0em !important;
 }
 
-::ng-deep .btn-link{
-  margin-top: 0.75rem !important;
-}
-
 ::ng-deep h5{
-  margin-bottom: 0 !important;
+  /*margin-bottom: 0 !important;*/
 }
 
 

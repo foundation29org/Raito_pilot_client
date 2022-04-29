@@ -106,6 +106,12 @@ export class PromComponent {
    }
 
    init() {
+     this.proms = [];
+     this.newproms= [];
+     this.totalTaks = 8;
+     this.pendingsTaks = 8;
+     this.actualProm = {};
+     this.step = 0;
     this.initEnvironment();
     this.loadPromQuestions();
   }
@@ -204,9 +210,10 @@ export class PromComponent {
         .subscribe((res:any)=>{
           this.proms = res;
           console.log(res);
-          if(this.pendind){
+          if(this.pendind && res.length<this.totalTaks){
             this.filterNewProms();
           }else{
+            this.pendind = false;
             this.showAll();
           }
           

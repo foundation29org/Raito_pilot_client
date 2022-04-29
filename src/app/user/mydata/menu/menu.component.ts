@@ -172,6 +172,7 @@ exportData(){
         var dateNow = new Date();
         var stringDateNow = this.dateService.transformDate(dateNow);
         a.download    = "dataRaito_"+stringDateNow+".json";
+        a.target     = "_blank";
         a.href        = url;
         a.textContent = "dataRaito_"+stringDateNow+".json";
         a.setAttribute("id", "download")
@@ -658,6 +659,26 @@ copyClipboard(data){
       setTimeout(function () {
         Swal.close();
       }, 2000);
+}
+
+extractFhir(){
+  var text = "name: javier, drug:clobazam, seizure: 2 status";
+
+  var info = {  
+    "documents": [
+        { "id": "1", 
+        "language":"en", 
+        "text": text
+        }
+    ]
+}
+
+    this.subscription.add(this.apif29BioService.callTAFhir(info)
+      .subscribe((res: any) => {
+        console.log(res);
+      }, (err) => {
+        console.log(err);
+      }));
 }
 
 }

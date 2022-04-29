@@ -58,10 +58,10 @@
                         </div>
                         <div *ngIf="step=='2'">
                             <h2>{{'homeraito.t3' | translate }}</h2>
-                            <p class="text-muted font-small-2">
+                            <p class="text-muted">
                                 {{'homeraito.p1' | translate }}
                             </p>
-                            <p class="text-muted font-small-2 mt-2">{{'homeraito.p1.1' | translate }}</p>
+                            <p class="text-muted mt-2">{{'homeraito.p1.1' | translate }}</p>
                             
                             <div class="center-elements mt-1">
                                 <button class="mr-1 btn btn-primary" style="width: 100px;" (click)="question3(false);">{{'generics.No' |
@@ -106,6 +106,7 @@
                 <div class="pl-2 pr-2 pt-2">
                     <h4 class="text-bold-500">{{'topnavbar.Notifications' | translate }}</h4>
                 </div>
+                <div *ngIf="!infoVerified.isVerified && loadVerifiedInfo" id='veriff-root'></div>
                 <div class="pl-2 pr-2 pb-2" style="line-height: 1.2em;">
                     <!--One notification-->
                     <div class="row font-small-3 mb-1" *ngIf="!checks.check1">
@@ -134,6 +135,47 @@
                             <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck2(true)">
                                 <span class="">
                                     Ok
+                                </span>
+                              </a>
+                        </div>
+                    </div>
+                    <div class="row font-small-3 mb-1" *ngIf="!infoVerified.isVerified && infoVerified.status=='Not started'">
+                        <div class="col-1 pr-0">
+                            <em class="fas fa-info-circle"></em>
+                        </div>
+                        <div class="col-7 pl-2 pr-0">
+                            <p class="">{{'identity.t2' | translate }}</p>
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="getUserInfo(true)">
+                                <span class="">
+                                    {{'identity.t0' | translate }}
+                                </span>
+                              </a>
+                        </div>
+                    </div>
+                    <div class="row font-small-3 mb-1" *ngIf="!infoVerified.isVerified && infoVerified.status!='Not started'">
+                        <div class="col-1 pr-0">
+                            <em class="fas fa-info-circle"></em>
+                        </div>
+                        <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted'">
+                            <p>{{'identity.t7' | translate }}</p>
+                            <p>{{'identity.t8' | translate }}</p>
+                            <p>{{'identity.t9' | translate }} <a class="info" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>
+                        </div>
+                        <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='resubmission_requested'">
+                            <p>{{'identity.t5' | translate }}</p>
+                            <p>{{'identity.t9' | translate }} <a class="info" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>
+                        </div>
+                        <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='declined'">
+                            <p>{{'identity.t11' | translate }}</p>
+                            <p>{{'identity.t12' | translate }}: {{infoVerified.info.value}}</p>
+                            <p>{{'identity.t13' | translate }}</p>
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="getUserInfo(true)" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted'">
+                                <span class="">
+                                    {{'identity.t0.1' | translate }}
                                 </span>
                               </a>
                         </div>
@@ -261,13 +303,13 @@
         <div class="row">
             <div class="col-sm-12 content-header">
                 <span class="optionsCharts">
-                    <span><button class="mb-0 btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='month'"
+                    <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='month'"
                             (click)="loadDataRangeDate('month');">{{'charts.Last month' |
                             translate }}</button></span>
-                    <span><button class="mb-0 btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='quarter'"
+                    <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='quarter'"
                             (click)="loadDataRangeDate('quarter');">{{'charts.Last quarter' |
                             translate }}</button></span>
-                    <span><button class="mb-0 btn btn-sm btn-secondary round mr-1" [disabled]="rangeDate=='year'"
+                    <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='year'"
                             (click)="loadDataRangeDate('year');">{{'charts.Last year' |
                             translate }}</button></span>
                 </span>
@@ -281,18 +323,18 @@
                 <div>
                     <div class="row" *ngIf="events.length > 0 && loadedEvents">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1">
+                            <div class="card mb-2 mt-2">
                                 <div class="mb-2">
                                     <div class="card-block">
                                         <div class="row p-2">
                                             <div class="col-8">
                                                 <h4 class="text-bold-500">{{'menu.Seizures' | translate }}
-                                                    <em class="ft-info font-small-2" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                    <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                                                     <ng-template #popContentseizures>
                                                         <span>
                                                             {{'charts.infoSeizures' | translate }}
                                                         </span>
-                                                        <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                                                        <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
                                                       </ng-template>
                                                 </h4>
                                             </div>
@@ -328,6 +370,17 @@
                                                     </div>
                                                 </ng-template>
                                             </ngx-charts-line-chart>
+                                            
+                                        </div>
+                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12" style="position: absolute;top: 90%;">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        </div>
+                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -336,18 +389,18 @@
                     </div>
                     <div class="row" *ngIf="events.length == 0 && loadedEvents">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1">
+                            <div class="card mb-2 mt-2">
                                 <div class="">
                                     <div class="card-block">
                                         <div class="row p-2">
                                             <div class="col-10">
                                                 <h4 class="text-bold-500 mb-0">{{'menu.Seizures' | translate }}
-                                                    <em class="ft-info font-small-2" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                    <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                                                     <ng-template #popContentseizures>
                                                         <span>
                                                             {{'charts.infoSeizures' | translate }}
                                                         </span>
-                                                        <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                                                        <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
                                                       </ng-template>
                                                 </h4>
                                                 <p class="mb-0">{{'charts.Noseizures' | translate }}
@@ -376,18 +429,18 @@
                     </div>
                     <div class="row" *ngIf="feels.length > 0">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1">
+                            <div class="card mb-2 mt-2">
                                 <div class="mb-2">
                                     <div class="card-block">
                                         <div class="row p-2">
                                             <div class="col-8">
                                                 <h4 class="text-bold-500">{{'charts.Quality of life' | translate }}
-                                                    <em class="ft-info font-small-2" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentfeel" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                    <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentfeel" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                                                     <ng-template #popContentfeel>
                                                         <span>
                                                             {{'charts.infoFeel' | translate }}
                                                         </span>
-                                                        <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                                                        <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
                                                       </ng-template>
                                                 </h4>
                                             </div>
@@ -444,18 +497,18 @@
                     </div>
                     <div class="row" *ngIf="feels.length == 0 && loadedFeels">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1">
+                            <div class="card mb-2 mt-2">
                                 <div class="">
                                     <div class="card-block">
                                         <div class="row p-2">
                                             <div class="col-10">
                                                 <h4 class="text-bold-500 mb-0">{{'charts.Quality of life' |translate }}
-                                                    <em class="ft-info font-small-2" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentfeel" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                    <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentfeel" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                                                     <ng-template #popContentfeel>
                                                         <span>
                                                             {{'charts.infoFeel' | translate }}
                                                         </span>
-                                                        <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                                                        <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
                                                       </ng-template>
                                                 </h4>
                                                 <p class="mb-0">{{'charts.No data saved' | translate }}
@@ -482,18 +535,18 @@
                     </div>
                     <div class="row" *ngIf="medications.length > 0 && loadedDrugs">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1" #ContainerRef>
+                            <div class="card mt-2 mb-2" #ContainerRef>
                                 <div class="mb-2">
                                     <div class="card-block pb-2">
                                         <div class="row p-2">
                                             <div class="col-8">
                                                 <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }} 
-                                                    <em class="ft-info font-small-2" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                    <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                                                     <ng-template #popContentdrugs>
                                                         <span>
                                                             {{'charts.infoDrugs' | translate }}
                                                         </span>
-                                                        <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                                                        <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
                                                       </ng-template>
                                                 </h4>
                                                 <span class="text-muted"> 
@@ -515,15 +568,26 @@
                                                 height="200px"></div>
                                             <ngx-charts-line-chart [view]="[(ContainerRef.offsetWidth-30), 100]"
                                                 [scheme]="lineChartColorScheme" [results]="lineChartDrugs"
-                                                [gradient]="lineChartGradient" [xAxis]="false"
+                                                [gradient]="lineChartGradient" [xAxis]="false" [xAxisTickFormatting]="tickFormatting"
                                                 [yAxis]="lineChartShowYAxis" [legend]="false"
                                                 [legendPosition]="'below'"
-                                                [showXAxisLabel]="lineChartShowXAxisLabel"
+                                                [showXAxisLabel]="false"
                                                 [xAxisTickFormatting]="tickFormatting"
                                                 [showYAxisLabel]="false" [xAxisLabel]="msgDate"
                                                 [autoScale]="false" [xScaleMax]="today" [yAxisTicks]="yAxisTicksDrugs" (select)="onSelect($event)">
                                                 <!--[timeline]="true"-->
                                             </ngx-charts-line-chart>
+                                            
+                                        </div>
+                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12" style="position: absolute;top: 90%;">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        </div>
+                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -532,18 +596,18 @@
                     </div>
                     <div class="row" *ngIf="medications.length == 0 && loadedDrugs">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1">
+                            <div class="card mb-2 mt-2">
                                 <div class="">
                                     <div class="card-block">
                                         <div class="row p-2">
                                             <div class="col-10">
                                                 <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }}
-                                                    <em class="ft-info font-small-2" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                    <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                                                     <ng-template #popContentdrugs>
                                                         <span>
                                                             {{'charts.infoDrugs' | translate }}
                                                         </span>
-                                                        <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                                                        <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
                                                       </ng-template>
                                                 </h4>
                                                 <p class="mb-0">{{'charts.There is no drug data stored' | translate }} <span
@@ -570,7 +634,7 @@
                     <div class="row"
                         *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
                         <div class="col-sm-12">
-                            <div class="card mb-1 mt-1" #ContainerRef1>
+                            <div class="card mb-2 mt-2" #ContainerRef1>
                                 <div class="mb-2">
                                     <div class="card-block pb-2">
                                         <div class="row p-2">
@@ -608,10 +672,21 @@
                                                 [showXAxisLabel]="showXAxisLabel"
                                                 [showYAxisLabel]="showYAxisLabel"
                                                 [showRightYAxisLabel]="showYAxisLabel"
-                                                [xAxisLabel]="xAxisLabel"
+                                                [xAxisLabel]="false"
                                                 [yAxisLabel]="yAxisLabel"
                                                 [yAxisLabelRight]="yAxisLabelRight">
                                                 </combo-chart-component>
+                                               
+                                        </div>
+                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12" style="position: absolute;top: 90%;">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        </div>
+                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                         </div>
                                     </div>
 

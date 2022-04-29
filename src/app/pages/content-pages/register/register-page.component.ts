@@ -131,6 +131,10 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
     modalRef.componentInstance.subrole = this.subrole;
   }
 
+  setOpenTerms(){
+    this.openedTerms = true;
+  }
+
   openDataProcessingAgreement() {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',

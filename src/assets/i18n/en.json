@@ -480,7 +480,8 @@
     "if you want to change": "If you want to change the units, do it",
     "here": "here",
     "Patients weight": "Weight",
-    "of": "of"
+    "of": "of",
+    "no history saved": "There is no history saved for this drug"
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "It was not possible to save because the vaccine already exists on the selected date",
@@ -1080,7 +1081,7 @@
     "SelectSymptoms": "Select the symptoms that you think are correct",
     "placeholder": "Type symptoms, cut and paste text or use a medical record. Click on the play button to see the symptoms.",
     "Manual": "Manual",
-    "placeholderError": "Type symptoms, cut and paste text or use a medical record.",
+    "placeholderError": "We have not detected any text in the document.",
     "Download symptoms": "Download symptoms",
     "Copy symptoms": "Copy symptoms",
     "Copy results": "Copy results",
@@ -1444,7 +1445,7 @@
   },
   "prom":{
     "subtitle":"These are questionnaires from your Patient Organization to gather your opinion.",
-    "You have datapoints to complete": "You have community questions to answer",
+    "You have datapoints to complete": "Help the community",
     "You have completed": "You have completed today's community questions. Thanks!",
     "No further questions for today": "No further questions for today",
     "q1":"Is the number of seizures the most relevant problem for you?",
@@ -1483,7 +1484,8 @@
     "a8.2": "Less severe seizures",
     "a8.3": "Improvement in other symptoms:",
     "a8.4": "Please, tell us",
-    "Enter your text here": "Enter your testimony here"
+    "Enter your text here": "Enter your testimony here",
+    "See answers": "See answers"
   },
   "landraito":{
     "t1": "You have the power to boost medicine",
@@ -1551,7 +1553,7 @@
     "noti2a": "The level of your container is represented in the bar below. You fill it entering and sharing data.",
     "noti3a": "How has the disease burden been lately?",
     "noti3b": "You haven't reported about your disease burden lately. Let's do it!",
-    "noti4a": "Your container doesn't have seizure data. Do you want to add a seizure?",
+    "noti4a": "There are no recently saved seizures. Do you want to add a seizure?",
     "noti4b": "You haven't added any seizures lately. Do you have seizures to add?",
     "noti5a": "Your container doesn't have drugs data. Do you want to add some?",
     "noti5b": "You haven't changed your drugs lately. Do you have anything to change?",
@@ -1651,6 +1653,7 @@
     "sharecontent1": "The report includes seizure, quality of life and medication graphs, as well as your list of symptoms.",
     "sharetitle2": "Data for research",
     "sharecontent2": "The generated file is intended for data aggregation and analysis.",
+    "sharecontent3": "<strong>Public sharing:</strong> Anyone will be able to access the data of your choice. <p><strong>Private sharing:</strong> A private link will be generated that you can share with the people you want to access it.</p>",
     "Password is incorrect": "Password is incorrect",
     "we will close your session": "For your security, we will close your session.",
     "please enter your password": "For security reasons, please enter your password",
@@ -1675,7 +1678,12 @@
   "documents":{
     "medicalRecordsSubtitle": "Upload here any file you want have readily available.",
     "emergencyTitle": "Emergency protocols",
-    "emergencySubtitle": "Upload here important files that describe how to act in case of emergencies."
+    "emergencySubtitle": "Upload here important files that describe how to act in case of emergencies.",
+    "New document": "New document",
+    "Title": "Title",
+    "Update document": "Update document data",
+    "File": "File",
+    "Select document": "Select document"
   },
   "termsDravet":{
     "title": "Privacy policy",
@@ -1728,6 +1736,24 @@
     "Operations": "Operations",
     "Copy url": "Copy URL",
     "Requester": "Requester"
+  },
+  "identity":{
+    "t0": "Verify",
+    "t0.1": "Check status",
+    "t1": "Verification of your identity",
+    "t2": "We need to verify your identity to prevent fraud.",
+    "t3": "Your identity has been successfully verified",
+    "t4": "Thank you!",
+    "t5": "There was an error in the verification process.",
+    "t6": "Please try again",
+    "t7": "Your verification data has been successfully submitted. You'll get the results shortly.",
+    "t8": "Please wait, this process usually takes 1-2 minutes. If after 2 minutes you haven't seen any changes, click on 'Check Status'.",
+    "t9": "If you have closed the Veriff window by mistake, please",
+    "t10": "to continue the verification process.",
+    "t11": "Your verification could not be accepted, you have been rejected.",
+    "t12": "Reason",
+    "t13": "If you think this is an error, please write to support@foundation29.org",
+    "click here": "click here"
   }
 }
 

@@ -14,6 +14,18 @@ import { Injectable, Injector } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
+import { SocialAuthService } from "angularx-social-login";
+import { SocialUser } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+
+const options = {
+  clientID: 'com.company.app', // Apple Client ID
+  redirectUri: 'http://localhost:4200/auth/apple/callback',
+  // OPTIONAL
+  state: 'state', // optional, An unguessable random string. It is primarily used to protect against CSRF attacks.
+  responseMode: 'form_post', // Force set to form_post if scope includes 'email'
+  scope: 'email' // optional
+};
 
 @Component({
     selector: 'app-login-page',
@@ -46,9 +58,10 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     finishTime: Date = null;
     isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
 
-    urlV2: string = environment.urlDxv2;
+    user: SocialUser;
+    loggedIn: boolean;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector, public toastr: ToastrService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector, public toastr: ToastrService, private socialAuthService: SocialAuthService) {
       //var param = router.parseUrl(router.url).queryParams["email","key"];
       var param = router.parseUrl(router.url).queryParams;
       if(param.email && param.key){
@@ -80,6 +93,15 @@ export class LoginPageComponent implements OnDestroy, OnInit{
      }
 
      ngOnInit() {
+      this.socialAuthService.authState.subscribe((user) => {
+        console.log(user)
+        this.user = user;
+        this.loggedIn = (user != null);
+        if(this.loggedIn){
+          this.getToken();
+          //this.router.navigate(['home'])
+        }
+      });
       }
 
      ngOnDestroy() {
@@ -103,6 +125,34 @@ export class LoginPageComponent implements OnDestroy, OnInit{
          }
        }
      }
+
+  getToken() {
+    var password = sha512(this.user.id);
+    var info = { email: this.user.email, password: password, provider: this.user.provider, userName: this.user.firstName, lastName: this.user.lastName, lang: this.authService.getLang() };
+    this.subscription.add(this.authService.signinWith(info).subscribe(
+      authenticated => {
+        this.loginForm.reset();
+        if (authenticated) {
+          //this.translate.setDefaultLang( this.authService.getLang() );
+          this.translate.use(this.authService.getLang());
+          sessionStorage.setItem('lang', this.authService.getLang());
+          this.testHotjarTrigger(this.authService.getLang());
+          let url = this.authService.getRedirectUrl();
+          this.router.navigate([url]);
+          this.sending = false;
+
+        } else {
+          this.sending = false;
+          let message = this.authService.getMessage();
+          if (message == "Login failed" || message == "Not found") {
+            this.isLoginFailed = true;
+          } else {
+            this.toastr.error('', message);
+          }
+        }
+      }
+    ));
+  }
 
     // On submit button click
     onSubmit() {
@@ -250,5 +300,9 @@ export class LoginPageComponent implements OnDestroy, OnInit{
       var eventsLang = this.inj.get(EventsService);
       var ojb = {lang: lang, scenario: scenarioHotjar};
       eventsLang.broadcast('changeEscenarioHotjar', ojb);
+    }
+
+    loginWithGoogle(): void {
+      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     }
 }

@@ -78,7 +78,7 @@
                                         <div class="row">
                                             
                                             <div class="col-md-12">
-                                                <p class="content-header mt-0 mb-0">{{'mydata.sharetitle1' | translate }}</p>
+                                                <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle1' | translate }}</p>
                                                 <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
                                             </div>
                                             <span class="col-md-12 center-elements">
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <p class="content-header mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
+                                                <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
                                                 <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
                                             </div>
                                             <span class="col-md-12 center-elements">
@@ -97,12 +97,13 @@
                                                 (click)="exportData()">{{'generics.ExportData' | translate }}</button>
                                                 <div class="d-none"><span id="content"></span></div>
                                                 <button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>
+                                                <!--<button class="btn btn-dark ml-1" type="button" (click)="extractFhir()">FHIR</button>-->
                                             </span>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <p class="content-header mt-0 mb-0">{{'dashboardpatient.Share' | translate }}</p>
-                                                <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
+                                                <p class="text-bold-500 mt-0 mb-0">{{'dashboardpatient.Share' | translate }}</p>
+                                                <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
                                             </div>
                                             <div class="col-md-12 center-elements">
                                                 <button class="btn btn-dark mr-1" type="button"

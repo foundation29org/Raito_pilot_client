@@ -479,7 +479,8 @@
     "if you want to change": "Si quieres cambiar las unidades, hazlo ",
     "here": "aquí",
     "Patients weight": "Peso",
-    "of": "de"
+    "of": "de",
+    "no history saved": "No hay historial guardado para este medicamento"
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "No fue posible guardar porque la vacuna ya existe en la fecha seleccionada",
@@ -1079,7 +1080,7 @@
     "SelectSymptoms": "Selecciona los síntomas que consideres correctos",
     "placeholder": "Escribe síntomas, corta y pega texto o usa un infome. Después tienes que hacer clic en el botón de reproducción para ver los síntomas.",
     "Manual": "Manual",
-    "placeholderError": "Escribe síntomas, corta y pega texto o usa un infome.",
+    "placeholderError": "No hemos detectado texto en el documento.",
     "Download symptoms": "Descargar síntomas",
     "Copy symptoms": "Copiar síntomas",
     "Copy results": "Copiar resultados",
@@ -1445,7 +1446,7 @@
   },
   "prom":{
     "subtitle":"Hay cuestionarios de su Organización de Pacientes para recabar su opinión",
-    "You have datapoints to complete": "Tiene que responder a importantes preguntas de la comunidad",
+    "You have datapoints to complete": "Ayuda a la comunidad",
     "You have completed": "Has completado las preguntas de hoy. Gracias.",
     "No further questions for today": "No hay más preguntas por hoy",
     "q1": "¿Es el número de convulsiones el problema más relevante para usted?",
@@ -1478,13 +1479,14 @@
     "a6.7": "Cansancio",
     "a6.8": "Otros",
     "a6.9": "Por favor, díganos",
-    "q7": "¿Son usted o su hijo capaces de predecir cuándo van a tener una convulsión?",
+    "q7": "¿Son usted o su hijo capaces de predecir cuándo van a tener una crisis?",
     "q8": "Si una compañía farmacéutica desarrollara un nuevo tratamiento para el síndrome de Dravet, ¿qué le gustaría ver en términos de mejora para su hijo?",
     "a8.1": "Reducción de las convulsiones",
     "a8.2": "Menos convulsiones severas",
     "a8.3": "Mejora de otros síntomas:",
     "a8.4": "Por favor, díganos",
-    "Enter your text here": "Introduzca tu texto aquí"
+    "Enter your text here": "Introduzca tu texto aquí",
+    "See answers": "Ver respuestas"
   },
   "landraito":{
     "t1": "Tienes el poder de impulsar la medicina",
@@ -1511,7 +1513,7 @@
     "p2.1": "De acuerdo, le preguntaremos más tarde.",
     "p3": "¿Cómo puedo ayudarle?",
     "p4": "Visualiza tus datos",
-    "p5": "Añadir una convulsión",
+    "p5": "Añadir una crisis",
     "p6": "El impacto en mí",
     "p7": "Informar de un evento médico",
     "Search": "Buscar",
@@ -1547,13 +1549,13 @@
     "infoDrugs": "La medicación puede representarse en porcentaje de la dosis recomendada del fármaco o en dosis absoluta.",
     "infoFeel": "La calidad de vida representa cómo afecta la enfermedad del paciente a su vida. El valor del gráfico es la media de los valores que usted proporciona cada vez que responde a las preguntas sobre la carga de la enfermedad. Las opciones de las preguntas tienen valores de 1 a 5.",
     "Your progress": "Mi progreso",
-    "If you dont keep data updated it will decrease": "Si no mantienes los datos actualizados disminuirá.",
+    "If you dont keep data updated it will decrease": "Si no mantienes los datos actualizados, disminuirá.",
     "noti1a": "Bienvenido a Raito, tu contenedor de datos personales. Esta es tu área de notificaciones.",
     "noti2a": "El nivel de tu contenedor está representado en la barra de abajo. Lo rellenas introduciendo y compartiendo datos.",
-    "noti3a": "¿Cómo ha sido la carga de la enfermedad últimamente?",
-    "noti3b": "No has informado sobre tu carga de enfermedad últimamente. Hagámoslo.",
-    "noti4a": "Tu contenedor no tiene datos de crisis epilépticas. ¿Quiere añadir un crisis epilépticas?",
-    "noti4b": "No has añadido ningúna convulsión últimamente. ¿Tienes crisis epilépticas que añadir?",
+    "noti3a": "¿Cómo se ha encontrado últimamente?",
+    "noti3b": "Últimamente no has informado como te encuentras. Hagámoslo.",
+    "noti4a": "No hay convulsiones guardadas recientemente. ¿Quiere añadir un crisis epilépticas?",
+    "noti4b": "No has añadido ningúna crisis últimamente. ¿Tienes crisis epilépticas que añadir?",
     "noti5a": "Su contenedor no tiene datos de medicación. ¿Quiere añadir alguno?",
     "noti5b": "No has cambiado tu medicación últimamente. ¿Tienes algo que cambiar?",
     "noti6a": "No te has unido a una organización de pacientes. Únase ahora!",
@@ -1570,8 +1572,8 @@
     "Loading": "Cargando"
   },
   "seizures":{
-    "Select the type of seizure": "Seleccione el tipo de convulsión",
-    "Seizure type": "Tipo de convulsión",
+    "Select the type of seizure": "Seleccione el tipo de crisis",
+    "Seizure type": "Tipo de crisis",
     "Duration": "Duración (minutos)",
     "How do I export the data": "¿Como exporto los datos?",
     "Import from seizure tracker": "Importar de seizure tracker",
@@ -1652,6 +1654,7 @@
     "sharecontent1": "El informe incluye gráficos de convulsiones, calidad de vida y medicación, así como su lista de síntomas.",
     "sharetitle2": "Datos para la investigación",
     "sharecontent2": "El archivo generado está destinado a la agregación y el análisis de datos.",
+    "sharecontent3": "<strong>Compartición pública:</strong> Cualquier persona podrá acceder a los datos que usted desee. <p><strong>Compartición privada:</strong> Se genererá un enlace privado que podrás compartir con las personas que desees que tenga acceso.</p>",
     "Password is incorrect": "La contraseña es incorrecta",
     "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",
     "please enter your password": "Por seguridad, introduce tu contraseña",
@@ -1676,7 +1679,12 @@
   "documents":{
     "medicalRecordsSubtitle": "Sube aquí cualquier archivo que quieras tener a mano.",
     "emergencyTitle": "Protocolos de emergencia",
-    "emergencySubtitle": "Sube aquí archivos importantes que describan cómo actuar en caso de emergencias."
+    "emergencySubtitle": "Sube aquí archivos importantes que describan cómo actuar en caso de emergencias.",
+    "New document": "Nuevo documento",
+    "Title": "Título",
+    "Update document": "Actualizar datos del documento",
+    "File": "Fichero",
+    "Select document": "Seleccione el documento"
   },
   "termsDravet":{
     "title": "Política de privacidad",
@@ -1729,5 +1737,23 @@
     "Operations": "Operaciones",
     "Copy url": "Copiar URL",
     "Requester": "Solicitante"
+  },
+  "identity":{
+    "t0": "Verificar",
+    "t0.1": "Comprobar estado",
+    "t1": "Verificación de tu identidad",
+    "t2": "Necesitamos verificar tu identidad para evitar fraudes.",
+    "t3": "Tu identidad ha sido verificada exitosamente",
+    "t4": "¡Gracias!",
+    "t5": "Hubo un error en el proceso de verificación.",
+    "t6": "Por favor inténtalo de nuevo",
+    "t7": "Sus datos de verificación se han enviado con éxito. Recibirá los resultados en breve.",
+    "t8": "Por favor, espera, este proceso suele tardar entre 1 y 2 minutos. Si después de 2 minutos no has visto ningún cambio, haga clic en 'Comprobar estado'.",
+    "t9": "Si has cerrado la ventana de Veriff por error, por favor",
+    "t10": "para continuar con el proceso de verificación.",
+    "t11": "Tu verificación no pudo ser aceptada, has sido rechazada.",
+    "t12": "Motivo",
+    "t13": "Si cree que se trata de un error, escriba a support@foundation29.org",
+    "click here": "haz clic aquí"
   }
 }
