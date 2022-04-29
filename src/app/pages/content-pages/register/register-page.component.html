@@ -59,18 +59,16 @@
                           {{'registration.IMPORTANT NOTE' | translate }}
                         </p>
                           <div class="form-group col-sm-offset-1">
-                            <mat-checkbox (click)="openTerms()" [attr.title]="!openedTerms ? 'You must read and understand the privacy policy in order to activate this field.' : 'This field is required'"
+                            <mat-checkbox (click)="!openedTerms ? openTerms() : setOpenTerms()" [attr.title]="!openedTerms ? 'You must read and understand the privacy policy in order to activate this field.' : 'This field is required'"
                                 class="example-margin"
                                 [disabled]="!openedTerms" name="terms" ngModel required #terms="ngModel" id="terms">
-
+                                <label class="d-inline" style="margin-bottom: auto !important;">
+                                  <a (click)="openTerms()" class="info">
+                                    <small style="white-space: normal;"> {{'registration.I have read and understood the' | translate }}
+                                    </small>
+                                  </a>
+                                </label>
                             </mat-checkbox>
-                            <label style="margin-bottom: auto !important;">
-                              <a (click)="openTerms()" class="ml-1 btn-flat">
-                                <small style="margin-top: 1em;white-space: normal;text-transform: none;letter-spacing: 0px;"> {{'registration.I have read and understood the' | translate }}
-                                </small>
-                                <i class="ft-external-link"></i>
-                              </a>
-                            </label>
                             <small class="form-text text-muted danger" *ngIf="!terms.valid && (terms.dirty || terms.touched) && openedTerms">{{'generics.required' | translate }}</small>
                             <small class="form-text text-muted danger" *ngIf="!terms.valid && (terms.dirty || terms.touched) && !openedTerms">{{'registration.It is mandatory to read the privacy policy before continuing' | translate }}</small>
 

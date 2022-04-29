@@ -68,6 +68,16 @@ export class Apif29BioService {
         })
     }
 
+    callTAFhir(textf){
+        return this.http.post(environment.api+'/api/callTAFhir', textf)
+        .map( (res : any) => {
+            return res;
+        }, (err) => {
+            console.log(err);
+            return err;
+        })
+    }
+
 
     getSegmentation(lang,textf){
         return this.http.post(environment.f29bio+'/api/Translation/document/segmentation?lan='+lang, textf)

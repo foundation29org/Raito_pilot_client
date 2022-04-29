@@ -25,7 +25,6 @@ import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
 import { CalendarsComponent } from './calendar/calendar.component';
 import { MedicationComponent } from './medication/medication.component';
-import { AnthropometryComponent } from './anthropometry/anthropometry.component';
 import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomFormsModule } from 'ngx-custom-validators';
 
@@ -61,7 +60,6 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
         GenotypeComponent,
         MedicalRecordsComponent,
         CalendarsComponent,
-        AnthropometryComponent,
         MedicationComponent,
         DndDirective
     ],

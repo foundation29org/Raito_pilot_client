@@ -1,23 +1,23 @@
 <div class="h-100">
-	<div class="card card-block mx-auto" style="max-width: 30rem !important;">
+	<div class="card card-block mx-auto"  [ngClass]="(step!='1')?'small-width':'max-width'">
 		<div class="card-body">
 			<div class="row">
 				<div class="col-12 col-sm-12 align-items-center">
 					<div *ngIf="step=='0'">
-						<div>
-							<button *ngIf="events.length>0" class="ml-1 pull-right btn btn-primary btn-sm"
-								(click)="openStats()">
-								<i class="fa fa-history font-medium-3"></i>
-							</button>
-						</div>
+                        <button *ngIf="events.length>0" class="ml-1 float-right btn btn-primary btn-sm" (click)="openStats()">
+							<i class="fa fa-history font-medium-3"></i>
+						</button>
+                    </div>
+					<div *ngIf="step=='0'">
+						
 						<h2 class="content-header mt-0 mb-2">{{'homeraito.p5' | translate }}</h2>
 
-						<div class="row">
-							<div class="col-md-12">
+						<div class="">
+							<div class="">
 								<form action="#" class="form form-horizontal" [formGroup]="seizuresForm">
 									<div class="form-body">
-										<div class="row">
-											<div class="col-md-12">
+										<div class="">
+											<div class="">
 												<div class="form-group">
 													<label>{{'seizures.Seizure type' | translate }}</label> 
 														<em class="ft-info font-small-2" style="cursor: pointer;position: absolute;margin-top: 0.275rem !important;margin-left: 0.25rem !important;" (click)="goto('2');" title="More info"></em>
@@ -63,7 +63,7 @@
 														translate }}</small>
 												</div>
 											</div>
-											<div class="col-8">
+											<div class="">
 												<div class="form-group">
 													<label>{{'seizures.Duration' | translate }}</label>
 													<input type="number" min="0" class="col-5 form-control" id="numericos2"
@@ -75,7 +75,7 @@
 														are allowed' | translate }}</small>
 												</div>
 											</div>
-											<div class="col-8">
+											<div class="">
 												<div class="form-group">
 													<label>{{'seizures.Starts At' | translate }}</label>
 													<div class="">
@@ -109,7 +109,7 @@
 													-->
 												</div>
 											</div>
-											<div class="form-group col-md-12">
+											<div class="form-group ">
 												<label>{{'seizures.State' | translate }}</label>
 												<div class="d-block font-small-2">
 													<div class="form-check form-check-inline">
@@ -130,7 +130,7 @@
 											</div>
 
 
-											<div class="col-md-12 col-12">
+											<div class="">
 												<div class="form-group">
 													<label>{{'generics.notes' | translate }}</label>
 													<textarea maxlength="150" name="notes" formControlName="notes"
@@ -149,9 +149,9 @@
 							</div>
 						</div>
 						<div class="mt-4 pb-0 card-footer col-md-12">
-							<div class="center-elements">
+							<div class="center-elements mt-2">
 								<span>
-									<label class="btn btn-sm btn-dark" *ngIf="!importing">
+									<label class="btn btn-sm btn-dark mb-0" *ngIf="!importing">
 										<input id="file" type="file" style="display:none;" accept=".json"
 											(change)="onImport($event)" />
 										{{'seizures.Import from seizure tracker' | translate }}
@@ -161,7 +161,7 @@
 										{{'generics.Please wait' | translate }}
 									</label>
 									<a *ngIf="!importing" (click)="showHelpSeizureTrackerPopup(contentInfoSeizureTracker);"
-										class="d-block dark" title="{{'seizures.I need help' | translate }}">
+										class="d-block info" title="{{'seizures.I need help' | translate }}">
 										{{'seizures.I need help' | translate }}
 									</a>
 								</span>

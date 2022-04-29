@@ -125,10 +125,16 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         var otherGeneFiles = [];
         var emergencyFiles = [];
         var filesNcr = [];
+        console.log(this.docs);
         for (var i = 0; i < vcfFilesOnBlob.length; i++) {
           if (vcfFilesOnBlob[i].name.indexOf('raitofile/') != -1) {
             var name = vcfFilesOnBlob[i].name.substr(vcfFilesOnBlob[i].name.lastIndexOf('/') + 1)
             vcfFilesOnBlob[i].simplename = name;
+            var foundElementDrugIndex = this.searchService.searchIndex(this.docs, 'url', vcfFilesOnBlob[i].name);
+            if(foundElementDrugIndex!=-1){
+              vcfFilesOnBlob[i].simplename = this.docs[foundElementDrugIndex].name;
+            }
+            
             vcfFilesOnBlob[i].contentLength = this.formatBytes(vcfFilesOnBlob[i].contentLength);
             if ((vcfFilesOnBlob[i].name).indexOf('textanaresult.json') == -1) {
               if (vcfFilesOnBlob[i].name.indexOf('raitofile/emergency/') != -1) {
@@ -604,7 +610,9 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
   startExtractor(text, blobName) {
     if (text.length < 5) {
-      Swal.fire('', this.translate.instant("land.placeholderError"), "warning");
+      //Swal.fire('', this.translate.instant("land.placeholderError"), "warning");
+      var actualDate = Date.now();
+      this.saveResultsToBlob(text, [], actualDate, blobName);
     } else {
       var actualDate = Date.now();
       this.saveResultsToBlob(text, [], actualDate, blobName);
@@ -890,7 +898,8 @@ createDocument(contentDocument, typedocument){
 
 saveData(){
   this.submitted = true;
-  if (this.documentForm.invalid) {
+  console.log(this.dataFile.url);
+  if (this.documentForm.invalid || this.dataFile.url==undefined) {
       return;
   }
   
@@ -909,6 +918,7 @@ saveData(){
         this.submitted = false;
         this.documentForm.reset();
         this.onFileChangeStep2();
+        this.blob.createContainerIfNotExists(this.accessToken, 'patientGenoFiles');
        }, (err) => {
          console.log(err);
          this.saving = false;
@@ -972,6 +982,7 @@ updateData(){
           this.modalReference = undefined;
           this.dataFile = {};
         }
+        this.blob.createContainerIfNotExists(this.accessToken, 'patientGenoFiles');
        }, (err) => {
          console.log(err);
          this.saving = false;

@@ -33,8 +33,17 @@
   flex-direction: row;
 }
 
+.dropdown-menu {
+  padding: 0rem 0 !important;
+}
+
+.dropdown-divider{
+  margin: 0rem 0 !important; 
+}
+
 .dropdown-item {
   line-height: 1rem;
+  padding: 0.75rem 1.5rem !important;
 }
 
 .navbar-light .navbar-nav .nav-link {

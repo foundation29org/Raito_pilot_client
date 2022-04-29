@@ -7,6 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import * as decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
+import { SocialAuthService } from "angularx-social-login";
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,7 @@ export class AuthService {
 
   private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private socialAuthService: SocialAuthService) {}
 
 
   getEnvironment():boolean{
@@ -140,6 +141,32 @@ export class AuthService {
     );
   }
 
+  signinWith(formValue: any): Observable<boolean> {
+    //your code for signing up the new user
+    return this.http.post(environment.api+'/api/signwith',formValue)
+      .map( (res : any) => {
+          if(res.message == "You have successfully logged in"){
+            //entrar en la app
+            this.setLang(res.lang);
+            sessionStorage.setItem('lang', res.lang)
+
+            this.setEnvironment(res.token);
+
+          }else{
+            this.isloggedIn = false;
+          }
+          this.setMessage(res.message);
+          return this.isloggedIn;
+       }, (err) => {
+         console.log(err);
+         //this.isLoginFailed = true;
+         this.setMessage("Login failed");
+         this.isloggedIn = false;
+         return this.isloggedIn;
+       }
+    );
+  }
+
   logout() {
     this.token = null;
     this.role = null;
@@ -154,6 +181,7 @@ export class AuthService {
     this.lang = sessionStorage.getItem('lang');
     //if(!this.getIsApp()){
       sessionStorage.clear();
+      this.socialAuthService.signOut(true);
       sessionStorage.setItem('lang', this.lang);
     //}
   }

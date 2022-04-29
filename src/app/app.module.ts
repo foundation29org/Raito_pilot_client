@@ -50,6 +50,12 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { NgxHotjarModule } from 'ngx-hotjar';
 import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from 'angularx-social-login';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
     wheelPropagation: false
@@ -79,7 +85,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       }),
       Angulartics2Module.forRoot(),
       PerfectScrollbarModule,
-      NgxHotjarModule.forRoot(environment.hotjarSiteId)
+      NgxHotjarModule.forRoot(environment.hotjarSiteId),
+      SocialLoginModule
     ],
     providers: [
       AuthService,
@@ -111,7 +118,25 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
       },
       { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-      GoogleAnalyticsService
+      GoogleAnalyticsService,
+      {
+        provide: 'SocialAuthServiceConfig',
+        useValue: {
+          autoLogin: false,
+          providers: [
+            {
+              id: GoogleLoginProvider.PROVIDER_ID,
+              provider: new GoogleLoginProvider(
+                environment.googleProvider
+              )
+            },
+            {
+              id: FacebookLoginProvider.PROVIDER_ID,
+              provider: new FacebookLoginProvider('clientId')
+            }
+          ]
+        } as SocialAuthServiceConfig,
+      }
     ],
     bootstrap: [AppComponent]
   })

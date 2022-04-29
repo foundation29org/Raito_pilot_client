@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
@@ -19,6 +19,16 @@ import { Subscription } from 'rxjs/Subscription';
 import Swal from 'sweetalert2';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { DateAdapter } from '@angular/material/core';
+import { createVeriffFrame } from '@veriff/incontext-sdk';
+import CryptoES from 'crypto-es';
+import * as decode from 'jwt-decode';
+declare var Veriff: any;
+
+declare global {
+  interface Window {
+    veriffSDK: any;
+  }
+}
 
 @Component({
   selector: 'app-home',
@@ -104,7 +114,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   userId: string = '';
   loadedPatientId: boolean = false;
   selectedPatient: any = {};
-  userName: string = '';
   loadedInfoPatient: boolean = false;
   basicInfoPatient: any;
   basicInfoPatientCopy: any;
@@ -121,6 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   minDate = new Date();
   minDateRange = new Date();
   drugsBefore: boolean = false;
+  xAxisTicks = [];
   yAxisTicksSeizures = [];
   yAxisTicksDrugs = [];
 
@@ -167,6 +177,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   showNotiSeizu: boolean = false;
   showNotiFeel: boolean = false;
   showNotiDrugs: boolean = false;
+
+  infoVerified: any = {};
+  loadVerifiedInfo: boolean = false;
+  userInfo: any = {};
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -489,16 +503,6 @@ export class HomeComponent implements OnInit, OnDestroy {
      }));
   }
 
-  getUserName() {
-    this.subscription.add(this.http.get(environment.api + '/api/users/name/' + this.authService.getIdUser())
-      .subscribe((res: any) => {
-        this.userName = res.userName;
-      }, (err) => {
-        console.log(err);
-      }));
-
-  }
-
   getInfoPatient() {
     this.loadedInfoPatient = false;
     this.subscription.add(this.http.get(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub)
@@ -512,6 +516,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.ageFromDateOfBirthday(res.patient.birthDate);
         } else if (this.basicInfoPatient.birthDate == null || this.basicInfoPatient.birthDate == '') {
         }
+        /*if(this.basicInfoPatient.group!=null){
+          
+        }*/
+        this.getUserInfo(false);
       }, (err) => {
         console.log(err);
         this.loadedInfoPatient = true;
@@ -684,7 +692,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             }else{
               this.yAxisTicksSeizures = [0,maxValue];
             }
-            
             this.lineChartSeizures = [
               {
                 "name": this.titleSeizures,
@@ -799,14 +806,19 @@ getWeek(newdate, dowOffset?) {
     
     var splitLastDate = datagraphseizures[datagraphseizures.length-1].stringDate;
     var splitFirstDate = datagraphseizures[0].stringDate;
-      if(splitLastDate<maxDate){
+    console.log(splitLastDate)
+    console.log(maxDate)
+      if(new Date(splitLastDate)<new Date(maxDate)){
+        console.log('add today');
         datagraphseizures.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
       }
       if(new Date(minDate)<new Date(splitFirstDate)){
+        console.log('add init');
         datagraphseizures.push({value: 0,name:minDate,stringDate:minDate, types: []})
       }
       var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
       datagraphseizures.sort(this.sortService.DateSortInver("stringDate"));
+      console.log(datagraphseizures)
     for (var j = 0; j < datagraphseizures.length; j=j+1) {
       var foundDate = false;
       var actualDate = datagraphseizures[j].stringDate;
@@ -1189,6 +1201,7 @@ getWeek(newdate, dowOffset?) {
     var options = { year: 'numeric', month: 'short' };
     //var options = { year: 'numeric', month: 'short', day: 'numeric' };
     var res = d.toLocaleString(this.formatDate, options)
+    console.log(res);
     return res;
   }
 
@@ -1227,6 +1240,12 @@ getWeek(newdate, dowOffset?) {
     var pastDate=new Date(actualDate);
     pastDate.setDate(pastDate.getDate() - period);
     this.minDateRange = pastDate;
+
+    var actualDate1=new Date();
+    var pastDate1=new Date(actualDate1);
+    pastDate1.setDate(pastDate1.getDate() - Math.round((period+1)/2));
+    var mediumDate = pastDate1;
+    this.xAxisTicks = [this.minDateRange.toISOString(),mediumDate.toISOString(),actualDate.toISOString()];
   } 
 
   getWeightAndAge() {
@@ -1373,6 +1392,225 @@ getWeek(newdate, dowOffset?) {
     }
     console.log(respDrugs);
     return respDrugs;
+}
+
+getUserInfo(checkstatus) {
+  this.subscription.add(this.http.get(environment.api + '/api/users/name/' + this.authService.getIdUser())
+    .subscribe((res: any) => {
+      this.userInfo = res;
+      this.callIsVerified(checkstatus);
+    }, (err) => {
+      console.log(err);
+    }));
+
+}
+
+callIsVerified(checkstatus) {
+  this.loadVerifiedInfo = false;
+  this.subscription.add(this.http.get(environment.api + '/api/verified/' + this.authService.getIdUser())
+    .subscribe((res: any) => {
+      this.loadVerifiedInfo = true;
+      this.infoVerified = res.infoVerified;
+      if(!this.infoVerified.isVerified && checkstatus){
+        this.checkStatusVerified();
+      }else{
+        //this.getPatients();
+      }
+    }, (err) => {
+      console.log(err);
+    }));
+
+}
+
+checkStatusVerified(){
+  console.log(this.infoVerified.url);
+  if(this.infoVerified.url){
+    var token = this.infoVerified.url.split('https://magic.veriff.me/v/');
+    console.log(token);
+    var tokenPayload = decode(token[1]);
+    console.log(tokenPayload);
+    var date1 = tokenPayload.iat;
+    var date2 = (new Date().getTime())/1000;
+    console.log(date1);
+    console.log(date2);
+    var timeDiff = date2 - date1;
+    var Difference_In_Days = timeDiff / (1000 * 3600 * 24);
+    console.log(Difference_In_Days);
+    if(Difference_In_Days>=6){
+      //this.createSesion();
+      this.verifyStatus();
+    }else{
+      this.getVerified();
+    }
+    //this.saveDataVeriff(tokenPayload.session_id);
+  }else{
+    this.getVerified();
+  }
+      
+}
+
+saveDataVeriff(){
+  var token = this.infoVerified.url.split('https://magic.veriff.me/v/');
+  console.log(token);
+  var tokenPayload = decode(token[1]);
+  var session_id= tokenPayload.session_id
+  var hashva = CryptoES.HmacSHA256(session_id, environment.privateVeriff);
+  const headers= new HttpHeaders()
+  .set('X-HMAC-SIGNATURE', hashva.toString().toLowerCase())
+  .set('x-auth-client', environment.tokenVeriff);
+
+  this.subscription.add(this.http.get('https://api.veriff.me/v1/sessions/'+session_id+'/person', { 'headers': headers })
+    .subscribe((res: any) => {
+      console.log(res);
+      if(res.status=='success'){
+        this.infoVerified.info = res.person;
+      }
+      this.saveDataVerfified();
+      
+    }, (err) => {
+      console.log(err);
+    }));
+}
+
+
+createSesion(){
+  var date = new Date();
+  date.toISOString();
+  var params = {"verification":{"person":{"firstName":this.userInfo.userName,"lastName":this.userInfo.lastName},"vendorData":this.userInfo.isUser,"timestamp":date}};
+  this.subscription.add(this.http.post('https://api.veriff.me/v1/sessions', params)
+    .subscribe((res: any) => {
+      console.log(res);
+      this.infoVerified.url = res.verification.url;
+      this.infoVerified.status = res.verification.status;
+      this.saveDataVerfified();
+      if(res.verification.status=='created'){
+        window.veriffSDK.createVeriffFrame({ url: this.infoVerified.url, 
+          onEvent: function(msg) {
+          console.log(msg);
+        } });
+      }
+    }, (err) => {
+      console.log(err);
+    }));
+}
+
+getVerified() {
+  console.log(this.infoVerified);
+  console.log(this.loadVerifiedInfo);
+  if(this.infoVerified.status=='Not started'){
+    this.createSesion();
+  }else if(this.infoVerified.status=='created'){
+    console.log(this.infoVerified);
+        window.veriffSDK.createVeriffFrame({ url: this.infoVerified.url, 
+          onEvent: async function(msg) {
+          console.log(msg);
+          if(msg=='FINISHED'){
+            this.infoVerified.status = 'submitted';
+            this.saveDataVerfified();
+            await this.delay(60000);
+            this.getUserInfo(true);
+          }
+        }.bind(this) });
+  }else if(this.infoVerified.status=='submitted'){
+    this.verifyStatus();
+  }else{
+    this.verifyStatus();
+  }
+}
+
+delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
+verifyStatus(){
+  var token = this.infoVerified.url.split('https://magic.veriff.me/v/');
+  console.log(token);
+  const headers= new HttpHeaders()
+  .set('Authorization', 'Bearer '+token[1]);
+  this.subscription.add(this.http.get('https://alchemy.veriff.com/api/v2/sessions', { 'headers': headers })
+      .subscribe((res: any) => {
+        console.log(res);
+        this.infoVerified.status = res.status;
+        if(this.infoVerified.status=='completed'){
+          if(res.activeVerificationSession.status=='declined'){
+            this.infoVerified.status='declined';
+            this.infoVerified.info = res.activeVerificationSession.verificationRejectionCategory;
+            console.log(res.activeVerificationSession.verificationRejectionCategory.value);
+            this.infoVerified.isVerified = false;
+          }else{
+            this.infoVerified.isVerified = true;
+            this.saveDataVeriff();
+            Swal.fire(this.translate.instant("identity.t3"), this.translate.instant("identity.t4"), "success");
+            //this.getPatients();
+          }
+          
+        }else if(this.infoVerified.status=='submitted' && res.previousVerificationSessions.length>0){
+          this.infoVerified.status = 'resubmission_requested';
+          this.infoVerified.info = res.previousVerificationSessions[0].verificationRejectionCategory;
+          if(res.previousVerificationSessions[0].status=='resubmission_requested'){
+            Swal.fire({
+              title: this.translate.instant("identity.t5"),
+              html: this.translate.instant("identity.t6"),
+              icon: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#33658a',
+              cancelButtonColor: '#B0B6BB',
+              confirmButtonText: 'Ok',
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false
+          }).then((result) => {
+            if (result.value) {
+              console.log(res.previousVerificationSessions[0].verificationRejectionCategory.details);
+            window.veriffSDK.createVeriffFrame({ url: this.infoVerified.url, 
+              onEvent: async function(msg) {
+              console.log(msg);
+              if(msg=='FINISHED'){
+                this.infoVerified.status = 'submitted';
+                this.saveDataVerfified();
+                await this.delay(60000);
+                this.getUserInfo(true);
+              }
+            }.bind(this) });
+            }
+          });
+
+            
+          }
+
+        }else if(this.infoVerified.status=='submitted'){
+          (async () => { 
+            await this.delay(60000);
+            this.getUserInfo(true);
+           })();
+        }else if(this.infoVerified.status=='expired' || this.infoVerified.status=='abandoned'){
+          //this.infoVerified.status=='Not started';
+          this.createSesion();
+        }
+        this.saveDataVerfified();
+        
+        //Resubmission
+        //Declined
+        //Approved
+        //Expired
+        //Abandoned
+
+      }, (err) => {
+        console.log(err);
+      }));
+}
+
+saveDataVerfified(){
+    var paramssend = { infoVerified: this.infoVerified };
+    this.subscription.add( this.http.post(environment.api+'/api/verified/'+this.authService.getIdUser(), paramssend)
+    .subscribe( (res : any) => {
+      console.log(res);
+     }, (err) => {
+       console.log(err.error);
+     }));
+}
+
+reloadPage(){
+  window.location.reload();
 }
 
 }
