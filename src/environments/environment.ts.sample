@@ -10,6 +10,7 @@
         urlDxv2:undefined, // url dx29 v2 
         tokenVeriff:undefined, // veriff.com token
         privateVeriff:undefined, // veriff.com Private key
+        googleProvider: undefined, // GoogleLoginProvider
         urlOpenRaito:undefined // url openraito 
         };
     

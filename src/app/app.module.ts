@@ -127,7 +127,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             {
               id: GoogleLoginProvider.PROVIDER_ID,
               provider: new GoogleLoginProvider(
-                '608654262922-lkaunfbj3j9k6ih6ttearn5up2m0nt0i.apps.googleusercontent.com'
+                environment.googleProvider
               )
             },
             {
