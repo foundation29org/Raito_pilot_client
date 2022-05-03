@@ -692,7 +692,7 @@ export class jsPDFService {
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         doc.setTextColor(51, 101, 138)
-        doc.textWithLink("https://raito29.azurewebsites.net", 148, 290, { url: 'https://raito29.azurewebsites.net' });
+        doc.textWithLink("https://raito.care", 148, 290, { url: 'https://raito.care' });
         doc.setTextColor(0, 0, 0);
     }
 
@@ -830,7 +830,7 @@ export class jsPDFService {
         
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(10);
-        var url = "https://raito29.azurewebsites.net/register";
+        var url = "https://raito.care/register";
         if(this.lang=='en'){
             doc.textWithLink(this.translate.instant("menu.Register"), 54, lineText, { url: url });
         }else{
