@@ -17,7 +17,7 @@
     "e2e-local": "ng e2e --suite --base-url=http://localhost:4200/ ",
     "e2e-dev": "ng e2e --base-url=https://raito29-dev.azurewebsites.net/ --suite",
     "e2e-test": "ng e2e --base-url=https://raito29-test.azurewebsites.net/ --suite",
-    "e2e-prod": "ng e2e --base-url=https://raito29.azurewebsites.net/ --suite",
+    "e2e-prod": "ng e2e --base-url=https://raito.care/ --suite",
     "e2e": "ng e2e",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
