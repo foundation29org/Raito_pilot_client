@@ -55,6 +55,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from 'angularx-social-login';
+import { QRCodeModule } from 'angularx-qrcode';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true,
@@ -86,7 +87,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       Angulartics2Module.forRoot(),
       PerfectScrollbarModule,
       NgxHotjarModule.forRoot(environment.hotjarSiteId),
-      SocialLoginModule
+      SocialLoginModule,
+      QRCodeModule
     ],
     providers: [
       AuthService,

@@ -859,7 +859,7 @@ export class jsPDFService {
         doc.setTextColor(0, 0, 0);
     }
 
-    generateResultsPDF(infoSymptoms, infoDiseases, lang){
+    generateResultsPDF(infoSymptoms, infoDrugs, lang, images, rangeDate, timeformat, seizuresMonths){
         this.lang = lang;
         const doc = new jsPDF();
         var lineText = 0;
@@ -871,7 +871,7 @@ export class jsPDFService {
         // Cabecera inicial
         var img_logo = new Image();
         img_logo.src = "assets/img/logo-raito.png"
-        doc.addImage(img_logo, 'png', 20, 10, 20, 17);
+        doc.addImage(img_logo, 'png', 10, 10, 20, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         var actualDate = new Date();
@@ -881,13 +881,14 @@ export class jsPDFService {
             this.writeDataHeader(doc, 87, 5, dateHeader);
         }else{
             this.writeHeader(doc, 93, 0, this.translate.instant("land.diagnosed.timeline.RegDate"));
-            this.writeDataHeader(doc, 90, 5, dateHeader);
+            this.writeDataHeader(doc, 93, 5, dateHeader);
         }
 
        //Add QR
         /*var img_qr = new Image();
         img_qr.src = "assets/img/elements/qr.png"
         doc.addImage(img_qr, 'png', 160, 5, 32, 30);*/
+        doc.addImage(images.qrcodeimg.info.data,'jpeg',160, 5, 32, 32);
 
         this.newHeatherAndFooter(doc);
 
@@ -904,20 +905,39 @@ export class jsPDFService {
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
 
+        /*doc.addImage(img,'jpeg',7, lineText += 5, 132, heightChart);
+        doc.addPage()
+        this.newHeatherAndFooter(doc)
+        lineText = 20;*/
         //Seizures
-        doc.setFontSize(9);
+        /*doc.setFontSize(9);
         doc.setTextColor(249, 66, 58)
-        doc.text(this.translate.instant("pdf.contentDemo"), 10, lineText += 5)
+        doc.text(this.translate.instant("pdf.contentDemo"), 10, lineText += 5)*/
         this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
         doc.text(this.translate.instant("pdf.grap1"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
-        var img_seizures = new Image();
+        if(images.img1.show){
+            doc.addImage(images.img1.info.data,'jpeg',10, lineText += 5, images.img1.info.width, images.img1.info.height);
+            lineText += 40
+        }else{
+            var infoText = this.translate.instant("charts.Noseizures")+' '+this.translate.instant("charts.in the last");
+            if(rangeDate=='month'){
+                infoText = infoText+" "+this.translate.instant("charts.month");
+            }else if(rangeDate=='quarter'){
+                infoText = infoText+" "+this.translate.instant("charts.quarter");
+            }else if(rangeDate=='year'){
+                infoText = infoText+" "+this.translate.instant("charts.year");
+            }
+            doc.text(infoText, 10, lineText += 5)
+            lineText += 5
+        }
+        /*var img_seizures = new Image();
         img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image3.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);
-        lineText += 35
+        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);*/
+        
 
         //Quality of life
         this.newSectionDoc(doc,this.translate.instant("charts.Quality of life"),'',null,lineText += 10)
@@ -926,31 +946,89 @@ export class jsPDFService {
         doc.text(this.translate.instant("pdf.grap2"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
-        var img_seizures = new Image();
+        /*var img_seizures = new Image();
         img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image2.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);
-        lineText += 35
+        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);*/
+        if(images.img2.show){
+            doc.addImage(images.img2.info.data,'jpeg',10, lineText += 5, images.img2.info.width, images.img2.info.height);
+            lineText += 35
+        }else{
+            var infoText = this.translate.instant("charts.No data saved")+' '+this.translate.instant("charts.in the last");
+            if(rangeDate=='month'){
+                infoText = infoText+" "+this.translate.instant("charts.month");
+            }else if(rangeDate=='quarter'){
+                infoText = infoText+" "+this.translate.instant("charts.quarter");
+            }else if(rangeDate=='year'){
+                infoText = infoText+" "+this.translate.instant("charts.year");
+            }
+            doc.text(infoText, 10, lineText += 5)
+            lineText += 5
+        }
 
         //Drugs
         this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
-        doc.text(this.translate.instant("pdf.grap3"), 10, lineText += 5)
+        if(images.img3.normalized){
+            doc.text(this.translate.instant("pdf.grap3"), 10, lineText += 5)
+        }else{
+            doc.text(this.translate.instant("pdf.grap3.1"), 10, lineText += 5)
+        }
+        
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
-        var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image1.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 111, 48);
-        lineText += 53
+        if(images.img3.show){
+            doc.addImage(images.img3.info.data,'jpeg',10, lineText += 5, images.img3.info.width, images.img3.info.height);
+            lineText += 35
+        }else{
+            var infoText = this.translate.instant("charts.There is no drug data stored")+' '+this.translate.instant("charts.in the last");
+            if(rangeDate=='month'){
+                infoText = infoText+" "+this.translate.instant("charts.month");
+            }else if(rangeDate=='quarter'){
+                infoText = infoText+" "+this.translate.instant("charts.quarter");
+            }else if(rangeDate=='year'){
+                infoText = infoText+" "+this.translate.instant("charts.year");
+            }
+            doc.text(infoText, 10, lineText += 5)
+            lineText += 5
+        }
+        
+        if(infoDrugs.length>0){
+            doc.addPage()
+            this.newHeatherAndFooter(doc)
+            lineText = 20;
+        }
+        
 
-        var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/dose_"+lang+".jpg"
-        doc.addImage(img_seizures, 'jpg', 30, lineText+5, 154, 29);
+        //Drugs vs seizures
+       
+        if(images.img4.show){
+            this.newSectionDoc(doc,this.translate.instant("charts.Drugs vs Seizures"),'',null,lineText += 10)
+            doc.setFontSize(9);
+            doc.setTextColor(117, 120, 125)
+            if(images.img4.normalized){
+                doc.text(this.translate.instant("pdf.grap4"), 10, lineText += 5)
+            }else{
+                doc.text(this.translate.instant("pdf.grap4.1"), 10, lineText += 5)
+            }
+            doc.setTextColor(0, 0, 0)
+            doc.setFontSize(10);
+            doc.addImage(images.img4.info.data,'jpeg',10, lineText += 5, images.img4.info.width, images.img4.info.height);
+            lineText += 35
+        }
         //lineText += 34
 
-        doc.addPage()
-        this.newHeatherAndFooter(doc)
-        lineText = 20;
+        
+        if(infoDrugs.length==0){
+            doc.addPage()
+            this.newHeatherAndFooter(doc)
+            lineText = 20;
+        }else{
+            lineText += 40;
+            if(images.img4.show){
+                lineText= lineText + (infoDrugs.length*5) 
+            }
+        }
         
         //Symptoms
         const obj = infoSymptoms;
@@ -977,21 +1055,40 @@ export class jsPDFService {
         
 
         //Diseases
-        if(infoDiseases.length>0){
-            this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,lineText += 10)
+        if(infoDrugs.length>0){
+            this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
-            this.writeHeaderText(doc, 175, lineText, "Id");
+            this.writeHeaderText(doc, 80, lineText, this.translate.instant("medication.Dose mg"));
+            this.writeHeaderText(doc, 120, lineText, this.translate.instant("generics.Start Date"));
+            this.writeHeaderText(doc, 155, lineText, this.translate.instant("generics.End Date"));
             lineText += 5;
-            for (var i = 0; i < infoDiseases.length; i++) {
-                if(infoDiseases[i].name.length>99){
-                    lineText = this.writeText(doc, 10, lineText, infoDiseases[i].name.substr(0,99));
-                    lineText = this.writeLinkOrpha(doc, 175, lineText, (infoDiseases[i].id).toUpperCase());
-                    lineText = lineText+5;
-                    lineText = this.writeText(doc, 10, lineText, infoDiseases[i].name.substr(100));
+            for (var i = 0; i < infoDrugs.length; i++) {
+                lineText = this.writeText(doc, 10, lineText, infoDrugs[i].drugTranslate);
+                lineText = this.writeText(doc, 80, lineText, infoDrugs[i].dose);
+                lineText = this.writeText(doc, 120, lineText, (infoDrugs[i].startDate != "" && infoDrugs[i].startDate != undefined && infoDrugs[i].startDate != null)? this.datePipe.transform(infoDrugs[i].startDate, timeformat) : "-");
+                if(infoDrugs[i].endDate){
+                    lineText = this.writeText(doc, 155, lineText, (infoDrugs[i].endDate != "" && infoDrugs[i].endDate != undefined && infoDrugs[i].endDate != null)? this.datePipe.transform(infoDrugs[i].endDate, timeformat) : "-");
                 }else{
-                    lineText = this.writeText(doc, 10, lineText, infoDiseases[i].name);
-                    lineText = this.writeLinkOrpha(doc, 175, lineText, (infoDiseases[i].id).toUpperCase());
+                    lineText = this.writeText(doc, 155, lineText, this.translate.instant("medication.Currently taking"));
                 }
+                lineText += 7;
+            }
+        }
+
+
+        if(seizuresMonths.length>0){
+            this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
+            this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Date"));
+            this.writeHeaderText(doc, 80, lineText, this.translate.instant("pdf.Amount"));
+            lineText += 5;
+            for (var i = 0; i < seizuresMonths.length; i++) {
+                if(rangeDate == 'month'){
+                    lineText = this.writeText(doc, 10, lineText, (seizuresMonths[i].stringDate != "" && seizuresMonths[i].stringDate != undefined && seizuresMonths[i].stringDate != null)? this.datePipe.transform(seizuresMonths[i].stringDate, 'dd MMM') : "-");
+                }else{
+                    lineText = this.writeText(doc, 10, lineText, (seizuresMonths[i].name != "" && seizuresMonths[i].name != undefined && seizuresMonths[i].name != null)? this.datePipe.transform(seizuresMonths[i].name, 'MMM yyyy') : "-");
+                }
+                
+                lineText = this.writeText(doc, 80, lineText, (seizuresMonths[i].value).toString());
                 lineText += 7;
             }
         }
@@ -1004,7 +1101,7 @@ export class jsPDFService {
         for (i = 1; i <= pageCount; i++) {
             doc.setPage(i);
             //footer page
-            doc.text(this.translate.instant("land.page")+ ' ' + i + '/' + pageCount, 97, 286);
+            doc.text(this.translate.instant("land.page")+ ' ' + i + '/' + pageCount, 97, 290);
         }
 
         // Save file

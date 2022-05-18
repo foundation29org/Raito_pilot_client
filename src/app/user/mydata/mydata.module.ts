@@ -17,7 +17,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MenuComponent } from './menu/menu.component';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ComboChartComponent2, ComboSeriesVerticalComponent2 } from './menu/combo-chart';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
     exports: [
@@ -37,10 +39,14 @@ import { MenuComponent } from './menu/menu.component';
         UiSwitchModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        NgxChartsModule,
+        QRCodeModule
     ],
     declarations: [
-        MenuComponent
+        MenuComponent,
+        ComboChartComponent2,
+        ComboSeriesVerticalComponent2
     ]
 })
 export class MydataModule { }
