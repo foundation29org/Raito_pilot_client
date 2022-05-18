@@ -1,8 +1,21 @@
+::ng-deep .chart-legend .legend-label-text {
+  margin-top: 0.4em !important;
+}
+
+::ng-deep .chart-legend .legend-labels {
+  border-top: 1px solid #dee2e6 !important;
+}
+
+
 .input-group-text i{
   cursor:pointer;
 }
 
 ::ng-deep .chart-legend .horizontal-legend li {
+  display: block !important;
+}
+
+::ng-deep .chart-legend {
   display: block !important;
 }
 
@@ -21,8 +34,9 @@
   display: none !important;
 }
 
-::ng-deep .chart-legend{
-  margin-top: 0.75rem !important;
+::ng-deep .chart-legend .legend-wrap {
+  width: 100% !important;
+  padding: 1em !important;
 }
 
 .container {

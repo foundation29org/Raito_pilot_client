@@ -82,9 +82,9 @@
                                                 <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
                                             </div>
                                             <span class="col-md-12 center-elements">
-                                                <button class="btn btn-dark mr-1" type="button"
-                                                (click)="exportPDF()">{{'generics.ExportData' | translate }}</button>
-                                                <button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>
+                                                <button class="btn btn-dark" type="button"
+                                                (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }}</button>
+                                                <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
                                             </span>
                                         </div>
                                         <div class="row">
@@ -93,10 +93,10 @@
                                                 <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
                                             </div>
                                             <span class="col-md-12 center-elements">
-                                                <button class="btn btn-dark mr-1" type="button"
+                                                <button class="btn btn-dark" type="button"
                                                 (click)="exportData()">{{'generics.ExportData' | translate }}</button>
                                                 <div class="d-none"><span id="content"></span></div>
-                                                <button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>
+                                                <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
                                                 <!--<button class="btn btn-dark ml-1" type="button" (click)="extractFhir()">FHIR</button>-->
                                             </span>
                                         </div>
@@ -208,10 +208,10 @@
         <div class="form-group col-md-12">
                 <p class="mb-1">{{'open.Permissions' | translate }}</p>
                 <section class="example-section">
-                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1title' | translate }}</mat-checkbox></span>
                     <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">{{'open.perm2desc' | translate }}</mat-checkbox></span>
-                    <span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">{{'open.perm3desc' | translate }}</mat-checkbox></span>
-                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">{{'open.perm4desc' | translate }}</mat-checkbox></span>
+                    <!--<span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">{{'open.perm3desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">{{'open.perm4desc' | translate }}</mat-checkbox></span>-->
                 </section>
                 <label for="notes">{{'generics.notes' | translate }}</label>
                 <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
@@ -234,9 +234,9 @@
     </div>
   </form>
   <div class="modal-body">
-    <p class="mb-0"><strong>{{'open.The accesses to your data will be shown here' | translate }}:</strong></p>
+    <!--<p class="mb-0"><strong>{{'open.The accesses to your data will be shown here' | translate }}:</strong></p>
     <span *ngIf="newPermission.operations.length>0">{{newPermission.operations|json}}</span>
-    <span *ngIf="newPermission.operations.length==0">{{'open.Nobody has accessed your data' | translate }}</span>
+    <span *ngIf="newPermission.operations.length==0">{{'open.Nobody has accessed your data' | translate }}</span>-->
   </div>
   
 </ng-template>
@@ -259,10 +259,10 @@
         <div class="form-group col-md-12">
                 <p class="mb-1">{{'open.Permissions' | translate }}</p>
                 <section class="example-section">
-                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1title' | translate }}</mat-checkbox></span>
                     <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">{{'open.perm2desc' | translate }}</mat-checkbox></span>
-                    <span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">{{'open.perm3desc' | translate }}</mat-checkbox></span>
-                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">{{'open.perm4desc' | translate }}</mat-checkbox></span>
+                    <!--<span class="d-block"><mat-checkbox name="newPermission.data.devicesInfo" [(ngModel)]="newPermission.data.devicesInfo">{{'open.perm3desc' | translate }}</mat-checkbox></span>
+                    <span class="d-block"><mat-checkbox name="newPermission.data.genomicsInfo" [(ngModel)]="newPermission.data.genomicsInfo">{{'open.perm4desc' | translate }}</mat-checkbox></span>-->
                 </section>
                 <label for="notes">{{'generics.notes' | translate }}</label>
                 <textarea name="notes" id="textarea1" class="autoajustable form-control" [(ngModel)]="newPermission.notes"></textarea>
@@ -307,14 +307,14 @@
       <table class="col-md-12 table" *ngIf="loadedShareData">
         <thead>
           <tr>
-            <th style="width:10%">{{'open.perm1title' | translate }}</th>
-            <th style="width:10%">{{'open.perm2title' | translate }}</th>
-            <th style="width:10%">{{'open.perm3title' | translate }}</th>
-            <th style="width:10%">{{'open.perm4title' | translate }}</th>
+            <th style="width:30%">{{'open.perm1title' | translate }}</th>
+            <th style="width:20%">{{'open.perm2title' | translate }}</th>
+            <!--<th style="width:10%">{{'open.perm3title' | translate }}</th>
+            <th style="width:10%">{{'open.perm4title' | translate }}</th>-->
             <th style="width:20%">{{'generics.notes' | translate }}</th>
             <th style="width:10%">URL</th>
-            <th style="width:10%">{{'open.Operations' | translate }}</th>
-            <th style="width:20%">{{'generics.Date' | translate }}</th>
+            <!--<th style="width:10%">{{'open.Operations' | translate }}</th>-->
+            <th style="width:10%">{{'generics.Date' | translate }}</th>
             <th style="width:10%">{{'generics.Options' | translate }}</th>
           </tr>
         </thead>
@@ -328,25 +328,26 @@
                 <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
                 <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
             </td>
-            <td>
+            <!--<td>
                 <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
                 <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
             </td>
             <td>
                 <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
                 <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
-            </td>
-            <td>{{oneCustomShare.notes}}</td>
+            </td>-->
+            <td *ngIf="oneCustomShare.notes!=''">{{oneCustomShare.notes}}</td>
+            <td *ngIf="oneCustomShare.notes==''">-</td>
             <td><a class="btn btn-info btn-sm" (click)="copyClipboard(oneCustomShare.token)">{{'open.Copy url' | translate }}</a></td>
-            <td>{{oneCustomShare.operations|json}}</td>
+            <!--<td>{{oneCustomShare.operations|json}}</td>-->
             <td>{{oneCustomShare.date | date}}</td>
             <td>
-              <span class="pull-right">
+              <span class="pull-right mr-2">
                 <a class="danger" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
                   <i class="ft-x"></i>
                 </a>
               </span>
-              <span class="pull-right mr-2">
+              <span class="pull-right">
                 <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
                   <i class="ft-edit"></i>
                 </a>
@@ -360,28 +361,28 @@
   </div>
   <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
     <div>
-      <h5>{{'open.Customized sharing' | translate }}:</h5>
+      <h5>{{'open.Access requests' | translate }}:</h5>
     </div>
     <div class="table-responsive">
       <table class="col-md-12 table" *ngIf="loadedShareData">
         <thead>
           <tr>
             <th style="width:10%">{{'open.Requester' | translate }}</th>
-            <th style="width:10%">{{'open.perm1title' | translate }}</th>
-            <th style="width:10%">{{'open.perm2title' | translate }}</th>
-            <th style="width:10%">{{'open.perm3title' | translate }}</th>
-            <th style="width:10%">{{'open.perm4title' | translate }}</th>
+            <th style="width:30%">{{'open.perm1title' | translate }}</th>
+            <th style="width:20%">{{'open.perm2title' | translate }}</th>
+            <!--<th style="width:10%">{{'open.perm3title' | translate }}</th>
+            <th style="width:10%">{{'open.perm4title' | translate }}</th>-->
             <th style="width:20%">{{'generics.notes' | translate }}</th>
             <th style="width:10%">{{'generics.Status' | translate }}</th>
-            <th style="width:10%">{{'open.Operations' | translate }}</th>
-            <th style="width:20%">{{'generics.Date' | translate }}</th>
+            <!--<th style="width:10%">{{'open.Operations' | translate }}</th>-->
+            <th style="width:10%">{{'generics.Date' | translate }}</th>
             <th style="width:10%">{{'generics.Options' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let oneCustomShare of individualShare ; let i = index">
             <td>
-              <a class="info" data-original-title="" title="{{'generics.Read more' | translate }}" (click)="openRequester(clinicalProfilePanel)">
+              <a class="info" data-original-title="" title="{{'generics.Read more' | translate }}" (click)="openRequester(clinicalProfilePanel, oneCustomShare)">
                 <i class="ft-eye"></i>
               </a>
             </td>
@@ -393,15 +394,16 @@
                 <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
                 <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
             </td>
-            <td>
+            <!--<td>
                 <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
                 <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
             </td>
             <td>
                 <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
                 <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
-            </td>
-            <td>{{oneCustomShare.notes}}</td>
+            </td>-->
+            <td *ngIf="oneCustomShare.notes!=''">{{oneCustomShare.notes}}</td>
+            <td *ngIf="oneCustomShare.notes==''">-</td>
             <td>
               <select id="status" name="status{{i}}" [(ngModel)]="oneCustomShare.status" (change)="fieldStatusChanged(oneCustomShare)">
 								<option value="Pending">{{'generics.Pending' | translate }}</option>
@@ -409,7 +411,7 @@
                 <option value="Rejected">{{'generics.Rejected' | translate }}</option>
 							</select>
             </td>
-            <td>{{oneCustomShare.operations|json}}</td>
+            <!--<td>{{oneCustomShare.operations|json}}</td>-->
             <td>{{oneCustomShare.date | date}}</td>
             <td>
               <span class="pull-right">
@@ -443,9 +445,10 @@
             <div class="text-center mb-4">
                 <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
                 <h4 class="mb-0 mt-2">
-                    Doctor Felipe Dos Santos
+                    {{userInfo.userName}}  {{userInfo.lastName}} 
                 </h4>
-                <p class="grey">felipedoc@gmail.com</p>
+                <p class="grey">{{userInfo.email}} </p>
+                <!--
                 <div class="d-flex justify-content-center align-items-center mt-3">
                     <div class="dash-followers mr-4">
                         <div class="d-flex justify-content-center align-items-center">
@@ -465,12 +468,381 @@
                       </h5>
                       <span class="grey">{{'generics.Description' | translate }}</span>
                   </div>
-  
               </div>
+            -->
             </div>
             
         </div>
     </div>
 </div>
+</div>
+</ng-template>
+
+<ng-template #pdfPanel let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header" id="idHeader">
+      <button type="button" class="close" aria-label="Close" (click)="closeModalProfile();">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+<div class="modal-body card mb-0" >
+  <div class="row mb-2">
+    <div class="col-sm-12 content-header center-elements">
+      <label class="d-block">
+        {{'pdf.selectperiod' | translate }}
+        </label>
+        <span class="optionsCharts">
+            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='month'"
+                    (click)="loadDataRangeDate('month');">{{'charts.Last month' |
+                    translate }}</button></span>
+            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='quarter'"
+                    (click)="loadDataRangeDate('quarter');">{{'charts.Last quarter' |
+                    translate }}</button></span>
+            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='year'"
+                    (click)="loadDataRangeDate('year');">{{'charts.Last year' |
+                    translate }}</button></span>
+        </span>
+
+        <div class="mt-2" >
+          <qrcode style="width: fit-content;display: inline-block;" id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="128" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+    </div>
+</div>
+  <div class="row" *ngIf="generatingPDF">
+    <div class="col-lg-12 ">
+        <div *ngIf="!loadedInfoPatient">
+            <i class="fa fa-spinner fa-spin fa-fw"></i>
+        </div>
+        <div id="canvas-charts">
+            <div class="row" *ngIf="events.length > 0 && loadedEvents">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2">
+                        <div class="mb-2">
+                            <div class="card-block" [ngClass]="(generatingPDF)?'m-3':'m-0'">
+                                <div class="row p-2" *ngIf="!generatingPDF">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'menu.Seizures' | translate }}</h4>
+                                        <span class="text-muted">{{'pdf.grap1' | translate }}</span>
+                                    </div>
+                                </div>
+                                <div id="line-chart1">
+                                  <div class="height-100">
+                                    <ngx-charts-line-chart [scheme]="lineChartColorScheme"
+                                        [results]="lineChartSeizures" [gradient]="barChartGradient"
+                                        [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
+                                        [legend]="barChartShowLegend" [showXAxisLabel]="false"
+                                        [showYAxisLabel]="false" [xAxisLabel]="barChartXAxisLabel"
+                                        [yAxisLabel]="barChartYAxisLabel" [yAxisTicks]="yAxisTicksSeizures">
+                                        <ng-template #tooltipTemplate let-model="model">
+                                            <span>{{ model.name }}: {{ model.value }}</span>
+                                            <span class="d-block"
+                                                *ngFor="let type of model.types ; let i = index">
+                                                {{type.type}}: {{type.count}}
+                                            </span>
+                                        </ng-template>
+                                        <ng-template #seriesTooltipTemplate let-model="model">
+                                            <div *ngFor="let mod of model; let i = index">
+                                                <span class="d-block">{{ mod.name}}: {{ mod.value
+                                                    }}</span>
+                                                <span class="d-block"
+                                                    *ngFor="let type of mod.types ; let j = index">
+                                                    {{type.type}}: {{type.count}}
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-charts-line-chart>
+                                    
+                                </div>
+                                <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                </div>
+                                <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="events.length == 0 && loadedEvents">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2">
+                        <div class="">
+                            <div class="card-block">
+                                <div class="row p-2">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'menu.Seizures' | translate }}</h4>
+                                        <span class="text-muted">{{'pdf.grap1' | translate }}</span>
+                                        <p class="mb-0">{{'charts.Noseizures' | translate }}
+                                            <span *ngIf="rangeDate!=''">
+                                                {{'charts.in the last' | translate }}
+                                                <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                    translate }}</span>
+                                                <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                    translate }}</span>
+                                                <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                    }}</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="feels.length > 0">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2">
+                        <div class="mb-2">
+                          <div class="card-block" [ngClass]="(generatingPDF)?'m-3':'m-0'">
+                            <div class="row p-2" *ngIf="!generatingPDF">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'charts.Quality of life' | translate }}</h4>
+                                        <span class="text-muted">{{'pdf.grap2' | translate }}</span>
+                                    </div>
+                                </div>
+                                <div id="line-chart2">
+                                  <div class="height-100">
+                                    <ngx-charts-bar-vertical-2d [scheme]="lineChartColorScheme"
+                                        [results]="lineChartHeight" [gradient]="barChartGradient"
+                                        [xAxis]="false" [yAxis]="true"
+                                        [legend]="barChartShowLegend"
+                                        [showXAxisLabel]="false"
+                                        [xAxisTickFormatting]="tickFormatting"
+                                        [showYAxisLabel]="false" [xAxisLabel]=""
+                                        [autoScale]="false" [showText]="false"
+                                        [yAxisTicks]=[0,5] [yScaleMax]="5"
+                                        [yAxisTickFormatting]="axisFormat">
+                                        <ng-template #tooltipTemplate let-model="model">
+                                            <span class="d-block">{{ model.name |date }}</span>
+                                            <span *ngIf="model.value==5">{{'charts.Very happy' | translate
+                                                }}</span>
+                                            <span *ngIf="model.value==4">{{'charts.Happy' | translate
+                                                }}</span>
+                                            <span *ngIf="model.value==3">Normal</span>
+                                            <span *ngIf="model.value==2">{{'charts.Sad' | translate
+                                                }}</span>
+                                            <span *ngIf="model.value==1">{{'charts.Very sad' | translate
+                                                }}</span>
+                                        </ng-template>
+                                        <ng-template #seriesTooltipTemplate let-model="model">
+                                            <div *ngFor="let mod of model; let i = index">
+                                                <span class="d-block">{{ mod.name |date }}</span>
+                                                <span *ngIf="mod.value==5">{{'charts.Very happy' | translate
+                                                    }}</span>
+                                                <span *ngIf="mod.value==4">{{'charts.Happy' | translate
+                                                    }}</span>
+                                                <span *ngIf="mod.value==3">Normal</span>
+                                                <span *ngIf="mod.value==2">{{'charts.Sad' | translate
+                                                    }}</span>
+                                                <span *ngIf="mod.value==1">{{'charts.Very sad' | translate
+                                                    }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-charts-bar-vertical-2d>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="feels.length == 0 && loadedFeels">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2">
+                        <div class="">
+                            <div class="card-block">
+                                <div class="row p-2">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'charts.Quality of life' |translate }}</h4>
+                                        <span class="text-muted">{{'pdf.grap2' | translate }}</span>
+                                        <p class="mb-0">{{'charts.No data saved' | translate }}
+                                            <span
+                                            *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} 
+                                            <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                translate }}</span>
+                                            <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                translate }}</span>
+                                            <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                }}</span></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="medications.length > 0 && loadedDrugs">
+                <div class="col-sm-12">
+                    <div class="card mt-2 mb-2" #ContainerRef id="line-chart3">
+                        <div class="mb-2">
+                          <div class="card-block" [ngClass]="(generatingPDF)?'m-0':'m-0'">
+                            <div class="row p-2" *ngIf="!generatingPDF">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }}</h4>
+                                        <span class="text-muted">{{'pdf.grap3' | translate }}</span>
+                                        <span class="text-muted d-block"> 
+                                            <label class="container pl-0">
+                                                <input type="checkbox" [(ngModel)]="normalized" (change)="normalizedChanged(normalized)">
+                                                <span class="checkmark"></span>
+                                              </label><span style="margin-left: 0.2rem !important;">{{titleDose}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div >
+                                    <div class="height-100">
+                                      <ngx-charts-line-chart                                                
+                                          [scheme]="lineChartColorScheme"
+                                          [results]="lineChartDrugs" [gradient]="barChartGradient"
+                                          [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
+                                          [legend]="false" [legendPosition]="'below'" [showXAxisLabel]="false"
+                                          [showYAxisLabel]="false" [xAxisLabel]="barChartXAxisLabel"
+                                          [yAxisLabel]="barChartYAxisLabel" [yAxisTicks]="yAxisTicksDrugs">
+                                          <!--[timeline]="true"-->
+                                      </ngx-charts-line-chart>                                    
+                                  </div>
+                                  <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                      <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                      <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                      <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                  </div>
+                                  <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                      <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                      <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                      <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                  </div>
+                                  <ngx-charts-legend fxFlex="100%" 
+                                                        class="chart-legend" 
+                                                        [data]="chartNames" 
+                                                        [title]="'Legend Title'" 
+                                                        [colors]="colors">
+                                      </ngx-charts-legend>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="medications.length == 0 && loadedDrugs">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2">
+                        <div class="">
+                            <div class="card-block">
+                                <div class="row p-2">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }}</h4>
+                                        <span class="text-muted">{{'pdf.grap3' | translate }}</span>
+                                        <p class="mb-0">{{'charts.There is no drug data stored' | translate }} <span
+                                            *ngIf="rangeDate!=''">{{'charts.in the last' | translate }}
+                                            <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                translate }}</span>
+                                            <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                translate }}</span>
+                                            <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                }}</span></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"
+                *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2" #ContainerRef1 id="line-chart4">
+                        <div class="mb-2">
+                          <div class="card-block" [ngClass]="(generatingPDF)?'m-0':'m-0'">
+                            <div class="row p-2" *ngIf="!generatingPDF">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'charts.Drugs vs Seizures' | translate }}</h4>
+                                        <span class="text-muted">
+                                            <label class="container pl-0">
+                                                <input type="checkbox" [(ngModel)]="normalized2" (change)="normalizedChanged2(normalized2)">
+                                                <span class="checkmark"></span>
+                                              </label><span style="margin-left: 0.2rem !important;">{{titleDrugsVsDrugs}}</span> 
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                  <div class="height-100">
+                                    <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
+                                        height="200px"></div>
+                                        <combo-chart-component
+                                        [view]="[(ContainerRef1.offsetWidth-90), 100]"
+                                        [scheme]="comboBarScheme"
+                                        [colorSchemeLine]="lineChartScheme"
+                                        [results]="barChart"
+                                        [animations]="animations"
+                                        [lineChart]="lineChartSeries"
+                                        [yAxisTickFormatting]="yLeftTickFormat"
+                                        [yLeftAxisScaleFactor]="yLeftAxisScale"
+                                        [yRightAxisScaleFactor]="yRightAxisScale"
+                                        [yRightAxisTickFormatting]="yRightTickFormat"
+                                        [gradient]="gradient"
+                                        [xAxis]="showXAxis"
+                                        [yAxis]="showYAxis"
+                                        [legend]="false"
+                                        [showGridLines]="showGridLines"
+                                        [showXAxisLabel]="showXAxisLabel"
+                                        [showYAxisLabel]="showYAxisLabel"
+                                        [showRightYAxisLabel]="showYAxisLabel"
+                                        [xAxisLabel]="false"
+                                        [yAxisLabel]="yAxisLabel"
+                                        [yAxisLabelRight]="yAxisLabelRight">
+                                        </combo-chart-component>
+                                       
+                                </div>
+                                <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                </div>
+                                <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                </div>
+                                <ngx-charts-legend fxFlex="100%" 
+                                                        class="chart-legend" 
+                                                        [data]="chartNames" 
+                                                        [title]="'Legend Title'" 
+                                                        [colors]="colors2">
+                                      </ngx-charts-legend>
+                                      <div class="border-top">
+                                        <ngx-charts-legend fxFlex="100%" 
+                                                          class="chart-legend" 
+                                                          [data]="titleSeizuresLegend" 
+                                                          [title]="'Legend Title'" 
+                                                          [colors]="colors2">
+                                        </ngx-charts-legend>
+                                      </div>
+                                      
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal-footer">
+  <div class="form-actions center">
+    <button *ngIf="loadedDrugs" class="btn btn-dark mr-1" type="button"
+    (click)="exportPDF2()">{{'generics.ExportData' | translate }}</button>
+    <i *ngIf="!loadedDrugs" class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+  </div>
 </div>
 </ng-template>

@@ -50,6 +50,7 @@
     "@veriff/js-sdk": "^1.2.3",
     "angular-calendar": "^0.28.28",
     "angulartics2": "^8.3.0",
+    "angularx-qrcode": "^2.3.7",
     "angularx-social-login": "^3.5.7",
     "apexcharts": "^3.27.2",
     "bootstrap": "4.4.1",

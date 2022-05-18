@@ -22,6 +22,7 @@ import { DateAdapter } from '@angular/material/core';
 import { createVeriffFrame } from '@veriff/incontext-sdk';
 import CryptoES from 'crypto-es';
 import * as decode from 'jwt-decode';
+import { ColorHelper } from '@swimlane/ngx-charts';
 declare var Veriff: any;
 
 declare global {
@@ -181,6 +182,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   infoVerified: any = {};
   loadVerifiedInfo: boolean = false;
   userInfo: any = {};
+  public chartNames: string[];
+    public colors: ColorHelper;
+    public colors2: ColorHelper;
+    titleSeizuresLegend = [];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -411,6 +416,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.translate.get('menu.Seizures').subscribe((res: string) => {
       this.titleSeizures = res;
+      var tempTitle = this.titleSeizures+' ('+this.translate.instant("pdf.Vertical bars")+')';
+      this.titleSeizuresLegend = [tempTitle]
     });
     this.translate.get('medication.Dose mg').subscribe((res: string) => {
       this.yAxisLabelRight = res;
@@ -906,6 +913,13 @@ getWeek(newdate, dowOffset?) {
           
           this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
           this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
+
+          // Get chartNames
+        this.chartNames = this.lineChartDrugs.map((d: any) => d.name);
+        // Convert hex colors to ColorHelper for consumption by legend
+        this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
+        this.colors2 = new ColorHelper(this.lineChartScheme, 'ordinal', this.chartNames, this.lineChartScheme);
+
           this.normalizedChanged(this.normalized);
           if(this.events.length>0){
             this.getDataNormalizedDrugsVsSeizures();
@@ -1509,6 +1523,8 @@ getVerified() {
             this.saveDataVerfified();
             await this.delay(60000);
             this.getUserInfo(true);
+          }else{
+            this.verifyStatus();
           }
         }.bind(this) });
   }else if(this.infoVerified.status=='submitted'){

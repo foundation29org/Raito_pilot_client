@@ -537,7 +537,7 @@
                         <div class="col-sm-12">
                             <div class="card mt-2 mb-2" #ContainerRef>
                                 <div class="mb-2">
-                                    <div class="card-block pb-2">
+                                    <div class="card-block m-0">
                                         <div class="row p-2">
                                             <div class="col-8">
                                                 <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }} 
@@ -563,31 +563,34 @@
                                             </a>
                                             </div>
                                         </div>
-                                       <div id="line-chart2">
-                                            <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
-                                                height="200px"></div>
-                                            <ngx-charts-line-chart [view]="[(ContainerRef.offsetWidth-30), 100]"
-                                                [scheme]="lineChartColorScheme" [results]="lineChartDrugs"
-                                                [gradient]="lineChartGradient" [xAxis]="false" [xAxisTickFormatting]="tickFormatting"
-                                                [yAxis]="lineChartShowYAxis" [legend]="false"
-                                                [legendPosition]="'below'"
-                                                [showXAxisLabel]="false"
-                                                [xAxisTickFormatting]="tickFormatting"
-                                                [showYAxisLabel]="false" [xAxisLabel]="msgDate"
-                                                [autoScale]="false" [xScaleMax]="today" [yAxisTicks]="yAxisTicksDrugs" (select)="onSelect($event)">
-                                                <!--[timeline]="true"-->
-                                            </ngx-charts-line-chart>
-                                            
-                                        </div>
-                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12" style="position: absolute;top: 90%;">
-                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                        </div>
-                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <div >
+                                            <div class="height-100">
+                                              <ngx-charts-line-chart                                                
+                                                  [scheme]="lineChartColorScheme"
+                                                  [results]="lineChartDrugs" [gradient]="barChartGradient"
+                                                  [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
+                                                  [legend]="false" [legendPosition]="'below'" [showXAxisLabel]="false"
+                                                  [showYAxisLabel]="false" [xAxisLabel]="barChartXAxisLabel"
+                                                  [yAxisLabel]="barChartYAxisLabel" [yAxisTicks]="yAxisTicksDrugs">
+                                                  <!--[timeline]="true"-->
+                                              </ngx-charts-line-chart>                                    
+                                          </div>
+                                          <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                              <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                              <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                              <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                          </div>
+                                          <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                              <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                              <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                              <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                          </div>
+                                          <ngx-charts-legend fxFlex="100%" 
+                                                                class="chart-legend" 
+                                                                [data]="chartNames" 
+                                                                [title]="'Legend Title'" 
+                                                                [colors]="colors">
+                                              </ngx-charts-legend>
                                         </div>
                                     </div>
                                 </div>
@@ -632,68 +635,84 @@
                         </div>
                     </div>
                     <div class="row"
-                        *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
-                        <div class="col-sm-12">
-                            <div class="card mb-2 mt-2" #ContainerRef1>
-                                <div class="mb-2">
-                                    <div class="card-block pb-2">
-                                        <div class="row p-2">
-                                            <div class="col-12">
-                                                <h4 class="text-bold-500 mb-0">{{'charts.Drugs vs Seizures' | translate }}</h4>
-                                                <span class="text-muted">
-                                                    <label class="container pl-0">
-                                                        <input type="checkbox" [(ngModel)]="normalized2" (change)="normalizedChanged2(normalized2)">
-                                                        <span class="checkmark"></span>
-                                                      </label><span style="margin-left: 0.2rem !important;">{{titleDrugsVsDrugs}}</span> 
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div id="line-chart2">
-                                            <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
-                                                height="200px"></div>
-                                                <combo-chart-component
-                                                [view]="[(ContainerRef1.offsetWidth-90), 100]"
-                                                [scheme]="comboBarScheme"
-                                                [colorSchemeLine]="lineChartScheme"
-                                                [results]="barChart"
-                                                [animations]="animations"
-                                                [lineChart]="lineChartSeries"
-                                                [yAxisTickFormatting]="yLeftTickFormat"
-                                                [yLeftAxisScaleFactor]="yLeftAxisScale"
-                                                [yRightAxisScaleFactor]="yRightAxisScale"
-                                                [yRightAxisTickFormatting]="yRightTickFormat"
-                                                [gradient]="gradient"
-                                                [xAxis]="showXAxis"
-                                                [yAxis]="showYAxis"
-                                                [legend]="showLegend"
-                                                [legendTitle]="legendTitle"
-                                                [legendPosition]="legendPosition"
-                                                [showGridLines]="showGridLines"
-                                                [showXAxisLabel]="showXAxisLabel"
-                                                [showYAxisLabel]="showYAxisLabel"
-                                                [showRightYAxisLabel]="showYAxisLabel"
-                                                [xAxisLabel]="false"
-                                                [yAxisLabel]="yAxisLabel"
-                                                [yAxisLabelRight]="yAxisLabelRight">
-                                                </combo-chart-component>
-                                               
-                                        </div>
-                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12" style="position: absolute;top: 90%;">
-                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                        </div>
-                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                        </div>
+                *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
+                <div class="col-sm-12">
+                    <div class="card mb-2 mt-2" #ContainerRef1 id="line-chart4">
+                        <div class="mb-2">
+                          <div class="card-block m-0">
+                            <div class="row p-2">
+                                    <div class="col-12">
+                                        <h4 class="text-bold-500 mb-0">{{'charts.Drugs vs Seizures' | translate }}</h4>
+                                        <span class="text-muted">
+                                            <label class="container pl-0">
+                                                <input type="checkbox" [(ngModel)]="normalized2" (change)="normalizedChanged2(normalized2)">
+                                                <span class="checkmark"></span>
+                                              </label><span style="margin-left: 0.2rem !important;">{{titleDrugsVsDrugs}}</span> 
+                                        </span>
                                     </div>
-
                                 </div>
+                                <div>
+                                  <div class="height-100">
+                                    <div id="chartdoseAvgDrugs" style="max-height: 100px;" class="ct-chart"
+                                        height="200px"></div>
+                                        <combo-chart-component
+                                        [view]="[(ContainerRef1.offsetWidth-90), 100]"
+                                        [scheme]="comboBarScheme"
+                                        [colorSchemeLine]="lineChartScheme"
+                                        [results]="barChart"
+                                        [animations]="animations"
+                                        [lineChart]="lineChartSeries"
+                                        [yAxisTickFormatting]="yLeftTickFormat"
+                                        [yLeftAxisScaleFactor]="yLeftAxisScale"
+                                        [yRightAxisScaleFactor]="yRightAxisScale"
+                                        [yRightAxisTickFormatting]="yRightTickFormat"
+                                        [gradient]="gradient"
+                                        [xAxis]="showXAxis"
+                                        [yAxis]="showYAxis"
+                                        [legend]="false"
+                                        [showGridLines]="showGridLines"
+                                        [showXAxisLabel]="showXAxisLabel"
+                                        [showYAxisLabel]="showYAxisLabel"
+                                        [showRightYAxisLabel]="showYAxisLabel"
+                                        [xAxisLabel]="false"
+                                        [yAxisLabel]="yAxisLabel"
+                                        [yAxisLabelRight]="yAxisLabelRight">
+                                        </combo-chart-component>
+                                       
+                                </div>
+                                <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                </div>
+                                <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                </div>
+                                <ngx-charts-legend fxFlex="100%" 
+                                                        class="chart-legend" 
+                                                        [data]="chartNames" 
+                                                        [title]="'Legend Title'" 
+                                                        [colors]="colors2">
+                                      </ngx-charts-legend>
+                                      <div>
+                                        <ngx-charts-legend fxFlex="100%" 
+                                                          class="chart-legend" 
+                                                          [data]="titleSeizuresLegend" 
+                                                          [title]="'Legend Title'" 
+                                                          [colors]="colors2">
+                                        </ngx-charts-legend>
+                                      </div>
+                                      
+                                </div>
+                                
                             </div>
+
                         </div>
                     </div>
+                </div>
+            </div>
                 </div>
             </div>
         </div>
