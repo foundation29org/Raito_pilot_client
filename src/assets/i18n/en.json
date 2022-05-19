@@ -1641,7 +1641,7 @@
     "Add patient group": "Add patient group",
     "I give my consent": "Grant access",
     "Reject consent": "Revoke access",
-    "I want to share my data": "Share my data",
+    "I want to share my data": "Share / Download",
     "I want to export my data": "Download my data",
     "exportText": "A single file with all your current data will be downloaded to your device. You can them keep this file or share it with institutions, researchers through any application you choose.",
     "I want to delete my data": "Delete my container",
@@ -1652,8 +1652,8 @@
     "sharetitle1": "Summary report",
     "sharecontent1": "The report includes seizure, quality of life and medication graphs, as well as your list of symptoms.",
     "sharetitle2": "Data for research",
-    "sharecontent2": "The generated file is intended for data aggregation and analysis.",
-    "sharecontent3": "<strong>Public sharing:</strong> Anyone will be able to access the data of your choice. <p><strong>Private sharing:</strong> A private link will be generated that you can share with the people you want to access it.</p>",
+    "sharecontent2": "You can download a file or share your data with researchers for the purpose of data aggregation and analysis.",
+    "sharecontent3": "A private link will be generated that you can share with the people you want to access it.",
     "Password is incorrect": "Password is incorrect",
     "we will close your session": "For your security, we will close your session.",
     "please enter your password": "For security reasons, please enter your password",
@@ -1725,8 +1725,8 @@
     "Amount": "Cantidad"
   },
   "open":{
-    "Public sharing": "Public sharing",
-    "Private sharing": "Private sharing",
+    "Public sharing": "Share",
+    "Private sharing": "Share",
     "Permissions": "Permissions",
     "perm1title": "Personal data of the patient",
     "perm2title": "Medical information",
@@ -1737,11 +1737,14 @@
     "perm4desc": "Genetic information",
     "The accesses to your data will be shown here": "The accesses to your data will be shown here",
     "Nobody has accessed your data": "Nobody has accessed your data",
-    "Customized sharing": "Customized sharing",
+    "Customized sharing": "Links created",
     "Access requests": "Access requests",
     "Operations": "Operations",
-    "Copy url": "Copy URL",
-    "Requester": "Requester"
+    "Copy url": "Copy link",
+    "Requester": "Requester",
+    "InfoPermissions": "Select what information researchers will be able to see. You can also add an informative note.",
+    "nosharing": "You have not created any sharing links",
+    "Create link": "Create link"
   },
   "identity":{
     "t0": "Verify",

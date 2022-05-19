@@ -9,7 +9,7 @@
                         <p>{{'mydata.desc' | translate }}</p>
                         <!--One open panel at a time Starts-->
                     <ngb-accordion #accordion [closeOthers]="true">
-                        <ngb-panel id="1">
+                        <!--<ngb-panel id="1">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fa fa-cloud-upload fa-1_5x mr-2 float-left"></i> <span> {{'mydata.q1' | translate }}</span> <span class="float-right">
                                         <span
@@ -25,8 +25,68 @@
                                     <img class="w-100" src='assets/img/pages/democontainer.jpg'>
                                 </div>
                             </ng-template>
-                        </ngb-panel>
+                        </ngb-panel>-->
                         <ngb-panel id="2">
+                          <ng-template ngbPanelTitle>
+                              <h5 class="mb-0"><i class="fas fa-share fa-1_5x mr-2 float-left"></i> <span> {{'mydata.I want to share my data' | translate }}</span> <span class="float-right">
+                                      <span
+                                          [ngClass]="{'ft-chevron-up': isOpen(3), 'ft-chevron-down': !isOpen(3)}"></span>
+                                  </span></h5>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                              <div>
+                                  <div *ngIf="!showShare">
+                                      <!--<p class="text-muted">{{'mydata.sharepart1' | translate }}</p>-->
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <p class="text-bold-500 mt-0 mb-0">{{'dashboardpatient.Share' | translate }}</p>
+                                              <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
+                                          </div>
+                                          <div class="col-md-12 center-elements">
+                                              <button class="btn btn-dark" type="button"
+                                              (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
+                                          </div>
+                                      </div>
+                                      <div class="row mt-2">
+                                          <div class="col-md-12">
+                                              <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle1' | translate }}</p>
+                                              <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
+                                          </div>
+                                          <span class="col-md-12 center-elements">
+                                              <button class="btn btn-dark" type="button"
+                                              (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }} PDF</button>
+                                              <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
+                                          </span>
+                                      </div>
+                                      <div class="row mt-2">
+                                          <div class="col-md-12">
+                                              <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
+                                              <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
+                                          </div>
+                                          <span class="col-md-12 center-elements">
+                                              <button class="btn btn-dark mr-1" type="button"
+                                              (click)="exportData()">{{'generics.ExportData' | translate }}</button>
+                                              <div class="d-none"><span id="content"></span></div>
+                                              <button class="btn btn-dark" type="button"
+                                              (click)="share(shareTo, 'General')">{{'open.Permissions' | translate }}</button>
+                                              <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
+                                              <!--<button class="btn btn-dark ml-1" type="button" (click)="extractFhir()">FHIR</button>-->
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <div *ngIf="showShare" class="center-elements">
+                                      <button class="btn btn-dark btn-sm d-block" (click)="showShare=false;">{{'generics.Back' | translate }}</button>
+                                      <div>
+                                          <p class="danger">{{'generics.Under construction' | translate }}</p>
+                                          <img class="w-100" src='assets/img/pages/demoshare.jpg'>
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+
+                          </ng-template>
+                      </ngb-panel>
+                        <ngb-panel id="3">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fas fa-key fa-1_5x mr-2 float-left"></i> <span> {{'mydata.q2' | translate }}</span> <span class="float-right">
                                         <span
@@ -53,76 +113,15 @@
                                         <p>{{'mydata.Here is a message on why this is important' | translate }}</p>
                                         <button class="btn btn-dark" type="button" routerLink="/home">{{'mydata.Add patient group' | translate }}</button>
                                     </div>
-                                    <div class="" *ngIf="hasGroup">
+                                    <div class="center-elements" *ngIf="hasGroup">
                                         <p class="text-muted mb-0" *ngIf="consentgroup">{{'mydata.a2.5' | translate }}</p>
                                         <p class="text-muted mb-0" *ngIf="!consentgroup">{{'mydata.a2.7' | translate }}</p>
-                                        <button *ngIf="!consentgroup" class="btn btn-dark" type="button"
+                                        <button *ngIf="!consentgroup" class="mt-2 btn btn-dark" type="button"
                                             (click)="changeConsentGroup(true)">{{'mydata.I give my consent' | translate }}</button>
-                                        <button *ngIf="consentgroup" class="btn btn-primary" type="button"
+                                        <button *ngIf="consentgroup" class="mt-2 btn btn-primary" type="button"
                                         (click)="changeConsentGroup(false)">{{'mydata.Reject consent' | translate }}</button>
                                     </div>
                                 </div>
-                            </ng-template>
-                        </ngb-panel>
-                        <ngb-panel id="3">
-                            <ng-template ngbPanelTitle>
-                                <h5 class="mb-0"><i class="fas fa-share fa-1_5x mr-2 float-left"></i> <span> {{'mydata.I want to share my data' | translate }}</span> <span class="float-right">
-                                        <span
-                                            [ngClass]="{'ft-chevron-up': isOpen(3), 'ft-chevron-down': !isOpen(3)}"></span>
-                                    </span></h5>
-                            </ng-template>
-                            <ng-template ngbPanelContent>
-                                <div>
-                                    <div *ngIf="!showShare">
-                                        <p class="text-muted">{{'mydata.sharepart1' | translate }}</p>
-                                        <div class="row">
-                                            
-                                            <div class="col-md-12">
-                                                <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle1' | translate }}</p>
-                                                <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
-                                            </div>
-                                            <span class="col-md-12 center-elements">
-                                                <button class="btn btn-dark" type="button"
-                                                (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }}</button>
-                                                <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
-                                            </span>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
-                                                <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
-                                            </div>
-                                            <span class="col-md-12 center-elements">
-                                                <button class="btn btn-dark" type="button"
-                                                (click)="exportData()">{{'generics.ExportData' | translate }}</button>
-                                                <div class="d-none"><span id="content"></span></div>
-                                                <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
-                                                <!--<button class="btn btn-dark ml-1" type="button" (click)="extractFhir()">FHIR</button>-->
-                                            </span>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p class="text-bold-500 mt-0 mb-0">{{'dashboardpatient.Share' | translate }}</p>
-                                                <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
-                                            </div>
-                                            <div class="col-md-12 center-elements">
-                                                <button class="btn btn-dark mr-1" type="button"
-                                                (click)="share(shareTo, 'General')">{{'open.Public sharing' | translate }}</button>
-                                                <button class="btn btn-dark mr-1" type="button"
-                                                (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="showShare" class="center-elements">
-                                        <button class="btn btn-dark btn-sm d-block" (click)="showShare=false;">{{'generics.Back' | translate }}</button>
-                                        <div>
-                                            <p class="danger">{{'generics.Under construction' | translate }}</p>
-                                            <img class="w-100" src='assets/img/pages/demoshare.jpg'>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-
                             </ng-template>
                         </ngb-panel>
                         <!--<ngb-panel id="4">
@@ -191,7 +190,7 @@
 
 <ng-template #shareTo let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header pb-0" id="idHeader">
-        <h4>{{'dashboardpatient.Share' | translate }}
+        <h4>{{'open.Permissions' | translate }}
     <span class="font-small-2 d-block mt-1"></span>
   </h4>
 
@@ -206,7 +205,7 @@
     <div *ngIf="loadedShareData">
       <div class="mt-2">
         <div class="form-group col-md-12">
-                <p class="mb-1">{{'open.Permissions' | translate }}</p>
+                <p class="mb-1">{{'open.InfoPermissions' | translate }}</p>
                 <section class="example-section">
                     <span class="d-block"><mat-checkbox name="newPermission.data.patientInfo" [(ngModel)]="newPermission.data.patientInfo">{{'open.perm1title' | translate }}</mat-checkbox></span>
                     <span class="d-block"><mat-checkbox name="newPermission.data.medicalInfo" [(ngModel)]="newPermission.data.medicalInfo">{{'open.perm2desc' | translate }}</mat-checkbox></span>
@@ -278,14 +277,15 @@
         </div>
     </div>
     <div class="col-md-12">
+      {{newPermission|json}}
       <div class="center-elements" *ngIf="!sending">
         <button class="btn btn-secondary mr-1" (click)="cancelCustom()"><span>{{'generics.Cancel' | translate }}</span></button>
         <div *ngIf="f.valid;then formValid else formError"></div>
         <ng-template #formValid>
-          <button class="btn btn-dark ml-1" (click)="sendShare()"><span *ngIf="newPermission._id==null">{{'generics.Add' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
+          <button class="btn btn-dark ml-1" (click)="sendShare()"><span *ngIf="newPermission._id==null">{{'open.Create link' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
         </ng-template>
         <ng-template #formError>
-          <button class="btn btn-dark ml-1" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="newPermission._id==null">{{'generics.Add' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
+          <button class="btn btn-dark ml-1" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="newPermission._id==null">{{'open.Create link' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
         </ng-template>
         
       </div>
@@ -296,14 +296,18 @@
     </div>
   </form>
 
-  <div *ngIf="!showNewCustom">
-    <button class="btn btn-dark m-2" type="button" (click)="addCustom()">{{'generics.Add' | translate }}</button>
-  </div>
-  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="listCustomShare.length>0 && !showNewCustom && !sending && !loading">
-    <div>
-      <h5>{{'open.Customized sharing' | translate }}:</h5>
+ 
+  <div class="col-md-12 pt-2 mt-2">
+    <div *ngIf="!showNewCustom">
+      <h5>{{'open.Customized sharing' | translate }}
+        <button *ngIf="listCustomShare.length>0" class="btn btn-dark btn-sm float-right" type="button" (click)="addCustom()">{{'open.Create link' | translate }}</button>
+      </h5>
     </div>
-    <div class="table-responsive">
+    <div *ngIf="listCustomShare.length==0 && !showNewCustom && !sending && !loading">
+      <span class="d-block">{{'open.nosharing' | translate }}</span>
+      <button *ngIf="listCustomShare.length==0" class="mt-1 btn btn-dark btn-sm" type="button" (click)="addCustom()">{{'open.Create link' | translate }}</button>
+    </div>
+    <div class="table-responsive"  *ngIf="listCustomShare.length>0 && !showNewCustom && !sending && !loading">
       <table class="col-md-12 table" *ngIf="loadedShareData">
         <thead>
           <tr>
@@ -312,7 +316,6 @@
             <!--<th style="width:10%">{{'open.perm3title' | translate }}</th>
             <th style="width:10%">{{'open.perm4title' | translate }}</th>-->
             <th style="width:20%">{{'generics.notes' | translate }}</th>
-            <th style="width:10%">URL</th>
             <!--<th style="width:10%">{{'open.Operations' | translate }}</th>-->
             <th style="width:10%">{{'generics.Date' | translate }}</th>
             <th style="width:10%">{{'generics.Options' | translate }}</th>
@@ -338,18 +341,22 @@
             </td>-->
             <td *ngIf="oneCustomShare.notes!=''">{{oneCustomShare.notes}}</td>
             <td *ngIf="oneCustomShare.notes==''">-</td>
-            <td><a class="btn btn-info btn-sm" (click)="copyClipboard(oneCustomShare.token)">{{'open.Copy url' | translate }}</a></td>
             <!--<td>{{oneCustomShare.operations|json}}</td>-->
             <td>{{oneCustomShare.date | date}}</td>
             <td>
               <span class="pull-right mr-2">
-                <a class="danger" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
-                  <i class="ft-x"></i>
+                <button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="showQR(oneCustomShare.token, qrPanel)">
+                  <i class="fas fa-share"></i>
+                </button>
+              </span>
+              <span class="pull-right mr-2">
+                <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
+                  <i class="ft-edit"></i>
                 </a>
               </span>
               <span class="pull-right">
-                <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
-                  <i class="ft-edit"></i>
+                <a class="btn btn-primary btn-sm" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
+                  <i class="ft-trash"></i>
                 </a>
               </span>
             </td>
@@ -359,9 +366,9 @@
       <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
     </div>
   </div>
-  <div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
+  <div class="col-md-12 pt-2 mt-2" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
     <div>
-      <h5>{{'open.Access requests' | translate }}:</h5>
+      <h5>{{'open.Access requests' | translate }}</h5>
     </div>
     <div class="table-responsive">
       <table class="col-md-12 table" *ngIf="loadedShareData">
@@ -415,7 +422,7 @@
             <td>{{oneCustomShare.date | date}}</td>
             <td>
               <span class="pull-right">
-                <a class="info" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editindividual(i)">
+                <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editindividual(i)">
                   <i class="ft-edit"></i>
                 </a>
               </span>
@@ -817,7 +824,7 @@
                                                         [title]="'Legend Title'" 
                                                         [colors]="colors2">
                                       </ngx-charts-legend>
-                                      <div class="border-top">
+                                      <div class="">
                                         <ngx-charts-legend fxFlex="100%" 
                                                           class="chart-legend" 
                                                           [data]="titleSeizuresLegend" 
@@ -844,5 +851,23 @@
     (click)="exportPDF2()">{{'generics.ExportData' | translate }}</button>
     <i *ngIf="!loadedDrugs" class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
   </div>
+</div>
+</ng-template>
+
+<ng-template #qrPanel let-c="close" let-d="dismiss" appendTo="body">
+  <div class="modal-header" id="idHeader">
+      <button type="button" class="close" aria-label="Close" (click)="closeModalQr();">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+<div class="modal-body card mb-0">
+  <div class="row">
+    <div class="col-md-12 center-elements">
+      <qrcode style="width: fit-content;display: inline-block;" id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+
+      <a class="d-block btn btn-info mt-2" (click)="copyClipboard2()">{{'open.Copy url' | translate }}</a>
+    </div>
+  </div>
+  
 </div>
 </ng-template>

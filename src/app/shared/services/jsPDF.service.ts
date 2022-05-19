@@ -1079,17 +1079,42 @@ export class jsPDFService {
         if(seizuresMonths.length>0){
             this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Date"));
-            this.writeHeaderText(doc, 80, lineText, this.translate.instant("pdf.Amount"));
+            this.writeHeaderText(doc, 35, lineText, this.translate.instant("pdf.Amount"));
+            this.writeHeaderText(doc, 70, lineText, this.translate.instant("generics.Date"));
+            this.writeHeaderText(doc, 95, lineText, this.translate.instant("pdf.Amount"));
+            this.writeHeaderText(doc, 130, lineText, this.translate.instant("generics.Date"));
+            this.writeHeaderText(doc, 155, lineText, this.translate.instant("pdf.Amount"));
             lineText += 5;
             for (var i = 0; i < seizuresMonths.length; i++) {
-                if(rangeDate == 'month'){
-                    lineText = this.writeText(doc, 10, lineText, (seizuresMonths[i].stringDate != "" && seizuresMonths[i].stringDate != undefined && seizuresMonths[i].stringDate != null)? this.datePipe.transform(seizuresMonths[i].stringDate, 'dd MMM') : "-");
-                }else{
-                    lineText = this.writeText(doc, 10, lineText, (seizuresMonths[i].name != "" && seizuresMonths[i].name != undefined && seizuresMonths[i].name != null)? this.datePipe.transform(seizuresMonths[i].name, 'MMM yyyy') : "-");
+                if(i % 3 == 0){
+                    //first column
+                    if(rangeDate == 'month'){
+                        lineText = this.writeText(doc, 10, lineText, (seizuresMonths[i].stringDate != "" && seizuresMonths[i].stringDate != undefined && seizuresMonths[i].stringDate != null)? this.datePipe.transform(seizuresMonths[i].stringDate, 'dd MMM') : "-");
+                    }else{
+                        lineText = this.writeText(doc, 10, lineText, (seizuresMonths[i].name != "" && seizuresMonths[i].name != undefined && seizuresMonths[i].name != null)? this.datePipe.transform(seizuresMonths[i].name, 'MMM yyyy') : "-");
+                    }
+                    lineText = this.writeText(doc, 35, lineText, (seizuresMonths[i].value).toString());
+                    //second column
+                    if(i + 1 < seizuresMonths.length){
+                        if(rangeDate == 'month'){
+                            lineText = this.writeText(doc, 70, lineText, (seizuresMonths[i+1].stringDate != "" && seizuresMonths[i+1].stringDate != undefined && seizuresMonths[i+1].stringDate != null)? this.datePipe.transform(seizuresMonths[i+1].stringDate, 'dd MMM') : "-");
+                        }else{
+                            lineText = this.writeText(doc, 70, lineText, (seizuresMonths[i+1].name != "" && seizuresMonths[i+1].name != undefined && seizuresMonths[i+1].name != null)? this.datePipe.transform(seizuresMonths[i+1].name, 'MMM yyyy') : "-");
+                        }
+                        lineText = this.writeText(doc, 95, lineText, (seizuresMonths[i+1].value).toString());
+                    }
+                    //third column
+                    if(i + 2 < seizuresMonths.length){
+                        if(rangeDate == 'month'){
+                            lineText = this.writeText(doc, 130, lineText, (seizuresMonths[i+2].stringDate != "" && seizuresMonths[i+2].stringDate != undefined && seizuresMonths[i+2].stringDate != null)? this.datePipe.transform(seizuresMonths[i+2].stringDate, 'dd MMM') : "-");
+                        }else{
+                            lineText = this.writeText(doc, 130, lineText, (seizuresMonths[i+2].name != "" && seizuresMonths[i+2].name != undefined && seizuresMonths[i+2].name != null)? this.datePipe.transform(seizuresMonths[i+2].name, 'MMM yyyy') : "-");
+                        }
+                        lineText = this.writeText(doc, 155, lineText, (seizuresMonths[i+2].value).toString());
+                    }
+                    lineText += 7;
                 }
                 
-                lineText = this.writeText(doc, 80, lineText, (seizuresMonths[i].value).toString());
-                lineText += 7;
             }
         }
 
