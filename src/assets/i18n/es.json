@@ -1642,7 +1642,7 @@
     "Add patient group": "Añadir grupo de pacientes",
     "I give my consent": "Doy acceso",
     "Reject consent": "Retirar acceso",
-    "I want to share my data": "Compartir mis datos",
+    "I want to share my data": "Compartir / Descargar",
     "I want to export my data": "Descargar mis datos",
     "exportText": "Se descargará en tu dispositivo un único archivo con todos tus datos actuales. Puedes guardar este archivo o compartirlo con instituciones, investigadores a través de cualquier aplicación que elijas.",
     "I want to delete my data": "Eliminar mi contenedor",
@@ -1653,8 +1653,8 @@
     "sharetitle1": "Informe resumido",
     "sharecontent1": "El informe incluye gráficos de convulsiones, calidad de vida y medicación, así como su lista de síntomas.",
     "sharetitle2": "Datos para la investigación",
-    "sharecontent2": "El archivo generado está destinado a la agregación y el análisis de datos.",
-    "sharecontent3": "<strong>Compartición pública:</strong> Cualquier persona podrá acceder a los datos que usted desee. <p><strong>Compartición privada:</strong> Se genererá un enlace privado que podrás compartir con las personas que desees que tenga acceso.</p>",
+    "sharecontent2": "Puedes descargar un archivo o compartir tus datos con investigadores, con el objetivo de la agregación y el análisis de datos.",
+    "sharecontent3": "Se genererá un enlace privado que podrás compartir con las personas que desees que tenga acceso.",
     "Password is incorrect": "La contraseña es incorrecta",
     "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",
     "please enter your password": "Por seguridad, introduce tu contraseña",
@@ -1726,8 +1726,8 @@
     "Amount": "Cantidad"
   },
   "open":{
-    "Public sharing": "Compartición pública",
-    "Private sharing": "Compartir en privado",
+    "Public sharing": "Compartir",
+    "Private sharing": "Compartir",
     "Permissions": "Permisos",
     "perm1title": "Datos personales del paciente",
     "perm2title": "Información médica",
@@ -1738,11 +1738,14 @@
     "perm4desc": "Información genética",
     "The accesses to your data will be shown here": "Los accesos a tus datos se mostrarán aquí",
     "Nobody has accessed your data": "Nadie ha accedido a tus datos",
-    "Customized sharing": "Compartición personalizada",
+    "Customized sharing": "Enlaces creados",
     "Access requests": "Peticiones de acceso",
     "Operations": "Operaciones",
-    "Copy url": "Copiar URL",
-    "Requester": "Solicitante"
+    "Copy url": "Copiar enlace",
+    "Requester": "Solicitante",
+    "InfoPermissions": "Seleccione qué información podrán ver los investigadores. También puede añadir una nota informativa.",
+    "nosharing": "No ha creado ningún enlace de compartición",
+    "Create link": "Crear enlace"
   },
   "identity":{
     "t0": "Verificar",

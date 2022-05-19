@@ -35,6 +35,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   data: any[];
   modalReference: NgbModalRef;
   modalProfileReference: NgbModalRef;
+  modalQr: NgbModalRef;
   loading: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
@@ -900,6 +901,38 @@ makeid(length) {
   return result;
 }
 
+showQR(data, qrPanel){
+  this.generateUrlQr = environment.urlOpenRaito+data;
+  let ngbModalOptions: NgbModalOptions = {
+    backdrop : 'static',
+    keyboard : false,
+    windowClass: 'ModalClass-sm'// xl, lg, sm
+  };
+  this.modalQr = this.modalService.open(qrPanel, ngbModalOptions);
+}
+
+closeModalQr() {
+  if (this.modalQr != undefined) {
+    this.modalQr.close();
+    this.modalQr = undefined;
+  }
+}
+
+copyClipboard2(){
+  this.clipboard.copy(this.generateUrlQr);
+      Swal.fire({
+        icon: 'success',
+        html: this.translate.instant("generics.Copied to the clipboard"),
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
+
+      setTimeout(function () {
+        Swal.close();
+      }, 2000);
+}
+
 editcustom(i){
   this.newPermission= this.listCustomShare[i];
   this.mode = 'Custom';
@@ -944,6 +977,7 @@ revokePermission(i){
 
 addCustom(){
   this.showNewCustom = true;
+  this.resetPermisions();
 }
 
 cancelCustom(){
