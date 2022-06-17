@@ -8,9 +8,10 @@
                         <h2 class="text-bold-500">{{'landraito.t1' | translate }}</h2>
                         <p class="">{{'landraito.p1' | translate }}</p>
                         <div class="col-md-12 center-elements">
-                            <a routerLink="/login" class="btn btn-dark mt-1" title="I want to join">
+                            <button (click)="login()" class="btn btn-dark mt-1" title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
-                            </a>
+                            </button>
+                            <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
                         </div>
                         
                         <div class="col-md-12 center-elements">
@@ -51,9 +52,9 @@
                             </div>
                         </div>
                         <div class="col-md-12 mt-3 center-elements">
-                            <a routerLink="/login" class="btn btn-dark " title="I want to join">
+                            <button (click)="login()" class="btn btn-dark " title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
-                            </a>
+                            </button>
                         </div>
                         
                     </div>

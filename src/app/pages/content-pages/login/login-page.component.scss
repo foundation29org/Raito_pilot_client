@@ -4,6 +4,10 @@
   color: #000 !important;
 }
 
+::ng-deep .w3a-modal {
+  z-index: 4 !important;
+}
+
 @media ( max-width: 380px ){
 
   .centerdiv{

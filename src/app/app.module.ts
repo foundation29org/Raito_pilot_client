@@ -25,6 +25,7 @@ import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 import { LandPageLayoutComponent } from "./layouts/land-page/land-page-layout.component";
 
 import { AuthService } from './shared/auth/auth.service';
+import { MoralisService } from './shared/auth/moralis.service';
 import { TokenService } from './shared/auth/token.service';
 import { AuthGuard } from './shared/auth/auth-guard.service';
 import { RoleGuard } from './shared/auth/role-guard.service';
@@ -50,11 +51,6 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { NgxHotjarModule } from 'ngx-hotjar';
 import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
 
-import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
-} from 'angularx-social-login';
 import { QRCodeModule } from 'angularx-qrcode';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -87,11 +83,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       Angulartics2Module.forRoot(),
       PerfectScrollbarModule,
       NgxHotjarModule.forRoot(environment.hotjarSiteId),
-      SocialLoginModule,
       QRCodeModule
     ],
     providers: [
       AuthService,
+      MoralisService,
       TokenService,
       AuthGuard,
       RoleGuard,
@@ -121,24 +117,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       },
       { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
       GoogleAnalyticsService,
-      {
-        provide: 'SocialAuthServiceConfig',
-        useValue: {
-          autoLogin: false,
-          providers: [
-            {
-              id: GoogleLoginProvider.PROVIDER_ID,
-              provider: new GoogleLoginProvider(
-                environment.googleProvider
-              )
-            },
-            {
-              id: FacebookLoginProvider.PROVIDER_ID,
-              provider: new FacebookLoginProvider('clientId')
-            }
-          ]
-        } as SocialAuthServiceConfig,
-      }
     ],
     bootstrap: [AppComponent]
   })

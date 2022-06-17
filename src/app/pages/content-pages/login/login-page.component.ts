@@ -14,18 +14,8 @@ import { Injectable, Injector } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
-import { SocialAuthService } from "angularx-social-login";
-import { SocialUser } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
-
-const options = {
-  clientID: 'com.company.app', // Apple Client ID
-  redirectUri: 'http://localhost:4200/auth/apple/callback',
-  // OPTIONAL
-  state: 'state', // optional, An unguessable random string. It is primarily used to protect against CSRF attacks.
-  responseMode: 'form_post', // Force set to form_post if scope includes 'email'
-  scope: 'email' // optional
-};
+//import Moralis from 'moralis';
+declare let Moralis: any;
 
 @Component({
     selector: 'app-login-page',
@@ -36,8 +26,6 @@ const options = {
 
 export class LoginPageComponent implements OnDestroy, OnInit{
 
-    @ViewChild('f') loginForm: NgForm;
-    //loginForm: FormGroup;
     sending: boolean = false;
 
     isBlockedAccount: boolean = false;
@@ -57,51 +45,28 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     startTime: Date = null;
     finishTime: Date = null;
     isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-
-    user: SocialUser;
     loggedIn: boolean;
+    currentUser: any = null;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector, public toastr: ToastrService, private socialAuthService: SocialAuthService) {
+    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private patientService: PatientService, private inj: Injector, public toastr: ToastrService) {
       //var param = router.parseUrl(router.url).queryParams["email","key"];
-      var param = router.parseUrl(router.url).queryParams;
-      if(param.email && param.key){
-        //activar la cuenta
-        this.subscription.add( this.http.post(environment.api+'/api/activateuser',param)
-          .subscribe( (res : any) => {
-            if(res.message=='activated'){
-              this.isAccountActivated = true;
-              this.email = param.email;
-              this.loginForm.controls['email'].setValue(param.email);
-            }else if(res.message=='error'){
-              this.errorAccountActivated = true;
-            }
-           }, (err) => {
-             console.log(err);
-             this.errorAccountActivated = true;
-           }
-         ));
-
-         this.authService.logout()
-      }else{
-        if(this.authService.getEnvironment()){
-          this.translate.use(this.authService.getLang());
-          sessionStorage.setItem('lang', this.authService.getLang());
-          let url =  this.authService.getRedirectUrl();
-          this.router.navigate([ url ]);
-        }
+      if(this.authService.getEnvironment()){
+        this.translate.use(this.authService.getLang());
+        sessionStorage.setItem('lang', this.authService.getLang());
+        let url =  this.authService.getRedirectUrl();
+        this.router.navigate([ url ]);
       }
      }
 
      ngOnInit() {
-      this.socialAuthService.authState.subscribe((user) => {
-        console.log(user)
-        this.user = user;
-        this.loggedIn = (user != null);
-        if(this.loggedIn){
-          this.getToken();
-          //this.router.navigate(['home'])
-        }
-      });
+
+        Moralis.start({
+          appId:'',
+          serverUrl: ''
+        })
+        Moralis.enableEncryptedUser();
+        Moralis.secret = '';
+
       }
 
      ngOnDestroy() {
@@ -116,56 +81,42 @@ export class LoginPageComponent implements OnDestroy, OnInit{
          }
      }
 
-     submitInvalidForm() {
-       if (!this.loginForm) { return; }
-       const base = this.loginForm;
-       for (const field in base.form.controls) {
-         if (!base.form.controls[field].valid) {
-             base.form.controls[field].markAsTouched()
-         }
-       }
-     }
-
-  getToken() {
-    var password = sha512(this.user.id);
-    var info = { email: this.user.email, password: password, provider: this.user.provider, userName: this.user.firstName, lastName: this.user.lastName, lang: this.authService.getLang() };
-    this.subscription.add(this.authService.signinWith(info).subscribe(
-      authenticated => {
-        this.loginForm.reset();
-        if (authenticated) {
-          //this.translate.setDefaultLang( this.authService.getLang() );
-          this.translate.use(this.authService.getLang());
-          sessionStorage.setItem('lang', this.authService.getLang());
-          this.testHotjarTrigger(this.authService.getLang());
-          let url = this.authService.getRedirectUrl();
-          this.router.navigate([url]);
-          this.sending = false;
-
-        } else {
-          this.sending = false;
-          let message = this.authService.getMessage();
-          if (message == "Login failed" || message == "Not found") {
-            this.isLoginFailed = true;
-          } else {
-            this.toastr.error('', message);
-          }
-        }
+     /* Authentication code */
+     async login() {
+      this.currentUser = Moralis.User.current();
+      console.log(this.currentUser);
+      if (!this.currentUser) {
+        var resuser = await Moralis.authenticate({provider:'web3Auth', clientId:'', appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light'})
+          .then(function (user) {
+            this.currentUser = Moralis.User.current()
+            var data = {moralisId: this.currentUser.id, ethAddress: user.get("ethAddress"), password: user.get("username"), lang: this.translate.store.currentLang};
+            this.onSubmit(data)
+          }.bind(this))
+          .catch(function (error) {
+            console.log(error);
+          });
+      }else{
+        var data = {moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang};
+        this.onSubmit(data)
       }
-    ));
-  }
+}
+
+async logOut() {
+  await Moralis.User.logOut();
+  this.currentUser = null;
+  console.log("logged out");
+}
 
     // On submit button click
-    onSubmit() {
+    onSubmit(data) {
         this.sending = true;
         this.isBlockedAccount = false;
         this.isLoginFailed = false;
         this.isActivationPending = false;
         this.isBlocked = false;
-        this.userEmail = this.loginForm.value.email
-        this.loginForm.value.password= sha512(this.loginForm.value.password)
-    	   this.subscription.add( this.authService.signinUser(this.loginForm.value).subscribe(
+        data.password= sha512(data.password)
+    	   this.subscription.add( this.authService.signinUser(data).subscribe(
     	       authenticated => {
-              this.loginForm.reset();
       		    if(authenticated) {
                  //this.translate.setDefaultLang( this.authService.getLang() );
                  this.translate.use(this.authService.getLang());
@@ -277,21 +228,6 @@ export class LoginPageComponent implements OnDestroy, OnInit{
 
     }
 
-    launchDemo(){
-      this.loginForm.value.email = 'demo@duchenne.org';
-      this.loginForm.value.password = 'dddddddd';
-      this.onSubmit();
-    }
-
-    // On Forgot password link click
-    onForgotPassword() {
-        this.router.navigate(['/forgotpassword']);
-    }
-    // On registration link click
-    onRegister() {
-        this.router.navigate(['/pre-register']);
-    }
-
     testHotjarTrigger(lang){
       var scenarioHotjar = 'generalincoming_en'
       if(lang=='es'){
@@ -300,9 +236,5 @@ export class LoginPageComponent implements OnDestroy, OnInit{
       var eventsLang = this.inj.get(EventsService);
       var ojb = {lang: lang, scenario: scenarioHotjar};
       eventsLang.broadcast('changeEscenarioHotjar', ojb);
-    }
-
-    loginWithGoogle(): void {
-      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     }
 }
