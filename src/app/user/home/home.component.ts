@@ -527,6 +527,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           
         }*/
         this.getUserInfo(false);
+        this.callvc();
       }, (err) => {
         console.log(err);
         this.loadedInfoPatient = true;
@@ -1627,6 +1628,30 @@ saveDataVerfified(){
 
 reloadPage(){
   window.location.reload();
+}
+
+
+callvc(){
+  this.subscription.add( this.http.get(environment.api+'/api/createissuer'+ this.authService.getCurrentPatient().sub)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+issuanceCallback(){
+  var body = {
+      requestId: '0385231e-33a7-4273-ae67-8031837eea9e',
+      code: 'request_retrieved',
+      state: '27P7jcRCJPOSw7Yk1QI1klKqqzUEeYNa'
+    };
+  this.subscription.add( this.http.post(environment.api+'/api/issuer/issuanceCallback', body)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
 }
 
 }
