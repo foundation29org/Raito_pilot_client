@@ -844,14 +844,14 @@ showPanelIssuer(info){
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
         console.log(res);
-        if(res.message=='request_retrieved' || res.message=='Waiting for QR code to be scanned'){
+        if(res.status=='request_retrieved' || res.status=='Waiting for QR code to be scanned'){
           //showQR
           this.pin= info.data.pin;
           this.qrImage = this.transform(info.data.qrCode)
-        }else if(res.message=='issuance_successful'){
+        }else if(res.status=='issuance_successful'){
           this.qrImage = '';
           clearInterval(checkStatus);
-        }else if(res.message=='issuance_error'){
+        }else if(res.status=='issuance_error'){
           this.qrImage = '';
           clearInterval(checkStatus);
         }
