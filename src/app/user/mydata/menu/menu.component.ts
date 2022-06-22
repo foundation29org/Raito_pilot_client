@@ -22,6 +22,8 @@ import { DateAdapter } from '@angular/material/core';
 import { SearchService } from 'app/shared/services/search.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
+import { DomSanitizer } from '@angular/platform-browser';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare let html2canvas: any;
 
 @Component({
@@ -176,8 +178,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     generateUrlQr = '';
     titleSeizuresLegend = [];
     userInfo: any = {};
+    qrImage = '';
+    pin = '';
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -717,6 +721,7 @@ getIndividualShare(){
   .subscribe( (res : any) => {
     console.log(res);
     this.individualShare = res.individualShare;
+    this.getVcs();
    }, (err) => {
      console.log(err);
    }));
@@ -780,7 +785,7 @@ sendShare(){
   if(this.mode=='General'){
     this.setGeneralShare();
   }else if(this.mode=='Individual'){
-    this.setIndividualShare();
+    this.setIndividualShare(false);
   }else{
     this.setCustomShare();
   }
@@ -788,25 +793,39 @@ sendShare(){
 
 fieldStatusChanged(oneCustomShare){
   console.log(oneCustomShare);
+  var updateStatus = false;
+  if(oneCustomShare.status=='Accepted' &&this.newPermission.status!='Accepted'){
+    updateStatus = true;
+  }
   this.newPermission = oneCustomShare;
-  this.setIndividualShare();
+  
+  this.setIndividualShare(updateStatus);
 }
 
-setIndividualShare(){
+setIndividualShare(updateStatus){
   console.log(this.newPermission);
   if(this.newPermission._id != null){
     var found = false;
+    var indexUpdated = -1;
     for (var i = 0; i <= this.individualShare.length && !found; i++) {
       if(this.individualShare[i]._id==this.newPermission._id){
         this.individualShare[i] = this.newPermission;
         found = true;
+        indexUpdated = i;
       }
     }
     if(found){
-      var info = {individualShare: this.individualShare}      
+      var info = {individualShare: this.individualShare, updateStatus: updateStatus, indexUpdated: indexUpdated}      
       this.subscription.add( this.patientService.setIndividualShare(info)
       .subscribe( (res : any) => {
+        //this.getVcs();
         console.log(res);
+        if(res.message == 'qrgenerated'){
+          if(res.data[0].sessionData.message!='issuance_successful'){
+            //show QR instructions
+            this.showPanelIssuer(res.data[0]);
+          }
+        }
         this.getIndividualShare();
         this.resetPermisions();
         this.showNewCustom=false;
@@ -816,8 +835,35 @@ setIndividualShare(){
         this.loadedShareData = true;
       }));
     }
-    
   }
+}
+
+showPanelIssuer(info){
+  var checkStatus = setInterval(function () {
+
+    this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
+    .subscribe( (res : any) => {
+        console.log(res);
+        if(res.message=='request_retrieved' || res.message=='Waiting for QR code to be scanned'){
+          //showQR
+          this.pin= info.data.pin;
+          this.qrImage = this.transform(info.data.qrCode)
+        }else if(res.message=='issuance_successful'){
+          this.qrImage = '';
+          clearInterval(checkStatus);
+        }else if(res.message=='issuance_error'){
+          this.qrImage = '';
+          clearInterval(checkStatus);
+        }
+    }, (err) => {
+      console.log(err.error);
+    }));
+  }.bind(this), 2500);
+}
+
+//Call this method in the image source, it will sanitize it.
+transform(img){
+  return this.sanitizer.bypassSecurityTrustResourceUrl(img);
 }
 
 setGeneralShare(){
@@ -1857,6 +1903,56 @@ loadDataRangeDate(rangeDate) {
   this.normalized = true;
   this.normalized2 = true;
   this.loadData();
+}
+
+callvc(){
+  this.subscription.add( this.http.get(environment.api+'/api/createissuer/'+ this.authService.getCurrentPatient().sub)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+issuanceCallback(){
+  var body = {
+      requestId: '0385231e-33a7-4273-ae67-8031837eea9e',
+      code: 'request_retrieved',
+      state: '27P7jcRCJPOSw7Yk1QI1klKqqzUEeYNa'
+    };
+  this.subscription.add( this.http.post(environment.api+'/api/issuer/issuanceCallback', body)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+getIssuanceResponse(){
+  var status = '62b08d846216ba1f38f9559e';
+  this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+ status)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+getVcs(){
+  this.subscription.add( this.http.get(environment.api+'/api/issuer/getAll/'+ this.authService.getCurrentPatient().sub)
+  .subscribe( (res : any) => {
+      if(res.listsessions.length>0){
+        for (var i = 0; i < res.listsessions.length; i++) {
+          for (var j = 0; j < this.individualShare.length; j++) {
+            if(res.listsessions[i].sharedWith==this.individualShare[j].idUser && this.individualShare[j].status == 'Accepted' && res.listsessions[i].sessionData.message == 'Waiting for QR code to be scanned'){
+              this.individualShare[j].infoQr = res.listsessions[i];
+            }
+          }
+        }
+      }
+   }, (err) => {
+     console.log(err.error);
+   }));
 }
 
 }

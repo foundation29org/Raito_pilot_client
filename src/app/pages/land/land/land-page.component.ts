@@ -55,31 +55,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
             this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         }.bind(this));
-        //this.callvc();
     }
-
-    callvc(){
-        this.subscription.add( this.http.get(environment.api+'/api/createissuer')
-        .subscribe( (res : any) => {
-            console.log(res);
-         }, (err) => {
-           console.log(err.error);
-         }));
-      }
-
-      issuanceCallback(){
-        var body = {
-            requestId: '0385231e-33a7-4273-ae67-8031837eea9e',
-            code: 'request_retrieved',
-            state: '27P7jcRCJPOSw7Yk1QI1klKqqzUEeYNa'
-          };
-        this.subscription.add( this.http.post(environment.api+'/api/issuer/issuanceCallback', body)
-        .subscribe( (res : any) => {
-            console.log(res);
-         }, (err) => {
-           console.log(err.error);
-         }));
-      }
 
     ngOnDestroy() {
 

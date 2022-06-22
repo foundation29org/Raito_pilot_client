@@ -527,7 +527,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           
         }*/
         this.getUserInfo(false);
-        this.callvc();
       }, (err) => {
         console.log(err);
         this.loadedInfoPatient = true;
@@ -1491,7 +1490,7 @@ saveDataVeriff(){
 createSesion(){
   var date = new Date();
   date.toISOString();
-  var params = {"verification":{"person":{"firstName":this.userInfo.userName,"lastName":this.userInfo.lastName},"vendorData":this.userInfo.isUser,"timestamp":date}};
+  var params = {"verification":{"person":{"firstName":this.userInfo.userName,"lastName":this.userInfo.lastName},"vendorData":this.userInfo.idUser,"timestamp":date}};
   this.subscription.add(this.http.post('https://api.veriff.me/v1/sessions', params)
     .subscribe((res: any) => {
       console.log(res);
@@ -1628,30 +1627,6 @@ saveDataVerfified(){
 
 reloadPage(){
   window.location.reload();
-}
-
-
-callvc(){
-  this.subscription.add( this.http.get(environment.api+'/api/createissuer'+ this.authService.getCurrentPatient().sub)
-  .subscribe( (res : any) => {
-      console.log(res);
-   }, (err) => {
-     console.log(err.error);
-   }));
-}
-
-issuanceCallback(){
-  var body = {
-      requestId: '0385231e-33a7-4273-ae67-8031837eea9e',
-      code: 'request_retrieved',
-      state: '27P7jcRCJPOSw7Yk1QI1klKqqzUEeYNa'
-    };
-  this.subscription.add( this.http.post(environment.api+'/api/issuer/issuanceCallback', body)
-  .subscribe( (res : any) => {
-      console.log(res);
-   }, (err) => {
-     console.log(err.error);
-   }));
 }
 
 }
