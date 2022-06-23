@@ -425,7 +425,7 @@
                     <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">Iniciar proceso para aceptar acceso</button>
                 </div>
                 <div *ngIf="oneCustomShare.status == 'Accepted'">
-                    <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Rejected' | translate }}</button>
+                    <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
                 </div>
                 <div *ngIf="qrImage!=''">
                     <img [src]="qrImage">
