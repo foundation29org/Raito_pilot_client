@@ -402,7 +402,7 @@
                             <span *ngIf="oneCustomShare.status =='Rejected'" class="grey">
                                 {{'generics.Rejected' | translate }}
                             </span>
-                            <div *ngIf="oneCustomShare.status != 'Accepted' && (!oneCustomShare.infoQr && qrImage=='')">
+                            <div *ngIf="oneCustomShare.status != 'Accepted' && (!oneCustomShare.infoQr && qrImage=='') && !startingProcess">
                                 <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">Iniciar proceso para aceptar acceso</button>
                             </div>
                             <div *ngIf="oneCustomShare.status == 'Accepted'">
@@ -413,7 +413,7 @@
                                     <img [src]="qrImage">
                                     <span class="white d-block">PIN: {{pin}}</span>
                                 </div>
-                                <div *ngIf="qrImage=='' && oneCustomShare.infoQr">
+                                <div *ngIf="qrImage=='' && inProcess">
                                     <span class="white">Acepta o rechaza en el movil</span>
                                 </div>
                             </div>

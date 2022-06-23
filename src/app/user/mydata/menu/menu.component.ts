@@ -180,7 +180,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     userInfo: any = {};
     qrImage = '';
     pin = '';
-    inProcess: boolean = true;
+    startingProcess: boolean = false;
+    inProcess: boolean = false;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
@@ -795,6 +796,7 @@ sendShare(){
 
 fieldStatusChanged(oneCustomShare, index){
   console.log(oneCustomShare);
+  this.startingProcess = true;
   this.individualShare[index].status = 'Pending'
   this.newPermission = oneCustomShare;
   this.setIndividualShare(true);
@@ -860,12 +862,12 @@ setIndividualShare(updateStatus){
 
 
 showPanelIssuer(info){
-  this.inProcess = true;
   var checkStatus = setInterval(function () {
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
         console.log(res);
+        this.inProcess = true;
         if(res.message=='Waiting for QR code to be scanned'){
           //showQR
           this.pin= info.data.pin;
@@ -876,10 +878,12 @@ showPanelIssuer(info){
           this.qrImage = '';
           this.changeStatus(info._idIndividualShare);
           this.inProcess = false;
+          this.startingProcess = false;
           clearInterval(checkStatus);
         }else if(res.status=='issuance_error'){
           this.qrImage = '';
           this.inProcess = false;
+          this.startingProcess = false;
           clearInterval(checkStatus);
         }
     }, (err) => {
