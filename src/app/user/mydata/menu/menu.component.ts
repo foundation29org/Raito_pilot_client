@@ -735,7 +735,8 @@ openRequester(clinicalProfilePanel, oneCustomShare){
     windowClass: 'ModalClass-sm'// xl, lg, sm
   };
   this.modalProfileReference = this.modalService.open(clinicalProfilePanel, ngbModalOptions);
-  this.getUserInfo(oneCustomShare);
+  this.userInfo = oneCustomShare.userInfo;
+  //this.getUserInfo(oneCustomShare);
 }
 
 getUserInfo(oneCustomShare) {

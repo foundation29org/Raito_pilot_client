@@ -370,6 +370,70 @@
     <div>
       <h5>{{'open.Access requests' | translate }}</h5>
     </div>
+
+    <div *ngFor="let oneCustomShare of individualShare ; let i = index">
+        <div class="col-md-4 pt-2 mt-2" >
+            <div class="card dash2-user bg-info">
+              <div class="card-content">
+                  <div class="card-body">
+                      <div class="text-center mb-4">
+                          <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
+                          <h4 class="mb-0 mt-2 white">
+                              {{oneCustomShare.userInfo.userName}}  {{oneCustomShare.userInfo.lastName}} 
+                          </h4>
+                          <p class="white">{{oneCustomShare.userInfo.email}} </p>
+                      </div>
+                      <div>
+                        <h5 class="mb-0 white">Access to:</h5>
+                        <span *ngIf="oneCustomShare.data.patientInfo" class="grey">{{'open.perm1title' | translate }}</span>
+                        <span *ngIf="oneCustomShare.data.medicalInfo" class="grey d-block">{{'open.perm2title' | translate }}</span>
+                        <div *ngIf="oneCustomShare.notes!=''" class="mt-2">
+                            <h5 class="mb-0 white">{{'generics.notes' | translate }}</h5>
+                            <span class="grey">{{oneCustomShare.notes}}</span>
+                        </div>
+                        <div class="mt-2">
+                            <h5 class="mb-0 white">{{'generics.Status' | translate }}</h5>
+                            <span *ngIf="oneCustomShare.status =='Pending'" class="grey">
+                                {{'generics.Pending' | translate }}
+                            </span>
+                            <span *ngIf="oneCustomShare.status =='Accepted'" class="grey">
+                                {{'generics.Accepted' | translate }}
+                            </span>
+                            <span *ngIf="oneCustomShare.status =='Rejected'" class="grey">
+                                {{'generics.Rejected' | translate }}
+                            </span>
+                            <div *ngIf="oneCustomShare.status != 'Accepted' && (!oneCustomShare.infoQr && qrImage=='')">
+                                <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">Iniciar proceso para aceptar acceso</button>
+                            </div>
+                            <div *ngIf="oneCustomShare.status == 'Accepted'">
+                                <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
+                            </div>
+                            <div *ngIf="inProcess && oneCustomShare.status =='Pending'">
+                                <div *ngIf="qrImage!=''">
+                                    <img [src]="qrImage">
+                                    PIN: {{pin}}
+                                </div>
+                                <div *ngIf="qrImage==''">
+                                    Acepta o rechaza en el movil
+                                </div>
+                            </div>
+                            
+                            <div *ngIf="oneCustomShare.infoQr && qrImage=='' ">
+                                <button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">Continue process</button>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0 white">{{'generics.Date' | translate }}</h5>
+                            <span class="grey">{{oneCustomShare.date | date}}</span>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+    </div>
+    
+
     <div class="table-responsive">
       <table class="col-md-12 table" *ngIf="loadedShareData">
         <thead>
@@ -427,7 +491,7 @@
                 <div *ngIf="oneCustomShare.status == 'Accepted'">
                     <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
                 </div>
-                <div *ngIf="inProcess">
+                <div *ngIf="inProcess && oneCustomShare.status =='Pending'">
                     <div *ngIf="qrImage!=''">
                         <img [src]="qrImage">
                         PIN: {{pin}}
