@@ -791,16 +791,34 @@ sendShare(){
   }
 }
 
-fieldStatusChanged(oneCustomShare){
+fieldStatusChanged(oneCustomShare, index){
+  console.log(oneCustomShare);
+  this.individualShare[index].status = 'Pending'
+  this.newPermission = oneCustomShare;
+  this.setIndividualShare(true);
+}
+
+reject(oneCustomShare, index){
+  console.log(oneCustomShare);
+  this.individualShare[index].status = 'Rejected'
+  this.newPermission = oneCustomShare;
+  this.setIndividualShare(false);
+}
+
+/*fieldStatusChanged(oneCustomShare, index){
   console.log(oneCustomShare);
   var updateStatus = false;
   if(oneCustomShare.status=='Accepted' &&this.newPermission.status!='Accepted'){
     updateStatus = true;
+    this.individualShare[index].status = 'Pending'
+    this.newPermission = oneCustomShare;
+    this.setIndividualShare(updateStatus);
+  }else{
+    this.newPermission = oneCustomShare;
+    this.setIndividualShare(updateStatus);
   }
-  this.newPermission = oneCustomShare;
   
-  this.setIndividualShare(updateStatus);
-}
+}*/
 
 setIndividualShare(updateStatus){
   console.log(this.newPermission);
@@ -838,18 +856,20 @@ setIndividualShare(updateStatus){
   }
 }
 
+
 showPanelIssuer(info){
   var checkStatus = setInterval(function () {
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
         console.log(res);
-        if(res.status=='request_retrieved' || res.status=='Waiting for QR code to be scanned'){
+        if(res.status=='request_retrieved' || res.message=='Waiting for QR code to be scanned'){
           //showQR
           this.pin= info.data.pin;
           this.qrImage = this.transform(info.data.qrCode)
         }else if(res.status=='issuance_successful'){
           this.qrImage = '';
+          this.changeStatus(info._idIndividualShare);
           clearInterval(checkStatus);
         }else if(res.status=='issuance_error'){
           this.qrImage = '';
@@ -859,6 +879,19 @@ showPanelIssuer(info){
       console.log(err.error);
     }));
   }.bind(this), 2500);
+}
+
+changeStatus(_idIndividualShare){
+  var found = false;
+  for (var j = 0; j < this.individualShare.length && !found; j++) {
+    if(this.individualShare[j]._id == _idIndividualShare){
+      found =true;
+      this.newPermission = this.individualShare[j];
+      this.newPermission.status = 'Accepted'
+      this.setIndividualShare(false);
+    }
+  }
+  
 }
 
 //Call this method in the image source, it will sanitize it.
@@ -1944,7 +1977,7 @@ getVcs(){
       if(res.listsessions.length>0){
         for (var i = 0; i < res.listsessions.length; i++) {
           for (var j = 0; j < this.individualShare.length; j++) {
-            if(res.listsessions[i].sharedWith==this.individualShare[j].idUser && this.individualShare[j].status == 'Accepted' && res.listsessions[i].sessionData.message == 'Waiting for QR code to be scanned'){
+            if(res.listsessions[i].sharedWith==this.individualShare[j].idUser && this.individualShare[j].status == 'Pending' && res.listsessions[i].sessionData.message == 'Waiting for QR code to be scanned'){
               this.individualShare[j].infoQr = res.listsessions[i];
             }
           }
