@@ -180,6 +180,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     userInfo: any = {};
     qrImage = '';
     pin = '';
+    inProcess: boolean = true;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
@@ -858,21 +859,26 @@ setIndividualShare(updateStatus){
 
 
 showPanelIssuer(info){
+  this.inProcess = true;
   var checkStatus = setInterval(function () {
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
         console.log(res);
-        if(res.status=='request_retrieved' || res.message=='Waiting for QR code to be scanned'){
+        if(res.message=='Waiting for QR code to be scanned'){
           //showQR
           this.pin= info.data.pin;
           this.qrImage = this.transform(info.data.qrCode)
+        }else if(res.status=='request_retrieved'){
+          this.qrImage = '';
         }else if(res.status=='issuance_successful'){
           this.qrImage = '';
           this.changeStatus(info._idIndividualShare);
+          this.inProcess = false;
           clearInterval(checkStatus);
         }else if(res.status=='issuance_error'){
           this.qrImage = '';
+          this.inProcess = false;
           clearInterval(checkStatus);
         }
     }, (err) => {

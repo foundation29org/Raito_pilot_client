@@ -427,10 +427,16 @@
                 <div *ngIf="oneCustomShare.status == 'Accepted'">
                     <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
                 </div>
-                <div *ngIf="qrImage!=''">
-                    <img [src]="qrImage">
-                    PIN: {{pin}}
+                <div *ngIf="inProcess">
+                    <div *ngIf="qrImage!=''">
+                        <img [src]="qrImage">
+                        PIN: {{pin}}
+                    </div>
+                    <div *ngIf="qrImage==''">
+                        Acepta o rechaza en el movil
+                    </div>
                 </div>
+                
                 <div *ngIf="oneCustomShare.infoQr && qrImage=='' ">
                     <button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">Continue process</button>
                 </div>
