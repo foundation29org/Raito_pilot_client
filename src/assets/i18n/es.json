@@ -1738,14 +1738,19 @@
     "perm4desc": "Información genética",
     "The accesses to your data will be shown here": "Los accesos a tus datos se mostrarán aquí",
     "Nobody has accessed your data": "Nadie ha accedido a tus datos",
-    "Customized sharing": "Enlaces creados",
+    "Customized sharing": "Invitaciones creadas",
     "Access requests": "Peticiones de acceso",
     "Operations": "Operaciones",
     "Copy url": "Copiar enlace",
     "Requester": "Solicitante",
     "InfoPermissions": "Seleccione qué información podrán ver los investigadores. También puede añadir una nota informativa.",
     "nosharing": "No ha creado ningún enlace de compartición",
-    "Create link": "Crear enlace"
+    "Create link": "Crear invitación",
+    "Notecustom": "Invitación creada automáticamente al generar el PDF.",
+    "Accept access": "Aceptar acceso",
+    "Scan with Microsoft Authenticator": "Escanea con Microsoft Authenticator",
+    "Accept or reject from mobile": "Accept or reject from mobile",
+    "Access to": "Acceso a"
   },
   "identity":{
     "t0": "Verificar",

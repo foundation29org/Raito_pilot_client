@@ -1737,14 +1737,19 @@
     "perm4desc": "Genetic information",
     "The accesses to your data will be shown here": "The accesses to your data will be shown here",
     "Nobody has accessed your data": "Nobody has accessed your data",
-    "Customized sharing": "Links created",
+    "Customized sharing": "Invitations created",
     "Access requests": "Access requests",
     "Operations": "Operations",
     "Copy url": "Copy link",
     "Requester": "Requester",
     "InfoPermissions": "Select what information researchers will be able to see. You can also add an informative note.",
     "nosharing": "You have not created any sharing links",
-    "Create link": "Create link"
+    "Create link": "Create invitation",
+    "Notecustom": "Invitation created automatically when generating the PDF.",
+    "Accept access": "Accept access",
+    "Scan with Microsoft Authenticator": "Scan with Microsoft Authenticator",
+    "Accept or reject from mobile": "Accept or reject from mobile",
+    "Access to": "Access to"
   },
   "identity":{
     "t0": "Verify",

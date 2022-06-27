@@ -43,7 +43,7 @@
                                               <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
                                           </div>
                                           <div class="col-md-12 center-elements">
-                                              <button class="btn btn-dark" type="button"
+                                              <button class="btn btn-dark" type="button" href="#myModal"
                                               (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
                                           </div>
                                       </div>
@@ -242,10 +242,10 @@
 <ng-template #shareCustom let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header pb-0" id="idHeader">
         <h4>{{'dashboardpatient.Share' | translate }}
-    <span class="font-small-2 d-block mt-1"></span>
+    <span class="font-small-2 d-block mt-1" *ngIf="loadedShareData && showNewCustom">{{newPermission.date | date}} </span>
   </h4>
 
-        <button type="button" class="close" aria-label="Close" (click)="closeModalShare();">
+        <button type="button" class="close" aria-label="Close" (click)="closeModalShare();" *ngIf="!showNewCustom">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -277,7 +277,6 @@
         </div>
     </div>
     <div class="col-md-12">
-      {{newPermission|json}}
       <div class="center-elements" *ngIf="!sending">
         <button class="btn btn-secondary mr-1" (click)="cancelCustom()"><span>{{'generics.Cancel' | translate }}</span></button>
         <div *ngIf="f.valid;then formValid else formError"></div>
@@ -299,92 +298,77 @@
  
   <div class="col-md-12 pt-2 mt-2">
     <div *ngIf="!showNewCustom">
-      <h5>{{'open.Customized sharing' | translate }}
-        <button *ngIf="listCustomShare.length>0" class="btn btn-dark btn-sm float-right" type="button" (click)="addCustom()">{{'open.Create link' | translate }}</button>
+      <h5><strong>{{'open.Customized sharing' | translate }}</strong>
+        <button *ngIf="listCustomShare.length>0" class="mt-2 btn btn-dark btn-sm d-block" type="button" (click)="addCustom()">{{'open.Create link' | translate }}</button>
       </h5>
     </div>
     <div *ngIf="listCustomShare.length==0 && !showNewCustom && !sending && !loading">
       <span class="d-block">{{'open.nosharing' | translate }}</span>
       <button *ngIf="listCustomShare.length==0" class="mt-1 btn btn-dark btn-sm" type="button" (click)="addCustom()">{{'open.Create link' | translate }}</button>
     </div>
-    <div class="table-responsive"  *ngIf="listCustomShare.length>0 && !showNewCustom && !sending && !loading">
-      <table class="col-md-12 table" *ngIf="loadedShareData">
-        <thead>
-          <tr>
-            <th style="width:30%">{{'open.perm1title' | translate }}</th>
-            <th style="width:20%">{{'open.perm2title' | translate }}</th>
-            <!--<th style="width:10%">{{'open.perm3title' | translate }}</th>
-            <th style="width:10%">{{'open.perm4title' | translate }}</th>-->
-            <th style="width:20%">{{'generics.notes' | translate }}</th>
-            <!--<th style="width:10%">{{'open.Operations' | translate }}</th>-->
-            <th style="width:10%">{{'generics.Date' | translate }}</th>
-            <th style="width:10%">{{'generics.Options' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let oneCustomShare of listCustomShare ; let i = index">
-            <td>
-                <em *ngIf="oneCustomShare.data.patientInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.patientInfo" class="fa fa-times danger"></em>
-            </td>
-            <td>
-                <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
-            </td>
-            <!--<td>
-                <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
-            </td>
-            <td>
-                <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
-            </td>-->
-            <td *ngIf="oneCustomShare.notes!=''">{{oneCustomShare.notes}}</td>
-            <td *ngIf="oneCustomShare.notes==''">-</td>
-            <!--<td>{{oneCustomShare.operations|json}}</td>-->
-            <td>{{oneCustomShare.date | date}}</td>
-            <td>
-              <span class="pull-right mr-2">
-                <button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="showQR(oneCustomShare.token, qrPanel)">
-                  <i class="fas fa-share"></i>
-                </button>
-              </span>
-              <span class="pull-right mr-2">
-                <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
-                  <i class="ft-edit"></i>
-                </a>
-              </span>
-              <span class="pull-right">
-                <a class="btn btn-primary btn-sm" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
-                  <i class="ft-trash"></i>
-                </a>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div *ngIf="listCustomShare.length>0 && !showNewCustom && !sending && !loading" class="row row-flex">
+        <div *ngFor="let oneCustomShare of listCustomShare ; let i = index"  class="col-md-6 col-xl-4" >
+            <div class="card dash2-user gradient-green content" id="panelCustomShare">
+                <div class="card-content" style="min-height: 200px;">
+                    <div class="card-body row">
+                    <div class="" [ngClass]="(widthPanelCustomShare<433)?'col-12':'col-7'">
+                        <h5 class="mb-0 white">{{'open.Access to' | translate }}:</h5>
+                        <span *ngIf="oneCustomShare.data.patientInfo" class="grey">{{'open.perm1title' | translate }}</span>
+                        <span *ngIf="oneCustomShare.data.medicalInfo" class="grey d-block">{{'open.perm2title' | translate }}</span>
+                        <div *ngIf="oneCustomShare.notes!=''" class="mt-2">
+                            <h5 class="mb-0 white">{{'generics.notes' | translate }}</h5>
+                            <span class="grey">{{oneCustomShare.notes}}</span>
+                        </div>
+                        <h5 class="mb-0 white mt-2">{{'generics.Date' | translate }}</h5>
+                        <span class="grey">{{oneCustomShare.date | date}}</span>
+                    </div>
+                    <div class=""  [ngClass]="(widthPanelCustomShare<433)?'col-md-12 mt-2':'col-5 imgqr'">
+                        <qrcode  [ngClass]="(widthPanelCustomShare<433)?'':'sample'" id="qrcodeimg" [qrdata]="urlOpenRaito + oneCustomShare.token" elementType="url" [width]="120" [errorCorrectionLevel]="'M'"></qrcode>
+                    </div>
+                    <div class="row bottonsactions"  >
+                        <div class="float-right" [ngClass]="(widthPanelCustomShare<300)?'bottonsactionsSm mt-2':'bottonsactionsDefault'">
+                            <span class="mr-2">
+                                <button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="showQR(oneCustomShare.token, qrPanel)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                                </span>
+                                <span class="mr-2">
+                                <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
+                                    <i class="ft-edit"></i>
+                                </a>
+                                </span>
+                                <span class="">
+                                <a class="btn btn-primary btn-sm" data-original-title="" title="{{'generics.Delete' | translate }}" (click)="confirmRevoke(i)">
+                                    <i class="ft-trash"></i>
+                                </a>
+                                </span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
     </div>
   </div>
-  <div class="col-md-12 pt-2 mt-2" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
+  <div class="col-md-12 pt-2 mt-4" *ngIf="individualShare.length>0 && !showNewCustom && !sending && !loading">
     <div>
-      <h5>{{'open.Access requests' | translate }}</h5>
+      <h5><strong>{{'open.Access requests' | translate }}</strong></h5>
     </div>
-
-    <div *ngFor="let oneCustomShare of individualShare ; let i = index">
-        <div class="col-md-4 pt-2 mt-2" >
-            <div class="card dash2-user bg-info">
-              <div class="card-content">
-                  <div class="card-body">
-                      <div class="text-center mb-4">
-                          <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
-                          <h4 class="mb-0 mt-2 white">
-                              {{oneCustomShare.userInfo.userName}}  {{oneCustomShare.userInfo.lastName}} 
-                          </h4>
-                          <p class="white">{{oneCustomShare.userInfo.email}} </p>
-                      </div>
-                      <div>
-                        <h5 class="mb-0 white">Access to:</h5>
+    <div class="row row-flex">
+        <div *ngFor="let oneCustomShare of individualShare ; let i = index" class="col-md-6 col-xl-4" >
+            <div class="card dash2-user gradient-green content">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
+                            <h4 class="mb-0 mt-2 white">
+                                {{oneCustomShare.userInfo.userName}}  {{oneCustomShare.userInfo.lastName}} 
+                            </h4>
+                            <p class="white">{{oneCustomShare.userInfo.email}} </p>
+                        </div>
+                        <div>
+                        <h5 class="mb-0 white">{{'open.Access to' | translate }}:</h5>
                         <span *ngIf="oneCustomShare.data.patientInfo" class="grey">{{'open.perm1title' | translate }}</span>
                         <span *ngIf="oneCustomShare.data.medicalInfo" class="grey d-block">{{'open.perm2title' | translate }}</span>
                         <div *ngIf="oneCustomShare.notes!=''" class="mt-2">
@@ -403,180 +387,39 @@
                                 {{'generics.Rejected' | translate }}
                             </span>
                             <div *ngIf="oneCustomShare.status != 'Accepted' && (!oneCustomShare.infoQr && qrImage=='') && !startingProcess">
-                                <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">Iniciar proceso para aceptar acceso</button>
+                                <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">{{'open.Accept access' | translate }}</button>
                             </div>
                             <div *ngIf="oneCustomShare.status == 'Accepted'">
-                                <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
+                                <button class="btn btn-primary btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
                             </div>
                             <div *ngIf="inProcess && oneCustomShare.status =='Pending'" class="mt-2 mb-2">
                                 <div *ngIf="qrImage!=''">
+                                    <h5>{{'open.Scan with Microsoft Authenticator' | translate }}</h5>
                                     <img [src]="qrImage">
                                     <span class="white d-block">PIN: {{pin}}</span>
                                 </div>
                                 <div *ngIf="qrImage=='' && inProcess">
-                                    <span class="white">Acepta o rechaza en el movil</span>
+                                    <span class="white">{{'open.Accept or reject from mobile' | translate }}</span>
                                 </div>
                             </div>
                             
-                            <div *ngIf="oneCustomShare.infoQr && qrImage=='' ">
-                                <button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">Continue process</button>
+                            <div *ngIf="oneCustomShare.infoQr && qrImage=='' && !startingProcess">
+                                <button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">{{'open.Accept access' | translate }}</button>
                             </div>
                         </div>
                         <div>
                             <h5 class="mb-0 white">{{'generics.Date' | translate }}</h5>
                             <span class="grey">{{oneCustomShare.date | date}}</span>
                         </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          </div>
-    </div>
-    
-
-    <div class="table-responsive">
-      <table class="col-md-12 table" *ngIf="loadedShareData">
-        <thead>
-          <tr>
-            <th style="width:10%">{{'open.Requester' | translate }}</th>
-            <th style="width:30%">{{'open.perm1title' | translate }}</th>
-            <th style="width:20%">{{'open.perm2title' | translate }}</th>
-            <!--<th style="width:10%">{{'open.perm3title' | translate }}</th>
-            <th style="width:10%">{{'open.perm4title' | translate }}</th>-->
-            <th style="width:20%">{{'generics.notes' | translate }}</th>
-            <th style="width:10%">{{'generics.Status' | translate }}</th>
-            <!--<th style="width:10%">{{'open.Operations' | translate }}</th>-->
-            <th style="width:10%">{{'generics.Date' | translate }}</th>
-            <th style="width:10%">{{'generics.Options' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let oneCustomShare of individualShare ; let i = index">
-            <td>
-              <a class="info" data-original-title="" title="{{'generics.Read more' | translate }}" (click)="openRequester(clinicalProfilePanel, oneCustomShare)">
-                <i class="ft-eye"></i>
-              </a>
-            </td>
-            <td>
-                <em *ngIf="oneCustomShare.data.patientInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.patientInfo" class="fa fa-times danger"></em>
-            </td>
-            <td>
-                <em *ngIf="oneCustomShare.data.medicalInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.medicalInfo" class="fa fa-times danger"></em>
-            </td>
-            <!--<td>
-                <em *ngIf="oneCustomShare.data.devicesInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.devicesInfo" class="fa fa-times danger"></em>
-            </td>
-            <td>
-                <em *ngIf="oneCustomShare.data.genomicsInfo" class="fa fa-check success"></em>
-                <em *ngIf="!oneCustomShare.data.genomicsInfo" class="fa fa-times danger"></em>
-            </td>-->
-            <td *ngIf="oneCustomShare.notes!=''">{{oneCustomShare.notes}}</td>
-            <td *ngIf="oneCustomShare.notes==''">-</td>
-            <td>
-                <span *ngIf="oneCustomShare.status =='Pending'">
-                    {{'generics.Pending' | translate }}
-                </span>
-                <span *ngIf="oneCustomShare.status =='Accepted'">
-                    {{'generics.Accepted' | translate }}
-                </span>
-                <span *ngIf="oneCustomShare.status =='Rejected'">
-                    {{'generics.Rejected' | translate }}
-                </span>
-                <div *ngIf="oneCustomShare.status != 'Accepted' && (!oneCustomShare.infoQr && qrImage=='')">
-                    <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">Iniciar proceso para aceptar acceso</button>
-                </div>
-                <div *ngIf="oneCustomShare.status == 'Accepted'">
-                    <button class="btn btn-dark btn-sm" (click)="reject(oneCustomShare, i);">{{'generics.Reject' | translate }}</button>
-                </div>
-                <div *ngIf="inProcess && oneCustomShare.status =='Pending'">
-                    <div *ngIf="qrImage!=''">
-                        <img [src]="qrImage">
-                        PIN: {{pin}}
-                    </div>
-                    <div *ngIf="qrImage==''">
-                        Acepta o rechaza en el movil
-                    </div>
-                </div>
-                
-                <div *ngIf="oneCustomShare.infoQr && qrImage=='' ">
-                    <button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">Continue process</button>
-                </div>
-              <!--<select id="status" name="status{{i}}" [(ngModel)]="oneCustomShare.status" (change)="fieldStatusChanged(oneCustomShare, i)">
-								<option value="Pending">{{'generics.Pending' | translate }}</option>
-								<option value="Accepted">{{'generics.Accepted' | translate }}</option>
-                                <option value="Rejected">{{'generics.Rejected' | translate }}</option>
-							</select>-->
-                            
-                            
-            </td>
-            <!--<td>{{oneCustomShare.operations|json}}</td>-->
-            <td>{{oneCustomShare.date | date}}</td>
-            <td>
-              <span class="pull-right">
-                <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editindividual(i)">
-                  <i class="ft-edit"></i>
-                </a>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #clinicalProfilePanel let-c="close" let-d="dismiss" appendTo="body">
-  <div class="modal-header pb-0" id="idHeader">
-      <h4>Profile
-  <span class="font-small-2 d-block mt-1"></span>
-</h4>
-
-      <button type="button" class="close" aria-label="Close" (click)="closeModalProfile();">
-          <span aria-hidden="true">&times;</span>
-      </button>
-  </div>
-<div class="col-md-12 bg-grey bg-lighten-3 pt-2 mt-2" >
-  <div class="card dash2-user">
-    <div class="card-content">
-        <div class="card-body">
-            <div class="text-center mb-4">
-                <em class="fa-solid fa-user-doctor avatar mb-2 fa-4x"></em>
-                <h4 class="mb-0 mt-2">
-                    {{userInfo.userName}}  {{userInfo.lastName}} 
-                </h4>
-                <p class="grey">{{userInfo.email}} </p>
-                <!--
-                <div class="d-flex justify-content-center align-items-center mt-3">
-                    <div class="dash-followers mr-4">
-                        <div class="d-flex justify-content-center align-items-center">
-                            <div class="ml-2">
-                                <h5 class="mb-0">
-                                  Geneticist
-                                </h5>
-                                <span class="grey">Specialty</span>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center align-items-center mt-3">
-                  <div class="ml-2">
-                      <h5 class="mb-0">
-                        I am a family doctor and a specialist in genetics from the UMA
-                      </h5>
-                      <span class="grey">{{'generics.Description' | translate }}</span>
-                  </div>
-              </div>
-            -->
             </div>
-            
         </div>
+        <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
     </div>
-</div>
-</div>
+    
+  </div>
 </ng-template>
 
 <ng-template #pdfPanel let-c="close" let-d="dismiss" appendTo="body">
@@ -604,7 +447,7 @@
         </span>
 
         <div class="mt-2" >
-          <qrcode style="width: fit-content;display: inline-block;" id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="128" [errorCorrectionLevel]="'M'"></qrcode>
+          <qrcode id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="128" [errorCorrectionLevel]="'M'"></qrcode>
         </div>
     </div>
 </div>
@@ -957,7 +800,7 @@
 <div class="modal-body card mb-0">
   <div class="row">
     <div class="col-md-12 center-elements">
-      <qrcode style="width: fit-content;display: inline-block;" id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+      <qrcode id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
 
       <a class="d-block btn btn-info mt-2" (click)="copyClipboard2()">{{'open.Copy url' | translate }}</a>
     </div>

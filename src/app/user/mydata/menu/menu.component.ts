@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -182,6 +182,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     pin = '';
     startingProcess: boolean = false;
     inProcess: boolean = false;
+    urlOpenRaito: string = environment.urlOpenRaito;
+    widthPanelCustomShare = null;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
@@ -700,7 +702,7 @@ loadCustomShare(state){
   if(state){
     this.resetPermisions();
     this.newPermission.data={patientInfo:true, medicalInfo:true,devicesInfo:false, genomicsInfo:false}
-    this.newPermission.notes = 'QR code';
+    this.newPermission.notes = this.translate.instant("open.Notecustom");
       this.generateUrlQr= 'https://openraito.azurewebsites.net'+this.newPermission.token;
   }
   this.loadedShareData = false;
@@ -712,6 +714,11 @@ loadCustomShare(state){
     if(state){
       this.setCustomShare();
     }
+    setTimeout(function () {
+      if(!this.showNewCustom && this.listCustomShare.length>0){
+        this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
+      }
+    }.bind(this), 200);
    }, (err) => {
      console.log(err);
      this.loadedShareData = true;
@@ -727,17 +734,6 @@ getIndividualShare(){
    }, (err) => {
      console.log(err);
    }));
-}
-
-openRequester(clinicalProfilePanel, oneCustomShare){
-  let ngbModalOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
-    windowClass: 'ModalClass-sm'// xl, lg, sm
-  };
-  this.modalProfileReference = this.modalService.open(clinicalProfilePanel, ngbModalOptions);
-  this.userInfo = oneCustomShare.userInfo;
-  //this.getUserInfo(oneCustomShare);
 }
 
 getUserInfo(oneCustomShare) {
@@ -764,13 +760,6 @@ openModal(modaltemplate){
         windowClass: 'ModalClass-xl'// xl, lg, sm
   };
   this.modalReference = this.modalService.open(modaltemplate, ngbModalOptions);
-}
-
-editindividual(i){
-  this.newPermission= this.individualShare[i];
-  this.mode = 'Individual';
-  console.log(this.newPermission);
-  this.showNewCustom = true;
 }
 
 submitInvalidForm() {
@@ -862,18 +851,17 @@ setIndividualShare(updateStatus){
 
 
 showPanelIssuer(info){
+  this.startingProcess = true;
   var checkStatus = setInterval(function () {
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
         console.log(res);
         this.inProcess = true;
-        if(res.message=='Waiting for QR code to be scanned'){
+        if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
           //showQR
           this.pin= info.data.pin;
           this.qrImage = this.transform(info.data.qrCode)
-        }else if(res.status=='request_retrieved'){
-          this.qrImage = '';
         }else if(res.status=='issuance_successful'){
           this.qrImage = '';
           this.changeStatus(info._idIndividualShare);
@@ -889,6 +877,17 @@ showPanelIssuer(info){
     }, (err) => {
       console.log(err.error);
     }));
+
+    if( /Android/i.test(navigator.userAgent) ) {
+      console.log(`Android device! Using deep link (${info.data.url}).`);
+      window.location.href = info.data.url; setTimeout(function () {
+      window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
+    } else if (/iPhone/i.test(navigator.userAgent)) {
+        console.log(`iOS device! Using deep link (${info.data.url}).`);
+        window.location.replace(info.data.url);
+    } else {
+      
+    }
   }.bind(this), 2500);
 }
 
@@ -1998,6 +1997,14 @@ getVcs(){
      console.log(err.error);
    }));
 }
+
+@HostListener('window:resize')
+    onResize() {
+      if(!this.showNewCustom && this.listCustomShare.length>0){
+        this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
+        console.log( this.widthPanelCustomShare)
+      }
+    }
 
 }
 
