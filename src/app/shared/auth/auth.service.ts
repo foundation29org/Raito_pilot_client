@@ -54,10 +54,7 @@ export class AuthService {
         this.setRedirectUrl('/clinical/dashboard/home')
       }else if(tokenPayload.role == 'Admin'){
         // Admin
-        if(tokenPayload.subrole == 'AdminGTP'){
-          //AdminGTP
-          this.setRedirectUrl('/admin/dashboard/admingtp')
-        }
+        this.setRedirectUrl('/admin/dashboard-admin')
       }
       else{
         // is role user
@@ -95,11 +92,7 @@ export class AuthService {
       this.setRedirectUrl('/clinical/dashboard/home')
     }else if(tokenPayload.role == 'Admin'){
       // Admin
-      if(tokenPayload.subrole == 'AdminGTP'){
-        //AdminGTP
-
-        this.setRedirectUrl('/admin/dashboard/admingtp')
-      }
+      this.setRedirectUrl('/admin/dashboard-admin')
     }else{
       // is role user
       this.setRedirectUrl('/home')
