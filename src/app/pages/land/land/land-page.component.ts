@@ -14,7 +14,7 @@ export class LandPageComponent implements OnInit {
     lang: string = 'en';
     constructor(private eventsService: EventsService) {
         this.lang = sessionStorage.getItem('lang');
-        if(this.lang!='es'){
+        if(this.lang=='es'){
             this.iconandroid = 'assets/img/home/android_'+this.lang+'.png';
             this.iconios = 'assets/img/home/ios_'+this.lang+'.png';
         }else{
@@ -27,7 +27,7 @@ export class LandPageComponent implements OnInit {
 
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
-            if(this.lang!='es'){
+            if(this.lang=='es'){
                 this.iconandroid = 'assets/img/home/android_'+this.lang+'.png';
                 this.iconios = 'assets/img/home/ios_'+this.lang+'.png';
             }else{
