@@ -119,7 +119,6 @@
     "DDP is a data platform for storing biomedical data...": "DDP is a data platform for storing biomedical data. DDP has been developed to store data in a very safe environment in a simple and secure way.",
     "The platform is available via the internet or as an app...": "The platform is available via the internet or as an app on mobile devices for easy access to your data for patients and their families. Read the privacy policy here to see what is being done with your data.",
     "For questions and other information": "For questions and other information:"
-
   },
   "generics":{
     "Share": "Share",
@@ -1093,4 +1092,3 @@
     "click here": "click here"
   }
 }
-
