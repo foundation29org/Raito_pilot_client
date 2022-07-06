@@ -14,16 +14,27 @@ export class LandPageComponent implements OnInit {
     lang: string = 'en';
     constructor(private eventsService: EventsService) {
         this.lang = sessionStorage.getItem('lang');
-        this.iconandroid = 'assets/img/home/android_'+this.lang+'.png';
-        this.iconios = 'assets/img/home/ios_'+this.lang+'.png';
+        if(this.lang!='es'){
+            this.iconandroid = 'assets/img/home/android_'+this.lang+'.png';
+            this.iconios = 'assets/img/home/ios_'+this.lang+'.png';
+        }else{
+            this.iconandroid = 'assets/img/home/android_en.png';
+            this.iconios = 'assets/img/home/ios_en.png';
+        }
     }
 
     ngOnInit() {
 
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
-            this.iconandroid = 'assets/img/home/android_'+this.lang+'.png';
-            this.iconios = 'assets/img/home/ios_'+this.lang+'.png';
+            if(this.lang!='es'){
+                this.iconandroid = 'assets/img/home/android_'+this.lang+'.png';
+                this.iconios = 'assets/img/home/ios_'+this.lang+'.png';
+            }else{
+                this.iconandroid = 'assets/img/home/android_en.png';
+                this.iconios = 'assets/img/home/ios_en.png';
+            }
+            
         }.bind(this));
     
       }
