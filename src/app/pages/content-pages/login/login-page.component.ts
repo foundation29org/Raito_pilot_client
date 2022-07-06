@@ -123,6 +123,7 @@ async logOut() {
                  sessionStorage.setItem('lang', this.authService.getLang());
                  this.testHotjarTrigger(this.authService.getLang());
           			 let url =  this.authService.getRedirectUrl();
+                 console.log(this.authService.getRole());
                  if(this.authService.getRole()=='User'){
                    this.subscription.add( this.patientService.getPatientId()
                    .subscribe( (res : any) => {
