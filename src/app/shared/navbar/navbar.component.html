@@ -15,7 +15,7 @@
       </div>
         <div class="navbar-container pl-0 pt-1">
             <div  id="navbarSupportedContent">
-                <ul class="navbar-nav m-r-0">
+                <ul class="navbar-nav m-r-0" *ngIf="role=='User'">
                   <li class="nav-item">
                     <a class="nav-link" routerLink="/home">
                       <i class="ft-home font-medium-3 white" [ngClass]="{'grey': actualUrl=='/home'}"></i>
@@ -119,6 +119,74 @@
                       </div>
                   </li>
                 </ul>
+                <ul class="navbar-nav m-r-0" *ngIf="role=='Admin'">
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/dashboard-admin">
+                      <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/admin/dashboard-admin'}"></i>
+                      <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/translations">
+                      <i class="fa fa-edit fa-2x white" [ngClass]="{'grey': actualUrl=='/admin/translations'}"></i>
+                      <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
+                    <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                        <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+                        <p class="d-none">{{'navbar.User Settings' | translate }}</p>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                        <a class="dropdown-item" routerLink="/pages/profile">
+                            <i class="ft-edit fa-xs mr-2"></i>
+                            <span>{{'navbar.My Profile' | translate }}</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:;" (click)="logout()">
+                            <i class="ft-power fa-xs mr-2"></i>
+                            <span>{{'navbar.Logout' | translate }}</span>
+                        </a>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="navbar-nav m-r-0" *ngIf="role=='SuperAdmin'">
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/dashboard-superadmin">
+                        <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/dashboard-superadmin'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/langs">
+                        <i class="fa fa-language fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/langs'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/translations">
+                        <i class="fa fa-edit fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/translations'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
+                      <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                          <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+                          <p class="d-none">{{'navbar.User Settings' | translate }}</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                          <a class="dropdown-item" routerLink="/pages/profile">
+                              <i class="ft-edit fa-xs mr-2"></i>
+                              <span>{{'navbar.My Profile' | translate }}</span>
+                          </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="javascript:;" (click)="logout()">
+                              <i class="ft-power fa-xs mr-2"></i>
+                              <span>{{'navbar.Logout' | translate }}</span>
+                          </a>
+                      </div>
+                    </li>
+                  </ul>
             </div>
         </div>
     </div>

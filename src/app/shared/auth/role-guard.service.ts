@@ -21,6 +21,7 @@ export class RoleGuard implements CanActivate {
         this.authService.setRedirectUrl('/clinical/dashboard/home')
       }else if(this.authService.getRole() == 'Admin'){
         // Admin
+        this.authService.setRedirectUrl('/admin/dashboard-admin')
       }else{
 
         this.authService.setRedirectUrl('/home');

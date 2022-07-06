@@ -49,6 +49,13 @@ export const ROUTESSUPERADMIN: RouteInfo[] = [
 ];
 
 //Sidebar menu Routes and data
+export const ROUTESADMIN: RouteInfo[] = [
+
+    { path: '/admin/dashboard-admin', title: 'menu.Dashboard Super Admin', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
+    { path: '/admin/translations', title: 'menu.Translations', icon: 'ft-flag', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+];
+
+//Sidebar menu Routes and data
 export const ROUTESHOMEDX: RouteInfo[] = [
     { path: '/.', title: 'Home', icon: 'icon-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
     { path: '/aboutus', title: 'menu.About us', icon: 'fas fa-info', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
