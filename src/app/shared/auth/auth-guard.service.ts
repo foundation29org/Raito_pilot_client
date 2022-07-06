@@ -77,35 +77,6 @@ export class AuthGuard implements CanActivate {
     //this.toastr.error('', this.translate.instant("generics.sessionClosed"));
     this.authService.logout();
     this.router.navigate([this.authService.getLoginUrl()]);
-    //location.reload();
-  }
-
-  reload(){
-    Swal.fire({
-        title: this.translate.instant("InfoSystem.titleReload"),
-        html: this.translate.instant("InfoSystem.bodyReload"),
-        icon: 'warning',
-        showCancelButton: false,
-        confirmButtonColor: '#33658a',
-        cancelButtonColor: '#B0B6BB',
-        confirmButtonText: 'Ok',
-        showLoaderOnConfirm: true,
-        allowOutsideClick: false
-    }).then((result) => {
-      if (result.value) {
-        location.reload();
-      }
-    });
-
-    /*Swal.fire({
-      icon: 'warning',
-      title: this.translate.instant("InfoSystem.titleReload"),
-      html: this.translate.instant("InfoSystem.bodyReload")
-    })
-    //this.toastr.error('', this.translate.instant("generics.sessionClosed"));
-    //this.authService.logout();
-    //this.router.navigate([this.authService.getLoginUrl()]);
-    location.reload();*/
   }
 
 }

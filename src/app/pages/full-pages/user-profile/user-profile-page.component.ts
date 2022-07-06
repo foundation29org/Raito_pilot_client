@@ -75,7 +75,7 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
         console.log(res);
         this.user = res.user;
         this.userCopy = JSON.parse(JSON.stringify(res.user));
-        this.role = res.user.role;
+        this.role = this.authService.getRole();
         this.subrole = res.user.subrole;
         this.loading = false;
         if(this.role == 'User'){
