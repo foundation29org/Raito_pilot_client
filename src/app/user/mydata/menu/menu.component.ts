@@ -1098,7 +1098,7 @@ copyClipboard(data){
 }
 
 extractFhir(){
-  var text = "name: javier, drug:clobazam, seizure: 2 status";
+  var text = "The drugs I take are: Brivaracetam - Briviact, Cannabidiol (CBD) - Epidiolex, Carbamazepine, Clobazam (CLB) - Frisium - Onfi, Clonazepam - Rivotril, Diazepam - Diastat - Valium, Distigmine Bromide, Divalproex Sodium - Depakote, Divalproex Sodium - Depakote ER, Ethosuximide - Zarontin, Felbamate - Felbatol, Fenfluramine - Fintepla, Gabapentin - Neurontin, Ketogenic Diet, Lacosamide - Vimpat, Lamotrigine - Lamictal, Lamotrigine - Lamictal XR, Levetiracetam - Keppra, Levetiracetam - Keppra XR, Lorazepam, Midazolam, Oxcarbazepine - Trileptal, Perampanel - Fycompa, Phenobarbital - Luminal, Phenytoin - Dilantin, Piracetam, Risperidone - Risperdal, Rufinamide - Inovelon, Stiripentol (STP) - Diacomit, Tiagabine Hydrocloride - Gabitril, Topiramate - Topamax, Triple Bromide, Valproate Sodium - Depacon Injection, Valproic Acid (VPA) - Depakene, Zonisamide - Zonegran";
 
   var info = {  
     "documents": [
