@@ -1098,13 +1098,55 @@ copyClipboard(data){
 }
 
 extractFhir(){
-  var text = "The drugs I take are: Brivaracetam - Briviact, Cannabidiol (CBD) - Epidiolex, Carbamazepine, Clobazam (CLB) - Frisium - Onfi, Clonazepam - Rivotril, Diazepam - Diastat - Valium, Distigmine Bromide, Divalproex Sodium - Depakote, Divalproex Sodium - Depakote ER, Ethosuximide - Zarontin, Felbamate - Felbatol, Fenfluramine - Fintepla, Gabapentin - Neurontin, Ketogenic Diet, Lacosamide - Vimpat, Lamotrigine - Lamictal, Lamotrigine - Lamictal XR, Levetiracetam - Keppra, Levetiracetam - Keppra XR, Lorazepam, Midazolam, Oxcarbazepine - Trileptal, Perampanel - Fycompa, Phenobarbital - Luminal, Phenytoin - Dilantin, Piracetam, Risperidone - Risperdal, Rufinamide - Inovelon, Stiripentol (STP) - Diacomit, Tiagabine Hydrocloride - Gabitril, Topiramate - Topamax, Triple Bromide, Valproate Sodium - Depacon Injection, Valproic Acid (VPA) - Depakene, Zonisamide - Zonegran";
+  this.loading = true;
+  this.subscription.add( this.patientService.extractFhir()
+  .subscribe( (res : any) => {
+        var json = JSON.stringify(res.result);
+        var blob = new Blob([json], {type: "application/json"});
+        var url  = URL.createObjectURL(blob);
+        var p = document.createElement('p');
+        var t = document.createTextNode(this.msgDownload+":");
+        p.appendChild(t);
+        document.getElementById('content').appendChild(p);
 
-  var info = {  
-    "documents": [
-        { "id": "1", 
-        "language":"en", 
-        "text": text
+        var a = document.createElement('a');
+        var dateNow = new Date();
+        var stringDateNow = this.dateService.transformDate(dateNow);
+        a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+        a.target     = "_blank";
+        a.href        = url;
+        a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+        a.setAttribute("id", "download")
+
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+        this.loading = false;
+   }, (err) => {
+     console.log(err);
+     this.loading = false;
+   }));
+}
+
+extractFhir2(){
+  var text = "Patient 's age: 10 years Diagnoses:  Dravet syndrome. SCN1A gene mutation (c.4126 T >C change in exon 21 of the SCN1A gene).   Recurrent status convulsus (last: 02 23 2014, 03 01 2014, 03 01 2014, 05 2015).  Secondary pervasive developmental disorder.  Severe expressive and comprehensive language disorder.  Treatment:   Diacomit: 250 - 250- 250- 500 mg (32mg kg day, last increase on 02 26 2014, decrease 01 08 2014). Depakine solution: 1.75 ml at breakfast and 1.75 ml at dinner (350 mg every 12 hours) (23 mg kg day). Noiafren solution (2mg ml): 2-0-4 mg  EPIDIOLEX ORAL SOL 100mg ml: 2.2ml every 12 hours (start 03 2015) (14mg kg day). Latest complementary tests: Genetic study through the Dravet Foundation (09 2014):  Mutation in biotinidase gene (BTD): NM_001281724.1:exon6:c.1336 G>C:p:Asp446His. CEDEM Cantoblanco Metabolic Study (10 23 2014): BIOTINIDASE ACTIVITY (QUANTIFICATION BY SPECTROPHOTOMETRY) SERUM (28129-2SU):Biotinidase activity 8.64 nmoles PABA min ml serum (Mean±DE 6.6±1.7, Range 4.5-12.2). REPORT: Normal activity. Cardiology (11 12 2014): Clinical Judgment: NORMAL HEART.  Holter (12 14): Sinus rhythm throughout recording. Minimum HR of 61lpm. Maximum HR of 160lpm. No evidence of supraventricular and ventricular arrhythmias. No AF. No significant pauses. Cardiology (30 11 2015): Holter, ECG and echocardiography normal. Video-EEG of siesta (10 16 2015): waking and sleep polygraphic video-EEG showing asymmetric background activity*, with signs of mild brain involvement in the right hemisphere and mild-moderate in the left hemisphere. Background activity in wakefulness and sleep shows abundant unusual diffuse fast rhythms. Occasional epileptiform abnormalities during the sleep episode of low amplitude are recorded in bilateral frontotemporal region almost always asynchronously and sometimes independently in left anterior-middle temporal region*. No epileptic seizures were reported. (*) The interhemispheric asymmetry could be related to the fact that the day before this study the mother reported that the child presented a complex partial seizure and during sleep some more focal epileptiform abnormalities were recorded in the left anterior-middle temporal region. Compared to the previous study (06 05 2015), a very significant improvement is observed, with a better structured and differentiated background activity, especially in the right hemisphere, although it still does not reach a normal background activity for his age. Today 's EEG tracing is more similar to that of 12 12 2014. Video-EEG nap 06 10 2017: Video-EEG polygraphic waking and sleep showing signs of mild generalized brain involvement. Background activity in wakefulness and sleep shows abundant unusual diffuse fast rhythms. Epileptiform abnormalities are recorded during the low amplitude sleep episode in the right frontotemporal region. No seizures were recorded.Note: Compared to the previous study (10 16 2015), improvement is observed, with background activity now no longer asymmetrical, although it still falls short of normal background activity for his age. Evolution: ** Status convulsus associated with febrile picture of about 60 min 05 2015. ** Two clustered status seizures between February and March 2014. Epilepsy:  ** Tried lowering CBD and worsening of seizures. Change in seizure type, 1-2 per month, in August 4. Now focal seizures, gaze deviation, greater generalized rigidity in MMSS and then short tonic-clonic seizure of 3 sec.  DPM: globally better, more alert, participatory and collaborative, looks more in the eyes. They report improved attention especially at school, he knows when he has to do homework. More alert, knows what he wants and if not given he gets angry and throws things away. Better eye contact. More interaction with sibling. Language: aphasia. More intonation. Points with finger and leads to parents. Uses pictograms. More intentional in doing things. Does not imitate. Laughs out loud. Autonomy: Can eat alone, uses fork and spoon, eats what he likes, eats better at school. Attempts to control diaper, if taken to the bathroom he urinates (works on routines and has bowel movements and urination in the bathroom). Sleep: sleeps prone and on side. Sleeps through the night. No nocturnal seizures. No use of sensors. DAFOS during the day that improves gait. Rehabilitation (09 2016): Muscle hypotonia . Hyperkyphosis: cervical arrow : 45 mm . Antepulsed shoulders .  Left lumbar gibosity 5 mm . Arrow 5 mm . Shoulders and pelvis equlibrated , varus and adducted cavus feet , worse the right one with intense instability . He wears nocturnal DAFOs with supplement in external border.  Dental evaluation at HNJ: normal examination. Control 10 2017, stability. Interconsultation to COT. Foot X-ray in load. Control with Rx of feet and hips. Pes cavus. ";
+  var info = { 
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": text, 
+                "language": "en"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "Healthcare",
+            "taskId": "Healthcare task #1",
+            "parameters": {
+                "modelVersion": "latest",
+                "fhirVersion": "4.0.1"
+            }
         }
     ]
 }

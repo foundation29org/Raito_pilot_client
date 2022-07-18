@@ -136,4 +136,13 @@ export class PatientService {
          })
     }
 
+    extractFhir(){
+      return this.http.get(environment.api+'/api/eo/patient/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
 }
