@@ -942,6 +942,8 @@
        "desc":"Seu contêiner é seu próprio espaço pessoal para armazenar seus dados e compartilhá-los para seu próprio gerenciamento e pesquisa de doenças. Aqui você pode gerenciar seu contêiner.",
        "q1":"Localização do contêiner",
        "a1":"Na Raito você é o único proprietário dos seus dados. Seus dados são armazenados em seu dispositivo e periodicamente copiados em backup em seu próprio armazenamento em nuvem, como OneDrive, GoogleDrive ou iCloud, dependendo de suas preferências.",
+       "Last backup": "Última cópia de segurança",
+       "Decentralized": "Descentralizada",
        "q2":"Organizações de pacientes",
        "a2.1":"Você está compartilhando dados com a comunidade de rede de dados do DSEF.",
        "a2.2":"Siga este link para mais informações: <a href='https://dravet.eu/' target='_blank'>https://dravet.eu/</a>",

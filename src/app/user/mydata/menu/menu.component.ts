@@ -39,6 +39,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   modalProfileReference: NgbModalRef;
   modalQr: NgbModalRef;
   loading: boolean = false;
+  loadingf29: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
   private msgDownload: string;
@@ -172,18 +173,21 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   public chartNames: string[];
-    public colors: ColorHelper;
-    public colors2: ColorHelper;
+  public colors: ColorHelper;
+  public colors2: ColorHelper;
 
-    generateUrlQr = '';
-    titleSeizuresLegend = [];
-    userInfo: any = {};
-    qrImage = '';
-    pin = '';
-    startingProcess: boolean = false;
-    inProcess: boolean = false;
-    urlOpenRaito: string = environment.urlOpenRaito;
-    widthPanelCustomShare = null;
+  generateUrlQr = '';
+  titleSeizuresLegend = [];
+  userInfo: any = {};
+  qrImage = '';
+  pin = '';
+  startingProcess: boolean = false;
+  inProcess: boolean = false;
+  urlOpenRaito: string = environment.urlOpenRaito;
+  widthPanelCustomShare = null;
+
+  ipfs: any = {};
+  f29: any = {};
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
@@ -199,7 +203,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadTranslations();
     this.loadPatientId();
-    this.loadMyEmail()
+    this.loadMyEmail();
+    this.checkIPFS();
+    this.checkF29();
   }
 
   ngOnDestroy() {
@@ -913,7 +919,6 @@ setGeneralShare(){
   this.loadedShareData = false;
   this.subscription.add( this.patientService.setGeneralShare(this.newPermission)
   .subscribe( (res : any) => {
-    console.log(res);
     //this.listCustomShare = res.customShare;
     this.loadedShareData = true;
     this.modalReference.close();
@@ -939,7 +944,6 @@ setCustomShare(){
   
   this.subscription.add( this.patientService.setCustomShare(this.listCustomShare)
   .subscribe( (res : any) => {
-    console.log(res);
     this.resetPermisions();
     this.showNewCustom=false;
     this.listCustomShare = res.customShare;
@@ -1025,7 +1029,6 @@ copyClipboard2(){
 editcustom(i){
   this.newPermission= this.listCustomShare[i];
   this.mode = 'Custom';
-  console.log(this.newPermission);
   this.showNewCustom = true;
 }
 
@@ -1051,10 +1054,8 @@ confirmRevoke(i){
 revokePermission(i){
   this.loadedShareData = false;
   this.listCustomShare.splice(i, 1);
-  console.log(this.listCustomShare);
   this.subscription.add( this.patientService.setCustomShare(this.listCustomShare)
   .subscribe( (res : any) => {
-    console.log(res);
     this.showNewCustom=false;
     //this.listCustomShare = res.customShare;
     this.loadedShareData = true;
@@ -1095,6 +1096,116 @@ copyClipboard(data){
       setTimeout(function () {
         Swal.close();
       }, 2000);
+}
+
+saveContainer(location){
+  if(location=='IPFS'){
+    this.loading = true;
+  }else{
+    this.loadingf29 = true;
+  }
+  this.subscription.add( this.patientService.saveContainer(location)
+  .subscribe( (res : any) => {
+    if(location=='IPFS'){
+      this.checkIPFS();
+    }else{
+      this.checkF29();
+    }
+    this.loading = false;
+    this.loadingf29 = false;
+   }, (err) => {
+     console.log(err);
+     this.loading = false;
+     this.loadingf29 = false;
+   }));
+}
+
+checkIPFS(){
+  this.subscription.add( this.patientService.checkIPFS()
+  .subscribe( (res : any) => {
+    this.ipfs = res;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+getIPFS(){
+  this.loading = true;
+  this.subscription.add( this.patientService.getIPFS()
+  .subscribe( (res : any) => {
+    if(res.message=='Not available'){
+
+    }else{
+      this.checkIPFS();
+      var json = JSON.stringify(res.result);
+      var blob = new Blob([json], {type: "application/json"});
+      var url  = URL.createObjectURL(blob);
+      var p = document.createElement('p');
+      var t = document.createTextNode(this.msgDownload+":");
+      p.appendChild(t);
+      document.getElementById('content').appendChild(p);
+
+      var a = document.createElement('a');
+      var dateNow = new Date();
+      var stringDateNow = this.dateService.transformDate(dateNow);
+      a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+      a.target     = "_blank";
+      a.href        = url;
+      a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+      a.setAttribute("id", "download")
+
+      document.getElementById('content').appendChild(a);
+      document.getElementById("download").click();
+    }
+      
+      this.loading = false;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+checkF29(){
+  this.subscription.add( this.patientService.checkF29()
+  .subscribe( (res : any) => {
+    this.f29 = res;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+getF29(){
+  this.loadingf29 = true;
+  this.subscription.add( this.patientService.getF29()
+  .subscribe( (res : any) => {
+    if(res.message=='Not available'){
+
+    }else{
+      this.checkF29();
+      var json = JSON.stringify(res.result);
+      var blob = new Blob([json], {type: "application/json"});
+      var url  = URL.createObjectURL(blob);
+      var p = document.createElement('p');
+      var t = document.createTextNode(this.msgDownload+":");
+      p.appendChild(t);
+      document.getElementById('content').appendChild(p);
+
+      var a = document.createElement('a');
+      var dateNow = new Date();
+      var stringDateNow = this.dateService.transformDate(dateNow);
+      a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+      a.target     = "_blank";
+      a.href        = url;
+      a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+      a.setAttribute("id", "download")
+
+      document.getElementById('content').appendChild(a);
+      document.getElementById("download").click();
+    }
+      
+      this.loadingf29 = false;
+   }, (err) => {
+     console.log(err);
+   }));
 }
 
 extractFhir(){

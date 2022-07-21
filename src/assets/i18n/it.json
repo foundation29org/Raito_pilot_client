@@ -942,6 +942,8 @@
        "desc":"Il tuo contenitore è il tuo spazio personale per archiviare i tuoi dati e condividerli per la gestione e la ricerca della tua malattia. Qui puoi gestire il tuo container.",
        "q1":"Posizione del contenitore",
        "a1":"In Raito sei l'unico proprietario dei tuoi dati. I tuoi dati vengono archiviati nel tuo dispositivo e periodicamente sottoposti a backup sul tuo spazio di archiviazione cloud come OneDrive, GoogleDrive o iCloud, a seconda delle tue preferenze.",
+       "Last backup": "Ultimo backup",
+       "Decentralized": "Decentrato",
        "q2":"Organizzazioni di pazienti",
        "a2.1":"Stai attualmente condividendo i dati con la comunità di reti dati di DSEF.",
        "a2.2":"Segui questo link per maggiori informazioni: <a href='https://dravet.eu/' target='_blank'>https://dravet.eu/</a>",

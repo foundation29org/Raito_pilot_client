@@ -9,7 +9,7 @@
                         <p>{{'mydata.desc' | translate }}</p>
                         <!--One open panel at a time Starts-->
                     <ngb-accordion #accordion [closeOthers]="true">
-                        <!--<ngb-panel id="1">
+                        <ngb-panel id="1">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fa fa-cloud-upload fa-1_5x mr-2 float-left"></i> <span> {{'mydata.q1' | translate }}</span> <span class="float-right">
                                         <span
@@ -20,12 +20,25 @@
                                 <div>
                                     <p class="text-muted">{{'mydata.a1' | translate }}</p>
                                 </div>
-                                <div>
-                                    <p class="danger">{{'generics.Under construction' | translate }}</p>
-                                    <img class="w-100" src='assets/img/pages/democontainer.jpg'>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-dark mb-0" type="button" [disabled]="loadingf29" (click)="saveContainer('F29')">Foundation29 server 
+                                            <span *ngIf="f29.message=='Available' && !loadingf29"> ({{'generics.Update' | translate }})</span>
+                                            <span *ngIf="loadingf29" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                                        </button>
+                                        <span *ngIf="f29.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em class="fa fa-download pointer" (click)="getF29()"></em></span>
+
+                                        <button class="btn btn-dark mb-0 mt-3" type="button" [disabled]="loading" (click)="saveContainer('IPFS')">{{'mydata.Decentralized' | translate }} 
+                                            <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
+                                            <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                                        </button>
+                                        <span *ngIf="ipfs.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em class="fa fa-download pointer" (click)="getIPFS()"></em></span>
+                                        
+                                        <div class="d-none"><span id="content"></span></div>
+                                    </div>
                                 </div>
                             </ng-template>
-                        </ngb-panel>-->
+                        </ngb-panel>
                         <ngb-panel id="2">
                           <ng-template ngbPanelTitle>
                               <h5 class="mb-0"><i class="fas fa-share fa-1_5x mr-2 float-left"></i> <span> {{'mydata.I want to share my data' | translate }}</span> <span class="float-right">

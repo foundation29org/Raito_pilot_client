@@ -942,6 +942,8 @@
        "desc":"Votre conteneur est votre propre espace personnel pour stocker vos données et les partager pour votre propre gestion et recherche de maladies. Ici, vous pouvez gérer votre conteneur.",
        "q1":"Emplacement du conteneur",
        "a1":"Chez Raito, vous êtes le seul propriétaire de vos données. Vos données sont stockées sur votre appareil et sauvegardées périodiquement sur votre propre stockage cloud tel que OneDrive, GoogleDrive ou iCloud, selon vos préférences.",
+       "Last backup": "Dernière sauvegarde",
+       "Decentralized": "Décentralisé",
        "q2":"Organisations de patients",
        "a2.1":"Vous partagez actuellement des données avec la communauté du réseau de données de DSEF.",
        "a2.2":"Suivez ce lien pour plus d'informations : <a href='https://dravet.eu/' target='_blank'>https://dravet.eu/</a>",

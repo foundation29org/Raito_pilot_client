@@ -942,6 +942,8 @@
     "desc": "Your container is your own personal space to store your data and share it for your own disease management and research. Here you can manage your container.",
     "q1": "Container location",
     "a1": "In Raito you are the only owner of your data. Your data is stored in your device and periodically backed up to your own cloud storage such as OneDrive, GoogleDrive or iCloud, depending on your preferences.",
+    "Last backup": "Last backup",
+    "Decentralized": "Decentralized",
     "q2": "Patient organizations",
     "a2.1": "You are currently sharing data with the data network community of DSEF.",
     "a2.2": "Follow this link for more info: <a href='https://dravet.eu/' target='_blank'>https://dravet.eu/</a>",
