@@ -188,6 +188,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ipfs: any = {};
   f29: any = {};
+  checkStatus: any = {};
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
@@ -832,7 +833,8 @@ setIndividualShare(updateStatus){
       }
     }
     if(found){
-      var info = {individualShare: this.individualShare, updateStatus: updateStatus, indexUpdated: indexUpdated}      
+      var info = {individualShare: this.individualShare, updateStatus: updateStatus, indexUpdated: indexUpdated}
+      console.log(info);  
       this.subscription.add( this.patientService.setIndividualShare(info)
       .subscribe( (res : any) => {
         //this.getVcs();
@@ -858,7 +860,7 @@ setIndividualShare(updateStatus){
 
 showPanelIssuer(info){
   this.startingProcess = true;
-  var checkStatus = setInterval(function () {
+  this.checkStatus = setInterval(function () {
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
@@ -873,15 +875,16 @@ showPanelIssuer(info){
           this.changeStatus(info._idIndividualShare);
           this.inProcess = false;
           this.startingProcess = false;
-          clearInterval(checkStatus);
+          clearInterval(this.checkStatus);
         }else if(res.status=='issuance_error'){
           this.qrImage = '';
           this.inProcess = false;
           this.startingProcess = false;
-          clearInterval(checkStatus);
+          clearInterval(this.checkStatus);
         }
     }, (err) => {
       console.log(err.error);
+      clearInterval(this.checkStatus);
     }));
 
     if( /Android/i.test(navigator.userAgent) ) {
@@ -1079,6 +1082,10 @@ closeModalShare() {
     this.showNewCustom = false;
     this.modalReference.close();
     this.modalReference = undefined;
+    clearInterval(this.checkStatus);
+    this.inProcess = false;
+    this.startingProcess = false;
+    this.qrImage = ''
   }
 }
 

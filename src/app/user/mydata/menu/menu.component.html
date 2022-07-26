@@ -420,7 +420,8 @@
                             </div>
                             
                             <div *ngIf="oneCustomShare.infoQr && qrImage=='' && !startingProcess">
-                                <button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">{{'open.Accept access' | translate }}</button>
+                                <!--<button class="btn btn-dark btn-sm" (click)="showPanelIssuer(oneCustomShare.infoQr);">{{'open.Accept access' | translate }}</button>-->
+                                <button class="btn btn-dark btn-sm" (click)="fieldStatusChanged(oneCustomShare, i);">{{'open.Accept access' | translate }}</button>
                             </div>
                         </div>
                         <div>
