@@ -44,7 +44,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             let url =  this.authService.getRedirectUrl();
             this.router.navigate([ url ]);
           }else{
-            //this.moralisService.logout();
+            this.moralisService.logout();
           }
     }
 
@@ -70,7 +70,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     async login() {
-        this.currentUser = Moralis.User.current();
+        //this.currentUser = Moralis.User.current();
+        this.currentUser = this.moralisService.getCurrentUser();
         console.log(this.currentUser);
         if (!this.currentUser) {
             this.subscription.add( this.moralisService.authenticate()
@@ -86,7 +87,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     async logOut() {
-        await Moralis.User.logOut();
+      this.authService.logout();
+        //await Moralis.User.logOut();
         this.currentUser = null;
         console.log("logged out");
       }
