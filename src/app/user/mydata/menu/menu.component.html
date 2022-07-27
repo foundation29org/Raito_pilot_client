@@ -137,17 +137,20 @@
                                         <button *ngIf="consentgroup=='true'" class="mt-2 btn btn-primary" type="button"
                                         (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
                                         <div class="mt-2" *ngIf="consentgroup=='Pending'">
-                                            <h5 class="mb-0 white">{{'generics.Status' | translate }}</h5>
+                                            <h5 class="mb-0 ">{{'generics.Status' | translate }}</h5>
                                             <span class="grey">
                                                 {{'generics.Pending' | translate }}
                                             </span>
                                             <div *ngIf="qrImageOrg!=''">
                                                 <h5>{{'open.Scan with Microsoft Authenticator' | translate }}</h5>
                                                 <img [src]="qrImageOrg">
-                                                <span class="white d-block">PIN: {{pin}}</span>
+                                                <span class="d-block">PIN: {{pinOrg}}</span>
                                             </div>
                                             <div *ngIf="qrImageOrg=='' && inProcessOrg">
-                                                <span class="white">{{'open.Accept or reject from mobile' | translate }}</span>
+                                                <span class="">{{'open.Accept or reject from mobile' | translate }}</span>
+                                            </div>
+                                            <div *ngIf="qrImageOrg=='' && !inProcessOrg">
+                                                <button class="btn btn-dark btn-sm" (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
                                             </div>
                                         </div>
                                     </div>

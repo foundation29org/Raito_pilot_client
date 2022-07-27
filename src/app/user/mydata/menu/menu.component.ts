@@ -325,15 +325,14 @@ changeConsentGroup(value){
   var paramssend = { consentgroup: value };
   this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
   .subscribe( (res : any) => {
-    this.consentgroup = value;
-
     if(res.message == 'qrgenerated'){
+      this.consentgroup = 'Pending';
       if(res.data[0].sessionData.message!='issuance_successful'){
         //show QR instructions
         this.showPanelIssuerOrganization(res.data[0]);
       }
-    }else{
-      
+    }else if(res.message == 'consent changed'){
+      this.consentgroup = res.consent;
     }
    }, (err) => {
      console.log(err.error);
