@@ -48,7 +48,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private msgDataSavedFail: string;
   loadedPatientId: boolean = false;
   hasGroup: boolean = false;
-  consentgroup: boolean = false;
+  consentgroup: string = 'false';
   activeIds = [];
   myEmail: string = '';
   lang: string = 'en';
@@ -183,6 +183,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   pin = '';
   startingProcess: boolean = false;
   inProcess: boolean = false;
+  qrImageOrg = '';
+  pinOrg = '';
+  startingProcessOrg: boolean = false;
+  inProcessOrg: boolean = false;
+  checkStatusOrg: any = {};
+
   urlOpenRaito: string = environment.urlOpenRaito;
   widthPanelCustomShare = null;
 
@@ -320,9 +326,60 @@ changeConsentGroup(value){
   this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
   .subscribe( (res : any) => {
     this.consentgroup = value;
+
+    if(res.message == 'qrgenerated'){
+      if(res.data[0].sessionData.message!='issuance_successful'){
+        //show QR instructions
+        this.showPanelIssuerOrganization(res.data[0]);
+      }
+    }else{
+      
+    }
    }, (err) => {
      console.log(err.error);
    }));
+}
+
+showPanelIssuerOrganization(info){
+  this.startingProcessOrg = true;
+  this.checkStatusOrg = setInterval(function () {
+
+    this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
+    .subscribe( (res : any) => {
+        console.log(res);
+        this.inProcessOrg = true;
+        if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
+          //showQR
+          this.pinOrg= info.data.pin;
+          this.qrImageOrg = this.transform(info.data.qrCode)
+        }else if(res.status=='issuance_successful'){
+          this.qrImageOrg = '';
+          this.changeConsentGroup('Pending');
+          this.inProcessOrg = false;
+          this.startingProcessOrg = false;
+          clearInterval(this.checkStatusOrg);
+        }else if(res.status=='issuance_error'){
+          this.qrImageOrg = '';
+          this.inProcessOrg = false;
+          this.startingProcesOrgs = false;
+          clearInterval(this.checkStatusOrg);
+        }
+    }, (err) => {
+      console.log(err.error);
+      clearInterval(this.checkStatusOrg);
+    }));
+
+    if( /Android/i.test(navigator.userAgent) ) {
+      console.log(`Android device! Using deep link (${info.data.url}).`);
+      window.location.href = info.data.url; setTimeout(function () {
+      window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
+    } else if (/iPhone/i.test(navigator.userAgent)) {
+        console.log(`iOS device! Using deep link (${info.data.url}).`);
+        window.location.replace(info.data.url);
+    } else {
+      
+    }
+  }.bind(this), 2500);
 }
 
 exportData(){
@@ -1085,7 +1142,7 @@ closeModalShare() {
     clearInterval(this.checkStatus);
     this.inProcess = false;
     this.startingProcess = false;
-    this.qrImage = ''
+    this.qrImage = '';
   }
 }
 

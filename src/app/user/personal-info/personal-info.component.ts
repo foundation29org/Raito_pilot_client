@@ -150,7 +150,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       parents: [],
       group: null,
       previousDiagnosis: null,
-      consentgroup: false
+      consentgroup: 'false'
     };
 
     switch(this.authService.getLang()){

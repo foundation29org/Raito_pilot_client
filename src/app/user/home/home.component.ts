@@ -173,7 +173,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   yAxisLabelRight: string;
   valueprogressbar=0;
   checks: any = {};
-  consentgroup: boolean = false;
+  consentgroup: string = 'false';
   recommendedDoses: any = [];
   showNotiSeizu: boolean = false;
   showNotiFeel: boolean = false;
@@ -240,7 +240,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.feels.length > 0 && !this.showNotiFeel){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.basicInfoPatient.consentgroup){
+    if(this.basicInfoPatient.consentgroup=='true'){
       this.valueprogressbar=this.valueprogressbar+20;
     }
   }

@@ -64,9 +64,9 @@
                             <p class="text-muted mt-2">{{'homeraito.p1.1' | translate }}</p>
                             
                             <div class="center-elements mt-1">
-                                <button class="mr-1 btn btn-primary" style="width: 100px;" (click)="question3(false);">{{'generics.No' |
+                                <button class="mr-1 btn btn-primary" style="width: 100px;" (click)="question3('false');">{{'generics.No' |
                                     translate }}</button>
-                                <button class="ml-1 btn btn-primary" style="width: 100px;" (click)="question3(true);">{{'generics.Yes' |
+                                <button class="ml-1 btn btn-primary" style="width: 100px;" (click)="question3('true');">{{'generics.Yes' |
                                     translate }}</button>
                             </div>
                             <div class="center-elements">
@@ -75,8 +75,8 @@
                             </div>
                         </div>
                         <div *ngIf="step=='3'">
-                            <h2 *ngIf="basicInfoPatient.consentgroup">{{'homeraito.p2' | translate }}</h2>
-                            <p *ngIf="!basicInfoPatient.consentgroup">{{'homeraito.p2.1' | translate }}</p>
+                            <h2 *ngIf="basicInfoPatient.consentgroup=='true'">{{'homeraito.p2' | translate }}</h2>
+                            <p *ngIf="basicInfoPatient.consentgroup=='false'">{{'homeraito.p2.1' | translate }}</p>
                             <div class="center-elements">
                                 <button class="btn btn-dark mr-1"
                                     (click)="step='2'">{{'generics.Previous' | translate }}</button>
@@ -195,7 +195,7 @@
                               </a>
                         </div>
                     </div>
-                    <div class="row font-small-3 mb-1" *ngIf="!basicInfoPatient.consentgroup">
+                    <div class="row font-small-3 mb-1" *ngIf="!basicInfoPatient.consentgroup=='false'">
                         <div class="col-1 pr-0">
                             <em class="fas fa-info-circle"></em>
                         </div>
