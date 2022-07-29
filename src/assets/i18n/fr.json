@@ -880,7 +880,7 @@
        "noti5a":"Votre conteneur ne contient pas de données sur les médicaments. Voulez-vous en ajouter?",
        "noti5b":"Vous n'avez pas changé vos médicaments ces derniers temps. Avez-vous quelque chose à changer ?",
        "noti6a":"Vous n'avez pas rejoint une organisation de patients. Adhérer maintenant!",
-       "noti7a":"Vous n'avez pas rejoint une communauté de partage de données. Adhérer maintenant!",
+       "noti7a":"Vos données sont déconnectées de votre organisation de patients, voulez-vous les connecter?",
        "Answer":"Réponse"
     },
     "reports":{
@@ -941,8 +941,9 @@
        "title":"Mon conteneur de données",
        "desc":"Votre conteneur est votre propre espace personnel pour stocker vos données et les partager pour votre propre gestion et recherche de maladies. Ici, vous pouvez gérer votre conteneur.",
        "q1":"Emplacement du conteneur",
-       "a1":"Chez Raito, vous êtes le seul propriétaire de vos données. Vos données sont stockées sur votre appareil et sauvegardées périodiquement sur votre propre stockage cloud tel que OneDrive, GoogleDrive ou iCloud, selon vos préférences.",
+       "a1":"Dans Raito, vous êtes le seul propriétaire de vos données. Vous pouvez créer une sauvegarde de vos données et la télécharger dans le standard FHIR. Nous vous donnons deux possibilités pour sauvegarder cette sauvegarde, sur nos serveurs, ou dans un stockage décentralisé.",
        "Last backup": "Dernière sauvegarde",
+       "decentralized storage": "Qu'est-ce que le stockage décentralisé?",
        "Decentralized": "Décentralisé",
        "q2":"Organisations de patients",
        "a2.1":"Vous partagez actuellement des données avec la communauté du réseau de données de DSEF.",
@@ -1072,6 +1073,7 @@
        "Notecustom":"Invitation créée automatiquement lors de la génération du PDF.",
        "Accept access":"Accepter l'accès",
        "Scan with Microsoft Authenticator":"Numériser avec Microsoft Authenticator",
+       "instructionMA": "Si vous n'avez pas Microsoft Authenticator, vous pouvez le télécharger <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>ici <em class='ft-external-link'></em></a>",
        "Accept or reject from mobile":"Accepter ou refuser depuis mobile",
        "Access to":"Accès à"
     },

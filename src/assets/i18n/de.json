@@ -880,7 +880,7 @@
        "noti5a":"Ihr Container enthält keine Arzneimitteldaten. Möchten Sie etwas hinzufügen?",
        "noti5b":"Du hast deine Medikamente in letzter Zeit nicht gewechselt. Hast du etwas zu ändern?",
        "noti6a":"Sie sind keiner Patientenorganisation beigetreten. Jetzt beitreten!",
-       "noti7a":"Sie sind keiner Datenaustausch-Community beigetreten. Jetzt beitreten!",
+       "noti7a":"Ihre Daten sind nicht mit Ihrer Patientenorganisation verbunden, wollen Sie sie verbinden?",
        "Answer":"Antworten"
     },
     "reports":{
@@ -941,8 +941,9 @@
        "title":"Mein Datencontainer",
        "desc":"Ihr Container ist Ihr persönlicher Bereich, in dem Sie Ihre Daten speichern und für Ihr eigenes Krankheitsmanagement und Ihre Forschung freigeben können. Hier können Sie Ihren Container verwalten.",
        "q1":"Containerstandort",
-       "a1":"Bei Raito sind Sie der einzige Eigentümer Ihrer Daten. Ihre Daten werden auf Ihrem Gerät gespeichert und je nach Ihren Vorlieben regelmäßig in Ihrem eigenen Cloud-Speicher wie OneDrive, GoogleDrive oder iCloud gesichert.",
+       "a1":"Bei Raito sind Sie der einzige Eigentümer Ihrer Daten. Sie können ein Backup Ihrer Daten erstellen und es im FHIR-Standard herunterladen. Wir bieten Ihnen zwei Möglichkeiten, dieses Backup zu speichern: auf unseren Servern oder in einem dezentralen Speicher.",
        "Last backup": "Letzte Sicherung",
+       "decentralized storage": "Was ist dezentralisierte Speicherung?",
        "Decentralized": "Dezentralisiert",
        "q2":"Patientenorganisationen",
        "a2.1":"Sie teilen derzeit Daten mit der Datennetzwerk-Community von DSEF.",
@@ -1072,6 +1073,7 @@
        "Notecustom":"Einladung automatisch beim Generieren des PDFs erstellt.",
        "Accept access":"Akzeptieren Sie den Zugriff",
        "Scan with Microsoft Authenticator":"Scannen Sie mit Microsoft Authenticator",
+       "instructionMA": "Wenn Sie Microsoft Authenticator nicht haben, können Sie es hier <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>herunterladen <em class='ft-external-link'></em></a>",
        "Accept or reject from mobile":"Vom Handy annehmen oder ablehnen",
        "Access to":"Zugriff auf"
     },

@@ -880,7 +880,7 @@
        "noti5a":"Il tuo container non ha dati sui farmaci. Vuoi aggiungerne qualcuno?",
        "noti5b":"Non hai cambiato i tuoi farmaci ultimamente. Hai qualcosa da cambiare?",
        "noti6a":"Non sei entrato a far parte di un'organizzazione di pazienti. Iscriviti adesso!",
-       "noti7a":"Non sei entrato a far parte di una community di condivisione dati. Iscriviti adesso!",
+       "noti7a":"I vostri dati sono scollegati dall'organizzazione dei pazienti, volete collegarli?",
        "Answer":"Risposta"
     },
     "reports":{
@@ -941,8 +941,9 @@
        "title":"Il mio contenitore di dati",
        "desc":"Il tuo contenitore è il tuo spazio personale per archiviare i tuoi dati e condividerli per la gestione e la ricerca della tua malattia. Qui puoi gestire il tuo container.",
        "q1":"Posizione del contenitore",
-       "a1":"In Raito sei l'unico proprietario dei tuoi dati. I tuoi dati vengono archiviati nel tuo dispositivo e periodicamente sottoposti a backup sul tuo spazio di archiviazione cloud come OneDrive, GoogleDrive o iCloud, a seconda delle tue preferenze.",
+       "a1":"In Raito l'utente è l'unico proprietario dei propri dati. Potete creare un backup dei vostri dati e scaricarlo nello standard FHIR. Vi diamo due possibilità per salvare questo backup, sui nostri server o in uno storage decentralizzato.",
        "Last backup": "Ultimo backup",
+       "decentralized storage": "Che cos'è lo storage decentralizzato?",
        "Decentralized": "Decentrato",
        "q2":"Organizzazioni di pazienti",
        "a2.1":"Stai attualmente condividendo i dati con la comunità di reti dati di DSEF.",
@@ -1072,6 +1073,7 @@
        "Notecustom":"Invito creato automaticamente durante la generazione del PDF.",
        "Accept access":"Accetta l'accesso",
        "Scan with Microsoft Authenticator":"Scansiona con Microsoft Authenticator",
+       "instructionMA": "Se non si dispone di Microsoft Authenticator, è possibile scaricarlo <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>qui <em class='ft-external-link'></em></a>",
        "Accept or reject from mobile":"Accetta o rifiuta dal cellulare",
        "Access to":"Accesso a"
     },

@@ -102,10 +102,11 @@ export class AuthService {
     sessionStorage.setItem('token', token)
   }
 
-  signinUser(formValue: any): Observable<boolean> {
+  signinUser(formValue: any): Observable<any> {
     //your code for signing up the new user
     return this.http.post(environment.api+'/api/signin',formValue)
       .map( (res : any) => {
+        var isFirstTime = false;
           if(res.message == "You have successfully logged in"){
             //entrar en la app
             this.setLang(res.lang);
@@ -122,14 +123,19 @@ export class AuthService {
           }else{
             this.isloggedIn = false;
           }
+          if(res.isFirstTime){
+            isFirstTime = true;
+          }
           this.setMessage(res.message);
-          return this.isloggedIn;
+          return {isloggedIn: this.isloggedIn, isFirstTime: isFirstTime} ;
+          //return this.isloggedIn;
        }, (err) => {
          console.log(err);
          //this.isLoginFailed = true;
          this.setMessage("Login failed");
          this.isloggedIn = false;
-         return this.isloggedIn;
+         return {isloggedIn: this.isloggedIn, isFirstTime: false} ;
+         //return this.isloggedIn;
        }
     );
   }

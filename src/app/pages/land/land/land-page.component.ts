@@ -37,7 +37,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.lang = sessionStorage.getItem('lang');
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
-        console.log(this.authService.getEnvironment())
         if(this.authService.getEnvironment()){
             this.translate.use(this.authService.getLang());
             sessionStorage.setItem('lang', this.authService.getLang());
@@ -99,15 +98,19 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.isBlockedAccount = false;
         this.isLoginFailed = false;
         this.isBlocked = false;
+        var pwCopy = data.password;
         data.password= sha512(data.password)
     	   this.subscription.add( this.authService.signinUser(data).subscribe(
     	       authenticated => {
-      		    if(authenticated) {
+      		    if(authenticated.isloggedIn) {
                  //this.translate.setDefaultLang( this.authService.getLang() );
                  this.translate.use(this.authService.getLang());
                  sessionStorage.setItem('lang', this.authService.getLang());
-          		let url =  this.authService.getRedirectUrl();
+          		   let url =  this.authService.getRedirectUrl();
                  if(this.authService.getRole()=='User'){
+                  if(authenticated.isFirstTime) {
+                    Swal.fire('Write this password on a piece of paper and keep it, you will need it if you want to delete the account or restore a backup.', pwCopy, "success");
+                  }
                    this.subscription.add( this.patientService.getPatientId()
                    .subscribe( (res : any) => {
                       this.authService.setCurrentPatient(res);
@@ -120,14 +123,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
                  }else if(this.authService.getRole()=='Clinical'){
                    this.sending = false;
                     this.router.navigate([ url ]);
-                    if(this.authService.getLang()=='es'){
-                      Swal.fire({
-                          title: this.translate.instant("Los textos en este idioma pueden contener errores"),
-                          html: '<p>Este idioma está en desarrollo. Los nombres de los síntomas y las enfermedades, así como sus descripciones y sinónimos pueden contener errores.</p> <p>Para mejorar las traducciones, por favor, envíanos cualquier error a <a href="mailto:support@foundation29.org">support@foundation29.org</a></p>',
-                          confirmButtonText: this.translate.instant("generics.Accept"),
-                          icon:"warning"
-                      })
-                    }
                  }
                  else if(this.authService.getRole()=='Admin'){
                   this.sending = false;

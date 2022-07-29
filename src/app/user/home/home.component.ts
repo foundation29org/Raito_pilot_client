@@ -274,7 +274,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   setCheck4(bool){
     this.checks.check4 = bool;
     this.setChecks();
-    this.router.navigate(['/mydata'], { queryParams: { panel : '2' } })
+    this.router.navigate(['/mydata'], { queryParams: { panel : '3' } })
     //this.router.navigate(['/mydata'], { newTreatment: true });
   }
 
@@ -471,6 +471,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   initEnvironment(){
+    this.loadGroups();
     //this.userId = this.authService.getIdUser();
     if(this.authService.getCurrentPatient()==null){
       this.loadPatientId();
@@ -554,12 +555,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.step = '4';
     } else {
       this.step = '1';
-      this.loadGroups();
     }
   }
 
   question2() {
-    this.step = '2';
+    this.step = '3';
+    this.setPatientGroup(this.basicInfoPatient.group);
   }
 
   question3(response) {
@@ -567,6 +568,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(this.basicInfoPatient.consentgroup);
     this.step = '3';
     this.setPatientGroup(this.basicInfoPatient.group);
+  }
+
+  setNoneIdPatientGroup(){
+    for (var i = 0; i < this.groups.length; i++) {
+      if(this.groups[i].name == 'None'){
+        this.setPatientGroup(this.groups[i]._id);
+      }
+    }
+    
   }
 
   setPatientGroup(group) {

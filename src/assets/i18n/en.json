@@ -880,7 +880,7 @@
     "noti5a": "Your container doesn't have drugs data. Do you want to add some?",
     "noti5b": "You haven't changed your drugs lately. Do you have anything to change?",
     "noti6a": "You haven't joined a patient organization. Join now!",
-    "noti7a": "You haven't joined a data sharing community. Join now!",
+    "noti7a": "Your data is disconnected with your patient organization, do you want to connect it?",
     "Answer": "Answer"
   },
   "reports":{
@@ -941,8 +941,9 @@
     "title": "My data container",
     "desc": "Your container is your own personal space to store your data and share it for your own disease management and research. Here you can manage your container.",
     "q1": "Container location",
-    "a1": "In Raito you are the only owner of your data. Your data is stored in your device and periodically backed up to your own cloud storage such as OneDrive, GoogleDrive or iCloud, depending on your preferences.",
+    "a1": "In Raito you are the only owner of your data. You can create a backup of your data and download it in the FHIR standard. We give you two possibilities to save this backup, on our servers, or in decentralized storage.",
     "Last backup": "Last backup",
+    "decentralized storage": "What is decentralized storage?",
     "Decentralized": "Decentralized",
     "q2": "Patient organizations",
     "a2.1": "You are currently sharing data with the data network community of DSEF.",
@@ -1072,6 +1073,7 @@
     "Notecustom": "Invitation created automatically when generating the PDF.",
     "Accept access": "Accept access",
     "Scan with Microsoft Authenticator": "Scan with Microsoft Authenticator",
+    "instructionMA": "If you do not have Microsoft Authenticator, you can download it <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>here <em class='ft-external-link'></em></a>",
     "Accept or reject from mobile": "Accept or reject from mobile",
     "Access to": "Access to"
   },

@@ -880,7 +880,7 @@
     "noti5a": "Su contenedor no tiene datos de medicación. ¿Quiere añadir alguno?",
     "noti5b": "No has cambiado tu medicación últimamente. ¿Tienes algo que cambiar?",
     "noti6a": "No te has unido a una organización de pacientes. Únase ahora!",
-    "noti7a": "No te has unido a una comunidad de intercambio de datos. Únase ahora!",
+    "noti7a": "Sus datos están desconectados con su organización de pacientes, ¿quiere conectarlos?",
     "Answer": "Responder"
   },
   "reports":{
@@ -941,8 +941,9 @@
     "title": "Mi contenedor de datos",
     "desc": "Tu contenedor es tu propio espacio personal para almacenar tus datos y compartirlos para tu propia gestión e investigación de la enfermedad. Aquí puedes gestionar tu contenedor.",
     "q1": "Ubicación del contenedor",
-    "a1": "En Raito eres el único dueño de tus datos.Tus datos serán respaldados periódicamente en OneDrive, GoogleDrive o iCloud dependiendo de tu dispositivo.",
+    "a1": "En Raito usted es el único propietario de sus datos. Puedes crear una copia de seguridad de tus datos y descargarla en el estándar FHIR. Te damos dos posibilidades para guardar esta copia de seguridad, en nuestros servidores, o en un almacenamiento descentralizado.",
     "Last backup": "Última copia de seguridad",
+    "decentralized storage": "¿Qué es el almacenamiento descentralizado?",
     "Decentralized": "Descentralizado",
     "q2": "Organizaciones de pacientes",
     "a2.1": "Actualmente está compartiendo datos con la comunidad de la red de datos del DSEF.",
@@ -1072,6 +1073,7 @@
     "Notecustom": "Invitación creada automáticamente al generar el PDF.",
     "Accept access": "Aceptar acceso",
     "Scan with Microsoft Authenticator": "Escanea con Microsoft Authenticator",
+    "instructionMA": "Si no tiene Microsoft Authenticator, puede descargarlo <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>aquí <em class='ft-external-link'></em></a>",
     "Accept or reject from mobile": "Accept or reject from mobile",
     "Access to": "Acceso a"
   },

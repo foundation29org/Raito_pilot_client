@@ -195,6 +195,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   ipfs: any = {};
   f29: any = {};
   checkStatus: any = {};
+  showLinkMA: boolean = false;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
@@ -322,6 +323,8 @@ getConsentGroup(){
 }
 
 changeConsentGroup(value){
+  this.startingProcessOrg = true;
+  this.inProcessOrg = true;
   var paramssend = { consentgroup: value };
   this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
   .subscribe( (res : any) => {
@@ -333,6 +336,8 @@ changeConsentGroup(value){
       }
     }else if(res.message == 'consent changed'){
       this.consentgroup = res.consent;
+      this.startingProcessOrg = false;
+      this.inProcessOrg = false;
     }
    }, (err) => {
      console.log(err.error);
@@ -340,13 +345,13 @@ changeConsentGroup(value){
 }
 
 showPanelIssuerOrganization(info){
-  this.startingProcessOrg = true;
+  this.showLinkMA = false;
   this.checkStatusOrg = setInterval(function () {
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
         console.log(res);
-        this.inProcessOrg = true;
+        
         if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
           //showQR
           this.pinOrg= info.data.pin;
@@ -376,7 +381,7 @@ showPanelIssuerOrganization(info){
         console.log(`iOS device! Using deep link (${info.data.url}).`);
         window.location.replace(info.data.url);
     } else {
-      
+      this.showLinkMA = true;
     }
   }.bind(this), 2500);
 }
@@ -679,7 +684,7 @@ loadMyEmail(){
 deleteData(password){
   //cargar los datos del usuario
   this.loading = true;
-  var info = {password: password, email: this.myEmail}
+  var info = {password: password}
   this.subscription.add( this.http.post(environment.api+'/api/deleteaccount/'+this.authService.getIdUser(), info)
   .subscribe( (res : any) => {
     if(res.message=='The case has been eliminated'){
@@ -695,7 +700,9 @@ deleteData(password){
         setTimeout(function () {
           
           Swal.close();
-          window.location.reload();
+          this.authService.logout();
+          this.router.navigate([this.authService.getLoginUrl()]);
+          //window.location.reload();
       }.bind(this), 1500);
     }else{
       Swal.fire(this.translate.instant("mydata.Password is incorrect"), this.translate.instant("mydata.we will close your session"), "warning");

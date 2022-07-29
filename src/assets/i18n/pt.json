@@ -880,7 +880,7 @@
        "noti5a":"Seu contêiner não tem dados de drogas. Quer adicionar algum?",
        "noti5b":"Você não mudou suas drogas ultimamente. Você tem algo para mudar?",
        "noti6a":"Você não se juntou a uma organização de pacientes. Entrar!",
-       "noti7a":"Você não entrou em uma comunidade de compartilhamento de dados. Entrar!",
+       "noti7a":"Os seus dados estão desconectados da sua organização de doentes, quer conectá-los?",
        "Answer":"Responda"
     },
     "reports":{
@@ -941,8 +941,9 @@
        "title":"Meu contêiner de dados",
        "desc":"Seu contêiner é seu próprio espaço pessoal para armazenar seus dados e compartilhá-los para seu próprio gerenciamento e pesquisa de doenças. Aqui você pode gerenciar seu contêiner.",
        "q1":"Localização do contêiner",
-       "a1":"Na Raito você é o único proprietário dos seus dados. Seus dados são armazenados em seu dispositivo e periodicamente copiados em backup em seu próprio armazenamento em nuvem, como OneDrive, GoogleDrive ou iCloud, dependendo de suas preferências.",
+       "a1":"Em Raito, é o único proprietário dos seus dados. Pode criar uma cópia de segurança dos seus dados e descarregá-los no padrão FHIR. Damos-lhe duas possibilidades para guardar esta cópia de segurança, nos nossos servidores, ou em armazenamento descentralizado.",
        "Last backup": "Última cópia de segurança",
+       "decentralized storage": "O que é o armazenamento descentralizado?",
        "Decentralized": "Descentralizada",
        "q2":"Organizações de pacientes",
        "a2.1":"Você está compartilhando dados com a comunidade de rede de dados do DSEF.",
@@ -1072,6 +1073,7 @@
        "Notecustom":"Convite criado automaticamente ao gerar o PDF.",
        "Accept access":"Aceitar acesso",
        "Scan with Microsoft Authenticator":"Digitalize com o Microsoft Authenticator",
+       "instructionMA": "Se não tiver o Microsoft Authenticator, pode descarregá-lo <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>aqui <em class='ft-external-link'></em></a>",
        "Accept or reject from mobile":"Aceitar ou rejeitar do celular",
        "Access to":"Acesso a"
     },

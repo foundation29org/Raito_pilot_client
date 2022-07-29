@@ -22,15 +22,11 @@ export class MoralisService {
     //cargar las faqs del knowledgeBaseID
     return Moralis.authenticate({ provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
       .then( (user : any) => {
-        console.log(user)
-        console.log(Moralis.User.current());
         this.setCurrentUser(Moralis.User.current());
         this.currentUser = this.getCurrentUser();
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
         var email = openlogin_store.email;
-        console.log(email);
         var data = { moralisId: this.currentUser.id, ethAddress: user.get("ethAddress"), password: user.get("username"), lang: this.translate.store.currentLang, email: email };
-        console.log(data);
         return data;
        }, (err) => {
          console.log(err);
