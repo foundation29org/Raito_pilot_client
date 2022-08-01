@@ -63,6 +63,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   medications: any = [];
   actualMedications: any;
   private group: string;
+  private groupName: string;
   patient: any;
   timeformat = "";
   recommendedDoses: any = [];
@@ -300,8 +301,10 @@ loadPatientId(){
     }else{
       console.log(res);
       if(res.group!=null){
+        this.group = res.group;
         this.hasGroup = true;
         this.getConsentGroup();
+        this.loadGroups();
         if(this.accordion){
           this.accordion.activeIds=this.activeIds;
         }
@@ -310,6 +313,20 @@ loadPatientId(){
    }, (err) => {
      console.log(err);
    }));
+}
+
+loadGroups() {
+  this.subscription.add(this.apiDx29ServerService.loadGroups()
+    .subscribe((res: any) => {
+      console.log(res);
+      for (var i = 0; i < res.length; i++) {
+        if(this.group==res[i]._id){
+          this.groupName = res[i].name;
+        }
+      }
+    }, (err) => {
+      console.log(err);
+    }));
 }
 
 getConsentGroup(){
@@ -1356,6 +1373,7 @@ loadEnvironment() {
   this.medications = [];
   this.actualMedications = [];
   this.group = this.authService.getGroup();
+  this.loadGroups();
   this.patient = {
   };
 

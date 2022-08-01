@@ -228,7 +228,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.testHotjarTrigger(obj);
     }.bind(this));
 
-    this.moralisService.initServer();
+    //this.moralisService.initServer();
   }
 
   delay(ms: number) {

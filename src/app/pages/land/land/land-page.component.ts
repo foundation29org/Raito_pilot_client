@@ -37,6 +37,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.lang = sessionStorage.getItem('lang');
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
+
+        var connected = this.moralisService.initServer();
+        console.log(connected);
         if(this.authService.getEnvironment()){
             this.translate.use(this.authService.getLang());
             sessionStorage.setItem('lang', this.authService.getLang());

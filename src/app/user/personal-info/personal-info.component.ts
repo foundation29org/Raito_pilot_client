@@ -343,7 +343,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   }
 
   submitInvalidForm() {
-    console.log('qagag');
     if (!this.personalInfoForm) { return; }
     const base = this.personalInfoForm;
     for (const field in base.form.controls) {
@@ -359,27 +358,53 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     if (this.personalInfoForm.value.role == 'User' && (this.personalInfoForm.value.subrole == 'null' || this.personalInfoForm.value.subrole == null)) {
       Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.select the type of patient1"), "warning");
     } else {
-      this.sending = true;
-      var params = this.personalInfoForm.value;
-      params.permissions = {};
-      params.gender = this.datainfo.gender;
+      if(this.datainfo.group!=this.datainfoCopy.group && this.datainfo.consentgroup!='false'){
+        Swal.fire({
+          title: this.translate.instant("generics.Are you sure?"),
+          html:  this.translate.instant("mydata.note4"),
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#FF586B',
+          confirmButtonText: this.translate.instant("generics.Change"),
+          cancelButtonText: this.translate.instant("generics.No, cancel"),
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false
+      }).then((result) => {
+        if (result.value) {
+          this.datainfo.consentgroup = 'false';
+          this.savePatient(true);
+        }
+      });
 
-      if (this.datainfo.birthDate != null) {
-        this.datainfo.birthDate  = this.dateService.transformDate(this.datainfo.birthDate );
+      }else{
+        this.savePatient(false);
       }
-      this.datainfo.previousDiagnosis = this.actualInfoOneDisease.id;
-      console.log(this.datainfo);
-      this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub, this.datainfo)
-        .subscribe((res: any) => {
-          this.sending = false;
-        }, (err) => {
-          console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
-          this.sending = false;
-        }));
+
     }
 
+  }
 
+  savePatient(deleteConsent){
+    this.sending = true;
+    var params = this.personalInfoForm.value;
+    params.permissions = {};
+    params.gender = this.datainfo.gender;
+
+    if (this.datainfo.birthDate != null) {
+      this.datainfo.birthDate  = this.dateService.transformDate(this.datainfo.birthDate );
+    }
+    this.datainfo.previousDiagnosis = this.actualInfoOneDisease.id;
+    this.datainfo.deleteConsent = deleteConsent
+    this.datainfoCopy = JSON.parse(JSON.stringify(this.datainfo));
+    this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub, this.datainfo)
+      .subscribe((res: any) => {
+        this.sending = false;
+      }, (err) => {
+        console.log(err);
+        Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
+        this.sending = false;
+      }));
   }
 
   focusOutFunctionDiseases() {

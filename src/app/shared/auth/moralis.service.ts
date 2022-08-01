@@ -9,8 +9,8 @@ export class MoralisService {
 
   currentUser: any = null;
   moralisInstance: any = null;
-  initServer(): void {
-    Moralis.start({
+  async initServer(): Promise<void> {
+    await Moralis.start({
       appId: environment.moralisAppId,
       serverUrl: environment.moralisServerUrl
     })

@@ -18,7 +18,8 @@
                             </ng-template>
                             <ng-template ngbPanelContent>
                                 <div>
-                                    <p class="text-muted">{{'mydata.a1' | translate }} <a href="https://ipfs.io/" target="_blank">{{'mydata.decentralized storage' | translate }} </a></p>
+                                    <p class="text-muted">{{'mydata.a1' | translate }}</p>
+                                    <p class="text-muted" [innerHTML]="'mydata.a2' | translate"></p>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -48,7 +49,7 @@
                           </ng-template>
                           <ng-template ngbPanelContent>
                               <div>
-                                  <div *ngIf="!showShare">
+                                  <div>
                                       <!--<p class="text-muted">{{'mydata.sharepart1' | translate }}</p>-->
                                       <div class="row">
                                           <div class="col-md-12">
@@ -72,7 +73,6 @@
                                               <div *ngIf="loading" class="center-elements">
                                                 <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                                               </div>
-                                              <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
                                           </span>
                                       </div>
                                       <div class="row mt-2">
@@ -81,22 +81,13 @@
                                               <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
                                           </div>
                                           <span class="col-md-12 center-elements">
-                                              <button class="btn btn-dark" type="button"
+                                              <!--<button class="btn btn-dark" type="button"
                                               (click)="exportData()">{{'generics.ExportData' | translate }}</button>
-                                              <div class="d-none"><span id="content"></span></div>
+                                              <div class="d-none"><span id="content"></span></div>-->
                                               <button class="btn btn-dark" type="button"
                                               (click)="share(shareTo, 'General')">{{'open.Permissions' | translate }}</button>
-                                              <!--<button class="btn btn-dark ml-1" type="button" (click)="showShare=!showShare">{{'generics.ShareData' | translate }}</button>-->
                                           </span>
                                       </div>
-                                  </div>
-                                  <div *ngIf="showShare" class="center-elements">
-                                      <button class="btn btn-dark btn-sm d-block" (click)="showShare=false;">{{'generics.Back' | translate }}</button>
-                                      <div>
-                                          <p class="danger">{{'generics.Under construction' | translate }}</p>
-                                          <img class="w-100" src='assets/img/pages/demoshare.jpg'>
-                                      </div>
-                                      
                                   </div>
                               </div>
 
@@ -110,7 +101,7 @@
                                     </span></h5>
                             </ng-template>
                             <ng-template ngbPanelContent>
-                                <div>
+                                <div *ngIf="group=='61bb38fad6e0cb14f08881c0'">
                                     <div class="mb-2">
                                         <img style="width: 80%;" src='assets/img/pages/dravet.jpg'>
                                     </div>
@@ -123,6 +114,10 @@
                                         <span class="d-block">- {{'mydata.a2.4.1' | translate }} <a (click)="openTerms()" class="ml-1 info">{{'mydata.a2.4.2' | translate }}</a></span>
                                     </p>
                                 </div>
+
+                                <div *ngIf="group!='61bb38fad6e0cb14f08881c0' && hasGroup">
+                                    <p>{{'generics.Name' | translate }}: {{groupName}}</p>
+                                </div>
                                 <div>
                                     <div class="" *ngIf="!hasGroup">
                                         <p>{{'mydata.You do not belong to any patient group' | translate }}</p>
@@ -132,9 +127,9 @@
                                     <div class="center-elements" *ngIf="hasGroup">
 
                                         <div class="text-left" *ngIf="consentgroup=='false' || (consentgroup=='Pending' && !startingProcessOrg)">
-                                            <p> In traditional systems, you don't have control of your data, but we want to change that.</p>
-                                            <p> By giving consent to your organization to access your data anonymously, we use decentralized identity, so that you have control of your data, while maintaining privacy and security. You can give your consent and refuse it whenever you want.</p>
-                                            <p> When you give your consent, you will have the proof of it on your mobile phone.</p>
+                                            <p>{{'mydata.note1' | translate }}</p>
+                                            <p>{{'mydata.note2' | translate }}</p>
+                                            <p>{{'mydata.note3' | translate }}</p>
                                             <p class="text-muted">
                                                 {{'homeraito.p1' | translate }}
                                             </p>
@@ -147,7 +142,6 @@
                                             <button *ngIf="consentgroup=='true'" class="mt-2 btn btn-primary" type="button"
                                             (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
                                         </span>
-                                        
                                         <div class="mt-2" *ngIf="consentgroup=='Pending'">
                                             <div *ngIf="qrImageOrg!=''">
                                                 <h5>{{'open.Scan with Microsoft Authenticator' | translate }} <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span></h5>
