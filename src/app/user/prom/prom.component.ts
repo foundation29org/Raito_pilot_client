@@ -67,6 +67,8 @@ export class PromComponent {
   showListQuestionnaires: boolean = true;
   a121: string = '';
   a122: string = '';
+  questionnaires: any = [];
+  actualQuestionnaire: any = {};
 
 
   constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
@@ -112,20 +114,25 @@ export class PromComponent {
      this.pendingsTaks = 8;
      this.actualProm = {};
      this.step = 0;
+     this.showListQuestionnaires=true;
     this.initEnvironment();
-    this.loadPromQuestions();
+    
   }
 
-  loadPromQuestions(){
+  loadPromQuestions(idQuestionnaire){
     this.newproms = [];
-    this.newproms.push({idProm:1, data:null})
-    this.newproms.push({idProm:2, data:null})
-    this.newproms.push({idProm:3, data:null})
-    this.newproms.push({idProm:4, data:null})
-    this.newproms.push({idProm:5, data:null})
-    this.newproms.push({idProm:6, data:this.prom6})
-    this.newproms.push({idProm:7, data:null})
-    this.newproms.push({idProm:8, data:null})
+   
+    for(var i=0;i<this.actualQuestionnaire.info.items.length;i++){
+      if(this.actualQuestionnaire.info.items[i].type=='ChoiceSet'){
+        var values = {};
+        for(var j=0;j<this.actualQuestionnaire.info.items[i].answers.length;j++){
+          values[this.actualQuestionnaire.info.items[i].answers[j].value] =false
+        }
+        this.newproms.push({idProm:this.actualQuestionnaire.info.items[i].idProm, data:values, idQuestionnaire: idQuestionnaire})
+      }else{
+        this.newproms.push({idProm:this.actualQuestionnaire.info.items[i].idProm, data:null , idQuestionnaire: idQuestionnaire})
+      }
+    }
   }
 
   filterNewProms(){
@@ -169,6 +176,7 @@ export class PromComponent {
   }
 
   initEnvironment(){
+    this.loadedProms = false;
     this.userId = this.authService.getIdUser();
     console.log(this.authService.getCurrentPatient());
     if(this.authService.getCurrentPatient()==null){
@@ -176,7 +184,7 @@ export class PromComponent {
     }else{
       this.loadedPatientId = true;
       this.selectedPatient = this.authService.getCurrentPatient();
-      this.getProms();
+      this.loadQuestionnaires();
     }
   }
 
@@ -190,7 +198,7 @@ export class PromComponent {
         this.loadedPatientId = true;
         this.authService.setCurrentPatient(res);
         this.selectedPatient = res;
-        this.getProms();
+        this.loadQuestionnaires();
       }
      }, (err) => {
        console.log(err);
@@ -201,30 +209,72 @@ export class PromComponent {
     return this.translate.instant(literal);
   }
 
+  loadQuestionnaires(){
+    console.log(this.authService.getGroup());
+    this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
+      .subscribe((res: any) => {
+        console.log(res.questionnaires);
+        this.questionnaires = res.questionnaires;
+        for(var i=0;i<this.questionnaires.length;i++){
+          this.loadQuestionnaire(this.questionnaires[i].id, i)
+        }
+        this.getProms();
+      }, (err) => {
+        console.log(err);
+      }));
+  }
+
+  loadQuestionnaire(questionnaireId, index){
+    this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
+      .subscribe((res: any) => {
+        this.questionnaires[index].info=res
+        console.log(this.questionnaires);
+      }, (err) => {
+        console.log(err);
+      }));
+    
+  }
+
   getProms(){
     this.proms = [];
     this.loadedProms = false;
-    var info = {rangeDate: ''}
-    console.log(this.authService.getCurrentPatient());
+    var questionnaires = [];
+    for(var i=0;i<this.questionnaires.length;i++){
+      questionnaires.push(this.questionnaires[i].id)
+    }
+    var info = {rangeDate: '', questionnaires: questionnaires}
         this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res:any)=>{
-          this.proms = res;
-          console.log(res);
-          if(this.pendind && res.length<this.totalTaks){
+          for(var i=0;i<this.questionnaires.length;i++){
+            this.questionnaires[i].answers = [];
+            for(var j=0;j<res.length;j++){
+              if(this.questionnaires[i].id = res[j].idQuestionnaire){
+                this.questionnaires[i].answers.push(res[j]);
+              }
+            }
+          }
+          this.loadedProms = true;
+        }, (err) => {
+          console.log(err);
+          this.loadedProms = true;
+        }));
+  }
+
+  selectQuestionnaire(index){
+    this.actualQuestionnaire = this.questionnaires[index]
+    this.loadPromQuestions(this.questionnaires[index].id);
+    console.log(this.actualQuestionnaire);
+        this.proms = this.actualQuestionnaire.answers;
+          if(this.pendind && this.actualQuestionnaire.answers.length<this.totalTaks){
             this.filterNewProms();
           }else{
             this.pendind = false;
             this.showAll();
           }
           
-          this.totalTaks = this.totalTaks - res.length;
+          this.totalTaks = this.totalTaks - this.actualQuestionnaire.answers.length;
           this.pendingsTaks = this.totalTaks;
-          console.log(res);
-          
-            }, (err) => {
-              console.log(err);
-              this.loadedProms = true;
-            }));
+          console.log(this.actualQuestionnaire.answers);
   }
 
   //  On submit click, reset field value
