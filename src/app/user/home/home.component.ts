@@ -368,10 +368,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadQuestionnaires(){
     this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
-      .subscribe((res: any) => {
+      .subscribe(async (res: any) => {
         this.questionnaires = res.questionnaires;
         for(var i=0;i<this.questionnaires.length;i++){
-          this.loadQuestionnaire(this.questionnaires[i].id, i)
+          await this.loadQuestionnaire(this.questionnaires[i].id, i)
+          console.log('1');
         }
         this.getProms();
       }, (err) => {
@@ -390,6 +391,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getProms(){
+    console.log('2');
     var questionnaires = [];
     for(var i=0;i<this.questionnaires.length;i++){
       questionnaires.push(this.questionnaires[i].id)
