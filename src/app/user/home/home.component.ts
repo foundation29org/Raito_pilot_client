@@ -134,8 +134,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   xAxisTicks = [];
   yAxisTicksSeizures = [];
   yAxisTicksDrugs = [];
-
-  pendingsTaks: number = 8;
   totalTaks: number = 0;
   tasksLoaded: boolean = false;
 
@@ -183,9 +181,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadVerifiedInfo: boolean = false;
   userInfo: any = {};
   public chartNames: string[];
-    public colors: ColorHelper;
-    public colors2: ColorHelper;
-    titleSeizuresLegend = [];
+  public colors: ColorHelper;
+  public colors2: ColorHelper;
+  titleSeizuresLegend = [];
+  
+  questionnaires: any = [];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -357,25 +357,62 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.subscription.add(this.patientService.getPatientId()
         .subscribe((res: any) => {
           if (res != null) {
-            var info = { rangeDate: '' }
-            this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
-              .subscribe((res: any) => {
-                if(this.pendingsTaks - res.length>0){
-                  this.totalTaks++;
-                }
-                this.tasksLoaded = true;
-              }, (err) => {
-                console.log(err);
-                this.tasksLoaded = true;
-              }));
+            this.loadQuestionnaires();
           }
 
         }, (err) => {
           console.log(err);
         }));
     }
+  }
 
+  loadQuestionnaires(){
+    this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
+      .subscribe((res: any) => {
+        this.questionnaires = res.questionnaires;
+        for(var i=0;i<this.questionnaires.length;i++){
+          this.loadQuestionnaire(this.questionnaires[i].id, i)
+        }
+        this.getProms();
+      }, (err) => {
+        console.log(err);
+      }));
+  }
 
+  loadQuestionnaire(questionnaireId, index){
+    this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
+      .subscribe((res: any) => {
+        this.questionnaires[index].info=res
+      }, (err) => {
+        console.log(err);
+      }));
+    
+  }
+
+  getProms(){
+    var questionnaires = [];
+    for(var i=0;i<this.questionnaires.length;i++){
+      questionnaires.push(this.questionnaires[i].id)
+    }
+    var info = {rangeDate: '', questionnaires: questionnaires}
+    this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
+      .subscribe((res: any) => {
+        for(var i=0;i<this.questionnaires.length;i++){
+          this.questionnaires[i].answers = [];
+          for(var j=0;j<res.length;j++){
+            if(this.questionnaires[i].id = res[j].idQuestionnaire){
+              this.questionnaires[i].answers.push(res[j]);
+            }
+          }
+          if(this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length)!=(this.questionnaires[i].info.items.length)){
+            this.totalTaks++;
+          }
+        }
+        this.tasksLoaded = true;
+      }, (err) => {
+        console.log(err);
+        this.tasksLoaded = true;
+      }));
   }
 
   yAxisTickFormatting(value) {

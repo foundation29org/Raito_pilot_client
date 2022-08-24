@@ -45,8 +45,6 @@ export class PromComponent {
   loadedProms: boolean = false;
   proms: any = [];
   newproms: any = [];
-  totalTaks: number = 8;
-  pendingsTaks: number = 8;
   actualProm: any = {};
   prom6: any = {
     "Brightorpatternedlights": false,
@@ -110,8 +108,6 @@ export class PromComponent {
    init() {
      this.proms = [];
      this.newproms= [];
-     this.totalTaks = 8;
-     this.pendingsTaks = 8;
      this.actualProm = {};
      this.step = 0;
      this.showListQuestionnaires=true;
@@ -263,18 +259,14 @@ export class PromComponent {
   selectQuestionnaire(index){
     this.actualQuestionnaire = this.questionnaires[index]
     this.loadPromQuestions(this.questionnaires[index].id);
-    console.log(this.actualQuestionnaire);
         this.proms = this.actualQuestionnaire.answers;
-          if(this.pendind && this.actualQuestionnaire.answers.length<this.totalTaks){
+          if(this.pendind && this.actualQuestionnaire.answers.length<this.actualQuestionnaire.info.items.length){
             this.filterNewProms();
           }else{
             this.pendind = false;
             this.showAll();
           }
-          
-          this.totalTaks = this.totalTaks - this.actualQuestionnaire.answers.length;
-          this.pendingsTaks = this.totalTaks;
-          console.log(this.actualQuestionnaire.answers);
+          console.log(this.actualQuestionnaire);
   }
 
   //  On submit click, reset field value
@@ -337,7 +329,7 @@ export class PromComponent {
 
   nextProm(){
     this.goNext = true;
-    if(this.actualProm.idProm==6){
+    /*if(this.actualProm.idProm==6){
       var foundElementTrue = false;
       for(var i in this.prom6) {
         if(this.prom6[i]){
@@ -348,11 +340,6 @@ export class PromComponent {
         this.actualProm.data = this.prom6;
       }
       
-    }
-    /*if(this.actualProm.idProm==8){
-      if(this.actualProm.data=='Improvement in other symptoms'){
-
-      }
     }*/
     if(this.actualProm.data!=null){
       if(this.actualProm._id){

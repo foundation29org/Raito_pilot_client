@@ -15,7 +15,7 @@
                     <div *ngIf="showListQuestionnaires && loadedProms">
                         <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
                         <span *ngFor="let questionnaire of questionnaires ; let j = index">
-                            <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-pendingsTaks)==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
+                            <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
                             <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
                                 <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)">
                                     {{'prom.See answers' | translate }}
@@ -52,7 +52,10 @@
                                                     <div *ngIf="item.type=='ChoiceSet'">
                                                         <p class="mb-0" *ngFor="let answer of item.answers ; let ki = index">
                                                             <mat-checkbox name="{{answer.value}}" [(ngModel)]="actualProm.data[answer.value]">{{answer.text}}</mat-checkbox>
-                                                        </p>
+                                                            <span *ngIf="answer.text == item.other && actualProm.data[answer.value] == true">
+                                                                <input type="text" class="form-control" name="{{answer.value}}{{ki}}" placeholder="{{'prom.a6.9' | translate }}" [(ngModel)]="actualProm.other">
+                                                            </span>
+                                                        </p>                                                        
                                                     </div>
                                                 </div>
                                             </div>
