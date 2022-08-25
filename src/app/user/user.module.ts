@@ -14,6 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { TagInputModule } from 'ngx-chips';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 
 import { HomeComponent } from './home/home.component';
@@ -44,6 +45,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
         ReactiveFormsModule,
         UiSwitchModule,
         MatDatepickerModule,
+        MatInputModule,
         MatNativeDateModule,
         NgxChartsModule,
         MatCheckboxModule,

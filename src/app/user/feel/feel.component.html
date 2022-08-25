@@ -102,6 +102,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <mat-form-field class="mr-sm-24" fxFlex (click)="open()" >
+                                    <input matInput [matDatepicker]="picker" placeholder="Date"
+                                                   autocomplete="off"
+                                                   name="date" formControlName="date">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker  [startAt]="date" #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group">
                                 <textarea maxlength="150" class="autoajustable form-control" formControlName="note" placeholder="{{'feel.Add a note describing how do you feel or events' | translate }}"
                                    ></textarea>
                             </div>
