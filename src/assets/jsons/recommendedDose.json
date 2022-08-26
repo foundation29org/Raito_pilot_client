@@ -388,7 +388,7 @@
             },
             "maintenancedose": {
                 "min": "0.4",
-                "max": "0.5"
+                "max": "0.4"
             },
             "perkg": "yes"
         },
@@ -399,7 +399,7 @@
             },
             "maintenancedose": {
                 "min": "0.4",
-                "max": "0.5"
+                "max": "0.4"
             },
             "perkg": "yes"
         }
