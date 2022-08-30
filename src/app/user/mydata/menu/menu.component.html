@@ -562,18 +562,18 @@
             </div>
             <div class="row" *ngIf="feels.length > 0">
                 <div class="col-sm-12">
-                    <div class="card mb-2 mt-2">
+                    <div class="card mb-2 mt-2" id="line-chart2">
                         <div class="mb-2">
-                          <div class="card-block" [ngClass]="(generatingPDF)?'m-3':'m-0'">
+                          <div class="card-block" [ngClass]="(generatingPDF)?'m-0':'m-0'">
                             <div class="row p-2" *ngIf="!generatingPDF">
                                     <div class="col-12">
                                         <h4 class="text-bold-500 mb-0">{{'charts.Quality of life' | translate }}</h4>
                                         <span class="text-muted">{{'pdf.grap2' | translate }}</span>
                                     </div>
                                 </div>
-                                <div id="line-chart2">
+                                <div>
                                   <div class="height-100">
-                                    <ngx-charts-bar-vertical-2d [scheme]="lineChartColorScheme"
+                                    <ngx-charts-line-chart [scheme]="lineChartColorScheme"
                                         [results]="lineChartHeight" [gradient]="barChartGradient"
                                         [xAxis]="false" [yAxis]="true"
                                         [legend]="barChartShowLegend"
@@ -609,7 +609,17 @@
                                                     }}</span>
                                             </div>
                                         </ng-template>
-                                    </ngx-charts-bar-vertical-2d>
+                                    </ngx-charts-line-chart>
+                                    <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    </div>
+                                    <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    </div>
                                 </div>
                                 </div>
                                 
