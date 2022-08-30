@@ -175,6 +175,14 @@ margin-top: 0.75rem !important;
     float: right !important;
   }
 
+  ::ng-deep #qrcodeimg{
+    display: inline-block;
+  }
+
+  ::ng-deep .qrcode{
+    width: fit-content !important;
+  }
+
   .bottonsactionsDefault{
     position: absolute; 
     right: 15px;
