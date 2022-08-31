@@ -68,6 +68,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   };
   age: any = {};
   weight: string;
+  weightUnits: string;
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -250,7 +251,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
           }.bind(this))
         }else{
-          this.weight = res.weight.value
+          this.weight = res.weight.value;
+          this.weightUnits = res.weight.value;
+          if (this.settings.massunit == 'lb') {
+            this.weightUnits = (Number(this.weightUnits) * 2.2046).toString();
+          }
           this.checkBirthDate();
         }
       }, (err) => {
@@ -325,6 +330,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
         .subscribe((res: any) => {
           console.log(res);
           this.weight = res.weight.value
+          this.weightUnits = res.weight.value;
+          if (this.settings.massunit == 'lb') {
+            this.weightUnits = (Number(this.weightUnits) * 2.2046).toString();
+          }
           this.toastr.success('', this.msgDataSavedOk);
         }, (err) => {
           console.log(err);
