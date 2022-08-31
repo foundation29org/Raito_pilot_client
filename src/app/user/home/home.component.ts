@@ -811,7 +811,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           if (res.length > 0) {
             res.sort(this.sortService.DateSortInver("date"));
-            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, 7)
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, 30)
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -1031,7 +1031,7 @@ getWeek(newdate, dowOffset?) {
         this.medications = res;
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
-          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 14)
+          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 180)
           this.searchTranslationDrugs();
           this.groupMedications();
           var datagraphseizures = [];
