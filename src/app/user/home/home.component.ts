@@ -186,6 +186,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   titleSeizuresLegend = [];
   
   questionnaires: any = [];
+  rangeResourcesDate:{};
+  rangeResourcesDateDefault={
+    "drugs":180,
+    "phenotypes": 180,
+    "feels":30,
+    "seizures":30,
+    "weight": 180,
+    "height":180
+  }
+  nextEvents: any = [];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -298,7 +308,7 @@ export class HomeComponent implements OnInit, OnDestroy {
      }));
   }
 
-  loadEnvironment() {
+  async loadEnvironment() {
     this.medications = [];
     this.actualMedications = [];
     this.group = this.authService.getGroup();
@@ -342,14 +352,30 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     }
 
+    this.loadGroupFile();
+  }
+
+  loadGroupFile(){
+    this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
+      .subscribe(async (res: any) => {
+        this.rangeResourcesDate = res.body;
+        this.continue();
+      }, (err) => {
+        console.log(err);
+        this.rangeResourcesDate = this.rangeResourcesDateDefault;
+        this.continue();
+      }));
+  }
+
+  continue(){
     this.loadTranslationsElements();
-    
     this.loadNotifications();
+    this.loadNextEvents();
     this.getInfoPatient();
     this.getConsentGroup();
     this.getChecks();
   }
-
+  
   loadNotifications() {
     this.tasksLoaded = false;
     this.totalTaks = 0;
@@ -366,6 +392,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadNextEvents(){
+    this.subscription.add(this.http.get(environment.api + '/api/lastappointments/' + this.authService.getCurrentPatient().sub)
+      .subscribe((res: any) => {
+        this.nextEvents = res;
+        if(this.nextEvents.length>0){
+          this.nextEvents.sort(this.sortService.DateSortInver("start"));
+        }
+        
+      }, (err) => {
+        console.log(err);
+      }));
+  }
+
   loadQuestionnaires(){
     this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
@@ -374,7 +413,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           await this.loadQuestionnaire(this.questionnaires[i].id, i)
           console.log('1');
         }
-        this.getProms();
+        //this.getProms();
       }, (err) => {
         console.log(err);
       }));
@@ -384,6 +423,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
       .subscribe((res: any) => {
         this.questionnaires[index].info=res
+        if(index==(this.questionnaires.length-1)){
+          this.getProms();
+        }
       }, (err) => {
         console.log(err);
       }));
@@ -653,7 +695,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           resFeels.feels.sort(this.sortService.DateSortInver("date"));
           this.feels = resFeels.feels;
           if(this.feels.length>0){
-            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, 30)
+            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, this.rangeResourcesDate['feels'])
           }else{
             this.showNotiFeel = false;
           }
@@ -811,7 +853,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           if (res.length > 0) {
             res.sort(this.sortService.DateSortInver("date"));
-            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, 30)
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate['seizures'])
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -941,8 +983,6 @@ getWeek(newdate, dowOffset?) {
     
     var splitLastDate = datagraphseizures[datagraphseizures.length-1].stringDate;
     var splitFirstDate = datagraphseizures[0].stringDate;
-    console.log(splitLastDate)
-    console.log(maxDate)
       if(new Date(splitLastDate)<new Date(maxDate)){
         console.log('add today');
         datagraphseizures.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
@@ -953,7 +993,6 @@ getWeek(newdate, dowOffset?) {
       }
       var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
       datagraphseizures.sort(this.sortService.DateSortInver("stringDate"));
-      console.log(datagraphseizures)
     for (var j = 0; j < datagraphseizures.length; j=j+1) {
       var foundDate = false;
       var actualDate = datagraphseizures[j].stringDate;
@@ -1031,7 +1070,7 @@ getWeek(newdate, dowOffset?) {
         this.medications = res;
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
-          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 180)
+          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate['drugs'])
           this.searchTranslationDrugs();
           this.groupMedications();
           var datagraphseizures = [];

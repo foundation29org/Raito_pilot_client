@@ -273,6 +273,40 @@
                                   </a>
                             </div>
                         </div>
+                        <div class="row font-small-3" *ngIf="nextEvents.length>0">
+                            <div class="col-1 pr-0">
+                                <em class="fa fa-calendar"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="mb-0">Upcoming events:</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/calendar">
+                                    <span class="">
+                                        {{'menu.Calendar' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="row" *ngFor="let event of nextEvents ; let i = index">
+                                    <span class="col-1">
+                                    </span>
+                                    <span class="col-6 pl-2 pr-0">
+                                        <strong>{{event.title}}</strong>
+                                    </span>
+                                    <span class="col-5">
+                                        {{event.start | date}}
+                                        <a class="float-right mr-2" style="word-wrap: normal;" [routerLink]="['/calendar', { index: i}]">
+                                            <span class="">
+                                                {{'generics.Edit' | translate }}
+                                            </span>
+                                          </a>
+                                    </span>
+                                    
+                                </span>
+                            </div>
+                            
+                        </div>
                         <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && events.length > 0 && medications.length > 0 && feels.length > 0">
                             <div class="col-7">
                                 <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
