@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CalendarModule } from 'angular-calendar';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -35,7 +36,10 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
 
 @NgModule({
     imports: [
-        CalendarModule.forRoot(),
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+          }),
         CommonModule,
         FormsModule,
         ClinicalRoutingModule,

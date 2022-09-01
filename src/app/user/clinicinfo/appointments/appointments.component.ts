@@ -55,26 +55,26 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
 
   view: string = 'month';
 
-  newEvent: MyEvent;
-  lastEvent: MyEvent;
+  newEvent: CalendarEvent;
+  lastEvent: CalendarEvent;
 
   viewDate: Date = new Date();
 
   modalData: {
     action: string;
-    event: MyEvent;
+    event: CalendarEvent;
   };
 
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: MyEvent }): void => {
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edit this event', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: MyEvent }): void => {
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         //this.events = this.events.filter(iEvent => iEvent !== event);
         Swal.fire({
           title: this.translate.instant("generics.Are you sure?"),
@@ -100,7 +100,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
 
   refresh: Subject<any> = new Subject();
 
-  events: MyEvent[] = [];
+  events: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = true;
   loading: boolean = false;
@@ -170,6 +170,12 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
                 res[i].start = new Date(res[i].start);
                 res[i].end = new Date(res[i].end);
                 res[i].actions = this.actions;
+                res[i].meta={
+                  type: res[i].type,
+                  notes:res[i].notes,
+                  _id:res[i]._id
+                };
+
               }
              
               this.events = res;
@@ -179,7 +185,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
               console.log(this.events);
               this.refresh.next();
               this.lastEvent = JSON.parse(JSON.stringify(res[0]));
-              this.lastEvent._id =null;
+              this.lastEvent.meta._id =null;
             }else{
               this.events = [];
               this.refresh.next();
@@ -202,37 +208,41 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
   loadSampleData(){
     this.events = [
       {
-        _id: '1',
-        type: null,
-  		  notes:"",
+        id: '1',
         start: subDays(startOfDay(new Date()), 1),
         end: addDays(new Date(), 1),
         title: 'A 3 day event',
         color: colors.red,
-        actions: this.actions
+        actions: this.actions,
+        meta: {
+          type: null,
+          notes:""
+        }
       },
       {
-        _id: '2',
-        type: null,
-  		  notes:"",
+        id: '2',
         start: startOfDay(new Date()),
         title: 'An event with no end date',
         color: colors.yellow,
-        actions: this.actions
+        actions: this.actions,
+        meta: {
+          type: null,
+          notes:""
+        }
       },
       {
-        _id: '3',
-        type: null,
-  		  notes:"",
+        id: '3',
         start: subDays(endOfMonth(new Date()), 3),
         end: addDays(endOfMonth(new Date()), 3),
         title: 'A long event that spans 2 months',
-        color: colors.blue
+        color: colors.blue,
+        meta: {
+          type: null,
+          notes:""
+        }
       },
       {
-        _id: '4',
-        type: null,
-  		  notes:"",
+        id: '4',
         start: addHours(startOfDay(new Date()), 2),
         end: new Date(),
         title: 'A draggable and resizable event',
@@ -242,12 +252,16 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
           beforeStart: true,
           afterEnd: true
         },
-        draggable: false
+        draggable: false,
+        meta: {
+          type: null,
+          notes:""
+        }
       }
     ];
   }
 
-  dayClicked({ date, events }: { date: Date; events: MyEvent[] }): void {
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -279,7 +293,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
     
   }
 
-  handleEvent(action: string, event: MyEvent): void {
+  handleEvent(action: string, event: CalendarEvent): void {
     //event.color = colors.red;
     this.modalData = { event, action };
     
@@ -299,14 +313,17 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
         actualDate = date;
       }
       this.newEvent = {
-        _id: null,
-        type: null,
-  		  notes:"",
+        id: null,
         title: 'New event',
         start: startOfDay(actualDate),
         end: endOfDay(actualDate),
         color: colors.red,
         actions: this.actions,
+        meta: {
+          type: null,
+          notes:"",
+          _id:null
+        }
       }
       
     }
@@ -319,12 +336,12 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
 
   saveData(param){
     this.lastEvent = JSON.parse(JSON.stringify(param));
-    this.lastEvent._id =null;
+    this.lastEvent.meta._id =null;
     if(this.authGuard.testtoken()){
       this.saving = true;
       delete param.actions;
-      if(param._id==null){
-        delete param._id;
+      if(param.meta._id==null){
+        delete param.meta._id;
         this.subscription.add( this.http.post(environment.api+'/api/appointments/'+this.authService.getCurrentPatient().sub, param)
         .subscribe( (res : any) => {
           this.saving = false;
@@ -339,7 +356,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
            }
          }));
       }else{
-        this.subscription.add( this.http.put(environment.api+'/api/appointments/'+param._id, param)
+        this.subscription.add( this.http.put(environment.api+'/api/appointments/'+param.meta._id, param)
         .subscribe( (res : any) => {
           this.saving = false;
           this.loadData();
@@ -357,7 +374,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
   }
 
   eliminarSeizure(event){
-    this.subscription.add( this.http.delete(environment.api+'/api/appointments/'+event._id)
+    this.subscription.add( this.http.delete(environment.api+'/api/appointments/'+event.meta._id)
     .subscribe( (res : any) => {
       //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
       this.loadData()
@@ -373,7 +390,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
 
   clearData(data){
     var emptydata = {
-      _id: data._id,
+      id: data.id,
       type: null,
       notes:"",
       title: 'New event',
@@ -381,6 +398,11 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
       end: endOfDay(new Date()),
       color: colors.red,
       actions: this.actions,
+      meta: {
+        type: null,
+        notes:"",
+        _id:null
+      }
     }
     this.modalData.event=emptydata;
     this.refresh.next();
