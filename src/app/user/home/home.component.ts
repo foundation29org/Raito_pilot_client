@@ -186,15 +186,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   titleSeizuresLegend = [];
   
   questionnaires: any = [];
-  rangeResourcesDate:{};
+  rangeResourcesDate: any = {};
   rangeResourcesDateDefault={
-    "drugs":180,
-    "phenotypes": 180,
-    "feels":30,
-    "seizures":30,
-    "weight": 180,
-    "height":180
-  }
+    "data":{
+        "drugs":{
+            "daysToUpdate":180
+        },
+        "phenotypes":{
+            "daysToUpdate":180
+        },
+        "feels":{
+            "daysToUpdate":30
+        },
+        "seizures":{
+            "daysToUpdate":30
+        },
+        "weight": {
+            "daysToUpdate":180
+        },
+        "height":{
+            "daysToUpdate":180
+        }
+    },    
+    "meta":{
+        "id":""
+    }
+}
   nextEvents: any = [];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
@@ -695,7 +712,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           resFeels.feels.sort(this.sortService.DateSortInver("date"));
           this.feels = resFeels.feels;
           if(this.feels.length>0){
-            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, this.rangeResourcesDate['feels'])
+            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, this.rangeResourcesDate.data['feels'].daysToUpdate)
           }else{
             this.showNotiFeel = false;
           }
@@ -853,7 +870,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           if (res.length > 0) {
             res.sort(this.sortService.DateSortInver("date"));
-            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate['seizures'])
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate.data['seizures'].daysToUpdate)
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -1070,7 +1087,7 @@ getWeek(newdate, dowOffset?) {
         this.medications = res;
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
-          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate['drugs'])
+          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate.data['drugs'].daysToUpdate)
           this.searchTranslationDrugs();
           this.groupMedications();
           var datagraphseizures = [];
