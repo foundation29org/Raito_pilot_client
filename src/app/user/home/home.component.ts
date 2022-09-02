@@ -134,8 +134,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   xAxisTicks = [];
   yAxisTicksSeizures = [];
   yAxisTicksDrugs = [];
-
-  pendingsTaks: number = 8;
   totalTaks: number = 0;
   tasksLoaded: boolean = false;
 
@@ -173,7 +171,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   yAxisLabelRight: string;
   valueprogressbar=0;
   checks: any = {};
-  consentgroup: boolean = false;
+  consentgroup: string = 'false';
   recommendedDoses: any = [];
   showNotiSeizu: boolean = false;
   showNotiFeel: boolean = false;
@@ -183,9 +181,38 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadVerifiedInfo: boolean = false;
   userInfo: any = {};
   public chartNames: string[];
-    public colors: ColorHelper;
-    public colors2: ColorHelper;
-    titleSeizuresLegend = [];
+  public colors: ColorHelper;
+  public colors2: ColorHelper;
+  titleSeizuresLegend = [];
+  
+  questionnaires: any = [];
+  rangeResourcesDate: any = {};
+  rangeResourcesDateDefault={
+    "data":{
+        "drugs":{
+            "daysToUpdate":180
+        },
+        "phenotypes":{
+            "daysToUpdate":180
+        },
+        "feels":{
+            "daysToUpdate":30
+        },
+        "seizures":{
+            "daysToUpdate":30
+        },
+        "weight": {
+            "daysToUpdate":180
+        },
+        "height":{
+            "daysToUpdate":180
+        }
+    },    
+    "meta":{
+        "id":""
+    }
+}
+  nextEvents: any = [];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -240,7 +267,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.feels.length > 0 && !this.showNotiFeel){
       this.valueprogressbar=this.valueprogressbar+20;
     }
-    if(this.basicInfoPatient.consentgroup){
+    if(this.basicInfoPatient.consentgroup=='true'){
       this.valueprogressbar=this.valueprogressbar+20;
     }
   }
@@ -274,7 +301,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   setCheck4(bool){
     this.checks.check4 = bool;
     this.setChecks();
-    this.router.navigate(['/mydata'], { queryParams: { panel : '2' } })
+    this.router.navigate(['/mydata'], { queryParams: { panel : '3' } })
     //this.router.navigate(['/mydata'], { newTreatment: true });
   }
 
@@ -298,7 +325,7 @@ export class HomeComponent implements OnInit, OnDestroy {
      }));
   }
 
-  loadEnvironment() {
+  async loadEnvironment() {
     this.medications = [];
     this.actualMedications = [];
     this.group = this.authService.getGroup();
@@ -342,14 +369,30 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     }
 
+    this.loadGroupFile();
+  }
+
+  loadGroupFile(){
+    this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
+      .subscribe(async (res: any) => {
+        this.rangeResourcesDate = res.body;
+        this.continue();
+      }, (err) => {
+        console.log(err);
+        this.rangeResourcesDate = this.rangeResourcesDateDefault;
+        this.continue();
+      }));
+  }
+
+  continue(){
     this.loadTranslationsElements();
-    
     this.loadNotifications();
+    this.loadNextEvents();
     this.getInfoPatient();
     this.getConsentGroup();
     this.getChecks();
   }
-
+  
   loadNotifications() {
     this.tasksLoaded = false;
     this.totalTaks = 0;
@@ -357,25 +400,80 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.subscription.add(this.patientService.getPatientId()
         .subscribe((res: any) => {
           if (res != null) {
-            var info = { rangeDate: '' }
-            this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
-              .subscribe((res: any) => {
-                if(this.pendingsTaks - res.length>0){
-                  this.totalTaks++;
-                }
-                this.tasksLoaded = true;
-              }, (err) => {
-                console.log(err);
-                this.tasksLoaded = true;
-              }));
+            this.loadQuestionnaires();
           }
 
         }, (err) => {
           console.log(err);
         }));
     }
+  }
 
+  loadNextEvents(){
+    this.subscription.add(this.http.get(environment.api + '/api/lastappointments/' + this.authService.getCurrentPatient().sub)
+      .subscribe((res: any) => {
+        this.nextEvents = res;
+        if(this.nextEvents.length>0){
+          this.nextEvents.sort(this.sortService.DateSortInver("start"));
+        }
+        
+      }, (err) => {
+        console.log(err);
+      }));
+  }
 
+  loadQuestionnaires(){
+    this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
+      .subscribe(async (res: any) => {
+        this.questionnaires = res.questionnaires;
+        for(var i=0;i<this.questionnaires.length;i++){
+          await this.loadQuestionnaire(this.questionnaires[i].id, i)
+          console.log('1');
+        }
+        //this.getProms();
+      }, (err) => {
+        console.log(err);
+      }));
+  }
+
+  loadQuestionnaire(questionnaireId, index){
+    this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
+      .subscribe((res: any) => {
+        this.questionnaires[index].info=res
+        if(index==(this.questionnaires.length-1)){
+          this.getProms();
+        }
+      }, (err) => {
+        console.log(err);
+      }));
+    
+  }
+
+  getProms(){
+    console.log('2');
+    var questionnaires = [];
+    for(var i=0;i<this.questionnaires.length;i++){
+      questionnaires.push(this.questionnaires[i].id)
+    }
+    var info = {rangeDate: '', questionnaires: questionnaires}
+    this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
+      .subscribe((res: any) => {
+        for(var i=0;i<this.questionnaires.length;i++){
+          this.questionnaires[i].answers = [];
+          for(var j=0;j<res.length;j++){
+            if(this.questionnaires[i].id = res[j].idQuestionnaire){
+              this.questionnaires[i].answers.push(res[j]);
+            }
+          }
+          if(this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length)!=(this.questionnaires[i].info.items.length)){
+            this.totalTaks++;
+          }
+        }
+        this.tasksLoaded = true;
+      }, (err) => {
+        console.log(err);
+        this.tasksLoaded = true;
+      }));
   }
 
   yAxisTickFormatting(value) {
@@ -471,6 +569,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   initEnvironment(){
+    this.loadGroups();
     //this.userId = this.authService.getIdUser();
     if(this.authService.getCurrentPatient()==null){
       this.loadPatientId();
@@ -554,12 +653,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.step = '4';
     } else {
       this.step = '1';
-      this.loadGroups();
     }
   }
 
   question2() {
-    this.step = '2';
+    this.step = '3';
+    this.setPatientGroup(this.basicInfoPatient.group);
   }
 
   question3(response) {
@@ -567,6 +666,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(this.basicInfoPatient.consentgroup);
     this.step = '3';
     this.setPatientGroup(this.basicInfoPatient.group);
+  }
+
+  setNoneIdPatientGroup(){
+    for (var i = 0; i < this.groups.length; i++) {
+      if(this.groups[i].name == 'None'){
+        this.setPatientGroup(this.groups[i]._id);
+      }
+    }
+    
   }
 
   setPatientGroup(group) {
@@ -601,47 +709,68 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (resFeels.message) {
           //no tiene historico de peso
         } else {
-          resFeels.sort(this.sortService.DateSortInver("date"));
-          this.feels = resFeels;
+          resFeels.feels.sort(this.sortService.DateSortInver("date"));
+          this.feels = resFeels.feels;
           if(this.feels.length>0){
-            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, 7)
+            this.showNotiFeel = this.showNotifications(this.feels[this.feels.length-1].date, this.rangeResourcesDate.data['feels'].daysToUpdate)
           }else{
             this.showNotiFeel = false;
           }
           
           var datagraphheight = [];
-          for (var i = 0; i < resFeels.length; i++) {
-            var splitDate = new Date(resFeels[i].date);
+          for (var i = 0; i < this.feels.length; i++) {
+            var splitDate = new Date(this.feels[i].date);
             var numAnswers = 0;
             var value = 0;
-            if(resFeels[i].a1!=""){
+            if(this.feels[i].a1!=""){
               numAnswers++;
-              value = value+parseInt(resFeels[i].a1);
+              value = value+parseInt(this.feels[i].a1);
             }
-            if(resFeels[i].a2!=""){
+            if(this.feels[i].a2!=""){
               numAnswers++;
-              value = value+parseInt(resFeels[i].a2);
+              value = value+parseInt(this.feels[i].a2);
             }
-            if(resFeels[i].a3!=""){
+            if(this.feels[i].a3!=""){
               numAnswers++;
-              value = value+parseInt(resFeels[i].a3);
+              value = value+parseInt(this.feels[i].a3);
             }
             var value = value/numAnswers;
+            var splitDate = new Date(this.feels[i].date);
+            var stringDate = splitDate.toDateString();
             var foundDateIndex = this.searchService.searchIndex(datagraphheight, 'name', splitDate.toDateString());
             if(foundDateIndex != -1){
               //There cannot be two on the same day
               datagraphheight[foundDateIndex].name = splitDate.toDateString();
               datagraphheight[foundDateIndex].value = value;
+              datagraphheight[foundDateIndex].splitDate = splitDate;
             }else{
-              datagraphheight.push({ value: value, name: splitDate.toDateString() });
+              datagraphheight.push({ value: value, name: splitDate.toDateString(), stringDate: stringDate });
             }
-            
           }
-
+          var result = this.add0Feels(datagraphheight);
+          var prevValue = 0;
+          for (var i = 0; i < result.length; i++) {
+            if(resFeels.old.date){
+              if(result[i].value==0 && resFeels.old.date<result[i].stringDate && prevValue==0){
+                result[i].value = (parseInt(resFeels.old.a1)+parseInt(resFeels.old.a2)+parseInt(resFeels.old.a3))/3;
+              }else if(result[i].value==0 && prevValue!=0){
+                result[i].value = prevValue;
+              }
+              else if(result[i].value!=0){
+                prevValue = result[i].value;
+              }
+            }else{
+              if(result[i].value==0 && prevValue!=0){
+                result[i].value =prevValue;
+              }else if(result[i].value!=0){
+                prevValue = result[i].value;
+              }
+            }
+          }
           this.lineChartHeight = [
             {
               "name": 'Feel',
-              "series": datagraphheight
+              "series": result
             }
           ];
 
@@ -653,6 +782,64 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loadedFeels = true;
         this.toastr.error('', this.translate.instant("generics.error try again"));
       }));
+  }
+
+  add0Feels(datagraphheight){
+      var maxDateTemp = new Date();
+      var maxDate = maxDateTemp.toDateString();
+      
+      var minDate = this.minDateRange.toDateString();
+      
+      var splitLastDate = datagraphheight[datagraphheight.length-1].stringDate;
+      var splitFirstDate = datagraphheight[0].stringDate;
+        if(new Date(splitLastDate)<new Date(maxDate)){
+          datagraphheight.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
+        }
+        if(new Date(minDate)<new Date(splitFirstDate)){
+          datagraphheight.push({value: 0,name:minDate,stringDate:minDate, types: []})
+        }
+        var copydatagraphheight = JSON.parse(JSON.stringify(datagraphheight));
+        datagraphheight.sort(this.sortService.DateSortInver("stringDate"));
+      for (var j = 0; j < datagraphheight.length; j=j+1) {
+        var foundDate = false;
+        var actualDate = datagraphheight[j].stringDate;
+        if(datagraphheight[j+1]!=undefined){
+          var nextDate = datagraphheight[j+1].stringDate;
+          //stringDate
+          for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+            var theDate = new Date(actualDate);
+            theDate.setDate(theDate.getDate()+1);
+            actualDate = theDate.toDateString();
+            if(actualDate != nextDate){
+              copydatagraphheight.push({value: 0,name:actualDate,stringDate:actualDate, types: []})
+            }else{
+              foundDate = true;
+            }
+            
+          }
+          if(datagraphheight[j+2]!=undefined){
+          var actualDate = datagraphheight[j+1].stringDate;
+          var nextDate = datagraphheight[j+2].stringDate;
+          for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+            var theDate = new Date(actualDate);
+            theDate.setDate(theDate.getDate()+1);
+            actualDate = theDate.toDateString();
+            if(actualDate != nextDate){
+              copydatagraphheight.push({value: 0,name:actualDate,stringDate:actualDate, types: []})
+            }
+            
+          }
+    
+          }
+        }
+      }
+      copydatagraphheight.sort(this.sortService.DateSortInver("stringDate"));
+      for (var j = 0; j < copydatagraphheight.length; j++) {
+        copydatagraphheight[j].name = copydatagraphheight[j].stringDate
+        var theDate = new Date(copydatagraphheight[j].name);
+        copydatagraphheight[j].name = this.tickFormattingDay(theDate)
+      }
+      return copydatagraphheight;
   }
 
   showNotifications(date, period){
@@ -683,7 +870,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           if (res.length > 0) {
             res.sort(this.sortService.DateSortInver("date"));
-            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, 7)
+            this.showNotiSeizu = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate.data['seizures'].daysToUpdate)
             res.sort(this.sortService.DateSortInver("start"));
             this.events = res;
             var datagraphseizures = [];
@@ -813,8 +1000,6 @@ getWeek(newdate, dowOffset?) {
     
     var splitLastDate = datagraphseizures[datagraphseizures.length-1].stringDate;
     var splitFirstDate = datagraphseizures[0].stringDate;
-    console.log(splitLastDate)
-    console.log(maxDate)
       if(new Date(splitLastDate)<new Date(maxDate)){
         console.log('add today');
         datagraphseizures.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
@@ -825,7 +1010,6 @@ getWeek(newdate, dowOffset?) {
       }
       var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
       datagraphseizures.sort(this.sortService.DateSortInver("stringDate"));
-      console.log(datagraphseizures)
     for (var j = 0; j < datagraphseizures.length; j=j+1) {
       var foundDate = false;
       var actualDate = datagraphseizures[j].stringDate;
@@ -903,7 +1087,7 @@ getWeek(newdate, dowOffset?) {
         this.medications = res;
         if (this.medications.length > 0) {
           res.sort(this.sortService.DateSortInver("date"));
-          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, 14)
+          this.showNotiDrugs = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate.data['drugs'].daysToUpdate)
           this.searchTranslationDrugs();
           this.groupMedications();
           var datagraphseizures = [];
@@ -1490,7 +1674,7 @@ saveDataVeriff(){
 createSesion(){
   var date = new Date();
   date.toISOString();
-  var params = {"verification":{"person":{"firstName":this.userInfo.userName,"lastName":this.userInfo.lastName},"vendorData":this.userInfo.isUser,"timestamp":date}};
+  var params = {"verification":{"person":{"firstName":this.userInfo.userName,"lastName":this.userInfo.lastName},"vendorData":this.userInfo.idUser,"timestamp":date}};
   this.subscription.add(this.http.post('https://api.veriff.me/v1/sessions', params)
     .subscribe((res: any) => {
       console.log(res);

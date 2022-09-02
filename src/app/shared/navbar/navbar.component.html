@@ -1,49 +1,46 @@
 <!-- Navbar (Header) Starts -->
 <nav class="navbar navbar-expand-lg navbar-light bg-faded damemarger custom-navbar" style="padding: 0 25px !important;" [ngClass]="((role == 'Clinical') && isClinicalPage)?'menuClinic-sm':''" >
-  <div class="container-fluid">
-    <div class="d-none">
-        <button type="button" class="d-lg-none navbar-toggle float-left white" data-toggle="collapse" (click)="toggleSidebar()">
-            <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <span class="navbar-header-logos d-none d-lg-block">
-          <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-raito.png' />
-          <!--<img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-raito.png' [routerLink]="redirectUrl" />-->
-        </span>
-    </div>
-      <div class="navbar-container pl-0 pt-1">
-          <div  id="navbarSupportedContent">
-              <ul class="navbar-nav m-r-0" *ngIf="role=='User'">
-                <li class="nav-item">
-                  <a class="nav-link" routerLink="/home">
-                    <i class="ft-home font-medium-3 white" [ngClass]="{'grey': actualUrl=='/home'}"></i>
-                    <p class="d-none">{{'menu.Dashboard' | translate }}</p>
-                  </a>
-                </li>
-                <!--<li class="nav-item">
-                  <a class="nav-link" routerLink="/patient-info">
-                    <i class="ft-user font-medium-3 white" [ngClass]="{'grey': actualUrl=='/patient-info'}"></i>
-                    <p class="d-none">{{'menu.Basic Info' | translate }}</p>
-                  </a>
-                </li>-->
-                <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
-                  <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'menu.Personal Info' | translate }}">
-                      <i class="fas fa-microscope font-medium-3 white" [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
-                      <p class="d-none">{{'navbar.menu.Personal Info' | translate }}</p>
-                  </a>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                    <a class="dropdown-item" routerLink="/feel">
-                      <span>{{'homeraito.p6' | translate }}</span>
+    <div class="container-fluid">
+      <div class="d-none">
+          <button type="button" class="d-lg-none navbar-toggle float-left white" data-toggle="collapse" (click)="toggleSidebar()">
+              <span class="sr-only">{{'navbar.Toggle navigation' | translate }}</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-header-logos d-none d-lg-block">
+            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo-raito.png' />
+            <!--<img *ngIf="!isHomePage" style="cursor:pointer;" class="logo-img" src='assets/img/logo-raito.png' [routerLink]="redirectUrl" />-->
+          </span>
+      </div>
+        <div class="navbar-container pl-0 pt-1">
+            <div  id="navbarSupportedContent">
+                <ul class="navbar-nav m-r-0" *ngIf="role=='User'">
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/home">
+                      <i class="ft-home font-medium-3 white" [ngClass]="{'grey': actualUrl=='/home'}"></i>
+                      <p class="d-none">{{'menu.Dashboard' | translate }}</p>
                     </a>
-                    <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" routerLink="/symptoms">
-                          <span>{{'menu.Phenotype' | translate }}</span>
+                  </li>
+                  <!--<li class="nav-item">
+                    <a class="nav-link" routerLink="/patient-info">
+                      <i class="ft-user font-medium-3 white" [ngClass]="{'grey': actualUrl=='/patient-info'}"></i>
+                      <p class="d-none">{{'menu.Basic Info' | translate }}</p>
+                    </a>
+                  </li>-->
+                  <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
+                    <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle title="{{'menu.Personal Info' | translate }}">
+                        <i class="fas fa-microscope font-medium-3 white" [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
+                        <p class="d-none">{{'navbar.menu.Personal Info' | translate }}</p>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                      
+                      <a class="dropdown-item" routerLink="/calendar">
+                        <span>{{'menu.Calendar' | translate }}</span>
                       </a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" routerLink="/seizures">
-                        <span>{{'menu.Seizures' | translate }}</span>
+                      <a class="dropdown-item" routerLink="/feel">
+                        <span>{{'homeraito.p6' | translate }}</span>
                       </a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" routerLink="/medication">
@@ -187,7 +184,87 @@
                     </div>
                   </li>
                 </ul>
+<<<<<<< HEAD
           </div>
       </div>
   </div>
+=======
+                <ul class="navbar-nav m-r-0" *ngIf="role=='Admin'">
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/dashboard-admin">
+                      <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/admin/dashboard-admin'}"></i>
+                      <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" routerLink="/admin/translations">
+                      <i class="fa fa-edit fa-2x white" [ngClass]="{'grey': actualUrl=='/admin/translations'}"></i>
+                      <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
+                    <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                        <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+                        <p class="d-none">{{'navbar.User Settings' | translate }}</p>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                        <a class="dropdown-item" routerLink="/pages/profile">
+                            <i class="ft-edit fa-xs mr-2"></i>
+                            <span>{{'navbar.My Profile' | translate }}</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="javascript:;" (click)="logout()">
+                            <i class="ft-power fa-xs mr-2"></i>
+                            <span>{{'navbar.Logout' | translate }}</span>
+                        </a>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="navbar-nav m-r-0" *ngIf="role=='SuperAdmin'">
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/dashboard-superadmin">
+                        <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/dashboard-superadmin'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/langs">
+                        <i class="fa fa-language fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/langs'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/translations">
+                        <i class="fa fa-edit fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/translations'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" routerLink="/superadmin/manageclinicinfo/medication">
+                        <i class="fa-solid fa-pills fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/manageclinicinfo/medication'}"></i>
+                        <p class="d-none">{{'menu.Dashboard' | translate }}</p>
+                      </a>
+                    </li>
+                    <li class="nav-item" ngbDropdown display="dynamic" placement="auto">
+                      <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle title="{{'generics.Options' | translate }}">
+                          <i class="fa fa-cog font-medium-3 white" [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+                          <p class="d-none">{{'navbar.User Settings' | translate }}</p>
+                      </a>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
+                          <a class="dropdown-item" routerLink="/pages/profile">
+                              <i class="ft-edit fa-xs mr-2"></i>
+                              <span>{{'navbar.My Profile' | translate }}</span>
+                          </a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="javascript:;" (click)="logout()">
+                              <i class="ft-power fa-xs mr-2"></i>
+                              <span>{{'navbar.Logout' | translate }}</span>
+                          </a>
+                      </div>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+    </div>
+>>>>>>> feature/authweb3
 </nav>

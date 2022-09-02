@@ -1077,6 +1077,7 @@ export class jsPDFService {
 
 
         if(seizuresMonths.length>0){
+            lineText = this.checkIfNewPage(doc, lineText+=10);
             this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Date"));
             this.writeHeaderText(doc, 35, lineText, this.translate.instant("pdf.Amount"));

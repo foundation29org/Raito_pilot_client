@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { MoralisService } from 'app/shared/auth/moralis.service';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import * as decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
-import { SocialAuthService } from "angularx-social-login";
 
 @Injectable()
 export class AuthService {
@@ -28,7 +28,7 @@ export class AuthService {
 
   private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
 
-  constructor(private http: HttpClient, private socialAuthService: SocialAuthService) {}
+  constructor(private http: HttpClient, public moralisService: MoralisService) {}
 
 
   getEnvironment():boolean{
@@ -102,10 +102,11 @@ export class AuthService {
     sessionStorage.setItem('token', token)
   }
 
-  signinUser(formValue: any): Observable<boolean> {
+  signinUser(formValue: any): Observable<any> {
     //your code for signing up the new user
     return this.http.post(environment.api+'/api/signin',formValue)
       .map( (res : any) => {
+        var isFirstTime = false;
           if(res.message == "You have successfully logged in"){
             //entrar en la app
             this.setLang(res.lang);
@@ -122,40 +123,19 @@ export class AuthService {
           }else{
             this.isloggedIn = false;
           }
-          this.setMessage(res.message);
-          return this.isloggedIn;
-       }, (err) => {
-         console.log(err);
-         //this.isLoginFailed = true;
-         this.setMessage("Login failed");
-         this.isloggedIn = false;
-         return this.isloggedIn;
-       }
-    );
-  }
-
-  signinWith(formValue: any): Observable<boolean> {
-    //your code for signing up the new user
-    return this.http.post(environment.api+'/api/signwith',formValue)
-      .map( (res : any) => {
-          if(res.message == "You have successfully logged in"){
-            //entrar en la app
-            this.setLang(res.lang);
-            sessionStorage.setItem('lang', res.lang)
-
-            this.setEnvironment(res.token);
-
-          }else{
-            this.isloggedIn = false;
+          if(res.isFirstTime){
+            isFirstTime = true;
           }
           this.setMessage(res.message);
-          return this.isloggedIn;
+          return {isloggedIn: this.isloggedIn, isFirstTime: isFirstTime} ;
+          //return this.isloggedIn;
        }, (err) => {
          console.log(err);
          //this.isLoginFailed = true;
          this.setMessage("Login failed");
          this.isloggedIn = false;
-         return this.isloggedIn;
+         return {isloggedIn: this.isloggedIn, isFirstTime: false} ;
+         //return this.isloggedIn;
        }
     );
   }
@@ -174,9 +154,10 @@ export class AuthService {
     this.lang = sessionStorage.getItem('lang');
     //if(!this.getIsApp()){
       sessionStorage.clear();
-      this.socialAuthService.signOut(true);
       sessionStorage.setItem('lang', this.lang);
     //}
+    //localStorage.clear();
+    this.moralisService.logout();
   }
 
   getToken() {

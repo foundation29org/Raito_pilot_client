@@ -136,4 +136,59 @@ export class PatientService {
          })
     }
 
+    saveContainer(location){
+      var info = {location:location}
+      return this.http.post(environment.api+'/api/eo/backup/'+this.authService.getCurrentPatient().sub, info)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    checkIPFS(){
+      return this.http.get(environment.api+'/api/eo/checkipfs/'+this.authService.getIdUser())
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    getIPFS(){
+      return this.http.get(environment.api+'/api/eo/backupipfs/'+this.authService.getIdUser())
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    checkF29(){
+      return this.http.get(environment.api+'/api/eo/checkf29/'+this.authService.getIdUser())
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    getF29(){
+      return this.http.get(environment.api+'/api/eo/backupf29/'+this.authService.getIdUser())
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    extractFhir(){
+      return this.http.get(environment.api+'/api/eo/patient/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
 }

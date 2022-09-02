@@ -48,8 +48,11 @@ export const ROUTESSUPERADMIN: RouteInfo[] = [
     { path: '/superadmin/support', title: 'support.support', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 ];
 
-export const ROUTESADMINGTP: RouteInfo[] = [
-    { path: '/admin/dashboard/admingtp', title: 'menu.Dashboard Super Admin', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
+//Sidebar menu Routes and data
+export const ROUTESADMIN: RouteInfo[] = [
+
+    { path: '/admin/dashboard-admin', title: 'menu.Dashboard Super Admin', icon: 'ft-home', class: '', badge: '', badgeClass: 'badge badge-pill badge-danger float-right mr-1 mt-1', isExternalLink: false, submenu: [] },
+    { path: '/admin/translations', title: 'menu.Translations', icon: 'ft-flag', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 ];
 
 //Sidebar menu Routes and data

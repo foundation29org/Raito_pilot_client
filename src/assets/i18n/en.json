@@ -880,7 +880,7 @@
     "noti5a": "Your container doesn't have drugs data. Do you want to add some?",
     "noti5b": "You haven't changed your drugs lately. Do you have anything to change?",
     "noti6a": "You haven't joined a patient organization. Join now!",
-    "noti7a": "You haven't joined a data sharing community. Join now!",
+    "noti7a": "Your data is disconnected with your patient organization, do you want to connect it?",
     "Answer": "Answer"
   },
   "reports":{
@@ -941,7 +941,11 @@
     "title": "My data container",
     "desc": "Your container is your own personal space to store your data and share it for your own disease management and research. Here you can manage your container.",
     "q1": "Container location",
-    "a1": "In Raito you are the only owner of your data. Your data is stored in your device and periodically backed up to your own cloud storage such as OneDrive, GoogleDrive or iCloud, depending on your preferences.",
+    "a1": "In Raito you are the only owner of your data. You can create a backup of your data and download it in the FHIR standard.",
+    "a2": "We give you two possibilities to save this backup, on our servers, or in <a href='https://ipfs.io/' target='_blank'>decentralized storage. <em class='ft-external-link'></em></a>",
+    "Last backup": "Last backup",
+    "decentralized storage": "What is decentralized storage?",
+    "Decentralized": "Decentralized",
     "q2": "Patient organizations",
     "a2.1": "You are currently sharing data with the data network community of DSEF.",
     "a2.2": "Follow this link for more info: <a href='https://dravet.eu/' target='_blank'>https://dravet.eu/</a>",
@@ -960,6 +964,10 @@
     "Share your data anonymously with your patient group": "Share your data anonymously with your patient group",
     "You do not belong to any patient group": "You do not belong to any patient group",
     "Here is a message on why this is important": "Here is a message on why this is important",
+    "note1": "In traditional systems, you don't have control of your data, but we want to change that.",
+    "note2": "By giving consent to your organization to access your data anonymously, we use decentralized identity, so that you have control of your data, while maintaining privacy and security. You can give your consent and refuse it whenever you want.",
+    "note3": "When you give your consent, you will have the proof of it on your mobile phone.",
+    "note4": "If you change the organization, you will stop sharing with the previous organization, and you will have to give consent again for the new one you have selected.",
     "Add patient group": "Add patient group",
     "I give my consent": "Grant access",
     "Reject consent": "Revoke access",
@@ -974,7 +982,7 @@
     "sharetitle1": "Summary report",
     "sharecontent1": "The report includes seizure, quality of life and medication graphs, as well as your list of symptoms.",
     "sharetitle2": "Data for research",
-    "sharecontent2": "You can download a file or share your data with researchers for the purpose of data aggregation and analysis.",
+    "sharecontent2": "You can share your data with researchers for the purpose of data aggregation and analysis.",
     "sharecontent3": "A private link will be generated that you can share with the people you want to access it.",
     "Password is incorrect": "Password is incorrect",
     "we will close your session": "For your security, we will close your session.",
@@ -1070,6 +1078,7 @@
     "Notecustom": "Invitation created automatically when generating the PDF.",
     "Accept access": "Accept access",
     "Scan with Microsoft Authenticator": "Scan with Microsoft Authenticator",
+    "instructionMA": "If you do not have Microsoft Authenticator, you can download it <a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>here <em class='ft-external-link'></em></a>",
     "Accept or reject from mobile": "Accept or reject from mobile",
     "Access to": "Access to"
   },
@@ -1090,5 +1099,10 @@
     "t12": "Reason",
     "t13": "If you think this is an error, please write to support@foundation29.org",
     "click here": "click here"
+  },
+  "appointments": {
+    "Next medical appointments":"Next medical appointments",
+    "Add appointment": "Add appointment",
+    "new?": "Create new appointment?"
   }
 }

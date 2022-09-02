@@ -8,20 +8,24 @@
                         <h2 class="text-bold-500">{{'landraito.t1' | translate }}</h2>
                         <p class="">{{'landraito.p1' | translate }}</p>
                         <div class="col-md-12 center-elements">
-                            <a routerLink="/login" class="btn btn-dark mt-1" title="I want to join">
+                            <button (click)="login()" class="btn btn-dark mt-1" title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
-                            </a>
+                            </button>
+                            <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
                         </div>
                         
                         <div class="col-md-12 center-elements">
                             <img class="w-80 center-elements" style="max-width: 200px !important;" src='assets/img/home/home1.jpg'>
                         </div>
+                        <!--
                         <div *ngIf="!isApp" class="center-elements">
                             <h3 class="text-bold-500 mt-5">{{'landraito.t3.1' | translate }}</h3>
                             <p>{{'landraito.t3.2' | translate }}</p>
                             <img class="mr-1" style="height: 35px;" src="{{iconandroid}}">
                             <img class="ml-1" style="height: 35px;" src="{{iconios}}">
                         </div>
+                        -->
+                        
                         <h3 class="text-bold-500 mt-5">{{'landraito.t2' | translate }}</h3>
                         <div class="row mt-3">
                             <div class="col-3 pr-0 pl-0">
@@ -51,9 +55,9 @@
                             </div>
                         </div>
                         <div class="col-md-12 mt-3 center-elements">
-                            <a routerLink="/login" class="btn btn-dark " title="I want to join">
+                            <button (click)="login()" class="btn btn-dark " title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
-                            </a>
+                            </button>
                         </div>
                         
                     </div>

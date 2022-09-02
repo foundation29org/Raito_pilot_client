@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -24,6 +26,8 @@ import { SymptomsComponent } from './symptoms/symptoms.component';
 import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
 import { CalendarsComponent } from './calendar/calendar.component';
+import { AppointmentsComponent } from './appointments/appointments.component';
+import { DateTimePickerComponent } from './appointments/date-time-picker.component';
 import { MedicationComponent } from './medication/medication.component';
 import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomFormsModule } from 'ngx-custom-validators';
@@ -32,6 +36,10 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
 
 @NgModule({
     imports: [
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+          }),
         CommonModule,
         FormsModule,
         ClinicalRoutingModule,
@@ -60,6 +68,8 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
         GenotypeComponent,
         MedicalRecordsComponent,
         CalendarsComponent,
+        AppointmentsComponent,
+        DateTimePickerComponent,
         MedicationComponent,
         DndDirective
     ],

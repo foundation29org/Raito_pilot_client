@@ -6,15 +6,8 @@ import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ErrorPageComponent } from "./error/error-page.component";
-import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
-import { NewPasswordPageComponent } from "./new-password/new-password-page.component";
-import { LoginPageComponent } from "./login/login-page.component";
-import { RegisterPageComponent } from "./register/register-page.component";
-import { PreRegisterPageComponent } from "./pre-register/pre-register-page.component";
 import { TermsConditionsPageComponent } from "./terms-conditions/terms-conditions-page.component";
-import { DataProcessingAgreementComponent } from "./data-processing-agreement/data-processing-agreement.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
-import { PermissionsPageComponent } from "./permissions/permissions-page.component";
 import {PasswordValidator} from "app/shared/directives/password-validator.directive"; //imported to modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -41,18 +34,11 @@ import { MyFilterPipe } from 'app/shared/services/my-filter.pipe';
     ],
     declarations: [
         ErrorPageComponent,
-        ForgotPasswordPageComponent,
-        LoginPageComponent,
-        PreRegisterPageComponent,
-        RegisterPageComponent,
-        NewPasswordPageComponent,
         TermsConditionsPageComponent,
-        DataProcessingAgreementComponent,
         PrivacyPolicyPageComponent,
-        PermissionsPageComponent,
         PasswordValidator,
         MyFilterPipe
     ],
-    entryComponents:[TermsConditionsPageComponent, DataProcessingAgreementComponent]
+    entryComponents:[TermsConditionsPageComponent]
 })
 export class ContentPagesModule { }
