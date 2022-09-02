@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { CanDeactivateGuard } from 'app/shared/auth/can-deactivate-guard.service';
 
 import { LandPageComponent } from "./land/land-page.component";
-import { AboutUsPageComponent } from "./about-us/about-us-page.component";
 
 const routes: Routes = [
   {
@@ -15,13 +14,6 @@ const routes: Routes = [
         data: {
           title: 'Raito'
         },
-      },
-      {
-        path: 'aboutus',
-        component: AboutUsPageComponent,
-        data: {
-          title: 'menu.About us'
-        }
       }
     ]
   }

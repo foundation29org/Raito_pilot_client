@@ -36,6 +36,13 @@ const routes: Routes = [
           expectedRole: ['SuperAdmin']
         },
         canActivate: [AuthGuard, RoleGuard]
+<<<<<<< HEAD
+=======
+      },
+      {
+        path: 'manageclinicinfo',
+        loadChildren: () => import('./manage-clinicinfo/manage-clinical-info.module').then(m => m.ManageClinicalInfoModule)
+>>>>>>> feature/authweb3
       }
     ]
   }

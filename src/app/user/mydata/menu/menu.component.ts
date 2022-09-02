@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { environment } from 'environments/environment';
@@ -22,6 +22,8 @@ import { DateAdapter } from '@angular/material/core';
 import { SearchService } from 'app/shared/services/search.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
+import { DomSanitizer } from '@angular/platform-browser';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare let html2canvas: any;
 
 @Component({
@@ -37,6 +39,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   modalProfileReference: NgbModalRef;
   modalQr: NgbModalRef;
   loading: boolean = false;
+  loadingf29: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
   private msgDownload: string;
@@ -45,7 +48,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private msgDataSavedFail: string;
   loadedPatientId: boolean = false;
   hasGroup: boolean = false;
-  consentgroup: boolean = false;
+  consentgroup: string = 'false';
   activeIds = [];
   myEmail: string = '';
   lang: string = 'en';
@@ -60,6 +63,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   medications: any = [];
   actualMedications: any;
   private group: string;
+  private groupName: string;
   patient: any;
   timeformat = "";
   recommendedDoses: any = [];
@@ -170,14 +174,31 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   public chartNames: string[];
-    public colors: ColorHelper;
-    public colors2: ColorHelper;
+  public colors: ColorHelper;
+  public colors2: ColorHelper;
 
-    generateUrlQr = '';
-    titleSeizuresLegend = [];
-    userInfo: any = {};
+  generateUrlQr = '';
+  titleSeizuresLegend = [];
+  userInfo: any = {};
+  qrImage = '';
+  pin = '';
+  startingProcess: boolean = false;
+  inProcess: boolean = false;
+  qrImageOrg = '';
+  pinOrg = '';
+  startingProcessOrg: boolean = false;
+  inProcessOrg: boolean = false;
+  checkStatusOrg: any = {};
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService) { 
+  urlOpenRaito: string = environment.urlOpenRaito;
+  widthPanelCustomShare = null;
+
+  ipfs: any = {};
+  f29: any = {};
+  checkStatus: any = {};
+  showLinkMA: boolean = false;
+
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -191,7 +212,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadTranslations();
     this.loadPatientId();
-    this.loadMyEmail()
+    this.loadMyEmail();
+    this.checkIPFS();
+    this.checkF29();
   }
 
   ngOnDestroy() {
@@ -278,8 +301,10 @@ loadPatientId(){
     }else{
       console.log(res);
       if(res.group!=null){
+        this.group = res.group;
         this.hasGroup = true;
         this.getConsentGroup();
+        this.loadGroups();
         if(this.accordion){
           this.accordion.activeIds=this.activeIds;
         }
@@ -288,6 +313,20 @@ loadPatientId(){
    }, (err) => {
      console.log(err);
    }));
+}
+
+loadGroups() {
+  this.subscription.add(this.apiDx29ServerService.loadGroups()
+    .subscribe((res: any) => {
+      console.log(res);
+      for (var i = 0; i < res.length; i++) {
+        if(this.group==res[i]._id){
+          this.groupName = res[i].name;
+        }
+      }
+    }, (err) => {
+      console.log(err);
+    }));
 }
 
 getConsentGroup(){
@@ -301,13 +340,67 @@ getConsentGroup(){
 }
 
 changeConsentGroup(value){
+  this.startingProcessOrg = true;
+  this.inProcessOrg = true;
   var paramssend = { consentgroup: value };
   this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
   .subscribe( (res : any) => {
-    this.consentgroup = value;
+    if(res.message == 'qrgenerated'){
+      this.consentgroup = 'Pending';
+      if(res.data[0].sessionData.message!='issuance_successful'){
+        //show QR instructions
+        this.showPanelIssuerOrganization(res.data[0]);
+      }
+    }else if(res.message == 'consent changed'){
+      this.consentgroup = res.consent;
+      this.startingProcessOrg = false;
+      this.inProcessOrg = false;
+    }
    }, (err) => {
      console.log(err.error);
    }));
+}
+
+showPanelIssuerOrganization(info){
+  this.showLinkMA = false;
+  this.checkStatusOrg = setInterval(function () {
+
+    this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
+    .subscribe( (res : any) => {
+        console.log(res);
+        
+        if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
+          //showQR
+          this.pinOrg= info.data.pin;
+          this.qrImageOrg = this.transform(info.data.qrCode)
+        }else if(res.status=='issuance_successful'){
+          this.qrImageOrg = '';
+          this.changeConsentGroup('Pending');
+          this.inProcessOrg = false;
+          this.startingProcessOrg = false;
+          clearInterval(this.checkStatusOrg);
+        }else if(res.status=='issuance_error'){
+          this.qrImageOrg = '';
+          this.inProcessOrg = false;
+          this.startingProcesOrgs = false;
+          clearInterval(this.checkStatusOrg);
+        }
+    }, (err) => {
+      console.log(err.error);
+      clearInterval(this.checkStatusOrg);
+    }));
+
+    if( /Android/i.test(navigator.userAgent) ) {
+      console.log(`Android device! Using deep link (${info.data.url}).`);
+      window.location.href = info.data.url; setTimeout(function () {
+      window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
+    } else if (/iPhone/i.test(navigator.userAgent)) {
+        console.log(`iOS device! Using deep link (${info.data.url}).`);
+        window.location.replace(info.data.url);
+    } else {
+      this.showLinkMA = true;
+    }
+  }.bind(this), 2500);
 }
 
 exportData(){
@@ -608,7 +701,7 @@ loadMyEmail(){
 deleteData(password){
   //cargar los datos del usuario
   this.loading = true;
-  var info = {password: password, email: this.myEmail}
+  var info = {password: password}
   this.subscription.add( this.http.post(environment.api+'/api/deleteaccount/'+this.authService.getIdUser(), info)
   .subscribe( (res : any) => {
     if(res.message=='The case has been eliminated'){
@@ -624,7 +717,9 @@ deleteData(password){
         setTimeout(function () {
           
           Swal.close();
-          window.location.reload();
+          this.authService.logout();
+          this.router.navigate([this.authService.getLoginUrl()]);
+          //window.location.reload();
       }.bind(this), 1500);
     }else{
       Swal.fire(this.translate.instant("mydata.Password is incorrect"), this.translate.instant("mydata.we will close your session"), "warning");
@@ -694,7 +789,7 @@ loadCustomShare(state){
   if(state){
     this.resetPermisions();
     this.newPermission.data={patientInfo:true, medicalInfo:true,devicesInfo:false, genomicsInfo:false}
-    this.newPermission.notes = 'QR code';
+    this.newPermission.notes = this.translate.instant("open.Notecustom");
       this.generateUrlQr= 'https://openraito.azurewebsites.net'+this.newPermission.token;
   }
   this.loadedShareData = false;
@@ -706,6 +801,11 @@ loadCustomShare(state){
     if(state){
       this.setCustomShare();
     }
+    setTimeout(function () {
+      if(!this.showNewCustom && this.listCustomShare.length>0){
+        this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
+      }
+    }.bind(this), 200);
    }, (err) => {
      console.log(err);
      this.loadedShareData = true;
@@ -717,19 +817,10 @@ getIndividualShare(){
   .subscribe( (res : any) => {
     console.log(res);
     this.individualShare = res.individualShare;
+    this.getVcs();
    }, (err) => {
      console.log(err);
    }));
-}
-
-openRequester(clinicalProfilePanel, oneCustomShare){
-  let ngbModalOptions: NgbModalOptions = {
-    backdrop : 'static',
-    keyboard : false,
-    windowClass: 'ModalClass-sm'// xl, lg, sm
-  };
-  this.modalProfileReference = this.modalService.open(clinicalProfilePanel, ngbModalOptions);
-  this.getUserInfo(oneCustomShare);
 }
 
 getUserInfo(oneCustomShare) {
@@ -758,13 +849,6 @@ openModal(modaltemplate){
   this.modalReference = this.modalService.open(modaltemplate, ngbModalOptions);
 }
 
-editindividual(i){
-  this.newPermission= this.individualShare[i];
-  this.mode = 'Individual';
-  console.log(this.newPermission);
-  this.showNewCustom = true;
-}
-
 submitInvalidForm() {
   if (!this.sendForm) { return; }
   const base = this.sendForm;
@@ -780,33 +864,67 @@ sendShare(){
   if(this.mode=='General'){
     this.setGeneralShare();
   }else if(this.mode=='Individual'){
-    this.setIndividualShare();
+    this.setIndividualShare(false);
   }else{
     this.setCustomShare();
   }
 }
 
-fieldStatusChanged(oneCustomShare){
+fieldStatusChanged(oneCustomShare, index){
   console.log(oneCustomShare);
+  this.startingProcess = true;
+  this.individualShare[index].status = 'Pending'
   this.newPermission = oneCustomShare;
-  this.setIndividualShare();
+  this.setIndividualShare(true);
 }
 
-setIndividualShare(){
+reject(oneCustomShare, index){
+  console.log(oneCustomShare);
+  this.individualShare[index].status = 'Rejected'
+  this.newPermission = oneCustomShare;
+  this.setIndividualShare(false);
+}
+
+/*fieldStatusChanged(oneCustomShare, index){
+  console.log(oneCustomShare);
+  var updateStatus = false;
+  if(oneCustomShare.status=='Accepted' &&this.newPermission.status!='Accepted'){
+    updateStatus = true;
+    this.individualShare[index].status = 'Pending'
+    this.newPermission = oneCustomShare;
+    this.setIndividualShare(updateStatus);
+  }else{
+    this.newPermission = oneCustomShare;
+    this.setIndividualShare(updateStatus);
+  }
+  
+}*/
+
+setIndividualShare(updateStatus){
   console.log(this.newPermission);
   if(this.newPermission._id != null){
     var found = false;
+    var indexUpdated = -1;
     for (var i = 0; i <= this.individualShare.length && !found; i++) {
       if(this.individualShare[i]._id==this.newPermission._id){
         this.individualShare[i] = this.newPermission;
         found = true;
+        indexUpdated = i;
       }
     }
     if(found){
-      var info = {individualShare: this.individualShare}      
+      var info = {individualShare: this.individualShare, updateStatus: updateStatus, indexUpdated: indexUpdated}
+      console.log(info);  
       this.subscription.add( this.patientService.setIndividualShare(info)
       .subscribe( (res : any) => {
+        //this.getVcs();
         console.log(res);
+        if(res.message == 'qrgenerated'){
+          if(res.data[0].sessionData.message!='issuance_successful'){
+            //show QR instructions
+            this.showPanelIssuer(res.data[0]);
+          }
+        }
         this.getIndividualShare();
         this.resetPermisions();
         this.showNewCustom=false;
@@ -816,15 +934,74 @@ setIndividualShare(){
         this.loadedShareData = true;
       }));
     }
-    
   }
+}
+
+
+showPanelIssuer(info){
+  this.startingProcess = true;
+  this.checkStatus = setInterval(function () {
+
+    this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
+    .subscribe( (res : any) => {
+        console.log(res);
+        this.inProcess = true;
+        if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
+          //showQR
+          this.pin= info.data.pin;
+          this.qrImage = this.transform(info.data.qrCode)
+        }else if(res.status=='issuance_successful'){
+          this.qrImage = '';
+          this.changeStatus(info._idIndividualShare);
+          this.inProcess = false;
+          this.startingProcess = false;
+          clearInterval(this.checkStatus);
+        }else if(res.status=='issuance_error'){
+          this.qrImage = '';
+          this.inProcess = false;
+          this.startingProcess = false;
+          clearInterval(this.checkStatus);
+        }
+    }, (err) => {
+      console.log(err.error);
+      clearInterval(this.checkStatus);
+    }));
+
+    if( /Android/i.test(navigator.userAgent) ) {
+      console.log(`Android device! Using deep link (${info.data.url}).`);
+      window.location.href = info.data.url; setTimeout(function () {
+      window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
+    } else if (/iPhone/i.test(navigator.userAgent)) {
+        console.log(`iOS device! Using deep link (${info.data.url}).`);
+        window.location.replace(info.data.url);
+    } else {
+      
+    }
+  }.bind(this), 2500);
+}
+
+changeStatus(_idIndividualShare){
+  var found = false;
+  for (var j = 0; j < this.individualShare.length && !found; j++) {
+    if(this.individualShare[j]._id == _idIndividualShare){
+      found =true;
+      this.newPermission = this.individualShare[j];
+      this.newPermission.status = 'Accepted'
+      this.setIndividualShare(false);
+    }
+  }
+  
+}
+
+//Call this method in the image source, it will sanitize it.
+transform(img){
+  return this.sanitizer.bypassSecurityTrustResourceUrl(img);
 }
 
 setGeneralShare(){
   this.loadedShareData = false;
   this.subscription.add( this.patientService.setGeneralShare(this.newPermission)
   .subscribe( (res : any) => {
-    console.log(res);
     //this.listCustomShare = res.customShare;
     this.loadedShareData = true;
     this.modalReference.close();
@@ -850,7 +1027,6 @@ setCustomShare(){
   
   this.subscription.add( this.patientService.setCustomShare(this.listCustomShare)
   .subscribe( (res : any) => {
-    console.log(res);
     this.resetPermisions();
     this.showNewCustom=false;
     this.listCustomShare = res.customShare;
@@ -936,7 +1112,6 @@ copyClipboard2(){
 editcustom(i){
   this.newPermission= this.listCustomShare[i];
   this.mode = 'Custom';
-  console.log(this.newPermission);
   this.showNewCustom = true;
 }
 
@@ -962,10 +1137,8 @@ confirmRevoke(i){
 revokePermission(i){
   this.loadedShareData = false;
   this.listCustomShare.splice(i, 1);
-  console.log(this.listCustomShare);
   this.subscription.add( this.patientService.setCustomShare(this.listCustomShare)
   .subscribe( (res : any) => {
-    console.log(res);
     this.showNewCustom=false;
     //this.listCustomShare = res.customShare;
     this.loadedShareData = true;
@@ -989,6 +1162,10 @@ closeModalShare() {
     this.showNewCustom = false;
     this.modalReference.close();
     this.modalReference = undefined;
+    clearInterval(this.checkStatus);
+    this.inProcess = false;
+    this.startingProcess = false;
+    this.qrImage = '';
   }
 }
 
@@ -1008,14 +1185,166 @@ copyClipboard(data){
       }, 2000);
 }
 
-extractFhir(){
-  var text = "name: javier, drug:clobazam, seizure: 2 status";
+saveContainer(location){
+  if(location=='IPFS'){
+    this.loading = true;
+  }else{
+    this.loadingf29 = true;
+  }
+  this.subscription.add( this.patientService.saveContainer(location)
+  .subscribe( (res : any) => {
+    if(location=='IPFS'){
+      this.checkIPFS();
+    }else{
+      this.checkF29();
+    }
+    this.loading = false;
+    this.loadingf29 = false;
+   }, (err) => {
+     console.log(err);
+     this.loading = false;
+     this.loadingf29 = false;
+   }));
+}
 
-  var info = {  
-    "documents": [
-        { "id": "1", 
-        "language":"en", 
-        "text": text
+checkIPFS(){
+  this.subscription.add( this.patientService.checkIPFS()
+  .subscribe( (res : any) => {
+    this.ipfs = res;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+getIPFS(){
+  this.loading = true;
+  this.subscription.add( this.patientService.getIPFS()
+  .subscribe( (res : any) => {
+    if(res.message=='Not available'){
+
+    }else{
+      this.checkIPFS();
+      var json = JSON.stringify(res.result);
+      var blob = new Blob([json], {type: "application/json"});
+      var url  = URL.createObjectURL(blob);
+      var p = document.createElement('p');
+      var t = document.createTextNode(this.msgDownload+":");
+      p.appendChild(t);
+      document.getElementById('content').appendChild(p);
+
+      var a = document.createElement('a');
+      var dateNow = new Date();
+      var stringDateNow = this.dateService.transformDate(dateNow);
+      a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+      a.target     = "_blank";
+      a.href        = url;
+      a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+      a.setAttribute("id", "download")
+
+      document.getElementById('content').appendChild(a);
+      document.getElementById("download").click();
+    }
+      
+      this.loading = false;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+checkF29(){
+  this.subscription.add( this.patientService.checkF29()
+  .subscribe( (res : any) => {
+    this.f29 = res;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+getF29(){
+  this.loadingf29 = true;
+  this.subscription.add( this.patientService.getF29()
+  .subscribe( (res : any) => {
+    if(res.message=='Not available'){
+
+    }else{
+      this.checkF29();
+      var json = JSON.stringify(res.result);
+      var blob = new Blob([json], {type: "application/json"});
+      var url  = URL.createObjectURL(blob);
+      var p = document.createElement('p');
+      var t = document.createTextNode(this.msgDownload+":");
+      p.appendChild(t);
+      document.getElementById('content').appendChild(p);
+
+      var a = document.createElement('a');
+      var dateNow = new Date();
+      var stringDateNow = this.dateService.transformDate(dateNow);
+      a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+      a.target     = "_blank";
+      a.href        = url;
+      a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+      a.setAttribute("id", "download")
+
+      document.getElementById('content').appendChild(a);
+      document.getElementById("download").click();
+    }
+      
+      this.loadingf29 = false;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+extractFhir(){
+  this.loading = true;
+  this.subscription.add( this.patientService.extractFhir()
+  .subscribe( (res : any) => {
+        var json = JSON.stringify(res.result);
+        var blob = new Blob([json], {type: "application/json"});
+        var url  = URL.createObjectURL(blob);
+        var p = document.createElement('p');
+        var t = document.createTextNode(this.msgDownload+":");
+        p.appendChild(t);
+        document.getElementById('content').appendChild(p);
+
+        var a = document.createElement('a');
+        var dateNow = new Date();
+        var stringDateNow = this.dateService.transformDate(dateNow);
+        a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+        a.target     = "_blank";
+        a.href        = url;
+        a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+        a.setAttribute("id", "download")
+
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+        this.loading = false;
+   }, (err) => {
+     console.log(err);
+     this.loading = false;
+   }));
+}
+
+extractFhir2(){
+  var text = "Patient 's age: 10 years Diagnoses:  Dravet syndrome. SCN1A gene mutation (c.4126 T >C change in exon 21 of the SCN1A gene).   Recurrent status convulsus (last: 02 23 2014, 03 01 2014, 03 01 2014, 05 2015).  Secondary pervasive developmental disorder.  Severe expressive and comprehensive language disorder.  Treatment:   Diacomit: 250 - 250- 250- 500 mg (32mg kg day, last increase on 02 26 2014, decrease 01 08 2014). Depakine solution: 1.75 ml at breakfast and 1.75 ml at dinner (350 mg every 12 hours) (23 mg kg day). Noiafren solution (2mg ml): 2-0-4 mg  EPIDIOLEX ORAL SOL 100mg ml: 2.2ml every 12 hours (start 03 2015) (14mg kg day). Latest complementary tests: Genetic study through the Dravet Foundation (09 2014):  Mutation in biotinidase gene (BTD): NM_001281724.1:exon6:c.1336 G>C:p:Asp446His. CEDEM Cantoblanco Metabolic Study (10 23 2014): BIOTINIDASE ACTIVITY (QUANTIFICATION BY SPECTROPHOTOMETRY) SERUM (28129-2SU):Biotinidase activity 8.64 nmoles PABA min ml serum (Mean±DE 6.6±1.7, Range 4.5-12.2). REPORT: Normal activity. Cardiology (11 12 2014): Clinical Judgment: NORMAL HEART.  Holter (12 14): Sinus rhythm throughout recording. Minimum HR of 61lpm. Maximum HR of 160lpm. No evidence of supraventricular and ventricular arrhythmias. No AF. No significant pauses. Cardiology (30 11 2015): Holter, ECG and echocardiography normal. Video-EEG of siesta (10 16 2015): waking and sleep polygraphic video-EEG showing asymmetric background activity*, with signs of mild brain involvement in the right hemisphere and mild-moderate in the left hemisphere. Background activity in wakefulness and sleep shows abundant unusual diffuse fast rhythms. Occasional epileptiform abnormalities during the sleep episode of low amplitude are recorded in bilateral frontotemporal region almost always asynchronously and sometimes independently in left anterior-middle temporal region*. No epileptic seizures were reported. (*) The interhemispheric asymmetry could be related to the fact that the day before this study the mother reported that the child presented a complex partial seizure and during sleep some more focal epileptiform abnormalities were recorded in the left anterior-middle temporal region. Compared to the previous study (06 05 2015), a very significant improvement is observed, with a better structured and differentiated background activity, especially in the right hemisphere, although it still does not reach a normal background activity for his age. Today 's EEG tracing is more similar to that of 12 12 2014. Video-EEG nap 06 10 2017: Video-EEG polygraphic waking and sleep showing signs of mild generalized brain involvement. Background activity in wakefulness and sleep shows abundant unusual diffuse fast rhythms. Epileptiform abnormalities are recorded during the low amplitude sleep episode in the right frontotemporal region. No seizures were recorded.Note: Compared to the previous study (10 16 2015), improvement is observed, with background activity now no longer asymmetrical, although it still falls short of normal background activity for his age. Evolution: ** Status convulsus associated with febrile picture of about 60 min 05 2015. ** Two clustered status seizures between February and March 2014. Epilepsy:  ** Tried lowering CBD and worsening of seizures. Change in seizure type, 1-2 per month, in August 4. Now focal seizures, gaze deviation, greater generalized rigidity in MMSS and then short tonic-clonic seizure of 3 sec.  DPM: globally better, more alert, participatory and collaborative, looks more in the eyes. They report improved attention especially at school, he knows when he has to do homework. More alert, knows what he wants and if not given he gets angry and throws things away. Better eye contact. More interaction with sibling. Language: aphasia. More intonation. Points with finger and leads to parents. Uses pictograms. More intentional in doing things. Does not imitate. Laughs out loud. Autonomy: Can eat alone, uses fork and spoon, eats what he likes, eats better at school. Attempts to control diaper, if taken to the bathroom he urinates (works on routines and has bowel movements and urination in the bathroom). Sleep: sleeps prone and on side. Sleeps through the night. No nocturnal seizures. No use of sensors. DAFOS during the day that improves gait. Rehabilitation (09 2016): Muscle hypotonia . Hyperkyphosis: cervical arrow : 45 mm . Antepulsed shoulders .  Left lumbar gibosity 5 mm . Arrow 5 mm . Shoulders and pelvis equlibrated , varus and adducted cavus feet , worse the right one with intense instability . He wears nocturnal DAFOs with supplement in external border.  Dental evaluation at HNJ: normal examination. Control 10 2017, stability. Interconsultation to COT. Foot X-ray in load. Control with Rx of feet and hips. Pes cavus. ";
+  var info = { 
+    "analysisInput": {
+        "documents": [
+            {
+                "id": "1",
+                "text": text, 
+                "language": "en"
+            }
+        ]
+    },
+    "tasks": [
+        {
+            "kind": "Healthcare",
+            "taskId": "Healthcare task #1",
+            "parameters": {
+                "modelVersion": "latest",
+                "fhirVersion": "4.0.1"
+            }
         }
     ]
 }
@@ -1044,6 +1373,7 @@ loadEnvironment() {
   this.medications = [];
   this.actualMedications = [];
   this.group = this.authService.getGroup();
+  this.loadGroups();
   this.patient = {
   };
 
@@ -1210,44 +1540,65 @@ getFeels() {
       if (resFeels.message) {
         //no tiene historico de peso
       } else {
-        resFeels.sort(this.sortService.DateSortInver("date"));
-        this.feels = resFeels;
+        resFeels.feels.sort(this.sortService.DateSortInver("date"));
+        this.feels = resFeels.feels;
         
         var datagraphheight = [];
-        for (var i = 0; i < resFeels.length; i++) {
-          var splitDate = new Date(resFeels[i].date);
-          var numAnswers = 0;
-          var value = 0;
-          if(resFeels[i].a1!=""){
-            numAnswers++;
-            value = value+parseInt(resFeels[i].a1);
+          for (var i = 0; i < this.feels.length; i++) {
+            var splitDate = new Date(this.feels[i].date);
+            var numAnswers = 0;
+            var value = 0;
+            if(this.feels[i].a1!=""){
+              numAnswers++;
+              value = value+parseInt(this.feels[i].a1);
+            }
+            if(this.feels[i].a2!=""){
+              numAnswers++;
+              value = value+parseInt(this.feels[i].a2);
+            }
+            if(this.feels[i].a3!=""){
+              numAnswers++;
+              value = value+parseInt(this.feels[i].a3);
+            }
+            var value = value/numAnswers;
+            var splitDate = new Date(this.feels[i].date);
+            var stringDate = splitDate.toDateString();
+            var foundDateIndex = this.searchService.searchIndex(datagraphheight, 'name', splitDate.toDateString());
+            if(foundDateIndex != -1){
+              //There cannot be two on the same day
+              datagraphheight[foundDateIndex].name = splitDate.toDateString();
+              datagraphheight[foundDateIndex].value = value;
+              datagraphheight[foundDateIndex].splitDate = splitDate;
+            }else{
+              datagraphheight.push({ value: value, name: splitDate.toDateString(), stringDate: stringDate });
+            }
           }
-          if(resFeels[i].a2!=""){
-            numAnswers++;
-            value = value+parseInt(resFeels[i].a2);
+          var result = this.add0Feels(datagraphheight);
+          var prevValue = 0;
+          for (var i = 0; i < result.length; i++) {
+            if(resFeels.old.date){
+              if(result[i].value==0 && resFeels.old.date<result[i].stringDate && prevValue==0){
+                result[i].value = (parseInt(resFeels.old.a1)+parseInt(resFeels.old.a2)+parseInt(resFeels.old.a3))/3;
+              }else if(result[i].value==0 && prevValue!=0){
+                result[i].value = prevValue;
+              }
+              else if(result[i].value!=0){
+                prevValue = result[i].value;
+              }
+            }else{
+              if(result[i].value==0 && prevValue!=0){
+                result[i].value =prevValue;
+              }else if(result[i].value!=0){
+                prevValue = result[i].value;
+              }
+            }
           }
-          if(resFeels[i].a3!=""){
-            numAnswers++;
-            value = value+parseInt(resFeels[i].a3);
-          }
-          var value = value/numAnswers;
-          var foundDateIndex = this.searchService.searchIndex(datagraphheight, 'name', splitDate.toDateString());
-          if(foundDateIndex != -1){
-            //There cannot be two on the same day
-            datagraphheight[foundDateIndex].name = splitDate.toDateString();
-            datagraphheight[foundDateIndex].value = value;
-          }else{
-            datagraphheight.push({ value: value, name: splitDate.toDateString() });
-          }
-          
-        }
-
-        this.lineChartHeight = [
-          {
-            "name": 'Feel',
-            "series": datagraphheight
-          }
-        ];
+          this.lineChartHeight = [
+            {
+              "name": 'Feel',
+              "series": result
+            }
+          ];
 
       }
 
@@ -1257,6 +1608,65 @@ getFeels() {
       this.loadedFeels = true;
       //this.toastr.error('', this.translate.instant("generics.error try again"));
     }));
+}
+
+
+add0Feels(datagraphheight){
+  var maxDateTemp = new Date();
+  var maxDate = maxDateTemp.toDateString();
+  
+  var minDate = this.minDateRange.toDateString();
+  
+  var splitLastDate = datagraphheight[datagraphheight.length-1].stringDate;
+  var splitFirstDate = datagraphheight[0].stringDate;
+    if(new Date(splitLastDate)<new Date(maxDate)){
+      datagraphheight.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
+    }
+    if(new Date(minDate)<new Date(splitFirstDate)){
+      datagraphheight.push({value: 0,name:minDate,stringDate:minDate, types: []})
+    }
+    var copydatagraphheight = JSON.parse(JSON.stringify(datagraphheight));
+    datagraphheight.sort(this.sortService.DateSortInver("stringDate"));
+  for (var j = 0; j < datagraphheight.length; j=j+1) {
+    var foundDate = false;
+    var actualDate = datagraphheight[j].stringDate;
+    if(datagraphheight[j+1]!=undefined){
+      var nextDate = datagraphheight[j+1].stringDate;
+      //stringDate
+      for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+        var theDate = new Date(actualDate);
+        theDate.setDate(theDate.getDate()+1);
+        actualDate = theDate.toDateString();
+        if(actualDate != nextDate){
+          copydatagraphheight.push({value: 0,name:actualDate,stringDate:actualDate, types: []})
+        }else{
+          foundDate = true;
+        }
+        
+      }
+      if(datagraphheight[j+2]!=undefined){
+      var actualDate = datagraphheight[j+1].stringDate;
+      var nextDate = datagraphheight[j+2].stringDate;
+      for (var k = 0; actualDate != nextDate && !foundDate; k++) {
+        var theDate = new Date(actualDate);
+        theDate.setDate(theDate.getDate()+1);
+        actualDate = theDate.toDateString();
+        if(actualDate != nextDate){
+          copydatagraphheight.push({value: 0,name:actualDate,stringDate:actualDate, types: []})
+        }
+        
+      }
+
+      }
+    }
+  }
+  copydatagraphheight.sort(this.sortService.DateSortInver("stringDate"));
+  for (var j = 0; j < copydatagraphheight.length; j++) {
+    copydatagraphheight[j].name = copydatagraphheight[j].stringDate
+    var theDate = new Date(copydatagraphheight[j].name);
+    copydatagraphheight[j].name = this.tickFormattingDay(theDate)
+  }
+  return copydatagraphheight;
 }
 
 getSeizures() {
@@ -1858,6 +2268,64 @@ loadDataRangeDate(rangeDate) {
   this.normalized2 = true;
   this.loadData();
 }
+
+callvc(){
+  this.subscription.add( this.http.get(environment.api+'/api/createissuer/'+ this.authService.getCurrentPatient().sub)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+issuanceCallback(){
+  var body = {
+      requestId: '0385231e-33a7-4273-ae67-8031837eea9e',
+      code: 'request_retrieved',
+      state: '27P7jcRCJPOSw7Yk1QI1klKqqzUEeYNa'
+    };
+  this.subscription.add( this.http.post(environment.api+'/api/issuer/issuanceCallback', body)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+getIssuanceResponse(){
+  var status = '62b08d846216ba1f38f9559e';
+  this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+ status)
+  .subscribe( (res : any) => {
+      console.log(res);
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+getVcs(){
+  this.subscription.add( this.http.get(environment.api+'/api/issuer/getAll/'+ this.authService.getCurrentPatient().sub)
+  .subscribe( (res : any) => {
+      if(res.listsessions.length>0){
+        for (var i = 0; i < res.listsessions.length; i++) {
+          for (var j = 0; j < this.individualShare.length; j++) {
+            if(res.listsessions[i].sharedWith==this.individualShare[j].idUser && this.individualShare[j].status == 'Pending' && res.listsessions[i].sessionData.message == 'Waiting for QR code to be scanned'){
+              this.individualShare[j].infoQr = res.listsessions[i];
+            }
+          }
+        }
+      }
+   }, (err) => {
+     console.log(err.error);
+   }));
+}
+
+@HostListener('window:resize')
+    onResize() {
+      if(!this.showNewCustom && this.listCustomShare.length>0){
+        this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
+        console.log( this.widthPanelCustomShare)
+      }
+    }
 
 }
 

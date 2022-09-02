@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy, ElementRef, Renderer2, AfterViewInit } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { ROUTES, ROUTESHAVEDIAGNOSIS, ROUTESSUPERADMIN, ROUTESCLINICAL, ROUTESHOMEDX, ROUTESADMINGTP} from './sidebar-routes.config';
+import { ROUTES, ROUTESHAVEDIAGNOSIS, ROUTESSUPERADMIN,ROUTESADMIN, ROUTESCLINICAL, ROUTESHOMEDX} from './sidebar-routes.config';
 import { RouteInfo } from "./sidebar.metadata";
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
@@ -112,9 +112,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
         }
         else if(this.authService.getRole() == 'Admin'){
-          if(this.authService.getSubRole() == 'AdminGTP'){
-            this.menuItems = ROUTESADMINGTP.filter(menuItem => menuItem);
-          }
+          this.menuItems = ROUTESADMIN.filter(menuItem => menuItem);
         }
         else if(this.authService.getRole() != undefined){
           //cargar menú del usuario
@@ -140,9 +138,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.menuItems = ROUTESCLINICAL.filter(menuItem => menuItem);
     }
     else if(this.authService.getRole() == 'Admin'){
-      if(this.authService.getSubRole() == 'AdminGTP'){
-        this.menuItems = ROUTESADMINGTP.filter(menuItem => menuItem);
-      }
+      this.menuItems = ROUTESADMIN.filter(menuItem => menuItem);
     }
     else if(this.authService.getRole() != undefined){
       //cargar menú del usuario

@@ -28,7 +28,6 @@ import { Subscription } from 'rxjs/Subscription';
 export class UserProfilePageComponent implements OnInit, OnDestroy {
     //Variable Declaration
     @ViewChild('f') userForm: NgForm;
-    @ViewChild('fPass') passwordForm: NgForm;
 
     public user: User;
     private userCopy: User;
@@ -38,17 +37,9 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
     private msgDownload: string;
     loading: boolean = false;
     sending: boolean = false;
-    activeTittleMenu: string = 'General';
-    msgActiveTittleMenu: string = '';
     item: number = 0;
-    tittleGeneral: string = '';
-    tittlePassword: string = '';
-    tittlePermissions: string = '';
-    credentials: any = {};
     role: string = '';
     subrole: string = '';
-    symptomsPermissions:any = {shareWithCommunity:false};
-    phenotype_id: string = '';
     private subscription: Subscription = new Subscription();
 
     constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private langService:LangService, private elRef: ElementRef, private router: Router, private dateService: DateService, private inj: Injector, private patientService: PatientService) {
@@ -75,13 +66,9 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
         console.log(res);
         this.user = res.user;
         this.userCopy = JSON.parse(JSON.stringify(res.user));
-        this.role = res.user.role;
+        this.role = this.authService.getRole();
         this.subrole = res.user.subrole;
         this.loading = false;
-        if(this.role == 'User'){
-          //load the patient to get the shareWithCommunity value
-          this.loadPatientId();
-        }
        }, (err) => {
          console.log(err);
          this.loading = false;
@@ -92,60 +79,6 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
        }));
 
        this.loadTranslations();
-
-       this.credentials = {
-         password: '',
-         password2: '',
-         actualpassword: ''
-       };
-    }
-
-    loadPatientId(){
-      this.subscription.add( this.patientService.getPatientId()
-      .subscribe( (res : any) => {
-        //get data of permissions
-        var para= this.authService.getCurrentPatient().sub;
-        //cargar el fenotipo del usuario
-        this.subscription.add( this.http.get(environment.api+'/api/symptoms/permissions/'+para)
-        .subscribe( (res : any) => {
-          if(res.message){
-
-          }else{
-            if(res.permissions!=undefined){
-              if(res.permissions.length==0){
-                this.symptomsPermissions = {shareWithCommunity:false};
-              }else{
-                this.symptomsPermissions = res.permissions[0];
-              }
-            }else{
-              this.symptomsPermissions = {shareWithCommunity:false};
-            }
-            this.phenotype_id = res._id;
-          }
-
-        }, (err) => {
-          console.log(err);
-        }));
-       }, (err) => {
-         console.log(err);
-       }));
-    }
-
-    changeStatePermissions(param){
-      if(param == 'shareWithCommunity'){
-        this.symptomsPermissions.shareWithCommunity = !this.symptomsPermissions.shareWithCommunity;
-      }
-      console.log(this.symptomsPermissions);
-      this.setPermissions();
-    }
-
-    setPermissions(){
-      this.subscription.add( this.http.put(environment.api+'/api/symptoms/changesharewithcommunity/'+this.phenotype_id, this.symptomsPermissions)
-      .subscribe( (res : any) => {
-        console.log(res);
-       }, (err) => {
-         console.log(err.error);
-       }));
     }
 
     //traducir cosas
@@ -156,18 +89,8 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
       this.translate.get('generics.Data saved fail').subscribe((res: string) => {
         this.msgDataSavedFail=res;
       });
-      this.translate.get('profile.General').subscribe((res: string) => {
-        this.tittleGeneral=res;
-        this.msgActiveTittleMenu = res;
-      });
-      this.translate.get('generics.Password').subscribe((res: string) => {
-        this.tittlePassword=res;
-      });
       this.translate.get('generics.Download').subscribe((res: string) => {
         this.msgDownload=res;
-      });
-      this.translate.get('permissions.Permissions').subscribe((res: string) => {
-        this.tittlePermissions=res;
       });
     }
 
@@ -175,14 +98,14 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
       this.translate.use(newValue);
       var eventsLang = this.inj.get(EventsService);
       eventsLang.broadcast('changelang', newValue);
-      if(newValue=='es'){
+      /*if(newValue=='es'){
         Swal.fire({
             title: this.translate.instant("Los textos en este idioma pueden contener errores"),
             html: '<p>Este idioma está en desarrollo. Los nombres de los síntomas y las enfermedades, así como sus descripciones y sinónimos pueden contener errores.</p> <p>Para mejorar las traducciones, por favor, envíanos cualquier error a <a href="mailto:support@foundation29.org">support@foundation29.org</a></p>',
             confirmButtonText: this.translate.instant("generics.Accept"),
             icon:"warning"
         })
-      }
+      }*/
     }
 
     resetForm() {
@@ -226,93 +149,6 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
            }
          }));
        }
-    }
-
-
-  SetActive(event, panelId: string) {
-      var hElement: HTMLElement = this.elRef.nativeElement;
-      //now you can simply get your elements with their class name
-      var allAnchors = hElement.getElementsByClassName('list-group-item');
-      //do something with selected elements
-      [].forEach.call(allAnchors, function (item: HTMLElement) {
-        item.setAttribute('class', 'list-group-item no-border');
-      });
-      //set active class for selected item
-      event.currentTarget.setAttribute('class', 'list-group-item bg-blue-grey bg-lighten-5 border-right-primary border-right-2');
-
-      if (panelId === 'panelGeneral') {
-        this.activeTittleMenu = "General";
-        this.msgActiveTittleMenu = this.tittleGeneral;
-      }else if (panelId === 'panelPassword') {
-        this.activeTittleMenu = "Password";
-        this.msgActiveTittleMenu = this.tittlePassword;
-      }else if (panelId === 'PanelPermissions') {
-        this.activeTittleMenu = "Permissions";
-        this.msgActiveTittleMenu = this.tittlePermissions;
-      }
-
-
-
-      $('.content-overlay').removeClass('show');
-      $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
-      $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
-
-    }
-
-    toggleMenu(){
-      if($('.chat-app-sidebar-toggle').hasClass('ft-align-justify')){
-        $('.chat-app-sidebar-toggle').removeClass('ft-align-justify').addClass('ft-x');
-        $('.chat-sidebar').removeClass('d-none d-sm-none').addClass('d-block d-sm-block');
-        $('.content-overlay').addClass('show');
-      }else{
-        $('.content-overlay').removeClass('show');
-        $('.chat-app-sidebar-toggle').removeClass('ft-x').addClass('ft-align-justify');
-        $('.chat-sidebar').removeClass('d-block d-sm-block').addClass('d-none d-sm-none');
-      }
-    }
-
-    submitInvalidPassForm() {
-      if (!this.passwordForm) { return; }
-      const base = this.passwordForm;
-      for (const field in base.form.controls) {
-        if (!base.form.controls[field].valid) {
-            base.form.controls[field].markAsTouched();
-        }
-      }
-    }
-
-    onSubmitPass(){
-      this.sending = true;
-
-      this.passwordForm.value.actualpassword=sha512(this.passwordForm.value.actualpassword);
-        this.passwordForm.value.password=sha512(this.passwordForm.value.password);
-        var paramssend = { email: this.user.email, actualpassword: this.passwordForm.value.actualpassword, newpassword: this.passwordForm.value.password};
-
-        this.subscription.add( this.http.post(environment.api+'/api/newpass',paramssend)
-        .subscribe( (res : any) => {
-
-
-            if(res.message == "password changed"){
-              Swal.fire('', this.translate.instant("recoverpass.Password changed"), "success");
-            }else if(res.message == "Login failed" || res.message == "Not found"){
-              Swal.fire('', this.translate.instant("profile.The current password is incorrect"), "warning");
-            }else if(res.message == "Account is temporarily locked"){
-              Swal.fire('', this.translate.instant("login.Account is temporarily locked"), "warning");
-              this.authService.logout();
-              this.router.navigate([this.authService.getLoginUrl()]);
-            }else if(res.message == "Account is unactivated"){
-              Swal.fire('', this.translate.instant("login.The account is not activated"), "warning");
-            }
-            this.sending = false;
-            this.passwordForm.reset();
-         }, (err) => {
-           //errores de fallos
-           var errormsg=err.error.message;
-           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again")+' error: '+ errormsg, "warning");
-           this.sending = false;
-           this.passwordForm.reset();
-         }));
-
     }
 
 }

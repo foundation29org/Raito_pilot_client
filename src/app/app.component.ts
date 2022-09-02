@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
+import { MoralisService } from 'app/shared/auth/moralis.service';
 import { NgxHotjarService } from 'ngx-hotjar';
 
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   tituloEvent: string = '';
   role: string = '';
   //Set toastr container ref configuration for toastr positioning on screen
-  constructor(private http: HttpClient, public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService: LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService, private meta: Meta) {
+  constructor(private http: HttpClient, public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService: LangService, private eventsService: EventsService, protected $hotjar: NgxHotjarService, private meta: Meta, public moralisService: MoralisService) {
 
     if (sessionStorage.getItem('lang')) {
       this.translate.use(sessionStorage.getItem('lang'));
@@ -226,6 +227,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.eventsService.on('changeEscenarioHotjar', function (obj) {
       this.testHotjarTrigger(obj);
     }.bind(this));
+
+    //this.moralisService.initServer();
   }
 
   delay(ms: number) {

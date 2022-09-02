@@ -6,6 +6,35 @@
   border-top: 1px solid #dee2e6 !important;
 }
 
+.row-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content {
+  height: 100%;
+  color: #fff;
+}
+
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+.row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+.fa-user-doctor{
+  color: #fff;
+}
+
+.gradient-green {
+  background-image: linear-gradient(60deg, #000, #0b8793) !important;
+}
 
 ::ng-deep .btn-link{
     display: block;
@@ -140,5 +169,30 @@ margin-top: 0.75rem !important;
     .optionsCharts > span > button{
       font-size: 0.7rem !important;
     }
+  }
+
+  ::ng-deep .imgqr > .sample > .qrcode > img{
+    float: right !important;
+  }
+
+  ::ng-deep #qrcodeimg{
+    display: inline-block;
+  }
+
+  ::ng-deep .qrcode{
+    width: fit-content !important;
+  }
+
+  .bottonsactionsDefault{
+    position: absolute; 
+    right: 15px;
+    bottom: 0px;
+    float: right !important;
+  }
+
+  .bottonsactionsSm{
+    position: relative; bottom: 0px;
+    float: left !important;
+    margin-left: 2.25rem !important;
   }
   

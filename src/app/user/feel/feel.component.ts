@@ -60,6 +60,7 @@ export class FeelComponent implements OnInit {
       a1: ['', Validators.required],
       a2: ['', Validators.required],
       a3: ['', Validators.required],
+      date: [new Date(), Validators.required],
       note: []
   });
 
