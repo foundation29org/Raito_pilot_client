@@ -1099,5 +1099,10 @@
     "t12": "Motivo",
     "t13": "Si cree que se trata de un error, escriba a support@foundation29.org",
     "click here": "haz clic aquí"
+  },
+  "appointments": {
+    "Next medical appointments":"Siguientes citas médicas",
+    "Add appointment": "Añadir cita",
+    "new?": "¿Crear nueva cita?"
   }
 }

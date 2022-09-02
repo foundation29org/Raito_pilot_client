@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<button class="mt-3 btn btn-raised btn-primary float-right" (click)="addEvent(null)">
-				Add Event
+				{{'appointments.Add appointment' | translate }}
 			</button>
 			<div class="content-header">{{'menu.Calendar' | translate }}</div>
 			<p class="content-sub-header">This is the most advanced example having various features. This
@@ -84,8 +84,8 @@
 	</div>
 	<ng-template #modalContent let-close="close">
 		<div class="modal-header">
-			<h5 class="modal-title">{{ modalData?.action }}
-				<span class="d-block"><label class="btn btn-flat btn-dark btn-sm mb-0" (click)="clearData(modalData?.event);">
+			<h5 class="modal-title">{{ modalData.action }}
+				<span class="d-block"><label class="btn btn-flat btn-dark btn-sm mb-0" (click)="clearData(modalData.event);">
 					Clean form
 				</label></span>
 			</h5>
@@ -97,65 +97,41 @@
 			
 			<form action="#" class="form form-horizontal">
 				<div class="form-body">
-					
 					<div class="row">
-						<div class="col-md-10 col-12">
+						<div class="col-md-12 col-12">
 							<div class="form-group">
 								<label>Event Title:</label>
-								<input type="text" name="event-title" class="form-control" [(ngModel)]="modalData?.event.title" (keyup)="refresh.next()">
+								<input type="text" name="event-title" class="form-control" [(ngModel)]="modalData.event.title" (keyup)="refresh.next()">
 							</div>
 						</div>
-						<div class="col-md-2 col-12">
+						<!--<div class="col-md-2 col-12">
 							<div class="form-group">
 								<label>Color:</label>
-								<input type="color" name="primary-color" class="form-control" [(ngModel)]="modalData?.event.color.primary" (change)="refresh.next()">
+								<input type="color" name="primary-color" class="form-control" [(ngModel)]="modalData.event.color.primary" (change)="refresh.next()">
 							</div>
-						</div>
+						</div>-->
 					</div>
 					<div class="row">
-						<div class="col-md-6 col-12">
-							<div class="form-group">
-								<label>Starts At:</label>
-								<mwl-demo-utils-date-time-picker name="starts-at" [(ngModel)]="modalData?.event.start" (ngModelChange)="refresh.next()" placeholder="Not set">
+						<div class="col-md-12 col-12">
+							<div class="form-group mb-0">
+								<label class="mb-0 mt-2">Starts At:</label>
+								<mwl-demo-utils-date-time-picker class="row" name="starts-at" [(ngModel)]="modalData.event.start" (ngModelChange)="refresh.next();updateEnd(modalData)" placeholder="Not set">
 								</mwl-demo-utils-date-time-picker>
 							</div>
 						</div>
-						<div class="col-md-6 col-12">
+						<!--<div class="col-md-6 col-12">
 							<div class="form-group">
 								<label>Ends At:</label>
-								<mwl-demo-utils-date-time-picker name="ends-at" [(ngModel)]="modalData?.event.end" (ngModelChange)="refresh.next()" placeholder="Not set">
+								<mwl-demo-utils-date-time-picker name="ends-at" [(ngModel)]="modalData.event.end" (ngModelChange)="refresh.next()" placeholder="Not set">
 								</mwl-demo-utils-date-time-picker>
 							</div>
-						</div>
+						</div>-->
 					</div>
 					<div class="row">
-						<div class="col-md-4 col-12">
-							<div class="form-group">
-								<label>Seizure type:</label>
-								<!--<input type="text" name="event-estructure-type" class="form-control" [(ngModel)]="modalData?.event.type" (keyup)="refresh.next()">-->
-								<select name="event-estructure-type" class="form-control"  [(ngModel)]="modalData?.event.type" (keyup)="refresh.next()">
-									<option value="Unknown">Unknown</option>
-									<option value="Simple Focal">Simple Focal</option>
-									<option value="Complex Focal">Complex Focal</option>
-									<option value="Secondarily Generalized">Secondarily Generalized</option>
-									<option value="Tonic">Tonic</option>
-									<option value="Clonic">Clonic</option>
-									<option value="Tonic–clonic">Tonic–clonic</option>
-									<option value="Myoclonic">Myoclonic</option>
-									<option value="Myoclonic Cluster">Myoclonic Cluster</option>
-									<option value="Atonic">Atonic</option>
-									<option value="Absence">Absence</option>
-									<option value="Atypical Absence">Atypical Absence</option>
-									<option value="Infantile Spasms">Infantile Spasms</option>
-									<option value="Status">Status</option>
-									<option value="Other">Other</option>
-								</select>
-							</div>
-						</div>
 						<div class="col-md-12 col-12">
 							<div class="form-group">
 								<label>Notes:</label>
-								<textarea maxlength="150" name="notes" class="autoajustable form-control" [(ngModel)]="modalData?.event.notes"  name="notes"></textarea>
+								<textarea maxlength="150" name="notes" class="autoajustable form-control" [(ngModel)]="modalData.event.notes"  name="notes"></textarea>
 							</div>
 						</div>
 					</div>
@@ -165,7 +141,9 @@
 		</div>
 		<div class="modal-footer">
 			<div class="col-md-12 center-elements">
-				<button type="button" class="btn btn-dark" (click)="close();saveData(modalData?.event);">{{'generics.SaveAndClose' |
+				<button type="button" class="btn btn-primary mr-1" (click)="confirmDeleteSeizure(modalData.event);">{{'generics.Delete' |
+					translate }}</button>
+				<button type="button" class="btn btn-dark ml-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |
 					translate }}</button>
 			</div>
 		</div>

@@ -1099,5 +1099,10 @@
        "t12":"Grund",
        "t13":"Wenn Sie denken, dass dies ein Fehler ist, schreiben Sie bitte an support@foundation29.org",
        "click here":"Klick hier"
+    },
+    "appointments": {
+      "Next medical appointments":"Nächste arzttermine",
+      "Add appointment": "Termin hinzufügen",
+      "new?": "Neuen Termin anlegen?"
     }
  }

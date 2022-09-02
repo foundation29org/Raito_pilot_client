@@ -1099,5 +1099,10 @@
        "t12":"Razão",
        "t13":"Se você acha que isso é um erro, escreva para support@foundation29.org",
        "click here":"Clique aqui"
+    },
+    "appointments": {
+      "Next medical appointments":"Próximas consultas médicas",
+      "Add appointment": "Adicionar compromisso",
+      "new?": "Criar novo compromisso?"
     }
  }

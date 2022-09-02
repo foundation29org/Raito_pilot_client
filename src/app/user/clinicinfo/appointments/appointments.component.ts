@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
+import { startOfDay, endOfDay,endOfHour, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -18,13 +18,6 @@ import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-
-interface MyEvent extends CalendarEvent {
-  _id: any;
-  type: any;
-  notes: any;
-  color: any;
-}
 
 const colors: any = {
   red: {
@@ -132,7 +125,6 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
       this.loadedPatientId = true;
       this.selectedPatient = this.authService.getCurrentPatient();
       this.loadData();
-      //this.loadSampleData();
     }
     
   }
@@ -148,11 +140,14 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
           this.authService.setCurrentPatient(res);
           this.selectedPatient = res;
           this.loadData();
-          //this.loadSampleData();
         }
       }, (err) => {
         console.log(err);
       }));
+  }
+
+  updateEnd(modalData){
+    this.modalData.event.end = endOfHour(modalData.event.start);
   }
 
   loadData(){
@@ -171,7 +166,6 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
                 res[i].end = new Date(res[i].end);
                 res[i].actions = this.actions;
                 res[i].meta={
-                  type: res[i].type,
                   notes:res[i].notes,
                   _id:res[i]._id
                 };
@@ -205,62 +199,6 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
          }));
   }
 
-  loadSampleData(){
-    this.events = [
-      {
-        id: '1',
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        actions: this.actions,
-        meta: {
-          type: null,
-          notes:""
-        }
-      },
-      {
-        id: '2',
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        actions: this.actions,
-        meta: {
-          type: null,
-          notes:""
-        }
-      },
-      {
-        id: '3',
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue,
-        meta: {
-          type: null,
-          notes:""
-        }
-      },
-      {
-        id: '4',
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        actions: this.actions,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        },
-        draggable: false,
-        meta: {
-          type: null,
-          notes:""
-        }
-      }
-    ];
-  }
-
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -275,13 +213,12 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
      
     }
     Swal.fire({
-      title: this.translate.instant("generics.Are you sure?"),
-      html: 'Create new event?',
+      title: this.translate.instant("appointments.new?"),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#0CC27E',
       cancelButtonColor: '#FF586B',
-      confirmButtonText: this.translate.instant("generics.New"),
+      confirmButtonText: this.translate.instant("generics.Yes"),
       cancelButtonText: this.translate.instant("generics.No, cancel"),
       showLoaderOnConfirm: true,
       allowOutsideClick: false
@@ -305,7 +242,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
       this.newEvent = JSON.parse(JSON.stringify(this.lastEvent));
       if(date!=null){
         this.newEvent.start = startOfDay(date);
-        this.newEvent.end = endOfDay(date);
+        this.newEvent.end = endOfHour(date);
       }
     }else{
       var actualDate = new Date()
@@ -316,11 +253,10 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
         id: null,
         title: 'New event',
         start: startOfDay(actualDate),
-        end: endOfDay(actualDate),
+        end: endOfHour(actualDate),
         color: colors.red,
         actions: this.actions,
         meta: {
-          type: null,
           notes:"",
           _id:null
         }
@@ -373,9 +309,31 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
     }
   }
 
+  confirmDeleteSeizure(event){
+    Swal.fire({
+      title: this.translate.instant("generics.Are you sure?"),
+      html: this.translate.instant("generics.Delete")+': '+ event.title,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#0CC27E',
+      cancelButtonColor: '#FF586B',
+      confirmButtonText: this.translate.instant("generics.Delete"),
+      cancelButtonText: this.translate.instant("generics.No, cancel"),
+      showLoaderOnConfirm: true,
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.value) {
+        this.eliminarSeizure(event);
+      }
+    }); 
+  }
+
   eliminarSeizure(event){
     this.subscription.add( this.http.delete(environment.api+'/api/appointments/'+event.meta._id)
     .subscribe( (res : any) => {
+      if (this.modal.hasOpenModals) {
+        this.modal.dismissAll();
+      }
       //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
       this.loadData()
      }, (err) => {
@@ -391,15 +349,13 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
   clearData(data){
     var emptydata = {
       id: data.id,
-      type: null,
       notes:"",
       title: 'New event',
       start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
+      end: endOfHour(new Date()),
       color: colors.red,
       actions: this.actions,
       meta: {
-        type: null,
         notes:"",
         _id:null
       }

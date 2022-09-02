@@ -25,7 +25,7 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'mwl-demo-utils-date-time-picker',
   template: `
-    <form class="form-inline">
+    <form class="form-inline col-md-6">
       <div class="form-group">
         <div class="input-group">
           <input
@@ -45,7 +45,7 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
         </div>
       </div>
     </form>
-    <ngb-timepicker
+    <ngb-timepicker class="col-md-6"
       [(ngModel)]="timeStruct"
       (ngModelChange)="updateTime()"
       [meridian]="true">

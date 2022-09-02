@@ -1099,5 +1099,10 @@
     "t12": "Reason",
     "t13": "If you think this is an error, please write to support@foundation29.org",
     "click here": "click here"
+  },
+  "appointments": {
+    "Next medical appointments":"Next medical appointments",
+    "Add appointment": "Add appointment",
+    "new?": "Create new appointment?"
   }
 }
