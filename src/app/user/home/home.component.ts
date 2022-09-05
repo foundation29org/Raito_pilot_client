@@ -681,7 +681,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.basicInfoPatient.group = group;
     this.subscription.add(this.http.put(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub, this.basicInfoPatient)
       .subscribe((res: any) => {
-
+        this.authService.setGroup(group)
+        this.loadGroupFile();
       }, (err) => {
         console.log(err);
       }));
@@ -789,15 +790,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       var maxDate = maxDateTemp.toDateString();
       
       var minDate = this.minDateRange.toDateString();
-      
-      var splitLastDate = datagraphheight[datagraphheight.length-1].stringDate;
-      var splitFirstDate = datagraphheight[0].stringDate;
+      if(datagraphheight[datagraphheight.length-1]!=undefined){
+        var splitLastDate = datagraphheight[datagraphheight.length-1].stringDate;
+        var splitFirstDate = datagraphheight[0].stringDate;
         if(new Date(splitLastDate)<new Date(maxDate)){
           datagraphheight.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
         }
         if(new Date(minDate)<new Date(splitFirstDate)){
           datagraphheight.push({value: 0,name:minDate,stringDate:minDate, types: []})
         }
+      }
+      
         var copydatagraphheight = JSON.parse(JSON.stringify(datagraphheight));
         datagraphheight.sort(this.sortService.DateSortInver("stringDate"));
       for (var j = 0; j < datagraphheight.length; j=j+1) {
