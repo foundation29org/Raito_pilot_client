@@ -11,12 +11,6 @@
                                     title="">
                                     +
                                 </a>
-                                <!--<input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
-                                    (change)="onFileChangePDF($event);"
-                                    accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <label class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
-                                    style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
-                                    for="fileDropRef">+</label>-->
                             </span>
                             <div class="">
                                 <p class="text-bold-500 mt-0 mb-0">{{'menu.Clinical information' | translate }}</p>
@@ -31,8 +25,7 @@
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                                 <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                             </span>-->
-                            <span *ngIf="uploadingGenotype" class="center-elements">{{'generics.Upload Progress' |
-                                translate }}: {{uploadProgress | async}}%</span>
+                            <span *ngIf="uploadingGenotype" class="center-elements"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                             <div *ngIf="loadedGeno" class="mt-2 mb-2" id="Widget-line-chart">
                                 <!--<span *ngIf="otherGeneFiles.length==0" class="">
                                     <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
@@ -113,12 +106,6 @@
                                     title="">
                                     +
                                 </a>
-                                <!--<input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;"
-                                    (change)="onFileEmergencyChange($event);"
-                                    accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <label class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
-                                    style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
-                                    for="fileDropRef2">+</label>-->
                             </span>
                             <div class="">
                                 <p class="text-bold-500 mt-0 mb-0">{{'documents.emergencyTitle' | translate }}</p>
@@ -131,8 +118,7 @@
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                                 <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                             </span>
-                            <span *ngIf="uploadingEmergency" class="center-elements">{{'generics.Upload Progress' |
-                                translate }}: {{uploadProgress2 | async}}%</span>
+                            <span *ngIf="uploadingEmergency" class="center-elements"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                             <div *ngIf="loadedGeno" class="mt-2 mb-2" id="Widget-line-chart">
                                 <!--<span *ngIf="emergencyFiles.length==0" class="">
                                     <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>

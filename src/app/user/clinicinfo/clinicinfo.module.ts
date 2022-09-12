@@ -23,7 +23,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
 import { SymptomsComponent } from './symptoms/symptoms.component';
-import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
 import { CalendarsComponent } from './calendar/calendar.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
@@ -65,7 +64,6 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
     exports: [TranslateModule],
     declarations: [
         SymptomsComponent,
-        GenotypeComponent,
         MedicalRecordsComponent,
         CalendarsComponent,
         AppointmentsComponent,

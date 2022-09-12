@@ -113,12 +113,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     this.initEnvironment();
 
-    this.subscription.add(this.blob.change.subscribe(uploaded => {
-      this.uploadingGenotype = false;
-      this.uploadingEmergency = false;
-      this.getDocs();
-    }));
-
     //si tiene VCF
     this.subscription.add(this.blob.changeFilesExomizerBlobVcf.subscribe(vcfFilesOnBlob => {
       if (vcfFilesOnBlob.length > 0) {
@@ -286,37 +280,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
      }));
   }
 
-  onFileChangePDF(event) {
-    this.preparingFile = true;
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event2: any) => { // called once readAsDataURL is completed
-        this.preparingFile = false;
-        var filename = event.target.files[0].name;
-        var extension = filename.substr(filename.lastIndexOf('.'));
-        var pos = (filename).lastIndexOf('.')
-        pos = pos - 4;
-        if (pos > 0 && extension == '.gz') {
-          extension = (filename).substr(pos);
-        }
-        filename = filename.split(extension)[0];
-        //event.target.response.content
-        if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-          var uniqueFileName = this.getUniqueFileName();
-          filename = 'raitofile/' + uniqueFileName + '/' + filename + extension;
-          this.uploadingGenotype = true;
-          this.uploadProgress = this.blob
-            .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
-        } else {
-          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
-        }
-
-      }
-
-    }
-  }
-
   onFileChangeStep1(event) {
     this.preparingFile = true;
     if (event.target.files && event.target.files[0]) {
@@ -352,80 +315,59 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   onFileChangeStep2(){
+    const formData = new FormData();
+    formData.append("thumbnail", this.dataFile.event);
+    formData.append("type", 'patientGenoFiles');
+    formData.append("url", this.dataFile.url);
+    formData.append("containerName", this.authService.getCurrentPatient().sub.substr(1));
+    var containerName = this.authService.getCurrentPatient().sub.substr(1)
+    var info={type:'patientGenoFiles', typedocument:this.typedocument}
     if(this.typedocument=='general'){
+      formData.append("typedocument", 'general');
       this.uploadingGenotype = true;
-      this.uploadProgress = this.blob
-        .uploadToBlobStorage(this.accessToken, this.dataFile.event, this.dataFile.url, 'patientGenoFiles');
-        if (this.modalReference != undefined) {
-          this.modalReference.close();
-          this.modalReference = undefined;
-          this.dataFile = {};
-        }
+      
+      this.sendFile(formData, containerName, info);
     }else{
+      formData.append("typedocument", 'emergency');
       this.uploadingEmergency = true;
-          this.uploadProgress2 = this.blob
-            .uploadToBlobStorage(this.accessToken, this.dataFile.event, this.dataFile.url, 'patientGenoFiles');
-            if (this.modalReference != undefined) {
-              this.modalReference.close();
-              this.modalReference = undefined;
-            }
-            this.dataFile = {};
+      this.sendFile(formData, containerName, info);
     }
     
   }
 
-  
-
-  onFileEmergencyChange(event) {
-    this.preparingFileEmergency = true;
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event2: any) => { // called once readAsDataURL is completed
-        this.preparingFileEmergency = false;
-        var filename = event.target.files[0].name;
-        var extension = filename.substr(filename.lastIndexOf('.'));
-        var pos = (filename).lastIndexOf('.')
-        pos = pos - 4;
-        if (pos > 0 && extension == '.gz') {
-          extension = (filename).substr(pos);
-        }
-        filename = filename.split(extension)[0];
-        //event.target.response.content
-        if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-          var uniqueFileName = this.getUniqueFileName();
-          filename = 'raitofile/emergency/' + uniqueFileName + '/' + filename + extension;
-          this.uploadingEmergency = true;
-          this.uploadProgress2 = this.blob
-            .uploadToBlobStorage(this.accessToken, event.target.files[0], filename, 'patientGenoFiles');
-        } else {
-          Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
-        }
-
-      }
-
-    }
-  }
-
-  onFileDropped(event) {
-    var reader = new FileReader();
-    reader.readAsDataURL(event[0]); // read file as data url
-    reader.onload = (event2: any) => { // called once readAsDataURL is completed
-      var the_url = event2.target.result
-      var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
-      extension = extension.toLowerCase();
-      var filename = event[0].name;
-      if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        var uniqueFileName = this.getUniqueFileName();
-        filename = 'raitofile/' + uniqueFileName + '/' + filename;
-        this.uploadingGenotype = true;
-        this.uploadProgress = this.blob
-          .uploadToBlobStorage(this.accessToken, event[0], filename, 'patientGenoFiles');
-      } else {
-        Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "warning");
-      }
-
-    }
+  sendFile(formData, containerName, info){
+    this.subscription.add( this.http.post(environment.api+'/api/upload/', formData)
+        .subscribe( (res : any) => {
+          if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+          }
+          this.dataFile = {};
+          console.log(info);
+          if(info.typedocument=='general'){
+            this.uploadingGenotype = false;
+          }
+          if(info.typedocument=='emergency'){
+            this.uploadingEmergency = false;
+          }
+          if(info.type=='patientGenoFiles'){
+            this.blob.loadPatientGenoFiles(containerName)
+            this.getDocs();
+          }
+          if(info.type=='ncrInfofile'){
+            this.blob.loadNcrResultsFilesPatientBlob(containerName)
+          }
+          
+          
+         }, (err) => {
+           console.log(err);
+           this.sendingSymptoms = false;
+           if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+             this.authGuard.testtoken();
+           }else{
+             this.toastr.error('', this.msgDataSavedFail);
+           }
+         }));
   }
 
   getUniqueFileName() {
@@ -519,9 +461,9 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       }
     }
     this.otherGeneFiles.splice(i, 1);
-    this.blob.deleteBlob(this.accessToken.containerName, file);
+    this.deleteBlob(this.accessToken.containerName, file);
     if(enc){
-      this.blob.deleteBlob(this.accessToken.containerName, file2);
+      this.deleteBlob(this.accessToken.containerName, file2);
     }
   }
 
@@ -536,10 +478,21 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       }
     }
     this.emergencyFiles.splice(i, 1);
-    this.blob.deleteBlob(this.accessToken.containerName, file);
+    this.deleteBlob(this.accessToken.containerName, file);
     if(enc){
-      this.blob.deleteBlob(this.accessToken.containerName, file2);
+      this.deleteBlob(this.accessToken.containerName, file2);
     }
+  }
+
+  deleteBlob(containerName, file){
+    var info = {containerName:containerName, fileName:file}
+    this.subscription.add( this.http.post(environment.api+'/api/deleteBlob/', info)
+    .subscribe( (res : any) => {
+      console.log(res);      
+     }, (err) => {
+       console.log(err);
+       this.blob.loadPatientGenoFiles(containerName)
+     }));
   }
 
   extractData(blobName, contentType) {
@@ -625,7 +578,17 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     var str = JSON.stringify(infoNcrToSave);
     var fileNameNcr = url + 'textanaresult.json';
     var file = new File([str], fileNameNcr, { type: 'application/json' });
-    this.blob.uploadToBlobStorage(this.accessToken, file, fileNameNcr, 'ncrInfofile');
+
+    const formData = new FormData();
+    formData.append("thumbnail", file);
+    formData.append("type", 'ncrInfofile');
+    formData.append("url", fileNameNcr);
+    formData.append("containerName", this.authService.getCurrentPatient().sub.substr(1));
+    var containerName = this.authService.getCurrentPatient().sub.substr(1)
+    //formData.append("typedocument", 'general');
+    var info={type:'ncrInfofile', typedocument:''}
+    this.sendFile(formData, containerName, info);
+
     this.extractingData = false;
   }
 

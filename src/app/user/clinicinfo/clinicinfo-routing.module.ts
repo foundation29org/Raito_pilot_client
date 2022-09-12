@@ -4,7 +4,6 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 import { SymptomsComponent } from './symptoms/symptoms.component';
-import { GenotypeComponent } from './genotype/genotype.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
 import { CalendarsComponent } from './calendar/calendar.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
@@ -19,15 +18,6 @@ const routes: Routes = [
         component: SymptomsComponent,
         data: {
           title: 'menu.Phenotype',
-          expectedRole: ['User']
-        },
-        canActivate: [AuthGuard, RoleGuard]
-      },
-      {
-        path: 'genotype',
-        component: GenotypeComponent,
-        data: {
-          title: 'menu.Genotype',
           expectedRole: ['User']
         },
         canActivate: [AuthGuard, RoleGuard]

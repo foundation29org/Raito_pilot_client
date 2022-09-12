@@ -15,7 +15,6 @@ export const ROUTESHAVEDIAGNOSIS: RouteInfo[] = [
         path: '', title: 'menu.Personal Info', icon: 'fas fa-microscope', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
         submenu: [
             { path: '/symptoms', title: 'menu.Phenotype', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            //{ path: '/genotype', title: 'menu.Genotype', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/seizures', title: 'menu.Seizures', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/medication', title: 'clinicalinfo.Medication', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { path: '/prom', title: 'menu.Questionnaire', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

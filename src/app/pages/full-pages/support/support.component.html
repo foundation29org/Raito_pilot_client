@@ -27,22 +27,6 @@
                                           <small class="form-text text-muted danger" *ngIf="!description.valid && (description.dirty || description.touched)">{{'generics.required' | translate }}</small>
                                         </div>
                                       </div>
-                                      <div class="mt-2 col-md-12" *ngFor="let eachfile of supportInfo.files ; let i = index">
-                                        <p *ngIf="eachfile">
-                                          <span>{{eachfile}}</span>
-                                          <a class="btn btn-outline-danger mb-0" (click)="deleteDataAndFile(i);" href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                      </p>
-                                      </div>
-                                      <div class="mt-2 col-md-12" >
-                                        <label for="distance">{{'support.New File' | translate }} <small class="d-block">{{'support.Uploading a capture can help us a lot' | translate }}</small></label>
-                                        <p style="margin: 0;"></p>
-                                        <input type="text" class="form-control"  hidden>
-                                        <label *ngIf="!uploadingFile" class="btn btn-outline-primary">
-                                            <i class="fa ft-upload-cloud"></i> <input type="file" (change)="onFileChange($event);" style="display: none;">
-                                        </label>
-                                        <h4 *ngIf="uploadingFile" class="center-elements">{{'generics.Upload Progress' | translate }}: {{uploadProgress | async}}%</h4>
-                      
-                                      </div>
                                     </div>
                                   </div>
                                   <div class="form-actions">
