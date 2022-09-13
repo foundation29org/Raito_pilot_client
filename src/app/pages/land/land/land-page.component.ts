@@ -78,13 +78,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if (!this.currentUser) {
             this.subscription.add( this.moralisService.authenticate()
             .then( (res : any) => {
+              console.log(res)
                 this.onSubmit(res)
              }, (err) => {
                console.log(err);
              }));
         } else {
-            var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
-            this.onSubmit(data)
+          this.authService.logout();
+          this.login();
+            /*var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
+            this.onSubmit(data)*/
         }
     }
 
