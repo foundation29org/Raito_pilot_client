@@ -82,7 +82,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 this.onSubmit(res)
              }, (err) => {
                console.log(err);
-               Moralis.User.logOut();
+               this.logOut();
              }));
         } else {
           try {
@@ -90,7 +90,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             this.onSubmit(data)
           } catch (error) {
             console.log(error);
-               Moralis.User.logOut();
+            this.logOut();
           }
             
         }
@@ -103,6 +103,21 @@ export class LandPageComponent implements OnInit, OnDestroy {
         console.log("logged out");
       }
 
+      handleMoralisError(err) {
+        switch (err.code) {
+          case Moralis.Error.INVALID_SESSION_TOKEN:
+            this.logOut();
+           // Moralis.User.logOut();
+            // If web browser, render a log in screen
+            // If Express.js, redirect the user to the log in route
+            break;
+      
+          // Other Moralis API errors that you want to explicitly handle
+        }
+      }
+      
+      
+
     // On submit button click
     onSubmit(data) {
         this.sending = true;
@@ -114,6 +129,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
     	   this.subscription.add( this.authService.signinUser(data).subscribe(
     	       authenticated => {
       		    if(authenticated.isloggedIn) {
+                const query = new Moralis.Query(Moralis.User);
+                console.log(query);
+                // For each API request, call the global error handler
+                query.find().then(function() {
+                  // do stuff
+                }, function(err) {
+                  this.handleMoralisError(err);
+                });
                  //this.translate.setDefaultLang( this.authService.getLang() );
                  this.translate.use(this.authService.getLang());
                  sessionStorage.setItem('lang', this.authService.getLang());

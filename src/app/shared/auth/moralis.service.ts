@@ -30,6 +30,7 @@ export class MoralisService {
         return data;
        }, (err) => {
          console.log(err);
+         this.logout();
        })
   }
 
