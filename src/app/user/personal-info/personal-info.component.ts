@@ -177,7 +177,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
    loadGroups(){
     this.subscription.add( this.apiDx29ServerService.loadGroups()
     .subscribe( (res : any) => {
-      console.log(res);
       this.groups = res;
       this.groups.sort(this.sortService.GetSortOrder("name"));
     }, (err) => {
@@ -297,7 +296,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.loadedPatientId = false;
     this.subscription.add( this.patientService.getPatientId()
     .subscribe( (res : any) => {
-      console.log(res);
       if(res==null){
         this.authService.logout();
       }else{
@@ -316,7 +314,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.loadedInfoPatient = false;
     this.subscription.add( this.http.get(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub)
         .subscribe( (res : any) => {
-          console.log(res);
           this.datainfo = res.patient;
           this.datainfo.birthDate=this.dateService.transformDate(res.patient.birthDate);
           this.datainfoCopy = JSON.parse(JSON.stringify(res.patient));
@@ -354,7 +351,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   //  On submit click, reset field value
   onSubmit() {
-    console.log('eop');
     if (this.personalInfoForm.value.role == 'User' && (this.personalInfoForm.value.subrole == 'null' || this.personalInfoForm.value.subrole == null)) {
       Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("registration.select the type of patient1"), "warning");
     } else {
@@ -426,7 +422,8 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       params.Date = a;
       this.subscription.add(this.http.post('https://prod-246.westeurope.logic.azure.com:443/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PiYef1JHGPRDGhYWI0s1IS5a_9Dpz7HLjwfEN_M7TKY', params)
         .subscribe((res: any) => {
-          console.log('feed');
+         
+          
         }, (err) => {
           console.log(err);
         }));
@@ -452,8 +449,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     $e.preventDefault();
     if (!$e.item.error) {
       this.actualInfoOneDisease = $e.item;
-      console.log($e.item);
-      //this.searchDiseaseField =$e.item
     }
   }
 
@@ -464,7 +459,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     }
     this.subscription.add( this.apiDx29ServerService.searchDiseases(info)
     .subscribe( (res : any) => {
-      console.log(res);
       this.actualInfoOneDisease = res[0];
     }, (err) => {
       console.log(err);
@@ -519,7 +513,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     //cargar el weight del usuario
     this.subscription.add( this.patientService.getPatientWeight()
     .subscribe( (res : any) => {
-      console.log(res);
       if(res.message=='There are no weight'){
         //no tiene weight
         if(this.editingWeightHistory){
@@ -542,7 +535,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         //cargar el histórico del peso
         this.subscription.add( this.http.get(environment.api+'/api/weights/'+this.authService.getCurrentPatient().sub)
         .subscribe( (resweight : any) => {
-          console.log(resweight);
           if(resweight.message){
             //no tiene historico de peso
           }else{

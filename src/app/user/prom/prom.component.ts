@@ -132,7 +132,6 @@ export class PromComponent {
   }
 
   filterNewProms(){
-    console.log('entra');
     var copyProms = [];
     for(var i=0;i<this.newproms.length;i++){
       var foundProm = false;
@@ -174,7 +173,6 @@ export class PromComponent {
   initEnvironment(){
     this.loadedProms = false;
     this.userId = this.authService.getIdUser();
-    console.log(this.authService.getCurrentPatient());
     if(this.authService.getCurrentPatient()==null){
       this.loadPatientId();
     }else{
@@ -206,10 +204,8 @@ export class PromComponent {
   }
 
   loadQuestionnaires(){
-    console.log(this.authService.getGroup());
     this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
       .subscribe((res: any) => {
-        console.log(res.questionnaires);
         this.questionnaires = res.questionnaires;
         for(var i=0;i<this.questionnaires.length;i++){
           this.loadQuestionnaire(this.questionnaires[i].id, i)
@@ -223,8 +219,7 @@ export class PromComponent {
   loadQuestionnaire(questionnaireId, index){
     this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
       .subscribe((res: any) => {
-        this.questionnaires[index].info=res
-        console.log(this.questionnaires);
+        this.questionnaires[index].info=res;
       }, (err) => {
         console.log(err);
       }));
@@ -266,7 +261,6 @@ export class PromComponent {
             this.pendind = false;
             this.showAll();
           }
-          console.log(this.actualQuestionnaire);
   }
 
   //  On submit click, reset field value
@@ -274,7 +268,6 @@ export class PromComponent {
     this.sending = true;
       this.subscription.add( this.http.post(environment.api+'/api/prom/'+this.authService.getCurrentPatient().sub, this.actualProm)
         .subscribe((res: any) => {
-          console.log(res);
           this.sending = false;
           this.newproms[this.step] = res.prom;
           this.step++;
@@ -308,11 +301,9 @@ export class PromComponent {
   }
 
   saveChanges(){
-    console.log(this.newproms);
     this.sending = true;
       this.subscription.add( this.http.post(environment.api+'/api/proms/'+this.authService.getCurrentPatient().sub, this.newproms)
         .subscribe((res: any) => {
-          console.log(res);
           this.sending = false;
           this.init();
         }, (err) => {

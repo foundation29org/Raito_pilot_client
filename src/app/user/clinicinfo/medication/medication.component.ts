@@ -144,7 +144,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscription.add(this.patientService.getPatientId()
       .subscribe((res0: any) => {
-        console.log(res0);
         if (res0 != null && res0.group != null) {
           this.loadTranslationsElements();
           this.getWeight();
@@ -222,7 +221,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
           }
           
         }else if(res.message == 'old weight'){
-          console.log(res.weight)
           Swal.fire({
             title: this.translate.instant("medication.No weight update"),
             html: '<span>'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+'):</span>',
@@ -413,8 +411,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.loadingDataGroup = true;
     this.subscription.add(this.http.get(environment.api + '/api/group/medications/' + this.authService.getGroup())
       .subscribe((res: any) => {
-        console.log(this.authService.getGroup());
-        console.log(res);
         if (res.medications.data.length == 0) {
           //no tiene datos sobre el grupo
         } else {
@@ -994,7 +990,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
     //load countries file
     this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
       .subscribe((res: any) => {
-        console.log(res)
         this.recommendedDoses = res;
       }));
 

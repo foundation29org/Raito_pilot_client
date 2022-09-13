@@ -149,7 +149,6 @@ export class SymptomsComponent implements OnInit {
     this.loadedPatientId = false;
     this.subscription.add(this.patientService.getPatientId()
       .subscribe((res: any) => {
-        console.log(res);
         if (res == null) {
           this.authService.logout();
         } else {
@@ -320,18 +319,6 @@ export class SymptomsComponent implements OnInit {
     return resCopy;
   }
 
-  downloadSymptoms() {
-    if (this.phenotype.data.length != 0) {
-      var infoDiseases = [];//this.getPlainInfoDiseases();
-      console.log(this.phenotype.data);
-      console.log(infoDiseases);
-      console.log(this.lang);
-      //this.jsPDFService.generateResultsPDF(this.phenotype.data, infoDiseases, this.lang)
-    } else {
-      Swal.fire(this.translate.instant("land.In order to download the symptoms"), '', "warning");
-    }
-  }
-
   closeModal() {
     document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction);
     if (this.modalReference != undefined) {
@@ -417,7 +404,6 @@ export class SymptomsComponent implements OnInit {
               }
             }
           }
-          console.log(this.phenotype.data);
           this.phenotype.data.sort(this.sortService.GetSortOrder("name"));
         }
         this.lauchEvent("Symptoms");

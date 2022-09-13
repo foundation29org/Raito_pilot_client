@@ -51,7 +51,6 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
 
       event => {
         var tempUrl = (event.url).toString();
-        console.log(tempUrl);
         if (tempUrl.indexOf('/.') != -1 || tempUrl == '/') {
           this.isHomePage = true;
           this.isAboutPage = false;

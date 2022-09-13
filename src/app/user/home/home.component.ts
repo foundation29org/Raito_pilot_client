@@ -275,7 +275,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   getChecks(){
     this.subscription.add( this.http.get(environment.api+'/api/patient/checks/'+this.authService.getCurrentPatient().sub)
     .subscribe( (res : any) => {
-      console.log(res);
       this.checks = res.checks;
      }, (err) => {
        console.log(err.error);
@@ -318,7 +317,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   getConsentGroup(){
     this.subscription.add( this.http.get(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub)
     .subscribe( (res : any) => {
-      console.log(res);
       this.consentgroup = res.consentgroup;
      }, (err) => {
        console.log(err.error);
@@ -428,7 +426,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.questionnaires = res.questionnaires;
         for(var i=0;i<this.questionnaires.length;i++){
           await this.loadQuestionnaire(this.questionnaires[i].id, i)
-          console.log('1');
         }
         //this.getProms();
       }, (err) => {
@@ -450,7 +447,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getProms(){
-    console.log('2');
     var questionnaires = [];
     for(var i=0;i<this.questionnaires.length;i++){
       questionnaires.push(this.questionnaires[i].id)
@@ -586,7 +582,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     //load countries file
     this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
       .subscribe((res: any) => {
-        console.log(res)
         this.recommendedDoses = res;
       }));
 
@@ -613,7 +608,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadedInfoPatient = false;
     this.subscription.add(this.http.get(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub)
       .subscribe((res: any) => {
-        console.log(res);
         this.basicInfoPatient = res.patient;
         this.basicInfoPatient.birthDate = this.dateService.transformDate(res.patient.birthDate);
         this.basicInfoPatientCopy = JSON.parse(JSON.stringify(res.patient));
@@ -657,15 +651,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   question2() {
-    this.step = '3';
+    this.step = '2';
     this.setPatientGroup(this.basicInfoPatient.group);
   }
 
-  question3(response) {
-    this.basicInfoPatient.consentgroup = response;
-    console.log(this.basicInfoPatient.consentgroup);
+  question3() {
     this.step = '3';
-    this.setPatientGroup(this.basicInfoPatient.group);
   }
 
   setNoneIdPatientGroup(){
@@ -850,12 +841,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     var pastDate=new Date(date);
     pastDate.setDate(pastDate.getDate() + period);
     if(pastDate<this.today){
-      console.log(pastDate);
-      console.log(this.today);
-      console.log('Han pasado '+period+' dias');
       return true;
     }else{
-      console.log('No han pasado '+period+' dias');
       return false;
     }
   }
@@ -1004,11 +991,9 @@ getWeek(newdate, dowOffset?) {
     var splitLastDate = datagraphseizures[datagraphseizures.length-1].stringDate;
     var splitFirstDate = datagraphseizures[0].stringDate;
       if(new Date(splitLastDate)<new Date(maxDate)){
-        console.log('add today');
         datagraphseizures.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
       }
       if(new Date(minDate)<new Date(splitFirstDate)){
-        console.log('add init');
         datagraphseizures.push({value: 0,name:minDate,stringDate:minDate, types: []})
       }
       var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
@@ -1298,12 +1283,10 @@ getWeek(newdate, dowOffset?) {
     
 
     this.barChart = seizu;
-    console.log(copymeds);
     this.lineChartSeries = copymeds;
     if(this.normalized2){
 
       var templineChartDrugs = JSON.parse(JSON.stringify(this.lineChartSeries));
-      console.log(this.lineChartSeries);
       var maxValue = 0;
       for (var i = 0; i < this.lineChartSeries.length; i++) {
         var maxValueRecommededDrug = this.getMaxValueRecommededDrug(this.lineChartSeries[i].name);
@@ -1322,20 +1305,6 @@ getWeek(newdate, dowOffset?) {
         templineChartDrugs[i].series.sort(this.sortService.DateSortInver("name"));
       }
       this.lineChartSeries = JSON.parse(JSON.stringify(templineChartDrugs));
-      console.log(this.lineChartSeries);
-      
-      /*var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
-      for (var i = 0; i < this.lineDrugsVsSeizures.length; i++) {
-        for (var j = 0; j < this.lineDrugsVsSeizures[i].series.length; j++) {
-          if(this.lineDrugsVsSeizures[i].name==this.titleSeizures){
-            templineChartDrugs[i].series[j].value = percen*this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
-          }else{
-            templineChartDrugs[i].series[j].value = this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
-          }
-        }
-      }
-      this.lineDrugsVsSeizures = [];
-      this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));*/
     }
   }
 
@@ -1402,7 +1371,6 @@ getWeek(newdate, dowOffset?) {
     var options = { year: 'numeric', month: 'short' };
     //var options = { year: 'numeric', month: 'short', day: 'numeric' };
     var res = d.toLocaleString(this.formatDate, options)
-    console.log(res);
     return res;
   }
 
@@ -1457,10 +1425,8 @@ getWeek(newdate, dowOffset?) {
     }
     this.subscription.add(this.patientService.getPatientWeight()
       .subscribe((res: any) => {
-        console.log(res);
         if (res.message == 'There are no weight') {
         }else if(res.message == 'old weight'){
-          console.log(res.weight)
           this.weight = res.weight.value
         }else{
           this.weight = res.weight.value
@@ -1475,7 +1441,6 @@ getWeek(newdate, dowOffset?) {
   getMaxValueRecommededDrug(name){
     var maxDose = 0;
     var actualRecommendedDoses = this.recommendedDoses[name];
-    console.log(this.weight);
     if(actualRecommendedDoses==undefined || !this.weight){
       return maxDose;
     }else{
@@ -1571,13 +1536,11 @@ getWeek(newdate, dowOffset?) {
       {
         for (var j = 0; j < meds[i].series.length; j++) {
           var varweek = new Date(meds[i].series[j].name)
-          console.log(varweek)
           meds[i].series[j].name = this.getWeek(varweek, 1);
         }
         respDrugs.push({name: meds[i].name, series:[]})
       }
       var copyDrugs = JSON.parse(JSON.stringify(meds));
-      console.log(copyDrugs);
     for (var i=0; i < copyDrugs.length; i++){
       for (var j = 0; j < copyDrugs[i].series.length; j++) {
         var foundElementIndex = this.searchService.searchIndex(respDrugs[i].series, 'name', copyDrugs[i].series[j].name);
@@ -1591,7 +1554,6 @@ getWeek(newdate, dowOffset?) {
       }
       
     }
-    console.log(respDrugs);
     return respDrugs;
 }
 
@@ -1624,19 +1586,13 @@ callIsVerified(checkstatus) {
 }
 
 checkStatusVerified(){
-  console.log(this.infoVerified.url);
   if(this.infoVerified.url){
     var token = this.infoVerified.url.split('https://magic.veriff.me/v/');
-    console.log(token);
     var tokenPayload = decode(token[1]);
-    console.log(tokenPayload);
     var date1 = tokenPayload.iat;
     var date2 = (new Date().getTime())/1000;
-    console.log(date1);
-    console.log(date2);
     var timeDiff = date2 - date1;
     var Difference_In_Days = timeDiff / (1000 * 3600 * 24);
-    console.log(Difference_In_Days);
     if(Difference_In_Days>=6){
       //this.createSesion();
       this.verifyStatus();
@@ -1652,7 +1608,6 @@ checkStatusVerified(){
 
 saveDataVeriff(){
   var token = this.infoVerified.url.split('https://magic.veriff.me/v/');
-  console.log(token);
   var tokenPayload = decode(token[1]);
   var session_id= tokenPayload.session_id
   var hashva = CryptoES.HmacSHA256(session_id, environment.privateVeriff);
@@ -1662,7 +1617,6 @@ saveDataVeriff(){
 
   this.subscription.add(this.http.get('https://api.veriff.me/v1/sessions/'+session_id+'/person', { 'headers': headers })
     .subscribe((res: any) => {
-      console.log(res);
       if(res.status=='success'){
         this.infoVerified.info = res.person;
       }
@@ -1680,14 +1634,13 @@ createSesion(){
   var params = {"verification":{"person":{"firstName":this.userInfo.userName,"lastName":this.userInfo.lastName},"vendorData":this.userInfo.idUser,"timestamp":date}};
   this.subscription.add(this.http.post('https://api.veriff.me/v1/sessions', params)
     .subscribe((res: any) => {
-      console.log(res);
       this.infoVerified.url = res.verification.url;
       this.infoVerified.status = res.verification.status;
       this.saveDataVerfified();
       if(res.verification.status=='created'){
         window.veriffSDK.createVeriffFrame({ url: this.infoVerified.url, 
           onEvent: function(msg) {
-          console.log(msg);
+
         } });
       }
     }, (err) => {
@@ -1696,15 +1649,11 @@ createSesion(){
 }
 
 getVerified() {
-  console.log(this.infoVerified);
-  console.log(this.loadVerifiedInfo);
   if(this.infoVerified.status=='Not started'){
     this.createSesion();
   }else if(this.infoVerified.status=='created'){
-    console.log(this.infoVerified);
         window.veriffSDK.createVeriffFrame({ url: this.infoVerified.url, 
           onEvent: async function(msg) {
-          console.log(msg);
           if(msg=='FINISHED'){
             this.infoVerified.status = 'submitted';
             this.saveDataVerfified();
@@ -1727,18 +1676,15 @@ delay(ms: number) {
 
 verifyStatus(){
   var token = this.infoVerified.url.split('https://magic.veriff.me/v/');
-  console.log(token);
   const headers= new HttpHeaders()
   .set('Authorization', 'Bearer '+token[1]);
   this.subscription.add(this.http.get('https://alchemy.veriff.com/api/v2/sessions', { 'headers': headers })
       .subscribe((res: any) => {
-        console.log(res);
         this.infoVerified.status = res.status;
         if(this.infoVerified.status=='completed'){
           if(res.activeVerificationSession.status=='declined'){
             this.infoVerified.status='declined';
             this.infoVerified.info = res.activeVerificationSession.verificationRejectionCategory;
-            console.log(res.activeVerificationSession.verificationRejectionCategory.value);
             this.infoVerified.isVerified = false;
           }else{
             this.infoVerified.isVerified = true;
@@ -1763,10 +1709,9 @@ verifyStatus(){
               allowOutsideClick: false
           }).then((result) => {
             if (result.value) {
-              console.log(res.previousVerificationSessions[0].verificationRejectionCategory.details);
             window.veriffSDK.createVeriffFrame({ url: this.infoVerified.url, 
               onEvent: async function(msg) {
-              console.log(msg);
+                
               if(msg=='FINISHED'){
                 this.infoVerified.status = 'submitted';
                 this.saveDataVerfified();
@@ -1806,7 +1751,8 @@ saveDataVerfified(){
     var paramssend = { infoVerified: this.infoVerified };
     this.subscription.add( this.http.post(environment.api+'/api/verified/'+this.authService.getIdUser(), paramssend)
     .subscribe( (res : any) => {
-      console.log(res);
+      
+      
      }, (err) => {
        console.log(err.error);
      }));
@@ -1814,6 +1760,21 @@ saveDataVerfified(){
 
 reloadPage(){
   window.location.reload();
+}
+
+changedCaretaker(event) {
+  this.userInfo.iscaregiver = event.value;
+  this.setCaretaker();
+}
+
+setCaretaker(){
+  var data = {iscaregiver: this.userInfo.iscaregiver};
+  this.subscription.add( this.http.put(environment.api+'/api/users/changeiscaregiver/'+this.authService.getIdUser(), data)
+  .subscribe( (res : any) => {
+   }, (err) => {
+     console.log(err);
+   }));
+  //this.user = user;
 }
 
 }

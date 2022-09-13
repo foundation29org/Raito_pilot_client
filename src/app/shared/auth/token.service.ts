@@ -45,17 +45,4 @@ export class TokenService {
     }
   }
 
-  //deprecated
-  testToken(): Observable<boolean>{
-    return this.http.get(environment.api+'/api/testToken')
-      .map( (res : any) => {
-        console.log(res);
-          return res;
-       }, (err) => {
-         console.log(err);
-         return false;
-       }
-      );
-  }
-
 }

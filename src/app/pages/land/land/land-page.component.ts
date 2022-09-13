@@ -39,7 +39,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
         var connected = this.moralisService.initServer();
-        console.log(connected);
         if(this.authService.getEnvironment()){
             this.translate.use(this.authService.getLang());
             sessionStorage.setItem('lang', this.authService.getLang());
@@ -74,12 +73,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
     async login() {
         //this.currentUser = Moralis.User.current();
         this.currentUser = this.moralisService.getCurrentUser();
-        console.log(this.currentUser);
         if (!this.currentUser) {
+          this.sending = true;
             this.subscription.add( this.moralisService.authenticate()
             .then( (res : any) => {
-              console.log(res)
+              if(res==undefined){
+                this.sending = false;
+              }else{
                 this.onSubmit(res)
+              }
+                
              }, (err) => {
                console.log(err);
                this.logOut();

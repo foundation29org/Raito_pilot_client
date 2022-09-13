@@ -24,6 +24,15 @@
 											<small class="form-text text-muted danger" *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">{{'generics.required' | translate }}</small>
 										</div>
 									</div>
+									<div class="col-md-12">
+										<label for="iscaregiver">{{'homeraito.twho' | translate }}</label>
+										<div class="form-group mb-2" *ngIf="user">
+											<mat-radio-group aria-label="Select an option" name="iscaregiver" [(ngModel)]="user.iscaregiver">
+												<mat-radio-button [value]=false (change)="changedCaretaker($event)">{{'homeraito.patient' | translate }}</mat-radio-button>
+												<mat-radio-button [value]=true class="ml-2" (change)="changedCaretaker($event)">{{'homeraito.caregiver' | translate }}</mat-radio-button>
+											  </mat-radio-group>
+										</div>
+									</div>
 								</div>
 								<h4 class="form-section"><i class="ft-settings warning"></i> {{'profile.Settings' | translate }}</h4>
 								<div class="row">

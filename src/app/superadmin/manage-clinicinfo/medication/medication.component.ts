@@ -82,7 +82,6 @@ export class MedicationComponent implements OnInit, OnDestroy{
       this.translationssideEffect.push({code:this.langs[i].code, name: ''});
       this.translationsadverseEffect.push({code:this.langs[i].code, name: ''});
     }
-    console.log(this.translations);
   }
 
   ngOnInit() {

@@ -119,7 +119,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         var otherGeneFiles = [];
         var emergencyFiles = [];
         var filesNcr = [];
-        console.log(this.docs);
         for (var i = 0; i < vcfFilesOnBlob.length; i++) {
           if (vcfFilesOnBlob[i].name.indexOf('raitofile/') != -1) {
             var name = vcfFilesOnBlob[i].name.substr(vcfFilesOnBlob[i].name.lastIndexOf('/') + 1)
@@ -145,7 +144,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
         }
         this.emergencyFiles = emergencyFiles;
         this.otherGeneFiles = otherGeneFiles;
-        console.log(this.emergencyFiles);
         this.filesNcr = filesNcr;
         this.testResultsAnalytics();
       } else {
@@ -424,7 +422,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   deleteReferenceFile(url){
-    console.log(this.docs);
     var documentId=null;
     var enc = false;
     for (var i = 0; i < this.docs.length && !enc; i++) {
@@ -861,7 +858,6 @@ createDocument(contentDocument, typedocument){
 
 saveData(){
   this.submitted = true;
-  console.log(this.dataFile.url);
   if (this.documentForm.invalid || this.dataFile.url==undefined) {
       return;
   }
@@ -874,7 +870,6 @@ saveData(){
   if(this.authGuard.testtoken()){
     this.saving = true;
     this.documentForm.value.url=this.dataFile.url;
-    console.log(this.documentForm.value);
     this.subscription.add( this.http.post(environment.api+'/api/document/'+this.authService.getCurrentPatient().sub, this.documentForm.value)
       .subscribe( (res : any) => {
         this.saving = false;
