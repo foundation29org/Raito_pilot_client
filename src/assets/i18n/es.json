@@ -845,7 +845,11 @@
     "Type a question in the text box": "Escriba una pregunta en la caja de texto",
     "Any question about your disease?": "¿Alguna pregunta?",
     "Normalized": "Normalizado",
-    "Not normalized": "Sin normalizar"
+    "Not normalized": "Sin normalizar",
+    "twho": "¿Es usted el paciente o un cuidador?",
+    "stwho": "Selecciona quién eres a continuación.",
+    "caregiver": "Yo soy el cuidador",
+    "patient": "Yo soy el paciente"
   },
   "charts":{
     "Noseizures": "No hay crisis guardadas",

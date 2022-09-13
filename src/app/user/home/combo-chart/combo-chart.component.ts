@@ -250,7 +250,6 @@ import {
       }
   
       this.yDomainLine = this.getYDomainLine();
-      console.log(this.yDomainLine);
       this.seriesDomain = this.getSeriesDomain();
   
       this.xScaleLine = this.getXScaleLine(this.xDomainLine, this.dims.width);
@@ -261,7 +260,6 @@ import {
   
       this.transform = `translate(75 , ${this.margin[0]})`;
       //this.transform = `translate(${this.dims.xOffset} , ${this.margin[0]})`;
-      console.log(this.transform);
     }
   
     deactivateAll() {

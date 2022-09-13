@@ -39,7 +39,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
         var connected = this.moralisService.initServer();
-        console.log(connected);
         if(this.authService.getEnvironment()){
             this.translate.use(this.authService.getLang());
             sessionStorage.setItem('lang', this.authService.getLang());
@@ -74,20 +73,29 @@ export class LandPageComponent implements OnInit, OnDestroy {
     async login() {
         //this.currentUser = Moralis.User.current();
         this.currentUser = this.moralisService.getCurrentUser();
-        console.log(this.currentUser);
         if (!this.currentUser) {
+          this.sending = true;
             this.subscription.add( this.moralisService.authenticate()
             .then( (res : any) => {
-              console.log(res)
+              if(res==undefined){
+                this.sending = false;
+              }else{
                 this.onSubmit(res)
+              }
+                
              }, (err) => {
                console.log(err);
+               this.logOut();
              }));
         } else {
-          await Moralis.User.logOut();
-          this.login();
-            /*var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
-            this.onSubmit(data)*/
+          try {
+            var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
+            this.onSubmit(data)
+          } catch (error) {
+            console.log(error);
+            this.logOut();
+          }
+            
         }
     }
 
@@ -97,6 +105,21 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.currentUser = null;
         console.log("logged out");
       }
+
+      handleMoralisError(err) {
+        switch (err.code) {
+          case Moralis.Error.INVALID_SESSION_TOKEN:
+            this.logOut();
+           // Moralis.User.logOut();
+            // If web browser, render a log in screen
+            // If Express.js, redirect the user to the log in route
+            break;
+      
+          // Other Moralis API errors that you want to explicitly handle
+        }
+      }
+      
+      
 
     // On submit button click
     onSubmit(data) {
@@ -109,6 +132,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
     	   this.subscription.add( this.authService.signinUser(data).subscribe(
     	       authenticated => {
       		    if(authenticated.isloggedIn) {
+                const query = new Moralis.Query(Moralis.User);
+                console.log(query);
+                // For each API request, call the global error handler
+                query.find().then(function() {
+                  // do stuff
+                }, function(err) {
+                  this.handleMoralisError(err);
+                });
                  //this.translate.setDefaultLang( this.authService.getLang() );
                  this.translate.use(this.authService.getLang());
                  sessionStorage.setItem('lang', this.authService.getLang());

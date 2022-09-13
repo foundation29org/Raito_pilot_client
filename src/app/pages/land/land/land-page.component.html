@@ -11,6 +11,9 @@
                             <button (click)="login()" class="btn btn-dark mt-1" title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
                             </button>
+                            <div class="center-elements" *ngIf="sending">
+                                <div><p class="centerSpinner">Pending... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p></div>
+                            </div>
                             <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
                         </div>
                         

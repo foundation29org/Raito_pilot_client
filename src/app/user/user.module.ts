@@ -25,6 +25,7 @@ import { ComboChartComponent, ComboSeriesVerticalComponent } from './home/combo-
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
@@ -49,6 +50,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
         MatNativeDateModule,
         NgxChartsModule,
         MatCheckboxModule,
+        MatRadioModule,
         NgxSliderModule
     ],
     declarations: [

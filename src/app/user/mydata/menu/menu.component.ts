@@ -299,7 +299,6 @@ loadPatientId(){
     if(res==null){
       this.authService.logout();
     }else{
-      console.log(res);
       if(res.group!=null){
         this.group = res.group;
         this.hasGroup = true;
@@ -318,7 +317,6 @@ loadPatientId(){
 loadGroups() {
   this.subscription.add(this.apiDx29ServerService.loadGroups()
     .subscribe((res: any) => {
-      console.log(res);
       for (var i = 0; i < res.length; i++) {
         if(this.group==res[i]._id){
           this.groupName = res[i].name;
@@ -332,7 +330,6 @@ loadGroups() {
 getConsentGroup(){
   this.subscription.add( this.http.get(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub)
   .subscribe( (res : any) => {
-    console.log(res);
     this.consentgroup = res.consentgroup;
    }, (err) => {
      console.log(err.error);
@@ -367,8 +364,6 @@ showPanelIssuerOrganization(info){
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
-        console.log(res);
-        
         if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
           //showQR
           this.pinOrg= info.data.pin;
@@ -487,23 +482,19 @@ exportPDF2(){
       images.img1.info = await this.getImg('#line-chart1');
       images.img1.show = true;      
     }
-    console.log(images);
     if(this.feels.length > 0){
       images.img2.info = await this.getImg('#line-chart2');
       images.img2.show = true;
     }
-    console.log(images);
     if(this.medications.length > 0 && this.loadedDrugs){
       images.img3.info = await this.getImg('#line-chart3');
       images.img3.show = true;
     }
-    console.log(images);
     if(this.medications.length > 0 && this.loadedDrugs && this.events.length > 0 && this.loadedEvents){
       images.img4.info = await this.getImg('#line-chart4');
       images.img4.show = true;
     }
     
-    console.log(images);
     var infoDrugs = this.medications;//this.getPlainInfoDiseases();
       var phenotype = [];
       this.subscription.add(this.apiDx29ServerService.getSymptoms(this.authService.getCurrentPatient().sub)
@@ -776,7 +767,6 @@ loadGeneralShare(){
   this.loadedShareData = false;
   this.subscription.add( this.patientService.getGeneralShare()
   .subscribe( (res : any) => {
-    console.log(res);
     this.newPermission = res.generalShare;
     this.loadedShareData = true;
    }, (err) => {
@@ -795,7 +785,6 @@ loadCustomShare(state){
   this.loadedShareData = false;
   this.subscription.add( this.patientService.getCustomShare()
   .subscribe( (res : any) => {
-    console.log(res);
     this.listCustomShare = res.customShare;
     this.loadedShareData = true;
     if(state){
@@ -815,7 +804,6 @@ loadCustomShare(state){
 getIndividualShare(){
   this.subscription.add( this.patientService.getIndividualShare()
   .subscribe( (res : any) => {
-    console.log(res);
     this.individualShare = res.individualShare;
     this.getVcs();
    }, (err) => {
@@ -860,7 +848,6 @@ submitInvalidForm() {
 }
 
 sendShare(){
-  console.log(this.newPermission);
   if(this.mode=='General'){
     this.setGeneralShare();
   }else if(this.mode=='Individual'){
@@ -871,7 +858,6 @@ sendShare(){
 }
 
 fieldStatusChanged(oneCustomShare, index){
-  console.log(oneCustomShare);
   this.startingProcess = true;
   this.individualShare[index].status = 'Pending'
   this.newPermission = oneCustomShare;
@@ -879,29 +865,12 @@ fieldStatusChanged(oneCustomShare, index){
 }
 
 reject(oneCustomShare, index){
-  console.log(oneCustomShare);
   this.individualShare[index].status = 'Rejected'
   this.newPermission = oneCustomShare;
   this.setIndividualShare(false);
 }
 
-/*fieldStatusChanged(oneCustomShare, index){
-  console.log(oneCustomShare);
-  var updateStatus = false;
-  if(oneCustomShare.status=='Accepted' &&this.newPermission.status!='Accepted'){
-    updateStatus = true;
-    this.individualShare[index].status = 'Pending'
-    this.newPermission = oneCustomShare;
-    this.setIndividualShare(updateStatus);
-  }else{
-    this.newPermission = oneCustomShare;
-    this.setIndividualShare(updateStatus);
-  }
-  
-}*/
-
 setIndividualShare(updateStatus){
-  console.log(this.newPermission);
   if(this.newPermission._id != null){
     var found = false;
     var indexUpdated = -1;
@@ -913,12 +882,9 @@ setIndividualShare(updateStatus){
       }
     }
     if(found){
-      var info = {individualShare: this.individualShare, updateStatus: updateStatus, indexUpdated: indexUpdated}
-      console.log(info);  
+      var info = {individualShare: this.individualShare, updateStatus: updateStatus, indexUpdated: indexUpdated} 
       this.subscription.add( this.patientService.setIndividualShare(info)
       .subscribe( (res : any) => {
-        //this.getVcs();
-        console.log(res);
         if(res.message == 'qrgenerated'){
           if(res.data[0].sessionData.message!='issuance_successful'){
             //show QR instructions
@@ -944,7 +910,6 @@ showPanelIssuer(info){
 
     this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+info._id )
     .subscribe( (res : any) => {
-        console.log(res);
         this.inProcess = true;
         if(res.message=='Waiting for QR code to be scanned' || res.status=='request_retrieved'){
           //showQR
@@ -1351,7 +1316,7 @@ extractFhir2(){
 
     this.subscription.add(this.apif29BioService.callTAFhir(info)
       .subscribe((res: any) => {
-        console.log(res);
+
       }, (err) => {
         console.log(err);
       }));
@@ -1404,7 +1369,6 @@ getInfoPatient() {
   this.loadedInfoPatient = false;
   this.subscription.add(this.http.get(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub)
     .subscribe((res: any) => {
-      console.log(res);
       this.basicInfoPatient = res.patient;
       this.basicInfoPatient.birthDate = this.dateService.transformDate(res.patient.birthDate);
       this.basicInfoPatientCopy = JSON.parse(JSON.stringify(res.patient));
@@ -1438,7 +1402,6 @@ loadRecommendedDose() {
   //load countries file
   this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
     .subscribe((res: any) => {
-      console.log(res)
       this.recommendedDoses = res;
     }));
 
@@ -1518,10 +1481,8 @@ getWeightAndAge() {
   }
   this.subscription.add(this.patientService.getPatientWeight()
     .subscribe((res: any) => {
-      console.log(res);
       if (res.message == 'There are no weight') {
       }else if(res.message == 'old weight'){
-        console.log(res.weight)
         this.weight = res.weight.value
       }else{
         this.weight = res.weight.value
@@ -1759,19 +1720,14 @@ add0Seizures(datagraphseizures){
   
   var splitLastDate = datagraphseizures[datagraphseizures.length-1].stringDate;
   var splitFirstDate = datagraphseizures[0].stringDate;
-  console.log(splitLastDate)
-  console.log(maxDate)
     if(new Date(splitLastDate)<new Date(maxDate)){
-      console.log('add today');
       datagraphseizures.push({value: 0,name:maxDate,stringDate:maxDate, types: []})
     }
     if(new Date(minDate)<new Date(splitFirstDate)){
-      console.log('add init');
       datagraphseizures.push({value: 0,name:minDate,stringDate:minDate, types: []})
     }
     var copydatagraphseizures = JSON.parse(JSON.stringify(datagraphseizures));
     datagraphseizures.sort(this.sortService.DateSortInver("stringDate"));
-    console.log(datagraphseizures)
   for (var j = 0; j < datagraphseizures.length; j=j+1) {
     var foundDate = false;
     var actualDate = datagraphseizures[j].stringDate;
@@ -1986,7 +1942,6 @@ normalize(value, min, max) {
 getMaxValueRecommededDrug(name){
   var maxDose = 0;
   var actualRecommendedDoses = this.recommendedDoses[name];
-  console.log(this.weight);
   if(actualRecommendedDoses==undefined || !this.weight){
     return maxDose;
   }else{
@@ -2219,12 +2174,10 @@ getDataNormalizedDrugsVsSeizures(){
   
 
   this.barChart = seizu;
-  console.log(copymeds);
   this.lineChartSeries = copymeds;
   if(this.normalized2){
 
     var templineChartDrugs = JSON.parse(JSON.stringify(this.lineChartSeries));
-    console.log(this.lineChartSeries);
     var maxValue = 0;
     for (var i = 0; i < this.lineChartSeries.length; i++) {
       var maxValueRecommededDrug = this.getMaxValueRecommededDrug(this.lineChartSeries[i].name);
@@ -2243,20 +2196,6 @@ getDataNormalizedDrugsVsSeizures(){
       templineChartDrugs[i].series.sort(this.sortService.DateSortInver("name"));
     }
     this.lineChartSeries = JSON.parse(JSON.stringify(templineChartDrugs));
-    console.log(this.lineChartSeries);
-    
-    /*var templineChartDrugs = JSON.parse(JSON.stringify(this.lineDrugsVsSeizures));
-    for (var i = 0; i < this.lineDrugsVsSeizures.length; i++) {
-      for (var j = 0; j < this.lineDrugsVsSeizures[i].series.length; j++) {
-        if(this.lineDrugsVsSeizures[i].name==this.titleSeizures){
-          templineChartDrugs[i].series[j].value = percen*this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
-        }else{
-          templineChartDrugs[i].series[j].value = this.normalize2(this.lineDrugsVsSeizures[i].series[j].value, 0);
-        }
-      }
-    }
-    this.lineDrugsVsSeizures = [];
-    this.lineDrugsVsSeizures = JSON.parse(JSON.stringify(templineChartDrugs));*/
   }
 }
 
@@ -2272,7 +2211,7 @@ loadDataRangeDate(rangeDate) {
 callvc(){
   this.subscription.add( this.http.get(environment.api+'/api/createissuer/'+ this.authService.getCurrentPatient().sub)
   .subscribe( (res : any) => {
-      console.log(res);
+    
    }, (err) => {
      console.log(err.error);
    }));
@@ -2286,7 +2225,8 @@ issuanceCallback(){
     };
   this.subscription.add( this.http.post(environment.api+'/api/issuer/issuanceCallback', body)
   .subscribe( (res : any) => {
-      console.log(res);
+      
+    
    }, (err) => {
      console.log(err.error);
    }));
@@ -2296,7 +2236,8 @@ getIssuanceResponse(){
   var status = '62b08d846216ba1f38f9559e';
   this.subscription.add( this.http.get(environment.api+'/api/issuer/issuance-response/'+ status)
   .subscribe( (res : any) => {
-      console.log(res);
+      
+    
    }, (err) => {
      console.log(err.error);
    }));
@@ -2323,7 +2264,6 @@ getVcs(){
     onResize() {
       if(!this.showNewCustom && this.listCustomShare.length>0){
         this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
-        console.log( this.widthPanelCustomShare)
       }
     }
 

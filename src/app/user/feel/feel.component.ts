@@ -105,7 +105,6 @@ export class FeelComponent implements OnInit {
     if (this.feelForm.invalid) {
         return;
     }
-    console.log(this.feelForm.value);
     setTimeout(() => {
       this.subscription.add( this.http.post(environment.api+'/api/feel/'+this.authService.getCurrentPatient().sub, this.feelForm.value)
         .subscribe((res: any) => {
@@ -131,7 +130,6 @@ export class FeelComponent implements OnInit {
     this.feels = [];
     this.subscription.add( this.http.get(environment.api+'/api/feels/'+this.authService.getCurrentPatient().sub)
         .subscribe( (resFeels : any) => {
-          console.log(resFeels);
           if(resFeels.message){
             //no tiene historico de peso
           }else{
@@ -146,7 +144,6 @@ export class FeelComponent implements OnInit {
   }
 
   deleteFeel(event) {
-    console.log(event.date);
     var date = this.dateService.transformDate(event.date);
     Swal.fire({
       title: this.translate.instant("generics.Are you sure delete") +' ('+date+ ") ?",

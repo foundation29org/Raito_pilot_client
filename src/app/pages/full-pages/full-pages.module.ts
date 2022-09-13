@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UserProfilePageComponent } from "./user-profile/user-profile-page.component";
 import { SupportComponent } from './support/support.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SupportComponent } from './support/support.component';
         FormsModule,
         NgbModule,
         TranslateModule,
-        CustomFormsModule
+        CustomFormsModule,
+        MatRadioModule
     ],
     declarations: [
         UserProfilePageComponent,

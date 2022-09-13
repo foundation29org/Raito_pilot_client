@@ -176,7 +176,6 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
               if(this.events.length>0){
                 this.events.sort(this.sortService.DateSortInver("start"));
               }
-              console.log(this.events);
               this.refresh.next();
               this.lastEvent = JSON.parse(JSON.stringify(res[0]));
               this.lastEvent.meta._id =null;
@@ -189,7 +188,6 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
           this.loading = false;
           if(this.indexOpen != -1 && res.length>0){
             var event = this.events[this.indexOpen];
-            console.log(event);
             this.handleEvent('Edit this event', event);
             this.indexOpen = -1;
           }

@@ -33,7 +33,6 @@ export class BlobStorageService {
 
   init(accessToken: IBlobAccessToken){
     const blobUri = accessToken.blobAccountUrl;
-    //console.log(accessToken);
     this.blobService = AzureStorage
       .createBlobServiceWithSas(blobUri, accessToken.sasToken)
       .withFilter(new AzureStorage.ExponentialRetryPolicyFilter());
@@ -147,7 +146,6 @@ export class BlobStorageService {
       publicAccessLevel: 'blob'
     }, function(error, result, response) {
       if (!error) {
-        //console.log(result.entries);
         var filesgeno = [];
         for (var i = 0; i < result.entries.length; i++) {
           if((result.entries[i].name).indexOf('medicalcare')==-1){
@@ -170,7 +168,6 @@ export class BlobStorageService {
       publicAccessLevel: 'blob'
     }, function(error, result, response) {
       if (!error) {
-        //console.log(result.entries);
         var filesgeno = [];
         var filesgenovcf = [];
         for (var i = 0; i < result.entries.length; i++) {
@@ -183,7 +180,6 @@ export class BlobStorageService {
                 extension1 = (result.entries[i].name).substr(pos);
               }
               if(extension1 == '.vcf' || extension1 == '.vcf.gz'){
-                //console.log(result.entries[i]);
                 filesgenovcf.push(result.entries[i]);
               }
             }
@@ -203,12 +199,10 @@ export class BlobStorageService {
       publicAccessLevel: 'blob'
     }, function(error, result, response) {
       if (!error) {
-        //console.log(result.entries);
         var filesgenovcf = [];
         for (var i = 0; i < result.entries.length; i++) {
           if(((result.entries[i].name).indexOf('.vcf')!=-1 && result.entries[i].name.indexOf(patternFileNameVcf)!=-1) || (result.entries[i].name).indexOf('raitofile/')!=-1){
             if((result.entries[i].name).indexOf('raitofile/')!=-1){
-              //console.log(result.entries[i]);
               filesgenovcf.push(result.entries[i]);
             }else{
               var extension1 = (result.entries[i].name).substr((result.entries[i].name).lastIndexOf('.'));
@@ -218,7 +212,6 @@ export class BlobStorageService {
                 extension1 = (result.entries[i].name).substr(pos);
               }
               if(extension1 == '.vcf' || extension1 == '.vcf.gz'){
-                //console.log(result.entries[i]);
                 filesgenovcf.push(result.entries[i]);
               }
             }
@@ -259,7 +252,6 @@ export class BlobStorageService {
 
   deleteContainerIfExists(accessToken: IBlobAccessToken){
     const blobUri = accessToken.blobAccountUrl;
-    //console.log(accessToken);
     this.blobService = AzureStorage
       .createBlobServiceWithSas(blobUri, accessToken.sasToken)
       .withFilter(new AzureStorage.ExponentialRetryPolicyFilter());

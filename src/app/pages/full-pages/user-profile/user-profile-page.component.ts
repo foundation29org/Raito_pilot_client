@@ -29,8 +29,8 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
     //Variable Declaration
     @ViewChild('f') userForm: NgForm;
 
-    public user: User;
-    private userCopy: User;
+    public user: any;
+    private userCopy: any;
     langs: any;
     private msgDataSavedOk: string;
     private msgDataSavedFail: string;
@@ -149,6 +149,21 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
            }
          }));
        }
+    }
+
+    changedCaretaker(event) {
+      this.user.iscaregiver = event.value;
+      this.setCaretaker();
+    }
+    
+    setCaretaker(){
+      var data = {iscaregiver: this.user.iscaregiver};
+      this.subscription.add( this.http.put(environment.api+'/api/users/changeiscaregiver/'+this.authService.getIdUser(), data)
+      .subscribe( (res : any) => {
+       }, (err) => {
+         console.log(err);
+       }));
+      //this.user = user;
     }
 
 }

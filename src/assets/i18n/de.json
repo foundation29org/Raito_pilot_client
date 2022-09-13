@@ -845,7 +845,11 @@
        "Type a question in the text box":"Geben Sie eine Frage in das Textfeld ein",
        "Any question about your disease?":"Haben Sie Fragen zu Ihrer Erkrankung?",
        "Normalized":"Normalisierte Daten",
-       "Not normalized":"Nicht normalisierte Daten"
+       "Not normalized":"Nicht normalisierte Daten",
+       "twho": "Sind Sie der Patient oder eine Pflegekraft?",
+       "stwho": "Wählen Sie unten aus, wer Sie sind.",
+       "caregiver": "Ich bin die Pflegekraft",
+       "patient": "Ich bin der Patient"
     },
     "charts":{
        "Noseizures":"Es gibt keine gespeicherten Anfälle",

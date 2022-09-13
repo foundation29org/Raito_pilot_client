@@ -845,7 +845,11 @@
     "Type a question in the text box": "Type a question in the text box",
     "Any question about your disease?": "Any question about your disease?",
     "Normalized": "Normalized data",
-    "Not normalized": "Not normalized data"
+    "Not normalized": "Not normalized data",
+    "twho": "Are you the patient or a caregiver?",
+    "stwho": "Select who you are below.",
+    "caregiver": "I am the caregiver",
+    "patient": "I am the patient"
   },
   "charts":{
     "Noseizures": "There are no saved seizures",

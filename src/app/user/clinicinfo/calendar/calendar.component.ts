@@ -198,7 +198,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     }
     this.lastEvent = JSON.parse(JSON.stringify(this.seizuresForm.value));
     this.lastEvent._id =null;
-    console.log(this.seizuresForm.value);
     if(this.authGuard.testtoken()){
       this.saving = true;
       this.subscription.add( this.http.post(environment.api+'/api/seizures/'+this.authService.getCurrentPatient().sub, this.seizuresForm.value)
@@ -412,7 +411,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   }
 
   deleteSeizure(event) {
-    console.log(event);
     Swal.fire({
       title: this.translate.instant("generics.Are you sure delete") + "?",
       icon: 'warning',
