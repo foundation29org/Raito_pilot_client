@@ -33,6 +33,16 @@ export class MoralisService {
        })
   }
 
+  enableWeb3(){
+    return Moralis.enableWeb3({ provider: 'web3Auth', clientId: environment.moralisClientId})
+      .then( (user : any) => {
+        return user;
+       }, (err) => {
+         console.log(err);
+         this.logout();
+       })
+  }
+
   async logout() {
     await Moralis.User.logOut();
     this.setCurrentUser(null);

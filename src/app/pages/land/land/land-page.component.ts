@@ -31,6 +31,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     isBlockedAccount: boolean = false;
     isLoginFailed: boolean = false;
     isBlocked: boolean = false;
+    isMobile: boolean = false;
     private subscription: Subscription = new Subscription();
 
     constructor(private http: HttpClient, private eventsService: EventsService, public moralisService: MoralisService,public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
@@ -38,15 +39,31 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
-        var connected = this.moralisService.initServer();
+        this.start();
+        
+    }
+
+    async start(){
+      var connected = await this.moralisService.initServer();
+      this.isMobile = false;
+      if( /Android/i.test(navigator.userAgent) ) {
+        this.isMobile = true;
+      } else if (/iPhone/i.test(navigator.userAgent)) {
+        this.isMobile = true;
+      }
+      console.log(this.isMobile);
+      if(this.isMobile){
+        this.moralisService.logout();
+      }else{
         if(this.authService.getEnvironment()){
-            this.translate.use(this.authService.getLang());
-            sessionStorage.setItem('lang', this.authService.getLang());
-            let url =  this.authService.getRedirectUrl();
-            this.router.navigate([ url ]);
-          }else{
-            this.moralisService.logout();
-          }
+          this.translate.use(this.authService.getLang());
+          sessionStorage.setItem('lang', this.authService.getLang());
+          let url =  this.authService.getRedirectUrl();
+          this.router.navigate([ url ]);
+        }else{
+          this.moralisService.logout();
+        }
+      }
     }
 
     ngOnInit() {
@@ -80,7 +97,20 @@ export class LandPageComponent implements OnInit, OnDestroy {
               if(res==undefined){
                 this.sending = false;
               }else{
-                this.onSubmit(res)
+                if(this.isMobile){
+                  this.subscription.add( this.moralisService.enableWeb3()
+                  .then( (res1 : any) => {
+                    console.log(res1);
+                    this.onSubmit(res)
+                      
+                  }, (err) => {
+                    console.log(err);
+                    this.logOut();
+                  }));
+                }else{
+                  this.onSubmit(res)
+                }
+                
               }
                 
              }, (err) => {
