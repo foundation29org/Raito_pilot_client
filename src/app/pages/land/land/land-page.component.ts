@@ -39,7 +39,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
-        
+        this.start();
         
     }
 
@@ -52,30 +52,25 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.isMobile = true;
       }
       console.log(this.isMobile);
-      if(this.isMobile){
-        this.moralisService.logout();
-        localStorage.clear();
+      if(this.authService.getEnvironment()){
+        this.translate.use(this.authService.getLang());
+        sessionStorage.setItem('lang', this.authService.getLang());
+        let url =  this.authService.getRedirectUrl();
+        this.router.navigate([ url ]);
       }else{
-        if(this.authService.getEnvironment()){
-          this.translate.use(this.authService.getLang());
-          sessionStorage.setItem('lang', this.authService.getLang());
-          let url =  this.authService.getRedirectUrl();
-          this.router.navigate([ url ]);
-        }else{
-          this.moralisService.logout();
+        this.moralisService.logout();
+        if(this.isMobile){
+          localStorage.clear();
         }
       }
     }
 
     ngOnInit() {
-
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
             this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
             this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         }.bind(this));
-
-        this.start();
     }
 
     ngOnDestroy() {
@@ -100,19 +95,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
               if(res==undefined){
                 this.sending = false;
               }else{
-                /*if(this.isMobile){
-                  this.subscription.add( this.moralisService.enableWeb3()
-                  .then( (res1 : any) => {
-                    console.log(res1);
-                    this.onSubmit(res)
-                      
-                  }, (err) => {
-                    console.log(err);
-                    this.logOut();
-                  }));
-                }else{
-                  this.onSubmit(res)
-                }*/
                 this.onSubmit(res)
               }
                 
@@ -157,6 +139,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     // On submit button click
     onSubmit(data) {
+      console.log('pa entro');
         this.sending = true;
         this.isBlockedAccount = false;
         this.isLoginFailed = false;
