@@ -76,10 +76,13 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if (!this.currentUser) {
           this.sending = true;
             this.subscription.add( this.moralisService.authenticate()
-            .then( (res : any) => {
+            .then( async (res : any) => {
+              console.log(res);
               if(res==undefined){
                 this.sending = false;
               }else{
+                var tes = await Moralis.enableWeb3({ provider: "web3Auth", clientId: environment.moralisClientId })
+                console.log(tes);
                 this.onSubmit(res)
               }
                 
