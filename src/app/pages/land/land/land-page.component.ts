@@ -75,34 +75,18 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.currentUser = this.moralisService.getCurrentUser();
         if (!this.currentUser) {
           this.sending = true;
-          
             this.subscription.add( this.moralisService.authenticate()
-            .then( async (res : any) => {
-              console.log(res);
-              this.subscription.add( this.moralisService.enableWeb3()
-              .then( async (res1 : any) => {
-                console.log(res1);
-                if(res==undefined){
-                  this.sending = false;
-                }else{
-                  //var tes = await Moralis.enableWeb3({ provider: "web3Auth", clientId: environment.moralisClientId })
-                  //console.log(tes);
-                  this.onSubmit(res)
-                }
-              }, (err) => {
-                console.log(err);
-                this.logOut();
-              }));
-              
+            .then( (res : any) => {
+              if(res==undefined){
+                this.sending = false;
+              }else{
+                this.onSubmit(res)
+              }
                 
              }, (err) => {
                console.log(err);
                this.logOut();
              }));
-              
-          
-
-            
         } else {
           try {
             var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
