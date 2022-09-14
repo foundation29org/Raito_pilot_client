@@ -100,7 +100,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
               if(res==undefined){
                 this.sending = false;
               }else{
-                if(this.isMobile){
+                /*if(this.isMobile){
                   this.subscription.add( this.moralisService.enableWeb3()
                   .then( (res1 : any) => {
                     console.log(res1);
@@ -112,8 +112,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
                   }));
                 }else{
                   this.onSubmit(res)
-                }
-                
+                }*/
+                this.onSubmit(res)
               }
                 
              }, (err) => {
