@@ -38,7 +38,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
-        var connected = this.moralisService.initServer();
+        //var connected = this.moralisService.initServer();
         if(this.authService.getEnvironment()){
             this.translate.use(this.authService.getLang());
             sessionStorage.setItem('lang', this.authService.getLang());
@@ -75,7 +75,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.currentUser = this.moralisService.getCurrentUser();
         if (!this.currentUser) {
           this.sending = true;
-            this.subscription.add( this.moralisService.authenticate()
+          var res = await this.moralisService.authenticate();
+          if(res==undefined){
+            this.sending = false;
+          }else{
+            this.onSubmit(res)
+          }
+
+            /*this.subscription.add( this.moralisService.authenticate()
             .then( (res : any) => {
               if(res==undefined){
                 this.sending = false;
@@ -86,7 +93,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
              }, (err) => {
                console.log(err);
                this.logOut();
-             }));
+             }));*/
         } else {
           try {
             var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };

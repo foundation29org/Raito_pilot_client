@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { TranslateService } from '@ngx-translate/core';
+//import Moralis from 'moralis'
 declare let Moralis: any;
+
+Moralis.initialize(environment.moralisAppId);
+Moralis.serverURL = environment.moralisServerUrl;
+
 @Injectable()
 export class MoralisService {
 
@@ -10,17 +15,32 @@ export class MoralisService {
   currentUser: any = null;
   moralisInstance: any = null;
   web3: any = null;
-  async initServer(): Promise<void> {
+  /*async initServer(): Promise<void> {
     await Moralis.start({
       appId: environment.moralisAppId,
       serverUrl: environment.moralisServerUrl
     })
     Moralis.enableEncryptedUser();
     Moralis.secret = environment.moralisSecret;
-  }
+  }*/
 
   authenticate(){
-    return Moralis.authenticate({ signingMessage:"My custom message", provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
+    return new Promise((resolve, reject) => {
+      Moralis.authenticate({ signingMessage:"My custom message", provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
+      .then( async (user : any) => {
+        this.web3 = await  Moralis.enableWeb3({ provider: "web3Auth", clientId: environment.moralisClientId });
+        this.setCurrentUser(Moralis.User.current());
+        this.currentUser = this.getCurrentUser();
+        var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
+        var email = openlogin_store.email;
+        var data = { moralisId: this.currentUser.id, ethAddress: user.get("ethAddress"), password: user.get("username"), lang: this.translate.store.currentLang, email: email };
+        resolve(data);
+       }, (err) => {
+         console.log(err);
+         this.logout();
+       })
+    });
+    /*return Moralis.authenticate({ signingMessage:"My custom message", provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
       .then( async (user : any) => {
         this.web3 = await  Moralis.enableWeb3({ provider: "web3Auth", clientId: environment.moralisClientId });
         this.setCurrentUser(Moralis.User.current());
@@ -32,7 +52,7 @@ export class MoralisService {
        }, (err) => {
          console.log(err);
          this.logout();
-       })
+       })*/
   }
 
   async logout() {
