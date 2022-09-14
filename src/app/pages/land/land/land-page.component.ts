@@ -39,7 +39,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
-        this.start();
+        
         
     }
 
@@ -54,6 +54,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
       console.log(this.isMobile);
       if(this.isMobile){
         this.moralisService.logout();
+        localStorage.clear();
       }else{
         if(this.authService.getEnvironment()){
           this.translate.use(this.authService.getLang());
@@ -73,6 +74,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
             this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         }.bind(this));
+
+        this.start();
     }
 
     ngOnDestroy() {
