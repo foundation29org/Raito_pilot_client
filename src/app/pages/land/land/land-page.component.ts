@@ -31,6 +31,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     isBlockedAccount: boolean = false;
     isLoginFailed: boolean = false;
     isBlocked: boolean = false;
+    isMobile: boolean = false;
     private subscription: Subscription = new Subscription();
 
     constructor(private http: HttpClient, private eventsService: EventsService, public moralisService: MoralisService,public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
@@ -38,19 +39,33 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
-        var connected = this.moralisService.initServer();
-        if(this.authService.getEnvironment()){
-            this.translate.use(this.authService.getLang());
-            sessionStorage.setItem('lang', this.authService.getLang());
-            let url =  this.authService.getRedirectUrl();
-            this.router.navigate([ url ]);
-          }else{
-            this.moralisService.logout();
-          }
+        this.start();
+        
+    }
+
+    async start(){
+      var connected = await this.moralisService.initServer();
+      this.isMobile = false;
+      if( /Android/i.test(navigator.userAgent) ) {
+        this.isMobile = true;
+      } else if (/iPhone/i.test(navigator.userAgent)) {
+        this.isMobile = true;
+      }
+      console.log(this.isMobile);
+      if(this.authService.getEnvironment()){
+        this.translate.use(this.authService.getLang());
+        sessionStorage.setItem('lang', this.authService.getLang());
+        let url =  this.authService.getRedirectUrl();
+        this.router.navigate([ url ]);
+      }else{
+        this.moralisService.logout();
+        if(this.isMobile){
+          localStorage.clear();
+        }
+      }
     }
 
     ngOnInit() {
-
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
             this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
@@ -101,6 +116,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     async logOut() {
       this.authService.logout();
+      this.sending = false;
         //await Moralis.User.logOut();
         this.currentUser = null;
         console.log("logged out");
@@ -123,6 +139,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     // On submit button click
     onSubmit(data) {
+      console.log('pa entro');
         this.sending = true;
         this.isBlockedAccount = false;
         this.isLoginFailed = false;
