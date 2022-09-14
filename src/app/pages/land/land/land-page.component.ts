@@ -101,6 +101,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     async logOut() {
       this.authService.logout();
+      this.sending = false;
         //await Moralis.User.logOut();
         this.currentUser = null;
         console.log("logged out");

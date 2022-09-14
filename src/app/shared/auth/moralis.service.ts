@@ -9,6 +9,7 @@ export class MoralisService {
 
   currentUser: any = null;
   moralisInstance: any = null;
+  web3: any = null;
   async initServer(): Promise<void> {
     await Moralis.start({
       appId: environment.moralisAppId,
@@ -19,9 +20,9 @@ export class MoralisService {
   }
 
   authenticate(){
-    return Moralis.authenticate({ provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
-      .then( (user : any) => {
-        Moralis.enableWeb3({ provider: "web3Auth", clientId: environment.moralisClientId })
+    return Moralis.authenticate({ signingMessage:"My custom message", provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
+      .then( async (user : any) => {
+        this.web3 = await  Moralis.enableWeb3({ provider: "web3Auth", clientId: environment.moralisClientId });
         this.setCurrentUser(Moralis.User.current());
         this.currentUser = this.getCurrentUser();
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
