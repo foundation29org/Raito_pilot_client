@@ -27,6 +27,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     iconios: string = 'assets/img/home/ios_en.png';
     lang: string = 'en';
     currentUser: any = null;
+    step1: boolean = false;
     sending: boolean = false;
     isBlockedAccount: boolean = false;
     isLoginFailed: boolean = false;
@@ -90,18 +91,36 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.currentUser = this.moralisService.getCurrentUser();
         if (!this.currentUser) {
           this.sending = true;
-            this.subscription.add( this.moralisService.authenticate()
+          this.step1 = false;
+          this.subscription.add( this.moralisService.enableWeb3()
             .then( (res : any) => {
               if(res==undefined){
                 this.sending = false;
+                this.step1 = true;
               }else{
-                this.onSubmit(res)
+                this.step1 = true;
+                this.subscription.add( this.moralisService.authenticate()
+                .then( (res : any) => {
+                  if(res==undefined){
+                    this.sending = false;
+                    this.step1 = false;
+                  }else{
+                    this.step1 = false;
+                    this.onSubmit(res)
+                  }
+                    
+                }, (err) => {
+                  console.log(err);
+                  this.logOut();
+                }));
               }
                 
              }, (err) => {
                console.log(err);
                this.logOut();
              }));
+
+            
         } else {
           try {
             var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };

@@ -18,6 +18,17 @@ export class MoralisService {
     Moralis.secret = environment.moralisSecret;
   }
 
+  enableWeb3(){
+    return Moralis.enableWeb3({ provider: 'web3Auth', clientId: environment.moralisClientId})
+      .then( (user : any) => {
+        console.log(user);
+        return user;
+       }, (err) => {
+         console.log(err);
+         this.logout();
+       })
+  }
+
   authenticate(){
     return Moralis.authenticate({ provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
       .then( (user : any) => {
