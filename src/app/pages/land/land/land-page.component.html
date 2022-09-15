@@ -12,7 +12,9 @@
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
                             </button>
                             <div class="center-elements" *ngIf="sending">
-                                <div><p class="centerSpinner">Pending... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p></div>
+                                <div><p class="centerSpinner">Pending... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
+                                    <p>You have a pending action before continuing.</p>
+                                </div>
                             </div>
                             <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
                         </div>
