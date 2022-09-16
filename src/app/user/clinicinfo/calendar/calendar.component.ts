@@ -78,7 +78,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
     this.seizuresForm = this.formBuilder.group({
       type: [null, Validators.required],
       duracion: ['', Validators.required],
-      start: ['', Validators.required],
+      start: [new Date(), Validators.required],
       state: [],
       notes: []
   });

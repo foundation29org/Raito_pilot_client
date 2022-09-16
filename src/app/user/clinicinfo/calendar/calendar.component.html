@@ -77,12 +77,19 @@
 											</div>
 											<div class="">
 												<div class="form-group">
-													<label>{{'seizures.Starts At' | translate }}</label>
+													<label class="mb-0">{{'seizures.Starts At' | translate }}</label>
 													<div class="">
-														<input type="date" formControlName="start"
+														<mat-form-field class="mr-sm-24" fxFlex  >
+															<input matInput class="grey" readonly [matDatepicker]="picker"
+																		   autocomplete="off"
+																		   name="start" formControlName="start">
+															<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+															<mat-datepicker  [startAt]="start" #picker></mat-datepicker>
+														</mat-form-field>
+														<!--<input type="date" formControlName="start"
 															[ngClass]="{ 'is-invalid': submitted && f.start.errors }"
-															value="(start!=null) ? (start | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">
-														<small class="form-text text-muted danger"
+															value="(start!=null) ? (start | date: 'dd MMM y': '' : translate.currentLang) : getLiteral('personalinfo.Birth Date')">-->
+														<small class="form-text text-muted danger" style="margin-top: -1em;"
 															*ngIf="submitted && f.start.errors">{{'generics.required' |
 															translate }}</small>
 													</div>

@@ -10,6 +10,10 @@
   max-width: 900px !important;
 }
 
+::ng-deep .mr-sm-24 > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix{
+  border-top: 0 !important;
+}
+
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }
