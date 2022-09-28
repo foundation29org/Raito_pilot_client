@@ -373,7 +373,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadGroupFile(){
     this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
-        this.rangeResourcesDate = res.body;
+        console.log(res);
+        this.rangeResourcesDate = res;
         this.continue();
       }, (err) => {
         console.log(err);
