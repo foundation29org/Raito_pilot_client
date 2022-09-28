@@ -14,6 +14,10 @@
   border-top: 0 !important;
 }
 
+::ng-deep .mr-sm-24 > .mat-form-field-wrapper{
+  border-top: 0 !important;
+}
+
 ::ng-deep .cdk-overlay-container {
   z-index: 9999 !important;
 }

@@ -434,8 +434,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadQuestionnaire(questionnaireId, index){
-    this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
+    this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
       .subscribe((res: any) => {
+        console.log(res);
         this.questionnaires[index].info=res
         if(index==(this.questionnaires.length-1)){
           this.getProms();
