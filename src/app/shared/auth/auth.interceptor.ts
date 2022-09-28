@@ -78,11 +78,6 @@ export class AuthInterceptor implements HttpInterceptor {
       authReq = req.clone();
     }
 
-    if (req.url.indexOf('https://raw.githubusercontent.com/foundation29org/raito_resources') !== -1) {
-      isExternalReq = true;
-      authReq = req.clone();
-    }
-
     if (req.url.indexOf('https://alchemy.veriff.com/api/v2/sessions') !== -1) {
       isExternalReq = true;
       /*const headers = new HttpHeaders({

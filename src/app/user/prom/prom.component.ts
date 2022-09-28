@@ -217,7 +217,7 @@ export class PromComponent {
   }
 
   loadQuestionnaire(questionnaireId, index){
-    this.subscription.add(this.http.get('https://raw.githubusercontent.com/foundation29org/raito_resources/main/questionnaires/'+questionnaireId+'.json')
+    this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
       .subscribe((res: any) => {
         this.questionnaires[index].info=res;
       }, (err) => {
