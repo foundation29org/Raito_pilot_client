@@ -140,6 +140,32 @@ export class AuthService {
     );
   }
 
+  signinUser2(formValue: any){
+    //your code for signing up the new user
+    var isFirstTime = false;
+    if(formValue.message == "You have successfully logged in"){
+      //entrar en la app
+      this.setLang(formValue.lang);
+      sessionStorage.setItem('lang', formValue.lang)
+
+      this.setEnvironment(formValue.token);
+
+      this.setPlatform(formValue.platform);
+      sessionStorage.setItem('platform', formValue.platform)
+      if(formValue.platform=='H29'){
+        window.location.href = 'https://health29-dev.azurewebsites.net/';
+      }
+
+    }else{
+      this.isloggedIn = false;
+    }
+    if(formValue.isFirstTime){
+      isFirstTime = true;
+    }
+    this.setMessage(formValue.message);
+    return {isloggedIn: this.isloggedIn, isFirstTime: isFirstTime} ;
+  }
+
   logout() {
     this.token = null;
     this.role = null;

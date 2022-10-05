@@ -69,6 +69,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   age: any = {};
   weight: string;
   weightUnits: string;
+  masterRangeslider:number= 5;
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService) {
     this.adapter.setLocale(this.authService.getLang());

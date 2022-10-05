@@ -95,21 +95,24 @@ export class LandPageComponent implements OnInit, OnDestroy {
               if(res==undefined){
                 this.sending = false;
               }else{
-                this.onSubmit(res)
+                if(res.message=='You have successfully logged in'){
+                  this.onSubmit2(res)
+                 }else{
+                  this.logOut();
+                 }
               }
                 
              }, (err) => {
                console.log(err);
-               this.logOut();
+               if(err.message=='You have successfully logged in'){
+                this.onSubmit2(err)
+               }else{
+                this.logOut();
+               }
+               
              }));
         } else {
-          try {
-            var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
-            this.onSubmit(data)
-          } catch (error) {
-            console.log(error);
-            this.logOut();
-          }
+          this.logOut();
             
         }
     }
@@ -152,8 +155,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
                 const query = new Moralis.Query(Moralis.User);
                 console.log(query);
                 // For each API request, call the global error handler
-                query.find().then(function() {
+                query.find().then(function(res) {
                   // do stuff
+                  console.log(res);
                 }, function(err) {
                   this.handleMoralisError(err);
                 });
@@ -202,6 +206,74 @@ export class LandPageComponent implements OnInit, OnDestroy {
       		    }
     	       }
     	   ));
+      
+
+    }
+
+
+    // On submit button click
+    onSubmit2(datas) {
+      console.log('pa entro2');
+        this.sending = true;
+        this.isBlockedAccount = false;
+        this.isLoginFailed = false;
+        this.isBlocked = false;
+        console.log(datas);
+        var data = this.authService.signinUser2(datas);
+        console.log(data);
+      		    if(data.isloggedIn) {
+                const query = new Moralis.Query(Moralis.User);
+                console.log(query);
+                // For each API request, call the global error handler
+                query.find().then(function(res) {
+                  // do stuff
+                  console.log(res);
+                }, function(err) {
+                  this.handleMoralisError(err);
+                });
+                 //this.translate.setDefaultLang( this.authService.getLang() );
+                 this.translate.use(this.authService.getLang());
+                 sessionStorage.setItem('lang', this.authService.getLang());
+          		   let url =  this.authService.getRedirectUrl();
+                 if(this.authService.getRole()=='User'){
+                  if(data.isFirstTime) {
+                    Swal.fire('Write this password on a piece of paper and keep it, you will need it if you want to delete the account or restore a backup.', '', "success");
+                  }
+                   this.subscription.add( this.patientService.getPatientId()
+                   .subscribe( (res : any) => {
+                      this.authService.setCurrentPatient(res);
+                      this.router.navigate([ url ]);
+                     this.sending = false;
+                    }, (err) => {
+                      console.log(err);
+                      this.sending = false;
+                    }));
+                 }else if(this.authService.getRole()=='Clinical'){
+                   this.sending = false;
+                    this.router.navigate([ url ]);
+                 }
+                 else if(this.authService.getRole()=='Admin'){
+                  this.sending = false;
+                  this.router.navigate([ url ]);
+                 }
+                 else{
+                    this.sending = false;
+                   this.router.navigate([ url ]);
+                 }
+
+      		    }else {
+                this.sending = false;
+                let message =  this.authService.getMessage();
+                 if(message == "Login failed" || message == "Not found"){
+                     this.isLoginFailed = true;
+                   }else if(message == "Account is temporarily locked"){
+                     this.isBlockedAccount = true;
+                   }else if(message == "Account is blocked"){
+                     this.isBlocked = true;
+                   }else{
+                    this.toastr.error('', message);
+                  }
+      		    }
       
 
     }

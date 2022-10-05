@@ -26,10 +26,16 @@ export class MoralisService {
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
         var email = openlogin_store.email;
         var data = { moralisId: this.currentUser.id, ethAddress: user.get("ethAddress"), password: user.get("username"), lang: this.translate.store.currentLang, email: email };
+        console.log(data);
         return data;
        }, (err) => {
          console.log(err);
-         this.logout();
+         if(err.message=='You have successfully logged in'){
+          return err;
+         }else{
+          this.logout();
+         }
+         
        })
   }
 
