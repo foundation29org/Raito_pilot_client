@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Subscription } from 'rxjs/Subscription';
+declare let Web3AuthConnector: any;
 declare let Moralis: any;
 
 @Component({
@@ -39,8 +40,14 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
 
-        this.start();
+        //this.start();
+        this.init();
         
+    }
+    
+
+    async init(){
+      
     }
 
     async start(){
