@@ -371,7 +371,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadGroupFile(){
-    this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
+    if(this.authService.getGroup()!=null){
+      this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
         console.log(res);
         this.rangeResourcesDate = res;
@@ -381,6 +382,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.rangeResourcesDate = this.rangeResourcesDateDefault;
         this.continue();
       }));
+    }else{
+      this.continue();
+    }
+   
   }
 
   continue(){
