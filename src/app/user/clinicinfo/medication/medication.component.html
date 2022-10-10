@@ -13,8 +13,19 @@
 					<section id="listMeditationSection" *ngIf="!viewMeditationSection">
 						<div class="row">
 							<div class="col-sm-12 center-elements">
-								<button *ngIf="!loading" type="button" class="btn btn-dark"
+								<button *ngIf="!loading" type="button" class="mb-0 btn btn-dark"
 									(click)="newMedication()">{{'medication.New drug or dose' | translate }}</button>
+								<span class="d-block">
+									<label class="info mb-2 pointer" *ngIf="!importing">
+										<input id="file" type="file" style="display:none;" accept=".json"
+											(change)="onImport($event)" />
+										{{'seizures.Import from seizure tracker' | translate }}
+									</label>
+									<label *ngIf="importing" class="text-center mb-2">
+										<i class="fa fa-spinner fa-spin fa-fw"></i>
+										{{'generics.Please wait' | translate }}
+									</label>
+								</span>
 							</div>
 						</div>
 						<div class="center-elements" *ngIf="loading">

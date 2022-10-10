@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { startOfDay } from 'date-fns';
 import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm, FormControl } from '@angular/forms';
 import { environment } from 'environments/environment';
@@ -69,6 +70,8 @@ export class MedicationComponent implements OnInit, OnDestroy {
   age: any = {};
   weight: string;
   weightUnits: string;
+  imported: number = 0;
+  importing: boolean = false;
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -994,6 +997,112 @@ export class MedicationComponent implements OnInit, OnDestroy {
       }));
 
   }
+
+  onImport(event) {
+    var file = event.srcElement.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = (evt:any) => {
+          var drugsToUpload=JSON.parse(evt.target.result);
+          if(drugsToUpload.Medications==undefined){
+            this.toastr.error('', this.translate.instant("seizures.invalidFile"));
+          }else{
+            this.uploadDrugs(drugsToUpload.Medications);
+          }
+          
+        }
+        reader.onerror = function (evt) {
+            console.log('error reading file');
+        }
+    }
+  }
+
+  uploadDrugs(drugslist){
+    console.log(this.drugsLang);
+    this.imported = 0;
+    var listToUpload = [];
+    this.importing = true;
+    for(var i = 0; i < drugslist.length; i++) {
+      //inicio variables
+      var enddate = null
+      if(startOfDay(new Date()) >= startOfDay(new Date(drugslist[i]['End Date'])) ){
+        enddate = drugslist[i]['End Date'];
+      }
+
+      var resNameDrug = this.findDrug(drugslist[i].Medication)
+      console.log(resNameDrug);
+      if(resNameDrug.found){
+        var newEvent = {
+          drug: resNameDrug.medication,
+          dose: drugslist[i]['Total Daily Dose'],
+          startDate: drugslist[i]['Start Date'],
+          endDate: enddate,
+          sideEffects: drugslist[i]['Side Effects'],
+          notes: drugslist[i].Notes,
+          date: startOfDay(new Date()),
+        }
+  
+        listToUpload.push(newEvent);
+      }
+      
+    }
+    //guardar en la base de datos listToUpload
+    this.saveMassiveDrugs(listToUpload);
+  }
+
+  findDrug(medication){
+    var found = false;
+    for(var i = 0; i < this.drugsLang.length && !found; i++) {
+      if (this.drugsLang[i].name.indexOf(medication)!=-1) {
+        medication = this.drugsLang[i].name
+        found = true;
+      }
+    }
+    return {found:found, medication:medication};
+  }
+
+  saveMassiveDrugs(listToUpload){
+    this.subscription.add( this.http.post(environment.api+'/api/massivesdrugs/'+this.authService.getCurrentPatient().sub, listToUpload)
+    .subscribe( (res : any) => {
+      //this.toastr.success('', this.msgDataSavedOk, { showCloseButton: true });
+      var conflict = 0;
+      for(var i = 0; i < res.eventdb.length; i++) {
+        if(res.eventdb[i].added){
+          this.imported++;
+        }else{
+          conflict++;
+        }
+        
+      }
+      this.importing = false;
+      if(this.imported>0){
+        if(conflict>0){
+          this.toastr.success('', 'Imported Drugs: '+ listToUpload.length+'. '+conflict+' have not been imported due to conflicting dates.');
+        }else{
+          this.toastr.success('', 'Imported Drugs: '+ listToUpload.length);
+        }
+        
+      }else{
+        if(conflict>0){
+          this.toastr.success('', 'It has not imported any drugs because they were all imported. '+conflict+' have not been imported due to conflicting dates.');
+        }else{
+          this.toastr.success('', 'It has not imported any drugs because they were all imported, or there were none in the file.');
+        }
+        
+      }
+      this.loadMedications();
+     }, (err) => {
+       console.log(err);
+       this.importing = false;
+       if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
+         this.authGuard.testtoken();
+       }else{
+         //this.toastr.error('', this.msgDataSavedFail, { showCloseButton: true });
+       }
+     }));
+  }
+
 
 
 }
