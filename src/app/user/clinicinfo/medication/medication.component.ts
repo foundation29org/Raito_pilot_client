@@ -1019,7 +1019,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   uploadDrugs(drugslist){
-    console.log(this.drugsLang);
     this.imported = 0;
     var listToUpload = [];
     this.importing = true;
@@ -1027,16 +1026,15 @@ export class MedicationComponent implements OnInit, OnDestroy {
       //inicio variables
       var enddate = null
       if(startOfDay(new Date()) >= startOfDay(new Date(drugslist[i]['End Date'])) ){
-        enddate = drugslist[i]['End Date'];
+        enddate = startOfDay(new Date(drugslist[i]['End Date']));
       }
 
       var resNameDrug = this.findDrug(drugslist[i].Medication)
-      console.log(resNameDrug);
       if(resNameDrug.found){
         var newEvent = {
           drug: resNameDrug.medication,
           dose: drugslist[i]['Total Daily Dose'],
-          startDate: drugslist[i]['Start Date'],
+          startDate: startOfDay(new Date(drugslist[i]['Start Date'])),
           endDate: enddate,
           sideEffects: drugslist[i]['Side Effects'],
           notes: drugslist[i].Notes,
