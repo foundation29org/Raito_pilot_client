@@ -770,6 +770,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
       if (!this.historyDrugSelected[0].endDate) {
         this.actualMedication = this.historyDrugSelected[0];
       }
+      this.historyDrugSelected.sort(this.sortService.DateSort("startDate"));
     }
   }
 
@@ -1022,20 +1023,28 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.imported = 0;
     var listToUpload = [];
     this.importing = true;
+    var dateimezone = new Date()
+    var userTimezoneOffset = dateimezone.getTimezoneOffset() * 60000;
     for(var i = 0; i < drugslist.length; i++) {
       //inicio variables
       var enddate = null
       if(startOfDay(new Date()) >= startOfDay(new Date(drugslist[i]['End Date'])) ){
         enddate = startOfDay(new Date(drugslist[i]['End Date']));
+        enddate.setDate(enddate.getDate()-1);
       }
 
       var resNameDrug = this.findDrug(drugslist[i].Medication)
       if(resNameDrug.found){
+        var finalEndDate = enddate;
+        if(enddate!=null){
+          finalEndDate = new Date(enddate.getTime() - userTimezoneOffset);
+        }
+        var finalstartDate= new Date((startOfDay(new Date(drugslist[i]['Start Date']))).getTime() - userTimezoneOffset);
         var newEvent = {
           drug: resNameDrug.medication,
           dose: drugslist[i]['Total Daily Dose'],
-          startDate: startOfDay(new Date(drugslist[i]['Start Date'])),
-          endDate: enddate,
+          startDate: finalstartDate,
+          endDate: finalEndDate,
           sideEffects: drugslist[i]['Side Effects'],
           notes: drugslist[i].Notes,
           date: startOfDay(new Date()),
