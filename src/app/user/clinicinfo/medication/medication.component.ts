@@ -1043,11 +1043,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
         var newEvent = {
           drug: resNameDrug.medication,
           dose: drugslist[i]['Total Daily Dose'],
-          startDate: finalstartDate,
-          endDate: finalEndDate,
+          startDate: this.dateService.transformDate(finalstartDate),
+          endDate: this.dateService.transformDate(finalEndDate),
           sideEffects: drugslist[i]['Side Effects'],
           notes: drugslist[i].Notes,
-          date: startOfDay(new Date()),
+          date: this.dateService.transformDate(new Date()),
         }
   
         listToUpload.push(newEvent);
