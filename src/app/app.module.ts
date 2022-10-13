@@ -46,7 +46,6 @@ import { BlobStorageService } from 'app/shared/services/blob-storage.service';
 
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { NgxHotjarModule } from 'ngx-hotjar';
 import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
 
 import { QRCodeModule } from 'angularx-qrcode';
@@ -80,7 +79,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       }),
       Angulartics2Module.forRoot(),
       PerfectScrollbarModule,
-      NgxHotjarModule.forRoot(environment.hotjarSiteId),
       QRCodeModule
     ],
     providers: [
