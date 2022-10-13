@@ -367,7 +367,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     }
 
-    this.loadGroupFile();
+    console.log(this.authService.getGroup());
+    //this.loadGroupFile();
+    if(this.authService.getGroup()!=null){
+      this.loadGroupFile();
+    }else{
+      this.getInfoPatient();
+    }
+    
   }
 
   loadGroupFile(){
@@ -427,13 +434,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadQuestionnaires(){
+    console.log(this.authService.getGroup());
+    this.questionnaires = [];
     this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
-        this.questionnaires = res.questionnaires;
-        for(var i=0;i<this.questionnaires.length;i++){
-          await this.loadQuestionnaire(this.questionnaires[i].id, i)
+        if(res.questionnaires!='No data'){
+          this.questionnaires = res.questionnaires;
+          for(var i=0;i<this.questionnaires.length;i++){
+            await this.loadQuestionnaire(this.questionnaires[i].id, i)
+          }
+           //this.getProms();
         }
-        //this.getProms();
       }, (err) => {
         console.log(err);
       }));

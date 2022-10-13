@@ -13,18 +13,23 @@
 
                    
                     <div *ngIf="showListQuestionnaires && loadedProms">
-                        <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
-                        <span *ngFor="let questionnaire of questionnaires ; let j = index">
-                            <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
-                            <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
-                                <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)">
-                                    {{'prom.See answers' | translate }}
-                                </span>
-                                <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))!=(questionnaire.info.items.length)">
-                                    {{'charts.Answer' | translate }}
-                                </span>
-                              </a>
-                        </span>
+                        <div *ngIf="questionnaires.length>0">
+                            <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
+                            <span *ngFor="let questionnaire of questionnaires ; let j = index">
+                                <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
+                                <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
+                                    <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)">
+                                        {{'prom.See answers' | translate }}
+                                    </span>
+                                    <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))!=(questionnaire.info.items.length)">
+                                        {{'charts.Answer' | translate }}
+                                    </span>
+                                  </a>
+                            </span>
+                        </div>
+                        <div *ngIf="questionnaires.length==0" class="mb-4">
+                            {{'prom.no questionnaires' | translate }}
+                        </div>
                     </div>
                     <div *ngIf="!showListQuestionnaires">
                         <p *ngIf="newproms.length>0 && step+1<=newproms.length && pendind" class="mb-0 pt-2"><ngb-progressbar type="dark" height="2rem" [value]="((step+1)/newproms.length)*100"><b>{{step+1}} /{{newproms.length}}</b></ngb-progressbar></p>
@@ -46,14 +51,14 @@
                                                             </div>
                                                         </div>
                                                         <div *ngIf="item.other==actualProm.data && item.other != null">
-                                                            <input type="text" class="form-control" name="actualProm.other" placeholder="{{'prom.a8.4' | translate }}" [(ngModel)]="actualProm.other">
+                                                            <input type="text" class="form-control" name="actualProm.other" placeholder="{{'prom.Please, tell us' | translate }}" [(ngModel)]="actualProm.other">
                                                         </div>
                                                     </div>
                                                     <div *ngIf="item.type=='ChoiceSet'">
                                                         <p class="mb-0" *ngFor="let answer of item.answers ; let ki = index">
                                                             <mat-checkbox name="{{answer.value}}" [(ngModel)]="actualProm.data[answer.value]">{{answer.text}}</mat-checkbox>
                                                             <span *ngIf="answer.text == item.other && actualProm.data[answer.value] == true">
-                                                                <input type="text" class="form-control" name="{{answer.value}}{{ki}}" placeholder="{{'prom.a6.9' | translate }}" [(ngModel)]="actualProm.other">
+                                                                <input type="text" class="form-control" name="{{answer.value}}{{ki}}" placeholder="{{'prom.Please, tell us' | translate }}" [(ngModel)]="actualProm.other">
                                                             </span>
                                                         </p>                                                        
                                                     </div>
@@ -101,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div *ngIf="item.other==prom.data && item.other != null">
-                                                <input type="text" class="form-control" name="prom.other{{prom.idProm}}" placeholder="{{'prom.a8.4' | translate }}" [(ngModel)]="prom.other">
+                                                <input type="text" class="form-control" name="prom.other{{prom.idProm}}" placeholder="{{'prom.Please, tell us' | translate }}" [(ngModel)]="prom.other">
                                             </div>
                                         </div>
                                         <div *ngIf="item.type=='ChoiceSet'">
@@ -109,7 +114,7 @@
                                                 <mat-checkbox name="{{answer.value}}{{ki}}{{prom.idProm}}" [(ngModel)]="prom.data[answer.value]">{{answer.text}}</mat-checkbox>
                                             </p>
                                             <p *ngIf="prom.data.Other">
-                                                <input type="text" class="form-control" name="prom.other{{prom.idProm}}" placeholder="{{'prom.a6.9' | translate }}" [(ngModel)]="prom.other">
+                                                <input type="text" class="form-control" name="prom.other{{prom.idProm}}" placeholder="{{'prom.Please, tell us' | translate }}" [(ngModel)]="prom.other">
                                             </p>
                                         </div>
                                     </div>

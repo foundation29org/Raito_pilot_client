@@ -868,3 +868,116 @@
 		</div>
 	</form>
 </ng-template>
+<button id="openModalWeightAndBirthdate" [hidden]="true" (click)="showPanel(contentWeightAndBirthdate)">.</button>
+<ng-template #contentWeightAndBirthdate let-c="close" let-d="dismiss">
+	<form class="form" #fWeightAndBirthdate="ngForm">
+		<div class="modal-header">
+			<h4 class="modal-title">{{'medication.There is patient information needed' | translate }}</h4>
+		</div>
+		<div class="modal-body">
+			<div class="">
+
+				<div class="form-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>* {{'medication.Select date of birth' | translate }}</label>
+								<div>
+									{{birthday | date: timeformat}}
+									<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
+										[matDatepicker]="picker3" [max]="today"
+										required startDate #startDate="ngModel" ngModel [(ngModel)]="birthday">
+									<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									<mat-datepicker startView="multi-year" touchUi="true" #picker3></mat-datepicker>
+									<small class="form-text text-muted danger"
+										*ngIf="!startDate.valid && (startDate.dirty || startDate.touched)">{{'generics.required'
+										| translate }}</small>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="mb-0">{{'medication.Patients weight' | translate }} <span
+										*ngIf="settings.massunit == 'kg'">(kg)</span><span
+										*ngIf="settings.massunit == 'lb'">(lb)</span></label>
+								<input type="text" id="weight" class="form-control w-50" name="weight"
+									required weight #weight="ngModel" ngModel [(ngModel)]="newweight"
+									pattern="[0-9]+([\,\.][0-9]+)?$">
+								<small class="form-text text-muted danger"
+									*ngIf="weight.errors?.pattern">{{'anthropometry.Invalid weight' |
+									translate }}</small>
+								<small class="form-text text-muted danger"
+									*ngIf="!weight.valid && (weight.dirty || weight.touched)">{{'generics.required'
+									| translate }}</small>
+								<span class="">{{'medication.if you want to change' | translate }} <a
+										href="/pages/profile">{{'medication.here' | translate }}</a></span>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+			<span *ngIf="!fWeightAndBirthdate.valid" class="form-text text-muted danger">{{'generics.requiredfieldsmissing' | translate
+				}}</span>
+		</div>
+		<div class="modal-footer">
+			<div class="col-md-12 center-elements" *ngIf="!sending">
+				<div>
+					<button class="btn btn-raised btn-dark"	[disabled]="!fWeightAndBirthdate.valid" (click)="onSubmitWeightAndBirthdate();">{{'generics.Save' | translate }}</button>
+				</div>
+			</div>
+			<div class="col-md-12 center-elements" *ngIf="sending">
+				<div>
+					<p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+				</div>
+			</div>
+		</div>
+	</form>
+</ng-template>
+
+<button id="openModalBirthdate" [hidden]="true" (click)="showPanel(contentBirthdate)">.</button>
+<ng-template #contentBirthdate let-c="close" let-d="dismiss">
+	<form class="form" #fBirthdate="ngForm">
+		<div class="modal-header">
+			<h4 class="modal-title">{{'medication.The recommended doses depend on' | translate }}</h4>
+		</div>
+		<div class="modal-body">
+			<div class="">
+
+				<div class="form-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>* {{'medication.Select date of birth' | translate }}</label>
+								<div>
+									{{birthday | date: timeformat}}
+									<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
+										[matDatepicker]="picker3" [max]="today"
+										required startDate #startDate="ngModel" ngModel [(ngModel)]="birthday">
+									<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									<mat-datepicker startView="multi-year" touchUi="true" #picker3></mat-datepicker>
+									<small class="form-text text-muted danger"
+										*ngIf="!startDate.valid && (startDate.dirty || startDate.touched)">{{'generics.required'
+										| translate }}</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<span *ngIf="!fBirthdate.valid" class="form-text text-muted danger">{{'generics.requiredfieldsmissing' | translate
+				}}</span>
+		</div>
+		<div class="modal-footer">
+			<div class="col-md-12 center-elements" *ngIf="!sending">
+				<div>
+					<button class="btn btn-raised btn-dark"	[disabled]="!fBirthdate.valid" (click)="onSubmitBirthdate();">{{'generics.Save' | translate }}</button>
+				</div>
+			</div>
+			<div class="col-md-12 center-elements" *ngIf="sending">
+				<div>
+					<p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+				</div>
+			</div>
+		</div>
+	</form>
+</ng-template>

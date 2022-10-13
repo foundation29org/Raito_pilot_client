@@ -396,6 +396,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub, this.datainfo)
       .subscribe((res: any) => {
         this.sending = false;
+        this.authService.setGroup(this.datainfo.group);
       }, (err) => {
         console.log(err);
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
