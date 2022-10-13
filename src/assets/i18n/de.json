@@ -728,24 +728,9 @@
     },
     "seo":{
        "home":{
-          "keywords":"Diagnose, diagnostizieren, seltene Krankheit, Syndrom, Krankheit, Prognose, Symptome, HPO, Epilepsie, Krampfanfälle, Status epilepticus, Entwicklungsverzögerung, Zittern, Herzklopfen, tonisch-klonisch, myoklonisch, Pädiatrie, Genetik, Neurologie, Symptomextraktion, genetische Krankheit, genetisch Erkrankung",
-          "description":"Extraktion und Heilung von HPO-Symptomen aus Texten und Dokumenten. KI, die bei der Diagnose seltener Krankheiten hilft. Völlig kostenlos für Ärzte und Patienten.",
-          "title":"Raito: Extrahiere Symptome und hilf bei der Diagnose"
-       },
-       "physicians":{
-          "keywords":"medizinischer Zustand, Symptomprüfer, Symptome des Syndroms, seltene Krankheit, Online-Diagnose",
-          "description":"Speichern Sie die Fälle Ihrer Patienten und analysieren Sie genetische Informationen kostenlos",
-          "title":"Ärzte: Erstellen Sie Ihr kostenloses Konto"
-       },
-       "diagnosed":{
-          "keywords":"medizinischer Zustand, klinische Studien, Syndromsymptome, seltene Krankheit, Patientengruppe",
-          "description":"Ihre seltenen Krankheiten: Symptome, klinische Studien und Patientengruppen",
-          "title":"Diagnostizierte Patienten: Weitere Informationen erhalten"
-       },
-       "undiagnosed":{
-          "keywords":"seltene Diagnose, Symptomprüfer, Syndromsymptome, seltene Krankheit, Online-Diagnose",
-          "description":"Selbst-Phänotypisierung, Diagnose, Teilen Sie Ihren Bericht mit Ihrem Arzt",
-          "title":"Nicht diagnostizierte Patienten: Beschleunigen Sie Ihre Diagnose"
+          "keywords":"Dezentrale Daten, Gesundheitsdaten, Raito, seltene Krankheiten, Krankheit, Epilepsie, Krampfanfälle, genetische Krankheit",
+          "description":"Dezentraler Container für Gesundheitsdaten, in dem die Daten immer beim Patienten sind. Wir helfen Patientengruppen auch dabei, PROMs in aggregierter Form zu sammeln, wobei der Datenschutz oberste Priorität hat.",
+          "title":"Raito: Den Patienten die Macht der Daten zurückgeben."
        }
     },
     "feel":{

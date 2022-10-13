@@ -232,6 +232,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
 
     }
+    this.loadScripts();
+    
+  }
+
+  loadScripts(){
+    $.getScript("https://cdn.veriff.me/sdk/js/1.2/veriff.min.js").done(function (script, textStatus) {
+      //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
+    });
+    $.getScript("https://cdn.veriff.me/incontext/js/v1/veriff.js").done(function (script, textStatus) {
+      //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
+    });
   }
 
   

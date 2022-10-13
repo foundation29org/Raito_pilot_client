@@ -4,11 +4,27 @@ import { TranslateService } from '@ngx-translate/core';
 declare let Moralis: any;
 @Injectable()
 export class MoralisService {
-
-  constructor(public translate: TranslateService) { }
-
   currentUser: any = null;
   moralisInstance: any = null;
+  loadedScript:boolean = false;
+  constructor(public translate: TranslateService) { 
+    this.loadScripts();
+  }
+
+  loadScripts(){
+    $.getScript("https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js").done(function (script, textStatus) {
+      //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
+      this.moralisInstance= this.initServer();
+      this.loadedScript = true;
+    }.bind(this));
+    $.getScript("https://cdn.jsdelivr.net/npm/@web3auth/web3auth@1.0.1").done(function (script, textStatus) {
+      //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
+      
+    });
+    
+  }
+
+  
   async initServer(): Promise<void> {
     await Moralis.start({
       appId: environment.moralisAppId,
@@ -16,6 +32,11 @@ export class MoralisService {
     })
     Moralis.enableEncryptedUser();
     Moralis.secret = environment.moralisSecret;
+    return Moralis;
+  }
+
+  async getInstance(){
+    return this.moralisInstance;
   }
 
   authenticate(){
@@ -34,6 +55,7 @@ export class MoralisService {
   }
 
   async logout() {
+    console.log(Moralis);
     await Moralis.User.logOut();
     this.setCurrentUser(null);
     console.log("logged out");

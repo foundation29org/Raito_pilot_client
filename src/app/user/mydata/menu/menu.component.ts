@@ -205,8 +205,18 @@ export class MenuComponent implements OnInit, OnDestroy {
         if(params['panel']!=undefined){
           this.activeIds=[params['panel']]
         }
-      }));
-      this.lang = sessionStorage.getItem('lang');
+    }));
+
+    this.lang = sessionStorage.getItem('lang');
+
+    this.loadScripts();
+
+  }
+
+  loadScripts(){
+    $.getScript("./assets/js/html2canvas.js").done(function (script, textStatus) {
+      //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
+    });
   }
 
   ngOnInit(): void {
