@@ -424,10 +424,10 @@ mark{
 
 @media ( max-width: 575px ){
   body{
-    font-size: 11px !important;
+    font-size: 12px !important;
   }
   p {
-    font-size: 11px !important;
+    font-size: 12px !important;
   }
   h1, .h1 {
     font-size: 1.4rem;

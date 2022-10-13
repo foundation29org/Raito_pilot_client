@@ -34,32 +34,16 @@
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
-                    <li class="nav-item mr-2 d-none d-sm-inline" ngbDropdown display="dynamic" placement="bottom-right">
-                        <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
-                            <u>{{currentLang}}</u>
+                  <li class="nav-item mr-2 d-inline" ngbDropdown display="dynamic" placement="bottom-right">
+                    <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
+                        <u>{{currentLang}}</u>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
+                        <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code)">
+                            <span>{{lang.name}}</span>
                         </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                            <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code)">
-                                <span>{{lang.name}}</span>
-                            </a>
-                        </div>
-                    </li>
-                    <!--<li class="nav-item mr-2">
-                      <a class="btn btn-info round mb-0 btn-navbar" (click)="goToLogin()">{{'login.Login' | translate }}</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="btn btn-dark white round mb-0 btn-navbar" (click)="goToRegister()">{{'login.Create User' | translate }}</a>
-                    </li>-->
-                    <li class="nav-item ml-2 d-inline d-sm-none" ngbDropdown display="dynamic" placement="bottom-right">
-                      <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
-                          <u>{{currentLang}}</u>
-                      </a>
-                      <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                          <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code)">
-                              <span>{{lang.name}}</span>
-                          </a>
-                      </div>
-                  </li>
+                    </div>
+                </li>
                 </ul>
             </div>
         </div>
