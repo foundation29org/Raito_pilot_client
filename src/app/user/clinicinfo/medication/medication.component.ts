@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { DateAdapter } from '@angular/material/core';
 import { SortService } from 'app/shared/services/sort.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -72,6 +72,8 @@ export class MedicationComponent implements OnInit, OnDestroy {
   weightUnits: string;
   imported: number = 0;
   importing: boolean = false;
+  birthday: any;
+  newweight: any;
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -172,7 +174,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         if (res.message == 'There are no weight') {
           if(this.age==null){
-            Swal.fire({
+
+            document.getElementById("openModalWeightAndBirthdate").click();
+            /*Swal.fire({
               title: this.translate.instant("medication.There is patient information needed"),
               html: '<form class="form"><span class="d-block">'+this.translate.instant("medication.Select date of birth")+'</span><span class="d-block mb-2"><input id="datepicker" type="date"></span>'+'<span class="mt-1">'+this.translate.instant("medication.Patients weight")+'</span> <span>('+this.settings.massunit+')</span><span class="d-block"><input id="weight" type="text"></span></form>',
               preConfirm: () => {
@@ -194,7 +198,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                this.submitWeight($('#weight').val());
                this.saveBirthDate($('#datepicker').val())
               }
-            }.bind(this));
+            }.bind(this));*/
           }else{
             Swal.fire({
               title: this.translate.instant("medication.The weight is needed"),
@@ -265,31 +269,38 @@ export class MedicationComponent implements OnInit, OnDestroy {
       }));
   }
 
+  showPanel(contentTemplate){
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      windowClass: 'ModalClass-sm'// xl, lg, sm
+    };
+    this.modalReference = this.modalService.open(contentTemplate, ngbModalOptions);
+  }
+  
+  closeModal() {
+    if (this.modalReference != undefined) {
+      this.modalReference.close();
+      this.modalReference = undefined;
+    }
+  }
+  
+
+  onSubmitWeightAndBirthdate(){
+    this.submitWeight(this.newweight);
+    this.saveBirthDate(this.birthday);
+    this.closeModal();
+  }
+
   checkBirthDate(){
     if(this.age==null){
-      Swal.fire({
-        title: this.translate.instant("medication.The recommended doses depend on"),
-        html: '<span class="d-block">'+this.translate.instant("medication.Select date of birth")+'</span><span class="d-block"><input id="datepicker" type="date"></span>',
-        didOpen:function(){
-          console.log(Swal.getHtmlContainer());
-          console.log($('#datepicker').val);
-        },
-        preConfirm: () => {
-          if (!$('#datepicker').val()) {
-             // Handle return value 
-             Swal.showValidationMessage(this.translate.instant("generics.requiredfieldsmissing"))
-          }
-        },
-        confirmButtonText: this.translate.instant("generics.Save"),
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      }).then(function(result) {
-        if(result.value){
-         console.log($('#datepicker').val());
-         this.saveBirthDate($('#datepicker').val())
-        }
-      }.bind(this));
+      document.getElementById("openModalBirthdate").click();
     }
+  }
+
+  onSubmitBirthdate(){
+    this.saveBirthDate(this.birthday);
+    this.closeModal();
   }
 
   saveBirthDate(birthDate){

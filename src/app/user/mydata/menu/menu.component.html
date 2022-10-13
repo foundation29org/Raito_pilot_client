@@ -102,7 +102,7 @@
                                     </span></h5>
                             </ng-template>
                             <ng-template ngbPanelContent>
-                                <div *ngIf="group=='61bb38fad6e0cb14f08881c0'">
+                                <div *ngIf="groupId=='61bb38fad6e0cb14f08881c0'">
                                     <div class="mb-2">
                                         <img style="width: 80%;" src='assets/img/pages/dravet.jpg'>
                                     </div>
@@ -116,8 +116,13 @@
                                     </p>
                                 </div>
 
-                                <div *ngIf="group!='61bb38fad6e0cb14f08881c0' && hasGroup">
-                                    <p>{{'generics.Name' | translate }}: {{groupName}}</p>
+                                <div *ngIf="groupId!='61bb38fad6e0cb14f08881c0' && hasGroup">
+                                    <p> <strong class="mr-1">{{'groups.Group' | translate }}:</strong>
+                                        <span *ngIf="group.name != 'Dravet Syndrome European Federation'  && group.name != 'Undiagnosed'  && group.name != 'None'">{{group.name}}</span>
+                                        <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
+                                        <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
+                                        <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
+                                    </p>
                                 </div>
                                 <div>
                                     <div class="" *ngIf="!hasGroup">

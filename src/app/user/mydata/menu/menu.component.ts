@@ -62,8 +62,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   selectedPatient: any = {};
   medications: any = [];
   actualMedications: any;
-  private group: string;
-  private groupName: string;
+  private groupId: string;
+  private group: any = {};
   patient: any;
   timeformat = "";
   recommendedDoses: any = [];
@@ -300,7 +300,7 @@ loadPatientId(){
       this.authService.logout();
     }else{
       if(res.group!=null){
-        this.group = res.group;
+        this.groupId = res.group;
         this.hasGroup = true;
         this.getConsentGroup();
         this.loadGroups();
@@ -318,8 +318,8 @@ loadGroups() {
   this.subscription.add(this.apiDx29ServerService.loadGroups()
     .subscribe((res: any) => {
       for (var i = 0; i < res.length; i++) {
-        if(this.group==res[i]._id){
-          this.groupName = res[i].name;
+        if(this.groupId==res[i]._id){
+          this.group = res[i];
         }
       }
     }, (err) => {
@@ -1337,7 +1337,7 @@ initEnvironment(){
 loadEnvironment() {
   this.medications = [];
   this.actualMedications = [];
-  this.group = this.authService.getGroup();
+  this.groupId = this.authService.getGroup();
   this.loadGroups();
   this.patient = {
   };
@@ -1361,7 +1361,9 @@ loadEnvironment() {
 
   }
 
-  this.loadTranslationsElements();
+  if(this.authService.getGroup()!=null){
+    this.loadTranslationsElements();
+  }
   this.getInfoPatient();
 }
 

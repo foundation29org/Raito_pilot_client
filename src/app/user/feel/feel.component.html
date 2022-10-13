@@ -10,7 +10,16 @@
                     </div>
                     <div *ngIf="step=='0'">
                         <h2 class="content-header mt-0 mb-2">{{'homeraito.p6' | translate }}</h2>
-                        <span [formGroup]="feelForm">
+                        <span [formGroup]="feelForm" class="mt-2">
+                            <div class="form-group mt-3 mb-1">
+                                <mat-form-field class="mr-sm-24" fxFlex (click)="open()" >
+                                    <input matInput [matDatepicker]="picker" placeholder="Date"
+                                                   autocomplete="off"
+                                                   name="date" formControlName="date">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker  [startAt]="date" #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
                             <div class="form-group">
                                 <label>{{'feel.q1' | translate }}</label>
                                 <div class="d-block font-small-2">
@@ -100,15 +109,6 @@
                                         <label class="form-check-label" >{{'feel.very good' | translate }}</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <mat-form-field class="mr-sm-24" fxFlex (click)="open()" >
-                                    <input matInput [matDatepicker]="picker" placeholder="Date"
-                                                   autocomplete="off"
-                                                   name="date" formControlName="date">
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker  [startAt]="date" #picker></mat-datepicker>
-                                </mat-form-field>
                             </div>
                             <div class="form-group">
                                 <textarea maxlength="150" class="autoajustable form-control" formControlName="note" placeholder="{{'feel.Add a note describing how do you feel or events' | translate }}"

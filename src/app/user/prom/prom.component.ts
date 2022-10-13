@@ -19,8 +19,6 @@ import { DateAdapter } from '@angular/material/core';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
-import { Options } from "@angular-slider/ngx-slider";
-import { lineChartShowXAxisLabel } from 'app/shared/configs/general-charts.config';
 
 export function getCulture() {
   return sessionStorage.getItem('culture');
@@ -46,25 +44,11 @@ export class PromComponent {
   proms: any = [];
   newproms: any = [];
   actualProm: any = {};
-  prom6: any = {
-    "Brightorpatternedlights": false,
-    "Warmorcoldtemperatures": false,
-    "Physicalmovementoractivity": false,
-    "Noise": false,
-    "Geometricpatterns": false,
-    "Changesinemotionalstate": false,
-    "Tiredness": false,
-    "Other": false
-  };
-  prom8: string = '';
   value: number = 0;
   numSaved: number = 0;
-  options: Options = {};
   goNext: boolean = false;
   pendind: boolean = false;
   showListQuestionnaires: boolean = true;
-  a121: string = '';
-  a122: string = '';
   questionnaires: any = [];
   actualQuestionnaire: any = {};
 
@@ -82,27 +66,6 @@ export class PromComponent {
     this.lang = sessionStorage.getItem('lang');        
 
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
-
-    this.translate.get('prom.a12.1').subscribe((res: string) => {
-      this.a121 = res;
-    });
-    this.translate.get('prom.a12.2').subscribe((res: string) => {
-      this.a122 = res;
-      this.options = {
-        showTicksValues: true,
-        stepsArray: [
-          { value: -4, legend: this.a121},
-          { value: -3 },
-          { value: -2 },
-          { value: -1 },
-          { value: 0 },
-          { value: 1 },
-          { value: 2 },
-          { value: 3 },
-          { value: 4, legend: this.a122}
-        ]
-      }
-    });
    }
 
    init() {
@@ -204,13 +167,19 @@ export class PromComponent {
   }
 
   loadQuestionnaires(){
+    this.questionnaires = [];
     this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
-      .subscribe((res: any) => {
-        this.questionnaires = res.questionnaires;
-        for(var i=0;i<this.questionnaires.length;i++){
-          this.loadQuestionnaire(this.questionnaires[i].id, i)
+      .subscribe(async (res: any) => {
+        if(res.questionnaires!='No data'){
+          this.questionnaires = res.questionnaires;
+          for(var i=0;i<this.questionnaires.length;i++){
+            await this.loadQuestionnaire(this.questionnaires[i].id, i)
+          }
+          this.getProms();
+        }else{
+          this.loadedProms = true;
         }
-        this.getProms();
+        
       }, (err) => {
         console.log(err);
       }));
@@ -220,6 +189,7 @@ export class PromComponent {
     this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
       .subscribe((res: any) => {
         this.questionnaires[index].info=res;
+        console.log('otro cuestionario cargado');
       }, (err) => {
         console.log(err);
       }));
@@ -227,6 +197,7 @@ export class PromComponent {
   }
 
   getProms(){
+    console.log('obtener proms');
     this.proms = [];
     this.loadedProms = false;
     var questionnaires = [];
@@ -320,18 +291,6 @@ export class PromComponent {
 
   nextProm(){
     this.goNext = true;
-    /*if(this.actualProm.idProm==6){
-      var foundElementTrue = false;
-      for(var i in this.prom6) {
-        if(this.prom6[i]){
-          foundElementTrue = true;
-        }
-      }
-      if(foundElementTrue){
-        this.actualProm.data = this.prom6;
-      }
-      
-    }*/
     if(this.actualProm.data!=null){
       if(this.actualProm._id){
         this.updateProm();
