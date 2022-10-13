@@ -728,24 +728,9 @@
     },
     "seo":{
        "home":{
-          "keywords":"diagnostic, diagnostiquer, maladie rare, syndrome, maladie, pronostic, symptômes, HPO, épilepsie, convulsions, état de mal épileptique, retard de développement, tremblements, palpitations, tonico-clonique, myoclonique, pédiatrie, génétique, neurologie, extraction des symptômes, maladie génétique, génétique maladie",
-          "description":"Extraction et traitement des symptômes HPO à partir de textes et de documents. L'IA qui aide au diagnostic des maladies rares. Totalement gratuit pour les médecins et les patients.",
-          "title":"Raito : extraire les symptômes et aider au diagnostic"
-       },
-       "physicians":{
-          "keywords":"condition médicale, vérificateur de symptômes, Symptômes du syndrome, maladie rare, diagnostic en ligne",
-          "description":"Stockez les cas de vos patients et analysez gratuitement les informations génétiques",
-          "title":"Médecins : créez votre compte gratuit"
-       },
-       "diagnosed":{
-          "keywords":"condition médicale, Essais cliniques, Symptômes du syndrome, maladie rare, groupe de patients",
-          "description":"Vos maladies rares : symptômes, essais cliniques et groupes de patients",
-          "title":"Patients diagnostiqués : obtenir plus d'informations"
-       },
-       "undiagnosed":{
-          "keywords":"diagnostic rare, vérificateur de symptômes, Symptômes du syndrome, maladie rare, diagnostic en ligne",
-          "description":"Auto-phénotypage, diagnostic, partagez votre rapport avec votre médecin",
-          "title":"Patients non diagnostiqués : accélérez votre diagnostic"
+          "keywords":"Données décentralisées, données de santé, Raito, maladies rares, maladie, épilepsie, convulsions, maladie génétique",
+          "description":"Conteneur de données de santé décentralisé où les données sont toujours avec le patient. Nous aidons également les groupes de patients à collecter les PROM sous forme agrégée, la confidentialité étant une priorité absolue.",
+          "title":"Raito : Redonner le pouvoir des données aux patients."
        }
     },
     "feel":{

@@ -728,24 +728,9 @@
     },
     "seo":{
        "home":{
-          "keywords":"diagnóstico, diagnóstico, doença rara, síndrome, doença, prognóstico, sintomas, HPO, epilepsia, convulsões, status epilepticus, atraso no desenvolvimento, tremores, palpitações, tônico-clônico, mioclônico, pediatria, genética, neurologia, extração de sintomas, doença genética, genética doença",
-          "description":"Extração e cura de sintomas de HPO de textos e documentos. IA que auxilia no diagnóstico de doenças raras. Totalmente gratuito para médicos e pacientes.",
-          "title":"Raito: Extraia sintomas e ajude no diagnóstico"
-       },
-       "physicians":{
-          "keywords":"condição médica, verificador de sintomas, sintomas de síndrome, doença rara, diagnóstico online",
-          "description":"Armazene os casos de seus pacientes e analise informações genéticas gratuitamente",
-          "title":"Médicos: Crie sua conta gratuita"
-       },
-       "diagnosed":{
-          "keywords":"condição médica, ensaios clínicos, sintomas de síndrome, doença rara, grupo de pacientes",
-          "description":"Suas Doenças Raras: Sintomas, Ensaios Clínicos e Grupos de Pacientes",
-          "title":"Pacientes diagnosticados: obtenha mais informações"
-       },
-       "undiagnosed":{
-          "keywords":"diagnóstico raro, verificador de sintomas, sintomas de síndrome, doença rara, diagnóstico online",
-          "description":"Auto-fenotipagem, diagnóstico, compartilhe seu relatório com seu médico",
-          "title":"Pacientes não diagnosticados: acelere seu diagnóstico"
+          "keywords":"Dados descentralizados, dados de saúde, Raito, doenças raras, doença, epilepsia, convulsões, doença genética",
+          "description":"Container de dados de saúde descentralizado onde os dados estão sempre com o paciente. Também ajudamos grupos de pacientes a coletar PROMs de forma agregada, com a privacidade como prioridade máxima.",
+          "title":"Raito: Devolvendo o poder dos dados aos pacientes."
        }
     },
     "feel":{

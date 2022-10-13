@@ -38,13 +38,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.lang = sessionStorage.getItem('lang');
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
-
-        this.start();
-        
     }
 
     async start(){
-      var connected = await this.moralisService.initServer();
       this.isMobile = false;
       if( /Android/i.test(navigator.userAgent) ) {
         this.isMobile = true;
@@ -58,7 +54,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
         let url =  this.authService.getRedirectUrl();
         this.router.navigate([ url ]);
       }else{
-        this.moralisService.logout();
+        if(this.moralisService.currentUser!=null){
+          this.moralisService.logout();
+        }
         if(this.isMobile){
           localStorage.clear();
         }
@@ -71,6 +69,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
             this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         }.bind(this));
+        this.start();
     }
 
     ngOnDestroy() {
