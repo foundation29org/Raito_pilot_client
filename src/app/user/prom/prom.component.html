@@ -42,8 +42,8 @@
                                             <div *ngFor="let item of actualQuestionnaire.info.items ; let k = index"> 
                                                 <div *ngIf="actualProm.idProm==item.idProm">
                                                     <span>{{item.text}}</span>
-                                                    <div *ngIf="item.type=='radioButtons'">
-                                                        <div class="d-block font-small-2">
+                                                    <div *ngIf="item.type=='radioButtons'" class="mt-1">
+                                                        <div class="d-block">
                                                             <div class="form-check form-check-block" *ngFor="let answer of item.answers ; let ki = index">
                                                                 <input class="form-check-input" type="radio" name="state"
                                                                      value="{{answer.value}}" [(ngModel)]="actualProm.data">
@@ -54,7 +54,7 @@
                                                             <input type="text" class="form-control" name="actualProm.other" placeholder="{{'prom.Please, tell us' | translate }}" [(ngModel)]="actualProm.other">
                                                         </div>
                                                     </div>
-                                                    <div *ngIf="item.type=='ChoiceSet'">
+                                                    <div *ngIf="item.type=='ChoiceSet'" class="mt-1">
                                                         <p class="mb-0" *ngFor="let answer of item.answers ; let ki = index">
                                                             <mat-checkbox name="{{answer.value}}" [(ngModel)]="actualProm.data[answer.value]">{{answer.text}}</mat-checkbox>
                                                             <span *ngIf="answer.text == item.other && actualProm.data[answer.value] == true">
@@ -97,8 +97,8 @@
                                 <div *ngFor="let item of actualQuestionnaire.info.items ; let k = index">
                                     <div *ngIf="prom.idProm==item.idProm">
                                         <span>{{item.text}}</span>
-                                        <div *ngIf="item.type=='radioButtons'">
-                                            <div class="d-block font-small-2">
+                                        <div *ngIf="item.type=='radioButtons'" class="mt-1">
+                                            <div class="d-block">
                                                 <div class="form-check form-check-block" *ngFor="let answer of item.answers ; let ki = index">
                                                     <input class="form-check-input" type="radio" name="state{{ki}}{{prom.idProm}}"
                                                          value="{{answer.value}}" [(ngModel)]="prom.data">
@@ -109,7 +109,7 @@
                                                 <input type="text" class="form-control" name="prom.other{{prom.idProm}}" placeholder="{{'prom.Please, tell us' | translate }}" [(ngModel)]="prom.other">
                                             </div>
                                         </div>
-                                        <div *ngIf="item.type=='ChoiceSet'">
+                                        <div *ngIf="item.type=='ChoiceSet'" class="mt-1">
                                             <p class="mb-0" *ngFor="let answer of item.answers ; let ki = index">
                                                 <mat-checkbox name="{{answer.value}}{{ki}}{{prom.idProm}}" [(ngModel)]="prom.data[answer.value]">{{answer.text}}</mat-checkbox>
                                             </p>
@@ -120,7 +120,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="!pendind && loadedProms" class="center-elements" style="position: sticky; top: 100vh; z-index: 1;">
+                            <div *ngIf="!pendind && loadedProms" class="center-elements mt-3" style="position: sticky; top: 100vh; z-index: 1;">
                                 <button type="button" class="mr-1 btn btn-dark" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
                             </div>
                         </div>
