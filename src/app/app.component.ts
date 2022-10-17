@@ -12,6 +12,7 @@ import { Router, NavigationEnd, ActivatedRoute, NavigationStart, NavigationCance
 import { Title, Meta } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
+import { MoralisService } from 'app/shared/auth/moralis.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
 
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   hasLocalLang: boolean = false;
   tituloEvent: string = '';
   //Set toastr container ref configuration for toastr positioning on screen
-  constructor(private http: HttpClient, public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService: LangService, private eventsService: EventsService, private meta: Meta) {
+  constructor(private http: HttpClient, public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private langService: LangService, private eventsService: EventsService, private meta: Meta, public moralisService: MoralisService) {
 
     if (sessionStorage.getItem('lang')) {
       this.translate.use(sessionStorage.getItem('lang'));
@@ -42,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.loadLanguages();
     this.loadCultures();
-
+    this.moralisService.loadScripts();
   }
 
   loadLanguages() {

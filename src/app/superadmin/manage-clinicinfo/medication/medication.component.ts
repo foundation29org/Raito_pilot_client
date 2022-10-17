@@ -85,6 +85,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
+    console.log('ngOnInit');
     this.medications = {
       drugs: [],
       sideEffects: [],
@@ -105,6 +106,8 @@ export class MedicationComponent implements OnInit, OnDestroy{
     //cargar los grupos actuales
     this.subscription.add( this.http.get(environment.api+'/api/groups/')
     .subscribe( (res : any) => {
+      console.log(res);
+      res.sort(this.sortService.GetSortOrder("order"));
       this.groups = res;
      }, (err) => {
        console.log(err);

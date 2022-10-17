@@ -250,7 +250,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription.add(this.apiDx29ServerService.loadGroups()
       .subscribe((res: any) => {
         this.groups = res;
-        this.groups.sort(this.sortService.GetSortOrder("name"));
       }, (err) => {
         console.log(err);
       }));

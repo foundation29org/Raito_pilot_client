@@ -4,11 +4,12 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
+import { SortService } from 'app/shared/services/sort.service';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 
 @Injectable()
 export class ApiDx29ServerService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private sortService: SortService) {}
 
     getSymptoms(id){
       return this.http.get(environment.api+'/api/phenotypes/'+id)
@@ -185,6 +186,8 @@ export class ApiDx29ServerService {
     loadGroups() {
       return this.http.get(environment.api+'/api/groupsnames/')
       .map( (res : any) => {
+        res.sort(this.sortService.GetSortOrder("order"));
+        console.log(res);
         return res;
        }, (err) => {
         console.log(err);

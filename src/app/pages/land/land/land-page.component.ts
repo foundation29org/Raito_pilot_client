@@ -38,6 +38,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.lang = sessionStorage.getItem('lang');
         this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
         this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
+        this.start();
     }
 
     async start(){
@@ -69,7 +70,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
             this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
             this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         }.bind(this));
-        this.start();
+       // this.start();
     }
 
     ngOnDestroy() {
@@ -162,7 +163,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
           		   let url =  this.authService.getRedirectUrl();
                  if(this.authService.getRole()=='User'){
                   if(authenticated.isFirstTime) {
-                    Swal.fire('Write this password on a piece of paper and keep it, you will need it if you want to delete the account or restore a backup.', pwCopy, "success");
+                    Swal.fire(this.translate.instant("login.copypsw"), pwCopy, "success");
                   }
                    this.subscription.add( this.patientService.getPatientId()
                    .subscribe( (res : any) => {
