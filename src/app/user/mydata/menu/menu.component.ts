@@ -39,6 +39,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   modalProfileReference: NgbModalRef;
   modalQr: NgbModalRef;
   loading: boolean = false;
+  loadingFhir: boolean = false;
   loadingf29: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
@@ -308,6 +309,7 @@ loadPatientId(){
   .subscribe( (res : any) => {
     if(res==null){
       this.authService.logout();
+      this.router.navigate([this.authService.getLoginUrl()]);
     }else{
       if(res.group!=null){
         this.groupId = res.group;
@@ -1271,7 +1273,7 @@ getF29(){
 }
 
 extractFhir(){
-  this.loading = true;
+  this.loadingFhir = true;
   this.subscription.add( this.patientService.extractFhir()
   .subscribe( (res : any) => {
         var json = JSON.stringify(res.result);
@@ -1280,7 +1282,7 @@ extractFhir(){
         var p = document.createElement('p');
         var t = document.createTextNode(this.msgDownload+":");
         p.appendChild(t);
-        document.getElementById('content').appendChild(p);
+        document.getElementById('contentfhir').appendChild(p);
 
         var a = document.createElement('a');
         var dateNow = new Date();
@@ -1291,12 +1293,12 @@ extractFhir(){
         a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
         a.setAttribute("id", "download")
 
-        document.getElementById('content').appendChild(a);
+        document.getElementById('contentfhir').appendChild(a);
         document.getElementById("download").click();
-        this.loading = false;
+        this.loadingFhir = false;
    }, (err) => {
      console.log(err);
-     this.loading = false;
+     this.loadingFhir = false;
    }));
 }
 
@@ -2291,6 +2293,15 @@ getVcs(){
       if(!this.showNewCustom && this.listCustomShare.length>0){
         this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
       }
+    }
+
+
+    showPopup(contentInfo) {
+      let ngbModalOptions: NgbModalOptions = {
+        keyboard: false,
+        windowClass: 'ModalClass-xs'// xl, lg, sm
+      };
+      this.modalReference = this.modalService.open(contentInfo, ngbModalOptions);
     }
 
 }

@@ -70,7 +70,8 @@
     "First time here": "First time here?",
     "Create an account clicking here": "Create an account clicking here:",
     "or Log in with": "or Log in with",
-    "copypsw": "Escriba esta contraseña en un papel y guárdela, la necesitará si desea eliminar la cuenta o restaurar una copia de seguridad."
+    "copypsw": "Escriba esta contraseña en un papel y guárdela, la necesitará si desea eliminar la cuenta o restaurar una copia de seguridad.",
+    "The login has expired": "The login has expired"
   },
   "registration":{
     "Registration": "User Registration",
@@ -928,7 +929,6 @@
     "Add patient group": "Add patient group",
     "I give my consent": "Grant access",
     "Reject consent": "Revoke access",
-    "I want to share my data": "Share / Download",
     "I want to export my data": "Download my data",
     "exportText": "A single file with all your current data will be downloaded to your device. You can them keep this file or share it with institutions, researchers through any application you choose.",
     "I want to delete my data": "Delete my container",
@@ -940,6 +940,7 @@
     "sharecontent1": "The report includes seizure, quality of life and medication graphs, as well as your list of symptoms.",
     "sharetitle2": "Data for research",
     "sharecontent2": "You can share your data with researchers for the purpose of data aggregation and analysis.",
+    "share3title": "Private invitation",
     "sharecontent3": "A private link will be generated that you can share with the people you want to access it.",
     "Password is incorrect": "Password is incorrect",
     "we will close your session": "For your security, we will close your session.",

@@ -70,7 +70,8 @@
        "First time here":"Prima volta qui?",
        "Create an account clicking here":"Crea un account cliccando qui:",
        "or Log in with":"o Accedi con",
-       "copypsw": "Scrivi questa password su un pezzo di carta e conservala, ti servirà se vuoi eliminare l'account o ripristinare un backup."
+       "copypsw": "Scrivi questa password su un pezzo di carta e conservala, ti servirà se vuoi eliminare l'account o ripristinare un backup.",
+       "The login has expired": "L'accesso è scaduto"
     },
     "registration":{
        "Registration":"Registrazione Utente",
@@ -928,7 +929,6 @@
        "Add patient group":"Aggiungi gruppo di pazienti",
        "I give my consent":"Concedere l'accesso",
        "Reject consent":"Revocare l'accesso",
-       "I want to share my data":"Condividi / Scarica",
        "I want to export my data":"Scarica i miei dati",
        "exportText":"Un unico file con tutti i tuoi dati attuali verrà scaricato sul tuo dispositivo. Puoi conservare questo file o condividerlo con istituzioni, ricercatori attraverso qualsiasi applicazione tu scelga.",
        "I want to delete my data":"Elimina il mio contenitore",
@@ -940,6 +940,7 @@
        "sharecontent1":"Il rapporto include i grafici delle crisi, della qualità della vita e dei farmaci, nonché l'elenco dei sintomi.",
        "sharetitle2":"Dati per la ricerca",
        "sharecontent2":"È possibile condividere i propri dati con i ricercatori ai fini dell'aggregazione e dell'analisi dei dati.",
+       "share3title": "Invito privato",
        "sharecontent3":"Verrà generato un link privato che potrai condividere con le persone a cui vuoi accedervi.",
        "Password is incorrect":"La password non è corretta",
        "we will close your session":"Per la tua sicurezza, chiuderemo la tua sessione.",
