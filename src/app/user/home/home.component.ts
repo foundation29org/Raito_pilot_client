@@ -310,7 +310,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   setCheck4(bool){
     this.checks.check4 = bool;
     this.setChecks();
-    this.router.navigate(['/mydata'], { queryParams: { panel : '3' } })
+    this.router.navigate(['/mydata'], { queryParams: { panel : '2' } })
     //this.router.navigate(['/mydata'], { newTreatment: true });
   }
 
@@ -621,6 +621,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     .subscribe( (res : any) => {
       if(res==null){
         this.authService.logout();
+        this.router.navigate([this.authService.getLoginUrl()]);
       }else{
         this.loadedPatientId = true;
         this.authService.setCurrentPatient(res);

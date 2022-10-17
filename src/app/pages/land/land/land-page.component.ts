@@ -90,18 +90,26 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.currentUser = this.moralisService.getCurrentUser();
         if (!this.currentUser) {
           this.sending = true;
-            this.subscription.add( this.moralisService.authenticate()
-            .then( (res : any) => {
-              if(res==undefined){
-                this.sending = false;
-              }else{
-                this.onSubmit(res)
-              }
+          try {
+            var res = await this.moralisService.authenticate();
+            console.log(res);
+            if(res==undefined){
+              this.sending = false;
+            }else{
+              this.onSubmit(res)
+            }
+          } catch (error) {
+            console.log(error.message);
+            if(error.message!=undefined){
+              if(error.message=='Signing message has expired.'){
+                Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
+              }else if(error.message=='Web3Auth: User closed login modal.'){
                 
-             }, (err) => {
-               console.log(err);
-               this.logOut();
-             }));
+              }
+            }
+            
+            this.logOut();
+          }
         } else {
           try {
             var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };

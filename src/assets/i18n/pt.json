@@ -70,7 +70,8 @@
        "First time here":"Primeira vez aqui?",
        "Create an account clicking here":"Crie uma conta clicando aqui:",
        "or Log in with":"ou Faça login com",
-       "copypsw": "Escreva essa senha em um pedaço de papel e guarde-a, você precisará dela se quiser excluir a conta ou restaurar um backup."
+       "copypsw": "Escreva essa senha em um pedaço de papel e guarde-a, você precisará dela se quiser excluir a conta ou restaurar um backup.",
+       "The login has expired": "O login expirou"
     },
     "registration":{
        "Registration":"Registro do usuário",
@@ -928,7 +929,6 @@
        "Add patient group":"Adicionar grupo de pacientes",
        "I give my consent":"Garantir acesso",
        "Reject consent":"Revogar acesso",
-       "I want to share my data":"Compartilhar / Baixar",
        "I want to export my data":"Baixar meus dados",
        "exportText":"Um único arquivo com todos os seus dados atuais será baixado para o seu dispositivo. Você pode manter este arquivo ou compartilhá-lo com instituições, pesquisadores através de qualquer aplicativo que você escolher.",
        "I want to delete my data":"Excluir meu contêiner",
@@ -940,6 +940,7 @@
        "sharecontent1":"O relatório inclui gráficos de convulsão, qualidade de vida e medicação, bem como sua lista de sintomas.",
        "sharetitle2":"Dados para pesquisa",
        "sharecontent2":"Pode partilhar os seus dados com investigadores para fins de agregação e análise de dados.",
+       "share3title": "Convite privado",
        "sharecontent3":"Será gerado um link privado que você poderá compartilhar com as pessoas que deseja acessar.",
        "Password is incorrect":"senha é incorreta",
        "we will close your session":"Para sua segurança, encerraremos sua sessão.",

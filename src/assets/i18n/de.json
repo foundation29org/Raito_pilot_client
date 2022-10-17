@@ -70,7 +70,8 @@
        "First time here":"Das erste Mal hier?",
        "Create an account clicking here":"Erstellen Sie ein Konto, indem Sie hier klicken:",
        "or Log in with":"oder Melden Sie sich mit an",
-       "copypsw": "Schreiben Sie dieses Passwort auf ein Blatt Papier und bewahren Sie es auf, Sie benötigen es, wenn Sie das Konto löschen oder ein Backup wiederherstellen möchten."
+       "copypsw": "Schreiben Sie dieses Passwort auf ein Blatt Papier und bewahren Sie es auf, Sie benötigen es, wenn Sie das Konto löschen oder ein Backup wiederherstellen möchten.",
+       "The login has expired": "Die Anmeldung ist abgelaufen"
     },
     "registration":{
        "Registration":"Benutzer Registration",
@@ -928,7 +929,6 @@
        "Add patient group":"Patientengruppe hinzufügen",
        "I give my consent":"Zugriff gewähren",
        "Reject consent":"Zugriffsrechte entziehen",
-       "I want to share my data":"Teilen / Herunterladen",
        "I want to export my data":"Laden Sie meine Daten herunter",
        "exportText":"Eine einzelne Datei mit all Ihren aktuellen Daten wird auf Ihr Gerät heruntergeladen. Sie können diese Datei behalten oder sie mit Institutionen und Forschern über eine beliebige Anwendung Ihrer Wahl teilen.",
        "I want to delete my data":"Löschen Sie meinen Container",
@@ -940,6 +940,7 @@
        "sharecontent1":"Der Bericht enthält Diagramme zu Anfällen, Lebensqualität und Medikation sowie Ihre Liste der Symptome.",
        "sharetitle2":"Daten für die Forschung",
        "sharecontent2":"Sie können Ihre Daten zum Zweck der Datenaggregation und -analyse an Forscher weitergeben.",
+       "share3title": "Private Einladung",
        "sharecontent3":"Es wird ein privater Link generiert, den Sie mit den Personen teilen können, auf die Sie zugreifen möchten.",
        "Password is incorrect":"Das Passwort ist inkorrekt",
        "we will close your session":"Zu Ihrer Sicherheit schließen wir Ihre Sitzung.",

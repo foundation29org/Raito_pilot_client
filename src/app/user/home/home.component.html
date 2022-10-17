@@ -9,7 +9,8 @@
         </div>
     </div>
 </div>
-<div class="mt-4 card card-block mx-auto" *ngIf="loadedInfoPatient && (basicInfoPatient.group==null || step!='0')"
+<div *ngIf="loadedInfoPatient && basicInfoPatient!=undefined">
+    <div class="mt-4 card card-block mx-auto" *ngIf="loadedInfoPatient && (basicInfoPatient.group==null || step!='0')"
     style="max-width: 30rem !important;">
     <div class="card-body">
         <div class="row">
@@ -760,4 +761,5 @@
         </div>
     </div>
 
+</div>
 </div>

@@ -687,7 +687,7 @@ export class jsPDFService {
     private newHeatherAndFooter(doc){
         // Footer
         var logoHealth = new Image();
-        logoHealth.src = "assets/img/logo-foundation-twentynine-footer.webp"
+        logoHealth.src = "assets/img/logo-foundation-twentynine-footer.png"
         doc.addImage(logoHealth, 'png', 20, 284, 25, 10);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
