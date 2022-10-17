@@ -69,7 +69,8 @@
        "This version is deprecated and will stop working":"Questa versione è obsoleta e smetterà di funzionare",
        "First time here":"Prima volta qui?",
        "Create an account clicking here":"Crea un account cliccando qui:",
-       "or Log in with":"o Accedi con"
+       "or Log in with":"o Accedi con",
+       "copypsw": "Scrivi questa password su un pezzo di carta e conservala, ti servirà se vuoi eliminare l'account o ripristinare un backup."
     },
     "registration":{
        "Registration":"Registrazione Utente",

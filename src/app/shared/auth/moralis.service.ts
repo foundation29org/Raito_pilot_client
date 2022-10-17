@@ -8,7 +8,7 @@ export class MoralisService {
   moralisInstance: any = null;
   loadedScript:boolean = false;
   constructor(public translate: TranslateService) { 
-    this.loadScripts();
+    //this.loadScripts();
     //this.moralisInstance= this.initServer();
   }
 
