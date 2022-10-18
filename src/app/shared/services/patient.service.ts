@@ -26,6 +26,7 @@ export class PatientService {
           }
          }, (err) => {
            console.log(err);
+           this.authService.logout();
          })
     }
 
