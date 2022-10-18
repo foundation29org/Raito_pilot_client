@@ -170,9 +170,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
                  sessionStorage.setItem('lang', this.authService.getLang());
           		   let url =  this.authService.getRedirectUrl();
                  if(this.authService.getRole()=='User'){
-                  if(authenticated.isFirstTime) {
+                  /*if(authenticated.isFirstTime) {
                     Swal.fire(this.translate.instant("login.copypsw"), pwCopy, "success");
-                  }
+                  }*/
                    this.subscription.add( this.patientService.getPatientId()
                    .subscribe( (res : any) => {
                       this.authService.setCurrentPatient(res);

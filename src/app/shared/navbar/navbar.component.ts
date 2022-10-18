@@ -159,7 +159,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   logout() {
     this.authService.logout();
-    this.router.navigate([this.authService.getLoginUrl()]);
+    //this.router.navigate([this.authService.getLoginUrl()]);
   }
 
   exit() {

@@ -81,23 +81,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
     //evento que escucha si ha habido un error de conexión
     this.eventsService.on('http-error', function (error) {
-      var msg1 = 'No internet connection';
+      var msg1 = 'Connection lost';
       var msg2 = 'Trying to connect ...';
 
       if (sessionStorage.getItem('lang')) {
         var actuallang = sessionStorage.getItem('lang');
         if (actuallang == 'es') {
-          msg1 = 'Sin conexión a Internet';
+          msg1 = 'Se ha perdido la conexión';
           msg2 = 'Intentando conectar ...';
         } else if (actuallang == 'pt') {
-          msg1 = 'Sem conexão à internet';
+          msg1 = 'Conexão perdida';
           msg2 = 'Tentando se conectar ...';
         } else if (actuallang == 'de') {
-          msg1 = 'Keine Internetverbindung';
+          msg1 = 'Verbindung unterbrochen';
           msg2 = 'Versucht zu verbinden ...';
-        } else if (actuallang == 'nl') {
-          msg1 = 'Geen internet verbinding';
-          msg2 = 'Proberen te verbinden ...';
+        } else if (actuallang == 'fr') {
+          msg1 = 'Connexion perdue';
+          msg2 = 'Essayant de se connecter ...';
+        }else if (actuallang == 'it') {
+          msg1 = 'Collegamento perso';
+          msg2 = 'Tentativo di connessione ...';
         }
       }
       if (error.message) {

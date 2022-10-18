@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
          return true;
       }else{
         this.authService.logout();
-        this.router.navigate([this.authService.getLoginUrl()]);
+        //this.router.navigate([this.authService.getLoginUrl()]);
         return false
       }
     }else{
@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
       }
       if(expectedRole == undefined){
         this.authService.logout();
-        this.router.navigate([this.authService.getLoginUrl()]);
+        //this.router.navigate([this.authService.getLoginUrl()]);
         return false
       }else{
         if(expectedRole!== undefined && this.authService.getRole()!='' && expectedRole.indexOf(this.authService.getRole()) == -1 ){
@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate {
           this.authService.setRedirectUrl(url);
         }
         this.authService.logout();
-        this.router.navigate([this.authService.getLoginUrl()]);
+        //this.router.navigate([this.authService.getLoginUrl()]);
         return false;
       }
     }
@@ -64,7 +64,7 @@ export class AuthGuard implements CanActivate {
       }
     }
     this.authService.logout();
-    this.router.navigate([this.authService.getLoginUrl()]);
+    //this.router.navigate([this.authService.getLoginUrl()]);
     return false;
   }
 
@@ -76,7 +76,7 @@ export class AuthGuard implements CanActivate {
     })
     //this.toastr.error('', this.translate.instant("generics.sessionClosed"));
     this.authService.logout();
-    this.router.navigate([this.authService.getLoginUrl()]);
+    //this.router.navigate([this.authService.getLoginUrl()]);
   }
 
 }

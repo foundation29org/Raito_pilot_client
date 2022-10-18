@@ -621,7 +621,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     .subscribe( (res : any) => {
       if(res==null){
         this.authService.logout();
-        this.router.navigate([this.authService.getLoginUrl()]);
+        //this.router.navigate([this.authService.getLoginUrl()]);
       }else{
         this.loadedPatientId = true;
         this.authService.setCurrentPatient(res);
