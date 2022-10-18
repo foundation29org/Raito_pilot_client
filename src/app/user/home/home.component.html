@@ -316,10 +316,17 @@
         <div class="card">
             <div class="card-block">
                 <div class="pl-2 pr-2 pt-2">
-                    <h4 class="text-bold-500">{{'charts.Your progress' | translate }}</h4>
+                    <h4 class="text-bold-500">{{'charts.Your progress' | translate }}
+                        <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentprogress" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                        <ng-template #popContentprogress>
+                            <span>
+                                {{'charts.If you dont keep data updated it will decrease' | translate }}
+                            </span>
+                            <button class="d-block" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+                          </ng-template>
+                    </h4>
                 </div>
                 <div class="pl-2 pr-2 pb-2">
-                    <span>{{'charts.If you dont keep data updated it will decrease' | translate }}</span>
                     <ngb-progressbar type="dark" height="2rem" [value]="valueprogressbar"><b>{{valueprogressbar}}%</b></ngb-progressbar>
                 </div>
             </div>

@@ -28,7 +28,7 @@ export class AuthService {
 
   private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
 
-  constructor(private http: HttpClient, public moralisService: MoralisService) {}
+  constructor(private http: HttpClient, public moralisService: MoralisService, private router: Router) {}
 
 
   getEnvironment():boolean{
@@ -158,6 +158,7 @@ export class AuthService {
     //}
     //localStorage.clear();
     this.moralisService.logout();
+    this.router.navigate([this.getLoginUrl()]);
   }
 
   getToken() {

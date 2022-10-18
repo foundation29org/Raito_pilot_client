@@ -24,7 +24,7 @@
 											<small class="form-text text-muted danger" *ngIf="!lastName.valid && (lastName.dirty || lastName.touched)">{{'generics.required' | translate }}</small>
 										</div>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12 mt-2">
 										<label for="iscaregiver">{{'homeraito.twho' | translate }}</label>
 										<div class="form-group mb-2" *ngIf="user">
 											<mat-radio-group aria-label="Select an option" name="iscaregiver" [(ngModel)]="user.iscaregiver">
@@ -34,7 +34,7 @@
 										</div>
 									</div>
 								</div>
-								<h4 class="form-section"><i class="ft-settings warning"></i> {{'profile.Settings' | translate }}</h4>
+								<h4 class="form-section mt-3"><i class="ft-settings warning"></i> {{'profile.Settings' | translate }}</h4>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">

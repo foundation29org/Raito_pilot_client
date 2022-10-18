@@ -20,10 +20,12 @@ import { sha512 } from "js-sha512";
 import { Clipboard } from "@angular/cdk/clipboard"
 import { DateAdapter } from '@angular/material/core';
 import { SearchService } from 'app/shared/services/search.service';
+import { MoralisService } from 'app/shared/auth/moralis.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Observable } from 'rxjs/Observable';
 declare let html2canvas: any;
 
 @Component({
@@ -198,8 +200,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   f29: any = {};
   checkStatus: any = {};
   showLinkMA: boolean = false;
+  display: any;
+  displayOrg: any;
+  private subscriptionTimerOrg: Subscription = new Subscription();
+  private subscriptionTimer: Subscription = new Subscription();
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer,  public moralisService: MoralisService) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -309,7 +315,7 @@ loadPatientId(){
   .subscribe( (res : any) => {
     if(res==null){
       this.authService.logout();
-      this.router.navigate([this.authService.getLoginUrl()]);
+      //this.router.navigate([this.authService.getLoginUrl()]);
     }else{
       if(res.group!=null){
         this.groupId = res.group;
@@ -349,12 +355,14 @@ getConsentGroup(){
 }
 
 changeConsentGroup(value){
+  this.displayOrg='';
   this.startingProcessOrg = true;
   this.inProcessOrg = true;
   var paramssend = { consentgroup: value };
   this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
   .subscribe( (res : any) => {
     if(res.message == 'qrgenerated'){
+      this.timerOrg(5);
       this.consentgroup = 'Pending';
       if(res.data[0].sessionData.message!='issuance_successful'){
         //show QR instructions
@@ -368,6 +376,36 @@ changeConsentGroup(value){
    }, (err) => {
      console.log(err.error);
    }));
+}
+
+timerOrg(minute) {
+  // let minute = 1;
+  let seconds: number = minute * 60;
+  let textSec: any = "0";
+  let statSec: number = 60;
+
+  const prefix = minute < 10 ? "0" : "";
+  this.subscriptionTimerOrg = Observable.interval(1000 ).subscribe(() => {
+    seconds--;
+    if (statSec != 0) statSec--;
+    else statSec = 59;
+
+    if (statSec < 10) {
+      textSec = "0" + statSec;
+    } else textSec = statSec;
+
+    this.displayOrg = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+    if (seconds == 0) {
+      clearInterval(this.checkStatusOrg);
+      console.log("finished");
+      this.displayOrg = 'Expired'
+      this.qrImageOrg = '';
+      this.inProcessOrg = false;
+      this.startingProcessOrg = false;
+      this.subscriptionTimerOrg.unsubscribe();
+    }
+
+  });
 }
 
 showPanelIssuerOrganization(info){
@@ -389,7 +427,7 @@ showPanelIssuerOrganization(info){
         }else if(res.status=='issuance_error'){
           this.qrImageOrg = '';
           this.inProcessOrg = false;
-          this.startingProcesOrgs = false;
+          this.startingProcessOrg = false;
           clearInterval(this.checkStatusOrg);
         }
     }, (err) => {
@@ -669,7 +707,8 @@ confirmDelete(index, index2) {
     reverseButtons: true
   }).then((result) => {
     if (result.value) {
-      Swal.fire({
+      this.loginAgain();
+      /*Swal.fire({
         title: this.translate.instant("mydata.please enter your password"),
         inputPlaceholder: this.translate.instant("mydata.Write your password here"),
         input: 'password',
@@ -685,11 +724,26 @@ confirmDelete(index, index2) {
           console.log('rechaza');
         }
         
-      }.bind(this))
+      }.bind(this))*/
       
     }
   });
 
+}
+
+async loginAgain(){
+  try {
+    var res = await this.moralisService.authenticate();
+    console.log(res);
+    var data:any = res;
+    var password = sha512(data.password);
+    this.deleteData(password);
+  } catch (error) {
+    console.log(error.message);
+    
+    this.authService.logout();
+    //this.router.navigate([this.authService.getLoginUrl()]);
+  }
 }
 
 loadMyEmail(){
@@ -721,13 +775,13 @@ deleteData(password){
           
           Swal.close();
           this.authService.logout();
-          this.router.navigate([this.authService.getLoginUrl()]);
+          //this.router.navigate([this.authService.getLoginUrl()]);
           //window.location.reload();
       }.bind(this), 1500);
     }else{
       Swal.fire(this.translate.instant("mydata.Password is incorrect"), this.translate.instant("mydata.we will close your session"), "warning");
       this.authService.logout();
-      this.router.navigate([this.authService.getLoginUrl()]);
+      //this.router.navigate([this.authService.getLoginUrl()]);
     }
     
     
@@ -898,6 +952,8 @@ setIndividualShare(updateStatus){
       this.subscription.add( this.patientService.setIndividualShare(info)
       .subscribe( (res : any) => {
         if(res.message == 'qrgenerated'){
+          this.display='';
+          this.timer(5);
           if(res.data[0].sessionData.message!='issuance_successful'){
             //show QR instructions
             this.showPanelIssuer(res.data[0]);
@@ -913,6 +969,36 @@ setIndividualShare(updateStatus){
       }));
     }
   }
+}
+
+timer(minute) {
+  // let minute = 1;
+  let seconds: number = minute * 60;
+  let textSec: any = "0";
+  let statSec: number = 60;
+
+  const prefix = minute < 10 ? "0" : "";
+  this.subscriptionTimer = Observable.interval(1000 ).subscribe(() => {
+    seconds--;
+    if (statSec != 0) statSec--;
+    else statSec = 59;
+
+    if (statSec < 10) {
+      textSec = "0" + statSec;
+    } else textSec = statSec;
+
+    this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+    if (seconds == 0) {
+      clearInterval(this.checkStatus);
+      console.log("finished");
+      this.display = 'Expired'
+      this.qrImage = '';
+      this.inProcess = false;
+      this.startingProcess = false;
+      this.subscriptionTimer.unsubscribe();
+    }
+
+  });
 }
 
 
@@ -1143,6 +1229,7 @@ closeModalShare() {
     this.inProcess = false;
     this.startingProcess = false;
     this.qrImage = '';
+    this.subscriptionTimer.unsubscribe();
   }
 }
 

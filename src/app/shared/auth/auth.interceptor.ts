@@ -49,7 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
       let tokenService = this.inj.get(TokenService);
       if(!tokenService.isTokenValid()){
         authService.logout();
-        this.router.navigate([authService.getLoginUrl()]);
+        //this.router.navigate([authService.getLoginUrl()]);
       }
     }
 

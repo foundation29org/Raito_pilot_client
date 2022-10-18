@@ -27,7 +27,7 @@ export class RoleGuard implements CanActivate {
         this.authService.setRedirectUrl('/home');
 
       }
-      this.router.navigate([this.authService.getLoginUrl()]);
+      //this.router.navigate([this.authService.getLoginUrl()]);
       //  this.router.navigate(["/login"]);
         this.authService.logout();
         return false;
