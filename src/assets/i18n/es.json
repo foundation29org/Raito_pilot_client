@@ -481,7 +481,11 @@
     "here": "aquí",
     "Patients weight": "Peso",
     "of": "de",
-    "no history saved": "No hay historial guardado para este medicamento"
+    "no history saved": "No hay historial guardado para este medicamento",
+    "Imported Drugs": "Medicamentos importados",
+    "Conflic": "no han sido importados debido a conflictos con las fechas.",
+    "NotImported1": "No se ha importado ningún medicamento porque ya fueron importados.",
+    "NotImported2": "No se ha importado ningún medicamento porque ya fueron importados, o no había ninguno en el archivo."
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "No fue posible guardar porque la vacuna ya existe en la fecha seleccionada",
@@ -828,7 +832,7 @@
     "infoDrugs": "La medicación puede representarse en porcentaje de la dosis recomendada del fármaco o en dosis absoluta.",
     "infoFeel": "La calidad de vida representa cómo afecta la enfermedad del paciente a su vida. El valor del gráfico es la media de los valores que usted proporciona cada vez que responde a las preguntas sobre la carga de la enfermedad. Las opciones de las preguntas tienen valores de 1 a 5.",
     "Your progress": "Mi progreso",
-    "If you dont keep data updated it will decrease": "Si no mantienes los datos actualizados, la barra de progreso disminuirá.",
+    "If you dont keep data updated it will decrease": "Si no mantienes los datos actualizados, la calidad y la utilidad de los mismos disminuye, para ayudar a la comunidad necesitamos datos actualizados. Esta barra refleja el estado de actualización de los tuyos.",
     "noti1a": "Bienvenido a Raito, tu contenedor de datos personales. Esta es tu área de notificaciones.",
     "noti2a": "El nivel de tu contenedor está representado en la barra de abajo. Lo rellenas introduciendo y compartiendo datos.",
     "noti3a": "¿Cómo se ha encontrado últimamente?",
@@ -893,7 +897,9 @@
     "State": "Estado",
     "invalidFile": "El fichero importado no es el correcto",
     "These are the symptoms included in Raito by the user": "Estos son los síntomas incluidos en Raito por el usuario:",
-    "No symptoms have been added in Raito": "No ha añadido síntomas en Raito."
+    "No symptoms have been added in Raito": "No ha añadido síntomas en Raito.",
+    "Imported seizures": "Crisis importadas:",
+    "no imported": "No se ha importado ninguna crisis."
   },
   "mydata":{
     "title": "Mi contenedor de datos",
@@ -931,6 +937,8 @@
     "note4": "Si cambias de organización, dejarás de compartir con la anterior y tendrás que volver a dar tu consentimiento para la nueva que hayas seleccionado.",
     "Add patient group": "Añadir grupo de pacientes",
     "I give my consent": "Doy acceso",
+    "vcintro1": "Para que tengas la prueba de que has compartido tus datos, se usa verificación de identidad descentralizada (tecnología blockchain), con lo que se respeta su privacidad y seguridad, para ello se usa Microsoft Authenticator.",
+    "vcintro2": "<a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>Descarga Microsoft Authenticator</a>, abre la app, y en la sección de 'Id. comprobados' escanea el QR que aparece abajo. Tendrás en tu dispositivo movil la tarjeta que demuetra que estás compartiendo tus datos.",
     "The QR code has expired": "El código QR ha caducado.",
     "Reject consent": "Retirar acceso",
     "I want to export my data": "Descargar mis datos",
@@ -944,7 +952,7 @@
     "sharecontent1": "El informe incluye gráficos de convulsiones, calidad de vida y medicación, así como su lista de síntomas.",
     "sharetitle2": "Datos para la investigación",
     "sharecontent2": "Puedes compartir tus datos con investigadores, con el objetivo de la agregación y el análisis de datos.",
-    "share3title": "Invitación privada",
+    "share3title": "Comparte con tu médico",
     "sharecontent3": "Se genererá un enlace privado que podrás compartir con las personas que desees que tenga acceso.",
     "Password is incorrect": "La contraseña es incorrecta",
     "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",

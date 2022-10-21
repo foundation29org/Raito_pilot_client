@@ -481,7 +481,11 @@
        "here":"hier",
        "Patients weight":"Gewicht",
        "of":"von",
-       "no history saved":"Für dieses Medikament ist keine Historie gespeichert"
+       "no history saved":"Für dieses Medikament ist keine Historie gespeichert",
+       "Imported Drugs": "Eingeführte Arzneimittel",
+       "Conflic": "wurden aufgrund von Terminkonflikten nicht importiert.",
+       "NotImported1": "Es wurden keine Arzneimittel eingeführt, weil sie bereits eingeführt wurden.",
+       "NotImported2": "Es wurden keine Arzneimittel importiert, da sie bereits importiert wurden oder keine in den Akten vorhanden waren."
     },
     "vaccinations":{
        "It was not possible to save because the vaccine already exists on the selected date":"Das Speichern war nicht möglich, da der Impfstoff zum ausgewählten Datum bereits vorhanden ist",
@@ -828,7 +832,7 @@
        "infoDrugs":"Medikamente können in Prozent der empfohlenen Medikamentendosis oder in absoluter Dosis dargestellt werden.",
        "infoFeel":"Lebensqualität gibt an, wie sich die Krankheit des Patienten auf Ihr Leben auswirkt. Der Wert in der Grafik ist der Durchschnitt der Werte, die Sie jedes Mal angeben, wenn Sie die Fragen zur Krankheitslast beantworten. Die Optionen in den Fragen haben Werte von 1 bis 5.",
        "Your progress":"Mein Fortschritt",
-       "If you dont keep data updated it will decrease":"Halten Sie Ihre Daten aktuell, um Ihren Containertank befüllen zu lassen.",
+       "If you dont keep data updated it will decrease":"Wenn Sie die Daten nicht auf dem neuesten Stand halten, nimmt die Qualität und Nützlichkeit der Daten ab. Um der Community zu helfen, benötigen wir aktualisierte Daten. Diese Leiste spiegelt den Aktualisierungsstatus von Ihnen wider.",
        "noti1a":"Willkommen bei Raito, Ihrem persönlichen Datencontainer. Dies ist Ihr Benachrichtigungsbereich.",
        "noti2a":"Der Füllstand Ihres Behälters wird in der Leiste darunter dargestellt. Sie füllen es aus, indem Sie Daten eingeben und teilen.",
        "noti3a":"Wie war die Krankheitslast in letzter Zeit?",
@@ -893,7 +897,9 @@
        "State":"Hat der Patient geschlafen?",
        "invalidFile":"Die importierte Datei ist ungültig",
        "These are the symptoms included in Raito by the user":"Dies sind die vom Benutzer in Raito aufgenommenen Symptome:",
-       "No symptoms have been added in Raito":"In Raito wurden keine Symptome hinzugefügt."
+       "No symptoms have been added in Raito":"In Raito wurden keine Symptome hinzugefügt.",
+       "Imported seizures": "Importierte Beschlagnahmungen:",
+       "no imported": "Es wurden keine Beschlagnahmungen eingeführt."
     },
     "mydata":{
        "title":"Mein Datencontainer",
@@ -931,6 +937,8 @@
        "note4": "Wenn Sie die Organisation wechseln, wird die Freigabe für die vorherige Organisation beendet, und Sie müssen für die neu gewählte Organisation erneut Ihre Zustimmung geben.",
        "Add patient group":"Patientengruppe hinzufügen",
        "I give my consent":"Zugriff gewähren",
+       "vcintro1": "Damit Sie den Nachweis haben, dass Sie Ihre Daten geteilt haben, wird eine dezentrale Identitätsprüfung (Blockchain-Technologie) verwendet, die Ihre Privatsphäre und Sicherheit respektiert, wofür Microsoft Authenticator verwendet wird.",
+       "vcintro2": "<a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>Microsoft Authenticator herunterladen</a>, App öffnen und im Abschnitt von 'Verifizierte IDs' scannen Sie den QR, der unten angezeigt wird. Sie haben auf Ihrem mobilen Gerät die Karte, die beweist, dass Sie Ihre Daten teilen.",
        "The QR code has expired": "Der QR-Code ist abgelaufen.",
        "Reject consent":"Zugriffsrechte entziehen",
        "I want to export my data":"Laden Sie meine Daten herunter",
@@ -944,7 +952,7 @@
        "sharecontent1":"Der Bericht enthält Diagramme zu Anfällen, Lebensqualität und Medikation sowie Ihre Liste der Symptome.",
        "sharetitle2":"Daten für die Forschung",
        "sharecontent2":"Sie können Ihre Daten zum Zweck der Datenaggregation und -analyse an Forscher weitergeben.",
-       "share3title": "Private Einladung",
+       "share3title": "Teilen Sie mit Ihrem Arzt",
        "sharecontent3":"Es wird ein privater Link generiert, den Sie mit den Personen teilen können, auf die Sie zugreifen möchten.",
        "Password is incorrect":"Das Passwort ist inkorrekt",
        "we will close your session":"Zu Ihrer Sicherheit schließen wir Ihre Sitzung.",

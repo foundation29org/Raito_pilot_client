@@ -65,19 +65,29 @@
                           </ng-template>
                           <ng-template ngbPanelContent>
                                       <div class="row mt-3">
+                                          <div class="col-md-12">
+                                              <p class="text-bold-500 mt-0 mb-0">{{'mydata.share3title' | translate }}</p>
+                                              <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
+                                          </div>
+                                          <div class="col-md-12 center-elements">
+                                              <button class="btn btn-dark" type="button" href="#myModal"
+                                              (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
+                                          </div>
+                                      </div>
+                                      <div class="row mt-3">
                                         <div class="col-md-12">
                                             <p class="text-bold-500 mt-0 mb-0">{{'mydata.q2' | translate }}</p>
-                                            <span *ngIf="hasGroup && (consentgroup=='false' || (consentgroup=='Pending' && !startingProcessOrg))" class="text-muted">{{'homeraito.p1' | translate }}
+                                            <p *ngIf="hasGroup && (consentgroup=='false' || (consentgroup=='Pending' && !startingProcessOrg)) && groupId!='61bb390ed6e0cb14f08881c1'" class="text-muted">{{'homeraito.p1' | translate }}
                                                 <!--<em class="ft-info font-medium-1" style="cursor: pointer;" (click)="showPopup(infoSharePanel)"></em>-->
-                                            </span>
+                                            </p>
                                         </div>
                                         <div class="col-md-12">
-                                            <div class="" *ngIf="!hasGroup">
-                                                <p>{{'mydata.You do not belong to any patient group' | translate }}</p>
+                                            <div class="" *ngIf="!hasGroup || groupId=='61bb390ed6e0cb14f08881c1'">
+                                                <p class="mb-0">{{'mydata.You do not belong to any patient group' | translate }}</p>
                                                 <p>{{'mydata.Here is a message on why this is important' | translate }}</p>
-                                                <button class="btn btn-dark" type="button" routerLink="/home">{{'mydata.Add patient group' | translate }}</button>
+                                                <button class="btn btn-dark btn-block " type="button" routerLink="/patient-info">{{'mydata.Add patient group' | translate }}</button>
                                             </div>
-                                            <div class="center-elements" *ngIf="hasGroup">
+                                            <div class="center-elements" *ngIf="hasGroup && groupId!='61bb390ed6e0cb14f08881c1'">
                                                 <span *ngIf="!startingProcessOrg">
                                                     <p class="text-left text-muted mb-0" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
                                                     <!--<p class="text-muted mb-0" *ngIf="consentgroup=='false'">{{'mydata.a2.7' | translate }}</p>-->
@@ -88,8 +98,10 @@
                                                 </span>
                                                 <div class="mt-2" *ngIf="consentgroup=='Pending'">
                                                     <div *ngIf="qrImageOrg!='' && displayOrg!='Expired'">
-                                                        <h5>{{'open.Scan with Microsoft Authenticator' | translate }} <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span></h5>
-                                                        <img [src]="qrImageOrg">
+                                                        <p class="text-muted text-left">{{'mydata.vcintro1' | translate }}</p>
+                                                        <p class="text-muted text-left" [innerHTML]="'mydata.vcintro2' | translate"></p>
+                                                        <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span>
+                                                        <img [src]="qrImageOrg" style="max-width: 200px;">
                                                         <span class="d-block">PIN: {{pinOrg}}</span>
                                                         <p>{{displayOrg}}</p>
                                                         
@@ -108,16 +120,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                      <div class="row mt-3">
-                                          <div class="col-md-12">
-                                              <p class="text-bold-500 mt-0 mb-0">{{'mydata.share3title' | translate }}</p>
-                                              <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
-                                          </div>
-                                          <div class="col-md-12 center-elements">
-                                              <button class="btn btn-dark" type="button" href="#myModal"
-                                              (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
-                                          </div>
-                                      </div>
                                       <div class="d-none"><span id="content"></span></div>
                                       <div class="row mt-3">
                                           <div class="col-md-12">
@@ -500,8 +502,10 @@
                             </div>
                             <div *ngIf="inProcess && oneCustomShare.status =='Pending'" class="mt-2 mb-2">
                                 <div *ngIf="qrImage!='' && display!='Expired'">
-                                    <h5>{{'open.Scan with Microsoft Authenticator' | translate }}</h5>
-                                    <img [src]="qrImage">
+                                    <p class="text-left">{{'mydata.vcintro1' | translate }}</p>
+                                    <p class="text-left" [innerHTML]="'mydata.vcintro2' | translate"></p>
+                                    <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span>
+                                    <img [src]="qrImage" style="max-width: 200px;">
                                     <span class="white d-block">PIN: {{pin}}</span>
                                     <p>{{display}}</p>
                                 </div>

@@ -394,9 +394,13 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       this.refresh.next();
       this.importing = false;
       if(this.imported>0){
-        this.toastr.success('', 'Imported seizures: '+ listToUpload.length);
+        var msg = this.translate.instant("seizures.Imported seizures") + " " +this.imported;
+        Swal.fire('', msg, "success");
+        //this.toastr.success('', 'Imported seizures: '+ listToUpload.length);
       }else{
-        this.toastr.success('', 'It has not imported any seizure because they were all imported, or there were none in the file.');
+        var msg2 = this.translate.instant("seizures.no imported");
+        Swal.fire('', msg2, "warning");
+        //this.toastr.success('', 'It has not imported any seizure because they were all imported, or there were none in the file.');
       }
       this.loadEvents();
      }, (err) => {

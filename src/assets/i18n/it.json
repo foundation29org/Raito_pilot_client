@@ -481,7 +481,11 @@
        "here":"qui",
        "Patients weight":"Il peso",
        "of":"di",
-       "no history saved":"Non è stata salvata alcuna cronologia per questo farmaco"
+       "no history saved":"Non è stata salvata alcuna cronologia per questo farmaco",
+       "Imported Drugs": "Farmaci importati",
+       "Conflic": "non sono stati importati a causa di conflitti di data.",
+       "NotImported1": "Non sono stati importati farmaci perché sono già stati importati.",
+       "NotImported2": "Non sono stati importati farmaci perché erano già stati importati o perché non ce n'erano in archivio."
     },
     "vaccinations":{
        "It was not possible to save because the vaccine already exists on the selected date":"Non è stato possibile salvare perché il vaccino esiste già alla data selezionata",
@@ -828,7 +832,7 @@
        "infoDrugs":"I farmaci possono essere rappresentati in percentuale della dose di farmaco raccomandata o in dose assoluta.",
        "infoFeel":"La qualità della vita rappresenta il modo in cui la malattia del paziente influisce sulla tua vita. Il valore nel grafico è la media dei valori forniti ogni volta che si risponde alle domande sul carico di malattia. Le opzioni nelle domande hanno valori da 1 a 5.",
        "Your progress":"Il mio progresso",
-       "If you dont keep data updated it will decrease":"Tieni aggiornati i tuoi dati per riempire il serbatoio del tuo container.",
+       "If you dont keep data updated it will decrease":"Se non mantieni aggiornati i dati, la qualità e l'utilità dei dati diminuisce, per aiutare la comunità abbiamo bisogno di dati aggiornati. Questa barra riflette il tuo stato di aggiornamento.",
        "noti1a":"Benvenuto in Raito, il tuo contenitore di dati personali. Questa è la tua area delle notifiche.",
        "noti2a":"Il livello del tuo contenitore è rappresentato nella barra sottostante. Lo riempi inserendo e condividendo i dati.",
        "noti3a":"Com'è stato il carico di malattia ultimamente?",
@@ -893,7 +897,9 @@
        "State":"Il paziente stava dormendo?",
        "invalidFile":"Il file importato non è valido",
        "These are the symptoms included in Raito by the user":"Questi i sintomi inclusi in Raito dall'utente:",
-       "No symptoms have been added in Raito":"Nessun sintomo è stato aggiunto in Raito."
+       "No symptoms have been added in Raito":"Nessun sintomo è stato aggiunto in Raito.",
+       "Imported seizures": "Sequestri importati:",
+       "no imported": "Non sono stati importati sequestri."
     },
     "mydata":{
        "title":"Il mio contenitore di dati",
@@ -931,6 +937,8 @@
        "note4": "Se si cambia organizzazione, si interrompe la condivisione con l'organizzazione precedente e si deve fornire nuovamente il consenso per la nuova organizzazione selezionata.",
        "Add patient group":"Aggiungi gruppo di pazienti",
        "I give my consent":"Concedere l'accesso",
+       "vcintro1": "Per avere la prova che hai condiviso i tuoi dati, viene utilizzata la verifica decentralizzata dell'identità (tecnologia blockchain), che rispetta la tua privacy e sicurezza, per la quale viene utilizzato Microsoft Authenticator.",
+       "vcintro2": "<a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>Scarica Microsoft Authenticator</a>, apri l'app e nella sezione di 'ID verificati' scansiona il QR che appare di seguito. Avrai sul tuo dispositivo mobile la carta che dimostra che stai condividendo i tuoi dati.",
        "The QR code has expired": "Il codice QR ha cadedo.",
        "Reject consent":"Revocare l'accesso",
        "I want to export my data":"Scarica i miei dati",
@@ -944,7 +952,7 @@
        "sharecontent1":"Il rapporto include i grafici delle crisi, della qualità della vita e dei farmaci, nonché l'elenco dei sintomi.",
        "sharetitle2":"Dati per la ricerca",
        "sharecontent2":"È possibile condividere i propri dati con i ricercatori ai fini dell'aggregazione e dell'analisi dei dati.",
-       "share3title": "Invito privato",
+       "share3title": "Condividi con il tuo medico",
        "sharecontent3":"Verrà generato un link privato che potrai condividere con le persone a cui vuoi accedervi.",
        "Password is incorrect":"La password non è corretta",
        "we will close your session":"Per la tua sicurezza, chiuderemo la tua sessione.",

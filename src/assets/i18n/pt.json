@@ -481,7 +481,11 @@
        "here":"aqui",
        "Patients weight":"Peso",
        "of":"do",
-       "no history saved":"Não há histórico salvo para este medicamento"
+       "no history saved":"Não há histórico salvo para este medicamento",
+       "Imported Drugs": "Medicamentos importados",
+       "Conflic": "não foram importados devido a conflitos até à data.",
+       "NotImported1": "Nenhum medicamento foi importado porque já foi importado.",
+       "NotImported2": "Não foram importados quaisquer medicamentos porque já tinham sido importados, ou não havia nenhum em arquivo."
     },
     "vaccinations":{
        "It was not possible to save because the vaccine already exists on the selected date":"Não foi possível salvar porque a vacina já existe na data selecionada",
@@ -828,7 +832,7 @@
        "infoDrugs":"Os medicamentos podem ser representados em porcentagem da dose recomendada do medicamento ou em dose absoluta.",
        "infoFeel":"A qualidade de vida representa como a doença do paciente afeta sua vida. O valor no gráfico é a média dos valores que você fornece cada vez que responde às perguntas sobre a carga da doença. As opções nas questões possuem valores de 1 a 5.",
        "Your progress":"Meu progresso",
-       "If you dont keep data updated it will decrease":"Mantenha seus dados atualizados para ter seu tanque de contêiner abastecido.",
+       "If you dont keep data updated it will decrease":"Se você não mantiver os dados atualizados, a qualidade e utilidade dos dados diminui, para ajudar a comunidade precisamos de dados atualizados. Esta barra reflete o status de atualização do seu.",
        "noti1a":"Bem-vindo ao Raito, seu contêiner de dados pessoais. Esta é a sua área de notificações.",
        "noti2a":"O nível do seu contêiner é representado na barra abaixo. Você o preenche inserindo e compartilhando dados.",
        "noti3a":"Como tem sido a carga da doença ultimamente?",
@@ -893,7 +897,9 @@
        "State":"O paciente estava dormindo?",
        "invalidFile":"O arquivo importado é inválido",
        "These are the symptoms included in Raito by the user":"Estes são os sintomas incluídos no Raito pelo usuário:",
-       "No symptoms have been added in Raito":"Nenhum sintoma foi adicionado em Raito."
+       "No symptoms have been added in Raito":"Nenhum sintoma foi adicionado em Raito.",
+       "Imported seizures": "Apreensões importadas:",
+       "no imported": "Não foram importadas quaisquer apreensões."
     },
     "mydata":{
        "title":"Meu contêiner de dados",
@@ -931,6 +937,8 @@
        "note4": "Se mudar a organização, deixará de partilhar com a organização anterior, e terá de dar novamente o seu consentimento para a nova organização que seleccionou.",
        "Add patient group":"Adicionar grupo de pacientes",
        "I give my consent":"Garantir acesso",
+       "vcintro1": "Para que você tenha prova de que compartilhou seus dados, é usada a verificação de identidade descentralizada (tecnologia blockchain), que respeita sua privacidade e segurança, para a qual o Microsoft Authenticator é usado.",
+       "vcintro2": "<a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>Baixe o Microsoft Authenticator</a>, abra o aplicativo e na seção de 'IDs verificados' digitalize o QR que aparece abaixo. Você terá em seu dispositivo móvel o cartão que comprova que você está compartilhando seus dados.",
        "The QR code has expired": "O código QR tem caducado.",
        "Reject consent":"Revogar acesso",
        "I want to export my data":"Baixar meus dados",
@@ -944,7 +952,7 @@
        "sharecontent1":"O relatório inclui gráficos de convulsão, qualidade de vida e medicação, bem como sua lista de sintomas.",
        "sharetitle2":"Dados para pesquisa",
        "sharecontent2":"Pode partilhar os seus dados com investigadores para fins de agregação e análise de dados.",
-       "share3title": "Convite privado",
+       "share3title": "Compartilhe com seu médico",
        "sharecontent3":"Será gerado um link privado que você poderá compartilhar com as pessoas que deseja acessar.",
        "Password is incorrect":"senha é incorreta",
        "we will close your session":"Para sua segurança, encerraremos sua sessão.",
