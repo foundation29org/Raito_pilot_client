@@ -291,7 +291,7 @@
 																			{{'medication.We do not have recommended dose data for this drug' | translate}}
 																		</span>
 																	</span>
-																	<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+																	<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
 																  </ng-template>
 																  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="Recommended dose"></i></label>
 																<input type="text" id="dose" class="form-control col-md-2" name="dose"
@@ -651,7 +651,7 @@
 											{{'medication.We do not have recommended dose data for this drug' | translate}}
 										</span>
 									</span>
-									<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">Close</button>
+									<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
 								  </ng-template>
 								  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="Recommended dose"></i></label>
 								<input type="text" id="dose" class="form-control" name="dose"

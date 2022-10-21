@@ -1096,16 +1096,24 @@ export class MedicationComponent implements OnInit, OnDestroy {
       this.importing = false;
       if(this.imported>0){
         if(conflict>0){
-          this.toastr.success('', 'Imported Drugs: '+ listToUpload.length+'. '+conflict+' have not been imported due to conflicting dates.');
+          var msg = this.translate.instant("medication.Imported Drugs") + ": " +this.imported +'. '+conflict+' '+this.translate.instant("medication.Conflic");
+          Swal.fire('', msg, "success");
+          //this.toastr.success('', 'Imported Drugs: '+ this.imported +'. '+conflict+' have not been imported due to conflicting dates.');
         }else{
-          this.toastr.success('', 'Imported Drugs: '+ listToUpload.length);
+          var msg = this.translate.instant("medication.Imported Drugs") + ": " +this.imported;
+          Swal.fire('', msg, "success");
+          //this.toastr.success('', 'Imported Drugs: '+ this.imported);
         }
         
       }else{
         if(conflict>0){
-          this.toastr.success('', 'It has not imported any drugs because they were all imported. '+conflict+' have not been imported due to conflicting dates.');
+          var msg = this.translate.instant("medication.NotImported1") + " " +conflict +' '+ this.translate.instant("medication.Conflic");
+          Swal.fire('', msg, "warning");
+          //this.toastr.success('', 'It has not imported any drugs because they were all imported. '+conflict+' have not been imported due to conflicting dates.');
         }else{
-          this.toastr.success('', 'It has not imported any drugs because they were all imported, or there were none in the file.');
+          var msg2 = this.translate.instant("medication.NotImported2");
+          Swal.fire('', msg2, "warning");
+          //this.toastr.success('', 'It has not imported any drugs because they were all imported, or there were none in the file.');
         }
         
       }

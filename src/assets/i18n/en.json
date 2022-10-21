@@ -481,7 +481,11 @@
     "here": "here",
     "Patients weight": "Weight",
     "of": "of",
-    "no history saved": "There is no history saved for this drug"
+    "no history saved": "There is no history saved for this drug",
+    "Imported Drugs": "Imported Drugs",
+    "Conflic": "have not been imported due to date conflicts.",
+    "NotImported1": "No drugs have not been imported because they were already imported.",
+    "NotImported2": "No drugs have been imported because they were already imported, or there were none on file."
   },
   "vaccinations":{
     "It was not possible to save because the vaccine already exists on the selected date": "It was not possible to save because the vaccine already exists on the selected date",
@@ -828,7 +832,7 @@
     "infoDrugs": "Drugs can be represented in percentage of the recommended drug dose or in absolute dose.",
     "infoFeel": "Quality of life represents how the patient disease affects your life. The value in the graph is the average of the values you provide each time you answer the disease burden questions. The options in the questions have values from 1 to 5.",
     "Your progress": "My progress",
-    "If you dont keep data updated it will decrease": "Keep your data up to date to have your container tank filled.",
+    "If you dont keep data updated it will decrease": "If you do not keep the data updated, the quality and usefulness of the data decreases, to help the community we need updated data. This bar reflects the update status of yours.",
     "noti1a": "Welcome to Raito, your personal data container. This is your notifications area.",
     "noti2a": "The level of your container is represented in the bar below. You fill it entering and sharing data.",
     "noti3a": "How has the disease burden been lately?",
@@ -893,7 +897,9 @@
     "State": "Was the patient sleeping?",
     "invalidFile": "The imported file is invalid",
     "These are the symptoms included in Raito by the user": "These are the symptoms included in Raito by the user:",
-    "No symptoms have been added in Raito": "No symptoms have been added in Raito."
+    "No symptoms have been added in Raito": "No symptoms have been added in Raito.",
+    "Imported seizures": "Imported seizures:",
+    "no imported": "No seizures have been imported"
   },
   "mydata":{
     "title": "My data container",
@@ -931,6 +937,8 @@
     "note4": "If you change the organization, you will stop sharing with the previous organization, and you will have to give consent again for the new one you have selected.",
     "Add patient group": "Add patient group",
     "I give my consent": "Grant access",
+    "vcintro1": "So that you have proof that you have shared your data, decentralized identity verification (blockchain technology) is used, which respects your privacy and security, for which Microsoft Authenticator is used.",
+    "vcintro2": "<a href='https://www.microsoft.com/security/mobile-authenticator-app' target='_blank'>Download Microsoft Authenticator</a>, open the app, and in the section of 'Verified IDs' scan the QR that appears below. You will have on your mobile device the card that proves that you are sharing your data.",
     "The QR code has expired": "The QR code has expired.",
     "Reject consent": "Revoke access",
     "I want to export my data": "Download my data",
@@ -944,7 +952,7 @@
     "sharecontent1": "The report includes seizure, quality of life and medication graphs, as well as your list of symptoms.",
     "sharetitle2": "Data for research",
     "sharecontent2": "You can share your data with researchers for the purpose of data aggregation and analysis.",
-    "share3title": "Private invitation",
+    "share3title": "Share with your doctor",
     "sharecontent3": "A private link will be generated that you can share with the people you want to access it.",
     "Password is incorrect": "Password is incorrect",
     "we will close your session": "For your security, we will close your session.",

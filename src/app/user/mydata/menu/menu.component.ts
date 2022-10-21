@@ -1003,6 +1003,7 @@ timer(minute) {
 
 
 showPanelIssuer(info){
+  this.showLinkMA = false;
   this.startingProcess = true;
   this.checkStatus = setInterval(function () {
 
@@ -1038,7 +1039,7 @@ showPanelIssuer(info){
         console.log(`iOS device! Using deep link (${info.data.url}).`);
         window.location.replace(info.data.url);
     } else {
-      
+      this.showLinkMA = true;
     }
   }.bind(this), 2500);
 }
