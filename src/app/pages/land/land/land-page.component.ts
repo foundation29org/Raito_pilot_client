@@ -1,8 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WagmiConfig, createClient, useAccount, useConnect, useSignMessage, useDisconnect  } from 'wagmi'
-import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
-import { getDefaultProvider } from 'ethers'
-import axios from 'axios'
 import { environment } from 'environments/environment';
 import { Router } from "@angular/router";
 import { EventsService } from 'app/shared/services/events.service';
@@ -15,26 +11,25 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { createClient, connect, configureChains, chain, signMessage, disconnect } from '@wagmi/core';
+import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import { publicProvider } from 'wagmi/providers/public';
+import axios from 'axios'
+
 import { Subscription } from 'rxjs/Subscription';
 declare let Moralis: any;
-const client = createClient({
-  autoConnect: true,
-  provider: getDefaultProvider(),
-})
+// set up chains and provider
+const { chains, provider } = configureChains([
+  chain.mainnet,
+  chain.polygon,
+], [publicProvider()]);
 
-const { disconnectAsync } = useDisconnect()
-const { address, isConnected } = useAccount()
-const { signMessageAsync } = useSignMessage()
-const { connectAsync } = useConnect({
-  connector: new Web3AuthConnector({
-    options: {
-      enableLogging: true,
-      clientId: 'BMv-0IFCTaNCb6rdJ8oU-Sxq6z4JOHaWCllTac-nyw-rr31VX47JfdWCUi1XdMjrN_nuDba7yudQVzRCy1IiLKM', // Get your own client id from https://dashboard.web3auth.io
-      network: 'testnet', // web3auth network
-      chainId: '0x1', // chainId that you want to connect with
-    },
-  }),
-})
+// set up Wagmi client
+const client = createClient({
+    autoConnect: true,
+    provider: provider
+});
 
 @Component({
     selector: 'app-land-page',
@@ -69,7 +64,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     async start(){
-      var connected = await this.moralisService.initServer();
+      await this.moralisService.initServer();
       this.isMobile = false;
       if( /Android/i.test(navigator.userAgent) ) {
         this.isMobile = true;
@@ -110,55 +105,37 @@ export class LandPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    async login() {
-      if (isConnected) {
-        await disconnectAsync()
-      }
-  
-      const { account } = await connectAsync()
-  
-      const userData = { address: account, chain: '0x1', network: 'evm' }
-  
-      const { data } = await axios.post('/api/auth/request-message', userData, {
-        headers: {
-          'content-type': 'application/json',
-        },
-      })
-  
-      const message = data.message
-  
-      const signature = await signMessageAsync({ message })
-      console.log(signature);
-      // redirect user after success authentication to '/user' page
-  
-
-        //this.currentUser = Moralis.User.current();
-        /*this.currentUser = this.moralisService.getCurrentUser();
-        if (!this.currentUser) {
-          this.sending = true;
-            this.subscription.add( this.moralisService.authenticate()
-            .then( (res : any) => {
-              if(res==undefined){
-                this.sending = false;
-              }else{
-                this.onSubmit(res)
+    async handleAuth() {
+    // await connect({connector: new InjectedConnector()});
+    const { account, chain } = await connect({connector: new Web3AuthConnector({
+          options: {
+            enableLogging: true,
+            clientId: 'BCBSzTyDjdoZqUPMp3CtCMgaXZ3hPDZGStDihdB4zfGGkspyexnSkad1GY668cDObSey-pwfAbjOLK_aHCDS4vo', // Get your own client id from https://dashboard.web3auth.io
+            network: 'mainnet', // web3auth network
+            chainId: '0x1', // chainId that you want to connect with
+            socialLoginConfig:{
+                mfaLevel: "default",
               }
-                
-             }, (err) => {
-               console.log(err);
-               this.logOut();
-             }));
-        } else {
-          try {
-            var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
-            this.onSubmit(data)
-          } catch (error) {
-            console.log(error);
-            this.logOut();
-          }
-            
-        }*/
-    }
+          },
+        })});
+
+        const userData = { address: account, chain: '0x1', network: 'evm' }
+        console.log(userData)
+
+        const { data } = await axios.post('http://localhost:8443/api/sigtestin/', userData, {
+          headers: {
+            'content-type': 'application/json',
+          },
+        })
+
+        const message = data.message
+
+        const signature = await signMessage({ message })
+        console.log(signature);
+      /*var uknown = this.client.useConnect({ connector: new InjectedConnector() });
+
+      console.log(uknown)*/
+  };
 
     async logOut() {
       this.authService.logout();
