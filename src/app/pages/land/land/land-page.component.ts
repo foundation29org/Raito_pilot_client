@@ -23,8 +23,6 @@ declare let Moralis: any;
 
 export class LandPageComponent implements OnInit, OnDestroy {
     isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-    iconandroid: string = 'assets/img/home/android_en.png';
-    iconios: string = 'assets/img/home/ios_en.png';
     lang: string = 'en';
     currentUser: any = null;
     sending: boolean = false;
@@ -36,8 +34,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     constructor(private http: HttpClient, private eventsService: EventsService, public moralisService: MoralisService,public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
         this.lang = sessionStorage.getItem('lang');
-        this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
-        this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         this.start();
     }
 
@@ -67,8 +63,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.eventsService.on('changelang', function (lang) {
             this.lang = lang;
-            this.iconandroid = 'assets/img/home/android_' + this.lang + '.png';
-            this.iconios = 'assets/img/home/ios_' + this.lang + '.png';
         }.bind(this));
        // this.start();
     }

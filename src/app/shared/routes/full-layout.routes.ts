@@ -5,6 +5,18 @@ import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 export const Full_ROUTES: Routes = [
     {
+      path: 'superadmin',
+      loadChildren: () => import('../../superadmin/superadmin.module').then(m => m.SuperAdminModule),
+      canActivate: [RoleGuard],
+      data: { expectedRole: ['SuperAdmin'] }
+    },
+    {
+      path: 'admin',
+      loadChildren: () => import('../../admin/admin.module').then(m => m.AdminModule),
+      canActivate: [RoleGuard],
+      data: { expectedRole: ['Admin'] }
+    },
+    {
         path: '',
         loadChildren: () => import('../../user/user.module').then(m => m.UserModule),
         canActivate: [RoleGuard],

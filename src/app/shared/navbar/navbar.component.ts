@@ -6,7 +6,7 @@ import { ConfigService } from '../services/config.service';
 import { DOCUMENT } from '@angular/common';
 import { CustomizerService } from '../services/customizer.service';
 import { UntypedFormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
@@ -15,9 +15,6 @@ import { AuthService } from 'app/shared/auth/auth.service';
   styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  currentLang = "en";
-  selectedLanguageText = "English";
-  selectedLanguageFlag = "./assets/img/flags/us.png";
   placement = "bottom-right";
   logoUrl = 'assets/img/logo.png';
   menuPosition = 'Side';
@@ -36,14 +33,15 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public config: any = {};
   role: string = 'User';
+  actualUrl: string = '';
 
   constructor(public translate: TranslateService,
     private layoutService: LayoutService,
     private router: Router,
     private configService: ConfigService, private cdr: ChangeDetectorRef, private authService: AuthService) {
+      
+      this.role = this.authService.getRole();
 
-    const browserLang: string = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
 
@@ -52,6 +50,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.hideSidebar = !isShow;
       });
 
+      this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+        event => {
+          const tempUrl = (event.url).toString().split('?');
+          this.actualUrl = tempUrl[0];
+        }
+      );
+      
   }
 
   ngOnInit() {
@@ -116,28 +121,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
   }
-
-  ChangeLanguage(language: string) {
-    this.translate.use(language);
-
-    if (language === 'en') {
-      this.selectedLanguageText = "English";
-      this.selectedLanguageFlag = "./assets/img/flags/us.png";
-    }
-    else if (language === 'es') {
-      this.selectedLanguageText = "Spanish";
-      this.selectedLanguageFlag = "./assets/img/flags/es.png";
-    }
-    else if (language === 'pt') {
-      this.selectedLanguageText = "Portuguese";
-      this.selectedLanguageFlag = "./assets/img/flags/pt.png";
-    }
-    else if (language === 'de') {
-      this.selectedLanguageText = "German";
-      this.selectedLanguageFlag = "./assets/img/flags/de.png";
-    }
-  }
-
 
   toggleNotificationSidebar() {
     this.layoutService.toggleNotificationSidebar(true);
