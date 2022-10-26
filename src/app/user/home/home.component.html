@@ -282,7 +282,7 @@
                                   </a>
                             </div>
                             <div class="col-md-12">
-                                <span class="row" *ngFor="let event of nextEvents ; let i = index">
+                                <span class="row mt-1" *ngFor="let event of nextEvents ; let i = index">
                                     <span class="col-1">
                                     </span>
                                     <span class="col-6 pl-2 pr-0">
@@ -290,7 +290,7 @@
                                     </span>
                                     <span class="col-5">
                                         {{event.start | date}}
-                                        <a class="float-right mr-2" style="word-wrap: normal;" [routerLink]="['/calendar', { index: i}]">
+                                        <a class="float-right mr-2" style="word-wrap: normal;" [routerLink]="['/calendar', { id: event._id}]">
                                             <span class="">
                                                 {{'generics.Edit' | translate }}
                                             </span>
@@ -301,8 +301,8 @@
                             </div>
                             
                         </div>
-                        <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && events.length > 0 && medications.length > 0 && feels.length > 0">
-                            <div class="col-7">
+                        <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && events.length > 0 && medications.length > 0 && feels.length > 0 && infoVerified.isVerified && (basicInfoPatient.group!='61bb390ed6e0cb14f08881c1' && basicInfoPatient.consentgroup=='true') && (basicInfoPatient.group=='61bb390ed6e0cb14f08881c1' && checks.check3) && nextEvents.length==0">
+                            <div class="col-12 center-elements">
                                 <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
                             </div>
                         </div>
@@ -582,7 +582,7 @@
                             <div class="card mt-2 mb-2" #ContainerRef>
                                 <div class="mb-2">
                                     <div class="card-block m-0">
-                                        <div class="row p-2">
+                                        <div class="row p-2" [ngClass]="(normalized)?'mb-4':''">
                                             <div class="col-8">
                                                 <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }} 
                                                     <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>

@@ -3,6 +3,12 @@
   padding-left: .5rem;
 }
 
+.dropdown-toggle {
+  &::after {
+    content: "" !important;
+  }
+}
+
 .not-allowed {
      pointer-events: auto !important;
      cursor: default !important;
@@ -102,6 +108,10 @@ i{
   }
   .navbar-toggle{
     margin-top: 0rem !important;
+  }
+  .font-large-2 {
+    font-size: 2rem !important;
+    top:0% !important;
   }
 
 }

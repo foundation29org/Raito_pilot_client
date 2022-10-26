@@ -1,32 +1,41 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ngx-custom-validators';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import { FullPagesRoutingModule } from "./full-pages-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartistModule } from "ng-chartist";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { SwiperModule } from "ngx-swiper-wrapper";
+import { PipeModule } from "app/shared/pipes/pipe.module";
+import { CustomFormsModule } from 'ngx-custom-validators';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { UserProfilePageComponent } from "./user-profile/user-profile-page.component";
 import { SupportComponent } from './support/support.component';
-import {MatRadioModule} from '@angular/material/radio';
-
 
 @NgModule({
-    exports: [
-        TranslateModule
-    ],
-    imports: [
-        CommonModule,
-        FullPagesRoutingModule,
-        FormsModule,
-        NgbModule,
-        TranslateModule,
-        CustomFormsModule,
-        MatRadioModule
-    ],
-    declarations: [
-        UserProfilePageComponent,
-        SupportComponent
-    ]
+  exports: [
+    TranslateModule
+],
+  imports: [
+    CommonModule,
+    FullPagesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ChartistModule,
+    NgSelectModule,
+    NgbModule,
+    TranslateModule,
+    SwiperModule,
+    PipeModule,
+    CustomFormsModule,
+    MatRadioModule
+  ],
+  declarations: [
+    UserProfilePageComponent,
+    SupportComponent,
+  ],
 })
-export class FullPagesModule { }
+export class FullPagesModule {}

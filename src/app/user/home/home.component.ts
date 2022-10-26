@@ -310,7 +310,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   setCheck4(bool){
     this.checks.check4 = bool;
     this.setChecks();
-    this.router.navigate(['/mydata'], { queryParams: { panel : '2' } })
+    this.router.navigate(['/mydata'], { queryParams: { panel : 'static-2' } })
     //this.router.navigate(['/mydata'], { newTreatment: true });
   }
 

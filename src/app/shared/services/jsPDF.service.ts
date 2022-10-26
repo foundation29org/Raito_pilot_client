@@ -43,7 +43,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "assets/img/logo-raito.png"
+        img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
@@ -870,7 +870,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "assets/img/logo-raito.png"
+        img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 10, 10, 20, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
@@ -934,10 +934,6 @@ export class jsPDFService {
             doc.text(infoText, 10, lineText += 5)
             lineText += 5
         }
-        /*var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image3.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);*/
-        
 
         //Quality of life
         this.newSectionDoc(doc,this.translate.instant("charts.Quality of life"),'',null,lineText += 10)
@@ -946,9 +942,7 @@ export class jsPDFService {
         doc.text(this.translate.instant("pdf.grap2"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
-        /*var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image2.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);*/
+        
         if(images.img2.show){
             doc.addImage(images.img2.info.data,'jpeg',10, lineText += 5, images.img2.info.width, images.img2.info.height);
             lineText += 35

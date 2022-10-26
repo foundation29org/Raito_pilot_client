@@ -8,8 +8,8 @@
                         <h2 class="content-header mt-0">{{'mydata.title' | translate }}</h2>
                         <p>{{'mydata.desc' | translate }}</p>
                         <!--One open panel at a time Starts-->
-                    <ngb-accordion #accordion [closeOthers]="true">
-                        <ngb-panel id="1">
+                    <ngb-accordion #accordion [closeOthers]="true" activeIds="1">
+                        <ngb-panel id="static-1">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fa fa-cloud-upload fa-1_5x mr-2 float-left"></i> <span> {{'mydata.q1' | translate }}</span> <span class="float-right">
                                         <span
@@ -30,7 +30,7 @@
                                                 <span *ngIf="f29.message=='Available' && !loadingf29"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loadingf29" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="f29.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em class="fa fa-download pointer" (click)="getF29()"></em></span>
+                                            <span *ngIf="f29.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -43,7 +43,7 @@
                                                 <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="ipfs.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em class="fa fa-download pointer" (click)="getIPFS()"></em></span>
+                                            <span *ngIf="ipfs.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -56,7 +56,7 @@
                                 
                             </ng-template>
                         </ngb-panel>
-                        <ngb-panel id="2">
+                        <ngb-panel id="static-2">
                           <ng-template ngbPanelTitle>
                               <h5 class="mb-0"><i class="fas fa-share fa-1_5x mr-2 float-left"></i> <span> {{'generics.Share' | translate }}</span> <span class="float-right">
                                       <span
@@ -137,79 +137,7 @@
 
                           </ng-template>
                       </ngb-panel>
-                      <!--
-                        <ngb-panel id="3">
-                            <ng-template ngbPanelTitle>
-                                <h5 class="mb-0"><i class="fas fa-key fa-1_5x mr-2 float-left"></i> <span> {{'mydata.q2' | translate }}</span> <span class="float-right">
-                                        <span
-                                            [ngClass]="{'ft-chevron-up': isOpen(2), 'ft-chevron-down': !isOpen(2)}"></span>
-                                    </span></h5>
-                            </ng-template>
-                            <ng-template ngbPanelContent>
-                                <div *ngIf="groupId=='61bb38fad6e0cb14f08881c0'">
-                                    <div class="mb-2">
-                                        <img style="width: 80%;" src='assets/img/pages/dravet.jpg'>
-                                    </div>
-                                    
-                                    <p class="text-muted" *ngIf="consentgroup=='true'">{{'mydata.a2.1' | translate }}</p>
-                                    <p class="text-muted" *ngIf="consentgroup=='false'">{{'mydata.a2.6' | translate }}</p>
-                                    <p class="text-muted">
-                                        <span class="d-block">- <span [innerHTML]="'mydata.a2.2' | translate"></span></span>
-                                        <span class="d-block">- <span [innerHTML]="'mydata.a2.3' | translate"></span></span>
-                                        <span class="d-block">- {{'mydata.a2.4.1' | translate }} <a (click)="openTerms()" class="ml-1 info">{{'mydata.a2.4.2' | translate }}</a></span>
-                                    </p>
-                                </div>
-
-                                <div *ngIf="groupId!='61bb38fad6e0cb14f08881c0' && hasGroup">
-                                    <p> <strong class="mr-1">{{'groups.Group' | translate }}:</strong>
-                                        <span *ngIf="group.name != 'Dravet Syndrome European Federation'  && group.name != 'Undiagnosed'  && group.name != 'None'">{{group.name}}</span>
-                                        <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
-                                        <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
-                                        <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
-                                    </p>
-                                </div>
-                                <div>
-                                    <div class="" *ngIf="!hasGroup">
-                                        <p>{{'mydata.You do not belong to any patient group' | translate }}</p>
-                                        <p>{{'mydata.Here is a message on why this is important' | translate }}</p>
-                                        <button class="btn btn-dark" type="button" routerLink="/home">{{'mydata.Add patient group' | translate }}</button>
-                                    </div>
-                                    <div class="center-elements" *ngIf="hasGroup">
-
-                                        <div class="text-left" *ngIf="consentgroup=='false' || (consentgroup=='Pending' && !startingProcessOrg)">
-                                            <p>{{'mydata.note1' | translate }}</p>
-                                            <p>{{'mydata.note2' | translate }}</p>
-                                            <p>{{'mydata.note3' | translate }}</p>
-                                            <p class="text-muted">
-                                                {{'homeraito.p1' | translate }}
-                                            </p>
-                                        </div>
-                                        <span *ngIf="!startingProcessOrg">
-                                            <p class="text-muted mb-0" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
-                                            <button *ngIf="consentgroup=='false'" class="mt-2 btn btn-dark" type="button"
-                                                (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
-                                            <button *ngIf="consentgroup=='true'" class="mt-2 btn btn-primary" type="button"
-                                            (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
-                                        </span>
-                                        <div class="mt-2" *ngIf="consentgroup=='Pending'">
-                                            <div *ngIf="qrImageOrg!=''">
-                                                <h5>{{'open.Scan with Microsoft Authenticator' | translate }} <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span></h5>
-                                                <img [src]="qrImageOrg">
-                                                <span class="d-block">PIN: {{pinOrg}}</span>
-                                            </div>
-                                            <div *ngIf="qrImageOrg=='' && inProcessOrg">
-                                                <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
-                                            </div>
-                                            <div *ngIf="qrImageOrg=='' && !inProcessOrg">
-                                                <button class="btn btn-dark btn-sm" (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ng-template>
-                        </ngb-panel>
-                    -->
-                        <ngb-panel id="4">
+                        <ngb-panel id="static-4">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fas fa-download fa-1_5x mr-2 float-left"></i> <span> {{'generics.Download' | translate }}</span> <span class="float-right">
                                         <span
@@ -250,7 +178,7 @@
   
                             </ng-template>
                         </ngb-panel>
-                        <ngb-panel id="5">
+                        <ngb-panel id="static-5">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fa fa-trash fa-1_5x mr-2 float-left"></i> <span> {{'mydata.I want to delete my data' | translate }}</span> <span class="float-right">
                                         <span

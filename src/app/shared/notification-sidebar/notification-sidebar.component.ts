@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Renderer2, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
 
@@ -12,40 +12,26 @@ export class NotificationSidebarComponent implements OnInit, OnDestroy {
   layoutSub: Subscription;
   isOpen = false;
 
-  @ViewChild('sidebar') sidebar: ElementRef;
-
   ngOnInit() {
 
   }
 
-  constructor(private elRef: ElementRef,
-    private renderer: Renderer2,
-    private layoutService: LayoutService) {
+  constructor(private layoutService: LayoutService) {
 
-    this.layoutSub = layoutService.notiSidebarChangeEmitted$.subscribe(
-      value => {
-        if (this.isOpen) {
-          this.renderer.removeClass(this.sidebar.nativeElement, 'open');
-          this.isOpen = false;
-        }
-        else {
-          this.renderer.addClass(this.sidebar.nativeElement, 'open');
-          this.isOpen = true;
-        }
+    this.layoutSub = layoutService.toggleNotiSidebar$.subscribe(
+      open => {
+        this.isOpen = open;
       });
   }
 
   ngOnDestroy() {
-    if(this.layoutSub) {
+    if (this.layoutSub) {
       this.layoutSub.unsubscribe();
     }
   }
 
-
-
   onClose() {
-    this.renderer.removeClass(this.sidebar.nativeElement, 'open');
-    this.isOpen = false;
+    this.layoutService.toggleNotificationSidebar(false);
   }
 
 }
