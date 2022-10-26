@@ -100,7 +100,7 @@
     "rxjs": "6.6.3",
     "screenfull": "5.0.2",
     "sweetalert2": "10.11.1",
-    "swiper": "6.3.5",
+    "swiper": "^8.4.4",
     "tslib": "2.2.0",
     "zone.js": "~0.11.4"
   },

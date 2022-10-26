@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartistModule } from "ng-chartist";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { SwiperModule } from "ngx-swiper-wrapper";
 import { PipeModule } from "app/shared/pipes/pipe.module";
 import { CustomFormsModule } from 'ngx-custom-validators';
 import {MatRadioModule} from '@angular/material/radio';
@@ -28,7 +27,6 @@ import { SupportComponent } from './support/support.component';
     NgSelectModule,
     NgbModule,
     TranslateModule,
-    SwiperModule,
     PipeModule,
     CustomFormsModule,
     MatRadioModule

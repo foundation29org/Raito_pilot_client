@@ -13,8 +13,6 @@ import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { ConfigService } from 'app/shared/services/config.service';
 import { LayoutService } from 'app/shared/services/layout.service';
-
-import { SwiperDirective, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { Injectable, Injector } from '@angular/core';
 
 @Component({
@@ -27,15 +25,6 @@ import { Injectable, Injector } from '@angular/core';
 export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
   public config: any = {};
   layoutSub: Subscription;
-
-  public swipeConfig: SwiperConfigInterface = {
-    slidesPerView: 'auto',
-    centeredSlides: false,
-    spaceBetween: 15
-  };
-
-
-  @ViewChild(SwiperDirective, { static: false }) directiveRef?: SwiperDirective;
 
   @ViewChild('f') userForm: NgForm;
 
