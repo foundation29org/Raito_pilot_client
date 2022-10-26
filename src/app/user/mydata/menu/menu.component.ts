@@ -14,7 +14,6 @@ import { SortService } from 'app/shared/services/sort.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
-import { TermsConditionsPageComponent } from "app/pages/content-pages/terms-conditions/terms-conditions-page.component";
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
 import { Clipboard } from "@angular/cdk/clipboard"
@@ -24,7 +23,6 @@ import { MoralisService } from 'app/shared/auth/moralis.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Observable } from 'rxjs/Observable';
 declare let html2canvas: any;
 
@@ -43,6 +41,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   loadingFhir: boolean = false;
   loadingf29: boolean = false;
+  loadingGetF29: boolean = false;
+  loadingGetIPFS: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
   private msgDownload: string;
@@ -794,16 +794,6 @@ deleteData(password){
    }));
 }
 
-openTerms() {
-  let ngbModalOptions: NgbModalOptions = {
-    backdrop: 'static',
-    keyboard: false,
-    windowClass: 'ModalClass-sm'
-  };
-  const modalRef = this.modalService.open(TermsConditionsPageComponent, ngbModalOptions);
-  modalRef.componentInstance.role = 'Dravet';
-}
-
 resetPermisions(){
   var dateNow = new Date();
   var stringDateNow = this.dateService.transformDate(dateNow);
@@ -1282,7 +1272,7 @@ checkIPFS(){
 }
 
 getIPFS(){
-  this.loading = true;
+  this.loadingGetIPFS = true;
   this.subscription.add( this.patientService.getIPFS()
   .subscribe( (res : any) => {
     if(res.message=='Not available'){
@@ -1310,7 +1300,7 @@ getIPFS(){
       document.getElementById("download").click();
     }
       
-      this.loading = false;
+      this.loadingGetIPFS = false;
    }, (err) => {
      console.log(err);
    }));
@@ -1326,7 +1316,7 @@ checkF29(){
 }
 
 getF29(){
-  this.loadingf29 = true;
+  this.loadingGetF29 = true;
   this.subscription.add( this.patientService.getF29()
   .subscribe( (res : any) => {
     if(res.message=='Not available'){
@@ -1354,7 +1344,7 @@ getF29(){
       document.getElementById("download").click();
     }
       
-      this.loadingf29 = false;
+      this.loadingGetF29 = false;
    }, (err) => {
      console.log(err);
    }));

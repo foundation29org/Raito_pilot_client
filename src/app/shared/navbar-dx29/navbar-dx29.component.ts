@@ -24,6 +24,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   currentLang = 'en';
   toggleClass = 'ft-maximize';
   placement = "bottom-right";
+  hideSidebar: boolean = true;
   public isCollapsed = true;
   layoutSub: Subscription;
   @Output()
@@ -66,14 +67,9 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
       }
     );
 
-    this.layoutSub = layoutService.changeEmitted$.subscribe(
-      direction => {
-        const dir = direction.direction;
-        if (dir === "rtl") {
-          this.placement = "bottom-left";
-        } else if (dir === "ltr") {
-          this.placement = "bottom-right";
-        }
+    this.layoutSub = layoutService.toggleSidebar$.subscribe(
+      isShow => {
+        this.hideSidebar = !isShow;
       });
 
     this._startTime = Date.now();
@@ -113,7 +109,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleNotificationSidebar() {
-    this.layoutService.emitNotiSidebarChange(true);
+    this.layoutService.toggleNotificationSidebar(true);
   }
 
   toggleSidebar() {

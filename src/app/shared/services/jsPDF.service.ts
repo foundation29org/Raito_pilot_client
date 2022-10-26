@@ -43,7 +43,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "assets/img/logo-raito.png"
+        img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
@@ -870,7 +870,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "assets/img/logo-raito.png"
+        img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 10, 10, 20, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);

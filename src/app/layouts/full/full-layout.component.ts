@@ -1,292 +1,401 @@
-import { Component, OnInit, OnDestroy, ElementRef, Inject, Renderer2, AfterViewInit, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { ConfigService } from 'app/shared/services/config.service';
-import { AuthService } from 'app/shared/auth/auth.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
-import { EventsService} from 'app/shared/services/events.service';
-import { Injectable, Injector } from '@angular/core';
-import { Data } from 'app/shared/services/data.service';
-import { LayoutService } from "app/shared/services/layout.service";
+import {
+  Component,
+  OnInit,
+  Inject,
+  Renderer2,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  HostListener
+} from "@angular/core";
+import { ConfigService } from "app/shared/services/config.service";
+import { DOCUMENT } from "@angular/common";
 import { Subscription } from "rxjs";
-
-var fireRefreshEventOnWindow = function() {
-  var evt = document.createEvent("HTMLEvents");
-  evt.initEvent("resize", true, false);
-  window.dispatchEvent(evt);
-};
+import { CustomizerService } from 'app/shared/services/customizer.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { LayoutService } from 'app/shared/services/layout.service';
+import { WINDOW } from 'app/shared/services/window.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-full-layout',
-    templateUrl: './full-layout.component.html',
-    styleUrls: ['./full-layout.component.scss']
+  selector: "app-full-layout",
+  templateUrl: "./full-layout.component.html",
+  styleUrls: ["./full-layout.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-
-@Injectable()
 export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild('sidebarBgImage') sidebarBgImage: ElementRef;
-    @ViewChild("appSidebar", {static: true}) appSidebar: ElementRef;
-    @ViewChild("wrapper", {static: true}) wrapper: ElementRef;
 
-    options = {
-        direction: 'ltr',
-        bgColor: 'black',
-        bgImage: 'assets/img/sidebar-bg/01.jpg'
-    };
-    hideSidebar: boolean = false;
-    layoutSub: Subscription;
-    iscollapsed = false;
-    isSidebar_sm = false;
-    isSidebar_lg = false;
-    bgColor = 'black';
-    bgImage = 'assets/img/sidebar-bg/01.jpg';
+  hideSidebar: boolean = true;
+  overlayContent = false;
+  configSub: Subscription;
+  layoutSub: Subscription;
+  bgImage: string;
+  bgColor: string;
+  isSmallScreen = false;
+  menuPosition = 'Side';
+  displayOverlayMenu = false; // Vertical Side menu for screenSize < 1200
+  public config: any = {};
+  public innerWidth: any;
+  isMenuCollapsedOnHover = false;
+  isScrollTopVisible = false;
+  resizeTimeout;
 
-    public config: any = {};
+  constructor(
+    private configService: ConfigService,
+    private layoutService: LayoutService,
+    private router: Router,
+    private customizerService: CustomizerService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window,
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService
+  ) {
 
-    isIeOrEdge = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) || /Edge/.test(navigator.userAgent);
-    role: string;
-    isApp: boolean = false;
-    isHomePage: boolean = false;
-    isClinicalPage: boolean = false;
-    eventsService: any = null;
+    this.config = this.configService.templateConf;
+    this.innerWidth = window.innerWidth;
 
-    constructor(private elementRef: ElementRef, private layoutService: LayoutService, private configService: ConfigService, @Inject(DOCUMENT) private document: Document, private renderer: Renderer2, private authService: AuthService,  private router: Router, private inj: Injector, private dataservice: Data) {
-      this.eventsService = this.inj.get(EventsService);
-          this.isApp = this.document.URL.indexOf( 'http://' ) === -1 && this.document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-          this.role = this.authService.getRole();
+    // On toggle sidebar menu
+    this.layoutSub = layoutService.toggleSidebar$.subscribe(
+      isShow => {
+        this.hideSidebar = !isShow;
+        if(this.hideSidebar) {
+          this.overlayContent = false;
+        } else {
+          this.overlayContent = true;
+        }
+        this.toggleSidebar();
+      });
+  }
 
-          this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
-            event => {
-              var tempUrl= (event.url).toString().split('?');
-              var tempUrl1 = (tempUrl[0]).toString();
-              if(tempUrl1.indexOf('/home')!=-1){
-                this.isHomePage = true;
-                this.isClinicalPage = false;
-              }else{
-                if(tempUrl1.indexOf('/clinical/diagnosis')!=-1){
-                  this.isClinicalPage = true;
-                }else{
-                  this.isClinicalPage = false;
-                }
-                this.isHomePage = false;
-              }
+  ngOnInit() {
+    this.configSub = this.configService.templateConf$.subscribe((templateConf) => {
+      if (templateConf) {
+        this.config = templateConf;
+      }
+      //load layout
+      this.loadLayout();
+      this.cdr.markForCheck();
+    });
 
-            }
-          );
-
-          //event emitter call from customizer
-    this.layoutSub = layoutService.customizerChangeEmitted$.subscribe(
-      options => {
-        if (options) {
-          if (options.bgColor) {
-            this.bgColor = options.bgColor;
-          }
-          if (options.bgImage) {
-            this.bgImage = options.bgImage;
-          }
-
-          if (options.bgImageDisplay === true) {
-            this.bgImage = options.bgImage;
-          } else if (options.bgImageDisplay === false) {
-            this.bgImage = "";
-          }
-
-          if (options.compactMenu === true) {
-            this.renderer.addClass(this.wrapper.nativeElement, "nav-collapsed");
-            this.renderer.addClass(
-              this.wrapper.nativeElement,
-              "menu-collapsed"
-            );
-          } else if (options.compactMenu === false) {
-            if (
-              this.wrapper.nativeElement.classList.contains("nav-collapsed")
-            ) {
-              this.renderer.removeClass(
-                this.wrapper.nativeElement,
-                "nav-collapsed"
-              );
-              this.renderer.removeClass(
-                this.wrapper.nativeElement,
-                "menu-collapsed"
-              );
-            }
-          }
-
-          if (options.sidebarSize === "sidebar-lg") {
-            this.isSidebar_sm = false;
-            this.isSidebar_lg = true;
-          } else if (options.sidebarSize === "sidebar-sm") {
-            this.isSidebar_sm = true;
-            this.isSidebar_lg = false;
-          } else {
-            this.isSidebar_sm = false;
-            this.isSidebar_lg = false;
-          }
-
-          if (options.layout === "Light") {
-            this.renderer.removeClass(this.document.body, "layout-dark");
-            this.renderer.removeClass(this.document.body, "layout-transparent");
-            this.renderer.removeClass(this.document.body, "bg-hibiscus");
-            this.renderer.removeClass(this.document.body, "bg-purple-pizzazz");
-            this.renderer.removeClass(this.document.body, "bg-blue-lagoon");
-            this.renderer.removeClass(this.document.body, "bg-electric-violet");
-            this.renderer.removeClass(this.document.body, "bg-portage");
-            this.renderer.removeClass(this.document.body, "bg-tundora");
-            this.renderer.removeClass(this.document.body, "bg-glass-1");
-            this.renderer.removeClass(this.document.body, "bg-glass-2");
-            this.renderer.removeClass(this.document.body, "bg-glass-3");
-            this.renderer.removeClass(this.document.body, "bg-glass-4");
-          } else if (options.layout === "Dark") {
-            if (this.document.body.classList.contains("layout-transparent")) {
-              this.renderer.removeClass(
-                this.document.body,
-                "layout-transparent"
-              );
-              this.renderer.removeClass(this.document.body, "bg-hibiscus");
-              this.renderer.removeClass(
-                this.document.body,
-                "bg-purple-pizzazz"
-              );
-              this.renderer.removeClass(this.document.body, "bg-blue-lagoon");
-              this.renderer.removeClass(
-                this.document.body,
-                "bg-electric-violet"
-              );
-              this.renderer.removeClass(this.document.body, "bg-portage");
-              this.renderer.removeClass(this.document.body, "bg-tundora");
-              this.renderer.removeClass(this.document.body, "bg-glass-1");
-              this.renderer.removeClass(this.document.body, "bg-glass-2");
-              this.renderer.removeClass(this.document.body, "bg-glass-3");
-              this.renderer.removeClass(this.document.body, "bg-glass-4");
-
-              this.renderer.addClass(this.document.body, "layout-dark");
-            } else {
-              this.renderer.addClass(this.document.body, "layout-dark");
-            }
-          } else if (options.layout === "Transparent") {
-            this.renderer.addClass(this.document.body, "layout-transparent");
-            this.renderer.addClass(this.document.body, "layout-dark");
-            this.renderer.addClass(this.document.body, "bg-glass-1");
-          }
-
-          if (options.transparentColor) {
-            this.renderer.removeClass(this.document.body, "bg-hibiscus");
-            this.renderer.removeClass(this.document.body, "bg-purple-pizzazz");
-            this.renderer.removeClass(this.document.body, "bg-blue-lagoon");
-            this.renderer.removeClass(this.document.body, "bg-electric-violet");
-            this.renderer.removeClass(this.document.body, "bg-portage");
-            this.renderer.removeClass(this.document.body, "bg-tundora");
-            this.renderer.removeClass(this.document.body, "bg-glass-1");
-            this.renderer.removeClass(this.document.body, "bg-glass-2");
-            this.renderer.removeClass(this.document.body, "bg-glass-3");
-            this.renderer.removeClass(this.document.body, "bg-glass-4");
-            this.renderer.addClass(
-              this.document.body,
-              options.transparentColor
-            );
-          }
+    //hide overlay class on router change
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((routeChange) => {
+      if (this.config.layout.menuPosition === "Side" || this.displayOverlayMenu) { // Vertical Menu
+        if (this.innerWidth < 1200) {
+          this.layoutService.toggleSidebarSmallScreen(false);
+          this.overlayContent = false;
+          this.renderer.removeClass(this.document.body, "overflow-hidden");
         }
       }
-    );
+    });
+  }
+
+  ngAfterViewInit() {
+    this.setMenuLayout();
+  }
+
+  ngOnDestroy() {
+    //Unsubcribe subscriptions
+    if (this.configSub) {
+      this.configSub.unsubscribe();
+    }
+    if (this.layoutSub) {
+      this.layoutSub.unsubscribe();
+    }
+  }
+
+  //adjust layout
+  setMenuLayout() {
+    this.overlayContent = false;
+    this.renderer.removeClass(this.document.body, "blank-page");
+    if (this.config.layout.menuPosition === "Top") { // Horizontal Menu
+      if (this.innerWidth < 1200) { // Screen size < 1200
+        this.displayOverlayMenu = true;
+        this.hideSidebar = true;
+        this.renderer.removeClass(this.document.body, "horizontal-menu");
+        this.renderer.removeClass(this.document.body, "menu-open");
+
+        this.renderer.addClass(this.document.body, "horizontal-layout");
+        this.renderer.addClass(this.document.body, "horizontal-menu-padding");
+        this.renderer.addClass(this.document.body, "vertical-layout");
+        this.renderer.addClass(this.document.body, "vertical-overlay-menu");
+        this.renderer.addClass(this.document.body, "fixed-navbar");
+        this.renderer.addClass(this.document.body, "menu-hide");
+      }
+      else { // Screen size > 1200
+        this.displayOverlayMenu = false;
+        this.hideSidebar = false;
+        this.renderer.setAttribute(this.document.body, "data-menu", "horizontal-menu");
+        this.renderer.removeClass(this.document.body, "vertical-layout");
+        this.renderer.removeClass(this.document.body, "vertical-overlay-menu");
+        this.renderer.removeClass(this.document.body, "fixed-navbar");
+        this.renderer.removeClass(this.document.body, "menu-hide");
+        this.renderer.removeClass(this.document.body, "vertical-menu");
+        // this.renderer.removeClass(this.document.body, "blank-page");
+        this.renderer.addClass(this.document.body, "horizontal-menu");
+        this.renderer.addClass(this.document.body, "horizontal-layout");
+        this.renderer.addClass(this.document.body, "horizontal-menu-padding");
+      }
+    }
+    else if (this.config.layout.menuPosition === "Side") { // Vertical Menu
+      if (this.innerWidth < 1200) { // If Screen size < 1200
+        this.displayOverlayMenu = true;
+        this.renderer.removeClass(this.document.body, "horizontal-layout");
+        this.renderer.removeClass(this.document.body, "horizontal-menu");
+        this.renderer.removeClass(this.document.body, "horizontal-menu-padding");
+        this.renderer.removeClass(this.document.body, "menu-expanded");
+        this.renderer.removeClass(this.document.body, "vertical-menu");
+        this.renderer.removeClass(this.document.body, "menu-open");
+        this.renderer.removeClass(this.document.body, "nav-collapsed");
+
+        this.renderer.addClass(this.document.body, "vertical-layout");
+        this.renderer.addClass(this.document.body, "menu-hide");
+
+      }
+      else { // If Screen size > 1200
+        this.displayOverlayMenu = false;
+
+        this.renderer.removeClass(this.document.body, "horizontal-layout");
+        this.renderer.removeClass(this.document.body, "horizontal-menu");
+        this.renderer.removeClass(this.document.body, "horizontal-menu-padding");
+        // this.renderer.removeClass(this.document.body, "blank-page");
+
+        this.renderer.setAttribute(this.document.body, "data-menu", "vertical-menu");
+        this.renderer.addClass(this.document.body, "vertical-layout");
+        if (!this.config.layout.sidebar.collapsed) {
+          this.renderer.addClass(this.document.body, "menu-expanded");
+          this.renderer.addClass(this.document.body, "menu-open");
+        }
+        this.renderer.addClass(this.document.body, "vertical-menu");
+        this.renderer.removeClass(this.document.body, "menu-hide");
+        this.renderer.removeClass(this.document.body, "vertical-overlay-menu");
+      }
+    }
+  }
+
+
+  loadLayout() {
+
+    //menu position "SIDE" or "TOP"
+    if (this.config.layout.menuPosition && this.config.layout.menuPosition.toString().trim() != "") {
+      this.menuPosition = this.config.layout.menuPosition;
     }
 
-    ngOnInit() {
-      this.config = this.configService.templateConf;
+    //Hide/show sidebar menu background image
+    if (!this.config.layout.sidebar.backgroundImage) {
+      this.bgImage = "";
+    } else {
+      this.bgImage = this.config.layout.sidebar.backgroundImageURL;
+    }
+
+    //Set sidebar menu background color
+    if (!this.config.layout.sidebar.backgroundColor) {
+      this.bgColor = this.customizerService.light_dark_colors[7].code;
+    } else {
       this.bgColor = this.config.layout.sidebar.backgroundColor;
+    }
 
-      if (!this.config.layout.sidebar.backgroundImage) {
-        this.bgImage = '';
+    //toggle side menu
+    if (this.config.layout.menuPosition === "Side") {
+      if (this.config.layout.sidebar.collapsed) {
+        this.isMenuCollapsedOnHover = true;
       }
       else {
-        this.bgImage = this.config.layout.sidebar.backgroundImageURL;
+        this.isMenuCollapsedOnHover = true;
       }
+      this.toggleSidebar();
+    }
 
-      if (this.config.layout.variant === "Transparent") {
-        if(this.config.layout.sidebar.backgroundColor.toString().trim() === '') {
-          this.bgColor = 'bg-glass-1';
-        }
+    this.removeTransparentBGClasses();
+
+    // Layout variants
+    if (this.config.layout.variant === "Light") {
+      this.renderer.removeClass(this.document.body, "layout-dark");
+      this.renderer.removeClass(this.document.body, "layout-transparent");
+    }
+    else if (this.config.layout.variant === "Dark") {
+      this.renderer.removeClass(this.document.body, "layout-transparent");
+      this.renderer.addClass(this.document.body, "layout-dark");
+    }
+    else if (this.config.layout.variant === "Transparent") {
+      this.renderer.addClass(this.document.body, "layout-dark");
+      this.renderer.addClass(this.document.body, "layout-transparent");
+      this.renderer.addClass(this.document.body, this.bgColor);
+      this.bgImage = "";
+    }
+
+    this.setMenuLayout();
+
+    // For Sidebar width
+    if (this.config.layout.sidebar.size === 'sidebar-sm') {
+      this.renderer.removeClass(this.document.body, "sidebar-lg");
+      this.renderer.addClass(this.document.body, "sidebar-sm");
+    }
+    else if (this.config.layout.sidebar.size === 'sidebar-lg') {
+      this.renderer.removeClass(this.document.body, "sidebar-sm");
+      this.renderer.addClass(this.document.body, "sidebar-lg");
+    }
+    else {
+      this.renderer.removeClass(this.document.body, "sidebar-sm");
+      this.renderer.removeClass(this.document.body, "sidebar-lg");
+    }
+
+    if (this.config.layout.menuPosition === "Side") {
+      // vertical/Side menu expanded/collapse
+      if (this.config.layout.sidebar.collapsed && !this.isSmallScreen) { // collapse side menu
+        this.renderer.removeClass(this.document.body, "menu-expanded");
+        this.renderer.addClass(this.document.body, "nav-collapsed");
+      }
+      else { // expand side menu
+        this.renderer.removeClass(this.document.body, "nav-collapsed");
+        this.renderer.addClass(this.document.body, "menu-expanded");
+      }
+    }
+
+    //Navbar types
+    if (this.config.layout.navbar.type === 'Static') {
+      this.renderer.removeClass(this.document.body, "navbar-sticky");
+      this.renderer.addClass(this.document.body, "navbar-static");
+    }
+    else if (this.config.layout.navbar.type === 'Fixed') {
+      this.renderer.removeClass(this.document.body, "navbar-static");
+      this.renderer.addClass(this.document.body, "navbar-sticky");
+    }
+
+  }
+
+  toggleSidebar() {
+    if (this.hideSidebar) { // on sidebar collapse
+      this.renderer.removeClass(this.document.body, "menu-expanded");
+      this.renderer.removeClass(this.document.body, "vertical-menu");
+      this.renderer.removeClass(this.document.body, "menu-open");
+
+      this.renderer.addClass(this.document.body, "vertical-layout");
+      this.renderer.addClass(this.document.body, "menu-hide");
+
+      if (this.config.layout.menuPosition === "Top") {
+        this.renderer.addClass(this.document.body, "vertical-overlay-menu");
+      }
+    }
+    else { // on sidebar expand
+      this.renderer.addClass(this.document.body, "vertical-layout");
+      this.renderer.addClass(this.document.body, "menu-expanded");
+      this.renderer.addClass(this.document.body, "vertical-menu");
+      if (this.config.layout.sidebar.collapsed) {
+        this.renderer.removeClass(this.document.body, "menu-open");
       }
       else {
-        if(this.config.layout.sidebar.backgroundColor.toString().trim() === '') {
-          this.bgColor = 'black';
-        }
+        this.renderer.addClass(this.document.body, "menu-open");
       }
-
-      setTimeout(() => {
-        if (this.config.layout.sidebar.size === 'sidebar-lg') {
-          this.isSidebar_sm = false;
-          this.isSidebar_lg = true;
-        }
-        else if (this.config.layout.sidebar.size === 'sidebar-sm') {
-          this.isSidebar_sm = true;
-          this.isSidebar_lg = false;
-        }
-        else {
-          this.isSidebar_sm = false;
-          this.isSidebar_lg = false;
-        }
-        this.iscollapsed = this.config.layout.sidebar.collapsed;
-      }, 0);
-
-      //emit event to customizer
-      this.options.bgColor = this.bgColor;
-      this.options.bgImage = this.bgImage;
-
-      
-      this.layoutService.emitCustomizerChange(this.options);
+      this.renderer.removeClass(this.document.body, "menu-hide");
     }
+    this.isTouchDevice();
+  }
 
-    ngAfterViewInit() {
-      setTimeout(() => {
-        if (this.config.layout.dir) {
-          this.options.direction = this.config.layout.dir;
-        }
-  
-        if (this.config.layout.variant === "Dark") {
-          this.renderer.addClass(this.document.body, "layout-dark");
-        } else if (this.config.layout.variant === "Transparent") {
-          this.renderer.addClass(this.document.body, "layout-dark");
-          this.renderer.addClass(this.document.body, "layout-transparent");
-          if (this.config.layout.sidebar.backgroundColor) {
-            this.renderer.addClass(
-              this.document.body,
-              this.config.layout.sidebar.backgroundColor
-            );
-          } else {
-            this.renderer.addClass(this.document.body, "bg-glass-1");
-          }
-          this.bgColor = "black";
-          this.options.bgColor = "black";
-          this.bgImage = "";
-          this.options.bgImage = "";
-          this.bgImage = "";
-        }
-      }, 0);
+  isTouchDevice() {
 
-    }
+    const isMobile = this.deviceService.isMobile();
+    const isTablet = this.deviceService.isTablet();
 
-    ngOnDestroy() {
-      if (this.layoutSub) {
-        this.layoutSub.unsubscribe();
+    if (isMobile || isTablet) {
+      if(!this.hideSidebar){
+        this.renderer.addClass(this.document.body, "overflow-hidden");
+      } else {
+        this.renderer.removeClass(this.document.body, "overflow-hidden");
       }
     }
 
-    onClick(event) {
-      //initialize window resizer event on sidebar toggle click event
-      setTimeout(() => {
-        fireRefreshEventOnWindow();
-      }, 300);
-    }
-  
+  }
 
-    toggleHideSidebar($event: boolean): void {
-      setTimeout(() => {
-        this.hideSidebar = $event;
-      }, 0);
+  hideCompactMenuOnSmallScreen() {
+    if (this.innerWidth < 1200) {
+      let conf = this.config;
+      conf.layout.sidebar.collapsed = false;
+      this.configService.applyTemplateConfigChange({ layout: conf.layout });
+    }
+  }
+
+  //Remove transparent layout classes
+  removeTransparentBGClasses() {
+    this.customizerService.transparent_colors.forEach(_ => {
+      this.renderer.removeClass(this.document.body, _.class);
+    });
+
+    this.customizerService.transparent_colors_with_shade.forEach(_ => {
+      this.renderer.removeClass(this.document.body, _.class);
+    });
+  }
+
+  sidebarMouseenter(e) {
+    if (this.config.layout.sidebar.collapsed) {
+      this.isMenuCollapsedOnHover = false;
+      this.layoutService.overlaySidebartoggle(this.isMenuCollapsedOnHover);
+    }
+  }
+
+  sidebarMouseleave(e) {
+    if (this.config.layout.sidebar.collapsed) {
+      this.isMenuCollapsedOnHover = true;
+      this.layoutService.overlaySidebartoggle(this.isMenuCollapsedOnHover);
+    }
+  }
+
+  //scroll to top on click
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  onOutsideClick(e) {
+    if (this.innerWidth < 1200) {
+      if (
+        !e.target.classList.contains("toggleSidebarNavbarButton")
+      ) {
+        this.layoutService.toggleSidebarSmallScreen(false);
+      }
+    }
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = setTimeout((() => {
+      this.innerWidth = event.target.innerWidth;
+      this.setMenuLayout();
+      this.hideCompactMenuOnSmallScreen();
+    }).bind(this), 500);
+  }
+
+
+  //Add/remove classes on page scroll
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    let number = this.window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
+    if (number > 60) {
+      this.renderer.addClass(this.document.body, "navbar-scrolled");
+    } else {
+      this.renderer.removeClass(this.document.body, "navbar-scrolled");
     }
 
-    getOptions($event): void {
-        this.options = $event;
+    if (number > 400) {
+      this.isScrollTopVisible = true;
+    } else {
+      this.isScrollTopVisible = false;
     }
+
+    if (number > 20) {
+      this.renderer.addClass(this.document.body, "page-scrolled");
+    } else {
+      this.renderer.removeClass(this.document.body, "page-scrolled");
+    }
+  }
 
 }

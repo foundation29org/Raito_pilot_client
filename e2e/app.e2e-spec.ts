@@ -1,6 +1,6 @@
-/*import { MatngularPage } from './app.po';
+import { MatngularPage } from './app.po';
 
-describe('matngular App', () => {
+describe('Matngular App', () => {
   let page: MatngularPage;
 
   beforeEach(() => {
@@ -10,4 +10,4 @@ describe('matngular App', () => {
   it('should expect true to be true', () => {
     expect(true).toBe(true);
   });
-});*/
+});

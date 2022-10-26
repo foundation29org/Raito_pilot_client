@@ -1,406 +1,329 @@
-<!-- //////////////////////////////////////////////////////////////////////////// -->
-<!-- START Notification Sidebar -->
-<aside #sidebar id="notification-sidebar" class="notification-sidebar d-none d-sm-none d-md-block">
+<!-- START Notification Sidebar-->
+<aside class="notification-sidebar d-none d-sm-none d-md-block" id="notification-sidebar" [ngClass]="{open: isOpen}">
   <a class="notification-sidebar-close" (click)="onClose()">
-    <i class="ft-x font-medium-3"></i>
+    <i class="ft-x font-medium-3 grey darken-1"></i>
   </a>
   <div class="side-nav notification-sidebar-content" [perfectScrollbar]>
     <div class="row">
-      <div class="col-12 mt-1">
-        <ngb-tabset>
-          <ngb-tab>
-            <ng-template ngbTabTitle><b>Activity</b></ng-template>
-            <ng-template ngbTabContent>
-              <div id="activity" class="col-12 timeline-left">
-                <h6 class="mt-1 mb-3 text-bold-400 text-left">RECENT ACTIVITY</h6>
-                <div id="timeline" class="timeline-left timeline-wrapper">
-                  <ul class="timeline">
-                    <li class="timeline-line"></li>
-                    <li class="timeline-item text-left text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-purple bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-shopping-cart"></i></span>
+      <div class="col-12 notification-tab-content">
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+          <ng-container ngbNavItem class="nav-item">
+            <a ngbNavLink class="nav-link">Activity</a>
+            <ng-template ngbNavContent>
+              <div class="row tab-pane" id="activity-tab" role="tabpanel" aria-expanded="true"
+                aria-labelledby="base-tab1">
+                <div class="col-12" id="activity">
+                  <h5 class="my-2 text-bold-500">System Logs</h5>
+                  <div class="timeline-left timeline-wrapper mb-3" id="timeline-1">
+                    <ul class="timeline">
+                      <li class="timeline-line mt-4"></li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-download primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>New Update Available</span>
+                            <span class="float-right grey font-italic font-small-2">1 min ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Android Pie 9.0.0_r52v availabe (658MB).</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Download Now!</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-15.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Reminder!</span>
+                            <span class="float-right grey font-italic font-small-2">52 min ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Your meeting is scheduled with Mr. Derrick Walters at 16:00.
+                          </p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Snooze</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-16.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Recieved a File</span>
+                            <span class="float-right grey font-italic font-small-2">4 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Christina Rogers sent you a file for the next conference.
+                          </p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <img src="assets/img/icons/sketch-mac-icon.png" alt="icon" width="20">
+                              <span class="text-bold-500 ml-2">Diamond.sketch</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-mic primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Voice Message</span>
+                            <span class="float-right grey font-italic font-small-2">10 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Natalya Parker sent you a voice message.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Listen</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-cloud-drizzle primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Weather Update</span>
+                            <span class="float-right grey font-italic font-small-2">Yesterday</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Hi John! It is a rainy day with 16&deg;C.</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <h5 class="my-2 text-bold-500">Applications Logs</h5>
+                  <div class="timeline-left timeline-wrapper" id="timeline-2">
+                    <ul class="timeline">
+                      <li class="timeline-line mt-4"></li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-26.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Gmail</span>
+                            <span class="float-right grey font-italic font-small-2">Just now</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Victoria Hampton sent you a mail and has a file attachment
+                            with it.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <img src="assets/img/icons/pdf.png" alt="pdf icon" width="20">
+                              <span class="text-bold-500 ml-2">Register.pdf</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-droplet primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>MakeMyTrip</span>
+                            <span class="float-right grey font-italic font-small-2">7 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">Your next flight for San Francisco will be on 24th March.
+                          </p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Important</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <img class="avatar" src="assets/img/portrait/small/avatar-s-23.png" alt="avatar" width="40">
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>CNN</span>
+                            <span class="float-right grey font-italic font-small-2">16 hours ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">U.S. investigating report says email account linked to CIA
+                            Director was hacked.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Read full article</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-map primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Maps</span>
+                            <span class="float-right grey font-italic font-small-2">Yesterday</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">You visited Walmart Supercenter in Chicago.</p>
+                          <div class="notification-note">
+                            <div class="p-1 pl-2">
+                              <span class="text-bold-500">Write a Review!</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="timeline-item">
+                        <div class="timeline-badge">
+                          <span class="bg-primary bg-lighten-4" data-toggle="tooltip" data-placement="right"
+                            title="Portfolio project work">
+                            <i class="ft-package primary"></i>
+                          </span>
+                        </div>
+                        <div class="activity-list-text">
+                          <h6 class="mb-1">
+                            <span>Updates Available</span>
+                            <span class="float-right grey font-italic font-small-2">2 days ago</span>
+                          </h6>
+                          <p class="mt-0 mb-2 font-small-3">19 app updates found.</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+           </ng-container>
+          <ng-container ngbNavItem class="nav-item">
+            <a ngbNavLink class="nav-link">Settings</a>
+            <ng-template ngbNavContent>
+              <div class="row tab-pane" id="settings-tab" aria-labelledby="base-tab2">
+                <div class="col-12" id="settings">
+                  <h5 class="mt-2 mb-3">General Settings</h5>
+                  <ul class="list-unstyled mb-0 mx-2">
+                    <li class="mb-3">
+                      <div class="mb-1">
+                        <span class="text-bold-500">Notifications</span>
+                        <div class="float-right">
+                          <div class="custom-switch">
+                            <input class="custom-control-input" id="noti-s-switch-1" type="checkbox">
+                            <label class="custom-control-label" for="noti-s-switch-1"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="deep-purple-text medium-small">just now</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">Jim Doe Purchased new
-                          equipments for zonal office.</p>
-                      </div>
+                      <p class="font-small-3 m-0">Use switches when looking for yes or no answers.</p>
                     </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-info bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="fa fa-plane"></i></span>
+                    <li class="mb-3">
+                      <div class="mb-1"><span class="text-bold-500">Show recent activity</span>
+                        <div class="float-right">
+                          <div class="checkbox">
+                            <input id="noti-s-checkbox-1" type="checkbox" checked="checked">
+                            <label for="noti-s-checkbox-1"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="cyan-text medium-small">Yesterday</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">Your Next flight for USA
-                          will be on 15th August 2015.</p>
-                      </div>
+                      <p class="font-small-3 m-0">The "for" attribute is necessary to bind checkbox with the input.</p>
                     </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-success bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-mic"></i></span>
+                    <li class="mb-3">
+                      <div class="mb-1"><span class="text-bold-500">Product Update</span>
+                        <div class="float-right">
+                          <div class="custom-switch">
+                            <input class="custom-control-input" id="noti-s-switch-4" type="checkbox" checked="checked">
+                            <label class="custom-control-label" for="noti-s-switch-4"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="green-text medium-small">5 Days Ago</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">Natalya Parker Send you a
-                          voice mail for next conference.</p>
-                      </div>
+                      <p class="font-small-3 m-0">Message and mail me on weekly product updates.</p>
                     </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-warning bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-map-pin"></i></span>
+                    <li class="mb-3">
+                      <div class="mb-1">
+                        <span class="text-bold-500">Email on Follow</span>
+                        <div class="float-right">
+                          <div class="custom-switch">
+                            <input class="custom-control-input" id="noti-s-switch-3" type="checkbox">
+                            <label class="custom-control-label" for="noti-s-switch-3"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="amber-text medium-small">1 Week Ago</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">Jessy Jay open a new store
-                          at S.G Road.</p>
-                      </div>
+                      <p class="font-small-3 m-0">Mail me when someone follows me.</p>
                     </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-inbox"></i></span>
+                    <li class="mb-3">
+                      <div class="mb-1">
+                        <span class="text-bold-500">Announcements</span>
+                        <div class="float-right">
+                          <div class="checkbox">
+                            <input id="noti-s-checkbox-2" type="checkbox" checked="checked">
+                            <label for="noti-s-checkbox-2"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="deep-orange-text medium-small">2 Week Ago</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">voice mail for conference.
-                        </p>
-                      </div>
+                      <p class="font-small-3 m-0">Receive all the news and announcements from my clients.</p>
                     </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-cyan bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-mic"></i></span>
+                    <li class="mb-3">
+                      <div class="mb-1">
+                        <span class="text-bold-500">Date and Time</span>
+                        <div class="float-right">
+                          <div class="checkbox">
+                            <input id="noti-s-checkbox-3" type="checkbox">
+                            <label for="noti-s-checkbox-3"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="brown-text medium-small">1 Month Ago</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">Natalya Parker Send you a
-                          voice mail for next conference.</p>
-                      </div>
+                      <p class="font-small-3 m-0">Show date and time on top of every page.</p>
                     </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-amber bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-map-pin"></i></span>
+                    <li>
+                      <div class="mb-1">
+                        <span class="text-bold-500">Email on Comments</span>
+                        <div class="float-right">
+                          <div class="custom-switch">
+                            <input class="custom-control-input" id="noti-s-switch-2" type="checkbox" checked="checked">
+                            <label class="custom-control-label" for="noti-s-switch-2"></label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="deep-purple-text medium-small">3 Month Ago</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">Jessy Jay open a new store
-                          at S.G Road.</p>
-                      </div>
-                    </li>
-                    <li class="timeline-item text-left">
-                      <div class="timeline-badge">
-                        <span class="bg-grey bg-lighten-1" data-toggle="tooltip" data-placement="right"
-                          title="Portfolio project work"><i class="ft-inbox"></i></span>
-                      </div>
-                      <div class="col s9 recent-activity-list-text">
-                        <a href="#" class="grey-text medium-small">1 Year Ago</a>
-                        <p class="mt-0 mb-2 fixed-line-height font-weight-300 medium-small">voice mail for conference.
-                        </p>
-                      </div>
+                      <p class="font-small-3 m-0">Mail me when someone comments on my article.</p>
                     </li>
                   </ul>
                 </div>
               </div>
             </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle><b>Chat</b></ng-template>
-            <ng-template ngbTabContent>
-              <div id="chatapp" class="col-12">
-                <h6 class="mt-1 mb-3 text-bold-400 text-left">RECENT CHAT</h6>
-                <div class="collection border-none">
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-12.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Elizabeth Elliott </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">5.00 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Thank you </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-6.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Mary Adams </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">4.14 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Hello Boo </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-11.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Caleb Richards </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">9.00 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Keny ! </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-18.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">June Lane </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">4.14 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Ohh God </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-1.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Edward Fletcher </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">5.15 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Love you </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-2.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Crystal Bates </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">8.00 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Can we </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-3.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Nathan Watts </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">9.53 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Great! </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-15.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Willard Wood </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">4.20 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Do it </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-19.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Ronnie Ellis </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">5.30 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Got that </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-14.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Gwendolyn Wood </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">4.34 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Like you </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-13.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Daniel Russell </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">12.00 AM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Thank you </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-22.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Sarah Graves </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">11.14 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Okay you </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-9.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Andrew Hoffman </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">7.30 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Can do </p>
-                    </div>
-                  </div>
-                  <div class="media mb-1">
-                    <a>
-                      <img alt="96x96" class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
-                        src="assets/img/portrait/small/avatar-s-20.png">
-                    </a>
-                    <div class="media-body text-left">
-                      <div class="clearfix">
-                        <h4 class="font-medium-1 primary mt-1 mb-0 mr-auto float-left">Camila Lynch </h4>
-                        <span class="medium-small float-right blue-grey-text text-lighten-3">2.00 PM</span>
-                      </div>
-                      <p class="text-muted font-small-3">Leave it </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle><b>Settings</b></ng-template>
-            <ng-template ngbTabContent>
-              <div id="settings" class="col-12">
-                <h6 class="mt-1 mb-3 text-bold-400 text-left">GENERAL SETTINGS</h6>
-                <ul class="list-unstyled">
-                  <li class="text-left">
-                    <div class="togglebutton">
-                      <div class="switch d-flex justify-content-between w-100">
-                        <span class="text-bold-500">Notifications</span>
-                        <div class="notification-cb">
-                          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                            <input checked="checked" class="custom-control-input " type="checkbox"
-                              id="notifications1">
-                            <label class="custom-control-label d-block" for="notifications1"></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <p>Use checkboxes when looking for yes or no answers.</p>
-                  </li>
-                  <li class="text-left">
-                    <div class="togglebutton">
-                      <div class="switch d-flex justify-content-between w-100">
-                        <span class="text-bold-500">Show recent activity</span>
-                        <div class="notification-cb">
-                          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                            <input checked="checked" class="custom-control-input " type="checkbox"
-                              id="recent-activity1">
-                            <label class="custom-control-label d-block" for="recent-activity1"></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <p>The for attribute is necessary to bind our custom checkbox with the input.</p>
-                  </li>
-                  <li class="text-left">
-                    <div class="togglebutton">
-                      <div class="switch  d-flex justify-content-between w-100">
-                        <span class="text-bold-500">Notifications</span>
-                        <div class="notification-cb">
-                          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                            <input class="custom-control-input " type="checkbox" id="notifications2">
-                            <label class="custom-control-label d-block" for="notifications2"></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <p>Use checkboxes when looking for yes or no answers.</p>
-                  </li>
-                  <li class="text-left">
-                    <div class="togglebutton">
-                      <div class="switch d-flex justify-content-between w-100">
-                        <span class="text-bold-500">Show recent activity</span>
-                        <div class="notification-cb">
-                          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                            <input class="custom-control-input " type="checkbox"
-                              id="recent-activity2">
-                            <label class="custom-control-label d-block" for="recent-activity2"></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <p>The for attribute is necessary to bind our custom checkbox with the input.</p>
-                  </li>
-                  <li class="text-left">
-                    <div class="togglebutton">
-                      <div class="switch d-flex justify-content-between w-100">
-                        <span class="text-bold-500">Show your emails</span>
-                        <div class="notification-cb">
-                          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                            <input class="custom-control-input " type="checkbox" id="show-emails">
-                            <label class="custom-control-label d-block" for="show-emails"></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <p>Use checkboxes when looking for yes or no answers.</p>
-                  </li>
-                  <li class="text-left">
-                    <div class="togglebutton">
-                      <div class="switch d-flex justify-content-between w-100">
-                        <span class="text-bold-500">Show Task statistics</span>
-                        <div class="notification-cb">
-                          <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                            <input class="custom-control-input " type="checkbox" id="show-stats">
-                            <label class="custom-control-label d-block" for="show-stats"></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <p>The for attribute is necessary to bind our custom checkbox with the input.</p>
-                  </li>
-                </ul>
-              </div>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
+           </ng-container>
+        </nav>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
     </div>
   </div>
 </aside>
-<!-- END Notification Sidebar -->
+<!-- END Notification Sidebar-->

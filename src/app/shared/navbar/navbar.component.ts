@@ -1,181 +1,153 @@
-import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, Inject, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
-import { NgForm } from '@angular/forms';
-import { AuthService } from 'app/shared/auth/auth.service';
-import { SortService } from 'app/shared/services/sort.service';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { PatientService } from 'app/shared/services/patient.service';
-import { Data } from 'app/shared/services/data.service';
-import Swal from 'sweetalert2';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
-import { SearchService } from 'app/shared/services/search.service';
-import { Subscription } from 'rxjs/Subscription';
-
 import { LayoutService } from '../services/layout.service';
+import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
-
-declare var device;
-declare global {
-  interface Navigator {
-    app: {
-      exitApp: () => any; // Or whatever is the type of the exitApp function
-    }
-  }
-}
+import { DOCUMENT } from '@angular/common';
+import { CustomizerService } from '../services/customizer.service';
+import { UntypedFormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"],
-  providers: [PatientService, ApiDx29ServerService]
+  styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  toggleClass = "ft-maximize";
+  currentLang = "en";
+  selectedLanguageText = "English";
+  selectedLanguageFlag = "./assets/img/flags/us.png";
   placement = "bottom-right";
+  logoUrl = 'assets/img/logo.png';
+  menuPosition = 'Side';
+  isSmallScreen = false;
+  protected innerWidth: any;
+  transparentBGClass = "";
+  hideSidebar: boolean = true;
   public isCollapsed = true;
   layoutSub: Subscription;
+  configSub: Subscription;
+
   @Output()
   toggleHideSidebar = new EventEmitter<Object>();
 
+  control = new UntypedFormControl();
+
   public config: any = {};
-
-  isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-  isAndroid: boolean = false;
-  patients: any;
-  currentPatient: any = {};
-  redirectUrl: string = '';
-  actualUrl: string = '';
-  email: string = '';
   role: string = 'User';
-  roleShare: string = 'Clinical';
-  modalReference: NgbModalRef;
-  @ViewChild('f') sendForm: NgForm;
-  sending: boolean = false;
-  revonking: boolean = false;
-  listOfSharingAccounts: any = [];
-  permissions: any = {};
-  selectedPatient: any = {};
-  shareWithObject: any = {};
-  isMine: boolean = false;
-  message: string = '';
-  indexPermissions: number = -1;
-  loading: boolean = true;
-  myUserId: string = '';
-  myEmail: string = '';
-  isHomePage: boolean = false;
-  isClinicalPage: boolean = false;
-  age: any = {};
-  private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private authService: AuthService, private router: Router, private route: ActivatedRoute, private patientService: PatientService, private modalService: NgbModal, private http: HttpClient, private sortService: SortService, private dataservice: Data, private apiDx29ServerService: ApiDx29ServerService, private searchService: SearchService) {
-    if (this.isApp) {
-      if (device.platform == 'android' || device.platform == 'Android') {
-        this.isAndroid = true;
-      }
-    }
+  constructor(public translate: TranslateService,
+    private layoutService: LayoutService,
+    private router: Router,
+    private configService: ConfigService, private cdr: ChangeDetectorRef, private authService: AuthService) {
 
-    this.role = this.authService.getRole();
-    this.redirectUrl = this.authService.getRedirectUrl();
+    const browserLang: string = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
+    this.config = this.configService.templateConf;
+    this.innerWidth = window.innerWidth;
 
-    this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
-      event => {
-        var tempUrl = (event.url).toString().split('?');
-        this.actualUrl = tempUrl[0];
-        var tempUrl1 = (this.actualUrl).toString();
-        if (tempUrl1.indexOf('/home') != -1) {
-          this.isHomePage = true;
-          this.isClinicalPage = false;
-        } else {
-          if (tempUrl1.indexOf('/clinical/diagnosis') != -1) {
-            this.isClinicalPage = true;
-          } else {
-            this.isClinicalPage = false;
-          }
-          this.isHomePage = false;
-        }
-
-      }
-    );
-
-    this.layoutSub = layoutService.changeEmitted$.subscribe(
-      direction => {
-        const dir = direction.direction;
-        if (dir === "rtl") {
-          this.placement = "bottom-left";
-        } else if (dir === "ltr") {
-          this.placement = "bottom-right";
-        }
+    this.layoutSub = layoutService.toggleSidebar$.subscribe(
+      isShow => {
+        this.hideSidebar = !isShow;
       });
 
   }
 
   ngOnInit() {
-    this.config = this.configService.templateConf;
-
-    this.loadPatientId();
+    if (this.innerWidth < 1200) {
+      this.isSmallScreen = true;
+    }
+    else {
+      this.isSmallScreen = false;
+    }
   }
 
   ngAfterViewInit() {
-    if (this.config.layout.dir) {
-      const dir = this.config.layout.dir;
-      if (dir === "rtl") {
-        this.placement = "bottom-left";
-      } else if (dir === "ltr") {
-        this.placement = "bottom-right";
+
+    this.configSub = this.configService.templateConf$.subscribe((templateConf) => {
+      if (templateConf) {
+        this.config = templateConf;
       }
-    }
+      this.loadLayout();
+      this.cdr.markForCheck();
+
+    })
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
     if (this.layoutSub) {
       this.layoutSub.unsubscribe();
     }
-  }
-
-  ToggleClass() {
-    if (this.toggleClass === "ft-maximize") {
-      this.toggleClass = "ft-minimize";
-    } else {
-      this.toggleClass = "ft-maximize";
+    if (this.configSub) {
+      this.configSub.unsubscribe();
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = event.target.innerWidth;
+    if (this.innerWidth < 1200) {
+      this.isSmallScreen = true;
+    }
+    else {
+      this.isSmallScreen = false;
+    }
+  }
+
+  loadLayout() {
+
+    if (this.config.layout.menuPosition && this.config.layout.menuPosition.toString().trim() != "") {
+      this.menuPosition = this.config.layout.menuPosition;
+    }
+
+    if (this.config.layout.variant === "Light") {
+      this.logoUrl = 'assets/img/logo.png';
+    }
+    else {
+      this.logoUrl = 'assets/img/logo.png';
+    }
+
+    if (this.config.layout.variant === "Transparent") {
+      this.transparentBGClass = this.config.layout.sidebar.backgroundColor;
+    }
+    else {
+      this.transparentBGClass = "";
+    }
+
+  }
+
+  ChangeLanguage(language: string) {
+    this.translate.use(language);
+
+    if (language === 'en') {
+      this.selectedLanguageText = "English";
+      this.selectedLanguageFlag = "./assets/img/flags/us.png";
+    }
+    else if (language === 'es') {
+      this.selectedLanguageText = "Spanish";
+      this.selectedLanguageFlag = "./assets/img/flags/es.png";
+    }
+    else if (language === 'pt') {
+      this.selectedLanguageText = "Portuguese";
+      this.selectedLanguageFlag = "./assets/img/flags/pt.png";
+    }
+    else if (language === 'de') {
+      this.selectedLanguageText = "German";
+      this.selectedLanguageFlag = "./assets/img/flags/de.png";
+    }
+  }
+
+
   toggleNotificationSidebar() {
-    this.layoutService.emitChange(true);
+    this.layoutService.toggleNotificationSidebar(true);
   }
 
   toggleSidebar() {
-    const appSidebar = document.getElementsByClassName("app-sidebar")[0];
-    if (appSidebar.classList.contains("hide-sidebar")) {
-      this.toggleHideSidebar.emit(false);
-    } else {
-      this.toggleHideSidebar.emit(true);
-    }
+    this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
   }
 
   logout() {
     this.authService.logout();
-    //this.router.navigate([this.authService.getLoginUrl()]);
   }
-
-  exit() {
-    navigator.app.exitApp();
-  }
-
-
-  loadPatientId() {
-    this.subscription.add(this.patientService.getPatientId()
-      .subscribe((res: any) => {
-        console.log(res);
-        //this.authService.setCurrentPatient(res);
-        //.sub
-      }, (err) => {
-        console.log(err);
-      }));
-  }
-
 }

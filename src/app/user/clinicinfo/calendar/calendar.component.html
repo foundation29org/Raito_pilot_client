@@ -4,16 +4,23 @@
 			<div class="row">
 				<div class="col-12 col-sm-12 align-items-center">
 					<div *ngIf="step=='0'">
-                        <button *ngIf="events.length>0" class="ml-1 float-right btn btn-primary btn-sm" (click)="openStats()">
-							<i class="icon-folder-alt font-medium-3"></i>
-						</button>
-                    </div>
-					<div *ngIf="step=='0'">
+						<div class="row ">
+							<div class="col-md-12">
+								<button *ngIf="events.length>0" class="ml-1 float-right btn btn-primary btn-sm" (click)="openStats()">
+									<i class="icon-folder-alt font-medium-3"></i>
+								</button>
+								<div class="row">
+									<h2 class="content-header mt-0 mb-2">{{'homeraito.p5' | translate }}</h2>
+									
+								</div>
+							</div>
+							
+						</div>
+							
 						
-						<h2 class="content-header mt-0 mb-2">{{'homeraito.p5' | translate }}</h2>
 
-						<div class="">
-							<div class="">
+						<div class="row">
+							<div class="col-md-12">
 								<form action="#" class="form form-horizontal" [formGroup]="seizuresForm">
 									<div class="form-body">
 										<div class="">

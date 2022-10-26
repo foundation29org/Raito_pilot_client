@@ -7,13 +7,13 @@
 			<div class="col-12 col-sm-12 align-items-center">
 				<div>
 					<h2 class="content-header mt-0 mb-2">{{'navbar.My Profile' | translate }}</h2>
-						<form class="form" (ngSubmit)="onSubmit()" #f="ngForm" *ngIf="user">
+						<form class="form" (ngSubmit)="onSubmit()" #f="ngForm">
 							<div class="form-body">
 								<div class="row">
 									<div class="col-md-12 mt-2">
 										<label for="iscaregiver">{{'homeraito.twho' | translate }}</label>
-										<div class="form-group mb-2" *ngIf="user">
-											<mat-radio-group aria-label="Select an option" name="iscaregiver" [(ngModel)]="user.iscaregiver">
+										<div class="form-group mb-2" >
+											<mat-radio-group aria-label="Select an option" class="form-control border-0 pl-0" name="iscaregiver" [(ngModel)]="user.iscaregiver">
 												<mat-radio-button [value]=false (change)="changedCaretaker($event)">{{'homeraito.patient' | translate }}</mat-radio-button>
 												<mat-radio-button [value]=true class="ml-2" (change)="changedCaretaker($event)">{{'homeraito.caregiver' | translate }}</mat-radio-button>
 											  </mat-radio-group>
