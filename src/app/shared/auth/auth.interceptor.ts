@@ -98,8 +98,8 @@ export class AuthInterceptor implements HttpInterceptor {
     // Pass on the cloned request instead of the original request.
     return next.handle(authReq)
       .catch((error, caught) => {
-
-        if (error.status === 401) {
+        if (error.status === 401 || error.status === 403) {
+          authService.logout();
           return Observable.throw(error);
         }
 
