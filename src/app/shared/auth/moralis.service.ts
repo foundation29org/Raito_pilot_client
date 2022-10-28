@@ -13,12 +13,12 @@ export class MoralisService {
   }
 
   loadScripts(){
-    $.getScript("https://unpkg.com/moralis-v1@1.11.0/dist/moralis.js").done(function (script, textStatus) {
+    $.getScript("./assets/js/moralis.js").done(function (script, textStatus) {
       //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
       this.moralisInstance= this.initServer();
       this.loadedScript = true;
     }.bind(this));
-    $.getScript("https://cdn.jsdelivr.net/npm/@web3auth/web3auth@1.0.1").done(function (script, textStatus) {
+    $.getScript("./assets/js/web3auth@1.0.1.js").done(function (script, textStatus) {
       //console.log("finished loading and running docxtemplater.js. with a status of" + textStatus);
       
     });
