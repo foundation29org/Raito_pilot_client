@@ -1334,9 +1334,10 @@ getWeek(newdate, dowOffset?) {
           maxValueRecommededDrug = this.maxValue;
         }
         for (var j = 0; j < this.lineChartSeries[i].series.length; j++) {
-          if(this.normalized){
+          /*if(this.normalized){
             templineChartDrugs[i].series[j].value = this.normalize(this.lineChartSeries[i].series[j].value, 0, maxValueRecommededDrug);
-          }
+          }*/
+          templineChartDrugs[i].series[j].value = this.normalize(this.lineChartSeries[i].series[j].value, 0, maxValueRecommededDrug);
           templineChartDrugs[i].series[j].name = this.lineChartSeries[i].series[j].name;
           if(maxValue<this.lineChartSeries[i].series[j].value){
             maxValue= this.lineChartSeries[i].series[j].value;

@@ -907,9 +907,9 @@
        "q1":"Localização do contêiner",
        "a1":"Em Raito, é o único proprietário dos seus dados. Você pode criar um backup de seus dados e oferecemos duas possibilidades para salvá-lo.",
        "a1.1.1": "Armazenamento centralizado",
-       "a1.1.2": "A cópia de seus dados é armazenada em nossos servidores, cuja segurança é controlada pelos sistemas da Microsoft.",
+       "a1.1.2": "A cópia dos seus dados é armazenada nos servidores da Fundación 29. Ninguém além de nós terá acesso aos seus dados.",
        "a1.2.1": "Armazenamento descentralizado",
-       "a1.2.2": "A cópia dos seus dados é armazenada numa rede descentralizada, sendo encriptada e distribuída pela rede. Não existe nenhuma entidade que a controle. <a href='https://ipfs.io/' target='_blank'> <em class='ft-external-link'></em></a>",
+       "a1.2.2": "A cópia de seus dados é armazenada em uma rede descentralizada, sendo criptografada e distribuída pela Internet. Não há entidade controladora. <a href='https://ipfs.io/' target='_blank'> <em class='ft-external-link'></em></a>",
        "Last backup": "Última cópia de segurança",
        "decentralized storage": "O que é o armazenamento descentralizado?",
        "Decentralized": "Descentralizada",
@@ -930,7 +930,7 @@
        "Use this dashboard to accept":"Use este painel para aceitar, se informar ou negar o acesso aos seus dados a qualquer momento.",
        "Share your data anonymously with your patient group":"Compartilhe seus dados anonimamente com seu grupo de pacientes",
        "You do not belong to any patient group":"Você não pertence a nenhum grupo de pacientes",
-       "Here is a message on why this is important":"Aqui está uma mensagem sobre por que isso é importante",
+       "Here is a message on why this is important":"A Raito trabalha com grupos de pacientes para obter conjuntos de dados. É a forma como você pode colaborar na pesquisa sobre sua doença.",
        "note1": "Nos sistemas tradicionais, não tem o controlo dos seus dados, mas queremos mudar isso.",
        "note2": "Ao dar o consentimento à sua organização para aceder aos seus dados de forma anónima, usamos uma identidade descentralizada, para que tenha o controlo dos seus dados, mantendo ao mesmo tempo a privacidade e segurança. Pode dar o seu consentimento e recusá-lo sempre que o desejar.",
        "note3": "Ao dar o seu consentimento, terá a prova do mesmo no seu telemóvel.",
@@ -1075,6 +1075,7 @@
     "appointments": {
       "Next medical appointments":"Próximas consultas médicas",
       "Add appointment": "Adicionar compromisso",
-      "new?": "Criar novo compromisso?"
+      "new?": "Criar novo compromisso?",
+      "subtitle": "Nesta seção você pode anotar suas consultas médicas e a Raito irá notificá-lo quando elas estiverem chegando."
     }
  }

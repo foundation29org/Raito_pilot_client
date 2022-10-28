@@ -907,7 +907,7 @@
     "q1": "Container location",
     "a1": "In Raito you are the only owner of your data. You can create a backup of your data, and we give you two possibilities to save it.",
     "a1.1.1": "Centralized storage",
-    "a1.1.2": "The copy of your data is stored on our servers, whose security is controlled by Microsoft systems.",
+    "a1.1.2": "The copy of your data is stored on Fundación 29's servers. Nobody but us will have access to your data.",
     "a1.2.1": "Decentralized storage",
     "a1.2.2": "The copy of your data is stored in a decentralized network, being encrypted and distributed by the network. There is no entity that controls it. <a href='https://ipfs.io/' target='_blank'> <em class='ft-external-link'></em></a>",
     "Last backup": "Last backup",
@@ -930,7 +930,7 @@
     "Use this dashboard to accept": "Use this dashboard to accept, get informed or deny access to your data at anytime.",
     "Share your data anonymously with your patient group": "Share your data anonymously with your patient group",
     "You do not belong to any patient group": "You do not belong to any patient group",
-    "Here is a message on why this is important": "Here is a message on why this is important",
+    "Here is a message on why this is important": "Raito works with groups of patients to get data sets. It's the way you can collaborate in the research about your disease.",
     "note1": "In traditional systems, you don't have control of your data, but we want to change that.",
     "note2": "By giving consent to your organization to access your data anonymously, we use decentralized identity, so that you have control of your data, while maintaining privacy and security. You can give your consent and refuse it whenever you want.",
     "note3": "When you give your consent, you will have the proof of it on your mobile phone.",
@@ -1075,6 +1075,7 @@
   "appointments": {
     "Next medical appointments":"Next medical appointments",
     "Add appointment": "Add appointment",
-    "new?": "Create new appointment?"
+    "new?": "Create new appointment?",
+    "subtitle": "In this section you can write down your medical appointments and Raito will notify you when they are coming up."
   }
 }
