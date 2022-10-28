@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
 					<div>
-						<button *ngIf="viewMeditationSection" class="btn btn-primary" (click)="back()">
+						<button *ngIf="viewMeditationSection" class="btn btn-primary mb-2" (click)="back()">
 							{{'generics.Back' | translate}}
 						</button>
 					</div>
@@ -45,7 +45,7 @@
 												<div class="card-block pb-0">
 													<div class="media">
 														<div class="media-body white text-left">
-															<h3 class="font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
+															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
 														</div>
 													</div>
@@ -56,24 +56,24 @@
 														<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1"
 															ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 														<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-															<button class="dropdown-item"
+															<a class="dropdown-item"
 																(click)="updateMedication(medication)">{{'generics.View' | translate
-																}}</button>
-															<button class="dropdown-item"
+																}}</a>
+															<a class="dropdown-item"
 																(click)="changeNotes(medication, contentNotes)">{{'generics.notes' |
-																translate }}</button>
-															<button class="dropdown-item"
+																translate }}</a>
+															<a class="dropdown-item"
 																(click)="changeDose(medication, content)">{{'medication.Change Dose' |
-																translate }}</button>
-															<button class="dropdown-item"
+																translate }}</a>
+															<a class="dropdown-item"
 																(click)="stopTaking(medication, contentStop)">{{'medication.Stop taking the
-																drug' | translate }}</button>
-															<button class="dropdown-item"
+																drug' | translate }}</a>
+															<a class="dropdown-item"
 																(click)="changeSideEffect(medication, contentSideEffect)">{{'medication.Side
-																Effect' | translate }}</button>
-															<button class="dropdown-item"
+																Effect' | translate }}</a>
+															<a class="dropdown-item"
 																(click)="deleteMedication(medication)">{{'generics.Delete' | translate
-																}}</button>
+																}}</a>
 														</div>
 													</div>
 												</div>
@@ -95,7 +95,7 @@
 												<div class="card-block pb-0">
 													<div class="media">
 														<div class="media-body white text-left">
-															<h3 class="font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
+															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
 															<p>{{medication.endDate | date: timeformat}}</p>
 															<!--<span>{{medication.endDate | date:'mediumDate':'':'fr'}}</span>-->
@@ -107,12 +107,12 @@
 														<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1"
 															ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 														<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-															<button class="dropdown-item"
+															<a class="dropdown-item"
 																(click)="updateMedication(medication)">{{'generics.View' | translate
-																}}</button>
-															<button class="dropdown-item"
+																}}</a>
+															<a class="dropdown-item"
 																(click)="deleteMedication(medication)">{{'generics.Delete' | translate
-																}}</button>
+																}}</a>
 														</div>
 													</div>
 												</div>
@@ -158,7 +158,7 @@
 										<div class="card-block pb-0">
 											<div class="media">
 												<div class="media-body white text-left">
-													<h3 class="font-medium-3 mb-0">{{actualMedication.dose}} {{'medication.mg/day' |
+													<h3 class="white font-medium-3 mb-0">{{actualMedication.dose}} {{'medication.mg/day' |
 														translate }}</h3>
 													<span>{{'medication.Current dose' | translate }}</span>
 												</div>
@@ -172,22 +172,22 @@
 												<button class="btn btn-secondary btn-raised btn-round mr-1" id="dropdownBasic1"
 													ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 												<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-													<button class="dropdown-item" (click)="editDrug(actualMedication)">{{'generics.Edit' |
-														translate }}</button>
-													<button class="dropdown-item"
+													<a class="dropdown-item" (click)="editDrug(actualMedication)">{{'generics.Edit' |
+														translate }}</a>
+													<a class="dropdown-item"
 														(click)="changeNotes(actualMedication, contentNotes)">{{'generics.notes' | translate
-														}}</button>
-													<button class="dropdown-item"
+														}}</a>
+													<a class="dropdown-item"
 														(click)="changeDose(actualMedication, content)">{{'medication.Change Dose' |
-														translate }}</button>
-													<button class="dropdown-item"
+														translate }}</a>
+													<a class="dropdown-item"
 														(click)="stopTaking(actualMedication, contentStop)">{{'medication.Stop taking the
-														drug' | translate }}</button>
-													<button class="dropdown-item"
+														drug' | translate }}</a>
+													<a class="dropdown-item"
 														(click)="changeSideEffect(actualMedication, contentSideEffect)">{{'medication.Side
-														Effect' | translate }}</button>
-													<button class="dropdown-item" (click)="deleteDose(actualMedication)">{{'generics.Delete'
-														| translate }}</button>
+														Effect' | translate }}</a>
+													<a class="dropdown-item" (click)="deleteDose(actualMedication)">{{'generics.Delete'
+														| translate }}</a>
 												</div>
 											</div>
 										</div>
@@ -203,7 +203,7 @@
 									<div class="">
 										<div>
 											<form class="form" (ngSubmit)="onSubmit()" #f="ngForm" *ngIf="medication">
-												<div class="form-body">
+												<div class="">
 													<div class="row">
 														<div class="col-md-12">
 															<div class="form-group">
@@ -291,9 +291,8 @@
 																			{{'medication.We do not have recommended dose data for this drug' | translate}}
 																		</span>
 																	</span>
-																	<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
 																  </ng-template>
-																  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="Recommended dose"></i></label>
+																<label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="{{'generics.More information' | translate }}"></i></label>
 																<input type="text" id="dose" class="form-control col-md-2" name="dose"
 																	[(ngModel)]="medication.dose" required dose #dose="ngModel"
 																	pattern="[0-9]+([,.][0-9]+)?$">
@@ -408,10 +407,12 @@
 														<div class="row">
 															<div class="col-md-12">
 																<div class="form-group">
-																	<label for="compassionateUse">{{'medication.Compassionate Use' | translate
-																		}}</label>
-																	<p class="font-small-2">{{'medication.Compassionate Use Description' |
-																		translate }}</p>
+																	<label for="compassionateUse">{{'medication.Compassionate Use' | translate}} <em class="ft-help-circle danger" style="cursor: pointer;" placement="down" #p3="ngbPopover" [ngbPopover]="popContentdrugs2" popoverTitle="{{'generics.More information' | translate }}"></em>
+																		<ng-template #popContentdrugs2>
+																			<span>
+																				{{'medication.Compassionate Use Description' | translate }}
+																			</span>
+																		  </ng-template></label>
 																	<select id="compassionateUse" name="compassionateUse"
 																		class="form-control col-md-6" [(ngModel)]="medication.compassionateUse">
 																		<option value="yes">{{'generics.Yes' | translate }}</option>
@@ -486,21 +487,21 @@
 																		id="dropdownBasic1" ngbDropdownToggle><i
 																			class="icon-settings font-medium-4 fa  white align-middle"></i></button>
 																	<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-																		<button class="dropdown-item"
+																		<a class="dropdown-item"
 																			(click)="changeNotes(drug, contentNotes)">{{'generics.notes' |
-																			translate }}</button>
-																		<button *ngIf="!drug.endDate" class="dropdown-item"
+																			translate }}</a>
+																		<a *ngIf="!drug.endDate" class="dropdown-item"
 																			(click)="changeDose(drug, content)">{{'medication.Change Dose' |
-																			translate }}</button>
-																		<button *ngIf="!drug.endDate" class="dropdown-item"
+																			translate }}</a>
+																		<a *ngIf="!drug.endDate" class="dropdown-item"
 																			(click)="stopTaking(drug, contentStop)">{{'medication.Stop
-																			taking the drug' | translate }}</button>
-																		<button class="dropdown-item"
+																			taking the drug' | translate }}</a>
+																		<a class="dropdown-item"
 																			(click)="changeSideEffect(drug, contentSideEffect)">{{'medication.Side
-																			Effect' | translate }}</button>
-																		<button class="dropdown-item"
+																			Effect' | translate }}</a>
+																		<a class="dropdown-item"
 																			(click)="deleteDose(drug)">{{'generics.Delete' | translate
-																			}}</button>
+																			}}</a>
 																	</div>
 																</div>
 															</td>
@@ -563,7 +564,7 @@
 		<div class="modal-body">
 			<div class="">
 
-				<div class="form-body">
+				<div class="">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
@@ -651,9 +652,8 @@
 											{{'medication.We do not have recommended dose data for this drug' | translate}}
 										</span>
 									</span>
-									<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
 								  </ng-template>
-								  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="Recommended dose"></i></label>
+								  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="{{'generics.More information' | translate }}"></i></label>
 								<input type="text" id="dose" class="form-control" name="dose"
 									[(ngModel)]="medication.dose" required dose #dose="ngModel"
 									pattern="[0-9]+([,.][0-9]+)?$">

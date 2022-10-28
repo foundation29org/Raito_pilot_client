@@ -3,7 +3,7 @@
         <div class="card-body pb-0">
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
-                    <a *ngIf="!showListQuestionnaires" (click)="showListQuestionnaires=true;init();" class="btn btn-primary float-right" title="{{'generics.Back' | translate }}">
+                    <a *ngIf="!showListQuestionnaires" (click)="showListQuestionnaires=true;init();" class="btn btn-primary float-right mb-2" title="{{'generics.Back' | translate }}">
                         <span class="menu-title">{{'generics.Back' | translate }}</span>
                     </a>
                     <h2 class="content-header mt-0 mb-2" *ngIf="showListQuestionnaires">{{'menu.Questionnaire' | translate }}</h2>
@@ -15,16 +15,24 @@
                     <div *ngIf="showListQuestionnaires && loadedProms">
                         <div *ngIf="questionnaires.length>0">
                             <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
-                            <span *ngFor="let questionnaire of questionnaires ; let j = index">
-                                <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
-                                <a class="float-right btn btn-white btn-sm" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
-                                    <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)">
-                                        {{'prom.See answers' | translate }}
-                                    </span>
-                                    <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))!=(questionnaire.info.items.length)">
-                                        {{'charts.Answer' | translate }}
-                                    </span>
-                                  </a>
+                            <span *ngFor="let questionnaire of questionnaires ; let j = index" class="pb-2">
+                                <div class="row mb-2">
+                                    <div class="col-md-9">
+                                        <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-white btn-sm" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
+                                            <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)">
+                                                {{'prom.See answers' | translate }}
+                                            </span>
+                                            <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))!=(questionnaire.info.items.length)">
+                                                {{'charts.Answer' | translate }}
+                                            </span>
+                                          </a>
+                                    </div>
+                                </div>
+                                
+                                
                             </span>
                         </div>
                         <div *ngIf="questionnaires.length==0" class="mb-4">
@@ -120,7 +128,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="!pendind && loadedProms" class="center-elements mt-3" style="position: sticky; top: 100vh; z-index: 1;">
+                            <div *ngIf="!pendind && loadedProms" class="center-elements mt-3 mb-3" style="position: sticky; top: 100vh; z-index: 1;">
                                 <button type="button" class="mr-1 btn btn-dark" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
                             </div>
                         </div>

@@ -1,20 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
-/*
-.card {
-  background-color: #353535 !important;
-  color: gray !important;
+
+.dropdown-menu[x-placement^="top"], .dropdown-menu[x-placement^="right"], .dropdown-menu[x-placement^="bottom"], .dropdown-menu[x-placement^="left"] {
+  right: auto;
+  bottom: auto;
 }
 
-.modal-content{
-  background-color: #353535 !important;
-  color: gray !important;
-}*/
+.gradient-red-ocean {
+  background-image: linear-gradient(60deg, #1D4350, #A43931) !important;
+  color: #fff !important;
+}
 
-/*body{
-  background-color: #33b0b3 !important;
-}*/
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
+.gradient-bloody-mary {
+  background-image: linear-gradient(60deg, #FF512F, #DD2476) !important;
+  color: #fff !important;
+}
 
 .swal2-title {
   font-size: 1em !important;
@@ -52,10 +52,10 @@ span{
   color: #343a40;
 }
 
-form label {
-  color: #75787d;
-  /*font-size: 11px;*/
-  text-transform: none;
+form label, .form-group label {
+  /*color: #75787d;
+  font-size: 11px;*/
+  text-transform: none !important;
   letter-spacing: 0px;
   font-weight: 500;
 }
@@ -117,7 +117,7 @@ form .form-group {
 }
 
 .navbar {
-  padding: 0.75rem 1.5rem !important;
+  padding: 0.3rem 1.5rem !important;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -145,7 +145,7 @@ body {
 }
 
 .nav-tabs .nav-link.active {
-  color: #33658a;
+  color: #2F8BE6;
 }
 
 .alert-warning {
@@ -158,9 +158,9 @@ body {
   font: inherit;
 }
 
-:host /deep/ a{
-  color: #33658a !important;
-}
+/*:host /deep/ a{
+  color: #2F8BE6 !important;2F8BE6
+}*/
 
 a:hover, a:focus {
   color: #b0b6bb;
@@ -185,7 +185,7 @@ a:hover, a:focus {
 }
 
 a{
-  color: #33658a;
+  color: #2F8BE6;
 }
 
 .btn-outline-secondary:hover {
@@ -208,7 +208,7 @@ a{
 }
 
 .hr-custom{
-  background-color: #33658a; 
+  background-color: #2F8BE6; 
   height: 3px; 
   border: 0;
   width: 30%;
@@ -235,9 +235,9 @@ a{
 }
 
 .btn-info-nohover{
-  background-color: #33658a !important;
+  background-color: #2F8BE6 !important;
   color: #fff !important;
-  border-color: #33658a;
+  border-color: #2F8BE6;
 }
 
 .btn-info-nohover:focus, .btn-info-nohover.focus {
@@ -270,7 +270,7 @@ a{
 
 .btn-active-info {
   color: #fff;
-  background-color: #33658a;
+  background-color: #2F8BE6;
   border-color: #205883;
   box-shadow: 0 0 0 0.2rem rgba(250, 94, 88, 0.5);
 }
@@ -289,9 +289,9 @@ a{
 }
 
 .btn-info {
-  background-color: #33658a !important;
+  background-color: #2F8BE6 !important;
   color: #fff !important;
-  border-color: #33658a;
+  border-color: #2F8BE6;
 }
 
 .btn-secondary {
@@ -332,6 +332,7 @@ a{
 .labelLower{
   text-transform: lowercase;
 }
+
 /*.modal-dialog {
     max-width: 90%;
 }*/
@@ -495,4 +496,5 @@ mark{
 @import url("../src/assets/css/nouislider.min.css");
 @import url("../src/assets/css/data-table/index.css");
 @import url("../src/assets/css/data-table/icons.css");
-@import url("../src/assets/css/demo.css"); */
+@import url("../src/assets/css/demo.css"); 
+@import "../css/custom.css";*/

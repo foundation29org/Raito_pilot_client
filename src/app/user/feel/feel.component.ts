@@ -149,7 +149,7 @@ export class FeelComponent implements OnInit {
       title: this.translate.instant("generics.Are you sure delete") +' ('+date+ ") ?",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#33658a',
+      confirmButtonColor: '#2F8BE6',
       cancelButtonColor: '#B0B6BB',
       confirmButtonText: this.translate.instant("generics.Accept"),
       cancelButtonText: this.translate.instant("generics.Cancel"),

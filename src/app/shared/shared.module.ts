@@ -1,78 +1,87 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { FormsModule } from '@angular/forms';
-import { CustomFormsModule } from 'ngx-custom-validators';
 import { RouterModule } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ClickOutsideModule } from 'ng-click-outside';
+
+import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
+import { PipeModule } from 'app/shared/pipes/pipe.module';
 
 //COMPONENTS
 import { FooterComponent } from "./footer/footer.component";
-import { Footer2Component } from "./footer2/footer2.component";
 import { FooterLandComponent } from "./footer-land/footer-land.component";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { NavbarComponentNolog } from "./navbar-nolog/navbar-nolog.component";
 import { NavbarD29Component } from "./navbar-dx29/navbar-dx29.component";
-import { SidebarComponent } from "./sidebar/sidebar.component";
+import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
+import { VerticalMenuComponent } from "./vertical-menu/vertical-menu.component";
 import { CustomizerComponent } from './customizer/customizer.component';
 import { NotificationSidebarComponent } from './notification-sidebar/notification-sidebar.component';
 
 //DIRECTIVES
 import { ToggleFullscreenDirective } from "./directives/toggle-fullscreen.directive";
+import { SidebarLinkDirective } from './directives/sidebar-link.directive';
+import { SidebarDropdownDirective } from './directives/sidebar-dropdown.directive';
+import { SidebarAnchorToggleDirective } from './directives/sidebar-anchor-toggle.directive';
 import { SidebarDirective } from './directives/sidebar.directive';
-import { SidebarLinkDirective } from './directives/sidebarlink.directive';
-import { SidebarListDirective } from './directives/sidebarlist.directive';
-import { SidebarAnchorToggleDirective } from './directives/sidebaranchortoggle.directive';
-import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
-
+import { TopMenuDirective } from './directives/topmenu.directive';
+import { TopMenuLinkDirective } from './directives/topmenu-link.directive';
+import { TopMenuDropdownDirective } from './directives/topmenu-dropdown.directive';
+import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle.directive';
 
 
 @NgModule({
     exports: [
         CommonModule,
         FooterComponent,
-        Footer2Component,
         FooterLandComponent,
         NavbarComponent,
-        NavbarComponentNolog,
         NavbarD29Component,
-        SidebarComponent,
+        VerticalMenuComponent,
+        HorizontalMenuComponent,
         CustomizerComponent,
         NotificationSidebarComponent,
         ToggleFullscreenDirective,
         SidebarDirective,
+        TopMenuDirective,
         NgbModule,
-        TranslateModule
+        TranslateModule,
     ],
     imports: [
-      FormsModule,
-      CustomFormsModule,
         RouterModule,
         CommonModule,
         NgbModule,
         TranslateModule,
+        FormsModule,
+        OverlayModule,
+        ReactiveFormsModule ,
         PerfectScrollbarModule,
-        MatCheckboxModule
+        ClickOutsideModule,
+        AutocompleteModule,
+        PipeModule
     ],
     declarations: [
         FooterComponent,
-        Footer2Component,
         FooterLandComponent,
         NavbarComponent,
-        NavbarComponentNolog,
         NavbarD29Component,
-        SidebarComponent,
+        VerticalMenuComponent,
+        HorizontalMenuComponent,
         CustomizerComponent,
         NotificationSidebarComponent,
         ToggleFullscreenDirective,
-        SidebarDirective,
         SidebarLinkDirective,
-        SidebarListDirective,
+        SidebarDropdownDirective,
         SidebarAnchorToggleDirective,
-        SidebarToggleDirective
+        SidebarDirective,
+        TopMenuLinkDirective,
+        TopMenuDropdownDirective,
+        TopMenuAnchorToggleDirective,
+        TopMenuDirective,
     ]
 })
 export class SharedModule { }

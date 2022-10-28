@@ -60,9 +60,6 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
       margin-bottom: 0px !important;
     }
 
-    ::ng-deep .btn-outline-primary{
-      margin-top: 1rem !important;
-    }
   `
   ],
   providers: [DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR]

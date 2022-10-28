@@ -42,7 +42,7 @@ export class MoralisService {
 
   authenticate(){
     return new Promise(async function (resolve, reject) {
-    Moralis.authenticate({ provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo-raito.png', theme: 'light' })
+    Moralis.authenticate({ provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo.png', theme: 'light' })
       .then( (user : any) => {
         console.log(user);
         this.setCurrentUser(Moralis.User.current());

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ErrorPageComponent } from "./error/error-page.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
 
+
 const routes: Routes = [
   {
     path: '',

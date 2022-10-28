@@ -30,62 +30,60 @@
                             </div>
                           </div>
                           <div *ngIf="phenotype.data.length>0">
-                            <span class="mr-2 mb-1 float-right icons-opt-symptoms">
-                                <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
-                                (click)="copySymptoms()" style="cursor: pointer;"></em>
-                              </span>
-                            <div class="table-responsive">
-                              <table class="table mb-0 table-wrapper-scroll-y my-custom-scrollbar bg-white"
-                                aria-labelledby="HPO">
-                                <tbody>
-                                  <tr *ngFor="let hpo of phenotype.data ; let i = index">
-                                    <td>
-                                      <span>
-                                        <span class="float-right ml-1">
-                                          <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                                            class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
-                                            title="{{'generics.More information' | translate }} ({{hpo.id}})">
-                                            <em class="fa fa-info w-13"></em>
-                                          </button>
-                                          <button (click)="deleteSymptom(hpo, i)"
-                                            class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
-                                            href="javascript:void(0)"
-                                            title="{{'generics.Delete' | translate }}">
-                                            <em class="fa fa-trash w-13"></em>
-                                          </button>
-                                        </span>
-                                        <span>
-                                          <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
-                                          
-                                            <div class="ml-1" style="line-height: 0.5em !important;">
-                                              <input class="form-control d-none" id="onset_{{i}}" name="onset{{i}}" matInput
-                                                  placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
-                                                  [matDatepicker]="pickerOnset" [max]="today" (click)="pickerOnset.open()"
-                                                  [(ngModel)]="hpo.onset">
-                                              <input readonly class="form-control d-none" (click)="pickerOnset.open()">
-                                              <span class="text-muted">
-                                                <span *ngIf="!hpo.onset">
-                                                  {{'phenotype.Onset' | translate }}
-                                                </span>
-                                                <span *ngIf="hpo.onset">
-                                                  {{hpo.onset | date: 'y': '' : translate.currentLang}}
-                                                </span>
-                                                
-                                                <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-inline" style="line-height: 0.5em !important;">
-                                                </mat-datepicker-toggle>
-                                                <mat-datepicker startView="multi-year"
-                                                    (yearSelected)="closeDatePicker($event, i, pickerOnset)" touchUi="true"
-                                                    #pickerOnset></mat-datepicker>
-                                              </span>
-                                              
-                                          </div>
-                                        </span>
-                                      </span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                            <div class="row ">
+                              <div class="col-md-12">
+                                <span class="mr-2 mb-1 float-right icons-opt-symptoms">
+                                  <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                                  (click)="copySymptoms()" style="cursor: pointer;"></em>
+                                </span>
+                              </div>
                             </div>
+                            
+                              <div class="">
+                                <div *ngFor="let hpo of phenotype.data ; let i = index" class="border-top">
+                                  <div class="mt-2 mb-2">
+                                    <span class="float-right ml-1">
+                                      <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
+                                        class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                        title="{{'generics.More information' | translate }} ({{hpo.id}})">
+                                        <em class="fa fa-info w-13"></em>
+                                      </button>
+                                      <button (click)="deleteSymptom(hpo, i)"
+                                        class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
+                                        href="javascript:void(0)"
+                                        title="{{'generics.Delete' | translate }}">
+                                        <em class="fa fa-trash w-13"></em>
+                                      </button>
+                                    </span>
+                                    <span>
+                                      <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                      
+                                        <div class="ml-1" style="line-height: 0.5em !important;">
+                                          <input class="form-control d-none" id="onset_{{i}}" name="onset{{i}}" matInput
+                                              placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
+                                              [matDatepicker]="pickerOnset" [max]="today" (click)="pickerOnset.open()"
+                                              [(ngModel)]="hpo.onset">
+                                          <input readonly class="form-control d-none" (click)="pickerOnset.open()">
+                                          <span class="text-muted">
+                                            <span *ngIf="!hpo.onset">
+                                              {{'phenotype.Onset' | translate }}
+                                            </span>
+                                            <span *ngIf="hpo.onset">
+                                              {{hpo.onset | date: 'y': '' : translate.currentLang}}
+                                            </span>
+                                            
+                                            <mat-datepicker-toggle matSuffix [for]="pickerOnset" class="d-inline" style="line-height: 0.5em !important;">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker startView="multi-year"
+                                                (yearSelected)="closeDatePicker($event, i, pickerOnset)" touchUi="true"
+                                                #pickerOnset></mat-datepicker>
+                                          </span>
+                                          
+                                      </div>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
                           </div>
                           <!--<div *ngIf="phenotype.data.length==0">
                             <p>{{'charts.Noseizures' | translate }}</p>

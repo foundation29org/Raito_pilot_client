@@ -43,7 +43,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "assets/img/logo-raito.png"
+        img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 20, 10, 29, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
@@ -119,6 +119,7 @@ export class jsPDFService {
             //Diseases
             if(topRelatedConditions.length>0){
                 this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,positionY += 10)
+                positionY = this.checkIfNewPage(doc, positionY);
                 this.writeHeaderText(doc, 16, positionY += 7, this.translate.instant("generics.Name"));
                 this.writeHeaderText(doc, 175, positionY, "Id");
                 positionY += 7;
@@ -745,7 +746,6 @@ export class jsPDFService {
     
     
     private writeHeaderText(doc, pos, lineText, text) {
-        lineText = this.checkIfNewPage(doc, lineText);
         //doc.setTextColor(117, 120, 125)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
@@ -870,7 +870,7 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        img_logo.src = "assets/img/logo-raito.png"
+        img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 10, 10, 20, 17);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
@@ -934,10 +934,6 @@ export class jsPDFService {
             doc.text(infoText, 10, lineText += 5)
             lineText += 5
         }
-        /*var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image3.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);*/
-        
 
         //Quality of life
         this.newSectionDoc(doc,this.translate.instant("charts.Quality of life"),'',null,lineText += 10)
@@ -946,9 +942,7 @@ export class jsPDFService {
         doc.text(this.translate.instant("pdf.grap2"), 10, lineText += 5)
         doc.setTextColor(0, 0, 0)
         doc.setFontSize(10);
-        /*var img_seizures = new Image();
-        img_seizures.src = "assets/img/pages/demo/MicrosoftTeams-image2.png"
-        doc.addImage(img_seizures, 'png', 30, lineText+5, 110, 30);*/
+        
         if(images.img2.show){
             doc.addImage(images.img2.info.data,'jpeg',10, lineText += 5, images.img2.info.width, images.img2.info.height);
             lineText += 35
@@ -1040,6 +1034,7 @@ export class jsPDFService {
             doc.setTextColor(0, 0, 0)
             doc.setFontSize(10);
             lineText += 2;
+            lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
             this.writeHeaderText(doc, 175, lineText, "Id");
             lineText += 5;
@@ -1057,6 +1052,7 @@ export class jsPDFService {
         //Diseases
         if(infoDrugs.length>0){
             this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
+            lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
             this.writeHeaderText(doc, 80, lineText, this.translate.instant("medication.Dose mg"));
             this.writeHeaderText(doc, 120, lineText, this.translate.instant("generics.Start Date"));
@@ -1079,6 +1075,7 @@ export class jsPDFService {
         if(seizuresMonths.length>0){
             lineText = this.checkIfNewPage(doc, lineText+=10);
             this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
+            lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Date"));
             this.writeHeaderText(doc, 35, lineText, this.translate.instant("pdf.Amount"));
             this.writeHeaderText(doc, 70, lineText, this.translate.instant("generics.Date"));

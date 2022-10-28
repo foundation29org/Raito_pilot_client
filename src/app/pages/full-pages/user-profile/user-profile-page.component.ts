@@ -1,21 +1,19 @@
-import { Component, ViewChild, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, ViewChild, OnInit, OnDestroy, Inject, Renderer2, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { NgForm } from '@angular/forms'
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
-import { DateService } from 'app/shared/services/date.service';
-import { Router } from '@angular/router';
-import { User } from './user.interface';
 import { ToastrService } from 'ngx-toastr';
+import { EventsService} from 'app/shared/services/events.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { LangService } from 'app/shared/services/lang.service';
-import Swal from 'sweetalert2';
-import { EventsService} from 'app/shared/services/events.service';
+import { Subscription } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { ConfigService } from 'app/shared/services/config.service';
+import { LayoutService } from 'app/shared/services/layout.service';
 import { Injectable, Injector } from '@angular/core';
-import { sha512 } from "js-sha512";
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -24,46 +22,56 @@ import { Subscription } from 'rxjs/Subscription';
     providers: [LangService, PatientService]
 })
 
-@Injectable()
-export class UserProfilePageComponent implements OnInit, OnDestroy {
-    //Variable Declaration
-    @ViewChild('f') userForm: NgForm;
+export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
+  public config: any = {};
+  layoutSub: Subscription;
 
-    public user: any;
-    private userCopy: any;
-    langs: any;
-    private msgDataSavedOk: string;
-    private msgDataSavedFail: string;
-    private msgDownload: string;
-    loading: boolean = false;
-    sending: boolean = false;
-    item: number = 0;
-    role: string = '';
-    subrole: string = '';
-    private subscription: Subscription = new Subscription();
+  @ViewChild('f') userForm: NgForm;
 
-    constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private langService:LangService, private elRef: ElementRef, private router: Router, private dateService: DateService, private inj: Injector, private patientService: PatientService) {
-      //obter las lista de idiomas
-      this.loadLanguages();
-     }
+  public user: any;
+  public userCopy: any;
+  langs: any;
+  private msgDataSavedOk: string;
+  private msgDataSavedFail: string;
+  private msgDownload: string;
+  loading: boolean = false;
+  sending: boolean = false;
+  item: number = 0;
+  role: string = '';
+  subrole: string = '';
+  private subscription: Subscription = new Subscription();
 
-     ngOnDestroy() {
-       this.subscription.unsubscribe();
-     }
+  constructor(private configService: ConfigService,
+    private layoutService: LayoutService,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2, private cdr: ChangeDetectorRef,
+    private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private langService:LangService, private patientService: PatientService, private inj: Injector
+  ) {
+    this.config = this.configService.templateConf;
 
-     loadLanguages() {
-       this.subscription.add( this.langService.getLangs()
-       .subscribe( (res : any) => {
-         this.langs=res;
-       }));
-     }
+    this.loadLanguages();
+  }
+
+  loadLanguages() {
+    this.subscription.add( this.langService.getLangs()
+    .subscribe( (res : any) => {
+      this.langs=res;
+    }));
+  }
 
     ngOnInit() {
+      this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
+        if (templateConf) {
+          this.config = templateConf;
+        }
+        this.cdr.markForCheck();
+
+      })
+
       //cargar los datos del usuario
       this.loading = true;
       this.subscription.add( this.http.get(environment.api+'/api/users/'+this.authService.getIdUser())
       .subscribe( (res : any) => {
-        console.log(res);
         this.user = res.user;
         this.userCopy = JSON.parse(JSON.stringify(res.user));
         this.role = this.authService.getRole();
@@ -81,7 +89,6 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
        this.loadTranslations();
     }
 
-    //traducir cosas
     loadTranslations(){
       this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
         this.msgDataSavedOk=res;
@@ -98,14 +105,23 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
       this.translate.use(newValue);
       var eventsLang = this.inj.get(EventsService);
       eventsLang.broadcast('changelang', newValue);
-      /*if(newValue=='es'){
-        Swal.fire({
-            title: this.translate.instant("Los textos en este idioma pueden contener errores"),
-            html: '<p>Este idioma está en desarrollo. Los nombres de los síntomas y las enfermedades, así como sus descripciones y sinónimos pueden contener errores.</p> <p>Para mejorar las traducciones, por favor, envíanos cualquier error a <a href="mailto:support@foundation29.org">support@foundation29.org</a></p>',
-            confirmButtonText: this.translate.instant("generics.Accept"),
-            icon:"warning"
-        })
-      }*/
+    }
+
+    ngAfterViewInit() {
+      let conf = this.config;
+      conf.layout.sidebar.collapsed = true;
+      this.configService.applyTemplateConfigChange({ layout: conf.layout });
+    }
+
+    ngOnDestroy() {
+      let conf = this.config;
+      conf.layout.sidebar.collapsed = false;
+      this.configService.applyTemplateConfigChange({ layout: conf.layout });
+      if (this.layoutSub) {
+        this.layoutSub.unsubscribe();
+      }
+
+      this.subscription.unsubscribe();
     }
 
     resetForm() {

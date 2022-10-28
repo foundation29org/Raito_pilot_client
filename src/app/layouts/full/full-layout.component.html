@@ -1,48 +1,52 @@
-<div
-  #wrapper
-  class="wrapper"
-  [ngClass]="{
-    'nav-collapsed': iscollapsed,
-    'menu-collapsed': iscollapsed,
-    'sidebar-sm': isSidebar_sm,
-    'sidebar-lg': isSidebar_lg
-  }"
-  [dir]="options.direction"
->
+<!-- *NAVBAR* starts -->
+<app-navbar></app-navbar>
+<!-- *NAVBAR* ends -->
 
-<div
-  #appSidebar
-  appSidebar
-  class="app-sidebar d-none"
-  (toggleHideSidebar)="toggleHideSidebar($event)"
-  [ngClass]="{ 'hide-sidebar': hideSidebar }"
-  data-active-color="white"
-  [attr.data-background-color]="bgColor"
-  [attr.data-image]="bgImage"
->
-  <app-sidebar></app-sidebar>
-  <div class="sidebar-background" #sidebarBgImage></div>
-</div>
-  <app-navbar (toggleHideSidebar)="toggleHideSidebar($event)"></app-navbar>
-  <div class="main-panel">
-        <div class="main-content mb-2">
-          <div [ngClass]="(isClinicalPage && role=='Clinical')?'showmenu':''">
-            <div clas="content-wrapper">
-                <div class="container-fluid">
-                    <ngb-alert type="warning" class="mt-4" [dismissible]="false" *ngIf="isIeOrEdge">
-                      <div class="mt-3">
-                        <h4>{{'others.browsers not supported' | translate }}</h4>
-                        <a href="https://www.microsoftedgeinsider.com/en-us/" target="_blank">{{'generics.Download' | translate }} Microsoft Edge Insider</a>
-                      </div>
-                    </ngb-alert>
-                    <router-outlet></router-outlet>
-                </div>
-            </div>
-          <div>
-        </div>
-        <!--<div *ngIf="!isApp">
-          <app-footer *ngIf="role != 'Clinical' && role!='Admin'"></app-footer>
-          <app-footer2 *ngIf="role == 'Clinical' || role=='Admin'"></app-footer2>
-        </div>-->
+<div class="wrapper" (window:resize)="onResize($event)">
+
+  <!-- *TOP* Menu starts -->
+  <app-horizontal-menu appTopMenu *ngIf="menuPosition === 'Top' && !displayOverlayMenu"></app-horizontal-menu>
+  <!-- *TOP* Menu ends -->
+
+  <!-- *SIDE* Menu starts -->
+  <div appSidebar *ngIf="menuPosition === 'Side' || displayOverlayMenu"
+    [ngClass]="{'main-menu': menuPosition === 'Side' || displayOverlayMenu, 'menu-fixed': menuPosition === 'Side' || displayOverlayMenu, 'menu-native-scroll': !perfectScrollbarEnable }" 
+    class="app-sidebar d-none"
+    (mouseenter)="sidebarMouseenter($event)" (mouseleave)="sidebarMouseleave($event)" data-active-color="white"
+    [attr.data-background-color]="config?.layout.variant === 'Transparent' ? 'black': bgColor"
+    [attr.data-image]="bgImage">
+    <app-sidebar></app-sidebar>
+    <div class="sidebar-background" [ngStyle]="{'background-image': 'url(' + bgImage + ')'}"
+      *ngIf="config?.layout.sidebar.backgroundImage"></div>
+  </div>
+  <!-- *SIDE* Menu ends -->
+
+  <div class="main-panel" style="margin-top: 0.95rem;">
+    <div class="main-content">
+      <div class="content-overlay"></div>
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
     </div>
+    <!-- FOOTER -->
+    <!--<app-footer></app-footer>-->
+    <!-- Scroll to top button -->
+    <button class="btn btn-primary scroll-top" type="button" *ngIf="isScrollTopVisible" (click)="scrollToTop()"><i class="ft-arrow-up"></i></button>
+  </div>
+
+  <!-- *NOTIFICATION-SIDEBAR* starts -->
+  <app-notification-sidebar></app-notification-sidebar>
+  <!-- *NOTIFICATION-SIDEBAR* ends -->
+
+  <!-- *CUSTOMIZER* starts -->
+  <app-customizer></app-customizer>
+  <!-- *CUSTOMIZER* ends -->
+
+  <div class="buy-now">
+    <!-- Buy now button -->
+    
+  </div>
+  <div class="sidenav-overlay" (click)="onOutsideClick($event);"
+    [ngClass]="{'d-none': displayOverlayMenu && hideSidebar && !overlayContent , 'd-block': displayOverlayMenu && !hideSidebar && overlayContent && innerWidth < 1200}"></div>
+  <div class="drag-target"></div>
 </div>

@@ -100,16 +100,16 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
   saving: boolean = false;
   selectedPatient: any = {};
   loadedPatientId: boolean = false;
-  indexOpen:number = -1;
+  idOpen:string = null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService) { 
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService, private searchService: SearchService) { 
     this.subscription.add( this.route.params.subscribe(params => {
-      if(params['index']!=undefined){
-        this.indexOpen = params['index'];
+      if(params['id']!=undefined){
+        this.idOpen = params['id'];
         //this.showListQuestionnaires = false;
       }else{
-        this.indexOpen = -1;
+        this.idOpen = null;
       }
     }));
   }
@@ -186,10 +186,13 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
 
           }
           this.loading = false;
-          if(this.indexOpen != -1 && res.length>0){
-            var event = this.events[this.indexOpen];
-            this.handleEvent('Edit this event', event);
-            this.indexOpen = -1;
+          if(this.idOpen != null && res.length>0){
+            var foundElementIndex = this.searchService.searchIndex(this.events, '_id', this.idOpen);
+            if(foundElementIndex!=-1){
+              var event = this.events[foundElementIndex];
+              this.handleEvent('Edit this event', event);
+            }
+            this.idOpen = null;
           }
          }, (err) => {
            console.log(err);

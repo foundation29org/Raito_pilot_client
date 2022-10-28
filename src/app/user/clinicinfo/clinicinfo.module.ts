@@ -31,8 +31,6 @@ import { MedicationComponent } from './medication/medication.component';
 import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomFormsModule } from 'ngx-custom-validators';
 
-import {DndDirective} from "app/shared/directives/dnd.directive";
-
 @NgModule({
     imports: [
         CalendarModule.forRoot({
@@ -68,8 +66,7 @@ import {DndDirective} from "app/shared/directives/dnd.directive";
         CalendarsComponent,
         AppointmentsComponent,
         DateTimePickerComponent,
-        MedicationComponent,
-        DndDirective
+        MedicationComponent
     ],
     providers: [],
 })

@@ -12,7 +12,6 @@ import { SortService } from 'app/shared/services/sort.service';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
-import { Apif29NcrService } from 'app/shared/services/api-f29ncr.service';
 import { DateService } from 'app/shared/services/date.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -35,7 +34,7 @@ declare global {
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [PatientService, Apif29BioService, ApiDx29ServerService, Apif29NcrService]
+  providers: [PatientService, Apif29BioService, ApiDx29ServerService]
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
@@ -310,7 +309,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   setCheck4(bool){
     this.checks.check4 = bool;
     this.setChecks();
-    this.router.navigate(['/mydata'], { queryParams: { panel : '2' } })
+    this.router.navigate(['/mydata'], { queryParams: { panel : 'static-2' } })
     //this.router.navigate(['/mydata'], { newTreatment: true });
   }
 
@@ -1743,7 +1742,7 @@ verifyStatus(){
               html: this.translate.instant("identity.t6"),
               icon: 'warning',
               showCancelButton: false,
-              confirmButtonColor: '#33658a',
+              confirmButtonColor: '#2F8BE6',
               cancelButtonColor: '#B0B6BB',
               confirmButtonText: 'Ok',
               showLoaderOnConfirm: true,
