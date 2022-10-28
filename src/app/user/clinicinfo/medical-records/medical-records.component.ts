@@ -401,7 +401,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
       title: this.translate.instant("generics.Are you sure delete") + " " + filename + " ?",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#33658a',
+      confirmButtonColor: '#2F8BE6',
       cancelButtonColor: '#B0B6BB',
       confirmButtonText: this.translate.instant("generics.Accept"),
       cancelButtonText: this.translate.instant("generics.Cancel"),

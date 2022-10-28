@@ -954,6 +954,8 @@
        "sharecontent2":"È possibile condividere i propri dati con i ricercatori ai fini dell'aggregazione e dell'analisi dei dati.",
        "share3title": "Con il tuo medico",
        "sharecontent3":"Verrà generato un link privato che potrai condividere con le persone a cui vuoi accedervi.",
+       "fhirtitle": "Scarica il file FHIR",
+       "fhirdesc": "Avere i tuoi dati in FHIR significa che puoi portarli in molti ospedali in tutto il mondo e saranno in grado di leggerli e incorporarli nella tua cartella clinica.",
        "Password is incorrect":"La password non è corretta",
        "we will close your session":"Per la tua sicurezza, chiuderemo la tua sessione.",
        "please enter your password":"Per motivi di sicurezza, inserisci la tua password",

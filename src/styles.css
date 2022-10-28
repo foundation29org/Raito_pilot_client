@@ -53,8 +53,8 @@ span{
 }
 
 form label, .form-group label {
-  color: #75787d;
-  /*font-size: 11px;*/
+  /*color: #75787d;
+  font-size: 11px;*/
   text-transform: none !important;
   letter-spacing: 0px;
   font-weight: 500;
@@ -145,7 +145,7 @@ body {
 }
 
 .nav-tabs .nav-link.active {
-  color: #33658a;
+  color: #2F8BE6;
 }
 
 .alert-warning {
@@ -158,9 +158,9 @@ body {
   font: inherit;
 }
 
-:host /deep/ a{
-  color: #33658a !important;
-}
+/*:host /deep/ a{
+  color: #2F8BE6 !important;2F8BE6
+}*/
 
 a:hover, a:focus {
   color: #b0b6bb;
@@ -185,7 +185,7 @@ a:hover, a:focus {
 }
 
 a{
-  color: #33658a;
+  color: #2F8BE6;
 }
 
 .btn-outline-secondary:hover {
@@ -208,7 +208,7 @@ a{
 }
 
 .hr-custom{
-  background-color: #33658a; 
+  background-color: #2F8BE6; 
   height: 3px; 
   border: 0;
   width: 30%;
@@ -235,9 +235,9 @@ a{
 }
 
 .btn-info-nohover{
-  background-color: #33658a !important;
+  background-color: #2F8BE6 !important;
   color: #fff !important;
-  border-color: #33658a;
+  border-color: #2F8BE6;
 }
 
 .btn-info-nohover:focus, .btn-info-nohover.focus {
@@ -270,7 +270,7 @@ a{
 
 .btn-active-info {
   color: #fff;
-  background-color: #33658a;
+  background-color: #2F8BE6;
   border-color: #205883;
   box-shadow: 0 0 0 0.2rem rgba(250, 94, 88, 0.5);
 }
@@ -289,9 +289,9 @@ a{
 }
 
 .btn-info {
-  background-color: #33658a !important;
+  background-color: #2F8BE6 !important;
   color: #fff !important;
-  border-color: #33658a;
+  border-color: #2F8BE6;
 }
 
 .btn-secondary {

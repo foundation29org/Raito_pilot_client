@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
 					<div>
-						<button *ngIf="viewMeditationSection" class="btn btn-primary mb-1" (click)="back()">
+						<button *ngIf="viewMeditationSection" class="btn btn-primary mb-2" (click)="back()">
 							{{'generics.Back' | translate}}
 						</button>
 					</div>
@@ -291,9 +291,8 @@
 																			{{'medication.We do not have recommended dose data for this drug' | translate}}
 																		</span>
 																	</span>
-																	<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
 																  </ng-template>
-																<label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="Recommended dose"></i></label>
+																<label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="{{'generics.More information' | translate }}"></i></label>
 																<input type="text" id="dose" class="form-control col-md-2" name="dose"
 																	[(ngModel)]="medication.dose" required dose #dose="ngModel"
 																	pattern="[0-9]+([,.][0-9]+)?$">
@@ -408,10 +407,12 @@
 														<div class="row">
 															<div class="col-md-12">
 																<div class="form-group">
-																	<label for="compassionateUse">{{'medication.Compassionate Use' | translate
-																		}}</label>
-																	<p class="font-small-2">{{'medication.Compassionate Use Description' |
-																		translate }}</p>
+																	<label for="compassionateUse">{{'medication.Compassionate Use' | translate}} <em class="ft-help-circle danger" style="cursor: pointer;" placement="down" #p3="ngbPopover" [ngbPopover]="popContentdrugs2" popoverTitle="{{'generics.More information' | translate }}"></em>
+																		<ng-template #popContentdrugs2>
+																			<span>
+																				{{'medication.Compassionate Use Description' | translate }}
+																			</span>
+																		  </ng-template></label>
 																	<select id="compassionateUse" name="compassionateUse"
 																		class="form-control col-md-6" [(ngModel)]="medication.compassionateUse">
 																		<option value="yes">{{'generics.Yes' | translate }}</option>
@@ -651,9 +652,8 @@
 											{{'medication.We do not have recommended dose data for this drug' | translate}}
 										</span>
 									</span>
-									<button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;" (click)="p1.close()">{{'generics.Close' | translate }}</button>
 								  </ng-template>
-								  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="Recommended dose"></i></label>
+								  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="{{'generics.More information' | translate }}"></i></label>
 								<input type="text" id="dose" class="form-control" name="dose"
 									[(ngModel)]="medication.dose" required dose #dose="ngModel"
 									pattern="[0-9]+([,.][0-9]+)?$">

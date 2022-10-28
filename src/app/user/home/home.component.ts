@@ -1742,7 +1742,7 @@ verifyStatus(){
               html: this.translate.instant("identity.t6"),
               icon: 'warning',
               showCancelButton: false,
-              confirmButtonColor: '#33658a',
+              confirmButtonColor: '#2F8BE6',
               cancelButtonColor: '#B0B6BB',
               confirmButtonText: 'Ok',
               showLoaderOnConfirm: true,

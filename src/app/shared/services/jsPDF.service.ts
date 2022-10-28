@@ -119,6 +119,7 @@ export class jsPDFService {
             //Diseases
             if(topRelatedConditions.length>0){
                 this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,positionY += 10)
+                positionY = this.checkIfNewPage(doc, positionY);
                 this.writeHeaderText(doc, 16, positionY += 7, this.translate.instant("generics.Name"));
                 this.writeHeaderText(doc, 175, positionY, "Id");
                 positionY += 7;
@@ -745,7 +746,6 @@ export class jsPDFService {
     
     
     private writeHeaderText(doc, pos, lineText, text) {
-        lineText = this.checkIfNewPage(doc, lineText);
         //doc.setTextColor(117, 120, 125)
         doc.setFont(undefined, 'bold');
         doc.setFontSize(10);
@@ -1034,6 +1034,7 @@ export class jsPDFService {
             doc.setTextColor(0, 0, 0)
             doc.setFontSize(10);
             lineText += 2;
+            lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
             this.writeHeaderText(doc, 175, lineText, "Id");
             lineText += 5;
@@ -1051,6 +1052,7 @@ export class jsPDFService {
         //Diseases
         if(infoDrugs.length>0){
             this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
+            lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
             this.writeHeaderText(doc, 80, lineText, this.translate.instant("medication.Dose mg"));
             this.writeHeaderText(doc, 120, lineText, this.translate.instant("generics.Start Date"));
@@ -1073,6 +1075,7 @@ export class jsPDFService {
         if(seizuresMonths.length>0){
             lineText = this.checkIfNewPage(doc, lineText+=10);
             this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
+            lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Date"));
             this.writeHeaderText(doc, 35, lineText, this.translate.instant("pdf.Amount"));
             this.writeHeaderText(doc, 70, lineText, this.translate.instant("generics.Date"));
