@@ -907,9 +907,9 @@
     "q1": "Ubicación del contenedor",
     "a1": "En Raito usted es el único propietario de sus datos. Puedes crear una copia de seguridad de tus datos, y te damos dos posibilidades para guardarla:",
     "a1.1.1": "Almacenamiento centralizado",
-    "a1.1.2": "La copia de tus datos se guarda en nuestros servidores, cuya seguridad es controlada por los sitemas de Microsoft.",
+    "a1.1.2": "La copia de tus datos se guarda en lo servidores de Fundación 29. Nadie más que nosotros tendrá acceso a tus datos.",
     "a1.2.1": "Almacenamiento descentralizado",
-    "a1.2.2": "La copia de tus datos se guarda en una red descentralizada, siendo encriptada y distribuida por la red. No existe un entidad que lo controle. <a href='https://ipfs.io/' target='_blank'> <em class='ft-external-link'></em></a>",
+    "a1.2.2": "La copia de tus datos se guarda en una red descentralizada, siendo encriptada y distribuida por Internet. No existe un entidad que lo controle. <a href='https://ipfs.io/' target='_blank'> <em class='ft-external-link'></em></a>",
     "Last backup": "Última copia de seguridad",
     "decentralized storage": "¿Qué es el almacenamiento descentralizado?",
     "Decentralized": "Descentralizado",
@@ -929,8 +929,8 @@
     "Consent for editing and new input capabilities": "Consentimiento para la edición y nuevas capacidades de entrada",
     "Use this dashboard to accept": "Utiliza esta pantalla para aceptar, informarte o denegar el acceso a tus datos en cualquier momento",
     "Share your data anonymously with your patient group": "Comparte tus datos de forma anónima con tu grupo de pacientes",
-    "You do not belong to any patient group": "Usted no pertenece a ningún grupo de pacientes",
-    "Here is a message on why this is important": "Aquí hay un mensaje sobre por qué esto es importante",
+    "You do not belong to any patient group": "No perteneces a ningún grupo de pacientes",
+    "Here is a message on why this is important": "Raito trabaja con grupos de pacientes para obtener conjuntos de datos. Es la forma en la que puedes colaborar en la investigación sobre tu enfermedad.",
     "note1": "En los sistemas tradicionales, usted no tiene el control de sus datos, pero nosotros queremos cambiar eso.",
     "note2": "Al dar el consentimiento a tu organización para acceder a tus datos de forma anónima, utilizamos la identidad descentralizada, para que tengas el control de tus datos, manteniendo la privacidad y la seguridad. Puedes dar tu consentimiento y rechazarlo cuando quieras.",
     "note3": "Cuando des tu consentimiento, tendrás la prueba de ello en tu teléfono móvil.",
@@ -1075,6 +1075,7 @@
   "appointments": {
     "Next medical appointments":"Siguientes citas médicas",
     "Add appointment": "Añadir cita",
-    "new?": "¿Crear nueva cita?"
+    "new?": "¿Crear nueva cita?",
+    "subtitle": "En esta sección puedes anotar tus citas médicas y Raito te avisara cuando se acerquen."
   }
 }
