@@ -16,7 +16,7 @@
 								<button *ngIf="!loading" type="button" class="mb-0 btn btn-dark"
 									(click)="newMedication()">{{'medication.New drug or dose' | translate }}</button>
 								<span class="d-block">
-									<label class="info mb-2 pointer" *ngIf="!importing">
+									<label class="primary mb-2 pointer" *ngIf="!importing">
 										<input id="file" type="file" style="display:none;" accept=".json"
 											(change)="onImport($event)" />
 										{{'seizures.Import from seizure tracker' | translate }}

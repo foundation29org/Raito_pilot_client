@@ -44,10 +44,10 @@
                                                                 {{'reports.Reading' | translate }}
                                                             </span>
                                                             <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            <!--<a class="info"
+                                                            <!--<a class="primary"
                                                             (click)="extractData(onefile.name, onefile.contentSettings.contentType, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>-->
                                                         </span>
-                                                        <a *ngIf="onefile.hasResults" class="info"
+                                                        <a *ngIf="onefile.hasResults" class="primary"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
                                                             <span class="d-block">
                                                                 {{onefile.lastModified | date: 'dd MMM y': '' : translate.currentLang}}
@@ -68,24 +68,24 @@
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="editDocument(onefile,updateDocument);">
                                                                 <i class="ft-edit fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    class="ml-2">{{'generics.Edit' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Share' | translate
+                                                                    class="ml-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
                                                                 <i class="ft-download fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Download' | translate
+                                                                    class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="deleteFile(onefile,i,'general');">
                                                                 <i class="ft-trash danger fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Delete' | translate
+                                                                    class="ml-2">{{'generics.Delete' | translate
                                                                     }}</span>
                                                             </a>
                                                         </div>
@@ -137,10 +137,10 @@
                                                                 {{'reports.Reading' | translate }}
                                                             </span>
                                                             <i class="fa fa-spinner fa-spin fa-fw"></i>
-                                                            <!--<a class="info"
+                                                            <!--<a class="primary"
                                                             (click)="extractData(onefile.name, onefile.contentSettings.contentType, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>-->
                                                         </span>
-                                                        <a *ngIf="onefile.hasResults" class="info"
+                                                        <a *ngIf="onefile.hasResults" class="primary"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
                                                             <span class="d-block">
                                                                 {{onefile.lastModified | date: 'dd MMM y': '' : translate.currentLang}}
@@ -160,24 +160,24 @@
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="editDocument(onefile,updateDocument);">
                                                                 <i class="ft-edit fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Edit' | translate
+                                                                    class="ml-2">{{'generics.Edit' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Share' | translate
+                                                                    class="ml-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
                                                                 <i class="ft-download fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Download' | translate
+                                                                    class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="deleteFile(onefile,i, 'emergency');">
                                                                 <i class="ft-trash danger fa-xs"></i><span
-                                                                    class="ml-2 black">{{'generics.Delete' | translate
+                                                                    class="ml-2">{{'generics.Delete' | translate
                                                                     }}</span>
                                                             </a>
                                                         </div>
@@ -224,7 +224,7 @@
                                                     <span>
                                                         <button (click)="changeStateSymptom(i)"
                                                             class="btn btn-sm mr-1 mb-0 btn-fab round white"
-                                                            [ngClass]="(hpo.checked==true)?'btn-info-nohover':'btn-secondary'"
+                                                            [ngClass]="(hpo.checked==true)?'btn-primary':'btn-secondary'"
                                                             href="javascript:void(0)"
                                                             title="{{'phenotype.Click to check it' | translate }}">
                                                             <em class="fa fa-check w-13"></em>
@@ -256,7 +256,7 @@
                                 placeholder="{{'land.placeholder' | translate }}"></textarea>
                         </div>
                         <div class="text-center mt-2">
-                            <button type="button" [disabled]="callingTextAnalytics" class="btn btn-lg btn-info round"
+                            <button type="button" [disabled]="callingTextAnalytics" class="btn btn-lg btn-primary round"
                                 [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
                                 (click)="startExtractor();">
                                 <span *ngIf="!callingTextAnalytics">{{'land.Look for symptoms' | translate }}</span>

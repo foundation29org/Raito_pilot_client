@@ -30,7 +30,7 @@
                                                 <span *ngIf="f29.message=='Available' && !loadingf29"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loadingf29" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="f29.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="f29.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
@@ -43,7 +43,7 @@
                                                 <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="ipfs.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="ipfs.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -196,9 +196,9 @@
             </div>
         </div>
         <div class="card-footer ">
-            <a class="danger font-small-1 mt-2" style="position: relative;top: 8px;"
+            <a class="primary font-small-1 mt-2" style="position: relative;top: 8px;"
                 (click)="showHelpFHIRPopup(contentInfoFHIR);">{{'mydata.All data saved with FHIR standard' | translate }}</a> <img (click)="showHelpFHIRPopup(contentInfoFHIR);"
-                class="logo-img mt-1 pointer" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
+                class="logo-img mt-1 pointer ml-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
         </div>
     </div>
 </div>
@@ -207,8 +207,8 @@
 
 <ng-template #contentInfoFHIR let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
-        <h4 class="modal-title"><span class="danger" style="position: relative;top: 8px;">{{'mydata.What is FHIR' | translate }}</span> <img
-                class="logo-img" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' /></h4>
+        <h4 class="modal-title"><span class="" style="position: relative;top: 8px;">{{'mydata.What is FHIR' | translate }}</span> <img
+                class="logo-img ml-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' /></h4>
         <button type="button" class="close" aria-label="Close" (click)="closeModal();">
             <span aria-hidden="true">&times;</span>
         </button>

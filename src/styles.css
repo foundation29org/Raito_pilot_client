@@ -6,6 +6,29 @@
   bottom: auto;
 }
 
+html body.layout-dark:not(.layout-transparent) .modal-content {
+  background-color: #000 !important;
+  background: #000 !important;
+}
+
+html body.layout-dark:not(.layout-transparent) .card {
+  box-shadow: none;
+}
+
+.layout-transparent .primary {
+  color: #FFCDD3 !important;
+}
+
+a {
+  color: #f9423a;
+}
+
+input{
+  accent-color: #f9423a !important;
+}
+
+
+
 .gradient-red-ocean {
   background-image: linear-gradient(60deg, #1D4350, #A43931) !important;
   color: #fff !important;
@@ -144,10 +167,6 @@ body {
   border-radius: 1rem;
 }
 
-.nav-tabs .nav-link.active {
-  color: #2F8BE6;
-}
-
 .alert-warning {
   border: 1px solid #dee2e6 !important;
   background-color: #A1CBEA !important;
@@ -157,10 +176,6 @@ body {
 .mat-expansion-panel-content {
   font: inherit;
 }
-
-/*:host /deep/ a{
-  color: #2F8BE6 !important;2F8BE6
-}*/
 
 a:hover, a:focus {
   color: #b0b6bb;
@@ -184,10 +199,6 @@ a:hover, a:focus {
   min-height: 430px !important;
 }
 
-a{
-  color: #2F8BE6;
-}
-
 .btn-outline-secondary:hover {
   color: #ffffff;
 }
@@ -207,20 +218,6 @@ a{
   background-color: #ededed;
 }
 
-.hr-custom{
-  background-color: #2F8BE6; 
-  height: 3px; 
-  border: 0;
-  width: 30%;
-}
-
-.hr-custom-secondary{
-  background-color: #b0b6bb; 
-  height: 3px; 
-  border: 0;
-  width: 30%;
-}
-
 .bt-nav{
   width: 100px;
 }
@@ -232,17 +229,6 @@ a{
 .btn-primary:hover {
   background-color: #b0b6bb !important;
   border-color: #a9b3bb !important;
-}
-
-.btn-info-nohover{
-  background-color: #2F8BE6 !important;
-  color: #fff !important;
-  border-color: #2F8BE6;
-}
-
-.btn-info-nohover:focus, .btn-info-nohover.focus {
-  outline: 0;
-  box-shadow: none;
 }
 
 .btn-info:hover {
@@ -267,14 +253,6 @@ a{
   box-shadow: 0 0 0 0.2rem #b0b6bb !important;
 }
 
-
-.btn-active-info {
-  color: #fff;
-  background-color: #2F8BE6;
-  border-color: #205883;
-  box-shadow: 0 0 0 0.2rem rgba(250, 94, 88, 0.5);
-}
-
 .secondary{
   color:#b0b6bb;
 }
@@ -286,12 +264,6 @@ a{
 
 .btn-primary {
   color: #fff !important;
-}
-
-.btn-info {
-  background-color: #2F8BE6 !important;
-  color: #fff !important;
-  border-color: #2F8BE6;
 }
 
 .btn-secondary {
