@@ -45,6 +45,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.isMobile = true;
       }
       console.log(this.isMobile);
+      console.log(this.authService.getEnvironment());
       if(this.authService.getEnvironment()){
         this.translate.use(this.authService.getLang());
         sessionStorage.setItem('lang', this.authService.getLang());
@@ -54,9 +55,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if(this.moralisService.currentUser!=null){
           this.moralisService.logout();
         }
-        if(this.isMobile){
+        localStorage.clear();
+        sessionStorage.clear();
+        /*if(this.isMobile){
           localStorage.clear();
-        }
+        }*/
       }
     }
 
