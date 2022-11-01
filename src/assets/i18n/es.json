@@ -1076,6 +1076,15 @@
     "Next medical appointments":"Siguientes citas médicas",
     "Add appointment": "Añadir cita",
     "new?": "¿Crear nueva cita?",
-    "subtitle": "En esta sección puedes anotar tus citas médicas y Raito te avisara cuando se acerquen."
+    "subtitle": "En esta sección puedes anotar tus citas médicas y Raito te avisara cuando se acerquen.",
+    "Add new event": "Añadir evento nuevo",
+    "Edit this event": "Editar este evento",
+    "Event Title": "Título del evento",
+    "New event": "Nuevo evento",
+    "Clean form": "Limpiar formulario",
+    "Month": "Mes",
+    "Week": "Semana",
+    "Day": "Día",
+    "Today": "Hoy"
   }
 }

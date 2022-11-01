@@ -17,13 +17,13 @@
 					<div class="col">
 						<div class="btn-group d-none d-sm-none d-md-none d-lg-block">
 							<a class="btn btn-raised btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
-								Previous
+								{{'generics.Previous' | translate }}
 							</a>
 							<a class="btn btn-raised btn-danger" mwlCalendarToday [(viewDate)]="viewDate">
-								Today
+								{{'appointments.Today' | translate }}
 							</a>
 							<a class="btn btn-raised btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
-								Next
+								{{'generics.Next' | translate }}
 							</a>
 						</div>
 
@@ -40,18 +40,18 @@
 						</div>
 					</div>
 					<div class="col text-center align-self-center">
-						<h6 class="text-uppercase mb-0">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h6>
+						<h6 class="text-uppercase mb-0">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h6>
 					</div>
 					<div class="col text-right">
 						<div class="btn-group d-none d-sm-none d-md-none d-lg-block">
 							<a class="btn btn-raised btn-primary" (click)="view = 'month'" [class.active]="view === 'month'">
-								Month
+								{{'appointments.Month' | translate }}
 							</a>
 							<a class="btn btn-raised btn-primary" (click)="view = 'week'" [class.active]="view === 'week'">
-								Week
+								{{'appointments.Week' | translate }}
 							</a>
 							<a class="btn btn-raised btn-primary" (click)="view = 'day'" [class.active]="view === 'day'">
-								Day
+								{{'appointments.Day' | translate }}
 							</a>
 						</div>
 
@@ -70,7 +70,7 @@
 					</div>
 				</div>
 				<div [ngSwitch]="view">
-					<mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+					<mwl-calendar-month-view *ngSwitchCase="'month'" [locale]="locale" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
 					 (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" >
 					</mwl-calendar-month-view>
 					<mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)">
@@ -83,10 +83,9 @@
 	</div>
 	<ng-template #modalContent let-close="close">
 		<div class="modal-header">
-			<h5 class="modal-title">{{ modalData.action }}
-				<span class="d-block"><label class="btn btn-flat btn-dark btn-sm mb-0" (click)="clearData(modalData.event);">
-					Clean form
-				</label></span>
+			<h5 class="modal-title">
+				<span *ngIf="modalData.action=='Add new event'"> {{'appointments.Add new event' | translate }}</span>
+				<span *ngIf="modalData.action!='Add new event'"> {{'appointments.Edit this event' | translate }}</span>
 			</h5>
 			<button type="button" class="close" (click)="closeModal()">
 				<span aria-hidden="true">&times;</span>
@@ -99,7 +98,7 @@
 					<div class="row">
 						<div class="col-md-12 col-12">
 							<div class="form-group">
-								<label>Event Title:</label>
+								<label>{{'appointments.Event Title' | translate }}:</label>
 								<input type="text" name="event-title" class="form-control" [(ngModel)]="modalData.event.title" (keyup)="refresh.next()">
 							</div>
 						</div>
@@ -113,9 +112,18 @@
 					<div class="row">
 						<div class="col-md-12 col-12">
 							<div class="form-group mb-0">
-								<label class="mb-0 mt-2">Starts At:</label>
-								<mwl-demo-utils-date-time-picker class="row" name="starts-at" [(ngModel)]="modalData.event.start" (ngModelChange)="refresh.next();updateEnd(modalData)" placeholder="Not set">
-								</mwl-demo-utils-date-time-picker>
+								<label class="mb-0 mt-2 d-block">{{'seizures.Starts At' | translate }}:</label>
+								<!--<mwl-demo-utils-date-time-picker class="row" name="starts-at" [(ngModel)]="modalData.event.start" (ngModelChange)="refresh.next();updateEnd(modalData)" placeholder="Not set">
+								</mwl-demo-utils-date-time-picker>-->
+								<span *ngIf="modalData.event.start">{{modalData.event.start|date:timeformat}}</span>
+								<input class="form-control w-75 d-none" name="start" matInput
+																	[matDatepicker]="picker" [(ngModel)]="modalData.event.start" required
+																	dateTime #dateTime="ngModel" (dateChange)="refresh.next();updateEnd(modalData)">
+																<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+																<mat-datepicker touchUi="true" #picker></mat-datepicker>
+																<small class="form-text text-muted danger"
+																	*ngIf="!dateTime.valid && (dateTime.dirty || dateTime.touched)">{{'generics.required'
+																	| translate }}</small>
 							</div>
 						</div>
 						<!--<div class="col-md-6 col-12">
@@ -129,7 +137,7 @@
 					<div class="row">
 						<div class="col-md-12 col-12">
 							<div class="form-group">
-								<label>Notes:</label>
+								<label>{{'generics.notes' | translate }}:</label>
 								<textarea maxlength="150" name="notes" class="autoajustable form-control" [(ngModel)]="modalData.event.notes"  name="notes"></textarea>
 							</div>
 						</div>
@@ -139,7 +147,13 @@
 			</form>
 		</div>
 		<div class="modal-footer">
-			<div class="col-md-12 center-elements">
+			<div class="col-md-12 center-elements" *ngIf="modalData.action=='Add new event'">
+				<button type="button" class="btn btn-primary mr-1" (click)="clearData(modalData.event);">{{'appointments.Clean form' |
+					translate }}</button>
+				<button type="button" class="btn btn-dark ml-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |
+					translate }}</button>
+			</div>
+			<div class="col-md-12 center-elements" *ngIf="modalData.action!='Add new event'">
 				<button type="button" class="btn btn-primary mr-1" (click)="confirmDeleteSeizure(modalData.event);">{{'generics.Delete' |
 					translate }}</button>
 				<button type="button" class="btn btn-dark ml-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |

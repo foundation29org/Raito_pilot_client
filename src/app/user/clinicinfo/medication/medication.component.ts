@@ -337,7 +337,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
       if (this.settings.massunit == 'lb') {
         parseMassunit = parseMassunit / 2.2046;
       }
-      var info = {value:parseMassunit};
+      var date = startOfDay(new Date());
+      var stringDate = this.dateService.transformDate(date);
+      var info = {value:parseMassunit, date: stringDate};
       this.subscription.add(this.http.post(environment.api + '/api/weight/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res: any) => {
           console.log(res);

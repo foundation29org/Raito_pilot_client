@@ -1076,6 +1076,15 @@
       "Next medical appointments":"Prossimi appuntamenti medici",
       "Add appointment": "Aggiungi appuntamento",
       "new?": "Creare un nuovo appuntamento?",
-      "subtitle": "In questa sezione puoi annotare i tuoi appuntamenti medici e Raito ti avviserà quando stanno per arrivare."
+      "subtitle": "In questa sezione puoi annotare i tuoi appuntamenti medici e Raito ti avviserà quando stanno per arrivare.",
+      "Add new event": "Aggiungi nuovo evento",
+      "Edit this event": "Modifica questo evento",
+      "Event Title": "Titolo dell'evento",
+      "New event": "Nuovo evento",
+      "Clean form": "Forma pulita",
+      "Month": "Mese",
+      "Week": "Settimana",
+      "Day": "Giorno",
+      "Today": "Oggi"
     }
  }
