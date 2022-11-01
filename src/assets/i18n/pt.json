@@ -1076,6 +1076,15 @@
       "Next medical appointments":"Próximas consultas médicas",
       "Add appointment": "Adicionar compromisso",
       "new?": "Criar novo compromisso?",
-      "subtitle": "Nesta seção você pode anotar suas consultas médicas e a Raito irá notificá-lo quando elas estiverem chegando."
+      "subtitle": "Nesta seção você pode anotar suas consultas médicas e a Raito irá notificá-lo quando elas estiverem chegando.",
+      "Add new event": "Adicionar novo evento",
+      "Edit this event": "Editar este evento",
+      "Event Title": "Título do evento",
+      "New event": "Novo evento",
+      "Clean form": "Formulário limpo",
+      "Month": "Mês",
+      "Week": "Semana",
+      "Day": "Dia",
+      "Today": "Hoje"
     }
  }

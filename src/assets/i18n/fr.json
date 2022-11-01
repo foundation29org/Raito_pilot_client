@@ -1076,6 +1076,15 @@
       "Next medical appointments":"Prochains rendez-vous médicaux",
       "Add appointment": "Ajouter un rendez-vous",
       "new?": "Créer un nouveau rendez-vous?",
-      "subtitle": "In questa sezione puoi annotare i tuoi appuntamenti medici e Raito ti avviserà quando stanno per arrivare."
+      "subtitle": "In questa sezione puoi annotare i tuoi appuntamenti medici e Raito ti avviserà quando stanno per arrivare.",
+      "Add new event": "Ajouter un nouvel événement",
+      "Edit this event": "Modifier cet événement",
+      "Event Title": "Titre de l'événement",
+      "New event": "Nouvel évènement",
+      "Clean form": "Forme épurée",
+      "Month": "Mois",
+      "Week": "La semaine",
+      "Day": "Jour",
+      "Today": "Aujourd'hui"
     }
  }

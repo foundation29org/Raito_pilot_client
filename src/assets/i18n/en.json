@@ -1076,6 +1076,15 @@
     "Next medical appointments":"Next medical appointments",
     "Add appointment": "Add appointment",
     "new?": "Create new appointment?",
-    "subtitle": "In this section you can write down your medical appointments and Raito will notify you when they are coming up."
+    "subtitle": "In this section you can write down your medical appointments and Raito will notify you when they are coming up.",
+    "Add new event": "Add new event",
+    "Edit this event": "Edit this event",
+    "Event Title": "Event Title",
+    "New event": "New event",
+    "Clean form": "Clean form",
+    "Month": "Month",
+    "Week": "Week",
+    "Day": "Day",
+    "Today": "Today"
   }
 }

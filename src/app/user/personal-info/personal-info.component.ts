@@ -746,6 +746,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       if(this.settings.massunit == 'lb'){
         parseMassunit.value = parseMassunit.value / 2.2046;
       }
+      parseMassunit.date = this.dateService.transformDate(parseMassunit.date);
       //this.seizuresForm.value.start = this.dateService.transformDate(this.seizuresForm.value.start);
       this.subscription.add( this.http.post(environment.api+'/api/weight/'+this.authService.getCurrentPatient().sub, parseMassunit)
         .subscribe( (res : any) => {
@@ -827,7 +828,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
         parseLengthUnit.value = (this.footHeight.feet * 30.48) + (this.footHeight.inches*2.54);
       }
-
+      parseLengthUnit.date = this.dateService.transformDate(parseLengthUnit.date);
       this.subscription.add( this.http.post(environment.api+'/api/height/'+this.authService.getCurrentPatient().sub, parseLengthUnit)
         .subscribe( (res : any) => {
           if(res.message == 'height exists'){

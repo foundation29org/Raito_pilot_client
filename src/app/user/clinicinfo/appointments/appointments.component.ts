@@ -101,6 +101,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
   selectedPatient: any = {};
   loadedPatientId: boolean = false;
   idOpen:string = null;
+  locale: string = sessionStorage.getItem('lang')
   private subscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService, private searchService: SearchService) { 
@@ -235,7 +236,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
     //event.color = colors.red;
     this.modalData = { event, action };
     
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.modal.open(this.modalContent, { size: 'md' });
   }
 
   addEvent(date): void {
@@ -252,7 +253,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
       }
       this.newEvent = {
         id: null,
-        title: 'New event',
+        title: this.translate.instant("appointments.New event"),
         start: startOfDay(actualDate),
         end: endOfHour(actualDate),
         color: colors.red,
@@ -351,7 +352,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
     var emptydata = {
       id: data.id,
       notes:"",
-      title: 'New event',
+      title: this.translate.instant("appointments.New event"),
       start: startOfDay(new Date()),
       end: endOfHour(new Date()),
       color: colors.red,

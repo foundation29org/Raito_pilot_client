@@ -1076,6 +1076,15 @@
       "Next medical appointments":"Nächste arzttermine",
       "Add appointment": "Termin hinzufügen",
       "new?": "Neuen Termin anlegen?",
-      "subtitle": "In diesem Abschnitt kannst du deine Arzttermine aufschreiben und Raito wird dich benachrichtigen, wenn sie anstehen."
+      "subtitle": "In diesem Abschnitt kannst du deine Arzttermine aufschreiben und Raito wird dich benachrichtigen, wenn sie anstehen.",
+      "Add new event": "Neues Ereignis hinzufügen",
+      "Edit this event": "Bearbeiten Sie diese Veranstaltung",
+      "Event Title": "Titel der Veranstaltung",
+      "New event": "Neues Event",
+      "Clean form": "Sauberes Formular",
+      "Month": "Monat",
+      "Week": "Woche",
+      "Day": "Tag",
+      "Today": "Heute"
     }
  }

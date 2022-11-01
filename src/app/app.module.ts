@@ -1,8 +1,16 @@
 import * as $ from 'jquery';
 import { NgModule, LOCALE_ID } from "@angular/core";
 import es from '@angular/common/locales/es'
+import fr from '@angular/common/locales/fr'
+import de from '@angular/common/locales/de'
+import it from '@angular/common/locales/it'
+import pt from '@angular/common/locales/pt'
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(es);
+registerLocaleData(fr);
+registerLocaleData(de);
+registerLocaleData(it);
+registerLocaleData(pt);
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
