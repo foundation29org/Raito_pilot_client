@@ -38,6 +38,9 @@
   @if $dark-style {
     html body.layout-dark:not(.layout-transparent) & {
       @content;
+      .modal-content{
+        background: #000 !important;
+      }
     }
   }
 
