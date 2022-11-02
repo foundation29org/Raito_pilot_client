@@ -11,6 +11,10 @@ html body.layout-dark:not(.layout-transparent) .modal-content {
   background: #000 !important;
 }
 
+:host ::ng-deep ._hj-ETLL8__MinimizedWidgetMiddle__label{
+  background-color: #f9423a !important;
+}
+
 html body.layout-dark:not(.layout-transparent) .card {
   box-shadow: none;
 }

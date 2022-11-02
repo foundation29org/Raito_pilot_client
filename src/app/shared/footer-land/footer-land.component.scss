@@ -5,7 +5,9 @@
   margin: 0.5em;
 }
 
-.redes-line {border-right: 1px solid #efefef;position: relative;height: 100%; margin-right: 20px;}
+input, textarea{
+  background: white;
+}
 
 @media (max-width: 1091px) {
   .btn-about{
