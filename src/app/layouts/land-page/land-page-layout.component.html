@@ -1,6 +1,6 @@
 <app-navbar-dx29></app-navbar-dx29>
 <div class="wrapper" (window:resize)="onResize($event)">  
-  <div class="main-panel">
+  <div class="main-panel" [ngClass]="{'mt-0': innerWidth > 1200}" >
     <div>
       <div class="">
           <div class="">
