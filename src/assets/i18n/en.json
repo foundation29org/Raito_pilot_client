@@ -779,7 +779,9 @@
     "t2.3a": "Join a patient community to contribute your data anonymously and boost your reach with institutions and applications that will help you and other patients.",
     "t3.1": "Available on your mobile and tablet",
     "t3.2": "Use Raito on your phone or tablet: it is free and easy",
-    "button": "I want to join"
+    "button": "I want to join",
+    "For free forever": "For free forever!",
+    "You have a pending action before continuing": "You have a pending action before continuing."
   },
   "homeraito":{
     "t1": "Do you belong to a patient organization?",

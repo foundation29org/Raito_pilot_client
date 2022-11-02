@@ -399,7 +399,14 @@ mark{
     }
   }
 
+  @media ( max-width: 768px ){
+    .width30rem{
+      max-width: 30rem !important;
+    }
+  }
+
 @media ( max-width: 575px ){
+
   body{
     font-size: 12px !important;
   }

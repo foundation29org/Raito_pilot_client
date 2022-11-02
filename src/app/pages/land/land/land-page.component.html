@@ -8,12 +8,12 @@
                         <h2 class="text-bold-500">{{'landraito.t1' | translate }}</h2>
                         <p class="">{{'landraito.p1' | translate }}</p>
                         <div class="col-md-12 center-elements">
-                            <button (click)="login()" class="btn btn-dark mt-1" title="I want to join">
+                            <button *ngIf="!sending" (click)="login()" class="btn btn-dark mt-1" title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
                             </button>
                             <div class="center-elements" *ngIf="sending">
-                                <div><p class="centerSpinner">Pending... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
-                                    <p>You have a pending action before continuing.</p>
+                                <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
+                                    <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
                                 </div>
                             </div>
                             <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
@@ -51,9 +51,14 @@
                             </div>
                         </div>
                         <div class="col-md-12 mt-3 center-elements">
-                            <button (click)="login()" class="btn btn-dark " title="I want to join">
+                            <button *ngIf="!sending" (click)="login()" class="btn btn-dark " title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
                             </button>
+                            <div class="center-elements" *ngIf="sending">
+                                <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
+                                    <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>
@@ -75,123 +80,111 @@
         </div>
     </div>
     <section id="login" class="d-none d-xl-block">
-        <div class="row full-height-vh m-0">
-            <div class="col-12 d-flex align-items-center justify-content-center">
-              <div class="offset-xl-2 col-xl-8 card overflow-hidden">
-                <div class="card-content">
-                  <div class="card-body auth-img">
-                    <div class="row m-0">
-                      <div class="col-lg-5 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3 hide-img more-width">
-                        <span class="flex center-elements ">
-                            <img src="assets/img/logo.png" style="width: 100%;" alt="logo raito">
-                            <span class="font-large-2 text-bold-600 d-block">Raito</span>
-                        </span>
-                        
-                        
-                      </div>
-                      <div class="col-lg-7 col-12 px-4 py-3 more-width">
-                        <h2 class="text-bold-500">{{'landraito.t1' | translate }}</h2>
-                        <p class="">{{'landraito.p1' | translate }}</p>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button (click)="login()" class="btn btn-dark mt-1 btn-lg" title="I want to join">
-                                <span class="menu-title">{{'landraito.button' | translate }}</span>
-                            </button>
-                            <span>
-                                For free forever!
-                            </span>
-                            <div class="center-elements" *ngIf="sending">
-                                <div><p class="centerSpinner">Pending... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
-                                    <p>You have a pending action before continuing.</p>
+        <div class="container-fluid">
+            <div class="row m-0" style="min-height: 100vh !important;">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                  <div class="offset-xl-3 col-xl-6 card overflow-hidden">
+                    <div class="card-content">
+                      <div class="card-body auth-img">
+                        <div class="row m-0">
+                          <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3 hide-img">
+                            <img src="assets/img/home/home1.webp" alt="">
+                          </div>
+                          <div class="col-lg-6 col-12 px-4 py-3 more-width">
+                            <h2 class="text-bold-500">{{'landraito.t1' | translate }}</h2>
+                            <p class="">{{'landraito.p1' | translate }}</p>
+                            <hr>
+                            <div class="">
+                                <button *ngIf="!sending" (click)="login()" class="btn btn-dark mt-1 mb-1 d-block" title="I want to join">
+                                    <span class="menu-title">{{'landraito.button' | translate }}</span>
+                                </button>
+                                <span *ngIf="!sending">
+                                    {{'landraito.For free forever' | translate }}
+                                </span>
+                                <div class="center-elements" *ngIf="sending">
+                                    <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
+                                        <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
+                                    </div>
                                 </div>
+                                <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
                             </div>
-                            <button *ngIf="currentUser != null" class="btn btn-dark btn-block mb-0" (click)="logOut()"> {{'navbar.Logout' | translate }}</button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                    <div class="offset-xl-1 col-xl-10">
+                        <div class="card p-4">
+                            <h3 class="text-bold-500">{{'landraito.t2' | translate }}</h3>
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="row mt-3">
+                                        <div class="col-3 pr-0 pl-0">
+                                            <img class="w-100" src='assets/img/home/home2.webp' alt="step 1 raito">
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 class="text-bold-500">1. {{'landraito.t2.1t' | translate }}</h5>
+                                            <p>{{'landraito.t2.1a' | translate }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="row mt-3">
+                                        <div class="col-3 pr-0 pl-0">
+                                            <img class="w-100" src='assets/img/home/home3.webp' alt="step 2 raito">
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 class="text-bold-500">2. {{'landraito.t2.2t' | translate }}</h5>
+                                            <p>{{'landraito.t2.2a' | translate }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <div class="row mt-3">
+                                        <div class="col-3 pr-0 pl-0">
+                                            <img class="w-100" src='assets/img/home/home4.webp' alt="step 3 raito">
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 class="text-bold-500">3. {{'landraito.t2.3t' | translate }}</h5>
+                                            <p>{{'landraito.t2.3a' | translate }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                  </div>
               </div>
-            </div>
-            <div class="col-12" style="position: relative;top: 5%;">
-                <div class="center-elements">
-                    <h3 class="text-bold-500">{{'landraito.t2' | translate }}</h3>
-                    <i class="primary fa-solid fa-arrow-down fa-2x"></i>
-                </div>
-            </div>
-            
-          </div>
-          <div class="row">
-            <div class="offset-xl-1 col-xl-10">
-                <div class="card p-4">
-                    <div class="row">
-                        <div class="col-xl-4">
-                            <div class="row mt-3">
-                                <div class="col-3 pr-0 pl-0">
-                                    <img class="w-100" src='assets/img/home/home2.webp' alt="step 1 raito">
-                                </div>
-                                <div class="col-9">
-                                    <h5 class="text-bold-500">1. {{'landraito.t2.1t' | translate }}</h5>
-                                    <p>{{'landraito.t2.1a' | translate }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4">
-                            <div class="row mt-3">
-                                <div class="col-3 pr-0 pl-0">
-                                    <img class="w-100" src='assets/img/home/home3.webp' alt="step 2 raito">
-                                </div>
-                                <div class="col-9">
-                                    <h5 class="text-bold-500">2. {{'landraito.t2.2t' | translate }}</h5>
-                                    <p>{{'landraito.t2.2a' | translate }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4">
-                            <div class="row mt-3">
-                                <div class="col-3 pr-0 pl-0">
-                                    <img class="w-100" src='assets/img/home/home4.webp' alt="step 3 raito">
-                                </div>
-                                <div class="col-9">
-                                    <h5 class="text-bold-500">3. {{'landraito.t2.3t' | translate }}</h5>
-                                    <p>{{'landraito.t2.3a' | translate }}</p>
-                                </div>
+              
+    
+              <div class="row mt-4 mb-5">
+                <div class="offset-xl-3 col-xl-6">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <section class="col-lg-12">
+                                    <h3 class="text-bold-500">{{'land.aboutUs.titlef29' | translate }}</h3>
+                                    <span class="">
+                                        <p>{{'land.aboutUs.p1f29' | translate }}</p>
+                                        <p>{{'land.aboutUs.p2f29' | translate }}</p>
+                                        <p>{{'land.aboutUs.p3f29' | translate }}</p>
+                                      </span>
+                                      <div class="center-elements">
+                                        <a href="https://www.foundation29.org" target="_blank" title="foundation29 web" class="mt-2 btn btn-dark mb-1"
+                                              type="button"><strong>{{'land.aboutUs.Who are we' | translate }}</strong>
+                                        </a>
+                                      </div>
+                                  </section>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                
-            </div>
-            <div class="col-md-12 mt-3 center-elements">
-                <button (click)="login()" class="btn btn-dark btn-lg" title="I want to join">
-                    <span class="menu-title">{{'landraito.button' | translate }}</span>
-                </button>
-            </div>
-          </div>
-
-          <div class="row mt-4 mb-5">
-            <div class="offset-xl-3 col-xl-6">
-                <div class="card p-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <section class="col-lg-12">
-                                <h3 class="text-bold-500">{{'land.aboutUs.titlef29' | translate }}</h3>
-                                <span class="">
-                                    <p>{{'land.aboutUs.p1f29' | translate }}</p>
-                                    <p>{{'land.aboutUs.p2f29' | translate }}</p>
-                                    <p>{{'land.aboutUs.p3f29' | translate }}</p>
-                                  </span>
-                                  <div class="center-elements">
-                                    <a href="https://www.foundation29.org" target="_blank" title="foundation29 web" class="mt-2 btn btn-dark mb-1"
-                                          type="button"><strong>{{'land.aboutUs.Who are we' | translate }}</strong>
-                                    </a>
-                                  </div>
-                              </section>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-          </div>
+              </div>
+        </div>
+        
           
       </section>

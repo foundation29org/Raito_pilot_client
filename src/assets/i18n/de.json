@@ -779,7 +779,9 @@
        "t2.3a":"Treten Sie einer Patientengemeinschaft bei, um Ihre Daten anonym beizutragen und Ihre Reichweite mit Institutionen und Anwendungen zu vergrößern, die Ihnen und anderen Patienten helfen.",
        "t3.1":"Verfügbar auf Ihrem Handy und Tablet",
        "t3.2":"Verwenden Sie Raito auf Ihrem Telefon oder Tablet: Es ist kostenlos und einfach",
-       "button":"Ich möchte beitreten"
+       "button":"Ich möchte beitreten",
+       "For free forever": "Kostenlos für immer!",
+       "You have a pending action before continuing": "Sie haben eine ausstehende Aktion, bevor Sie fortfahren."
     },
     "homeraito":{
        "t1":"Gehören Sie einer Patientenorganisation an?",
