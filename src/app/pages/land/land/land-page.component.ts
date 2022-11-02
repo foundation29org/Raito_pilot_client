@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Router } from "@angular/router";
-import { EventsService } from 'app/shared/services/events.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { AuthService } from '../../../../app/shared/auth/auth.service';
 import { MoralisService } from '../../../../app/shared/auth/moralis.service';
@@ -32,7 +31,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     isMobile: boolean = false;
     private subscription: Subscription = new Subscription();
 
-    constructor(private http: HttpClient, private eventsService: EventsService, public moralisService: MoralisService,public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
+    constructor(private http: HttpClient, public moralisService: MoralisService,public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
         this.lang = sessionStorage.getItem('lang');
         this.start();
     }
@@ -64,22 +63,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.eventsService.on('changelang', function (lang) {
-            this.lang = lang;
-        }.bind(this));
        // this.start();
     }
 
     ngOnDestroy() {
 
-    }
-
-    openWeb() {
-        if (this.lang == 'es') {
-            window.open('https://www.foundation29.org', '_blank');
-        } else {
-            window.open('https://www.foundation29.org/en/', '_blank');
-        }
     }
 
     async login() {

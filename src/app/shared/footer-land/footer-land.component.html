@@ -1,7 +1,7 @@
 <div class="col-md-12 pt-3 pb-3 color-footer">
   <div class="col-md-12 mt-2">
     <div class="row">
-      <div class="col-md-5 center-xs pts pbxl start-sm panel-about">
+      <div class="offset-lg-2 col-lg-4 offset-md-1 col-md-5 center-xs pts pbxl start-sm panel-about">
         <nav>
           <a href="https://www.foundation29.org" target="_blank"><img class=""
               src='assets/img/logo-foundation-twentynine-footer.webp' alt="logo Foundation 29" /></a>
@@ -27,11 +27,8 @@
           </a>
         </div>
       </div>
-      <div class="col-md-2">
-        <div class="redes-line"></div>
-      </div>
       <a id="contact"></a>
-      <div class="col-md-5 center-xs start-sm form-contact">
+      <div class="col-lg-4 col-md-5 center-xs start-sm form-contact">
         <div class="card-block">
           <h3>{{'homedx.Contact us' | translate }}</h3>
           <form class="form" (ngSubmit)="sendMsg()" #f="ngForm">
@@ -67,14 +64,14 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="!sending" class="center-elements">
+            <div *ngIf="!sending" class="">
               <div *ngIf="f.valid;then formValid else formError"></div>
               <ng-template #formValid><button class="btn btn-primary round" type="submit"> {{'support.Send' |
                   translate }}</button></ng-template>
               <ng-template #formError><button class="btn btn-primary round" type="button"
                   (click)="submitInvalidForm()"> {{'support.Send' | translate }}</button></ng-template>
             </div>
-            <div class="form-actions" *ngIf="sending" class="center-elements">
+            <div class="form-actions" *ngIf="sending" class="">
               <span><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
             </div>
           </form>
