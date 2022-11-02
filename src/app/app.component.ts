@@ -35,10 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
             this.translate.use(sessionStorage.getItem('lang'));
             this.hasLocalLang = true;
           } else {
-            const browserLang: string = translate.getBrowserLang();
-            this.translate.use(browserLang.match(/en|es|pt|de|fr|it/) ? browserLang : "en");
-            //this.translate.use('en');
-            sessionStorage.setItem('lang', this.translate.store.currentLang);
+            this.translate.use('en');
+            sessionStorage.setItem('lang', 'en');
             this.hasLocalLang = false;
           }
       
