@@ -779,7 +779,9 @@
        "t2.3a":"Unisciti a una comunità di pazienti per fornire i tuoi dati in modo anonimo e aumentare la tua portata con istituzioni e applicazioni che aiuteranno te e altri pazienti.",
        "t3.1":"Disponibile sul tuo cellulare e tablet",
        "t3.2":"Usa Raito sul tuo telefono o tablet: è facile e gratuito",
-       "button":"voglio partecipare"
+       "button":"voglio partecipare",
+       "For free forever": "Gratis per sempre!",
+       "You have a pending action before continuing": "Hai un'azione in sospeso prima di continuare."
     },
     "homeraito":{
        "t1":"Fai parte di un'organizzazione di pazienti?",

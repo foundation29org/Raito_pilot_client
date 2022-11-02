@@ -44,8 +44,8 @@ export class MoralisService {
     return new Promise(async function (resolve, reject) {
     Moralis.authenticate({ provider: 'web3Auth', clientId: environment.moralisClientId, appLogo: 'https://raito.care/assets/img/logo.png', theme: 'light' })
       .then( (user : any) => {
-        console.log(user);
-        this.setCurrentUser(Moralis.User.current());
+        //Moralis.User.current()
+        this.setCurrentUser(user);
         this.currentUser = this.getCurrentUser();
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
         var email = openlogin_store.email;

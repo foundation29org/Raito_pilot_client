@@ -43,8 +43,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
       } else if (/iPhone/i.test(navigator.userAgent)) {
         this.isMobile = true;
       }
-      console.log(this.isMobile);
-      console.log(this.authService.getEnvironment());
       if(this.authService.getEnvironment()){
         this.translate.use(this.authService.getLang());
         sessionStorage.setItem('lang', this.authService.getLang());
@@ -54,8 +52,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if(this.moralisService.currentUser!=null){
           this.moralisService.logout();
         }
-        localStorage.clear();
-        sessionStorage.clear();
+        this.clear();
         /*if(this.isMobile){
           localStorage.clear();
         }*/
@@ -70,42 +67,80 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     }
 
-    async login() {
-        //this.currentUser = Moralis.User.current();
-        this.currentUser = this.moralisService.getCurrentUser();
-        if (!this.currentUser) {
-          this.sending = true;
-          try {
-            var res = await this.moralisService.authenticate();
-            console.log(res);
-            if(res==undefined){
-              this.sending = false;
-            }else{
-              this.onSubmit(res)
-            }
-          } catch (error) {
-            console.log(error.message);
-            if(error.message!=undefined){
-              if(error.message=='Signing message has expired.'){
-                Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
-              }else if(error.message=='Web3Auth: User closed login modal.'){
-                
-              }
-            }
-            
-            this.logOut();
-          }
-        } else {
-          try {
-            var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
-            this.onSubmit(data)
-          } catch (error) {
-            console.log(error);
-            this.logOut();
-          }
-            
-        }
+    clear(){
+      localStorage.clear();
+      sessionStorage.clear();
+      this.moralisService.loadScripts();
+      //this.moralisService.initServer();
+      sessionStorage.setItem('lang', this.lang);
     }
+
+    async login() {
+      if(this.moralisService.currentUser!=null){
+        this.logOut();
+        this.moralisService.logout();
+      }
+      this.clear();
+      this.sending = true;
+      try {
+        var res = await this.moralisService.authenticate();
+        console.log(res);
+        if(res==undefined){
+          this.sending = false;
+        }else{
+          this.onSubmit(res)
+        }
+      } catch (error) {
+        console.log(error.message);
+        if(error.message!=undefined){
+          if(error.message=='Signing message has expired.'){
+            Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
+          }else if(error.message=='Web3Auth: User closed login modal.'){
+            
+          }
+        }
+        
+        this.logOut();
+      }
+    }
+
+    
+    async login2() {
+      //this.currentUser = Moralis.User.current();
+      this.currentUser = this.moralisService.getCurrentUser();
+      if (!this.currentUser) {
+        this.sending = true;
+        try {
+          var res = await this.moralisService.authenticate();
+          console.log(res);
+          if(res==undefined){
+            this.sending = false;
+          }else{
+            this.onSubmit(res)
+          }
+        } catch (error) {
+          console.log(error.message);
+          if(error.message!=undefined){
+            if(error.message=='Signing message has expired.'){
+              Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
+            }else if(error.message=='Web3Auth: User closed login modal.'){
+              
+            }
+          }
+          
+          this.logOut();
+        }
+      } else {
+        try {
+          var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
+          this.onSubmit(data)
+        } catch (error) {
+          console.log(error);
+          this.logOut();
+        }
+          
+      }
+  }
 
     async logOut() {
       this.authService.logout();
