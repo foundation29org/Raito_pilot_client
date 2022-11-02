@@ -11,7 +11,7 @@ html body.layout-dark:not(.layout-transparent) .modal-content {
   background: #000 !important;
 }
 
-:host ::ng-deep ._hj-ETLL8__MinimizedWidgetMiddle__label{
+:host ::ng-deep ._hj_feedback_container button{
   background-color: #f9423a !important;
 }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-privacy-policy',
@@ -8,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class PrivacyPolicyPageComponent {
-  constructor(public translate: TranslateService) {
+  constructor(public translate: TranslateService, private router: Router) {
   }
 
   goTo(url){
@@ -16,6 +17,7 @@ export class PrivacyPolicyPageComponent {
   }
 
   back(){
-    window.history.back();
+    //window.history.back();
+    this.router.navigate(['/home']);
   }
 }
