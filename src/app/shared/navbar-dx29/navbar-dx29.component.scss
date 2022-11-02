@@ -53,6 +53,13 @@ i{
   width: 160px;
 }
 
+@media ( min-width: 1200px ){
+  .navbar{
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
 @media ( max-width: 991.98px ){
 .navbar-container {
     width: unset !important;
