@@ -100,7 +100,7 @@ import {
                 ngx-charts-line-series
                 [xScale]="xScaleLine"
                 [yScale]="yScaleLine"
-                [colors]="colorsLine"
+                [colors]="colorSchemeLine"
                 [data]="series"
                 [activeEntries]="activeEntries"
                 [scaleType]="scaleType"
@@ -126,7 +126,7 @@ import {
                 ngx-charts-circle-series
                 [xScale]="xScaleLine"
                 [yScale]="yScaleLine"
-                [colors]="colorsLine"
+                [colors]="colorSchemeLine"
                 [data]="series"
                 [scaleType]="scaleType"
                 [visibleValue]="hoveredVertical"
@@ -167,7 +167,7 @@ import {
     @Input() yRightAxisTickFormatting: any;
     @Input() roundDomains: boolean = false;
     @Input() colorSchemeLine: any[];
-    @Input() colorSchemeLine2: any[];
+    @Input() colorsLineToll: any[];
     @Input() autoScale;
     @Input() lineChart: any;
     @Input() yLeftAxisScaleFactor: any;
@@ -192,7 +192,6 @@ import {
     transform: string;
     colors: ColorHelper;
     colorsLine: ColorHelper;
-    colorsLineToll: ColorHelper;
     margin: any[] = [10, 20, 10, 20];
     xAxisHeight: number = 0;
     yAxisWidth: number = 0;
@@ -460,7 +459,7 @@ import {
     onClick(data) {
       this.select.emit(data);
     }
-  
+
     setColors(): void {
       let domain;
       if (this.schemeType === 'ordinal') {
@@ -468,13 +467,8 @@ import {
       } else {
         domain = this.yDomain;
       }
-      this.colors = new ColorHelper(this.colorSchemeLine2, this.schemeType, domain, this.colorSchemeLine2);
-      this.colorsLine = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.colorSchemeLine);
-      var tempColors = JSON.parse(JSON.stringify(this.colorSchemeLine))
-      var tempColors2 = JSON.parse(JSON.stringify(this.colorSchemeLine2))
-      tempColors.domain[this.lineChart.length]=tempColors2.domain[0];
-      this.colorsLineToll = new ColorHelper(tempColors, this.schemeType, domain, tempColors);
-
+      this.colors = new ColorHelper(this.scheme, this.schemeType, domain, this.customColors);
+      this.colorsLine = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.customColors);
     }
   
     getLegendOptions() {

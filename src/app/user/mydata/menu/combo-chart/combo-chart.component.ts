@@ -100,7 +100,7 @@ import {
                 ngx-charts-line-series
                 [xScale]="xScaleLine"
                 [yScale]="yScaleLine"
-                [colors]="colorsLine"
+                [colors]="colorSchemeLine"
                 [data]="series"
                 [activeEntries]="activeEntries"
                 [scaleType]="scaleType"
@@ -117,7 +117,7 @@ import {
               [xScale]="xScaleLine"
               [yScale]="yScaleLine"
               [results]="combinedSeries"
-              [colors]="colorsLine"
+              [colors]="colorsLineToll"
               [tooltipDisabled]="tooltipDisabled"
               (hover)="updateHoveredVertical($event)"
             />
@@ -126,7 +126,7 @@ import {
                 ngx-charts-circle-series
                 [xScale]="xScaleLine"
                 [yScale]="yScaleLine"
-                [colors]="colorsLine"
+                [colors]="colorSchemeLine"
                 [data]="series"
                 [scaleType]="scaleType"
                 [visibleValue]="hoveredVertical"
@@ -167,6 +167,7 @@ import {
     @Input() yRightAxisTickFormatting: any;
     @Input() roundDomains: boolean = false;
     @Input() colorSchemeLine: any[];
+    @Input() colorsLineToll: any[];
     @Input() autoScale;
     @Input() lineChart: any;
     @Input() yLeftAxisScaleFactor: any;

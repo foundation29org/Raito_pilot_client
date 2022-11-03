@@ -180,6 +180,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   public chartNames: string[];
   public colors: ColorHelper;
   public colors2: ColorHelper;
+  public colorsLineToll: ColorHelper;
 
   generateUrlQr = '';
   titleSeizuresLegend = [];
@@ -1946,6 +1947,12 @@ getDrugs() {
         // Convert hex colors to ColorHelper for consumption by legend
         this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
         this.colors2 = new ColorHelper(this.lineChartOneColorScheme2, 'ordinal', this.chartNames, this.lineChartOneColorScheme2);
+
+        //newColor
+        var tempColors = JSON.parse(JSON.stringify(this.lineChartColorScheme))
+        var tempColors2 = JSON.parse(JSON.stringify(this.lineChartOneColorScheme2))
+        tempColors.domain[this.lineChartDrugs.length]=tempColors2.domain[0];
+        this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
 
         this.normalizedChanged(this.normalized);
         if(this.events.length>0){
