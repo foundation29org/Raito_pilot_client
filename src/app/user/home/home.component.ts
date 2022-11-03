@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from "@angular/router";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -212,6 +212,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 }
   nextEvents: any = [];
+  protected innerWidth: any;
+  gridSize: string = 'md';
+  clientHeight: any = 0;
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -231,8 +234,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
 
     }
+    this.innerWidth = window.innerWidth;
+    this.calculateGridSize();
     this.loadScripts();
-    
+    this.getPreferenceRangeDate();
   }
 
   loadScripts(){
@@ -279,6 +284,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.basicInfoPatient.consentgroup=='true'){
       this.valueprogressbar=this.valueprogressbar+20;
     }
+    this.calculateGridSize();
   }
 
   getChecks(){
@@ -317,7 +323,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     var paramssend = { checks: this.checks };
     this.subscription.add( this.http.put(environment.api+'/api/patient/checks/'+this.authService.getCurrentPatient().sub, paramssend)
     .subscribe( (res : any) => {
-      
+      this.calculateGridSize();
      }, (err) => {
        console.log(err.error);
      }));
@@ -453,6 +459,9 @@ export class HomeComponent implements OnInit, OnDestroy {
             await this.loadQuestionnaire(this.questionnaires[i].id, i)
           }
            //this.getProms();
+        }else{
+          this.tasksLoaded = true;
+          this.calculateGridSize();
         }
       }, (err) => {
         console.log(err);
@@ -493,9 +502,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         }
         this.tasksLoaded = true;
+        this.calculateGridSize();
       }, (err) => {
         console.log(err);
         this.tasksLoaded = true;
+        this.calculateGridSize();
       }));
   }
 
@@ -633,7 +644,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getInfoPatient() {
-    this.loadedInfoPatient = false;
+    //this.loadedInfoPatient = false;
     this.subscription.add(this.http.get(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub)
       .subscribe((res: any) => {
         this.basicInfoPatient = res.patient;
@@ -697,9 +708,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setPatientGroup(group) {
-    this.basicInfoPatient.group = group;
-    this.subscription.add(this.http.put(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub, this.basicInfoPatient)
+    var copyBasicInfoPatient= JSON.parse(JSON.stringify(this.basicInfoPatient));
+    copyBasicInfoPatient.group = group;
+    this.subscription.add(this.http.put(environment.api + '/api/patients/' + this.authService.getCurrentPatient().sub, copyBasicInfoPatient)
       .subscribe((res: any) => {
+        this.basicInfoPatient.group = group;
         this.authService.setGroup(group)
         this.loadGroupFile();
       }, (err) => {
@@ -1432,11 +1445,30 @@ getWeek(newdate, dowOffset?) {
   }
 
   loadDataRangeDate(rangeDate) {
+    this.setPreferenceRangeDate(rangeDate);
     this.rangeDate = rangeDate;
     this.calculateMinDate();
     this.normalized = true;
     this.normalized2 = true;
     this.loadData();
+  }
+
+  setPreferenceRangeDate(rangeDate){
+    var data = {rangeDate: rangeDate};
+    this.subscription.add( this.http.put(environment.api+'/api/users/changerangedate/'+this.authService.getIdUser(), data)
+    .subscribe( (res : any) => {
+     }, (err) => {
+       console.log(err);
+     }));
+  }
+
+  getPreferenceRangeDate(){
+    this.subscription.add( this.http.get(environment.api+'/api/users/rangedate/'+this.authService.getIdUser())
+    .subscribe( (res : any) => {
+      this.rangeDate = res.rangeDate;
+     }, (err) => {
+       console.log(err);
+     }));
   }
 
   calculateMinDate(){
@@ -1816,6 +1848,32 @@ setCaretaker(){
      console.log(err);
    }));
   //this.user = user;
+}
+
+@HostListener('window:resize', ['$event'])
+onResize(event) {
+  this.innerWidth = event.target.innerWidth;
+  this.calculateGridSize();
+}
+
+async calculateGridSize(){
+  if (this.innerWidth < 576) {
+    this.gridSize  = "xs";
+  }else if (this.innerWidth < 768) {
+    this.gridSize  = "sm";
+  }else if(this.innerWidth < 992){
+    this.gridSize  = "md";
+  }else if(this.innerWidth < 1200){
+    this.gridSize  = "lg";
+  } else {
+    this.gridSize  = "xl";
+  }
+  await this.delay(200);
+  if(document.getElementById('panelNotifications')!=null){
+    this.clientHeight = document.getElementById('panelNotifications').clientHeight;
+    console.log(this.clientHeight);
+  }
+  
 }
 
 }

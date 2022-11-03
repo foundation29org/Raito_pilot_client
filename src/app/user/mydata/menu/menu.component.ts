@@ -204,6 +204,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   displayOrg: any;
   private subscriptionTimerOrg: Subscription = new Subscription();
   private subscriptionTimer: Subscription = new Subscription();
+  protected innerWidth: any;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer,  public moralisService: MoralisService) { 
     this.subscription.add(this.route
@@ -217,7 +218,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.lang = sessionStorage.getItem('lang');
 
     this.loadScripts();
-
+    this.innerWidth = window.innerWidth;
   }
 
   loadScripts(){
@@ -2334,12 +2335,13 @@ getVcs(){
    }));
 }
 
-@HostListener('window:resize')
-    onResize() {
-      if(!this.showNewCustom && this.listCustomShare.length>0){
-        this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
-      }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if(!this.showNewCustom && this.listCustomShare.length>0){
+      this.widthPanelCustomShare = document.getElementById('panelCustomShare').offsetWidth;
     }
+    this.innerWidth = event.target.innerWidth;
+  }
 
 
     showPopup(contentInfo) {
