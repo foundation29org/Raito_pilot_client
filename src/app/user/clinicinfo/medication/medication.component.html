@@ -1,5 +1,5 @@
 <div class="h-100">
-    <div class="card card-block mx-auto" style="max-width: 30rem !important;">
+    <div class="card card-block mx-auto width30rem">
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
@@ -39,7 +39,7 @@
 									<div class="col-md-12 mt-2">
 										<h4 class="text-bold-400">{{'medication.Current drugs' | translate }}</h4>
 									</div>
-									<div class="col-md-12" *ngFor="let medication of actualMedications; let i = index">
+									<div class="col-md-12 col-lg-4" *ngFor="let medication of actualMedications; let i = index">
 										<div class="card gradient-red-ocean mt-0">
 											<div class="card-body">
 												<div class="card-block pb-0">
@@ -89,7 +89,7 @@
 									<div class="col-md-12 mt-2">
 										<h4 class="text-bold-400">{{'medication.Previous drugs' | translate }}</h4>
 									</div>
-									<div class="col-md-12" *ngFor="let medication of oldMedications; let i = index">
+									<div class="col-md-12 col-lg-4" *ngFor="let medication of oldMedications; let i = index">
 										<div class="card gradient-red-ocean mt-0">
 											<div class="card-body">
 												<div class="card-block pb-0">

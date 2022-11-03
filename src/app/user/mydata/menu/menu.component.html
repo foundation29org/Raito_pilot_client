@@ -1,6 +1,6 @@
 
 <div class="h-100">
-    <div class="card card-block mx-auto" style="max-width: 30rem !important;">
+    <div class="card card-block mx-auto width30rem">
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
@@ -17,33 +17,33 @@
                                     </span></h5>
                             </ng-template>
                             <ng-template ngbPanelContent>
-                                <div class="mb-3">
-                                    <p class="text-muted">{{'mydata.a1' | translate }}</p>
+                                <div class="mb-3 row">
+                                    <p class="text-muted col-md-12">{{'mydata.a1' | translate }}</p>
 
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
+                                    <div class="col-md-12 col-lg-6 mt-3">
+                                        <div class="">
                                             <p class="text-bold-500 mt-0 mb-0" [innerHTML]="'mydata.a1.1.1' | translate"></p>
                                             <p class="text-muted" [innerHTML]="'mydata.a1.1.2' | translate"></p>
                                         </div>
-                                        <div class="col-md-12 center-elements mb-2">
+                                        <div class="">
                                             <button class="btn btn-dark mb-0" type="button" [disabled]="loadingf29" (click)="saveContainer('F29')">Foundation29 server 
                                                 <span *ngIf="f29.message=='Available' && !loadingf29"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loadingf29" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="f29.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="f29.message=='Available'" class="">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
+                                    <div class="col-md-12 col-lg-6 mt-3">
+                                        <div class="">
                                             <p class="text-bold-500 mt-0 mb-0" [innerHTML]="'mydata.a1.2.1' | translate"></p>
                                             <p class="text-muted" [innerHTML]="'mydata.a1.2.2' | translate"></p>
                                         </div>
-                                        <div class="col-md-12 center-elements">
+                                        <div class="">
                                             <button class="btn btn-dark mb-0" type="button" [disabled]="loading" (click)="saveContainer('IPFS')">{{'mydata.Decentralized' | translate }} 
                                                 <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="ipfs.message=='Available'" class="center-elements">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="ipfs.message=='Available'" class="">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -64,77 +64,80 @@
                                   </span></h5>
                           </ng-template>
                           <ng-template ngbPanelContent>
-                                      <div class="row mt-3">
-                                          <div class="col-md-12">
-                                              <p class="text-bold-500 mt-0 mb-0">{{'mydata.share3title' | translate }}</p>
-                                              <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
-                                          </div>
-                                          <div class="col-md-12 center-elements mb-2">
-                                              <button class="btn btn-dark" type="button" href="#myModal"
-                                              (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
-                                          </div>
-                                      </div>
-                                      <div class="row mt-3">
-                                        <div class="col-md-12">
-                                            <p class="text-bold-500 mt-0 mb-0">{{'mydata.q2' | translate }}</p>
-                                            <p *ngIf="hasGroup && (consentgroup=='false' || (consentgroup=='Pending' && !startingProcessOrg)) && groupId!='61bb390ed6e0cb14f08881c1'" class="text-muted">{{'homeraito.p1' | translate }}
-                                                <!--<em class="ft-info font-medium-1" style="cursor: pointer;" (click)="showPopup(infoSharePanel)"></em>-->
-                                            </p>
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-4 mt-3">
+                                        <div class="">
+                                            <p class="text-bold-500 mt-0 mb-0">{{'mydata.share3title' | translate }}</p>
+                                            <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="" *ngIf="!hasGroup || groupId=='61bb390ed6e0cb14f08881c1'">
-                                                <p class="mb-0">{{'mydata.You do not belong to any patient group' | translate }}</p>
-                                                <p>{{'mydata.Here is a message on why this is important' | translate }}</p>
-                                                <button class="btn btn-dark btn-block " type="button" routerLink="/patient-info">{{'mydata.Add patient group' | translate }}</button>
-                                            </div>
-                                            <div class="center-elements mb-2" *ngIf="hasGroup && groupId!='61bb390ed6e0cb14f08881c1'">
-                                                <p class="text-left mb-0"><strong>{{'groups.Group' | translate }}:</strong> {{group.name}}</p>
-                                                <span *ngIf="!startingProcessOrg">
-                                                    <p class="text-left text-muted mb-0 mt-2" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
-                                                    <!--<p class="text-muted mb-0" *ngIf="consentgroup=='false'">{{'mydata.a2.7' | translate }}</p>-->
-                                                    <button *ngIf="consentgroup=='false'" class="btn-block btn btn-dark" type="button"
-                                                        (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
-                                                    <button *ngIf="consentgroup=='true'" class="btn-block btn btn-primary" type="button"
-                                                    (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
-                                                </span>
-                                                <div class="mt-2" *ngIf="consentgroup=='Pending'">
-                                                    <div *ngIf="qrImageOrg!='' && displayOrg!='Expired'">
-                                                        <p class="text-muted text-left">{{'mydata.vcintro1' | translate }}</p>
-                                                        <p class="text-muted text-left" [innerHTML]="'mydata.vcintro2' | translate"></p>
-                                                        <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span>
-                                                        <img [src]="qrImageOrg" style="max-width: 200px;">
-                                                        <span class="d-block">PIN: {{pinOrg}}</span>
-                                                        <p>{{displayOrg}}</p>
-                                                        
-                                                    </div>
-                                                    <div *ngIf="displayOrg=='Expired'">
-                                                        <p class="danger">{{'mydata.The QR code has expired' | translate }}</p>
-                                                    </div>
-                                                    <div *ngIf="qrImageOrg=='' && inProcessOrg">
-                                                        <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
-                                                        <!--<span class="">{{'open.Accept or reject from mobile' | translate }}</span>-->
-                                                    </div>
-                                                    <div *ngIf="qrImageOrg=='' && !inProcessOrg">
-                                                        <button class="btn-block btn btn-dark" (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="" [ngClass]="{'mb-2': innerWidth<992}">
+                                            <button class="btn btn-dark" type="button" href="#myModal"
+                                            (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
                                         </div>
                                     </div>
-                                      <div class="d-none"><span id="content"></span></div>
-                                      <div class="row mt-3 mb-3">
-                                          <div class="col-md-12">
-                                              <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
-                                              <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
-                                          </div>
-                                          <span class="col-md-12 center-elements">
-                                              <!--<button class="btn btn-dark" type="button"
-                                              (click)="exportData()">{{'generics.ExportData' | translate }}</button>
-                                              <div class="d-none"><span id="content"></span></div>-->
-                                              <button class="btn btn-dark" type="button"
-                                              (click)="share(shareTo, 'General')">{{'profile.Settings' | translate }}</button>
-                                          </span>
+                                    <div class="col-md-12 col-lg-4 mt-3">
+                                      <div class="">
+                                          <p class="text-bold-500 mt-0 mb-0">{{'mydata.q2' | translate }}</p>
+                                          <p *ngIf="hasGroup && (consentgroup=='false' || (consentgroup=='Pending' && !startingProcessOrg)) && groupId!='61bb390ed6e0cb14f08881c1'" class="text-muted">{{'homeraito.p1' | translate }}
+                                              <!--<em class="ft-info font-medium-1" style="cursor: pointer;" (click)="showPopup(infoSharePanel)"></em>-->
+                                          </p>
                                       </div>
+                                      <div class="">
+                                          <div class="" *ngIf="!hasGroup || groupId=='61bb390ed6e0cb14f08881c1'">
+                                              <p class="mb-0">{{'mydata.You do not belong to any patient group' | translate }}</p>
+                                              <p>{{'mydata.Here is a message on why this is important' | translate }}</p>
+                                              <button class="btn btn-dark" type="button" routerLink="/patient-info">{{'mydata.Add patient group' | translate }}</button>
+                                          </div>
+                                          <div class="" *ngIf="hasGroup && groupId!='61bb390ed6e0cb14f08881c1'" [ngClass]="{'mb-2': innerWidth<992}">
+                                              <p class="text-left mb-0"><strong>{{'groups.Group' | translate }}:</strong> {{group.name}}</p>
+                                              <span *ngIf="!startingProcessOrg">
+                                                  <p class="text-left text-muted mb-0 mt-2" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
+                                                  <!--<p class="text-muted mb-0" *ngIf="consentgroup=='false'">{{'mydata.a2.7' | translate }}</p>-->
+                                                  <button *ngIf="consentgroup=='false'" class="btn btn-dark" type="button"
+                                                      (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
+                                                  <button *ngIf="consentgroup=='true'" class="btn btn-primary" type="button"
+                                                  (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
+                                              </span>
+                                              <div class="mt-2" *ngIf="consentgroup=='Pending'">
+                                                  <div *ngIf="qrImageOrg!='' && displayOrg!='Expired'">
+                                                      <p class="text-muted text-left">{{'mydata.vcintro1' | translate }}</p>
+                                                      <p class="text-muted text-left" [innerHTML]="'mydata.vcintro2' | translate"></p>
+                                                      <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span>
+                                                      <img [src]="qrImageOrg" style="max-width: 200px;">
+                                                      <span class="d-block">PIN: {{pinOrg}}</span>
+                                                      <p>{{displayOrg}}</p>
+                                                      
+                                                  </div>
+                                                  <div *ngIf="displayOrg=='Expired'">
+                                                      <p class="danger">{{'mydata.The QR code has expired' | translate }}</p>
+                                                  </div>
+                                                  <div *ngIf="qrImageOrg=='' && inProcessOrg">
+                                                      <p class="centerSpinner" *ngIf="!loadedShareData"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></p>
+                                                      <!--<span class="">{{'open.Accept or reject from mobile' | translate }}</span>-->
+                                                  </div>
+                                                  <div *ngIf="qrImageOrg=='' && !inProcessOrg">
+                                                      <button class="btn btn-dark" (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                    <div class="d-none"><span id="content"></span></div>
+                                    <div class="col-md-12 col-lg-4 mt-3 mb-3">
+                                        <div class="">
+                                            <p class="text-bold-500 mt-0 mb-0">{{'mydata.sharetitle2' | translate }}</p>
+                                            <p class="text-muted">{{'mydata.sharecontent2' | translate }}</p>
+                                        </div>
+                                        <span class="" [ngClass]="{'mb-2': innerWidth<992}">
+                                            <!--<button class="btn btn-dark" type="button"
+                                            (click)="exportData()">{{'generics.ExportData' | translate }}</button>
+                                            <div class="d-none"><span id="content"></span></div>-->
+                                            <button class="btn btn-dark" type="button"
+                                            (click)="share(shareTo, 'General')">{{'profile.Settings' | translate }}</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                      
 
                           </ng-template>
                       </ngb-panel>
@@ -147,28 +150,29 @@
                             </ng-template>
                             <ng-template ngbPanelContent>
                                 <div class="row mt-3 mb-3">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 col-lg-6">
                                         <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
-                                    </div>
-                                    <span class="col-md-12 center-elements mb-3">
-                                        <button class="btn btn-dark" type="button"
-                                        (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }} PDF</button>
+                                        <span class="">
+                                            <button class="btn btn-dark" type="button"
+                                            (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }} PDF</button>
+                                        </span>
                                         <div class="d-none"><span id="content"></span></div>
-                                        <div *ngIf="loading" class="center-elements">
+                                        <div *ngIf="loading" class="">
                                             <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                                         </div>
-                                    </span>
-
-                                    <div class="col-md-12 mt-2">
-                                        <p class="text-muted">{{'mydata.fhirdesc' | translate }}</p>
                                     </div>
-                                    <span class="col-md-12 center-elements">
-                                        <button class="btn btn-dark" type="button" [disabled]="loadingFhir" (click)="extractFhir()">{{'mydata.fhirtitle' | translate }}</button>
+
+                                    <div class="col-md-12 col-lg-6" [ngClass]="{'mt-2': innerWidth<992}">
+                                        <p class="text-muted">{{'mydata.fhirdesc' | translate }}</p>
+                                        <span class="">
+                                            <button class="btn btn-dark" type="button" [disabled]="loadingFhir" (click)="extractFhir()">{{'mydata.fhirtitle' | translate }}</button>
+                                        </span>
+                                        
                                         <div class="d-none"><span id="contentfhir"></span></div>
-                                        <div *ngIf="loadingFhir" class="center-elements">
+                                        <div *ngIf="loadingFhir" class="">
                                             <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                                         </div>
-                                    </span>
+                                    </div>
 
                                     
                                 </div>
