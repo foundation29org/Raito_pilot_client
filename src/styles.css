@@ -23,6 +23,11 @@ html body.layout-dark:not(.layout-transparent) .card {
   color: #FFCDD3 !important;
 }
 
+.chart-legend .legend-label {
+  color: #5a5c62 !important;
+  cursor: auto !important;
+}
+
 a {
   color: #f9423a;
 }
@@ -30,8 +35,6 @@ a {
 input{
   accent-color: #f9423a !important;
 }
-
-
 
 .gradient-red-ocean {
   background-image: linear-gradient(60deg, #1D4350, #A43931) !important;

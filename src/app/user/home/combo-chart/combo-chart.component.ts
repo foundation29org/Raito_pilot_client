@@ -117,7 +117,7 @@ import {
               [xScale]="xScaleLine"
               [yScale]="yScaleLine"
               [results]="combinedSeries"
-              [colors]="colorsLine"
+              [colors]="colorsLineToll"
               [tooltipDisabled]="tooltipDisabled"
               (hover)="updateHoveredVertical($event)"
             />
@@ -167,6 +167,7 @@ import {
     @Input() yRightAxisTickFormatting: any;
     @Input() roundDomains: boolean = false;
     @Input() colorSchemeLine: any[];
+    @Input() colorSchemeLine2: any[];
     @Input() autoScale;
     @Input() lineChart: any;
     @Input() yLeftAxisScaleFactor: any;
@@ -191,6 +192,7 @@ import {
     transform: string;
     colors: ColorHelper;
     colorsLine: ColorHelper;
+    colorsLineToll: ColorHelper;
     margin: any[] = [10, 20, 10, 20];
     xAxisHeight: number = 0;
     yAxisWidth: number = 0;
@@ -466,8 +468,13 @@ import {
       } else {
         domain = this.yDomain;
       }
-      this.colors = new ColorHelper(this.scheme, this.schemeType, domain, this.customColors);
-      this.colorsLine = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.customColors);
+      this.colors = new ColorHelper(this.colorSchemeLine2, this.schemeType, domain, this.colorSchemeLine2);
+      this.colorsLine = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.colorSchemeLine);
+      var tempColors = JSON.parse(JSON.stringify(this.colorSchemeLine))
+      var tempColors2 = JSON.parse(JSON.stringify(this.colorSchemeLine2))
+      tempColors.domain[this.lineChart.length]=tempColors2.domain[0];
+      this.colorsLineToll = new ColorHelper(tempColors, this.schemeType, domain, tempColors);
+
     }
   
     getLegendOptions() {

@@ -65,6 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
  
    lineChartColorScheme = chartsData.lineChartColorScheme;
    lineChartOneColorScheme = chartsData.lineChartOneColorScheme;
+   lineChartOneColorScheme2 = chartsData.lineChartOneColorScheme2;
  
    // line, area
    lineChartAutoScale = chartsData.lineChartAutoScale;
@@ -156,14 +157,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     name: 'coolthree',
     selectable: true,
     group: 'Ordinal',
-    domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5']
+    domain: this.lineChartColorScheme.domain // ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5']
   };
 
   comboBarScheme = {
     name: 'singleLightBlue',
     selectable: true,
-    group: 'Ordinal',
-    domain: ['#01579b']
+    group: 'linear',
+    domain: this.lineChartOneColorScheme2.domain
   };
 
   showRightYAxisLabel: boolean = true;
@@ -1131,7 +1132,7 @@ getWeek(newdate, dowOffset?) {
         this.chartNames = this.lineChartDrugs.map((d: any) => d.name);
         // Convert hex colors to ColorHelper for consumption by legend
         this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
-        this.colors2 = new ColorHelper(this.lineChartScheme, 'ordinal', this.chartNames, this.lineChartScheme);
+        this.colors2 = new ColorHelper(this.lineChartOneColorScheme2, 'ordinal', this.chartNames, this.lineChartOneColorScheme2);
 
           this.normalizedChanged(this.normalized);
           if(this.events.length>0){
