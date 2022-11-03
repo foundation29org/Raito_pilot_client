@@ -845,7 +845,8 @@
        "noti5b":"Du hast deine Medikamente in letzter Zeit nicht gewechselt. Hast du etwas zu ändern?",
        "noti6a":"Sie sind keiner Patientenorganisation beigetreten. Jetzt beitreten!",
        "noti7a":"Ihre Daten sind nicht mit Ihrer Patientenorganisation verbunden, wollen Sie sie verbinden?",
-       "Answer":"Antworten"
+       "Answer":"Antworten",
+       "My data": "Meine Daten"
     },
     "reports":{
        "Create-paste a report":"Bericht erstellen/einfügen",

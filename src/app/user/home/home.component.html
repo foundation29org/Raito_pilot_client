@@ -92,7 +92,7 @@
     </div>
 </div>
 <div class="" *ngIf="loadedInfoPatient && basicInfoPatient.group!=null && step=='0'">
-    <div class="mx-auto row no-gutters width30rem" *ngIf="tasksLoaded">
+    <div class="mx-auto row no-gutters width30rem" *ngIf="tasksLoaded" [ngClass]="{'mt-3': innerWidth>992}">
         <div class="col-md-12 col-lg-8" id="panelNotifications">
             <div class="card" [ngClass]="{'mr-2': innerWidth>992}">
                 <div class="col-sm-12 card-header p-2" [ngClass]="{'panelHearder': innerWidth>992}">
@@ -316,7 +316,7 @@
             <div class="card ml-2">
                 <div class="col-sm-12 card-header p-2" [ngClass]="{'panelHearder': innerWidth>992}">
                     <h4 class="text-bold-500" [ngClass]="{'white mb-0': innerWidth>992}">{{'charts.Your progress' | translate }}
-                        <em *ngIf="clientHeight<300" class="ft-info font-medium-1" style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContentprogress" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                        <em *ngIf="clientHeight<250" class="ft-info font-medium-1" style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContentprogress" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
                         <ng-template #popContentprogress>
                             <span>
                                 {{'charts.If you dont keep data updated it will decrease' | translate }}
@@ -326,7 +326,7 @@
                 </div>
                 <div class="card-block">
                     <div class="pl-2 pr-2 pt-2">
-                        <p *ngIf="clientHeight>=300">
+                        <p *ngIf="clientHeight>=250">
                             {{'charts.If you dont keep data updated it will decrease' | translate }}
                         </p>
                     </div>
@@ -358,10 +358,10 @@
         </div>
     </div>
 
-    <div class="mx-auto card width30rem">
+    <div class="mx-auto card width30rem" [ngClass]="{'mt-4': innerWidth>992}">
         <div class="">
             <div class="col-sm-12 card-header pb-3" [ngClass]="{'panelHearder': innerWidth>992}">
-                <h4 class="text-bold-500 white text-left" [ngClass]="{'d-none': innerWidth<992}" style="position: absolute;left: 1em;">My data</h4>
+                <h4 class="text-bold-500 white text-left" [ngClass]="{'d-none': innerWidth<992}" style="position: absolute;left: 1em;">{{'charts.My data' | translate }}</h4>
                 <div class="center-elements" [ngClass]="{'optionsCharts': innerWidth<992}">
                     <span class="mr-2 white" [ngClass]="{'d-none': innerWidth<992}">{{'generics.Select' | translate }}:</span>
                     <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='month'"
@@ -765,12 +765,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="mx-auto width30rem" >
-        <div>
-            
         </div>
     </div>
 
