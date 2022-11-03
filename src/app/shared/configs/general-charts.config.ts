@@ -13,10 +13,14 @@ export var lineChartShowXAxisLabel = true;
 export var lineChartShowYAxisLabel = true;
 
 export var lineChartColorScheme = {
-    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA']
+    domain: ['#009DA0', '#FF8D60', '#FF586B', '#14dd16', '#01579b', '#ffce44','#6e5818', '#14dd16']
 };
 export var lineChartOneColorScheme = {
     domain: ['#009DA0']
+};
+
+export var lineChartOneColorScheme2 = {
+    domain: ['#cb13cb']
 };
 
 // line, area

@@ -405,7 +405,7 @@
                                         </div>
                                     </div>
                                     <div id="line-chart2" class="height-100">
-                                        <ngx-charts-line-chart [scheme]="lineChartColorScheme"
+                                        <ngx-charts-line-chart [scheme]="lineChartOneColorScheme"
                                             [results]="lineChartSeizures" [gradient]="barChartGradient"
                                             [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
                                             [legend]="barChartShowLegend" [showXAxisLabel]="false"
@@ -505,7 +505,7 @@
                                         </div>
                                     </div>
                                     <div id="line-chart2" class="height-100">
-                                        <ngx-charts-line-chart [scheme]="lineChartColorScheme"
+                                        <ngx-charts-line-chart [scheme]="lineChartOneColorScheme"
                                             [results]="lineChartHeight" [gradient]="barChartGradient"
                                             [xAxis]="false" [yAxis]="true"
                                             [legend]="barChartShowLegend"
@@ -710,6 +710,7 @@
                                             [view]="[(ContainerRef1.offsetWidth-90), 100]"
                                             [scheme]="comboBarScheme"
                                             [colorSchemeLine]="lineChartScheme"
+                                            [colorSchemeLine2]="comboBarScheme"
                                             [results]="barChart"
                                             [animations]="animations"
                                             [lineChart]="lineChartSeries"
@@ -745,7 +746,7 @@
                                                             class="chart-legend" 
                                                             [data]="chartNames" 
                                                             [title]="'Legend Title'" 
-                                                            [colors]="colors2">
+                                                            [colors]="colors">
                                         </ngx-charts-legend>
                                         <div>
                                             <ngx-charts-legend fxFlex="100%" 
