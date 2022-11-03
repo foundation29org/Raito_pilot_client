@@ -845,7 +845,8 @@
        "noti5b":"Vous n'avez pas changé vos médicaments ces derniers temps. Avez-vous quelque chose à changer ?",
        "noti6a":"Vous n'avez pas rejoint une organisation de patients. Adhérer maintenant!",
        "noti7a":"Vos données sont déconnectées de votre organisation de patients, voulez-vous les connecter?",
-       "Answer":"Réponse"
+       "Answer":"Réponse",
+       "My data": "Mes données"
     },
     "reports":{
        "Create-paste a report":"Créer/coller un rapport",

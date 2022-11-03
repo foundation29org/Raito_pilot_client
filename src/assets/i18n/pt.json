@@ -845,7 +845,8 @@
        "noti5b":"Você não mudou suas drogas ultimamente. Você tem algo para mudar?",
        "noti6a":"Você não se juntou a uma organização de pacientes. Entrar!",
        "noti7a":"Os seus dados estão desconectados da sua organização de doentes, quer conectá-los?",
-       "Answer":"Responda"
+       "Answer":"Responda",
+       "My data": "Meus dados"
     },
     "reports":{
        "Create-paste a report":"Criar/colar um relatório",

@@ -845,7 +845,8 @@
     "noti5b": "You haven't changed your drugs lately. Do you have anything to change?",
     "noti6a": "You haven't joined a patient organization. Join now!",
     "noti7a": "Your data is disconnected with your patient organization, do you want to connect it?",
-    "Answer": "Answer"
+    "Answer": "Answer",
+    "My data": "My data"
   },
   "reports":{
     "Create-paste a report": "Create/paste a report",
