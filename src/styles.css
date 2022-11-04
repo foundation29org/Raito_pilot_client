@@ -1,5 +1,16 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
+/*html body{
+  font-family: sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: inherit;
+}*/
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 
 .dropdown-menu[x-placement^="top"], .dropdown-menu[x-placement^="right"], .dropdown-menu[x-placement^="bottom"], .dropdown-menu[x-placement^="left"] {
   right: auto;
@@ -9,10 +20,6 @@
 html body.layout-dark:not(.layout-transparent) .modal-content {
   background-color: #000 !important;
   background: #000 !important;
-}
-
-:host ::ng-deep ._hj_feedback_container button{
-  background-color: #f9423a !important;
 }
 
 html body.layout-dark:not(.layout-transparent) .card {
@@ -85,6 +92,7 @@ span{
 form label, .form-group label {
   /*color: #75787d;
   font-size: 11px;*/
+  font-size: 1rem !important;
   text-transform: none !important;
   letter-spacing: 0px;
   font-weight: 500;
@@ -148,10 +156,6 @@ form .form-group {
 
 .navbar {
   padding: 0.3rem 1.5rem !important;
-}
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "Rubik", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 footer{

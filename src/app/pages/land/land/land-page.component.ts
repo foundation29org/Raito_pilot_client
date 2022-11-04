@@ -97,6 +97,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
           }else if(error.message=='Web3Auth: User closed login modal.'){
             
+          }else if(error.message=='User cancelled login'){
+            
           }
         }
         
