@@ -959,7 +959,7 @@
     "sharecontent3": "A private link will be generated that you can share with the people you want to access it.",
     "fhirtitle": "Download FHIR file",
     "fhirdesc": "Having your data in FHIR means that you can take it to many hospitals around the world and they will be able to read it and incorporate it into your medical record.",
-    "Password is incorrect": "Password is incorrect",
+    "incorrect account": "You have selected an incorrect account.",
     "we will close your session": "For your security, we will close your session.",
     "please enter your password": "For security reasons, please enter your password",
     "Write your password here": "Write your password here",

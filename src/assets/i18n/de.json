@@ -959,7 +959,7 @@
        "sharecontent3":"Es wird ein privater Link generiert, den Sie mit den Personen teilen können, auf die Sie zugreifen möchten.",
        "fhirtitle": "Laden Sie die FHIR-Datei herunter",
        "fhirdesc": "Wenn Sie Ihre Daten in FHIR haben, können Sie sie zu vielen Krankenhäusern auf der ganzen Welt mitnehmen, wo sie sie lesen und in Ihre Krankenakte aufnehmen können.",
-       "Password is incorrect":"Das Passwort ist inkorrekt",
+       "incorrect account":"Sie haben ein falsches Konto ausgewählt.",
        "we will close your session":"Zu Ihrer Sicherheit schließen wir Ihre Sitzung.",
        "please enter your password":"Bitte geben Sie aus Sicherheitsgründen Ihr Passwort ein",
        "Write your password here":"Geben Sie hier Ihr Passwort ein",

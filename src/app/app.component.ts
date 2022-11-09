@@ -16,8 +16,6 @@ import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
 
 
-import { MoralisService } from 'app/shared/auth/moralis.service';
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -30,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     hasLocalLang: boolean = false;
     tituloEvent: string = '';
 
-    constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta, public moralisService: MoralisService) {
+    constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta) {
         if (sessionStorage.getItem('lang')) {
             this.translate.use(sessionStorage.getItem('lang'));
             this.hasLocalLang = true;
@@ -43,8 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
       
           this.loadLanguages();
           this.loadCultures();
-
-        this.moralisService.loadScripts();
     }
     loadLanguages() {
         this.langService.getLangs()

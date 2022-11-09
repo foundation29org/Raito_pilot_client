@@ -19,7 +19,6 @@ import { sha512 } from "js-sha512";
 import { Clipboard } from "@angular/cdk/clipboard"
 import { DateAdapter } from '@angular/material/core';
 import { SearchService } from 'app/shared/services/search.service';
-import { MoralisService } from 'app/shared/auth/moralis.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -53,7 +52,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   hasGroup: boolean = false;
   consentgroup: string = 'false';
   activeIds = [];
-  myEmail: string = '';
   lang: string = 'en';
   newPermission:any;
   @ViewChild('f') sendForm: NgForm;
@@ -208,7 +206,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscriptionTimer: Subscription = new Subscription();
   protected innerWidth: any;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer,  public moralisService: MoralisService) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -232,7 +230,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadTranslations();
     this.loadPatientId();
-    this.loadMyEmail();
     this.checkIPFS();
     this.checkF29();
   }
@@ -696,6 +693,7 @@ loadSymptoms() {
 }
 
 confirmDelete(index, index2) {
+  this.authService.logout2();
   Swal.fire({
     title: this.translate.instant("generics.This action will not be reversed"),
     html: this.translate.instant("generics.confirm delete data"),
@@ -735,12 +733,12 @@ confirmDelete(index, index2) {
 }
 
 async loginAgain(){
+  
   try {
-    var res = await this.moralisService.authenticate();
-    console.log(res);
-    var data:any = res;
-    var password = sha512(data.password);
-    this.deleteData(password);
+    
+    this.authService.initWeb3Auth();
+    var res = await this.authService.login();
+    this.deleteData(res);
   } catch (error) {
     console.log(error.message);
     
@@ -749,19 +747,10 @@ async loginAgain(){
   }
 }
 
-loadMyEmail(){
-  this.subscription.add( this.http.get(environment.api+'/api/users/email/'+this.authService.getIdUser())
-    .subscribe( (res : any) => {
-      this.myEmail = res.email;
-    }, (err) => {
-      console.log(err);
-    }));
-}
-
-deleteData(password){
+deleteData(data){
   //cargar los datos del usuario
   this.loading = true;
-  var info = {password: password}
+  var info = {ethAddress: data.ethAddress}
   this.subscription.add( this.http.post(environment.api+'/api/deleteaccount/'+this.authService.getIdUser(), info)
   .subscribe( (res : any) => {
     if(res.message=='The case has been eliminated'){
@@ -782,13 +771,16 @@ deleteData(password){
           //window.location.reload();
       }.bind(this), 1500);
     }else{
-      Swal.fire(this.translate.instant("mydata.Password is incorrect"), this.translate.instant("mydata.we will close your session"), "warning");
-      this.authService.logout();
+      Swal.fire(this.translate.instant("mydata.incorrect account"), this.translate.instant("mydata.we will close your session"), "warning");
+      
+      setTimeout(function () {
+        this.authService.logout();
+        //window.location.reload();
+        //this.router.navigate([this.authService.getLoginUrl()]);
+        //window.location.reload();
+      }.bind(this), 1500);
       //this.router.navigate([this.authService.getLoginUrl()]);
     }
-    
-    
-    
     /*this.authService.logout();
     this.router.navigate([this.authService.getLoginUrl()]);*/
    }, (err) => {

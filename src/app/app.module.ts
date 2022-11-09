@@ -42,7 +42,6 @@ import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { RoleGuard } from './shared/auth/role-guard.service';
 import { TokenService } from './shared/auth/token.service';
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
-import { MoralisService } from './shared/auth/moralis.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { DatePipe } from '@angular/common';
@@ -105,7 +104,6 @@ export function createTranslateLoader(http: HttpClient) {
     },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     WINDOW_PROVIDERS,
-    MoralisService,
     { provide: LOCALE_ID, useValue: 'es-ES' },
     SortService,
     EventsService,
