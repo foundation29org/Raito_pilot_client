@@ -42,6 +42,10 @@
   .dropdown-menu {
     padding: 0rem 0 !important;
   }
+
+  .navbar .navbar-nav .dropdown-menu {
+    height: fit-content !important;
+  }
   
   .dropdown-divider{
     margin: 0rem 0 !important; 

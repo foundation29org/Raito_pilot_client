@@ -19,7 +19,7 @@ var Web3 = require('web3');
 var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
 
 import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
-
+import { OpenloginAdapter }  from "@web3auth/openlogin-adapter";
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 const metamaskAdapter = new MetamaskAdapter({
   clientId: clientId,
@@ -67,6 +67,22 @@ export class AuthService {
       },
       authMode: 'WALLET',
     });
+    const openloginAdapter = new OpenloginAdapter({
+      adapterSettings: {
+        clientId, //Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
+        network: "testnet",
+        //redirectUrl: "com.web3auth.app://auth",
+        uxMode: "popup",
+        whiteLabel: {
+          name: "Raito",
+          logoLight: "https://raito.care/assets/img/logo.png",
+          logoDark: "https://raito.care/assets/img/logo.png",
+          dark: false, // whether to enable dark mode. defaultValue: false
+        },
+      },
+    });
+   
+    this.web3auth.configureAdapter(openloginAdapter);
     this.web3auth.configureAdapter(metamaskAdapter);
     return this.web3auth;
   }

@@ -36,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     var isExternalReq = false;
     var authReq = req.clone({});
-
+    console.log(req.url);
     if(req.url.indexOf(environment.api)!==-1){
       /*const headers = new HttpHeaders({
         'authorization': `${type} ${token}`,
