@@ -41,18 +41,30 @@ export class AuthService {
   private expToken: number = null;
   private currentPatient: ICurrentPatient = null;
   private patientList: Array<ICurrentPatient> = null;
-
+  isMobile: boolean = false;
   private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
 
   web3auth: Web3Auth | null = null;
   provider: SafeEventEmitterProvider | null = null;
   isModalLoaded = false;
-
+  uxMode:any = 'popup'
   constructor(private http: HttpClient, private router: Router) {
-    
+    this.isMobile = false;
+    if (/Android/i.test(navigator.userAgent)) {
+      this.isMobile = true;
+    } else if (/iPhone/i.test(navigator.userAgent)) {
+      this.isMobile = true;
+    }
   }
 
   initWeb3Auth(){
+    console.log('Is App', this.isMobile);
+    if(this.isMobile){
+      this.uxMode = 'redirect'
+    }else{
+      this.uxMode = 'popup'
+    }
+    //this.uxMode = 'redirect'
     this.web3auth = new Web3Auth({
       clientId,
       chainConfig: {
@@ -72,7 +84,7 @@ export class AuthService {
         clientId, //Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
         network: "testnet",
         //redirectUrl: "com.web3auth.app://auth",
-        uxMode: "popup",
+        uxMode: this.uxMode,//redirect
         whiteLabel: {
           name: "Raito",
           logoLight: "https://raito.care/assets/img/logo.png",
@@ -104,10 +116,18 @@ export class AuthService {
         const web3auth = this.web3auth;
         await web3auth.initModal();
         this.provider = await web3auth.connect();
+        /*console.log(this.provider)
+        console.log(web3auth)
+        const rpc = new RPC(this.provider);        
+        const address = await rpc.getAccounts();
+        console.log(address);*/
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
         var aggregateVerifier = openlogin_store.aggregateVerifier;
         var openlogin_store2 = localStorage.getItem('Web3Auth-cachedAdapter');
-        if(aggregateVerifier=='tkey-auth0-email-passwordless' || aggregateVerifier=='tkey-google' && (openlogin_store2!='metamask')){
+        console.log(openlogin_store);
+        console.log(openlogin_store2)
+        //if(aggregateVerifier=='tkey-auth0-email-passwordless' || aggregateVerifier=='tkey-google' && (openlogin_store2!='metamask')){
+        if(openlogin_store2=='openlogin'){
           try {
             var data = await this.verif(web3auth, this.provider);
             resolve (data);
@@ -115,7 +135,7 @@ export class AuthService {
             reject (error)
           }
           
-        }else{
+        }else if(openlogin_store2=='metamask'){
           try {
             var data = await this.verifWallet(web3auth, this.provider);
             resolve (data);
@@ -172,6 +192,51 @@ export class AuthService {
             resolve (respu)
             //await this.testAccount(app_pub_key, user.idToken, address, privateKeysha);
           }
+        } else {
+          console.log(responseData);
+          reject(responseData)
+        }
+       }, (err) => {
+         console.log(err);
+         reject(err)
+       });
+    }.bind(this));
+  }
+
+  async verifCallback(app_pub_key, PrivateKey, idToken) {
+    return new Promise(async function (resolve, reject) {
+      // Verify idToken at your backend server
+      const response = await fetch(environment.api + "/api/verifyweb3auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + idToken, // or token.idToken
+        },
+        body: JSON.stringify({ appPubKey: app_pub_key}),
+      }).then( async (response2 : any) => {
+        console.log(response2);
+        console.log(response2.ok);
+        
+        const responseData = await response2.json()
+        console.log(responseData)
+        if (response2.ok) {
+          try {
+            let account = Web3.eth.accounts.privateKeyToAccount(PrivateKey);
+            console.log(account.address);
+            let address = account.address;
+            if(responseData.name=='Verification Failed'){
+              console.log('Verification Failed');
+              reject('Verification Failed')
+            }else{
+              var respu = {appPubKey: app_pub_key, idToken: idToken, ethAddress: address, lang: sessionStorage.getItem('lang'), method:'2.0'}
+              resolve (respu)
+              //await this.testAccount(app_pub_key, user.idToken, address, privateKeysha);
+            }
+          } catch (error) {
+            console.log(error);
+            return error as string;
+          }
+          
         } else {
           console.log(responseData);
           reject(responseData)

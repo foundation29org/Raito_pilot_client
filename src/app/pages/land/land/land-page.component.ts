@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { PatientService } from 'app/shared/services/patient.service';
 import { AuthService } from '../../../../app/shared/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,8 @@ import { Web3Auth } from "@web3auth/modal";
 import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { Subscription } from 'rxjs/Subscription';
 import { ThisReceiver } from '@angular/compiler';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
+import * as decode from 'jwt-decode';
 
 @Component({
   selector: 'app-land-page',
@@ -33,9 +35,45 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
     this.lang = sessionStorage.getItem('lang');
-   
+    this.route.fragment
+    .pipe(
+      map(fragment => new URLSearchParams(fragment)),
+      map(params => ({
+        result: params.get('result'),
+        _pid: params.get('_pid'),
+        sessionId: params.get('sessionId'),
+      }))
+    )
+    .subscribe(res => {
+      console.log(res)
+      if(res.result && res._pid && res.sessionId){
+        //this.callbacktest(res);
+        this.login();
+      }else{
+        this.authService.logout2();
+      }
+    });
+  }
+
+  async callbacktest(res) {
+    console.log('login');
+    console.log(res.result);
+    var sig = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.'+res.result+'.a4VgwATT-RvXvH799RVD4nUdAcOvjUMRoM_Xitlax4Y';
+    var tokenPayload = decode(sig);
+    console.log(tokenPayload);
+    //verificar el tokenpayload
+    var tokenPayload2 = decode(tokenPayload.store.idToken);
+    //si es valido, continuar
+    console.log(tokenPayload2);
+    try {
+      const res = await this.authService.verifCallback(tokenPayload2.wallets[0].public_key,tokenPayload.privKey, tokenPayload.store.idToken )
+      console.log(res);
+      this.testAccount(res)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async start() {
@@ -51,7 +89,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
       let url = this.authService.getRedirectUrl();
       this.router.navigate([url]);
     }else{
-      this.authService.logout2();
+      //this.authService.logout2();
     }
   }
 
