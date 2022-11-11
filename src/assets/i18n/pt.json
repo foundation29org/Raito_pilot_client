@@ -697,9 +697,8 @@
        "aboutUs":{
           "Who are we":"Visite o nosso site",
           "titlef29":"O que é a Fundação 29?",
-          "p1f29":"Somos uma fundação sem fins lucrativos. Trabalhamos por uma medicina na qual pacientes empoderados assumem o controle de sua saúde por meio de seus dados e trabalhamos com médicos e instituições para melhorar seu bem-estar e o de outras pessoas.",
-          "p2f29":"Criamos tecnologias que permitem uma mudança radical em suas capacidades como usuários e em todo o ecossistema médico.",
-          "p3f29":"O ativismo dos pacientes, suas famílias e associações estão no nosso cerne. Damos especial atenção às doenças raras. Estão na nossa origem e no nosso nome: 29 de fevereiro, dia mundial das doenças raras."
+          "p1f29":"Somos uma organização sem fins lucrativos. Nossa missão é devolver dados aos pacientes. Sim, curiosamente, os pacientes não têm seus dados e isso é uma barreira para a inovação na medicina. A Fundação 29 quer mudar isso.",
+          "p2f29":"Trabalhamos com médicos, prestadores de serviços de saúde, indústria e pesquisadores em projetos que mudam a forma como lidamos com dados médicos. Nos consideramos ativistas de dados e até certo ponto rebeldes em um sistema de saúde que sofre e precisa de mudanças. Somos agentes de mudança em busca de um novo ponto de vista."
        },
        "diagnosed":{
           "timeline":{
@@ -768,19 +767,19 @@
        "See answers":"Ver respostas"
     },
     "landraito":{
-       "t1":"Você tem o poder de aumentar a medicina",
-       "p1":"Os dados do paciente são críticos para a pesquisa. Ajude a desenvolver novos tratamentos e aprimorar pesquisas sem sair de casa. Raito é o seu contêiner de dados pessoais de saúde",
-       "t2":"Como funciona",
+       "t1":"Dados médicos salvam vidas",
+       "p1":"Todos concordamos que os dados médicos podem salvar vidas. Mas eles só podem fazê-lo quando somos capazes de juntá-los com outros dados. Seus dados médicos isolados valem pouco, mas se você os agrupar, são muito valiosos. Raito é a ferramenta para seus dados escaparem de uma gaveta e podem ser usados para desenvolver novos tratamentos e você pode melhorar sua saúde ou a das pessoas que você cuida.",
+       "t2":"Como o Raito funciona?",
+       "t2subtitle": "Raito é um contêiner de dados de pacientes descentralizado. Sendo descentralizado, você é o único que tem seus dados e é você quem decide com quem os compartilha. Damos a você o poder de controlar seus dados de saúde e os dos pacientes que você cuida. Aqui está como funciona.",
        "t2.1t":"Suba a bordo",
-       "t2.1a":"Crie sua conta para embarcar em seu contêiner de dados. Ajudaremos você a criá-lo facilmente para armazenar seus dados em seus próprios dispositivos.",
-       "t2.2t":"Encha seu tanque",
-       "t2.2a":"Ajudaremos você a incluir e manter atualizados os dados de seus pacientes com facilidade. Seus dados são o que alimenta a medicina e a pesquisa baseadas em evidências.",
+       "t2.1a":"A primeira etapa é criar seu contêiner de dados pessoais. Para fazer isso, você tem que provar que você é um paciente real. É um passo simples que leva apenas alguns minutos.",
+       "t2.2t":"Preencha seu depósito",
+       "t2.2a":"Para que seus dados valham a pena há um mínimo de informações que você deve preencher, como sua doença, o grupo de pacientes ao qual você pertence, etc. Não se preocupe, projetamos o Raito para agilizar isso.",
        "t2.3t":"Lançar",
-       "t2.3a":"Junte-se a uma comunidade de pacientes para contribuir com seus dados anonimamente e aumentar seu alcance com instituições e aplicativos que ajudarão você e outros pacientes.",
+       "t2.3a":"É o passo mais importante. Nossa missão é que você possa usar seus dados e, para isso, ajudaremos você a compartilhá-los com quem quiser. Por exemplo, com seu médico e com sua organização de pacientes. Se você quiser que seus dados estejam disponíveis anonimamente para Pesquisa, também ajudaremos.",
        "t3.1":"Disponível no seu celular e tablet",
        "t3.2":"Use Raito no seu celular ou tablet: é grátis e fácil",
-       "button":"eu quero me juntar",
-       "For free forever": "De graça para sempre!",
+       "button":"Conecte-se",
        "You have a pending action before continuing": "Você tem uma ação pendente antes de continuar."
     },
     "homeraito":{

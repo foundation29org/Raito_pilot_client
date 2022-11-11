@@ -22,6 +22,7 @@
                             <img class="w-80 center-elements" style="max-width: 200px !important;" src='assets/img/home/home1.webp'>
                         </div>                        
                         <h3 class="text-bold-500 mt-5">{{'landraito.t2' | translate }}</h3>
+                        <p>{{'landraito.t2subtitle' | translate }}</p>
                         <div class="row mt-3">
                             <div class="col-3 pr-0 pl-0">
                                 <img class="w-100" src='assets/img/home/home2.webp' alt="step 1 raito">
@@ -66,7 +67,6 @@
                         <span class="">
                             <p>{{'land.aboutUs.p1f29' | translate }}</p>
                             <p>{{'land.aboutUs.p2f29' | translate }}</p>
-                            <p>{{'land.aboutUs.p3f29' | translate }}</p>
                           </span>
                           <div class="center-elements">
                             <a href="https://www.foundation29.org" target="_blank" title="foundation29 web" class="mt-2 btn btn-dark mb-1"
@@ -82,7 +82,7 @@
         <div class="container-fluid">
             <div class="row m-0" style="min-height: 100vh !important;">
                 <div class="col-12 d-flex align-items-center justify-content-center">
-                  <div class="offset-xl-3 col-xl-6 card overflow-hidden">
+                  <div class="offset-xl-2 col-xl-8 card overflow-hidden">
                     <div class="card-content">
                       <div class="card-body auth-img">
                         <div class="row m-0">
@@ -97,9 +97,6 @@
                                 <button *ngIf="!sending" (click)="login()" class="btn btn-dark mt-1 mb-1 d-block" title="I want to join">
                                     <span class="menu-title">{{'landraito.button' | translate }}</span>
                                 </button>
-                                <span *ngIf="!sending">
-                                    {{'landraito.For free forever' | translate }}
-                                </span>
                                 <div class="center-elements" *ngIf="sending">
                                     <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
                                         <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
@@ -116,6 +113,7 @@
                     <div class="offset-xl-1 col-xl-10">
                         <div class="card p-4">
                             <h3 class="text-bold-500">{{'landraito.t2' | translate }}</h3>
+                            <p>{{'landraito.t2subtitle' | translate }}</p>
                             <div class="row">
                                 <div class="col-xl-4">
                                     <div class="row mt-3">
@@ -168,7 +166,6 @@
                                     <span class="">
                                         <p>{{'land.aboutUs.p1f29' | translate }}</p>
                                         <p>{{'land.aboutUs.p2f29' | translate }}</p>
-                                        <p>{{'land.aboutUs.p3f29' | translate }}</p>
                                       </span>
                                       <div class="center-elements">
                                         <a href="https://www.foundation29.org" target="_blank" title="foundation29 web" class="mt-2 btn btn-dark mb-1"

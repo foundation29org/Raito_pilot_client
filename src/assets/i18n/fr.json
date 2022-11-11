@@ -697,9 +697,8 @@
        "aboutUs":{
           "Who are we":"Visitez notre site Internet",
           "titlef29":"Qu'est-ce que la Fondation 29 ?",
-          "p1f29":"Nous sommes une fondation à but non lucratif. Nous œuvrons pour une médecine dans laquelle des patients responsabilisés prennent le contrôle de leur santé grâce à leurs données et travaillent avec des médecins et des institutions pour améliorer leur bien-être et celui des autres.",
-          "p2f29":"Nous créons des technologies qui permettent un changement radical de vos capacités en tant qu'utilisateurs et de l'ensemble de l'écosystème médical.",
-          "p3f29":"L'activisme des patients, de leurs familles et des associations est au cœur de notre action. Nous accordons une attention particulière aux maladies rares. Ils sont à notre origine et à notre nom : 29 février, journée mondiale des maladies rares."
+          "p1f29":"Nous sommes une organisation à but non lucratif. Notre mission est de restituer les données aux patients. Oui, curieusement, les patients n'ont pas leurs données et c'est un frein à l'innovation en médecine. La Fondation 29 veut le changer.",
+          "p2f29":"Nous travaillons avec des médecins, des prestataires de soins de santé, l'industrie et des chercheurs sur des projets qui changent la façon dont nous traitons les données médicales. Nous nous considérons comme des activistes des données et, dans une certaine mesure, des rebelles dans un système de santé qui souffre et qui a besoin de changement. Nous sommes des agents de changement à la recherche d'un nouveau point de vue."
        },
        "diagnosed":{
           "timeline":{
@@ -768,19 +767,19 @@
        "See answers":"Voir les réponses"
     },
     "landraito":{
-       "t1":"Vous avez le pouvoir de stimuler la médecine",
-       "p1":"Les données des patients sont essentielles pour la recherche. Aidez à développer de nouveaux traitements et à améliorer la recherche sans quitter votre domicile. Raito est votre conteneur de données personnelles de santé",
-       "t2":"Comment ça fonctionne",
+       "t1":"Les données médicales sauvent des vies",
+       "p1":"Nous convenons tous que les données médicales peuvent sauver des vies. Mais ils ne peuvent le faire que lorsque nous sommes en mesure de les associer à d'autres données. Vos données médicales isolées valent peu mais si vous les regroupez, elles sont très précieuses. Raito est l'outil pour que vos données s'échappent d'un tiroir et peuvent être utilisées pour développer de nouveaux traitements et vous permettre d'améliorer votre santé ou celle des personnes dont vous vous occupez.",
+       "t2":"Comment fonctionne Raito?",
+       "t2subtitle": "Raito est un conteneur de données patient décentralisé. Étant décentralisé, vous êtes le seul à disposer de vos données et c'est vous qui décidez avec qui vous les partagez. Nous vous donnons le pouvoir de contrôler vos données de santé et celles des patients dont vous vous occupez. Voici comment ça fonctionne.",
        "t2.1t":"Monter à bord",
-       "t2.1a":"Créez votre compte pour embarquer dans votre conteneur de données. Nous vous aiderons à le créer facilement pour stocker vos données sur vos propres appareils.",
-       "t2.2t":"Remplissez votre réservoir",
-       "t2.2a":"Nous vous aiderons à inclure et à tenir à jour facilement les données de vos patients. Vos données sont ce qui alimente la médecine et la recherche fondées sur des preuves.",
+       "t2.1a":"La première étape consiste à créer votre conteneur de données personnelles. Pour ce faire, vous devez prouver que vous êtes un vrai patient. C'est une étape simple qui ne prend que quelques minutes.",
+       "t2.2t":"Remplissez votre caution",
+       "t2.2a":"Pour que vos données valent, il y a un minimum d'informations que vous devez remplir, comme votre maladie, le groupe de patients auquel vous appartenez, etc. Ne vous inquiétez pas, nous avons conçu Raito pour que cela soit rapide.",
        "t2.3t":"Lancement",
-       "t2.3a":"Rejoignez une communauté de patients pour apporter vos données de manière anonyme et augmenter votre portée avec des institutions et des applications qui vous aideront, vous et d'autres patients.",
+       "t2.3a":"C'est l'étape la plus importante. Notre mission est que vous puissiez utiliser vos données et pour cela nous vous aiderons à les partager avec qui vous voulez. Par exemple avec votre médecin et avec votre association de patients. Si vous souhaitez que vos données soient disponibles de manière anonyme pour la recherche, nous vous aiderons également.",
        "t3.1":"Disponible sur votre mobile et votre tablette",
        "t3.2":"Utilisez Raito sur votre téléphone ou votre tablette : c'est gratuit et facile",
-       "button":"Je veux joindre",
-       "For free forever": "Gratuitement pour toujours!",
+       "button":"Connexion",
        "You have a pending action before continuing": "Vous avez une action en attente avant de continuer."
     },
     "homeraito":{
