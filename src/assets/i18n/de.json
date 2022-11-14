@@ -780,7 +780,13 @@
        "t3.1":"Verfügbar auf Ihrem Handy und Tablet",
        "t3.2":"Verwenden Sie Raito auf Ihrem Telefon oder Tablet: Es ist kostenlos und einfach",
        "button":"Einloggen",
-       "You have a pending action before continuing": "Sie haben eine ausstehende Aktion, bevor Sie fortfahren."
+       "You have a pending action before continuing": "Sie haben eine ausstehende Aktion, bevor Sie fortfahren.",
+       "check": "Ich verstehe schon, worum es geht. Sie müssen es nicht öfter sehen.",
+       "opttitle": "Anmeldung",
+       "optsub": "Raito muss wissen, wer Sie sind. Dies ist die Methode, mit der Sie auf die Funktionalität von Raito zugreifen. Wir bieten Ihnen mehrere Möglichkeiten, dies zu tun, Sie können zwischen Komfort und Privatsphäre abwägen.",
+       "opt1": "<strong>Externer Anbieter.</strong> Wir geben Ihnen die Möglichkeit, sich mit Ihrem Konto aus einer anderen Anwendung anzumelden. Es handelt sich um kommerzielle Anwendungen und daher können diese Unternehmen wissen, dass Sie ein Raito-Benutzer sind. Sie greifen nicht auf Ihre persönlichen Daten zu. Es ist eine gute Option, wenn Sie nach Einfachheit suchen und ein wenig Privatsphäre opfern möchten.",
+       "opt2": "<strong>Verwenden Sie Ihre E-Mail.</strong> Wir bieten Ihnen einen Service an, bei dem Sie kein Passwort verwenden müssen. Einfach und effektiv. Jedes Mal, wenn Sie sich anmelden, müssen Sie auf Ihre E-Mail zugreifen. Dies ist eine effektive Möglichkeit, Ihre Privatsphäre zu wahren.",
+       "opt3": "<strong>Verwendung einer Brieftasche.</strong> Es ist die komplexeste Methode, aber es gibt Ihnen mehr Privatsphäre. Mit dieser Methode verwenden Sie eine Brieftasche, mit der Sie private Schlüssel speichern können."
     },
     "homeraito":{
        "t1":"Gehören Sie einer Patientenorganisation an?",

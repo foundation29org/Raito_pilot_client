@@ -780,7 +780,13 @@
        "t3.1":"Disponible sur votre mobile et votre tablette",
        "t3.2":"Utilisez Raito sur votre téléphone ou votre tablette : c'est gratuit et facile",
        "button":"Connexion",
-       "You have a pending action before continuing": "Vous avez une action en attente avant de continuer."
+       "You have a pending action before continuing": "Vous avez une action en attente avant de continuer.",
+       "check": "Je comprends déjà de quoi il s'agit. Pas besoin de le voir plusieurs fois.",
+       "opttitle": "Login",
+       "optsub": "Raito a besoin de savoir qui tu es. Ce sera la méthode que vous utiliserez pour accéder aux fonctionnalités de Raito. Nous vous proposons plusieurs façons de le faire, vous pouvez équilibrer entre confort et intimité.",
+       "opt1": "<strong>Prestataire externe.</strong> Nous vous donnons la possibilité de vous connecter avec votre compte depuis une autre application. Ce sont des applications commerciales et ces entreprises peuvent donc savoir que vous êtes un utilisateur de Raito. Ils n'accèdent pas à vos informations personnelles. C'est une bonne option si vous recherchez la simplicité et que vous voulez sacrifier un peu de votre vie privée.",
+       "opt2": "<strong>Utilisation de votre e-mail.</strong> Nous vous offrons un service dans lequel vous n'avez pas besoin d'utiliser un mot de passe. Simple et efficace. Chaque fois que vous vous connecterez, vous devrez accéder à votre messagerie. C'est un moyen efficace de préserver votre vie privée.",
+       "opt3": "<strong>Utilisation d'un portefeuille.</strong> C'est la méthode la plus complexe mais elle vous donne plus d'intimité. En utilisant cette méthode, vous utiliserez un portefeuille qui vous permet de stocker des clés privées."
     },
     "homeraito":{
        "t1":"Appartenez-vous à une association de patients ?",

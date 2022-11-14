@@ -3,7 +3,9 @@ import { environment } from 'environments/environment';
 import { Router, ActivatedRoute } from "@angular/router";
 import { PatientService } from 'app/shared/services/patient.service';
 import { AuthService } from '../../../../app/shared/auth/auth.service';
+import { EventsService } from 'app/shared/services/events.service';
 import { TranslateService } from '@ngx-translate/core';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { sha512 } from "js-sha512";
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
@@ -32,11 +34,18 @@ export class LandPageComponent implements OnInit, OnDestroy {
   isMobile: boolean = false;
   isModalLoaded = false;
   web3auth: Web3Auth | null = null;
+  modalReference: NgbModalRef;
+  langWeb3auth: string = 'en';
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService, private modalService: NgbModal, private eventsService: EventsService) {
     this.lang = sessionStorage.getItem('lang');
+    this.langWeb3auth = sessionStorage.getItem('lang')
+    if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
+      this.langWeb3auth = 'en';
+    }
+
     this.route.fragment
     .pipe(
       map(fragment => new URLSearchParams(fragment)),
@@ -94,15 +103,27 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.eventsService.on('changelang', function (lang) {
+      this.lang = lang;
+      this.langWeb3auth = sessionStorage.getItem('lang')
+      console.log(this.langWeb3auth);
+      if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
+        this.langWeb3auth = 'en';
+      }
+    }.bind(this));
+
     this.start();
     
   }
 
   ngOnDestroy() {
-
+    //this.subscription.unsubscribe();
   }
 
   login = async () => {
+    if(sessionStorage.getItem('hideIntroLogins') == null || !sessionStorage.getItem('hideIntroLogins')){
+      document.getElementById("openModalIntro").click();
+    }
     this.web3auth = this.authService.initWeb3Auth();
     this.web3auth.on(LOGIN_MODAL_EVENTS.MODAL_VISIBILITY, (isVisible) => {
       console.log("is modal visible", isVisible);
@@ -159,5 +180,26 @@ export class LandPageComponent implements OnInit, OnDestroy {
         }
       }
     ));
+  }
+
+  showPanelIntro(content){
+    if(this.modalReference!=undefined){
+      this.modalReference.close();
+    }
+    let ngbModalOptions: NgbModalOptions = {
+          backdrop : 'static',
+          keyboard : false,
+          windowClass: 'ModalClass-sm'
+    };
+    this.modalReference = this.modalService.open(content, ngbModalOptions);
+  }
+
+  showOptions($event){
+    console.log($event.checked);
+    if($event.checked){
+      sessionStorage.setItem('hideIntroLogins', 'true')
+    }else{
+      sessionStorage.setItem('hideIntroLogins', 'false')
+    }
   }
 }

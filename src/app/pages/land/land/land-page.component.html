@@ -180,6 +180,61 @@
                 </div>
               </div>
         </div>
-        
-          
       </section>
+      <ng-template #contentIntro let-c="close" let-d="dismiss" appendTo="body">
+        <div class="modal-header d-block" id="idHeader">
+            <button type="button" class="close" aria-label="Close" (click)="c('Close click');">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div>
+                <h4 class="modal-title text-muted">{{'landraito.opttitle' | translate }}</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+          <section>
+              <div class="row text-left">
+                <div class="card-body col-md-12">
+                    <p><strong>{{'landraito.optsub' | translate }}</strong></p>
+                  <div class="row">
+                    <div class="col-sm-8">
+                        <p class="" [innerHTML]="'landraito.opt1' | translate"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="w-100 border" src='assets/img/home/opts/opt1_{{langWeb3auth}}.webp' alt="option 1 login raito">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-8">
+                        <p class="" [innerHTML]="'landraito.opt2' | translate"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="w-100 border" src='assets/img/home/opts/opt2_{{langWeb3auth}}.webp' alt="option 2 login raito">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-8">
+                        <p class="" [innerHTML]="'landraito.opt3' | translate"></p>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="w-100 border" src='assets/img/home/opts/opt3_{{langWeb3auth}}.webp' alt="option 3 login raito">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 center-elements">
+                  <mat-checkbox
+                      class="example-margin" name="terms2" ngModel required #terms2="ngModel" id="terms2" (change)="showOptions($event)">
+                    <label style="margin-top: 0.4em;white-space: normal;text-transform: none;letter-spacing: 0px;"  >
+                      <span>{{'landraito.check' | translate }}</span>
+                    </label>
+                  </mat-checkbox>
+                </div>
+              </div>
+          </section>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions center">
+                        <button type="button" class="btn btn-raised btn-primary" (click)="c('Close click');">{{'wizard.btn' | translate }}</button>
+                </div>
+            </div>
+    </ng-template>
+    <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>

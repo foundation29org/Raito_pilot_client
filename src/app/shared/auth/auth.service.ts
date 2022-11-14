@@ -43,7 +43,7 @@ export class AuthService {
   private patientList: Array<ICurrentPatient> = null;
   isMobile: boolean = false;
   private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-
+  langWeb3auth: string = 'en';
   web3auth: Web3Auth | null = null;
   provider: SafeEventEmitterProvider | null = null;
   isModalLoaded = false;
@@ -58,6 +58,11 @@ export class AuthService {
   }
 
   initWeb3Auth(){
+    this.langWeb3auth = sessionStorage.getItem('lang')
+    if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
+      this.langWeb3auth = 'en';
+    }
+    console.log(this.langWeb3auth);
     console.log('Is App', this.isMobile);
     if(this.isMobile){
       this.uxMode = 'redirect'
