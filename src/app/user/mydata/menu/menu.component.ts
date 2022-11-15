@@ -15,6 +15,7 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import { CordovaService } from 'app/shared/services/cordova.service';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
 import { Clipboard } from "@angular/cdk/clipboard"
@@ -209,8 +210,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   protected innerWidth: any;
   isMobile: boolean = false;
   private msgtoDownload: string;
+  importing: boolean = false;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService) {     
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService) {     
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -2450,13 +2452,44 @@ getVcs(){
   }
 
 
-    showPopup(contentInfo) {
-      let ngbModalOptions: NgbModalOptions = {
-        keyboard: false,
-        windowClass: 'ModalClass-xs'// xl, lg, sm
-      };
-      this.modalReference = this.modalService.open(contentInfo, ngbModalOptions);
+  showPopup(contentInfo) {
+    let ngbModalOptions: NgbModalOptions = {
+      keyboard: false,
+      windowClass: 'ModalClass-xs'// xl, lg, sm
+    };
+    this.modalReference = this.modalService.open(contentInfo, ngbModalOptions);
+  }
+
+  onImport(event) {
+    var file = event.srcElement.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = (evt:any) => {
+          var resourcesToUpload=JSON.parse(evt.target.result);
+          console.log(resourcesToUpload);
+          if(resourcesToUpload.resourceType!='Bundle'){
+            this.toastr.error('', this.translate.instant("seizures.invalidFile"));
+          }else{
+            this.uploadresources(resourcesToUpload.entry);
+          }
+          
+        }
+        reader.onerror = function (evt) {
+            console.log('error reading file');
+        }
     }
+  }
+
+  uploadresources(resourcesToUpload){
+    this.subscription.add( this.http.post(environment.api+'/api/massiveresources/'+this.authService.getCurrentPatient().sub, resourcesToUpload)
+    .subscribe( (res : any) => {
+      console.log(res);
+    }, (err) => {
+      console.log(err);
+      this.importing = false;
+    }));
+  }
 
 }
 

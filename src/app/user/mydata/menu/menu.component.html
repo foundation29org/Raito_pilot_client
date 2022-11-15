@@ -203,6 +203,19 @@
             <a class="primary font-small-1 mt-2" style="position: relative;top: 8px;"
                 (click)="showHelpFHIRPopup(contentInfoFHIR);">{{'mydata.All data saved with FHIR standard' | translate }}</a> <img (click)="showHelpFHIRPopup(contentInfoFHIR);"
                 class="logo-img mt-1 pointer ml-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
+                <div class="">
+                    <label class="btn btn-sm btn-dark mb-0" *ngIf="!importing">
+                        <input *ngIf="!isMobile" id="file" type="file" style="display:none;" accept=".json"
+                            (change)="onImport($event)" />
+                        <input *ngIf="isMobile" id="file" type="file" style="display:none;"
+                        (change)="onImport($event)" />
+                    Importar recursos FHIR
+                    </label>
+                    <label *ngIf="importing" class="text-center">
+                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                        {{'generics.Please wait' | translate }}
+                    </label>
+                </div>
         </div>
     </div>
 </div>
