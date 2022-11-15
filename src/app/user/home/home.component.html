@@ -36,8 +36,9 @@
                                 <option [value]="null" disabled selected>--{{'registration.Please select a
                                     group' | translate }}--</option>
                                 <option *ngFor="let group of groups" [ngValue]="group._id">
-                                    <span *ngIf="group.name != 'Dravet Syndrome European Federation'  && group.name != 'Undiagnosed'  && group.name != 'None'">{{group.name}}</span>
+                                    <span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed'  && group.name != 'None'">{{group.name}}</span>
                                     <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
+                                    <span *ngIf="group.name == 'Childhood syndrome with epilepsy'">{{'personalinfo.Childhood syndrome with epilepsy' | translate }}</span>
                                     <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
                                     <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
                                 </option>

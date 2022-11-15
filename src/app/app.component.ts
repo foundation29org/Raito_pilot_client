@@ -14,6 +14,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
+import { AuthService } from 'app/shared/auth/auth.service';
+
+declare var device;
+declare global {
+    interface Navigator {
+      app: {
+          exitApp: () => any; // Or whatever is the type of the exitApp function
+      },
+      splashscreen:any
+    }
+}
 
 
 @Component({
@@ -27,8 +38,10 @@ export class AppComponent implements OnInit, OnDestroy {
     actualPage: string = '';
     hasLocalLang: boolean = false;
     tituloEvent: string = '';
+    isMobile: boolean = false;
 
-    constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta) {
+    constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta, private authService: AuthService) {
+     
         if (sessionStorage.getItem('lang')) {
             this.translate.use(sessionStorage.getItem('lang'));
             this.hasLocalLang = true;
@@ -41,7 +54,19 @@ export class AppComponent implements OnInit, OnDestroy {
       
           this.loadLanguages();
           this.loadCultures();
+
+          this.isMobile = false;
+          if (/Android/i.test(navigator.userAgent)) {
+            this.isMobile = true;
+          } else if (/iPhone/i.test(navigator.userAgent)) {
+            this.isMobile = true;
+          }
+          console.log(this.isMobile);
+          if (this.isMobile){
+            document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
+           }
     }
+
     loadLanguages() {
         this.langService.getLangs()
           .subscribe((res: any) => {
@@ -154,12 +179,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
         this.actualPage = event['title'];
       });
-      
-        /*this.subscription = this.router.events
-            .pipe(
-                filter(event => event instanceof NavigationEnd)
-            )
-            .subscribe(() => window.scrollTo(0, 0));*/
         
         this.eventsService.on('changelang', function (lang) {
             (async () => {
@@ -169,9 +188,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 sessionStorage.setItem('lang', lang);
                 this.changeMeta();
             })();
-        
-        
-            }.bind(this));
+        }.bind(this));
     }
 
     delay(ms: number) {
@@ -188,6 +205,59 @@ export class AppComponent implements OnInit, OnDestroy {
         this.meta.updateTag({ name: 'keywords', content: this.translate.instant("seo.home.keywords") });
         this.meta.updateTag({ name: 'description', content: this.translate.instant("seo.home.description") });
         this.meta.updateTag({ name: 'title', content: this.translate.instant("seo.home.title") });
+      }
+
+      onDeviceReady() {
+        console.log('Device is ready');
+        setTimeout(function() {
+             navigator.splashscreen.hide();
+         }, 2000);
+         console.log(device.platform);
+        if(device.platform == 'android' || device.platform == 'Android'){
+          document.addEventListener("backbutton", this.onBackKeyDown.bind(this), false);
+        }else if(device.platform == 'iOS'){
+ 
+        }
+
+        //Configurar el evento cuando la app pase a background
+        document.addEventListener("pause", onPause, false);
+        document.addEventListener("resume", onResume, false);
+ 
+        function onPause(){
+          //navigator.splashscreen.show();
+        }
+ 
+        function onResume(){
+          setTimeout(function() {
+             //navigator.splashscreen.hide();
+         }, 2000);
+        }
+      }
+
+      onBackKeyDown(){
+        console.log(this.actualPage);
+        if(this.actualPage.indexOf('menu.Dashboard')!=-1){
+          Swal.fire({
+              title: this.translate.instant("generics.Are you sure?"),
+              text:  this.translate.instant("generics.Exit the application without logging off"),
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0CC27E',
+              cancelButtonColor: '#FF586B',
+              confirmButtonText: this.translate.instant("generics.Yes"),
+              cancelButtonText: this.translate.instant("generics.No, cancel"),
+              showLoaderOnConfirm: true,
+              allowOutsideClick: false
+          }).then((result) => {
+            if (result.value) {
+              navigator.app.exitApp();
+            }
+          });
+        }else{
+          if(this.authService.isAuthenticated()){
+            window.history.back();
+          }
+        }
       }
 
 }

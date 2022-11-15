@@ -166,9 +166,11 @@
 							<div class="center-elements mt-2">
 								<span>
 									<label class="btn btn-sm btn-dark mb-0" *ngIf="!importing">
-										<input id="file" type="file" style="display:none;" accept=".json"
+										<input *ngIf="!isMobile" id="file" type="file" style="display:none;" accept=".json"
 											(change)="onImport($event)" />
-										{{'seizures.Import from seizure tracker' | translate }}
+										<input *ngIf="isMobile" id="file" type="file" style="display:none;"
+										(change)="onImport($event)" />
+									{{'seizures.Import from seizure tracker' | translate }}
 									</label>
 									<label *ngIf="importing" class="text-center">
 										<i class="fa fa-spinner fa-spin fa-fw"></i>

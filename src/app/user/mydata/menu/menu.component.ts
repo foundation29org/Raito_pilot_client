@@ -14,6 +14,7 @@ import { SortService } from 'app/shared/services/sort.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
+import { CordovaService } from 'app/shared/services/cordova.service';
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
 import { Clipboard } from "@angular/cdk/clipboard"
@@ -24,6 +25,7 @@ import { ColorHelper } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 declare let html2canvas: any;
+declare var device;
 
 @Component({
   selector: 'app-menu',
@@ -205,8 +207,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscriptionTimerOrg: Subscription = new Subscription();
   private subscriptionTimer: Subscription = new Subscription();
   protected innerWidth: any;
+  isMobile: boolean = false;
+  private msgtoDownload: string;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService) {     
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -219,6 +223,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     this.loadScripts();
     this.innerWidth = window.innerWidth;
+
+    this.isMobile = this.authService.getIsDevice();
+
   }
 
   loadScripts(){
@@ -228,6 +235,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if(this.isMobile){
+      this.cordovaService.checkPermissions();
+    }
     this.loadTranslations();
     this.loadPatientId();
     this.checkIPFS();
@@ -306,6 +316,9 @@ loadTranslations(){
   });
   this.translate.get('homeraito.Not normalized').subscribe((res: string) => {
     this.titleDrugsVsNoNormalized= res;
+  });
+  this.translate.get('generics.To download the file').subscribe((res: string) => {
+    this.msgtoDownload=res;
   });
 }
 
@@ -560,17 +573,20 @@ exportPDF2(){
                 });
                 //get symtoms
                 var phenotype2 = await this.callGetInfoTempSymptomsJSON(hposStrins, phenotype);
-                this.jsPDFService.generateResultsPDF(phenotype2, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+                var result = this.jsPDFService.generateResultsPDF(phenotype2, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+                this.saveResultPdf(result)
                 this.generatingPDF = false;
                 Swal.close();
                 //phenotype = this.callGetInfoTempSymptomsJSON(hposStrins, phenotype);
             }else{
-              this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+              var result = this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+              this.saveResultPdf(result)
               this.generatingPDF = false;
               Swal.close();
             }
           }else{
-            this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+            var result = this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+            this.saveResultPdf(result)
             this.generatingPDF = false;
             Swal.close();
           }
@@ -580,6 +596,43 @@ exportPDF2(){
         }));
   }.bind(this), 2000);
  
+}
+
+saveResultPdf(blob){
+  if (this.isMobile) {
+    var url  = URL.createObjectURL(blob);
+    var p = document.createElement('p');
+    var t = document.createTextNode(this.msgDownload+":");
+    if(device.platform == 'iOS'){
+      t = document.createTextNode("View:");
+    }
+    p.appendChild(t);
+    document.getElementById('content').appendChild(p);
+    var a = document.createElement('a');
+    var dateNow = new Date();
+    var stringDateNow = this.dateService.transformDate(dateNow);
+    a.href        = "javascript:void(0)";
+    a.textContent    = "Raito_Report_"+stringDateNow+".pdf";
+    document.getElementById('content').appendChild(a);
+
+
+    var name = "Raito_Report_"+stringDateNow+".pdf";
+      if(device.platform != 'iOS'){
+        var p = document.createElement('p');
+        var t = document.createTextNode('Pdf saved on download folder');
+        p.appendChild(t);
+        document.getElementById('content').appendChild(p);
+        this.cordovaService.saveBlob2File(name, blob);
+      }else{
+        var p = document.createElement('p');
+        var t = document.createTextNode(this.msgtoDownload);
+        p.appendChild(t);
+        document.getElementById('content').appendChild(p);
+        //igual sobra, testear
+        this.cordovaService.saveBlob2File(name, blob);
+      }
+      //this.cordovaService.goToExternalUrl(url);
+  }
 }
 
 getSeizuresMonths(){
@@ -1291,8 +1344,26 @@ getIPFS(){
       a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
       a.setAttribute("id", "download")
 
-      document.getElementById('content').appendChild(a);
-      document.getElementById("download").click();
+      if(this.isMobile){
+        if(device.platform != 'iOS'){
+          var p = document.createElement('p');
+          var t = document.createTextNode('Data saved on download folder');
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+          this.cordovaService.saveBlob2File(a.textContent, blob);
+        }else{
+          var p = document.createElement('p');
+          var t = document.createTextNode(this.msgtoDownload);
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+        }
+        this.cordovaService.goToExternalUrl(url);
+
+        //this.cordovaService.downloadFile(url, "dataRaito_fhir_"+stringDateNow+".json");
+      }else{
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+      }
     }
       
       this.loadingGetIPFS = false;
@@ -1334,9 +1405,27 @@ getF29(){
       a.href        = url;
       a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
       a.setAttribute("id", "download")
+      if(this.isMobile){
+        if(device.platform != 'iOS'){
+          var p = document.createElement('p');
+          var t = document.createTextNode('Data saved on download folder');
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+          this.cordovaService.saveBlob2File(a.textContent, blob);
+        }else{
+          var p = document.createElement('p');
+          var t = document.createTextNode(this.msgtoDownload);
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+        }
+        this.cordovaService.goToExternalUrl(url);
 
-      document.getElementById('content').appendChild(a);
-      document.getElementById("download").click();
+        //this.cordovaService.downloadFile(url, "dataRaito_fhir_"+stringDateNow+".json");
+      }else{
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+      }
+      
     }
       
       this.loadingGetF29 = false;
@@ -1365,9 +1454,26 @@ extractFhir(){
         a.href        = url;
         a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
         a.setAttribute("id", "download")
+        if(this.isMobile){
+          if(device.platform != 'iOS'){
+            var p = document.createElement('p');
+            var t = document.createTextNode('Data saved on download folder');
+            p.appendChild(t);
+            document.getElementById('content').appendChild(p);
+            this.cordovaService.saveBlob2File(a.textContent, blob);
+          }else{
+            var p = document.createElement('p');
+            var t = document.createTextNode(this.msgtoDownload);
+            p.appendChild(t);
+            document.getElementById('content').appendChild(p);
+          }
+          this.cordovaService.goToExternalUrl(url);
+        }else{
+          document.getElementById('contentfhir').appendChild(a);
+          document.getElementById("download").click();
+        }
 
-        document.getElementById('contentfhir').appendChild(a);
-        document.getElementById("download").click();
+        
         this.loadingFhir = false;
    }, (err) => {
      console.log(err);

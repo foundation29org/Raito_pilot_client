@@ -25,7 +25,6 @@ import * as decode from 'jwt-decode';
 })
 
 export class LandPageComponent implements OnInit, OnDestroy {
-  isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
   lang: string = 'en';
   sending: boolean = false;
   isBlockedAccount: boolean = false;
@@ -64,6 +63,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.authService.logout2();
       }
     });
+    
+    this.isMobile = this.authService.getIsDevice();
   }
 
   async callbacktest(res) {
@@ -86,19 +87,21 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   async start() {
-    this.isMobile = false;
-    if (/Android/i.test(navigator.userAgent)) {
-      this.isMobile = true;
-    } else if (/iPhone/i.test(navigator.userAgent)) {
-      this.isMobile = true;
-    }
+    console.log('Environment', this.authService.getEnvironment())
+    console.log('isAuthenticated', this.authService.isAuthenticated());
     if (this.authService.getEnvironment()) {
       this.translate.use(this.authService.getLang());
       sessionStorage.setItem('lang', this.authService.getLang());
       let url = this.authService.getRedirectUrl();
+      console.log('Url', url)
       this.router.navigate([url]);
+
     }else{
       //this.authService.logout2();
+      console.log(localStorage.getItem('openlogin_store'));
+      if(localStorage.getItem('openlogin_store')!=undefined){
+        this.login();
+      }
     }
   }
 
@@ -121,7 +124,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   login = async () => {
-    if(sessionStorage.getItem('hideIntroLogins') == null || !sessionStorage.getItem('hideIntroLogins')){
+    if(localStorage.getItem('hideIntroLogins') == null || !localStorage.getItem('hideIntroLogins')){
       document.getElementById("openModalIntro").click();
     }
     this.web3auth = this.authService.initWeb3Auth();
@@ -189,7 +192,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     let ngbModalOptions: NgbModalOptions = {
           backdrop : 'static',
           keyboard : false,
-          windowClass: 'ModalClass-sm'
+          windowClass: 'ModalClass-lg'
     };
     this.modalReference = this.modalService.open(content, ngbModalOptions);
   }
@@ -197,9 +200,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
   showOptions($event){
     console.log($event.checked);
     if($event.checked){
-      sessionStorage.setItem('hideIntroLogins', 'true')
+      localStorage.setItem('hideIntroLogins', 'true')
     }else{
-      sessionStorage.setItem('hideIntroLogins', 'false')
+      localStorage.setItem('hideIntroLogins', 'false')
     }
   }
 }

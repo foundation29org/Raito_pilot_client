@@ -252,7 +252,8 @@
        "There is no patient data to export":"Non ci sono dati paziente da esportare.",
        "OPTIONAL":"Opzionale",
        "Reference Genome":"Genoma di riferimento",
-       "Save changes":"Salvare le modifiche"
+       "Save changes":"Salvare le modifiche",
+       "To download the file": "Per scaricare il file, accedi ad esso dal tuo browser."
     },
     "lang":{
        "Question deleted successfully":"Domanda eliminata correttamente",
@@ -315,7 +316,8 @@
        "Select the sex to change the avatar":"Seleziona il sesso per cambiare l'avatar.",
        "I dont belong to a patient group":"Non appartengo a un gruppo di pazienti",
        "I dont have a diagnosis":"Non ho una diagnosi",
-       "Patients with epilepsy":"Sindrome di Dravet Federazione Europea"
+       "Patients with epilepsy":"Sindrome di Dravet Federazione Europea",
+       "Childhood syndrome with epilepsy": "Sindrome dell'infanzia con epilessia"
     },
     "groups":{
        "Groups":"Gruppi",

@@ -1130,6 +1130,8 @@ export class jsPDFService {
         // Save file
         var date = this.getDate();
         doc.save('Raito_Report_' + date + '.pdf',);
+        var blob2 = doc.output('blob');
+        return blob2;
         /*var name = 'Raito_Report_' + date + '.pdf';
         doc.setProperties({
             title: name

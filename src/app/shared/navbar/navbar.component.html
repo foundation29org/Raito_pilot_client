@@ -109,8 +109,8 @@
                 <i class="ft-power fa-xs mr-2"></i>
                 <span>{{'navbar.Logout' | translate }}</span>
               </a>
-              <div *ngIf="isApp && isAndroid" class="dropdown-divider"></div>
-              <a *ngIf="isApp && isAndroid" class="dropdown-item" href="javascript:;" (click)="exit()">
+              <div *ngIf="isAndroid" class="dropdown-divider"></div>
+              <a *ngIf="isAndroid" class="dropdown-item" href="javascript:;" (click)="exit()">
                 <i class="ft-log-out fa-xs mr-2"></i>
                 <span>{{'navbar.Exit' | translate }}</span>
               </a>

@@ -42,7 +42,6 @@ export class AuthService {
   private currentPatient: ICurrentPatient = null;
   private patientList: Array<ICurrentPatient> = null;
   isMobile: boolean = false;
-  private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
   langWeb3auth: string = 'en';
   web3auth: Web3Auth | null = null;
   provider: SafeEventEmitterProvider | null = null;
@@ -55,6 +54,10 @@ export class AuthService {
     } else if (/iPhone/i.test(navigator.userAgent)) {
       this.isMobile = true;
     }
+  }
+
+  getIsDevice(){
+    return this.isMobile;
   }
 
   initWeb3Auth(){
@@ -457,6 +460,7 @@ export class AuthService {
     this.patientList = null;
     this.lang = sessionStorage.getItem('lang');
     sessionStorage.removeItem('token')
+    localStorage.removeItem('openlogin_store')
     //if(!this.getIsApp()){
       //sessionStorage.clear();
       //sessionStorage.setItem('lang', this.lang);
@@ -553,7 +557,7 @@ export class AuthService {
     return this.platform = null;;
   }
   getIsApp(): boolean {
-    return this.isApp;
+    return this.isMobile ;
   }
 
 }

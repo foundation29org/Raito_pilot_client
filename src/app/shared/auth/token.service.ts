@@ -23,8 +23,6 @@ export class TokenService {
   private platform: string;
   private expToken: number = null;
 
-  private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-
   constructor(private http: HttpClient, public authService: AuthService) {}
 
 

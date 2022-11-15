@@ -30,7 +30,7 @@
                                                 <span *ngIf="f29.message=='Available' && !loadingf29"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loadingf29" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="f29.message=='Available'" class="">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="f29.message=='Available'" class="d-block">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-lg-6 mt-3">
@@ -43,7 +43,7 @@
                                                 <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="ipfs.message=='Available'" class="">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="ipfs.message=='Available'" class="d-block">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -840,6 +840,7 @@
 </div>
 <div class="modal-footer">
   <div class="col-md-12 center-elements">
+    <div ><span id="content"></span></div>
     <button *ngIf="loadedDrugs" class="btn btn-dark mr-1" type="button"
     (click)="exportPDF2()">{{'generics.ExportData' | translate }}</button>
     <i *ngIf="!loadedDrugs" class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>

@@ -16,6 +16,7 @@ import { SearchService } from 'app/shared/services/search.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { DateService } from 'app/shared/services/date.service';
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
+import { CordovaService } from 'app/shared/services/cordova.service';
 
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
@@ -89,8 +90,9 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   docs: any = [];
   actualDoc: any = {};
   simplename: string = '';
+  isMobile: boolean = false;
 
-  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch, private formBuilder: FormBuilder, private dateService: DateService) {
+  constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch, private formBuilder: FormBuilder, private dateService: DateService, public cordovaService: CordovaService) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
       //console.log("finished loading and running jszip-utils.js. with a status of" + textStatus);
     });
@@ -101,6 +103,8 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     this.lang = sessionStorage.getItem('lang');
     this.loadTranslations();
+    this.isMobile = this.authService.getIsDevice();
+
   }
 
   loadTranslations(){
@@ -110,7 +114,9 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    if(this.isMobile){
+      this.cordovaService.checkPermissions();
+    }
     this.initEnvironment();
 
     //si tiene VCF
@@ -169,36 +175,39 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     }
 
   testResultsAnalytics() {
-    for (var i = 0; i < this.otherGeneFiles.length; i++) {
-      var enc = false;
-      for (var j = 0; j < this.filesNcr.length && !enc; j++) {
-        var urlorigin = this.otherGeneFiles[i].name.substr(0, this.otherGeneFiles[i].name.lastIndexOf('/') + 1)
-        var urlncr = this.filesNcr[j].name.substr(0, this.filesNcr[j].name.lastIndexOf('/') + 1)
-        if (urlorigin == urlncr) {
-          this.otherGeneFiles[i].hasResults = true;
-          enc = true;
+    if(!this.isMobile){
+      for (var i = 0; i < this.otherGeneFiles.length; i++) {
+        var enc = false;
+        for (var j = 0; j < this.filesNcr.length && !enc; j++) {
+          var urlorigin = this.otherGeneFiles[i].name.substr(0, this.otherGeneFiles[i].name.lastIndexOf('/') + 1)
+          var urlncr = this.filesNcr[j].name.substr(0, this.filesNcr[j].name.lastIndexOf('/') + 1)
+          if (urlorigin == urlncr) {
+            this.otherGeneFiles[i].hasResults = true;
+            enc = true;
+          }
+        }
+        if(!this.otherGeneFiles[i].hasResults){
+          this.extractData(this.otherGeneFiles[i].name, this.otherGeneFiles[i].contentSettings.contentType);
+        }
+  
+      }
+  
+      for (var i = 0; i < this.emergencyFiles.length; i++) {
+        var enc = false;
+        for (var j = 0; j < this.filesNcr.length && !enc; j++) {
+          var urlorigin = this.emergencyFiles[i].name.substr(0, this.emergencyFiles[i].name.lastIndexOf('/') + 1)
+          var urlncr = this.filesNcr[j].name.substr(0, this.filesNcr[j].name.lastIndexOf('/') + 1)
+          if (urlorigin == urlncr) {
+            this.emergencyFiles[i].hasResults = true;
+            enc = true;
+          }
+        }
+        if(!this.emergencyFiles[i].hasResults){
+          this.extractData(this.emergencyFiles[i].name, this.emergencyFiles[i].contentSettings.contentType);
         }
       }
-      if(!this.otherGeneFiles[i].hasResults){
-        this.extractData(this.otherGeneFiles[i].name, this.otherGeneFiles[i].contentSettings.contentType);
-      }
-
     }
-
-    for (var i = 0; i < this.emergencyFiles.length; i++) {
-      var enc = false;
-      for (var j = 0; j < this.filesNcr.length && !enc; j++) {
-        var urlorigin = this.emergencyFiles[i].name.substr(0, this.emergencyFiles[i].name.lastIndexOf('/') + 1)
-        var urlncr = this.filesNcr[j].name.substr(0, this.filesNcr[j].name.lastIndexOf('/') + 1)
-        if (urlorigin == urlncr) {
-          this.emergencyFiles[i].hasResults = true;
-          enc = true;
-        }
-      }
-      if(!this.emergencyFiles[i].hasResults){
-        this.extractData(this.emergencyFiles[i].name, this.emergencyFiles[i].contentSettings.contentType);
-      }
-    }
+    
   }
 
   formatBytes(bytes, decimals = 2) {
@@ -971,6 +980,11 @@ getDocs() {
       this.loadedDocs = true;
       this.toastr.error('', this.translate.instant("generics.error try again"));
     }));
+}
+
+downloadFile(containerName, fileName){
+  var assetURL = this.accessToken.blobAccountUrl+containerName+"/"+fileName+this.accessToken.sasToken;
+  this.cordovaService.downloadFile(assetURL, fileName);
 }
 
 }
