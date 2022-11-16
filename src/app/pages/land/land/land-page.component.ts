@@ -58,9 +58,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
       console.log(res)
       if(res.result && res._pid && res.sessionId){
         //this.callbacktest(res);
+        console.log('entra');
         this.login();
       }else{
-        this.authService.logout2();
+        console.log('entra2');
+        //this.authService.logout2();
       }
     });
     
@@ -99,7 +101,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }else{
       //this.authService.logout2();
       console.log(localStorage.getItem('openlogin_store'));
-      if(localStorage.getItem('openlogin_store')!=undefined){
+      if(localStorage.getItem('openlogin_store')!=null){
         this.login();
       }
     }

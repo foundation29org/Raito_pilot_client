@@ -965,6 +965,8 @@
        "share3title": "Con il tuo medico",
        "sharecontent3":"Un lien privé sera généré que vous pourrez partager avec les personnes auxquelles vous souhaitez accéder.",
        "fhirtitle": "Télécharger le fichier FHIR",
+       "importfhir": "Importer le fichier FHIR",
+       "numberimported": "{{value}} événements ont été importés",
        "fhirdesc": "Avoir vos données dans FHIR signifie que vous pouvez les apporter à de nombreux hôpitaux à travers le monde et ils pourront les lire et les incorporer dans votre dossier médical.",
        "incorrect account":"Vous avez sélectionné un compte incorrect.",
        "we will close your session":"Pour votre sécurité, nous fermerons votre session.",

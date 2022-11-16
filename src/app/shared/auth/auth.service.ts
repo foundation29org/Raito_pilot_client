@@ -447,7 +447,7 @@ export class AuthService {
     );
   }
 
-  logout() {
+  async logout() {
     this.token = null;
     this.role = null;
     this.subrole = null;
@@ -460,14 +460,25 @@ export class AuthService {
     this.patientList = null;
     this.lang = sessionStorage.getItem('lang');
     sessionStorage.removeItem('token')
-    localStorage.removeItem('openlogin_store')
+    //localStorage.removeItem('openlogin_store')
+
+    var hideIntroLogins = localStorage.getItem('hideIntroLogins')
     //if(!this.getIsApp()){
       //sessionStorage.clear();
       //sessionStorage.setItem('lang', this.lang);
     //}
     //localStorage.clear();
     this.logout2();
+    /*sessionStorage.clear();
+    localStorage.clear();
+    sessionStorage.setItem('lang', this.lang);
+    localStorage.setItem('hideIntroLogins', hideIntroLogins);*/
+    await this.delay(500);
     this.router.navigate([this.getLoginUrl()]);
+  }
+
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   getToken() {

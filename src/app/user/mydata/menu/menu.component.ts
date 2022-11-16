@@ -2482,9 +2482,24 @@ getVcs(){
   }
 
   uploadresources(resourcesToUpload){
+    this.importing = true;
     this.subscription.add( this.http.post(environment.api+'/api/massiveresources/'+this.authService.getCurrentPatient().sub, resourcesToUpload)
     .subscribe( (res : any) => {
       console.log(res);
+      this.importing = false;
+      var count = 0;
+      if(res.eventdb){
+        if(res.eventdb.length>0){
+          for (var i = 0; i < res.eventdb.length; i++) {
+            if(res.eventdb[i].added){
+              count++;
+            }
+          }
+        }
+      }
+      Swal.fire('', this.translate.instant("mydata.numberimported", {
+          value: count
+      }), "success");
     }, (err) => {
       console.log(err);
       this.importing = false;
