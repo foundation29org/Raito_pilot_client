@@ -61,7 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
           } else if (/iPhone/i.test(navigator.userAgent)) {
             this.isMobile = true;
           }
-          console.log(this.isMobile);
           if (this.isMobile){
             document.addEventListener("deviceready", this.onDeviceReady.bind(this), false);
            }
@@ -235,7 +234,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       onBackKeyDown(){
-        console.log(this.actualPage);
         if(this.actualPage.indexOf('menu.Dashboard')!=-1){
           Swal.fire({
               title: this.translate.instant("generics.Are you sure?"),

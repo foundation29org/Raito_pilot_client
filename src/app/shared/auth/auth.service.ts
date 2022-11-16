@@ -9,7 +9,7 @@ import * as decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
 
 import { Web3Auth } from "@web3auth/modal";
-import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
+import { CHAIN_NAMESPACES, SafeEventEmitterProvider, ADAPTER_EVENTS } from "@web3auth/base";
 const clientId = environment.web3authClient; // get from https://dashboard.web3auth.io
 
 import RPC from "./web3RPC";
@@ -65,8 +65,6 @@ export class AuthService {
     if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
       this.langWeb3auth = 'en';
     }
-    console.log(this.langWeb3auth);
-    console.log('Is App', this.isMobile);
     if(this.isMobile){
       this.uxMode = 'redirect'
     }else{
@@ -104,6 +102,24 @@ export class AuthService {
    
     this.web3auth.configureAdapter(openloginAdapter);
     this.web3auth.configureAdapter(metamaskAdapter);
+    // subscribe to lifecycle events emitted by web3auth
+    this.web3auth.on(ADAPTER_EVENTS.CONNECTED, (data: any) => {
+      console.log("connected to wallet", data);
+      // web3auth.provider will be available here after user is connected
+    });
+    this.web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
+      console.log("connecting");
+    });
+    this.web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
+      console.log("disconnected");
+    });
+    this.web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
+      console.log("error", error);
+    });
+    this.web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
+      console.log("error", error);
+    });
+
     return this.web3auth;
   }
 
@@ -118,22 +134,14 @@ export class AuthService {
   login = async () => {
     return new Promise(async function (resolve, reject) {
       if (!this.web3auth) {
-        console.log("web3auth not initialized yet");
         reject ("web3auth not initialized yet");
       }else{    
         const web3auth = this.web3auth;
         await web3auth.initModal();
         this.provider = await web3auth.connect();
-        /*console.log(this.provider)
-        console.log(web3auth)
-        const rpc = new RPC(this.provider);        
-        const address = await rpc.getAccounts();
-        console.log(address);*/
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
         var aggregateVerifier = openlogin_store.aggregateVerifier;
         var openlogin_store2 = localStorage.getItem('Web3Auth-cachedAdapter');
-        console.log(openlogin_store);
-        console.log(openlogin_store2)
         //if(aggregateVerifier=='tkey-auth0-email-passwordless' || aggregateVerifier=='tkey-google' && (openlogin_store2!='metamask')){
         if(openlogin_store2=='openlogin'){
           try {
@@ -171,7 +179,6 @@ export class AuthService {
 
   async verif(web3auth, provider) {
     return new Promise(async function (resolve, reject) {
-      console.log(web3auth.provider);
       const app_scoped_privkey = await web3auth.provider?.request({
         method: "eth_private_key", // use "private_key" for other non-evm chains
       });
@@ -187,13 +194,11 @@ export class AuthService {
         },
         body: JSON.stringify({ appPubKey: app_pub_key}),
       }).then( async (response2 : any) => {
-        console.log(response2);
         const responseData = await response2.json()
         if (response2.ok) {
           const rpc = new RPC(provider);        
           const address = await rpc.getAccounts();
           if(responseData.name=='Verification Failed'){
-            console.log('Verification Failed');
             reject('Verification Failed')
           }else{
             var respu = {appPubKey: app_pub_key, idToken: user.idToken, ethAddress: address, lang: sessionStorage.getItem('lang'), method:'2.0'}
@@ -201,7 +206,6 @@ export class AuthService {
             //await this.testAccount(app_pub_key, user.idToken, address, privateKeysha);
           }
         } else {
-          console.log(responseData);
           reject(responseData)
         }
        }, (err) => {
@@ -221,19 +225,13 @@ export class AuthService {
           Authorization: "Bearer " + idToken, // or token.idToken
         },
         body: JSON.stringify({ appPubKey: app_pub_key}),
-      }).then( async (response2 : any) => {
-        console.log(response2);
-        console.log(response2.ok);
-        
+      }).then( async (response2 : any) => {        
         const responseData = await response2.json()
-        console.log(responseData)
         if (response2.ok) {
           try {
             let account = Web3.eth.accounts.privateKeyToAccount(PrivateKey);
-            console.log(account.address);
             let address = account.address;
             if(responseData.name=='Verification Failed'){
-              console.log('Verification Failed');
               reject('Verification Failed')
             }else{
               var respu = {appPubKey: app_pub_key, idToken: idToken, ethAddress: address, lang: sessionStorage.getItem('lang'), method:'2.0'}
@@ -246,7 +244,6 @@ export class AuthService {
           }
           
         } else {
-          console.log(responseData);
           reject(responseData)
         }
        }, (err) => {
@@ -270,14 +267,11 @@ export class AuthService {
         },
         body: JSON.stringify({ public_address: address}),
       }).then( async (response2 : any) => {
-        console.log(response2);
         const responseData = await response2.json()
         if (response2.ok) {
           const rpc = new RPC(provider);        
           const address2 = await rpc.getAccounts();
-          console.log(address2);
           if(responseData.name=='Verification Failed'){
-            console.log('Verification Failed');
             reject('Verification Failed')
           }else{
             var respu = {appPubKey: address, idToken: token.idToken, ethAddress: address2, lang: sessionStorage.getItem('lang'), method:'wallet'}
@@ -285,7 +279,6 @@ export class AuthService {
             //await this.testAccount(app_pub_key, user.idToken, address, privateKeysha);
           }
         } else {
-          console.log(responseData);
           reject(responseData)
         }
        }, (err) => {
@@ -297,15 +290,15 @@ export class AuthService {
 
 
   getEnvironment():boolean{
-    if(sessionStorage.getItem('token')){
+    if(localStorage.getItem('token')){
       this.setLang(sessionStorage.getItem('lang'));
       if(sessionStorage.getItem('lang')=='es'){
         sessionStorage.setItem('culture', 'es-ES');
       }else{
         sessionStorage.setItem('culture', 'en-EN');
       }
-      this.setAuthenticated(sessionStorage.getItem('token'));
-      const tokenPayload = decode(sessionStorage.getItem('token'));
+      this.setAuthenticated(localStorage.getItem('token'));
+      const tokenPayload = decode(localStorage.getItem('token'));
       this.setIdUser(tokenPayload.sub);
       this.setExpToken(tokenPayload.exp);
       this.setRole(tokenPayload.role);
@@ -363,8 +356,8 @@ export class AuthService {
       this.setRedirectUrl('/home')
     }
     //this.setGroup(tokenPayload.group);
-    //save sessionStorage
-    sessionStorage.setItem('token', token)
+    //save localStorage
+    localStorage.setItem('token', token)
   }
 
   signinUser(formValue: any): Observable<any> {
@@ -459,7 +452,7 @@ export class AuthService {
     this.currentPatient = null;
     this.patientList = null;
     this.lang = sessionStorage.getItem('lang');
-    sessionStorage.removeItem('token')
+    localStorage.removeItem('token')
     //localStorage.removeItem('openlogin_store')
 
     var hideIntroLogins = localStorage.getItem('hideIntroLogins')
@@ -473,7 +466,7 @@ export class AuthService {
     localStorage.clear();
     sessionStorage.setItem('lang', this.lang);
     localStorage.setItem('hideIntroLogins', hideIntroLogins);*/
-    await this.delay(500);
+    //await this.delay(500);
     this.router.navigate([this.getLoginUrl()]);
   }
 

@@ -442,7 +442,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     if(enc){
       this.subscription.add( this.http.delete(environment.api+'/api/document/'+documentId)
       .subscribe( (res : any) => {
-        console.log(res);
         this.getDocs();
        }, (err) => {
          console.log(err);
@@ -493,8 +492,7 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   deleteBlob(containerName, file){
     var info = {containerName:containerName, fileName:file}
     this.subscription.add( this.http.post(environment.api+'/api/deleteBlob/', info)
-    .subscribe( (res : any) => {
-      console.log(res);      
+    .subscribe( (res : any) => {  
      }, (err) => {
        console.log(err);
        this.blob.loadPatientGenoFiles(containerName)

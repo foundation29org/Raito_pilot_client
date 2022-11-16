@@ -2467,7 +2467,6 @@ getVcs(){
         reader.readAsText(file, "UTF-8");
         reader.onload = (evt:any) => {
           var resourcesToUpload=JSON.parse(evt.target.result);
-          console.log(resourcesToUpload);
           if(resourcesToUpload.resourceType!='Bundle'){
             this.toastr.error('', this.translate.instant("seizures.invalidFile"));
           }else{
@@ -2485,7 +2484,6 @@ getVcs(){
     this.importing = true;
     this.subscription.add( this.http.post(environment.api+'/api/massiveresources/'+this.authService.getCurrentPatient().sub, resourcesToUpload)
     .subscribe( (res : any) => {
-      console.log(res);
       this.importing = false;
       var count = 0;
       if(res.eventdb){

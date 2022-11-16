@@ -55,14 +55,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
       }))
     )
     .subscribe(res => {
-      console.log(res)
       if(res.result && res._pid && res.sessionId){
         //this.callbacktest(res);
-        console.log('entra');
         this.login();
       }else{
-        console.log('entra2');
-        //this.authService.logout2();
+        this.authService.logout2();
       }
     });
     
@@ -70,18 +67,13 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   async callbacktest(res) {
-    console.log('login');
-    console.log(res.result);
     var sig = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.'+res.result+'.a4VgwATT-RvXvH799RVD4nUdAcOvjUMRoM_Xitlax4Y';
     var tokenPayload = decode(sig);
-    console.log(tokenPayload);
     //verificar el tokenpayload
     var tokenPayload2 = decode(tokenPayload.store.idToken);
     //si es valido, continuar
-    console.log(tokenPayload2);
     try {
       const res = await this.authService.verifCallback(tokenPayload2.wallets[0].public_key,tokenPayload.privKey, tokenPayload.store.idToken )
-      console.log(res);
       this.testAccount(res)
     } catch (error) {
       console.log(error);
@@ -89,21 +81,18 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   async start() {
-    console.log('Environment', this.authService.getEnvironment())
-    console.log('isAuthenticated', this.authService.isAuthenticated());
     if (this.authService.getEnvironment()) {
       this.translate.use(this.authService.getLang());
       sessionStorage.setItem('lang', this.authService.getLang());
       let url = this.authService.getRedirectUrl();
-      console.log('Url', url)
       this.router.navigate([url]);
 
     }else{
       //this.authService.logout2();
-      console.log(localStorage.getItem('openlogin_store'));
-      if(localStorage.getItem('openlogin_store')!=null){
+      //console.log(localStorage.getItem('openlogin_store'));
+      /*if(localStorage.getItem('openlogin_store')!=null){
         this.login();
-      }
+      }*/
     }
   }
 
@@ -111,7 +100,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
     this.eventsService.on('changelang', function (lang) {
       this.lang = lang;
       this.langWeb3auth = sessionStorage.getItem('lang')
-      console.log(this.langWeb3auth);
       if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
         this.langWeb3auth = 'en';
       }
@@ -131,7 +119,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
     this.web3auth = this.authService.initWeb3Auth();
     this.web3auth.on(LOGIN_MODAL_EVENTS.MODAL_VISIBILITY, (isVisible) => {
-      console.log("is modal visible", isVisible);
       if(!isVisible){
         //this.authService.logout2();
         this.sending = false;
@@ -200,7 +187,6 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   showOptions($event){
-    console.log($event.checked);
     if($event.checked){
       localStorage.setItem('hideIntroLogins', 'true')
     }else{
