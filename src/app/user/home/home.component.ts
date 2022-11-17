@@ -383,8 +383,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
 
     }
-
-    console.log(this.authService.getGroup());
     //this.loadGroupFile();
     if(this.authService.getGroup()!=null){
       this.loadGroupFile();
@@ -398,7 +396,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if(this.authService.getGroup()!=null){
       this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
-        console.log(res);
         this.rangeResourcesDate = res;
         this.continue();
       }, (err) => {
@@ -451,7 +448,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   loadQuestionnaires(){
-    console.log(this.authService.getGroup());
     this.questionnaires = [];
     this.subscription.add(this.http.get(environment.api + '/api/group/questionnaires/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
@@ -473,7 +469,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   loadQuestionnaire(questionnaireId, index){
     this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
       .subscribe((res: any) => {
-        console.log(res);
         this.questionnaires[index].info=res
         if(index==(this.questionnaires.length-1)){
           this.getProms();
@@ -1427,6 +1422,14 @@ getWeek(newdate, dowOffset?) {
   tickFormatting(d: any) {
     if (sessionStorage.getItem('lang') == 'es') {
       this.formatDate = 'es-ES'
+    }else if(sessionStorage.getItem('lang')=='de'){
+      this.formatDate = 'de-DE';
+    }else if(sessionStorage.getItem('lang')=='fr'){
+      this.formatDate = 'fr-FR';
+    }else if(sessionStorage.getItem('lang')=='it'){
+      this.formatDate = 'it-IT';
+    }else if(sessionStorage.getItem('lang')=='pt'){
+      this.formatDate = 'pt-PT';
     } else {
       this.formatDate = 'en-EN'
     }
@@ -1439,6 +1442,14 @@ getWeek(newdate, dowOffset?) {
   tickFormattingDay(d: any) {
     if (sessionStorage.getItem('lang') == 'es') {
       this.formatDate = 'es-ES'
+    }else if(sessionStorage.getItem('lang')=='de'){
+      this.formatDate = 'de-DE';
+    }else if(sessionStorage.getItem('lang')=='fr'){
+      this.formatDate = 'fr-FR';
+    }else if(sessionStorage.getItem('lang')=='it'){
+      this.formatDate = 'it-IT';
+    }else if(sessionStorage.getItem('lang')=='pt'){
+      this.formatDate = 'pt-PT';
     } else {
       this.formatDate = 'en-EN'
     }

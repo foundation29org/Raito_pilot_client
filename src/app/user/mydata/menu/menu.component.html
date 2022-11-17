@@ -26,11 +26,11 @@
                                             <p class="text-muted" [innerHTML]="'mydata.a1.1.2' | translate"></p>
                                         </div>
                                         <div class="">
-                                            <button class="btn btn-dark mb-0" type="button" [disabled]="loadingf29" (click)="saveContainer('F29')">Foundation29 server 
+                                            <button class="btn btn-dark btn-100 mb-0" type="button" [disabled]="loadingf29" (click)="saveContainer('F29')">Foundation29 server 
                                                 <span *ngIf="f29.message=='Available' && !loadingf29"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loadingf29" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="f29.message=='Available'" class="">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="f29.message=='Available'" class="d-block">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-lg-6 mt-3">
@@ -39,11 +39,11 @@
                                             <p class="text-muted" [innerHTML]="'mydata.a1.2.2' | translate"></p>
                                         </div>
                                         <div class="">
-                                            <button class="btn btn-dark mb-0" type="button" [disabled]="loading" (click)="saveContainer('IPFS')">{{'mydata.Decentralized' | translate }} 
+                                            <button class="btn btn-dark btn-100 mb-0" type="button" [disabled]="loading" (click)="saveContainer('IPFS')">{{'mydata.Decentralized' | translate }} 
                                                 <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
                                                 <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                                             </button>
-                                            <span *ngIf="ipfs.message=='Available'" class="">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
+                                            <span *ngIf="ipfs.message=='Available'" class="d-block">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -71,7 +71,7 @@
                                             <p class="text-muted" [innerHTML]="'mydata.sharecontent3' | translate"></p>
                                         </div>
                                         <div class="" [ngClass]="{'mb-2': innerWidth<992}">
-                                            <button class="btn btn-dark" type="button" href="#myModal"
+                                            <button class="btn btn-dark btn-100" type="button" href="#myModal"
                                             (click)="share(shareCustom, 'Custom')">{{'open.Private sharing' | translate }}</button>
                                         </div>
                                     </div>
@@ -86,14 +86,14 @@
                                           <div class="" *ngIf="!hasGroup || groupId=='61bb390ed6e0cb14f08881c1'">
                                               <p class="mb-0">{{'mydata.You do not belong to any patient group' | translate }}</p>
                                               <p>{{'mydata.Here is a message on why this is important' | translate }}</p>
-                                              <button class="btn btn-dark" type="button" routerLink="/patient-info">{{'mydata.Add patient group' | translate }}</button>
+                                              <button class="btn btn-dark btn-100" type="button" routerLink="/patient-info">{{'mydata.Add patient group' | translate }}</button>
                                           </div>
                                           <div class="" *ngIf="hasGroup && groupId!='61bb390ed6e0cb14f08881c1'" [ngClass]="{'mb-2': innerWidth<992}">
                                               <p class="text-left mb-0"><strong>{{'groups.Group' | translate }}:</strong> {{group.name}}</p>
-                                              <span *ngIf="!startingProcessOrg">
+                                              <span *ngIf="!startingProcessOrg" class="">
                                                   <p class="text-left text-muted mb-0 mt-2" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
                                                   <!--<p class="text-muted mb-0" *ngIf="consentgroup=='false'">{{'mydata.a2.7' | translate }}</p>-->
-                                                  <button *ngIf="consentgroup=='false'" class="btn btn-dark" type="button"
+                                                  <button *ngIf="consentgroup=='false'" class="btn btn-dark btn-100 mt-2" type="button"
                                                       (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
                                                   <button *ngIf="consentgroup=='true'" class="btn btn-primary" type="button"
                                                   (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
@@ -116,7 +116,7 @@
                                                       <!--<span class="">{{'open.Accept or reject from mobile' | translate }}</span>-->
                                                   </div>
                                                   <div *ngIf="qrImageOrg=='' && !inProcessOrg">
-                                                      <button class="btn btn-dark" (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
+                                                      <button class="btn btn-dark btn-100" (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
                                                   </div>
                                               </div>
                                           </div>
@@ -132,7 +132,7 @@
                                             <!--<button class="btn btn-dark" type="button"
                                             (click)="exportData()">{{'generics.ExportData' | translate }}</button>
                                             <div class="d-none"><span id="content"></span></div>-->
-                                            <button class="btn btn-dark" type="button"
+                                            <button class="btn btn-dark btn-100" type="button"
                                             (click)="share(shareTo, 'General')">{{'profile.Settings' | translate }}</button>
                                         </span>
                                     </div>
@@ -153,25 +153,48 @@
                                     <div class="col-md-12 col-lg-6">
                                         <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
                                         <span class="">
-                                            <button class="btn btn-dark" type="button"
+                                            <button [disabled]="loading" class="btn btn-dark btn-100" type="button"
                                             (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }} PDF</button>
                                         </span>
                                         <div class="d-none"><span id="content"></span></div>
-                                        <div *ngIf="loading" class="">
+                                        <div *ngIf="loading" class="center-elements">
                                             <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                                         </div>
                                     </div>
 
                                     <div class="col-md-12 col-lg-6" [ngClass]="{'mt-2': innerWidth<992}">
                                         <p class="text-muted">{{'mydata.fhirdesc' | translate }}</p>
-                                        <span class="">
-                                            <button class="btn btn-dark" type="button" [disabled]="loadingFhir" (click)="extractFhir()">{{'mydata.fhirtitle' | translate }}</button>
-                                        </span>
-                                        
-                                        <div class="d-none"><span id="contentfhir"></span></div>
-                                        <div *ngIf="loadingFhir" class="">
-                                            <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                                        <div class="row"> 
+                                            <div class="col-md-12 col-lg-6 mb-2">
+                                                <button class="btn btn-dark btn-100" type="button" [disabled]="loadingFhir" (click)="extractFhir()">
+                                                    <span *ngIf="!loadingFhir" class="">
+                                                        {{'mydata.fhirtitle' | translate }}
+                                                    </span>
+                                                    <span *ngIf="loadingFhir" class="">
+                                                        {{'generics.Please wait' | translate }} <i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                                                    </span>
+                                                </button>
+                                                <div class="d-none"><span id="contentfhir"></span></div>
+                                                
+                                            </div>
+                                            <div class="col-md-12 col-lg-6">
+                                                <label class="btn btn-dark btn-100">
+                                                    <input *ngIf="!isMobile" [disabled]="importing" id="file" type="file" style="display:none;" accept=".json"
+                                                        (change)="onImport($event)" />
+                                                    <input *ngIf="isMobile" [disabled]="importing" id="file" type="file" style="display:none;"
+                                                    (change)="onImport($event)" />
+                                                    <span *ngIf="!importing" class="">
+                                                        {{'mydata.importfhir' | translate }}
+                                                    </span>
+                                                    <span *ngIf="importing" class="">
+                                                        <i class="fa fa-spinner fa-spin fa-fw pink"></i>
+                                                        {{'generics.Please wait' | translate }}
+                                                    </span>
+                                                </label>
+                                                
+                                            </div>
                                         </div>
+                                        
                                     </div>
 
                                     
@@ -840,6 +863,7 @@
 </div>
 <div class="modal-footer">
   <div class="col-md-12 center-elements">
+    <div ><span id="content"></span></div>
     <button *ngIf="loadedDrugs" class="btn btn-dark mr-1" type="button"
     (click)="exportPDF2()">{{'generics.ExportData' | translate }}</button>
     <i *ngIf="!loadedDrugs" class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>

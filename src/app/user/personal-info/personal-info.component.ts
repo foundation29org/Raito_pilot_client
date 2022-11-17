@@ -116,7 +116,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   lineChartLineInterpolation = chartsData.lineChartLineInterpolation;
 
   isSafari:boolean = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && !navigator.userAgent.match('CriOS');
-  isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
   isIeOrEdge = (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) || /Edge/.test(navigator.userAgent);
   settings: any;
 
@@ -956,7 +955,19 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.editingWeightHistory = false;
   }
   tickFormatting(d: any) {
-    return d.toLocaleString('es-ES').split(" ")[0];
+    var formatDate = 'en-EN';
+    if (sessionStorage.getItem('lang') == 'es') {
+      formatDate = 'es-ES'
+    }else if(sessionStorage.getItem('lang')=='de'){
+      formatDate = 'de-DE';
+    }else if(sessionStorage.getItem('lang')=='fr'){
+      formatDate = 'fr-FR';
+    }else if(sessionStorage.getItem('lang')=='it'){
+      formatDate = 'it-IT';
+    }else if(sessionStorage.getItem('lang')=='pt'){
+      formatDate = 'pt-PT';
+    }
+    return d.toLocaleString(formatDate).split(" ")[0];
 
   }
 

@@ -1,238 +1,223 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { PatientService } from 'app/shared/services/patient.service';
 import { AuthService } from '../../../../app/shared/auth/auth.service';
-import { MoralisService } from '../../../../app/shared/auth/moralis.service';
+import { EventsService } from 'app/shared/services/events.service';
 import { TranslateService } from '@ngx-translate/core';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { sha512 } from "js-sha512";
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { Web3Auth } from "@web3auth/modal";
+import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { Subscription } from 'rxjs/Subscription';
-declare let Moralis: any;
+import { ThisReceiver } from '@angular/compiler';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
+import * as decode from 'jwt-decode';
+
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
 
 @Component({
-    selector: 'app-land-page',
-    templateUrl: './land-page.component.html',
-    styleUrls: ['./land-page.component.scss'],
-    providers: [PatientService]
+  selector: 'app-land-page',
+  templateUrl: './land-page.component.html',
+  styleUrls: ['./land-page.component.scss'],
+  providers: [PatientService]
 })
 
 export class LandPageComponent implements OnInit, OnDestroy {
-    isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-    lang: string = 'en';
-    currentUser: any = null;
-    sending: boolean = false;
-    isBlockedAccount: boolean = false;
-    isLoginFailed: boolean = false;
-    isBlocked: boolean = false;
-    isMobile: boolean = false;
-    private subscription: Subscription = new Subscription();
+  lang: string = 'en';
+  sending: boolean = false;
+  isBlockedAccount: boolean = false;
+  isLoginFailed: boolean = false;
+  isBlocked: boolean = false;
+  isMobile: boolean = false;
+  isModalLoaded = false;
+  web3auth: Web3Auth | null = null;
+  modalReference: NgbModalRef;
+  langWeb3auth: string = 'en';
+  detectedMetamask: boolean = false;
+  showMsgMetamask: boolean = false;
 
-    constructor(private http: HttpClient, public moralisService: MoralisService,public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService) {
-        this.lang = sessionStorage.getItem('lang');
-        this.start();
+  private subscription: Subscription = new Subscription();
+
+  constructor(private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, public translate: TranslateService, private patientService: PatientService, private router: Router, public toastr: ToastrService, private modalService: NgbModal, private eventsService: EventsService) {
+    this.lang = sessionStorage.getItem('lang');
+    this.langWeb3auth = sessionStorage.getItem('lang')
+    if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
+      this.langWeb3auth = 'en';
     }
 
-    async start(){
-      this.isMobile = false;
-      if( /Android/i.test(navigator.userAgent) ) {
-        this.isMobile = true;
-      } else if (/iPhone/i.test(navigator.userAgent)) {
-        this.isMobile = true;
-      }
-      if(this.authService.getEnvironment()){
-        this.translate.use(this.authService.getLang());
-        sessionStorage.setItem('lang', this.authService.getLang());
-        let url =  this.authService.getRedirectUrl();
-        this.router.navigate([ url ]);
+    this.route.fragment
+    .pipe(
+      map(fragment => new URLSearchParams(fragment)),
+      map(params => ({
+        result: params.get('result'),
+        _pid: params.get('_pid'),
+        sessionId: params.get('sessionId'),
+      }))
+    )
+    .subscribe(res => {
+      if(res.result && res._pid && res.sessionId){
+        //this.callbacktest(res);
+        this.login();
       }else{
-        if(this.moralisService.currentUser!=null){
-          this.moralisService.logout();
-        }
-        this.clear();
-        /*if(this.isMobile){
-          localStorage.clear();
-        }*/
+        this.authService.logout2();
       }
-    }
-
-    ngOnInit() {
-       // this.start();
-    }
-
-    ngOnDestroy() {
-
-    }
-
-    clear(){
-      localStorage.clear();
-      sessionStorage.clear();
-      this.moralisService.loadScripts();
-      //this.moralisService.initServer();
-      sessionStorage.setItem('lang', this.lang);
-    }
-
-    async login() {
-      if(this.moralisService.currentUser!=null){
-        this.logOut();
-        this.moralisService.logout();
-      }
-      this.clear();
-      this.sending = true;
-      try {
-        var res = await this.moralisService.authenticate();
-        console.log(res);
-        if(res==undefined){
-          this.sending = false;
-        }else{
-          this.onSubmit(res)
-        }
-      } catch (error) {
-        console.log(error.message);
-        if(error.message!=undefined){
-          if(error.message=='Signing message has expired.'){
-            Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
-          }else if(error.message=='Web3Auth: User closed login modal.'){
-            
-          }else if(error.message=='User cancelled login'){
-            
-          }
-        }
-        
-        this.logOut();
-      }
-    }
-
+    });
     
-    async login2() {
-      //this.currentUser = Moralis.User.current();
-      this.currentUser = this.moralisService.getCurrentUser();
-      if (!this.currentUser) {
-        this.sending = true;
-        try {
-          var res = await this.moralisService.authenticate();
-          console.log(res);
-          if(res==undefined){
-            this.sending = false;
-          }else{
-            this.onSubmit(res)
-          }
-        } catch (error) {
-          console.log(error.message);
-          if(error.message!=undefined){
-            if(error.message=='Signing message has expired.'){
-              Swal.fire(this.translate.instant("login.The login has expired"), this.translate.instant("generics.error try again"), "warning");
-            }else if(error.message=='Web3Auth: User closed login modal.'){
-              
-            }
-          }
-          
-          this.logOut();
-        }
-      } else {
-        try {
-          var data = { moralisId: this.currentUser.id, ethAddress: this.currentUser.get("ethAddress"), password: this.currentUser.get("username"), lang: this.translate.store.currentLang };
-          this.onSubmit(data)
-        } catch (error) {
-          console.log(error);
-          this.logOut();
-        }
-          
-      }
+    this.isMobile = this.authService.getIsDevice();
+
+    this.checkMetamark();
   }
 
-    async logOut() {
-      this.authService.logout();
-      this.sending = false;
-        //await Moralis.User.logOut();
-        this.currentUser = null;
-        console.log("logged out");
+  checkMetamark(){
+    if(localStorage.getItem('hideIntroLogins')){
+      this.showMsgMetamask = true;
+    }
+    this.detectedMetamask = false;
+    if (window.ethereum) {
+      const { ethereum } = window;
+      if (!ethereum.isMetaMask) {
+        console.error('Please install MetaMask!')
+      }else{
+        this.detectedMetamask = true;
       }
+    }else{
+      console.error('Please install MetaMask!')
+    }
+  }
 
-      handleMoralisError(err) {
-        switch (err.code) {
-          case Moralis.Error.INVALID_SESSION_TOKEN:
-            this.logOut();
-           // Moralis.User.logOut();
-            // If web browser, render a log in screen
-            // If Express.js, redirect the user to the log in route
-            break;
+  async callbacktest(res) {
+    var sig = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.'+res.result+'.a4VgwATT-RvXvH799RVD4nUdAcOvjUMRoM_Xitlax4Y';
+    var tokenPayload = decode(sig);
+    //verificar el tokenpayload
+    var tokenPayload2 = decode(tokenPayload.store.idToken);
+    //si es valido, continuar
+    try {
+      const res = await this.authService.verifCallback(tokenPayload2.wallets[0].public_key,tokenPayload.privKey, tokenPayload.store.idToken )
+      this.testAccount(res)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async start() {
+    if (this.authService.getEnvironment()) {
+      this.translate.use(this.authService.getLang());
+      sessionStorage.setItem('lang', this.authService.getLang());
+      let url = this.authService.getRedirectUrl();
+      this.router.navigate([url]);
+
+    }else{
+      //this.authService.logout2();
+      //console.log(localStorage.getItem('openlogin_store'));
+      /*if(localStorage.getItem('openlogin_store')!=null){
+        this.login();
+      }*/
+    }
+  }
+
+  async ngOnInit() {
+    this.eventsService.on('changelang', function (lang) {
+      this.lang = lang;
+      this.langWeb3auth = sessionStorage.getItem('lang')
+      if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
+        this.langWeb3auth = 'en';
+      }
+    }.bind(this));
+
+    this.start();
+    
+  }
+
+  ngOnDestroy() {
+    //this.subscription.unsubscribe();
+  }
+
+  login = async () => {
+    if(localStorage.getItem('hideIntroLogins') == null || !localStorage.getItem('hideIntroLogins')){
+      document.getElementById("openModalIntro").click();
+    }
+    this.web3auth = this.authService.initWeb3Auth();
+    this.web3auth.on(LOGIN_MODAL_EVENTS.MODAL_VISIBILITY, (isVisible) => {
+      if(!isVisible){
+        //this.authService.logout2();
+        this.sending = false;
+      }
       
-          // Other Moralis API errors that you want to explicitly handle
+    });
+    this.sending = true;
+    try {
+      const res = await this.authService.login();
+      this.testAccount(res)
+    } catch (error) {
+      console.log(error);
+    }
+    
+  };
+
+  async testAccount(info){
+      this.subscription.add(this.authService.signinUseWallet(info).subscribe(
+      authenticated => {
+        if (authenticated.isloggedIn) {
+          this.translate.use(this.authService.getLang());
+          sessionStorage.setItem('lang', this.authService.getLang());
+          let url = this.authService.getRedirectUrl();
+          if (this.authService.getRole() == 'User') {
+            this.subscription.add(this.patientService.getPatientId()
+              .subscribe((res: any) => {
+                this.authService.setCurrentPatient(res);
+                this.router.navigate([url]);
+                this.sending = false;
+              }, (err) => {
+                console.log(err);
+                this.sending = false;
+              }));
+          } else {
+            this.sending = false;
+            this.router.navigate([url]);
+          }
+
+        } else {
+          this.sending = false;
+          let message = this.authService.getMessage();
+          if (message == "Login failed" || message == "Not found") {
+            this.isLoginFailed = true;
+          } else if (message == "Account is temporarily locked") {
+            this.isBlockedAccount = true;
+          } else if (message == "Account is blocked") {
+            this.isBlocked = true;
+          } else {
+            this.toastr.error('', message);
+          }
         }
       }
-      
-      
+    ));
+  }
 
-    // On submit button click
-    onSubmit(data) {
-      console.log('pa entro');
-        this.sending = true;
-        this.isBlockedAccount = false;
-        this.isLoginFailed = false;
-        this.isBlocked = false;
-        var pwCopy = data.password;
-        data.password= sha512(data.password)
-    	   this.subscription.add( this.authService.signinUser(data).subscribe(
-    	       authenticated => {
-      		    if(authenticated.isloggedIn) {
-                const query = new Moralis.Query(Moralis.User);
-                console.log(query);
-                // For each API request, call the global error handler
-                query.find().then(function() {
-                  // do stuff
-                }, function(err) {
-                  this.handleMoralisError(err);
-                });
-                 //this.translate.setDefaultLang( this.authService.getLang() );
-                 this.translate.use(this.authService.getLang());
-                 sessionStorage.setItem('lang', this.authService.getLang());
-          		   let url =  this.authService.getRedirectUrl();
-                 if(this.authService.getRole()=='User'){
-                  /*if(authenticated.isFirstTime) {
-                    Swal.fire(this.translate.instant("login.copypsw"), pwCopy, "success");
-                  }*/
-                   this.subscription.add( this.patientService.getPatientId()
-                   .subscribe( (res : any) => {
-                      this.authService.setCurrentPatient(res);
-                      this.router.navigate([ url ]);
-                     this.sending = false;
-                    }, (err) => {
-                      console.log(err);
-                      this.sending = false;
-                    }));
-                 }else if(this.authService.getRole()=='Clinical'){
-                   this.sending = false;
-                    this.router.navigate([ url ]);
-                 }
-                 else if(this.authService.getRole()=='Admin'){
-                  this.sending = false;
-                  this.router.navigate([ url ]);
-                 }
-                 else{
-                    this.sending = false;
-                   this.router.navigate([ url ]);
-                 }
-
-      		    }else {
-                this.sending = false;
-                let message =  this.authService.getMessage();
-                 if(message == "Login failed" || message == "Not found"){
-                     this.isLoginFailed = true;
-                   }else if(message == "Account is temporarily locked"){
-                     this.isBlockedAccount = true;
-                   }else if(message == "Account is blocked"){
-                     this.isBlocked = true;
-                   }else{
-                    this.toastr.error('', message);
-                  }
-      		    }
-    	       }
-    	   ));
-      
-
+  showPanelIntro(content){
+    if(this.modalReference!=undefined){
+      this.modalReference.close();
     }
+    let ngbModalOptions: NgbModalOptions = {
+          backdrop : 'static',
+          keyboard : false,
+          windowClass: 'ModalClass-lg'
+    };
+    this.modalReference = this.modalService.open(content, ngbModalOptions);
+  }
+
+  showOptions($event){
+    if($event.checked){
+      localStorage.setItem('hideIntroLogins', 'true')
+    }else{
+      localStorage.setItem('hideIntroLogins', 'false')
+    }
+  }
 }

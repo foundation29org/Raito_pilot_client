@@ -77,7 +77,12 @@
                                                                     class="ml-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                            <a *ngIf="!isMobile" class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                                <i class="ft-download fa-xs"></i><span
+                                                                    class="ml-2">{{'generics.Download' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a *ngIf="isMobile" class="dropdown-item py-1" (click)="downloadFile(accessToken.containerName,onefile.name)">
                                                                 <i class="ft-download fa-xs"></i><span
                                                                     class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
@@ -169,7 +174,12 @@
                                                                     class="ml-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                            <a *ngIf="!isMobile" class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                                <i class="ft-download fa-xs"></i><span
+                                                                    class="ml-2">{{'generics.Download' | translate
+                                                                    }}</span>
+                                                            </a>
+                                                            <a *ngIf="isMobile" class="dropdown-item py-1" (click)="downloadFile(accessToken.containerName,onefile.name)">
                                                                 <i class="ft-download fa-xs"></i><span
                                                                     class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
@@ -405,10 +415,10 @@
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-8">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label>{{'documents.Title' | translate }}</label>
-                                <input type="text" class="col-5 form-control" id="title2" formControlName="name"
+                                <input type="text" class="form-control" id="title2" formControlName="name"
                                     [ngClass]="{ 'is-invalid': submitted && f.name.errors }" name="title2">
                                 <small class="form-text text-muted danger"
                                     *ngIf="submitted && f.name.errors">{{'generics.required' | translate }}</small>
@@ -437,9 +447,11 @@
                         </div>
                         <div class="col-md-12 col-12">
                             <div class="form-group">
-                                <input type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
+                                <input *ngIf="!isMobile" type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
                                     (change)="onFileChangeStep1($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
+                                <input *ngIf="isMobile" type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
+                                (change)="onFileChangeStep1($event);"/>
                                 <label class="text-bold-500 btn btn-primary btn-sm font-small-3 danger mb-0"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'documents.Select document' | translate }}</label>
@@ -478,10 +490,10 @@
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-8">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label>{{'documents.Title' | translate }}</label>
-                                <input type="text" class="col-5 form-control" id="title2" formControlName="name"
+                                <input type="text" class="form-control" id="title2" formControlName="name"
                                     [ngClass]="{ 'is-invalid': submitted && f.name.errors }" name="title2">
                                 <small class="form-text text-muted danger"
                                     *ngIf="submitted && f.name.errors">{{'generics.required' | translate }}</small>

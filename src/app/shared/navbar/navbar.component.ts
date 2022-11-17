@@ -9,6 +9,14 @@ import { UntypedFormControl } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from 'app/shared/auth/auth.service';
 
+declare global {
+    interface Navigator {
+      app: {
+          exitApp: () => any; // Or whatever is the type of the exitApp function
+      }
+    }
+}
+
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
@@ -34,6 +42,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public config: any = {};
   role: string = 'User';
   actualUrl: string = '';
+  isAndroid: boolean = false;
 
   constructor(public translate: TranslateService,
     private layoutService: LayoutService,
@@ -56,8 +65,16 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.actualUrl = tempUrl[0];
         }
       );
+
+      this.isAndroid = false;
+      var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+      console.log('touchDevice', touchDevice)
+      if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
+        this.isAndroid = true;
+      }
       
   }
+  
 
   ngOnInit() {
     if (this.innerWidth < 1200) {
@@ -133,4 +150,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   logout() {
     this.authService.logout();
   }
+
+  exit() {
+    navigator.app.exitApp();
+}
 }

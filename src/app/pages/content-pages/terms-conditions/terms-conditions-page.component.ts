@@ -21,8 +21,6 @@ export class TermsConditionsPageComponent implements OnInit{
   }
 
   ngOnInit() {
-    console.log(this.role);
-    console.log(this.subrole);
   }
 
   goTo(url){

@@ -55,7 +55,6 @@ export class ApiDx29ServerService {
       return this.http.get(environment.api+'/api/groupsnames/')
       .map( (res : any) => {
         res.sort(this.sortService.GetSortOrder("order"));
-        console.log(res);
         return res;
        }, (err) => {
         console.log(err);

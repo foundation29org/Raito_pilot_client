@@ -23,15 +23,13 @@ export class TokenService {
   private platform: string;
   private expToken: number = null;
 
-  private isApp: boolean = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
-
   constructor(private http: HttpClient, public authService: AuthService) {}
 
 
   isTokenValid():boolean{
-    if(sessionStorage.getItem('token') && this.authService.getIdUser()!=undefined){
-      if((this.authService.getToken() == sessionStorage.getItem('token'))&& this.authService.getIdUser()!=undefined){
-        const tokenPayload = decode(sessionStorage.getItem('token'));
+    if(localStorage.getItem('token') && this.authService.getIdUser()!=undefined){
+      if((this.authService.getToken() == localStorage.getItem('token'))&& this.authService.getIdUser()!=undefined){
+        const tokenPayload = decode(localStorage.getItem('token'));
         if(tokenPayload.sub ==this.authService.getIdUser()){
           return true;
         }else{

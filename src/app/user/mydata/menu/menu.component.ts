@@ -14,17 +14,19 @@ import { SortService } from 'app/shared/services/sort.service';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
+import { CordovaService } from 'app/shared/services/cordova.service';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { sha512 } from "js-sha512";
 import { Clipboard } from "@angular/cdk/clipboard"
 import { DateAdapter } from '@angular/material/core';
 import { SearchService } from 'app/shared/services/search.service';
-import { MoralisService } from 'app/shared/auth/moralis.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 declare let html2canvas: any;
+declare var device;
 
 @Component({
   selector: 'app-menu',
@@ -53,7 +55,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   hasGroup: boolean = false;
   consentgroup: string = 'false';
   activeIds = [];
-  myEmail: string = '';
   lang: string = 'en';
   newPermission:any;
   @ViewChild('f') sendForm: NgForm;
@@ -207,8 +208,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscriptionTimerOrg: Subscription = new Subscription();
   private subscriptionTimer: Subscription = new Subscription();
   protected innerWidth: any;
+  isMobile: boolean = false;
+  private msgtoDownload: string;
+  importing: boolean = false;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer,  public moralisService: MoralisService) { 
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService) {     
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -221,6 +225,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     this.loadScripts();
     this.innerWidth = window.innerWidth;
+
+    this.isMobile = this.authService.getIsDevice();
+
   }
 
   loadScripts(){
@@ -230,9 +237,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if(this.isMobile){
+      this.cordovaService.checkPermissions();
+    }
     this.loadTranslations();
     this.loadPatientId();
-    this.loadMyEmail();
     this.checkIPFS();
     this.checkF29();
   }
@@ -309,6 +318,9 @@ loadTranslations(){
   });
   this.translate.get('homeraito.Not normalized').subscribe((res: string) => {
     this.titleDrugsVsNoNormalized= res;
+  });
+  this.translate.get('generics.To download the file').subscribe((res: string) => {
+    this.msgtoDownload=res;
   });
 }
 
@@ -438,11 +450,14 @@ showPanelIssuerOrganization(info){
       clearInterval(this.checkStatusOrg);
     }));
 
-    if( /Android/i.test(navigator.userAgent) ) {
+    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    console.log('touchDevice', touchDevice)
+
+    if(touchDevice>1 && /Android/i.test(navigator.userAgent) ) {
       console.log(`Android device! Using deep link (${info.data.url}).`);
       window.location.href = info.data.url; setTimeout(function () {
       window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
-    } else if (/iPhone/i.test(navigator.userAgent)) {
+    } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
         console.log(`iOS device! Using deep link (${info.data.url}).`);
         window.location.replace(info.data.url);
     } else {
@@ -563,17 +578,20 @@ exportPDF2(){
                 });
                 //get symtoms
                 var phenotype2 = await this.callGetInfoTempSymptomsJSON(hposStrins, phenotype);
-                this.jsPDFService.generateResultsPDF(phenotype2, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+                var result = this.jsPDFService.generateResultsPDF(phenotype2, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+                this.saveResultPdf(result)
                 this.generatingPDF = false;
                 Swal.close();
                 //phenotype = this.callGetInfoTempSymptomsJSON(hposStrins, phenotype);
             }else{
-              this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+              var result = this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+              this.saveResultPdf(result)
               this.generatingPDF = false;
               Swal.close();
             }
           }else{
-            this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+            var result = this.jsPDFService.generateResultsPDF(phenotype, infoDrugs, this.lang, images, this.rangeDate, this.timeformat, seizuresMonths)
+            this.saveResultPdf(result)
             this.generatingPDF = false;
             Swal.close();
           }
@@ -583,6 +601,43 @@ exportPDF2(){
         }));
   }.bind(this), 2000);
  
+}
+
+saveResultPdf(blob){
+  if (this.isMobile) {
+    var url  = URL.createObjectURL(blob);
+    var p = document.createElement('p');
+    var t = document.createTextNode(this.msgDownload+":");
+    if(device.platform == 'iOS'){
+      t = document.createTextNode("View:");
+    }
+    p.appendChild(t);
+    document.getElementById('content').appendChild(p);
+    var a = document.createElement('a');
+    var dateNow = new Date();
+    var stringDateNow = this.dateService.transformDate(dateNow);
+    a.href        = "javascript:void(0)";
+    a.textContent    = "Raito_Report_"+stringDateNow+".pdf";
+    document.getElementById('content').appendChild(a);
+
+
+    var name = "Raito_Report_"+stringDateNow+".pdf";
+      if(device.platform != 'iOS'){
+        var p = document.createElement('p');
+        var t = document.createTextNode('Pdf saved on download folder');
+        p.appendChild(t);
+        document.getElementById('content').appendChild(p);
+        this.cordovaService.saveBlob2File(name, blob);
+      }else{
+        var p = document.createElement('p');
+        var t = document.createTextNode(this.msgtoDownload);
+        p.appendChild(t);
+        document.getElementById('content').appendChild(p);
+        //igual sobra, testear
+        this.cordovaService.saveBlob2File(name, blob);
+      }
+      //this.cordovaService.goToExternalUrl(url);
+  }
 }
 
 getSeizuresMonths(){
@@ -696,6 +751,7 @@ loadSymptoms() {
 }
 
 confirmDelete(index, index2) {
+  this.authService.logout2();
   Swal.fire({
     title: this.translate.instant("generics.This action will not be reversed"),
     html: this.translate.instant("generics.confirm delete data"),
@@ -735,12 +791,12 @@ confirmDelete(index, index2) {
 }
 
 async loginAgain(){
+  
   try {
-    var res = await this.moralisService.authenticate();
-    console.log(res);
-    var data:any = res;
-    var password = sha512(data.password);
-    this.deleteData(password);
+    
+    this.authService.initWeb3Auth();
+    var res = await this.authService.login();
+    this.deleteData(res);
   } catch (error) {
     console.log(error.message);
     
@@ -749,19 +805,10 @@ async loginAgain(){
   }
 }
 
-loadMyEmail(){
-  this.subscription.add( this.http.get(environment.api+'/api/users/email/'+this.authService.getIdUser())
-    .subscribe( (res : any) => {
-      this.myEmail = res.email;
-    }, (err) => {
-      console.log(err);
-    }));
-}
-
-deleteData(password){
+deleteData(data){
   //cargar los datos del usuario
   this.loading = true;
-  var info = {password: password}
+  var info = {ethAddress: data.ethAddress}
   this.subscription.add( this.http.post(environment.api+'/api/deleteaccount/'+this.authService.getIdUser(), info)
   .subscribe( (res : any) => {
     if(res.message=='The case has been eliminated'){
@@ -782,13 +829,16 @@ deleteData(password){
           //window.location.reload();
       }.bind(this), 1500);
     }else{
-      Swal.fire(this.translate.instant("mydata.Password is incorrect"), this.translate.instant("mydata.we will close your session"), "warning");
-      this.authService.logout();
+      Swal.fire(this.translate.instant("mydata.incorrect account"), this.translate.instant("mydata.we will close your session"), "warning");
+      
+      setTimeout(function () {
+        this.authService.logout();
+        //window.location.reload();
+        //this.router.navigate([this.authService.getLoginUrl()]);
+        //window.location.reload();
+      }.bind(this), 1500);
       //this.router.navigate([this.authService.getLoginUrl()]);
     }
-    
-    
-    
     /*this.authService.logout();
     this.router.navigate([this.authService.getLoginUrl()]);*/
    }, (err) => {
@@ -1024,11 +1074,14 @@ showPanelIssuer(info){
       clearInterval(this.checkStatus);
     }));
 
-    if( /Android/i.test(navigator.userAgent) ) {
+    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    console.log('touchDevice', touchDevice)
+
+    if(touchDevice>1 && /Android/i.test(navigator.userAgent) ) {
       console.log(`Android device! Using deep link (${info.data.url}).`);
       window.location.href = info.data.url; setTimeout(function () {
       window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
-    } else if (/iPhone/i.test(navigator.userAgent)) {
+    } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
         console.log(`iOS device! Using deep link (${info.data.url}).`);
         window.location.replace(info.data.url);
     } else {
@@ -1299,8 +1352,26 @@ getIPFS(){
       a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
       a.setAttribute("id", "download")
 
-      document.getElementById('content').appendChild(a);
-      document.getElementById("download").click();
+      if(this.isMobile){
+        if(device.platform != 'iOS'){
+          var p = document.createElement('p');
+          var t = document.createTextNode('Data saved on download folder');
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+          this.cordovaService.saveBlob2File(a.textContent, blob);
+        }else{
+          var p = document.createElement('p');
+          var t = document.createTextNode(this.msgtoDownload);
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+        }
+        this.cordovaService.goToExternalUrl(url);
+
+        //this.cordovaService.downloadFile(url, "dataRaito_fhir_"+stringDateNow+".json");
+      }else{
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+      }
     }
       
       this.loadingGetIPFS = false;
@@ -1342,9 +1413,27 @@ getF29(){
       a.href        = url;
       a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
       a.setAttribute("id", "download")
+      if(this.isMobile){
+        if(device.platform != 'iOS'){
+          var p = document.createElement('p');
+          var t = document.createTextNode('Data saved on download folder');
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+          this.cordovaService.saveBlob2File(a.textContent, blob);
+        }else{
+          var p = document.createElement('p');
+          var t = document.createTextNode(this.msgtoDownload);
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+        }
+        this.cordovaService.goToExternalUrl(url);
 
-      document.getElementById('content').appendChild(a);
-      document.getElementById("download").click();
+        //this.cordovaService.downloadFile(url, "dataRaito_fhir_"+stringDateNow+".json");
+      }else{
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+      }
+      
     }
       
       this.loadingGetF29 = false;
@@ -1373,9 +1462,26 @@ extractFhir(){
         a.href        = url;
         a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
         a.setAttribute("id", "download")
+        if(this.isMobile){
+          if(device.platform != 'iOS'){
+            var p = document.createElement('p');
+            var t = document.createTextNode('Data saved on download folder');
+            p.appendChild(t);
+            document.getElementById('content').appendChild(p);
+            this.cordovaService.saveBlob2File(a.textContent, blob);
+          }else{
+            var p = document.createElement('p');
+            var t = document.createTextNode(this.msgtoDownload);
+            p.appendChild(t);
+            document.getElementById('content').appendChild(p);
+          }
+          this.cordovaService.goToExternalUrl(url);
+        }else{
+          document.getElementById('contentfhir').appendChild(a);
+          document.getElementById("download").click();
+        }
 
-        document.getElementById('contentfhir').appendChild(a);
-        document.getElementById("download").click();
+        
         this.loadingFhir = false;
    }, (err) => {
      console.log(err);
@@ -1838,6 +1944,14 @@ add0Seizures(datagraphseizures){
 tickFormattingDay(d: any) {
   if (sessionStorage.getItem('lang') == 'es') {
     this.formatDate = 'es-ES'
+  }else if(sessionStorage.getItem('lang')=='de'){
+    this.formatDate = 'de-DE';
+  }else if(sessionStorage.getItem('lang')=='fr'){
+    this.formatDate = 'fr-FR';
+  }else if(sessionStorage.getItem('lang')=='it'){
+    this.formatDate = 'it-IT';
+  }else if(sessionStorage.getItem('lang')=='pt'){
+    this.formatDate = 'pt-PT';
   } else {
     this.formatDate = 'en-EN'
   }
@@ -2352,13 +2466,57 @@ getVcs(){
   }
 
 
-    showPopup(contentInfo) {
-      let ngbModalOptions: NgbModalOptions = {
-        keyboard: false,
-        windowClass: 'ModalClass-xs'// xl, lg, sm
-      };
-      this.modalReference = this.modalService.open(contentInfo, ngbModalOptions);
+  showPopup(contentInfo) {
+    let ngbModalOptions: NgbModalOptions = {
+      keyboard: false,
+      windowClass: 'ModalClass-xs'// xl, lg, sm
+    };
+    this.modalReference = this.modalService.open(contentInfo, ngbModalOptions);
+  }
+
+  onImport(event) {
+    var file = event.srcElement.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = (evt:any) => {
+          var resourcesToUpload=JSON.parse(evt.target.result);
+          if(resourcesToUpload.resourceType!='Bundle'){
+            this.toastr.error('', this.translate.instant("seizures.invalidFile"));
+          }else{
+            this.uploadresources(resourcesToUpload.entry);
+          }
+          
+        }
+        reader.onerror = function (evt) {
+            console.log('error reading file');
+        }
     }
+  }
+
+  uploadresources(resourcesToUpload){
+    this.importing = true;
+    this.subscription.add( this.http.post(environment.api+'/api/massiveresources/'+this.authService.getCurrentPatient().sub, resourcesToUpload)
+    .subscribe( (res : any) => {
+      this.importing = false;
+      var count = 0;
+      if(res.eventdb){
+        if(res.eventdb.length>0){
+          for (var i = 0; i < res.eventdb.length; i++) {
+            if(res.eventdb[i].added){
+              count++;
+            }
+          }
+        }
+      }
+      Swal.fire('', this.translate.instant("mydata.numberimported", {
+          value: count
+      }), "success");
+    }, (err) => {
+      console.log(err);
+      this.importing = false;
+    }));
+  }
 
 }
 
