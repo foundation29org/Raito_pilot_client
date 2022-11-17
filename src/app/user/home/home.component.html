@@ -152,7 +152,7 @@
                             <div class="col-1 pr-0">
                                 <em class="fas fa-info-circle"></em>
                             </div>
-                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted'">
+                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted' || infoVerified.status =='started'">
                                 <p>{{'identity.t7' | translate }}</p>
                                 <p>{{'identity.t8' | translate }}</p>
                                 <p>{{'identity.t9' | translate }} <a class="primary" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>

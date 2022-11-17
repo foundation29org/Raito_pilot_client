@@ -90,10 +90,10 @@
                                           </div>
                                           <div class="" *ngIf="hasGroup && groupId!='61bb390ed6e0cb14f08881c1'" [ngClass]="{'mb-2': innerWidth<992}">
                                               <p class="text-left mb-0"><strong>{{'groups.Group' | translate }}:</strong> {{group.name}}</p>
-                                              <span *ngIf="!startingProcessOrg">
+                                              <span *ngIf="!startingProcessOrg" class="">
                                                   <p class="text-left text-muted mb-0 mt-2" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
                                                   <!--<p class="text-muted mb-0" *ngIf="consentgroup=='false'">{{'mydata.a2.7' | translate }}</p>-->
-                                                  <button *ngIf="consentgroup=='false'" class="btn btn-dark btn-100" type="button"
+                                                  <button *ngIf="consentgroup=='false'" class="btn btn-dark btn-100 mt-2" type="button"
                                                       (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
                                                   <button *ngIf="consentgroup=='true'" class="btn btn-primary" type="button"
                                                   (click)="changeConsentGroup('false')">{{'mydata.Reject consent' | translate }}</button>
