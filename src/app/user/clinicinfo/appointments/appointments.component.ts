@@ -156,7 +156,6 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
     this.loading = true;
     this.subscription.add( this.http.get(environment.api+'/api/appointments/'+this.authService.getCurrentPatient().sub)
         .subscribe( (res : any) => {
-          console.log(res);
           if(res.message){
             //no tiene información
             this.events = [];

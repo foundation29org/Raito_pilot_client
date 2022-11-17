@@ -252,7 +252,8 @@
     "There is no patient data to export": "No hay datos de pacientes para exportar.",
     "OPTIONAL": "Opcional",
     "Reference Genome": "Genoma de referencia",
-    "Save changes": "Guardar cambios"
+    "Save changes": "Guardar cambios",
+    "To download the file": "Para descargar el fichero acceda desde su navegador"
   },
   "lang":{
     "Question deleted successfully": "Pregunta eliminada con éxito",
@@ -315,7 +316,8 @@
     "Select the sex to change the avatar": "Selecciona el sexo para cambiar el avatar.",
     "I dont belong to a patient group": "No pertenezco a un grupo de pacientes",
     "I dont have a diagnosis": "No tengo un diagnóstico",
-    "Patients with epilepsy": "Dravet Syndrome European Federation"
+    "Patients with epilepsy": "Dravet Syndrome European Federation",
+    "Childhood syndrome with epilepsy": "Síndrome infantil con epilepsia"
   },
   "groups":{
     "Groups": "Grupos",
@@ -697,9 +699,8 @@
     "aboutUs":{
       "Who are we": "Visita nuestra web",
       "titlef29": "¿Qué es Fundación 29?",
-      "p1f29": "Somos una fundación sin ánimo de lucro. Trabajamos por una medicina en la que pacientes empoderados toman el control de su salud a través de sus datos y trabajan con médicos e instituciones para mejorar su bienestar y el de los demás.",
-      "p2f29": "Creamos tecnologías que permiten un cambio radical en sus capacidades como usuarios y en todo el ecosistema médico.",
-      "p3f29": "El activismo de los pacientes, sus familias y las asociaciones están en nuestra esencia. Ponemos especial foco en las enfermedades raras. Están en nuestro origen y en nuestro nombre: 29 de febrero, día mundial de las enfermedades raras."
+      "p1f29": "Somos una fundación sin ánimo de lucro. Nuestra misión es devolver los datos a los pacientes. Sí, aunque parezca mentira los pacientes no tienen sus datos y es un freno para la innovación en medicina. Fundación 29 quiere cambiarlo.",
+      "p2f29": "Trabajamos con médicos, proveedores de salud, industria e investigadores en proyectos que cambien la forma en la que manejamos los datos médicos. Nos consideramos activistas del dato y en cierte medida unos rebeldes en un sistema sanitario que sufre y que necesita un cambio. Somos agentes de cambio que buscan un nuevo punto de vista."
     },
     "diagnosed":{
       "timeline":{
@@ -768,20 +769,29 @@
     "See answers": "Ver respuestas"
   },
   "landraito":{
-    "t1": "Tienes el poder de impulsar la medicina",
-    "p1": "Le ayudamos a almacenar mejor la información de sus pacientes para que pueda compartirla y beneficiarse de la investigación clínica y el desarrollo de nuevos medicamentos",
-    "t2": "Cómo funciona",
+    "t1": "Los datos médicos salvan vidas",
+    "p1": "Todos estamos de acuerdo en que los datos medicos pueden salvar vidas. Pero solamente pueden hacerlo cuando somos capaces de juntarlos con otros datos. Tus datos medicos aislados valen poco pero si los agrupas, son muy valiosos. Raito es la herramienta para que tus datos escapen de un cajón y puedan valer para desarrollar nuevos tratamientos y tú puedas mejorar tu salud o la de las personas a las que cuidas.​",
+    "t2": "¿Cómo funciona Raito?",
+    "t2subtitle": "Raito es un contenedor de datos de pacientes descentralizado. Al ser descentralizado tú eres el único que tiene tus datos y tú eres el que decide con quién los compartes. Te damos el poder de controlar tus datos de salud y los de los pacientes que cuidas. Así es cómo funciona.",
     "t2.1t": "Sube a bordo",
-    "t2.1a": "Crea tu cuenta. Te ayudaremos a empezar a subir tus datos de forma segura en la carpeta de tu nube. Únete a la revolución de la recopilación de datos de pacientes.",
+    "t2.1a": "El primer paso es crear tu contenedor de datos personal. Para ello temenos que comprobar que eres un paciente real. Es un paso sencillo que lleva solo unos minutos",
     "t2.2t": "Llena tu depósito",
-    "t2.2a": "Te ayudamos a registrar los datos de tus pacientes de forma sencilla. Nos encargaremos de estructurarlos y de almacenarlos de forma segura en tu carpeta personal en la nube.",
+    "t2.2a": "Para que tus datos puedan valer hay una información mínima que tienes que rellenar, como tu enfermedad, el grupo de pacientes al que perteneces, etc. No te preocupes que hemos diseñado Raito para que esto sea rápido.",
     "t2.3t": "Lanzamiento",
-    "t2.3a": "Te proporcionamos las herramientas para compartir tu carpeta de datos médicos y potenciar tu alcance con instituciones y aplicaciones que te ayudarán a ti y a otros pacientes.",
+    "t2.3a": "Es el paso más importante. Nuestra misión es que puedas usar tus datos y para ello te ayudaremos a compartirlos con quién tu quieras. Por ejemplo con tu medico y con tu organización de pacientes. Si quieres que tus datos estén disponibles de forma anónima para Investigación también de ayudaremos.",
     "t3.1": "Disponible para tu móvil y tu tablet",
     "t3.2": "Usa Raito en teléfono o tablet es gratis y fácil.",
-    "button": "Quiero unirme",
-    "For free forever": "Gratis para siempre!",
-    "You have a pending action before continuing": "Tienes una acción pendiente antes de continuar."
+    "button": "Iniciar sesión",
+    "You have a pending action before continuing": "Tienes una acción pendiente antes de continuar.",
+    "check": "Ya entiendo de que va esto. No hace falta verlo más veces.",
+    "opttitle": "Inicio de sesión",
+    "optsub": "Raito necesita saber quién eres. Será el método que usarás para poder acceder a la funcionalidad de Raito. Te ofrecemos varias formas de hacerlo, puedes balancer entre comodidad y privacidad.",
+    "opt1": "<strong>Proveedor externo.</strong> Te damos la posibilidad de iniciar sesión con tu cuenta de otra aplicación. Son aplicaciones comerciales y por tanto estas empresas pueden saber que eres usuario de Raito. Ellos no acceden a tu información personal. Es una buena opción si buscas simplicidad y quieres sacrificar un poco de tu privacidad.",
+    "opt2": "<strong>Usando tu correo electrónico.</strong> Te ofrecemos un servicio en el que no tienes que usar contraseña. Simple y eficaz. Cada vez que inicies session tendrás que acceder a tu correo electronico. Es una forma eficaz de mantener tu privacidad.",
+    "opt3": "<strong>Usando un wallet.</strong> Es el método más complejo pero que te da mayor privacidad. Usando este método usarás un wallet que permite almacenar claves privadas.",
+    "Metamask not detected": "No se ha detectado Metamask",
+    "Install Metamask": "Instala Metamask para usar esta opción.",
+    "infoMetamask": "Si desea acceder a la funcionalidad de Raito usando una billetera como Metamask, primero debe instalarla. Si no, no te preocupes, tienes otras alternativas."
   },
   "homeraito":{
     "t1": "¿Perteneces a una organización de pacientes?",
@@ -958,8 +968,10 @@
     "share3title": "Con tu médico",
     "sharecontent3": "Se genererá un enlace privado que podrás compartir con las personas que desees que tenga acceso.",
     "fhirtitle": "Descargar archivo FHIR",
+    "importfhir": "Importar archivo FHIR",
+    "numberimported": "Se han importado {{value}} eventos.",
     "fhirdesc": "Tener tus datos en FHIR significa que puedes llevarlos a muchos hospitales alrededor del mundo y ellos podrán leerlos e incorporarlos a tu historial médico.",
-    "Password is incorrect": "La contraseña es incorrecta",
+    "incorrect account": "Ha seleccionado una cuenta incorrecta.",
     "we will close your session": "Por su seguridad, vamos a cerrar su sesión.",
     "please enter your password": "Por seguridad, introduce tu contraseña",
     "Write your password here": "Escribe aquí tu contraseña",

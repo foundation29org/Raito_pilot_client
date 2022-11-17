@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { CordovaService } from 'app/shared/services/cordova.service';
 
 interface MyEvent{
   _id: any;
@@ -67,14 +68,20 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   modalReference: NgbModalRef;
   seizuresForm: FormGroup;
   submitted = false;
+  isMobile: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder, private sortService: SortService, private patientService: PatientService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private searchService: SearchService, private dateService: DateService, private formBuilder: FormBuilder, private sortService: SortService, private patientService: PatientService, public cordovaService: CordovaService) { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
   ngOnInit() {
+    this.isMobile = this.authService.getIsDevice();
+    if(this.isMobile){
+      this.cordovaService.checkPermissions();
+    }
+
     this.seizuresForm = this.formBuilder.group({
       type: [null, Validators.required],
       duracion: ['', Validators.required],

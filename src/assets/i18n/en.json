@@ -252,7 +252,8 @@
     "There is no patient data to export": "There is no patient data to export.",
     "OPTIONAL": "Optional",
     "Reference Genome": "Reference Genome",
-    "Save changes": "Save changes"
+    "Save changes": "Save changes",
+    "To download the file": "To download the file, access it from your browser"
   },
   "lang":{
     "Question deleted successfully": "Question deleted successfully",
@@ -315,7 +316,8 @@
     "Select the sex to change the avatar": "Select the sex to change the avatar.",
     "I dont belong to a patient group": "I don't belong to a patient group",
     "I dont have a diagnosis": "I don't have a diagnosis",
-    "Patients with epilepsy": "Dravet Syndrome European Federation"
+    "Patients with epilepsy": "Dravet Syndrome European Federation",
+    "Childhood syndrome with epilepsy": "Childhood syndrome with epilepsy"
   },
   "groups":{
     "Groups": "Groups",
@@ -697,9 +699,8 @@
     "aboutUs":{
       "Who are we": "Visit our website",
       "titlef29": "What is Foundation 29?",
-      "p1f29": "We are a non-profit foundation. We work for a medicine in which empowered patients take control of their health through their data and work with doctors and institutions to improve their well-being and that of others.",
-      "p2f29": "We create technologies that allow a radical change in your capabilities as users and in the entire medical ecosystem.",
-      "p3f29": "The activism of patients, their families and associations are at our core. We put special focus on rare diseases. They are in our origin and in our name: February 29, world day of rare diseases."
+      "p1f29": "We are a non-profit prganizatoin. Our mission is to return data to patients. Yes, oddly enough, patients do not have their data and it is a barrier for innovation in medicine. Foundation 29 wants to change it.",
+      "p2f29": "We work with physicians, healthcare providers, industry and researchers on projects that change the way we handle medical data. We consider ourselves data activists and to a certain extent rebels in a health system that suffers and needs change. We are agents of change looking for a new point of view."
     },
     "diagnosed":{
       "timeline":{
@@ -768,20 +769,29 @@
     "See answers": "See answers"
   },
   "landraito":{
-    "t1": "You have the power to boost medicine",
-    "p1": "Patient data are critical for research. Help to develop new treatments and improve research without leaving home. Raito is your personal health data container",
-    "t2": "How it works",
+    "t1": "Medical data saves lives",
+    "p1": "We all agree that medical data can save lives. But they can only do so when we are able to put them together with other data. Your isolated medical data is worth little but if you group it, it is very valuable. Raito is the tool for your data to escape from a drawer and can be used to develop new treatments and you can improve your health or that of the people you care for.​",
+    "t2": "How does Raito work?",
+    "t2subtitle": "Raito is a decentralized patient data container. Being decentralized you are the only one who has your data and you are the one who decides who you share it with. We give you the power to control your health data and that of the patients you care for. Here's how it works.",
     "t2.1t": "Get on board",
-    "t2.1a": "Create your account to get on board of your data container. We will help you to easily create it to store your data on your own devices.",
-    "t2.2t": "Fill your tank",
-    "t2.2a": "We will help you to include and keep up to date your patient data easily. Your data is what fuels evidence-based medicine and research.",
+    "t2.1a": "The first step is to create your personal data container. To do this, you have to prove that you are a real patient. It's a simple step that takes just a few minutes.",
+    "t2.2t": "Fill your deposit",
+    "t2.2a": "For your data to be worth there is a minimum information that you have to fill in, such as your disease, the group of patients to which you belong, etc. Don't worry, we've designed Raito to make this fast.",
     "t2.3t": "Launch",
-    "t2.3a": "Join a patient community to contribute your data anonymously and boost your reach with institutions and applications that will help you and other patients.",
+    "t2.3a": "It is the most important step. Our mission is that you can use your data and for this we will help you share it with whoever you want. For example with your doctor and with your patient organization. If you want your data to be available anonymously for Research we will also help.",
     "t3.1": "Available on your mobile and tablet",
     "t3.2": "Use Raito on your phone or tablet: it is free and easy",
-    "button": "I want to join",
-    "For free forever": "For free forever!",
-    "You have a pending action before continuing": "You have a pending action before continuing."
+    "button": "Log in",
+    "You have a pending action before continuing": "You have a pending action before continuing.",
+    "check": "I already understand what this is about. No need to see it more times.",
+    "opttitle": "Login",
+    "optsub": "Raito needs to know who you are. This will be the method you will use to access Raito's functionality. We offer you several ways to do this, you can balance between convenience and privacy.",
+    "opt1": "<strong>External Provider.</strong> We give you the possibility to log in with your account from another application. They are commercial applications and therefore these companies may know that you are a Raito user. They do not access your personal information. It's a good option if you're looking for simplicity and want to sacrifice a bit of your privacy.",
+    "opt2": "<strong>Using your email.</strong> We offer you a service in which you do not have to use a password. Simple and effective. Every time you log in you will have to access your email. It is an effective way to maintain your privacy.",
+    "opt3": "<strong>Using a wallet.</strong> It is the most complex method but it gives you more privacy. Using this method you will use a wallet that allows you to store private keys.",
+    "Metamask not detected": "Metamask not detected",
+    "Install Metamask": "Install Metamask to use this option.",
+    "infoMetamask": "If you want to access the functionality of Raito using a wallet like Metamask, you first need to install it. If not, don't worry, you have other alternatives."
   },
   "homeraito":{
     "t1": "Do you belong to a patient organization?",
@@ -958,8 +968,10 @@
     "share3title": "With your doctor",
     "sharecontent3": "A private link will be generated that you can share with the people you want to access it.",
     "fhirtitle": "Download FHIR file",
+    "importfhir": "Import FHIR file",
+    "numberimported": "{{value}} events have been imported.",
     "fhirdesc": "Having your data in FHIR means that you can take it to many hospitals around the world and they will be able to read it and incorporate it into your medical record.",
-    "Password is incorrect": "Password is incorrect",
+    "incorrect account": "You have selected an incorrect account.",
     "we will close your session": "For your security, we will close your session.",
     "please enter your password": "For security reasons, please enter your password",
     "Write your password here": "Write your password here",

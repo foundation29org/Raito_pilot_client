@@ -17,6 +17,7 @@ import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstr
 import { DateAdapter } from '@angular/material/core';
 import { SortService } from 'app/shared/services/sort.service';
 import { Subscription } from 'rxjs/Subscription';
+import { CordovaService } from 'app/shared/services/cordova.service';
 
 @Component({
   selector: 'app-medication',
@@ -30,7 +31,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
   isSafari: boolean = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 && navigator.userAgent && !navigator.userAgent.match('CriOS');
-  isApp: boolean = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 && location.hostname != "localhost" && location.hostname != "127.0.0.1";
+  isMobile: boolean = false;
   @ViewChild('f') medicationForm: NgForm;
   medications: any;
   medication: any;
@@ -75,7 +76,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   birthday: any;
   newweight: any;
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
-    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService) {
+    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, public cordovaService: CordovaService) {
     this.adapter.setLocale(this.authService.getLang());
     switch (this.authService.getLang()) {
       case 'en':
@@ -100,6 +101,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isMobile = this.authService.getIsDevice();
+    if(this.isMobile){
+      this.cordovaService.checkPermissions();
+    }
     this.locale = this.authService.getLang();
     this.medications = [];
     this.actualMedications = [];
@@ -342,7 +347,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
       var info = {value:parseMassunit, date: stringDate};
       this.subscription.add(this.http.post(environment.api + '/api/weight/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res: any) => {
-          console.log(res);
           this.weight = res.weight.value
           this.weightUnits = res.weight.value;
           if (this.settings.massunit == 'lb') {

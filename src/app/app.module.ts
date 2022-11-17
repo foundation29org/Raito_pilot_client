@@ -42,7 +42,6 @@ import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { RoleGuard } from './shared/auth/role-guard.service';
 import { TokenService } from './shared/auth/token.service';
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
-import { MoralisService } from './shared/auth/moralis.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { DatePipe } from '@angular/common';
@@ -53,6 +52,7 @@ import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { Data } from 'app/shared/services/data.service';
+import { CordovaService } from 'app/shared/services/cordova.service';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
 
 import { QRCodeModule } from 'angularx-qrcode';
@@ -105,7 +105,6 @@ export function createTranslateLoader(http: HttpClient) {
     },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     WINDOW_PROVIDERS,
-    MoralisService,
     { provide: LOCALE_ID, useValue: 'es-ES' },
     SortService,
     EventsService,
@@ -116,7 +115,8 @@ export function createTranslateLoader(http: HttpClient) {
     HighlightSearch,
     LocalizedDatePipe,
     SearchFilterPipe,
-    Data
+    Data,
+    CordovaService
   ],
   bootstrap: [AppComponent]
 })

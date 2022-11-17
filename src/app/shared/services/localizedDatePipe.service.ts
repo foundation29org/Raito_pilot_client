@@ -15,6 +15,14 @@ export class LocalizedDatePipe implements PipeTransform {
         var localeLang = 'en-US'
         if(lang=='es'){
             localeLang = 'es-ES'
+        }else if (lang == 'de') {
+            localeLang = 'de-DE'
+        }else if (lang == 'fr') {
+            localeLang = 'fr-FR'
+        }else if (lang == 'it') {
+            localeLang = 'it-IT'
+        }else if (lang == 'pt') {
+            localeLang = 'pt-PT'
         }
         const datePipe: DatePipe = new DatePipe(localeLang);
         return datePipe.transform(value, pattern);
