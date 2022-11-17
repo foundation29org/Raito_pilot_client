@@ -1944,6 +1944,14 @@ add0Seizures(datagraphseizures){
 tickFormattingDay(d: any) {
   if (sessionStorage.getItem('lang') == 'es') {
     this.formatDate = 'es-ES'
+  }else if(sessionStorage.getItem('lang')=='de'){
+    this.formatDate = 'de-DE';
+  }else if(sessionStorage.getItem('lang')=='fr'){
+    this.formatDate = 'fr-FR';
+  }else if(sessionStorage.getItem('lang')=='it'){
+    this.formatDate = 'it-IT';
+  }else if(sessionStorage.getItem('lang')=='pt'){
+    this.formatDate = 'pt-PT';
   } else {
     this.formatDate = 'en-EN'
   }

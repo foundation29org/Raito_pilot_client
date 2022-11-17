@@ -955,7 +955,19 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.editingWeightHistory = false;
   }
   tickFormatting(d: any) {
-    return d.toLocaleString('es-ES').split(" ")[0];
+    var formatDate = 'en-EN';
+    if (sessionStorage.getItem('lang') == 'es') {
+      formatDate = 'es-ES'
+    }else if(sessionStorage.getItem('lang')=='de'){
+      formatDate = 'de-DE';
+    }else if(sessionStorage.getItem('lang')=='fr'){
+      formatDate = 'fr-FR';
+    }else if(sessionStorage.getItem('lang')=='it'){
+      formatDate = 'it-IT';
+    }else if(sessionStorage.getItem('lang')=='pt'){
+      formatDate = 'pt-PT';
+    }
+    return d.toLocaleString(formatDate).split(" ")[0];
 
   }
 

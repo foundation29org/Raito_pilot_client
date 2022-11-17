@@ -701,6 +701,14 @@ export class jsPDFService {
         var localeLang = 'en-US';
         if (this.lang == 'es') {
             localeLang = 'es-ES'
+        }else if (this.lang == 'de') {
+            localeLang = 'de-DE'
+        }else if (this.lang == 'fr') {
+            localeLang = 'fr-FR'
+        }else if (this.lang == 'it') {
+            localeLang = 'it-IT'
+        }else if (this.lang == 'pt') {
+            localeLang = 'pt-PT'
         }
         return date.toLocaleString(localeLang, { month: 'long' , day: 'numeric', year: 'numeric'});
     }

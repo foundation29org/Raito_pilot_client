@@ -87,8 +87,24 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     
       loadCultures() {
-        const browserCulture: string = this.translate.getBrowserCultureLang();
-        sessionStorage.setItem('culture', browserCulture);
+        console.log(sessionStorage.getItem('lang'));
+        /*const browserCulture: string = this.translate.getBrowserCultureLang();
+        sessionStorage.setItem('culture', browserCulture);*/
+        if(sessionStorage.getItem('lang')=='es'){
+          sessionStorage.setItem('culture', 'es-ES');
+        }else if(sessionStorage.getItem('lang')=='de'){
+          sessionStorage.setItem('culture', 'de-DE');
+        }else if(sessionStorage.getItem('lang')=='fr'){
+          sessionStorage.setItem('culture', 'fr-FR');
+        }else if(sessionStorage.getItem('lang')=='it'){
+          sessionStorage.setItem('culture', 'it-IT');
+        }else if(sessionStorage.getItem('lang')=='pt'){
+          sessionStorage.setItem('culture', 'pt-PT');
+        }else{
+          sessionStorage.setItem('culture', 'en-EN');
+        }
+        
+        
       }
 
 
