@@ -56,9 +56,11 @@ export class AppComponent implements OnInit, OnDestroy {
           this.loadCultures();
 
           this.isMobile = false;
-          if (/Android/i.test(navigator.userAgent)) {
+          var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+          console.log('touchDevice', touchDevice)
+          if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
             this.isMobile = true;
-          } else if (/iPhone/i.test(navigator.userAgent)) {
+          } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
             this.isMobile = true;
           }
           if (this.isMobile){
@@ -186,6 +188,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.titleService.setTitle(titulo);
                 sessionStorage.setItem('lang', lang);
                 this.changeMeta();
+                this.loadCultures();
             })();
         }.bind(this));
     }

@@ -17,6 +17,12 @@ import { ThisReceiver } from '@angular/compiler';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators'
 import * as decode from 'jwt-decode';
 
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
 @Component({
   selector: 'app-land-page',
   templateUrl: './land-page.component.html',
@@ -35,6 +41,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   web3auth: Web3Auth | null = null;
   modalReference: NgbModalRef;
   langWeb3auth: string = 'en';
+  detectedMetamask: boolean = false;
+  showMsgMetamask: boolean = false;
 
   private subscription: Subscription = new Subscription();
 
@@ -64,6 +72,25 @@ export class LandPageComponent implements OnInit, OnDestroy {
     });
     
     this.isMobile = this.authService.getIsDevice();
+
+    this.checkMetamark();
+  }
+
+  checkMetamark(){
+    if(localStorage.getItem('hideIntroLogins')){
+      this.showMsgMetamask = true;
+    }
+    this.detectedMetamask = false;
+    if (window.ethereum) {
+      const { ethereum } = window;
+      if (!ethereum.isMetaMask) {
+        console.error('Please install MetaMask!')
+      }else{
+        this.detectedMetamask = true;
+      }
+    }else{
+      console.error('Please install MetaMask!')
+    }
   }
 
   async callbacktest(res) {

@@ -22,9 +22,11 @@ export class CordovaService {
     permissions:any;
     list_permissions:any;
     constructor() {
-      if (/Android/i.test(navigator.userAgent)) {
+      var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+      console.log('touchDevice', touchDevice)
+      if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
         this.isMobile = true;
-      } else if (/iPhone/i.test(navigator.userAgent)) {
+      } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
         this.isMobile = true;
       }
     }

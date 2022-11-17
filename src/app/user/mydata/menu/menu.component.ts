@@ -450,11 +450,14 @@ showPanelIssuerOrganization(info){
       clearInterval(this.checkStatusOrg);
     }));
 
-    if( /Android/i.test(navigator.userAgent) ) {
+    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    console.log('touchDevice', touchDevice)
+
+    if(touchDevice>1 && /Android/i.test(navigator.userAgent) ) {
       console.log(`Android device! Using deep link (${info.data.url}).`);
       window.location.href = info.data.url; setTimeout(function () {
       window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
-    } else if (/iPhone/i.test(navigator.userAgent)) {
+    } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
         console.log(`iOS device! Using deep link (${info.data.url}).`);
         window.location.replace(info.data.url);
     } else {
@@ -1071,11 +1074,14 @@ showPanelIssuer(info){
       clearInterval(this.checkStatus);
     }));
 
-    if( /Android/i.test(navigator.userAgent) ) {
+    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    console.log('touchDevice', touchDevice)
+
+    if(touchDevice>1 && /Android/i.test(navigator.userAgent) ) {
       console.log(`Android device! Using deep link (${info.data.url}).`);
       window.location.href = info.data.url; setTimeout(function () {
       window.location.href = "https://play.google.com/store/apps/details?id=com.azure.authenticator"; }, 2000);
-    } else if (/iPhone/i.test(navigator.userAgent)) {
+    } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
         console.log(`iOS device! Using deep link (${info.data.url}).`);
         window.location.replace(info.data.url);
     } else {

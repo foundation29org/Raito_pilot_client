@@ -67,11 +67,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       );
 
       this.isAndroid = false;
-      if (/Android/i.test(navigator.userAgent)) {
+      var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+      console.log('touchDevice', touchDevice)
+      if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
         this.isAndroid = true;
       }
       
   }
+  
 
   ngOnInit() {
     if (this.innerWidth < 1200) {

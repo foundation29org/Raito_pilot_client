@@ -788,7 +788,10 @@
        "optsub": "Raito ha bisogno di sapere chi sei. Sarà il metodo che utilizzerai per accedere alle funzionalità di Raito. Ti offriamo diversi modi per farlo, puoi bilanciare tra comfort e privacy.",
        "opt1": "<strong>Fornitore esterno.</strong> Ti diamo la possibilità di accedere con il tuo account da un'altra applicazione. Sono applicazioni commerciali e quindi queste aziende potrebbero sapere che sei un utente Raito. Non accedono alle tue informazioni personali. È una buona opzione se stai cercando la semplicità e vuoi sacrificare un po' della tua privacy.",
        "opt2": "<strong>Usando la tua email.</strong> Ti offriamo un servizio in cui non devi utilizzare una password. Semplice ed efficace. Ogni volta che accedi dovrai accedere alla tua email. È un modo efficace per mantenere la tua privacy.",
-       "opt3": "<strong>Usando un portafoglio.</strong> È il metodo più complesso ma ti dà più privacy. Usando questo metodo utilizzerai un portafoglio che ti consente di archiviare chiavi private."
+       "opt3": "<strong>Usando un portafoglio.</strong> È il metodo più complesso ma ti dà più privacy. Usando questo metodo utilizzerai un portafoglio che ti consente di archiviare chiavi private.",
+       "Metamask not detected": "Metamask non rilevata",
+       "Install Metamask": "Installa Metamask per utilizzare questa opzione.",
+       "infoMetamask": "Se vuoi accedere alle funzionalità di Laito utilizzando un portafoglio come Metamask, devi prima installarlo. In caso contrario, non preoccuparti, hai altre alternative."
     },
     "homeraito":{
        "t1":"Fai parte di un'organizzazione di pazienti?",

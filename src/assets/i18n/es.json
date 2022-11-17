@@ -788,7 +788,10 @@
     "optsub": "Raito necesita saber quién eres. Será el método que usarás para poder acceder a la funcionalidad de Raito. Te ofrecemos varias formas de hacerlo, puedes balancer entre comodidad y privacidad.",
     "opt1": "<strong>Proveedor externo.</strong> Te damos la posibilidad de iniciar sesión con tu cuenta de otra aplicación. Son aplicaciones comerciales y por tanto estas empresas pueden saber que eres usuario de Raito. Ellos no acceden a tu información personal. Es una buena opción si buscas simplicidad y quieres sacrificar un poco de tu privacidad.",
     "opt2": "<strong>Usando tu correo electrónico.</strong> Te ofrecemos un servicio en el que no tienes que usar contraseña. Simple y eficaz. Cada vez que inicies session tendrás que acceder a tu correo electronico. Es una forma eficaz de mantener tu privacidad.",
-    "opt3": "<strong>Usando un wallet.</strong> Es el método más complejo pero que te da mayor privacidad. Usando este método usarás un wallet que permite almacenar claves privadas."
+    "opt3": "<strong>Usando un wallet.</strong> Es el método más complejo pero que te da mayor privacidad. Usando este método usarás un wallet que permite almacenar claves privadas.",
+    "Metamask not detected": "No se ha detectado Metamask",
+    "Install Metamask": "Instala Metamask para usar esta opción.",
+    "infoMetamask": "Si desea acceder a la funcionalidad de Raito usando una billetera como Metamask, primero debe instalarla. Si no, no te preocupes, tienes otras alternativas."
   },
   "homeraito":{
     "t1": "¿Perteneces a una organización de pacientes?",

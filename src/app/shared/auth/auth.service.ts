@@ -21,9 +21,16 @@ var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546')
 import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { OpenloginAdapter }  from "@web3auth/openlogin-adapter";
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
+
 const metamaskAdapter = new MetamaskAdapter({
   clientId: clientId,
 });
+
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
 
 @Injectable()
 export class AuthService {
@@ -49,9 +56,11 @@ export class AuthService {
   uxMode:any = 'popup'
   constructor(private http: HttpClient, private router: Router) {
     this.isMobile = false;
-    if (/Android/i.test(navigator.userAgent)) {
+    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    console.log('touchDevice', touchDevice)
+    if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
       this.isMobile = true;
-    } else if (/iPhone/i.test(navigator.userAgent)) {
+    } else if (touchDevice>1 && /iPhone/i.test(navigator.userAgent)) {
       this.isMobile = true;
     }
   }
@@ -101,7 +110,18 @@ export class AuthService {
     });
    
     this.web3auth.configureAdapter(openloginAdapter);
-    this.web3auth.configureAdapter(metamaskAdapter);
+    if (window.ethereum) {
+      const { ethereum } = window;
+      if (ethereum.isMetaMask) {
+        this.web3auth.configureAdapter(metamaskAdapter);
+      }else{
+        console.error('Please install MetaMask!')
+      }
+      
+    }else{
+      console.error('Please install MetaMask!')
+    }
+    
     // subscribe to lifecycle events emitted by web3auth
     this.web3auth.on(ADAPTER_EVENTS.CONNECTED, (data: any) => {
       console.log("connected to wallet", data);
@@ -119,6 +139,12 @@ export class AuthService {
     this.web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
       console.log("error", error);
     });
+    this.web3auth.on(ADAPTER_EVENTS.NOT_READY, () => {
+      console.log("not ready");
+    });
+    this.web3auth.on(ADAPTER_EVENTS.READY, () => {
+      console.log("ready");
+    });
 
     return this.web3auth;
   }
@@ -134,6 +160,7 @@ export class AuthService {
   login = async () => {
     return new Promise(async function (resolve, reject) {
       if (!this.web3auth) {
+        console.log("web3auth not initialized yet");
         reject ("web3auth not initialized yet");
       }else{    
         const web3auth = this.web3auth;

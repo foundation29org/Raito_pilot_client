@@ -11,6 +11,14 @@
                             <button *ngIf="!sending" (click)="login()" class="btn btn-dark mt-1" title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
                             </button>
+                            <p *ngIf="!detectedMetamask && !sending && showMsgMetamask">
+                                {{'landraito.Metamask not detected' | translate }} <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'landraito.Metamask not detected' | translate }}"></em>
+                                <ng-template #popContentseizures>
+                                    <span [innerHTML]="'landraito.infoMetamask' | translate">
+                                       
+                                    </span>
+                                </ng-template>
+                            </p>
                             <div class="center-elements" *ngIf="sending">
                                 <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
                                     <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
@@ -50,10 +58,18 @@
                                 <p>{{'landraito.t2.3a' | translate }}</p>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-3 center-elements">
+                        <div class="col-md-12 mt-4 center-elements">
                             <button *ngIf="!sending" (click)="login()" class="btn btn-dark " title="I want to join">
                                 <span class="menu-title">{{'landraito.button' | translate }}</span>
                             </button>
+                            <p *ngIf="!detectedMetamask && !sending && showMsgMetamask">
+                                {{'landraito.Metamask not detected' | translate }} <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'landraito.Metamask not detected' | translate }}"></em>
+                                <ng-template #popContentseizures>
+                                    <span [innerHTML]="'landraito.infoMetamask' | translate">
+                                       
+                                    </span>
+                                </ng-template>
+                            </p>
                             <div class="center-elements" *ngIf="sending">
                                 <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
                                     <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
@@ -97,6 +113,14 @@
                                 <button *ngIf="!sending" (click)="login()" class="btn btn-dark mt-1 mb-1 d-block" title="I want to join">
                                     <span class="menu-title">{{'landraito.button' | translate }}</span>
                                 </button>
+                                <p *ngIf="!detectedMetamask && !sending && showMsgMetamask">
+                                    {{'landraito.Metamask not detected' | translate }} <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'landraito.Metamask not detected' | translate }}"></em>
+                                    <ng-template #popContentseizures>
+                                        <span [innerHTML]="'landraito.infoMetamask' | translate">
+                                           
+                                        </span>
+                                    </ng-template>
+                                </p>
                                 <div class="center-elements" *ngIf="sending">
                                     <div><p class="centerSpinner">{{'generics.Pending' | translate }}... <i class="fa fa-spinner fa-spin fa-2x fa-fw pink"></i></p>
                                         <p>{{'landraito.You have a pending action before continuing' | translate }}</p>
@@ -213,7 +237,8 @@
                   </div>
                   <div class="row">
                     <div class="col-sm-8">
-                        <p class="" [innerHTML]="'landraito.opt3' | translate"></p>
+                        <p class="" [ngClass]="(!detectedMetamask)?'mb-0':''" [innerHTML]="'landraito.opt3' | translate"></p>
+                        <p *ngIf="!detectedMetamask" class="danger">{{'landraito.Install Metamask' | translate }}</p>
                     </div>
                     <div class="col-md-4">
                         <img class="w-100 border mb-4" style="max-width: 300px !important;" src='assets/img/home/opts/opt3_{{langWeb3auth}}.webp' alt="option 3 login raito">
