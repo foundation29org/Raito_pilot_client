@@ -16,7 +16,8 @@ import RPC from "./web3RPC";
 import { getPublicCompressed } from "@toruslabs/eccrypto";
 import { sha512 } from "js-sha512";
 var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
+var web3 = new Web3(Web3.givenProvider || null);
+//var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
 
 import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { OpenloginAdapter }  from "@web3auth/openlogin-adapter";
