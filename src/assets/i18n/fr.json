@@ -917,7 +917,7 @@
     "mydata":{
        "title":"Mon conteneur de données",
        "desc":"Votre conteneur est votre propre espace personnel pour stocker vos données et les partager pour votre propre gestion et recherche de maladies. Ici, vous pouvez gérer votre conteneur.",
-       "q1":"Emplacement du conteneur",
+       "q1":"Emplacement",
        "a1":"Dans Raito, vous êtes le seul propriétaire de vos données. Vous pouvez créer une sauvegarde de vos données, et nous vous donnons deux possibilités pour la sauvegarder.",
        "a1.1.1": "Stockage centralisé",
        "a1.1.2": "La copie de vos données est stockée sur les serveurs de Fundación 29. Personne d'autre que nous n'aura accès à vos données.",

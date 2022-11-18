@@ -917,7 +917,7 @@
     "mydata":{
        "title":"Mein Datencontainer",
        "desc":"Ihr Container ist Ihr persönlicher Bereich, in dem Sie Ihre Daten speichern und für Ihr eigenes Krankheitsmanagement und Ihre Forschung freigeben können. Hier können Sie Ihren Container verwalten.",
-       "q1":"Containerstandort",
+       "q1":"Ort",
        "a1":"Bei Raito sind Sie der einzige Eigentümer Ihrer Daten. Sie können ein Backup Ihrer Daten erstellen, und wir geben Ihnen zwei Möglichkeiten, es zu speichern.",
        "a1.1.1": "Zentraler Speicher",
        "a1.1.2": "Die Kopie Ihrer Daten wird auf den Servern der Fundación 29 gespeichert, niemand außer uns hat Zugriff auf Ihre Daten.",
