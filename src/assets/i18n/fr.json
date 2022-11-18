@@ -790,7 +790,7 @@
        "opt2": "<strong>Utilisation de votre e-mail.</strong> Nous vous offrons un service dans lequel vous n'avez pas besoin d'utiliser un mot de passe. Simple et efficace. Chaque fois que vous vous connecterez, vous devrez accéder à votre messagerie. C'est un moyen efficace de préserver votre vie privée.",
        "opt3": "<strong>Utilisation d'un portefeuille.</strong> C'est la méthode la plus complexe mais elle vous donne plus d'intimité. En utilisant cette méthode, vous utiliserez un portefeuille qui vous permet de stocker des clés privées.",
        "Metamask not detected": "Metamask non détecté",
-       "Install Metamask": "Installez Metamask pour utiliser cette option.",
+       "Install Metamask": "Installez Metamask pour utiliser cette option",
        "infoMetamask": "Si vous souhaitez accéder aux fonctionnalités de Raito en utilisant un portefeuille comme Metamask, vous devez d'abord l'installer. Sinon, ne vous inquiétez pas, vous avez d'autres alternatives."
     },
     "homeraito":{
@@ -967,9 +967,9 @@
        "sharecontent2":"Vous pouvez partager vos données avec des chercheurs à des fins d'agrégation et d'analyse des données.",
        "share3title": "Con il tuo medico",
        "sharecontent3":"Un lien privé sera généré que vous pourrez partager avec les personnes auxquelles vous souhaitez accéder.",
-       "fhirtitle": "Télécharger le fichier FHIR",
-       "importfhir": "Importer le fichier FHIR",
-       "numberimported": "{{value}} événements ont été importés",
+       "fhirtitle": "Exporter",
+       "importfhir": "Importer",
+       "numberimported": "{{value}} ressources ont été importés",
        "fhirdesc": "Avoir vos données dans FHIR signifie que vous pouvez les apporter à de nombreux hôpitaux à travers le monde et ils pourront les lire et les incorporer dans votre dossier médical.",
        "incorrect account":"Vous avez sélectionné un compte incorrect.",
        "we will close your session":"Pour votre sécurité, nous fermerons votre session.",

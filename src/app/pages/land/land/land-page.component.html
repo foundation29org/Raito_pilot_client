@@ -17,6 +17,7 @@
                                     <span [innerHTML]="'landraito.infoMetamask' | translate">
                                        
                                     </span>
+                                    <p><a href="https://metamask.io/" target="_blank" title="web metamask" class="">https://metamask.io</a></p>
                                 </ng-template>
                             </p>
                             <div class="center-elements" *ngIf="sending">
@@ -68,6 +69,7 @@
                                     <span [innerHTML]="'landraito.infoMetamask' | translate">
                                        
                                     </span>
+                                    <p><a href="https://metamask.io/" target="_blank" title="web metamask" class="">https://metamask.io</a></p>
                                 </ng-template>
                             </p>
                             <div class="center-elements" *ngIf="sending">
@@ -119,6 +121,7 @@
                                         <span [innerHTML]="'landraito.infoMetamask' | translate">
                                            
                                         </span>
+                                        <p><a href="https://metamask.io/" target="_blank" title="web metamask" class="">https://metamask.io</a></p>
                                     </ng-template>
                                 </p>
                                 <div class="center-elements" *ngIf="sending">
@@ -238,7 +241,7 @@
                   <div class="row">
                     <div class="col-sm-8">
                         <p class="" [ngClass]="(!detectedMetamask)?'mb-0':''" [innerHTML]="'landraito.opt3' | translate"></p>
-                        <p *ngIf="!detectedMetamask" class="danger">{{'landraito.Install Metamask' | translate }}</p>
+                        <p *ngIf="!detectedMetamask" class="">{{'landraito.Install Metamask' | translate }}: <a href="https://metamask.io/" target="_blank" title="web metamask" class="">https://metamask.io</a> </p>
                     </div>
                     <div class="col-md-4">
                         <img class="w-100 border mb-4" style="max-width: 300px !important;" src='assets/img/home/opts/opt3_{{langWeb3auth}}.webp' alt="option 3 login raito">
