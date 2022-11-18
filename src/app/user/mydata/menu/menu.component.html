@@ -143,7 +143,7 @@
                       </ngb-panel>
                         <ngb-panel id="static-4">
                             <ng-template ngbPanelTitle>
-                                <h5 class="mb-0"><i class="fas fa-download mr-2 float-left"></i> <span> {{'generics.Download' | translate }}</span> <span class="float-right">
+                                <h5 class="mb-0"><i class="fas fa-download mr-2 float-left"></i> <span> {{'mydata.fhirtitle' | translate }}</span> <span class="float-right">
                                         <span
                                             [ngClass]="{'ft-chevron-up': isOpen(4), 'ft-chevron-down': !isOpen(4)}"></span>
                                     </span></h5>
@@ -154,7 +154,7 @@
                                         <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
                                         <span class="">
                                             <button [disabled]="loading" class="btn btn-dark btn-100" type="button"
-                                            (click)="exportPDF(pdfPanel)">{{'generics.ExportData' | translate }} PDF</button>
+                                            (click)="exportPDF(pdfPanel)">{{'mydata.fhirtitle' | translate }} PDF</button>
                                         </span>
                                         <div class="d-none"><span id="content"></span></div>
                                         <div *ngIf="loading" class="center-elements">
@@ -168,15 +168,34 @@
                                             <div class="col-md-12 col-lg-6 mb-2">
                                                 <button class="btn btn-dark btn-100" type="button" [disabled]="loadingFhir" (click)="extractFhir()">
                                                     <span *ngIf="!loadingFhir" class="">
-                                                        {{'mydata.fhirtitle' | translate }}
+                                                        {{'mydata.fhirtitle' | translate }} FHIR
                                                     </span>
                                                     <span *ngIf="loadingFhir" class="">
                                                         {{'generics.Please wait' | translate }} <i class="fa fa-spinner fa-spin fa-fw pink"></i>
                                                     </span>
                                                 </button>
                                                 <div class="d-none"><span id="contentfhir"></span></div>
-                                                
                                             </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    
+                                </div>
+  
+                            </ng-template>
+                        </ngb-panel>
+                        <ngb-panel id="static-5">
+                            <ng-template ngbPanelTitle>
+                                <h5 class="mb-0"><i class="fas fa-upload mr-2 float-left"></i> <span> {{'mydata.importfhir' | translate }}</span> <span class="float-right">
+                                        <span
+                                            [ngClass]="{'ft-chevron-up': isOpen(4), 'ft-chevron-down': !isOpen(4)}"></span>
+                                    </span></h5>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                                <div class="row mt-3 mb-3">
+                                    <div class="col-md-12 col-lg-6" [ngClass]="{'mt-2': innerWidth<992}">
+                                        <div class="row">
                                             <div class="col-md-12 col-lg-6">
                                                 <label class="btn btn-dark btn-100">
                                                     <input *ngIf="!isMobile" [disabled]="importing" id="file" type="file" style="display:none;" accept=".json"
@@ -184,7 +203,7 @@
                                                     <input *ngIf="isMobile" [disabled]="importing" id="file" type="file" style="display:none;"
                                                     (change)="onImport($event)" />
                                                     <span *ngIf="!importing" class="">
-                                                        {{'mydata.importfhir' | translate }}
+                                                        {{'mydata.importfhir' | translate }} FHIR
                                                     </span>
                                                     <span *ngIf="importing" class="">
                                                         <i class="fa fa-spinner fa-spin fa-fw pink"></i>
@@ -202,7 +221,7 @@
   
                             </ng-template>
                         </ngb-panel>
-                        <ngb-panel id="static-5">
+                        <ngb-panel id="static-6">
                             <ng-template ngbPanelTitle>
                                 <h5 class="mb-0"><i class="fa fa-trash mr-2 float-left"></i> <span> {{'mydata.I want to delete my data' | translate }}</span> <span class="float-right">
                                         <span
