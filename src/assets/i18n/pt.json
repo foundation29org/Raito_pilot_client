@@ -790,7 +790,7 @@
        "opt2": "<strong>Usando seu e-mail.</strong> Oferecemos a você um serviço no qual você não precisa usar uma senha. Simples e eficaz. Toda vez que você fizer login, você terá que acessar seu e-mail. É uma maneira eficaz de manter sua privacidade.",
        "opt3": "<strong>Usando uma carteira.</strong> É o método mais complexo, mas oferece mais privacidade. Usando este método, você usará uma carteira que permite armazenar chaves privadas.",
        "Metamask not detected": "Metamask não detectada",
-       "Install Metamask": "Instale o Metamask para usar esta opção.",
+       "Install Metamask": "Instale o Metamask para usar esta opção",
        "infoMetamask": "Se você deseja acessar a funcionalidade do Laito usando uma carteira como a Metamask, você deve primeiro instalá-la. Se não, não se preocupe, você tem outras alternativas."
     },
     "homeraito":{
@@ -967,9 +967,9 @@
        "sharecontent2":"Pode partilhar os seus dados com investigadores para fins de agregação e análise de dados.",
        "share3title": "Com seu médico",
        "sharecontent3":"Será gerado um link privado que você poderá compartilhar com as pessoas que deseja acessar.",
-       "fhirtitle": "Baixe o arquivo FHIR",
-       "importfhir": "Importar arquivo FHIR",
-       "numberimported": "{{value}} eventos foram importados.",
+       "fhirtitle": "Exportar",
+       "importfhir": "Importar",
+       "numberimported": "{{value}} recursos foram importados.",
        "fhirdesc": "Ter seus dados no FHIR significa que você pode levá-los a muitos hospitais ao redor do mundo e eles poderão lê-los e incorporá-los ao seu prontuário médico.",
        "incorrect account":"Você selecionou uma conta incorreta.",
        "we will close your session":"Para sua segurança, encerraremos sua sessão.",

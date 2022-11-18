@@ -750,8 +750,9 @@ loadSymptoms() {
   
 }
 
-confirmDelete(index, index2) {
-  this.authService.logout2();
+async confirmDelete(index, index2) {
+  await this.authService.logout2();
+  await this.delay(500);
   Swal.fire({
     title: this.translate.instant("generics.This action will not be reversed"),
     html: this.translate.instant("generics.confirm delete data"),
@@ -788,6 +789,10 @@ confirmDelete(index, index2) {
     }
   });
 
+}
+
+delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async loginAgain(){

@@ -790,8 +790,8 @@
        "opt2": "<strong>Usando la tua email.</strong> Ti offriamo un servizio in cui non devi utilizzare una password. Semplice ed efficace. Ogni volta che accedi dovrai accedere alla tua email. È un modo efficace per mantenere la tua privacy.",
        "opt3": "<strong>Usando un portafoglio.</strong> È il metodo più complesso ma ti dà più privacy. Usando questo metodo utilizzerai un portafoglio che ti consente di archiviare chiavi private.",
        "Metamask not detected": "Metamask non rilevata",
-       "Install Metamask": "Installa Metamask per utilizzare questa opzione.",
-       "infoMetamask": "Se vuoi accedere alle funzionalità di Laito utilizzando un portafoglio come Metamask, devi prima installarlo. In caso contrario, non preoccuparti, hai altre alternative."
+       "Install Metamask": "Installa Metamask per utilizzare questa opzione",
+       "infoMetamask": "Se vuoi accedere alle funzionalità di Raito utilizzando un wallet come Metamask, devi prima installarlo. In caso contrario, non preoccuparti, hai altre alternative."
     },
     "homeraito":{
        "t1":"Fai parte di un'organizzazione di pazienti?",
@@ -967,9 +967,9 @@
        "sharecontent2":"È possibile condividere i propri dati con i ricercatori ai fini dell'aggregazione e dell'analisi dei dati.",
        "share3title": "Con il tuo medico",
        "sharecontent3":"Verrà generato un link privato che potrai condividere con le persone a cui vuoi accedervi.",
-       "fhirtitle": "Scarica il file FHIR",
-       "importfhir": "Importa file FHIR",
-       "numberimported": "Sono stati importati {{value}} eventi.",
+       "fhirtitle": "Esportare",
+       "importfhir": "Importare",
+       "numberimported": "Sono stati importati {{value}} risorse.",
        "fhirdesc": "Avere i tuoi dati in FHIR significa che puoi portarli in molti ospedali in tutto il mondo e saranno in grado di leggerli e incorporarli nella tua cartella clinica.",
        "incorrect account":"Hai selezionato un account errato.",
        "we will close your session":"Per la tua sicurezza, chiuderemo la tua sessione.",
