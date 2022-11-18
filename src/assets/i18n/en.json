@@ -917,7 +917,7 @@
   "mydata":{
     "title": "My data container",
     "desc": "Your container is your own personal space to store your data and share it for your own disease management and research. Here you can manage your container.",
-    "q1": "Container location",
+    "q1": "Location",
     "a1": "In Raito you are the only owner of your data. You can create a backup of your data, and we give you two possibilities to save it.",
     "a1.1.1": "Centralized storage",
     "a1.1.2": "The copy of your data is stored on Fundación 29's servers. Nobody but us will have access to your data.",

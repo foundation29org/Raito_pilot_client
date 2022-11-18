@@ -917,7 +917,7 @@
     "mydata":{
        "title":"Meu contêiner de dados",
        "desc":"Seu contêiner é seu próprio espaço pessoal para armazenar seus dados e compartilhá-los para seu próprio gerenciamento e pesquisa de doenças. Aqui você pode gerenciar seu contêiner.",
-       "q1":"Localização do contêiner",
+       "q1":"Localização",
        "a1":"Em Raito, é o único proprietário dos seus dados. Você pode criar um backup de seus dados e oferecemos duas possibilidades para salvá-lo.",
        "a1.1.1": "Armazenamento centralizado",
        "a1.1.2": "A cópia dos seus dados é armazenada nos servidores da Fundación 29. Ninguém além de nós terá acesso aos seus dados.",
