@@ -28,7 +28,6 @@
       "process": ["./node_modules/process"],
     }
   },
-  "exclude": ["src/assets/raito_resources/*", "build/**/*"],
   "angularCompilerOptions": {
     "preserveWhitespaces": false
   }
