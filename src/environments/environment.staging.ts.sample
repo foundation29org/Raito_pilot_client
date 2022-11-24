@@ -1,6 +1,6 @@
 
     export const environment = {
-        production: true,
+        production: false,
         blobAccessToken:{sasToken: null,blobAccountUrl: 'https://blobraito.blob.core.windows.net/'},
         api: undefined,  //Server URL: 'http://<direction>:<port>'
         ncrService:undefined, // NCR service URL

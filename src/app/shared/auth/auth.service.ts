@@ -55,6 +55,7 @@ export class AuthService {
   provider: SafeEventEmitterProvider | null = null;
   isModalLoaded = false;
   uxMode:any = 'popup'
+  network:any = 'testnet'
   constructor(private http: HttpClient, private router: Router) {
     this.isMobile = false;
     var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
@@ -95,10 +96,16 @@ export class AuthService {
       },
       authMode: 'WALLET',
     });
+    
+    if(environment.production){
+      this.network = "mainnet"
+    }else{
+      this.network = "testnet";
+    }
     const openloginAdapter = new OpenloginAdapter({
       adapterSettings: {
         clientId, //Optional - Provide only if you haven't provided it in the Web3Auth Instantiation Code
-        network: "testnet",
+        network: this.network,//mainnet or testnet
         //redirectUrl: "com.web3auth.app://auth",
         uxMode: this.uxMode,//redirect
         whiteLabel: {
