@@ -21,7 +21,7 @@
                                         <span>{{questionnaire.info.title}} {{questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length)}}/{{questionnaire.info.items.length}}</span> <span *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)"><i class="ml-1 success fa fa-check"></i></span>
                                     </div>
                                     <div class="col-md-3">
-                                        <a class="btn btn-white btn-sm" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
+                                        <a class="btn btn-white btn-sm d-block" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
                                             <span class="" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))==(questionnaire.info.items.length)">
                                                 {{'prom.See answers' | translate }}
                                             </span>

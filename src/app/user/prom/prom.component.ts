@@ -172,10 +172,16 @@ export class PromComponent {
       .subscribe(async (res: any) => {
         if(res.questionnaires!='No data'){
           this.questionnaires = res.questionnaires;
+          var promises3 = [];
           for(var i=0;i<this.questionnaires.length;i++){
-            await this.loadQuestionnaire(this.questionnaires[i].id, i)
+            promises3.push(this.loadQuestionnaire(this.questionnaires[i].id, i))
           }
-          this.getProms();
+          await Promise.all(promises3)
+          .then(async function (data){
+            console.log(data);
+            this.getProms();
+          }.bind(this))
+          
         }else{
           this.loadedProms = true;
         }
@@ -185,18 +191,24 @@ export class PromComponent {
       }));
   }
 
-  loadQuestionnaire(questionnaireId, index){
-    this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
+  async loadQuestionnaire(questionnaireId, index){
+    return new Promise(async function (resolve, reject) {
+      this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
       .subscribe((res: any) => {
         this.questionnaires[index].info=res;
         console.log('otro cuestionario cargado');
+        resolve({questionnaireId:questionnaireId, msg:'loaded'}) 
       }, (err) => {
         console.log(err);
+        resolve({questionnaireId:questionnaireId, msg:'not loaded'}) 
       }));
+    }.bind(this));
+    
     
   }
 
   getProms(){
+
     console.log('obtener proms');
     this.proms = [];
     this.loadedProms = false;
@@ -210,7 +222,7 @@ export class PromComponent {
           for(var i=0;i<this.questionnaires.length;i++){
             this.questionnaires[i].answers = [];
             for(var j=0;j<res.length;j++){
-              if(this.questionnaires[i].id = res[j].idQuestionnaire){
+              if(this.questionnaires[i].id == res[j].idQuestionnaire){
                 this.questionnaires[i].answers.push(res[j]);
               }
             }
