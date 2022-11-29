@@ -732,6 +732,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getFeels() {
+    this.loadedFeels = false;
     this.feels = [];
     var info = {rangeDate: this.rangeDate}
     this.subscription.add(this.http.post(environment.api + '/api/feels/dates/' + this.authService.getCurrentPatient().sub, info)
@@ -886,6 +887,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getSeizures() {
+    this.loadedEvents = false;
     this.events = [];
     this.lineChartSeizures = [];
     this.drugsBefore=false;
@@ -1102,6 +1104,7 @@ getWeek(newdate, dowOffset?) {
   }
 
   getDrugs() {
+    this.loadedDrugs = false;
     this.lineChartDrugs = [];
     this.lineChartDrugsCopy = [];
     this.maxValue = 0;
