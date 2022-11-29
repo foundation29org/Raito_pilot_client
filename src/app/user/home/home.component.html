@@ -383,6 +383,30 @@
                     <i class="fa fa-spinner fa-spin fa-fw"></i>
                 </div>
                 <div class="row">
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedEvents">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">
+                                        <span>{{'menu.Seizures' | translate }}</span>
+                                        <em class="ft-info font-small-2 ml-1" style="cursor: pointer;" placement="down"
+                                            #p1="ngbPopover" [ngbPopover]="popContentseizures"
+                                            popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                        <ng-template #popContentseizures>
+                                            <span>
+                                                {{'charts.infoSeizures' | translate }}
+                                            </span>
+                                            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;"
+                                                (click)="p1.close()">{{'generics.Close' |translate }}</button>
+                                        </ng-template>
+                                    </h4>
+                                    <div class="center-elements">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-12 col-lg-6" *ngIf="events.length > 0 && loadedEvents">
                         <div class="card mb-2 mt-2">
                             <div class="mb-4">
@@ -478,6 +502,30 @@
                                             <span class="menu-title">+</span>
                                         </a>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedFeels">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">
+                                        <span>{{'charts.Quality of life' |translate }}</span>
+                                        <em class="ft-info font-small-2 ml-1" style="cursor: pointer;" placement="down"
+                                            #p1="ngbPopover" [ngbPopover]="popContentfeel"
+                                            popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                        <ng-template #popContentfeel>
+                                            <span>
+                                                {{'charts.infoFeel' | translate }}
+                                            </span>
+                                            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;"
+                                                (click)="p1.close()">{{'generics.Close' |translate }}</button>
+                                        </ng-template>
+                                    </h4>
+                                    <div class="center-elements">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
                                     </div>
                                 </div>
                             </div>
@@ -588,6 +636,30 @@
                                             <span class="menu-title">+</span>
                                         </a>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedDrugs">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">
+                                        <span>{{'clinicalinfo.Medication' |translate }}</span>
+                                        <em class="ft-info font-small-2 ml-1" style="cursor: pointer;" placement="down"
+                                            #p1="ngbPopover" [ngbPopover]="popContentdrugs"
+                                            popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                        <ng-template #popContentdrugs>
+                                            <span>
+                                                {{'charts.infoDrugs' | translate }}
+                                            </span>
+                                            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;"
+                                                (click)="p1.close()">{{'generics.Close' |translate }}</button>
+                                        </ng-template>
+                                    </h4>
+                                    <div class="center-elements">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
                                     </div>
                                 </div>
                             </div>
