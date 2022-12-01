@@ -424,6 +424,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authService.getRole() == 'User') {
       this.subscription.add(this.patientService.getPatientId()
         .subscribe((res: any) => {
+          console.log(res);
           if (res != null) {
             this.loadQuestionnaires();
           }
@@ -494,9 +495,12 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.questionnaires[i].answers.push(res[j]);
             }
           }
-          if(this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length)!=(this.questionnaires[i].info.items.length)){
-            this.totalTaks++;
+          if(this.questionnaires[i].info.items){
+            if(this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length)!=(this.questionnaires[i].info.items.length)){
+              this.totalTaks++;
+            }
           }
+          
         }
         this.tasksLoaded = true;
         this.calculateGridSize();
