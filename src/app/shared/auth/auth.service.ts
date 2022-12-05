@@ -23,6 +23,7 @@ import { LOGIN_MODAL_EVENTS } from "@web3auth/ui";
 import { OpenloginAdapter }  from "@web3auth/openlogin-adapter";
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 
+
 const metamaskAdapter = new MetamaskAdapter({
   clientId: clientId,
 });
@@ -72,6 +73,7 @@ export class AuthService {
   }
 
   initWeb3Auth(){
+    this.web3auth = null;
     this.langWeb3auth = sessionStorage.getItem('lang')
     if(sessionStorage.getItem('lang')=='fr' || sessionStorage.getItem('lang')=='it' || sessionStorage.getItem('lang')=='pt'){
       this.langWeb3auth = 'en';
@@ -144,9 +146,6 @@ export class AuthService {
     this.web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
       console.log("error", error);
     });
-    this.web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
-      console.log("error", error);
-    });
     this.web3auth.on(ADAPTER_EVENTS.NOT_READY, () => {
       console.log("not ready");
     });
@@ -172,8 +171,20 @@ export class AuthService {
         reject ("web3auth not initialized yet");
       }else{    
         const web3auth = this.web3auth;
-        await web3auth.initModal();
-        this.provider = await web3auth.connect();
+        try {
+          await web3auth.initModal();
+        } catch (error) {
+          console.log("error initializing modal", error);
+          reject (error)
+        }
+        
+        try {
+          this.provider = await web3auth.connect();
+        } catch (error) {
+          console.log("error", error);
+          reject (error)
+        }
+        
         var openlogin_store = JSON.parse(localStorage.getItem('openlogin_store'));
         var aggregateVerifier = openlogin_store.aggregateVerifier;
         var openlogin_store2 = localStorage.getItem('Web3Auth-cachedAdapter');
@@ -183,6 +194,7 @@ export class AuthService {
             var data = await this.verif(web3auth, this.provider);
             resolve (data);
           } catch (error) {
+            console.log(error)
             reject (error)
           }
           
@@ -191,6 +203,7 @@ export class AuthService {
             var data = await this.verifWallet(web3auth, this.provider);
             resolve (data);
           } catch (error) {
+            console.log(error)
             reject (error)
           }
           
@@ -244,7 +257,6 @@ export class AuthService {
           reject(responseData)
         }
        }, (err) => {
-         console.log(err);
          reject(err)
        });
     }.bind(this));
@@ -282,7 +294,6 @@ export class AuthService {
           reject(responseData)
         }
        }, (err) => {
-         console.log(err);
          reject(err)
        });
     }.bind(this));
@@ -292,7 +303,8 @@ export class AuthService {
     return new Promise(async function (resolve, reject) {
       const address = (await web3.eth.getAccounts())[0];
       /* Assuming user is logged in, get the userInfo containtaing idToken */
-      const token = await web3auth.authenticateUser();
+      try {
+        const token = await web3auth.authenticateUser();
       // Verify idToken at your backend server
       const response = await fetch(environment.api + "/api/verifyweb3authwallet", {
         method: "POST",
@@ -317,9 +329,12 @@ export class AuthService {
           reject(responseData)
         }
        }, (err) => {
-         console.log(err);
          reject(err)
        });
+      } catch (error) {
+        reject(error)
+      }
+      
     }.bind(this));
   }
 

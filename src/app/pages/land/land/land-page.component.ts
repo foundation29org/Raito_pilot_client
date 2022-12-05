@@ -158,6 +158,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
       this.testAccount(res)
     } catch (error) {
       console.log(error);
+      this.sending = false;
+      if(error.name=='Verification Failed'){
+
+      }else{
+        this.authService.logout();
+        if(error.message=='User rejected the request.'){
+          window.location.reload();
+        }
+      }
+      
     }
     
   };
