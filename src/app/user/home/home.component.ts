@@ -178,6 +178,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   showNotiDrugs: boolean = false;
 
   infoVerified: any = {};
+  checking: boolean = false;
   loadVerifiedInfo: boolean = false;
   userInfo: any = {};
   public chartNames: string[];
@@ -1660,12 +1661,14 @@ getWeek(newdate, dowOffset?) {
 }
 
 getUserInfo(checkstatus) {
+  this.checking = true;
   this.subscription.add(this.http.get(environment.api + '/api/users/name/' + this.authService.getIdUser())
     .subscribe((res: any) => {
       this.userInfo = res;
       this.callIsVerified(checkstatus);
     }, (err) => {
       console.log(err);
+      this.checking = false;
     }));
 
 }
@@ -1681,8 +1684,10 @@ callIsVerified(checkstatus) {
       }else{
         //this.getPatients();
       }
+      this.checking = false;
     }, (err) => {
       console.log(err);
+      this.checking = false;
     }));
 
 }
@@ -1834,6 +1839,8 @@ verifyStatus(){
            })();
         }else if(this.infoVerified.status=='expired' || this.infoVerified.status=='abandoned'){
           //this.infoVerified.status=='Not started';
+          this.createSesion();
+        }else if(this.infoVerified.status=='started'){
           this.createSesion();
         }
         this.saveDataVerfified();
