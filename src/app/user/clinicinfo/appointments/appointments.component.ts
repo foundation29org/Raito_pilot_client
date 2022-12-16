@@ -178,6 +178,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
               }
               this.refresh.next();
               this.lastEvent = JSON.parse(JSON.stringify(res[0]));
+              this.lastEvent.color = colors.red;
               this.lastEvent.meta._id =null;
             }else{
               this.events = [];
