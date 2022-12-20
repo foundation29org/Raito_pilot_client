@@ -859,8 +859,7 @@ resetPermisions(){
     data:{patientInfo:false, medicalInfo:false,devicesInfo:false, genomicsInfo:false},
     notes:'',
     date: stringDateNow,
-    token: this.getUniqueFileName(),
-    operations:[]
+    token: this.getUniqueFileName()
   };
 }
 
