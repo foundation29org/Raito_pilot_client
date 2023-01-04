@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 import { LangService } from 'app/shared/services/lang.service';
 import { EventsService } from 'app/shared/services/events.service';
+import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Injectable, Injector } from '@angular/core';
 
 declare let gtag: any;
@@ -43,7 +44,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   _startTime: any;
   private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private route: ActivatedRoute, private inj: Injector, private eventsService: EventsService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private route: ActivatedRoute, private inj: Injector, private eventsService: EventsService, public trackEventsService: TrackEventsService) {
 
     this.loadLanguages();
 
@@ -169,8 +170,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   }
 
   lauchEvent(category) {
-    var secs = this.getElapsedSeconds();
-    gtag('event', sessionStorage.getItem('uuid'), { "event_category": category, "event_label": secs });
+    this.trackEventsService.lauchEvent(category);
   }
 
   getElapsedSeconds() {

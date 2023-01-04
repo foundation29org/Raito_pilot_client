@@ -124,6 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   step: string = '0';
   private subscription: Subscription = new Subscription();
   rangeDate: string = 'month';
+  groupBy: string = 'Months';
   normalized: boolean = true;
   normalized2: boolean = true;
   maxValue: number = 0;
@@ -218,6 +219,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   protected innerWidth: any;
   gridSize: string = 'md';
   clientHeight: any = 0;
+
+  meses: any = 
+  [
+    {id: 1, es: 'Enero', en: 'January'},
+    {id: 2, es: 'Febrero', en: 'February'},
+    {id: 3, es: 'Marzo', en: 'March'},
+    {id: 4, es: 'Abril', en: 'April'},
+    {id: 5, es: 'Mayo', en: 'May'},
+    {id: 6, es: 'Junio', en: 'June'},
+    {id: 7, es: 'Julio', en: 'July'},
+    {id: 8, es: 'Agosto', en: 'August'},
+    {id: 9, es: 'Septiembre', en: 'September'},
+    {id: 10, es: 'Octubre', en: 'October'},
+    {id: 11, es: 'Noviembre', en: 'November'},
+    {id: 12, es: 'Diciembre', en: 'December'}
+  ];
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
     this.adapter.setLocale(this.authService.getLang());
@@ -959,7 +976,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     for (var i=0; i < seizures.length; i++)
     {
       var varweek = new Date(seizures[i].stringDate)
-      seizures[i].name = this.getWeek(varweek, 1);
+      if(this.groupBy=='Weeks'){
+        seizures[i].name = this.getWeek(varweek, 1);
+      }else{
+        seizures[i].name = this.getMonthLetter(varweek, 1);
+      }
+      
     }
     var copyseizures = JSON.parse(JSON.stringify(seizures));
     for (var i=0; i < copyseizures.length; i++){
@@ -983,8 +1005,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     return respseizures;
 }
 
+getMonthLetter(newdate, dowOffset?){
+  if (this.lang != 'es') {
+    return this.meses[newdate.getMonth()].en
+} else {
+    return this.meses[newdate.getMonth()].es
+}
+}
+
 getWeek(newdate, dowOffset?) {
-  /*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
   
       dowOffset = typeof(dowOffset) == 'number' ? dowOffset : 0; //default dowOffset to zero
       var newYear = new Date(newdate.getFullYear(),0,1);
@@ -1012,8 +1041,11 @@ getWeek(newdate, dowOffset?) {
       var pastDate=new Date(formatDate);
       pastDate.setDate(pastDate.getDate() +7);
       var res = this.tickFormattingDay(formatDate)+ ' - ' +this.tickFormattingDay(pastDate);
+      console.log(newdate)
+        console.log(res)
       return res;
   };
+
 
   getDateOfISOWeek(w, y) {
     var simple = new Date(y, 0, 1 + (w - 1) * 7);
@@ -1483,6 +1515,11 @@ getWeek(newdate, dowOffset?) {
     this.loadData();
   }
 
+  changeGroupBy(groupBy) {
+    this.groupBy = groupBy;
+    this.loadDataRangeDate(this.rangeDate);
+  }
+
   setPreferenceRangeDate(rangeDate){
     var data = {rangeDate: rangeDate};
     this.subscription.add( this.http.put(environment.api+'/api/users/changerangedate/'+this.authService.getIdUser(), data)
@@ -1639,7 +1676,12 @@ getWeek(newdate, dowOffset?) {
       {
         for (var j = 0; j < meds[i].series.length; j++) {
           var varweek = new Date(meds[i].series[j].name)
-          meds[i].series[j].name = this.getWeek(varweek, 1);
+          if(this.groupBy=='Weeks'){
+            meds[i].series[j].name = this.getWeek(varweek, 1);
+          }else{
+            meds[i].series[j].name = this.getMonthLetter(varweek, 1);
+          }
+          
         }
         respDrugs.push({name: meds[i].name, series:[]})
       }

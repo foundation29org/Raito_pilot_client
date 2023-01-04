@@ -16,8 +16,6 @@ import { Observable, of, OperatorFunction } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge } from 'rxjs/operators'
-
-import { v4 as uuidv4 } from 'uuid';
 import { DateAdapter } from '@angular/material/core';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
@@ -67,7 +65,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   searchDiseaseField: string = '';
   callListOfDiseases: boolean = false;
   sendTerms: boolean = false;
-  myuuid: string = uuidv4();
   listOfFilteredDiseases: any = [];
   loadingOneDisease: boolean = false;
   selectedDiseaseIndex: number = -1;
@@ -408,7 +405,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
       var tempModelTimp = this.searchDiseaseField.trim();
       this.sendTerms = true;
       var params: any = {}
-      params.uuid = this.myuuid;
+      params.uuid = sessionStorage.getItem('uuid');
       params.Term = tempModelTimp;
       params.Lang = sessionStorage.getItem('lang');
       params.Found = "No";

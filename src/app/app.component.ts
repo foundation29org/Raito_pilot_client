@@ -15,6 +15,7 @@ import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { v4 as uuidv4 } from 'uuid';
 
 declare var device;
 declare global {
@@ -39,9 +40,13 @@ export class AppComponent implements OnInit, OnDestroy {
     hasLocalLang: boolean = false;
     tituloEvent: string = '';
     isMobile: boolean = false;
+    myuuid: string = uuidv4();
 
     constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta, private authService: AuthService) {
-     
+      if(sessionStorage.getItem('uuid')==null){
+        this.myuuid = uuidv4();
+        sessionStorage.setItem('uuid', this.myuuid);
+      }
         if (sessionStorage.getItem('lang')) {
             this.translate.use(sessionStorage.getItem('lang'));
             this.hasLocalLang = true;

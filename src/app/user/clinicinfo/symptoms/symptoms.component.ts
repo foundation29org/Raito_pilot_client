@@ -23,12 +23,12 @@ import { EventsService } from 'app/shared/services/events.service';
 import { DateService } from 'app/shared/services/date.service';
 
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
+import { TrackEventsService } from 'app/shared/services/track-events.service';
 
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
 export function getCulture() {
@@ -70,7 +70,6 @@ export class SymptomsComponent implements OnInit {
   modelTemp: any;
   formatter1 = (x: { name: string }) => x.name;
   optionSymptomAdded: string = "";
-  myuuid: string = uuidv4();
   eventList: any = [];
   _startTime: any;
   showErrorMsg: boolean = false;
@@ -91,7 +90,7 @@ export class SymptomsComponent implements OnInit {
   private msgDataSavedFail: string;
   today = new Date();
 
-  constructor(private http: HttpClient, private authService: AuthService, public searchTermService: SearchTermService, private sortService: SortService, private searchService: SearchService, private modalService: NgbModal, public translate: TranslateService, private clipboard: Clipboard, private eventsService: EventsService, public jsPDFService: jsPDFService, private apiDx29ServerService: ApiDx29ServerService, private patientService: PatientService, private apif29BioService: Apif29BioService, private authGuard: AuthGuard, public toastr: ToastrService, private dateAdapter: DateAdapter<Date>, private dateService: DateService) {
+  constructor(private http: HttpClient, private authService: AuthService, public searchTermService: SearchTermService, private sortService: SortService, private searchService: SearchService, private modalService: NgbModal, public translate: TranslateService, private clipboard: Clipboard, private eventsService: EventsService, public jsPDFService: jsPDFService, private apiDx29ServerService: ApiDx29ServerService, private patientService: PatientService, private apif29BioService: Apif29BioService, private authGuard: AuthGuard, public toastr: ToastrService, private dateAdapter: DateAdapter<Date>, private dateService: DateService, public trackEventsService: TrackEventsService) {
     this._startTime = Date.now();
     this.lang = sessionStorage.getItem('lang');
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
@@ -208,12 +207,12 @@ export class SymptomsComponent implements OnInit {
       var savedSubEvent = this.searchService.search(this.eventList, 'name', subCategory);
       if (!savedSubEvent) {
         this.eventList.push({ name: subCategory });
-        gtag('event', this.myuuid, { "event_category": subCategory, "event_label": secs });
+        this.trackEventsService.lauchEvent(subCategory);
       }
     }
     if (!savedEvent) {
       this.eventList.push({ name: category });
-      gtag('event', this.myuuid, { "event_category": category, "event_label": secs });
+      this.trackEventsService.lauchEvent(category);
     }
   }
 
@@ -227,7 +226,7 @@ export class SymptomsComponent implements OnInit {
     if (this.showErrorMsg && this.modelTemp.length > 2) {
       this.sendSympTerms = true;
       var params: any = {}
-      params.uuid = this.myuuid;
+      params.uuid = sessionStorage.getItem('uuid');
       params.Term = this.modelTemp;
       params.Lang = sessionStorage.getItem('lang');
       var d = new Date(Date.now());

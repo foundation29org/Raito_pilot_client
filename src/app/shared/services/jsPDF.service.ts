@@ -90,7 +90,9 @@ export class jsPDFService {
         if(disease.id!=undefined){
             positionY += 10
             //doc.setFontSize(15);
+            positionY = this.checkIfNewPage(doc, positionY);
             this.newSectionDoc(doc,this.translate.instant("diagnosis.Previous Diagnosis"),'',null,positionY)
+            positionY = this.checkIfNewPage(doc, positionY);
             //doc.text(this.translate.instant("diagnosis.Previous Diagnosis"), 10, positionY += 5)
             positionY += 7
             //doc.setFontSize(10);
@@ -118,6 +120,7 @@ export class jsPDFService {
             //topRelatedConditions
             //Diseases
             if(topRelatedConditions.length>0){
+                positionY = this.checkIfNewPage(doc, positionY);
                 this.newSectionDoc(doc,this.translate.instant("diagnosis.Candidate diagnosis"),'',null,positionY += 10)
                 positionY = this.checkIfNewPage(doc, positionY);
                 this.writeHeaderText(doc, 16, positionY += 7, this.translate.instant("generics.Name"));
@@ -150,6 +153,7 @@ export class jsPDFService {
         }
         positionY = this.checkIfNewPage(doc, positionY);
         this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Graphic chronology"),'',null,positionY);
+        positionY = this.checkIfNewPage(doc, positionY);
         positionY = this.drawTimeLine(doc,dictionaryTimeline, listSymptomsNullInfo, positionY-= 10);
 
         positionY += 10;
@@ -372,7 +376,9 @@ export class jsPDFService {
     }
 
     private timelineTable(doc,positionY,dictionaryTimeline, listSymptomsNullInfo){
+        positionY = this.checkIfNewPage(doc, positionY);
         this.newSectionDoc(doc,this.translate.instant("land.diagnosed.timeline.Symptoms"),this.translate.instant("land.diagnosed.timeline.Appendix1Title"),null,positionY)
+        positionY = this.checkIfNewPage(doc, positionY);
         doc.setTextColor(117, 120, 125)
         doc.setFontSize(9);
         doc.text(this.translate.instant("land.diagnosed.timeline.Knowing the evolution1"), 16, positionY += 5);
@@ -661,7 +667,7 @@ export class jsPDFService {
     }
 
     private newSectionDoc(doc,sectionNumber,sectionTitle,sectionSubtitle,line){
-        line = this.checkIfNewPage(doc, line);
+        //line = this.checkIfNewPage(doc, line);
         var title = sectionTitle;
         if(sectionNumber!=null){
             title=sectionNumber+sectionTitle;
@@ -921,7 +927,9 @@ export class jsPDFService {
         /*doc.setFontSize(9);
         doc.setTextColor(249, 66, 58)
         doc.text(this.translate.instant("pdf.contentDemo"), 10, lineText += 5)*/
+        lineText = this.checkIfNewPage(doc, lineText);
         this.newSectionDoc(doc,this.translate.instant("menu.Seizures"),'',null,lineText += 10)
+        lineText = this.checkIfNewPage(doc, lineText);
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
         doc.text(this.translate.instant("pdf.grap1"), 10, lineText += 5)
@@ -944,7 +952,9 @@ export class jsPDFService {
         }
 
         //Quality of life
+        lineText = this.checkIfNewPage(doc, lineText);
         this.newSectionDoc(doc,this.translate.instant("charts.Quality of life"),'',null,lineText += 10)
+        lineText = this.checkIfNewPage(doc, lineText);
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
         doc.text(this.translate.instant("pdf.grap2"), 10, lineText += 5)
@@ -968,7 +978,9 @@ export class jsPDFService {
         }
 
         //Drugs
+        lineText = this.checkIfNewPage(doc, lineText);
         this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
+        lineText = this.checkIfNewPage(doc, lineText);
         doc.setFontSize(9);
         doc.setTextColor(117, 120, 125)
         if(images.img3.normalized){
@@ -1005,7 +1017,9 @@ export class jsPDFService {
         //Drugs vs seizures
        
         if(images.img4.show){
+            lineText = this.checkIfNewPage(doc, lineText);
             this.newSectionDoc(doc,this.translate.instant("charts.Drugs vs Seizures"),'',null,lineText += 10)
+            lineText = this.checkIfNewPage(doc, lineText);
             doc.setFontSize(9);
             doc.setTextColor(117, 120, 125)
             if(images.img4.normalized){
@@ -1034,7 +1048,9 @@ export class jsPDFService {
         
         //Symptoms
         const obj = infoSymptoms;
+        lineText = this.checkIfNewPage(doc, lineText);
         this.newSectionDoc(doc,this.translate.instant("diagnosis.Symptoms"),'',null,lineText += 10)
+        lineText = this.checkIfNewPage(doc, lineText);
         if(obj.length>0){
             doc.setFontSize(9);
             doc.setTextColor(117, 120, 125)
@@ -1059,6 +1075,7 @@ export class jsPDFService {
 
         //Diseases
         if(infoDrugs.length>0){
+            lineText = this.checkIfNewPage(doc, lineText);
             this.newSectionDoc(doc,this.translate.instant("clinicalinfo.Drugs"),'',null,lineText += 10)
             lineText = this.checkIfNewPage(doc, lineText);
             this.writeHeaderText(doc, 10, lineText += 7, this.translate.instant("generics.Name"));
