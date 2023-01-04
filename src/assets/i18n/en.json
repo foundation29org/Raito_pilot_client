@@ -822,6 +822,9 @@
     "patient": "I am the patient"
   },
   "charts":{
+    "GroupBy": "Group by",
+    "Weeks": "Weeks",
+    "Months": "Months",
     "Noseizures": "There are no saved seizures",
     "in the last": "in the last",
     "Quality of life": "Quality of life",

@@ -365,8 +365,8 @@
     <div class="mx-auto card width30rem" [ngClass]="{'mt-4': innerWidth>992}">
         <div class="">
             <div class="col-sm-12 card-header pb-3" [ngClass]="{'panelHearder': innerWidth>992}">
-                <h4 class="text-bold-500 white text-left" [ngClass]="{'d-none': innerWidth<992}" style="position: absolute;left: 1em;">{{'charts.My data' | translate }}</h4>
-                <div class="center-elements" [ngClass]="{'optionsCharts': innerWidth<992}">
+                <h4 class="text-bold-500 white text-left" [ngClass]="{'d-none': innerWidth<992}">{{'charts.My data' | translate }}</h4>
+                <div class="" [ngClass]="{'center-elements': innerWidth<992}">
                     <span class="mr-2 white" [ngClass]="{'d-none': innerWidth<992}">{{'generics.Select' | translate }}:</span>
                     <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='month'"
                             (click)="loadDataRangeDate('month');">{{'charts.Last month' |
@@ -377,7 +377,14 @@
                     <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='year'"
                             (click)="loadDataRangeDate('year');">{{'charts.Last year' |
                             translate }}</button></span>
-                    </div>
+                    <span class="" [ngClass]="{'d-block mt-2': innerWidth<992, 'float-right': innerWidth>992}">
+                        <span class="mr-2" [ngClass]="{'white': innerWidth>992}">{{'charts.GroupBy' | translate }}:</span>
+                        <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Weeks'"
+                                (click)="changeGroupBy('Weeks');">{{'charts.Weeks' | translate }}</button></span>
+                        <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Months'"
+                                (click)="changeGroupBy('Months');">{{'charts.Months' | translate }}</button></span>
+                        </span>
+                </div>
             </div>
         </div>
         <div class="row" [ngClass]="{'p-2': innerWidth>992}">
@@ -433,7 +440,7 @@
                                         </div>
                                     </div>
                                     <div id="line-chart2" class="height-100">
-                                        <ngx-charts-line-chart [scheme]="lineChartOneColorScheme"
+                                        <ngx-charts-bar-vertical-2d [scheme]="lineChartOneColorScheme"
                                             [results]="lineChartSeizures" [gradient]="barChartGradient"
                                             [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
                                             [legend]="barChartShowLegend" [showXAxisLabel]="false"
@@ -456,7 +463,7 @@
                                                     </span>
                                                 </div>
                                             </ng-template>
-                                        </ngx-charts-line-chart>
+                                        </ngx-charts-bar-vertical-2d>
                                         
                                     </div>
                                     <div *ngIf="rangeDate=='month'" class="center-elements col-12">

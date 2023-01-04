@@ -14,7 +14,6 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge } from 'rxjs/operators'
 
-import { v4 as uuidv4 } from 'uuid';
 import { DateAdapter } from '@angular/material/core';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';

@@ -53,6 +53,7 @@ import { HighlightSearch } from 'app/shared/services/search-filter-highlight.ser
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { Data } from 'app/shared/services/data.service';
 import { CordovaService } from 'app/shared/services/cordova.service';
+import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
 
 import { QRCodeModule } from 'angularx-qrcode';
@@ -111,6 +112,7 @@ export function createTranslateLoader(http: HttpClient) {
     DatePipe,
     DateService,
     SearchService,
+    TrackEventsService,
     BlobStorageService,
     HighlightSearch,
     LocalizedDatePipe,

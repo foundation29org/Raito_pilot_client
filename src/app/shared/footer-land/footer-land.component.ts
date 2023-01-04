@@ -3,9 +3,9 @@ import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
+import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
-import { v4 as uuidv4 } from 'uuid';
 
 declare let gtag: any;
 
@@ -18,28 +18,17 @@ declare let gtag: any;
 export class FooterLandComponent implements OnDestroy{
     //Variables
     currentDate : Date = new Date();
-    _startTime: any;
     @ViewChild('f') mainForm: NgForm;
     sending: boolean = false;
     email: string;
-    myuuid: string = uuidv4();
     private subscription: Subscription = new Subscription();
 
-    constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService) {
-      this._startTime = Date.now();
-      sessionStorage.setItem('uuid', this.myuuid);
+    constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, public trackEventsService: TrackEventsService) {
     }
 
     lauchEvent(category) {
-        var secs = this.getElapsedSeconds();
-        gtag('event', this.myuuid, { "event_category": category, "event_label": secs });
+      this.trackEventsService.lauchEvent(category);
       }
-    
-      getElapsedSeconds() {
-        var endDate = Date.now();
-        var seconds = (endDate - this._startTime) / 1000;
-        return seconds;
-      };
 
       ngOnDestroy() {
         this.subscription.unsubscribe();

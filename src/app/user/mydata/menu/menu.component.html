@@ -532,6 +532,13 @@
                     (click)="loadDataRangeDate('year');">{{'charts.Last year' |
                     translate }}</button></span>
         </span>
+        <span class="d-block mt-2">
+            <span class="mr-2">{{'charts.GroupBy' | translate }}:</span>
+            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Weeks'"
+                    (click)="changeGroupBy('Weeks');">{{'charts.Weeks' | translate }}</button></span>
+            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Months'"
+                    (click)="changeGroupBy('Months');">{{'charts.Months' | translate }}</button></span>
+        </span>
 
         <div class="mt-2" *ngIf="generatingPDF">
           <qrcode id="qrcodeimg" [qrdata]="generateUrlQr" elementType="url" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
@@ -557,7 +564,7 @@
                                 </div>
                                 <div id="line-chart1">
                                   <div class="height-100">
-                                    <ngx-charts-line-chart [scheme]="lineChartColorScheme"
+                                    <ngx-charts-bar-vertical-2d [scheme]="lineChartOneColorScheme"
                                         [results]="lineChartSeizures" [gradient]="barChartGradient"
                                         [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
                                         [legend]="barChartShowLegend" [showXAxisLabel]="false"
@@ -580,7 +587,7 @@
                                                 </span>
                                             </div>
                                         </ng-template>
-                                    </ngx-charts-line-chart>
+                                    </ngx-charts-bar-vertical-2d>
                                     
                                 </div>
                                 <div *ngIf="rangeDate=='month'" class="center-elements col-12">
