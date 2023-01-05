@@ -20,7 +20,7 @@ import {
     template: `
       <svg:g ngx-charts-bar *ngFor="let bar of bars; trackBy: trackBy"
         [@animationState]="'active'"
-        [width]="10"
+        [width]="bar.width"
         [height]="bar.height"
         [x]="bar.x"
         [y]="bar.y"
@@ -116,7 +116,7 @@ import {
           x: 0,
           y: 0
         };
-  
+        
         if (this.type === 'standard') {
           bar.height = Math.abs(this.yScale(value) - this.yScale(0));
           bar.x = this.xScale(label);

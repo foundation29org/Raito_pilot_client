@@ -983,6 +983,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       
     }
+    
     var copyseizures = JSON.parse(JSON.stringify(seizures));
     for (var i=0; i < copyseizures.length; i++){
       var foundElementIndex = this.searchService.searchIndex(respseizures, 'name', copyseizures[i].name);
@@ -1362,8 +1363,8 @@ getWeek(newdate, dowOffset?) {
       
     }
     if(this.rangeDate == 'quarter' || this.rangeDate == 'year'){
-      seizu = this.groupPerWeek(seizu);
       seizu = this.add0Seizures(seizu);
+      seizu = this.groupPerWeek(seizu);
     }
 
     this.maxValueDrugsVsSeizu = 0;
