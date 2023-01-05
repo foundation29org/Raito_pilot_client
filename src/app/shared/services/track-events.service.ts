@@ -10,7 +10,6 @@ export class TrackEventsService {
   }
 
   lauchEvent(category) {
-    console.log(category)
     var secs = this.getElapsedSeconds();
     gtag('event', category, { 'myuuid': sessionStorage.getItem('uuid'), 'event_label': secs });
   }

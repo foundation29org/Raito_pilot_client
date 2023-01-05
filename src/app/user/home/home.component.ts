@@ -14,6 +14,7 @@ import 'rxjs/add/operator/toPromise';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { DateService } from 'app/shared/services/date.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
+import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Subscription } from 'rxjs/Subscription';
 import Swal from 'sweetalert2';
 import * as chartsData from 'app/shared/configs/general-charts.config';
@@ -236,7 +237,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     {id: 12, es: 'Diciembre', en: 'December'}
   ];
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router) {
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService) {
     this.adapter.setLocale(this.authService.getLang());
     this.lang = this.authService.getLang();
     switch (this.authService.getLang()) {
@@ -442,7 +443,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authService.getRole() == 'User') {
       this.subscription.add(this.patientService.getPatientId()
         .subscribe((res: any) => {
-          console.log(res);
           if (res != null) {
             this.loadQuestionnaires();
           }
@@ -1042,8 +1042,6 @@ getWeek(newdate, dowOffset?) {
       var pastDate=new Date(formatDate);
       pastDate.setDate(pastDate.getDate() +7);
       var res = this.tickFormattingDay(formatDate)+ ' - ' +this.tickFormattingDay(pastDate);
-      console.log(newdate)
-        console.log(res)
       return res;
   };
 
@@ -1508,6 +1506,9 @@ getWeek(newdate, dowOffset?) {
   }
 
   loadDataRangeDate(rangeDate) {
+    if(this.rangeDate!=rangeDate){
+      this.lauchEvent('changerangeDate: '+rangeDate)
+    }
     this.setPreferenceRangeDate(rangeDate);
     this.rangeDate = rangeDate;
     this.calculateMinDate();
@@ -1517,6 +1518,7 @@ getWeek(newdate, dowOffset?) {
   }
 
   changeGroupBy(groupBy) {
+    this.lauchEvent('changeGroupBy: '+groupBy)
     this.groupBy = groupBy;
     this.loadDataRangeDate(this.rangeDate);
   }
@@ -1954,6 +1956,10 @@ async calculateGridSize(){
   }
   
 }
+
+  lauchEvent(category) {
+    this.trackEventsService.lauchEvent(category);
+  }
 
 }
 
