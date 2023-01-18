@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { DateService } from 'app/shared/services/date.service';
 import { PatientService } from 'app/shared/services/patient.service';
+import { OpenAiService } from 'app/shared/services/openAi.service';
 import { ToastrService } from 'ngx-toastr';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +24,7 @@ import { CordovaService } from 'app/shared/services/cordova.service';
   selector: 'app-medication',
   templateUrl: './medication.component.html',
   styleUrls: ['./medication.component.scss'],
-  providers: [PatientService]
+  providers: [PatientService, OpenAiService]
 })
 
 export class MedicationComponent implements OnInit, OnDestroy {
@@ -75,8 +76,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
   importing: boolean = false;
   birthday: any;
   newweight: any;
+  drugToExtract: string = null;
+  callingOpenai: boolean = false;
+
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
-    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, public cordovaService: CordovaService) {
+    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, private openAiService: OpenAiService, public cordovaService: CordovaService) {
     this.adapter.setLocale(this.authService.getLang());
     switch (this.authService.getLang()) {
       case 'en':
@@ -427,17 +431,18 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   loadTranslationsElements() {
-
+    this.drugsLang = [];
+    this.sideEffectsLang = [];
+    this.adverseEffectsLang = [];
     this.loadingDataGroup = true;
     this.subscription.add(this.http.get(environment.api + '/api/group/medications/' + this.authService.getGroup())
       .subscribe((res: any) => {
-        if (res.medications.data.length == 0) {
+        console.log(res)
+        if (res.medications.data.drugs.length == 0) {
           //no tiene datos sobre el grupo
+          console.log('The group has no drugs.');
         } else {
           this.dataGroup = res.medications.data;
-          this.drugsLang = [];
-          this.sideEffectsLang = [];
-          this.adverseEffectsLang = [];
           if (this.dataGroup.drugs.length > 0) {
             for (var i = 0; i < this.dataGroup.drugs.length; i++) {
               var found = false;
@@ -495,14 +500,19 @@ export class MedicationComponent implements OnInit, OnDestroy {
   searchTranslationDrugs() {
     for (var i = 0; i < this.medications.length; i++) {
       var foundTranslation = false;
-      for (var j = 0; j < this.drugsLang.length && !foundTranslation; j++) {
-        if (this.drugsLang[j].name == this.medications[i].drug) {
-          for (var k = 0; k < this.drugsLang[j].translation.length && !foundTranslation; k++) {
-            this.medications[i].drugTranslate = this.drugsLang[j].translation;
-            foundTranslation = true;
+      if(this.drugsLang.length == 0){
+        this.medications[i].drugTranslate = this.medications[i].drug;
+      }else{
+        for (var j = 0; j < this.drugsLang.length && !foundTranslation; j++) {
+          if (this.drugsLang[j].name == this.medications[i].drug) {
+            for (var k = 0; k < this.drugsLang[j].translation.length && !foundTranslation; k++) {
+              this.medications[i].drugTranslate = this.drugsLang[j].translation;
+              foundTranslation = true;
+            }
           }
         }
       }
+      
     }
   }
 
@@ -1133,6 +1143,49 @@ export class MedicationComponent implements OnInit, OnDestroy {
          //this.toastr.error('', this.msgDataSavedFail, { showCloseButton: true });
        }
      }));
+  }
+
+  extractDrug(){
+    console.log(this.drugToExtract);
+    this.callingOpenai = true;
+    var promDrug = 'Behave like a doctor. Returns only the name of the active ingredient of the following drug: ';
+    var value = { value: promDrug +this.drugToExtract };
+    Swal.fire({
+      title: this.translate.instant("generics.Please wait"),
+      showCancelButton: false,
+      showConfirmButton: false,
+      allowOutsideClick: false
+    }).then((result) => {
+
+    });
+    this.subscription.add(this.openAiService.postOpenAi(value)
+            .subscribe((res: any) => {
+              console.log(res)
+              let tempDrug = res.choices[0].text;
+
+              if (res.choices[0].text.indexOf("\n\n") == 0) {
+                tempDrug = res.choices[0].text.split("\n\n");
+                tempDrug.shift();
+                this.drugSelected = tempDrug[0];
+              }else if (res.choices[0].text.indexOf("\n") == 0){
+                tempDrug = res.choices[0].text.split("\n");
+                tempDrug.shift();
+                this.drugSelected = tempDrug[0];
+              }else{
+                this.drugSelected = res.choices[0].text;
+              }
+              this.drugToExtract = this.drugSelected;
+              console.log(this.drugToExtract )
+              this.callingOpenai = false;
+              Swal.close();
+              this.newDose();
+            }, (err) => {
+              console.log(err);
+              this.callingOpenai = false;
+              Swal.close();
+              this.toastr.error('', this.translate.instant("generics.error try again"));
+              
+          }));
   }
 
 

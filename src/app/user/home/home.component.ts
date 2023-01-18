@@ -98,6 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
    titleDrugsVsDrugs: string;
    private titleDrugsVsNoNormalized: string;
    private group: string;
+   private actualGroup: any = {};
    actualMedications: any;
    loadedFeels: boolean = false;
    loadedEvents: boolean = false;
@@ -402,7 +403,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
 
     }
-    //this.loadGroupFile();
     if(this.authService.getGroup()!=null){
       this.loadGroupFile();
     }else{
@@ -413,6 +413,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadGroupFile(){
     if(this.authService.getGroup()!=null){
+      this.setActualGroup();
       this.subscription.add(this.http.get(environment.api + '/api/group/configfile/' + this.authService.getGroup())
       .subscribe(async (res: any) => {
         this.rangeResourcesDate = res;
@@ -426,6 +427,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.continue();
     }
    
+  }
+
+  setActualGroup(){
+    for (var i = 0; i < this.groups.length; i++) {
+      if(this.authService.getGroup()==this.groups[i]._id){
+        this.actualGroup = this.groups[i];
+      }
+    }
   }
 
   continue(){
@@ -1604,15 +1613,6 @@ getWeek(newdate, dowOffset?) {
           }
         }
       }
-      /*if (actualRecommendedDoses.data == 'onlykids') {
-        maxDose = actualRecommendedDoses.kids.maintenancedose.max;
-      }
-      if (actualRecommendedDoses.data == 'onlyadults') {
-        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
-      }
-      if (actualRecommendedDoses.data == 'yes') {
-        maxDose = actualRecommendedDoses.adults.maintenancedose.max;
-      }*/
       return maxDose;
     }
   }
