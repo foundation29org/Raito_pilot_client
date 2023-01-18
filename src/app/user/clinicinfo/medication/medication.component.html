@@ -8,7 +8,7 @@
 							{{'generics.Back' | translate}}
 						</button>
 					</div>
-					<h2 class="content-header mt-0 mb-2">{{'clinicalinfo.Drugs' | translate }}</h2>
+					<h2 class="content-header mt-0 mb-2" *ngIf="!viewMeditationSection && !drugSelected">{{'clinicalinfo.Drugs' | translate }}</h2>
 
 					<section id="listMeditationSection" *ngIf="!viewMeditationSection">
 						<div class="row">
@@ -138,7 +138,7 @@
 					</section>
 					<section id="viewMeditationSection" *ngIf="viewMeditationSection">
 						<div class="" *ngIf="!loading && panelMedication">
-							<div class="">
+							<div class="" *ngIf="drugsLang.length>0">
 								<div class="form-group">
 									<select id="lang" name="lang" class="form-control" [(ngModel)]="drugSelected" #groupselected
 										(ngModelChange)="onChangeDrug()">
@@ -147,10 +147,21 @@
 									</select>
 								</div>
 							</div>
+							<div class="" *ngIf="drugsLang.length==0 && !drugSelected">
+								<p>Write the name of the medication you are taking:</p>
+								<div class="form-group">
+									<input type="text" class="form-control" [(ngModel)]="drugToExtract" #groupselected >
+									<button type="button" class="btn btn-dark mt-2" [disabled]="callingOpenai" (click)="extractDrug()">{{'wizard.btn' | translate}}</button>
+								</div>
+							</div>
+							<div class="" *ngIf="drugsLang.length==0 && drugSelected">
+								<h4>{{drugSelected}}</h4>
+							</div>
 							<div class=""
 								*ngIf="(!loading && drugSelected && !viewMedicationForm) && (actualMedication.endDate || !actualMedication.startDate)">
 								<button type="button" class="btn btn-dark" (click)="newDose()">{{'medication.New Dose' | translate
 									}}</button>
+								<em *ngIf="callingOpenai" class="fa fa-spinner fa-spin fa-fw"></em>
 							</div>
 						</div>
 						<div class="row" *ngIf="actualMedication.startDate && !viewMedicationForm">

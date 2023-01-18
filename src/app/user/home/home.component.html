@@ -177,7 +177,7 @@
                                   </a>
                             </div>
                         </div>
-                        <div class="row font-small-3 mb-1" *ngIf="(basicInfoPatient.group=='61bb390ed6e0cb14f08881c1' || basicInfoPatient.group==null) && !checks.check3">
+                        <div class="row font-small-3 mb-1" *ngIf="(!actualGroup.allowShare || basicInfoPatient.group==null) && !checks.check3">
                             <div class="col-1 pr-0">
                                 <em class="fas fa-info-circle"></em>
                             </div>
@@ -192,7 +192,7 @@
                                   </a>
                             </div>
                         </div>
-                        <div class="row font-small-3 mb-1" *ngIf="basicInfoPatient.group!='61bb390ed6e0cb14f08881c1' && basicInfoPatient.consentgroup!='true'">
+                        <div class="row font-small-3 mb-1" *ngIf="actualGroup.allowShare && basicInfoPatient.consentgroup!='true'">
                             <div class="col-1 pr-0">
                                 <em class="fas fa-info-circle"></em>
                             </div>
@@ -305,7 +305,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && (events.length > 0 && !showNotiSeizu) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((basicInfoPatient.group!='61bb390ed6e0cb14f08881c1' && basicInfoPatient.consentgroup=='true') || (basicInfoPatient.group=='61bb390ed6e0cb14f08881c1' && checks.check3))">
+                            <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && (events.length > 0 && !showNotiSeizu) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
                                 <div class="col-12 center-elements">
                                     <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
                                 </div>
