@@ -7,7 +7,8 @@
                         <h2 class="content-header mt-0 mb-2">{{'menu.My documents' | translate }}</h2>
                         <div>
                             <span class="float-right">
-                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'general');" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'general');"
+                                    class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
                                     title="">
                                     +
                                 </a>
@@ -25,7 +26,8 @@
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                                 <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                             </span>-->
-                            <span *ngIf="uploadingGenotype" class="center-elements"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                            <span *ngIf="uploadingGenotype" class="center-elements"><i
+                                    class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                             <div *ngIf="loadedGeno" class="mt-2 mb-2" id="Widget-line-chart">
                                 <!--<span *ngIf="otherGeneFiles.length==0" class="">
                                     <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
@@ -35,7 +37,8 @@
                                         <div class="">
                                             <div class="mb-4 w-100">
                                                 <!--{{'dashboardpatient.Files uploaded' | translate }}-->
-                                                <p *ngFor="let onefile of otherGeneFiles; let i = index" class="border-top pt-2">
+                                                <p *ngFor="let onefile of otherGeneFiles; let i = index"
+                                                    class="border-top pt-2">
                                                     <span class="d-inline-block text-muted"
                                                         style="word-wrap: anywhere;width: 90%;">
                                                         <span *ngIf="!onefile.hasResults">
@@ -49,9 +52,10 @@
                                                         </span>
                                                         <a *ngIf="onefile.hasResults" class="primary"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
-                                                            <span class="d-block">
-                                                                {{onefile.lastModified | date: 'dd MMM y': '' : translate.currentLang}}
-                                                                </span>
+                                                        <span class="d-block">
+                                                            {{onefile.lastModified | date: 'dd MMM y': '' :
+                                                            translate.currentLang}}
+                                                        </span>
 
                                                     </span>
                                                     <span class="nav-item pt-1" ngbDropdown display="dynamic"
@@ -65,6 +69,12 @@
                                                         </a>
                                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                             class="dropdown">
+                                                            <a class="dropdown-item py-1" *ngIf="onefile.hasResults" href="javascript:;"
+                                                            (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">
+                                                                <i class="ft-eye fa-xs"></i><span
+                                                                    class="ml-2">{{'generics.View' | translate
+                                                                    }}</span>
+                                                            </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="editDocument(onefile,updateDocument);">
                                                                 <i class="ft-edit fa-xs"></i><span
@@ -77,12 +87,15 @@
                                                                     class="ml-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a *ngIf="!isMobile" class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                            <a *ngIf="!isMobile" class="dropdown-item py-1"
+                                                                href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}"
+                                                                target="_blank" download>
                                                                 <i class="ft-download fa-xs"></i><span
                                                                     class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a *ngIf="isMobile" class="dropdown-item py-1" (click)="downloadFile(accessToken.containerName,onefile.name)">
+                                                            <a *ngIf="isMobile" class="dropdown-item py-1"
+                                                                (click)="downloadFile(accessToken.containerName,onefile.name)">
                                                                 <i class="ft-download fa-xs"></i><span
                                                                     class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
@@ -107,7 +120,8 @@
                         </div>
                         <div>
                             <span class="float-right">
-                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'emergency');" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                <a *ngIf="!importing" (click)="createDocument(contentDocument, 'emergency');"
+                                    class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
                                     title="">
                                     +
                                 </a>
@@ -123,7 +137,8 @@
                                 <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                                 <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                             </span>
-                            <span *ngIf="uploadingEmergency" class="center-elements"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
+                            <span *ngIf="uploadingEmergency" class="center-elements"><i
+                                    class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
                             <div *ngIf="loadedGeno" class="mt-2 mb-2" id="Widget-line-chart">
                                 <!--<span *ngIf="emergencyFiles.length==0" class="">
                                     <p class="mt-0">{{'generics.No files have been uploaded' | translate }}</p>
@@ -133,7 +148,8 @@
                                         <div class="">
                                             <div class="mb-4 w-100">
                                                 <!--{{'dashboardpatient.Files uploaded' | translate }}-->
-                                                <p *ngFor="let onefile of emergencyFiles; let i = index" class="border-top pt-2">
+                                                <p *ngFor="let onefile of emergencyFiles; let i = index"
+                                                    class="border-top pt-2">
                                                     <span class="d-inline-block text-muted"
                                                         style="word-wrap: anywhere;width: 90%;">
                                                         <span *ngIf="!onefile.hasResults">
@@ -147,9 +163,10 @@
                                                         </span>
                                                         <a *ngIf="onefile.hasResults" class="primary"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">{{onefile.simplename}}</a>
-                                                            <span class="d-block">
-                                                                {{onefile.lastModified | date: 'dd MMM y': '' : translate.currentLang}}
-                                                                </span>
+                                                        <span class="d-block">
+                                                            {{onefile.lastModified | date: 'dd MMM y': '' :
+                                                            translate.currentLang}}
+                                                        </span>
                                                     </span>
                                                     <span class="nav-item pt-1" ngbDropdown display="dynamic"
                                                         placement="bottom-right"
@@ -162,6 +179,12 @@
                                                         </a>
                                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                             class="dropdown">
+                                                            <a class="dropdown-item py-1" *ngIf="onefile.hasResults" href="javascript:;"
+                                                            (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">
+                                                                <i class="ft-eye fa-xs"></i><span
+                                                                    class="ml-2">{{'generics.View' | translate
+                                                                    }}</span>
+                                                            </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="editDocument(onefile,updateDocument);">
                                                                 <i class="ft-edit fa-xs"></i><span
@@ -174,12 +197,15 @@
                                                                     class="ml-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a *ngIf="!isMobile" class="dropdown-item py-1" href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}" target="_blank" download>
+                                                            <a *ngIf="!isMobile" class="dropdown-item py-1"
+                                                                href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}"
+                                                                target="_blank" download>
                                                                 <i class="ft-download fa-xs"></i><span
                                                                     class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
-                                                            <a *ngIf="isMobile" class="dropdown-item py-1" (click)="downloadFile(accessToken.containerName,onefile.name)">
+                                                            <a *ngIf="isMobile" class="dropdown-item py-1"
+                                                                (click)="downloadFile(accessToken.containerName,onefile.name)">
                                                                 <i class="ft-download fa-xs"></i><span
                                                                     class="ml-2">{{'generics.Download' | translate
                                                                     }}</span>
@@ -393,7 +419,8 @@
                 </span>
                 <div class="mt-2 text-center">
                     <a id="initpos"></a>
-                    <div *ngIf="resultTextNcrCopy.length >=5" style="text-align: justify;" class="textExtractedNcr" [innerHTML]=resultTextNcrCopy></div>
+                    <div *ngIf="resultTextNcrCopy.length >=5" style="text-align: justify;" class="textExtractedNcr"
+                        [innerHTML]=resultTextNcrCopy></div>
                     <div *ngIf="resultTextNcrCopy.length < 5">
                         {{'land.placeholderError' | translate }}
                     </div>
@@ -411,7 +438,7 @@
         </button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
-        <form action="#" class="form form-horizontal" [formGroup]="documentForm">
+        <form action="#" class="form form-horizontal" [formGroup]="documentForm" *ngIf="!showTextAreaFlag">
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -445,36 +472,72 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 col-12">
+                        <div class="col-md-12 col-12 mt-2">
+                            <label>{{'documents.File' | translate }}</label>
                             <div class="form-group">
-                                <input *ngIf="!isMobile" type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
-                                    (change)="onFileChangeStep1($event);"
+                                <input *ngIf="!isMobile" type="file" #fileDropRef id="fileDropRef" multiple
+                                    style="display: none;" (change)="onFileChangeStep1($event);"
                                     accept=".pdf, .docx, .jpg, .png, .gif, .tiff, .tif, .bmp, .dib, .bpg, .psd, .jpeg, .jpe, .jfif" />
-                                <input *ngIf="isMobile" type="file" #fileDropRef id="fileDropRef" multiple style="display: none;"
-                                (change)="onFileChangeStep1($event);"/>
-                                <label class="text-bold-500 btn btn-primary btn-sm font-small-3 danger mb-0"
+                                <input *ngIf="isMobile" type="file" #fileDropRef id="fileDropRef" multiple
+                                    style="display: none;" (change)="onFileChangeStep1($event);" />
+                                <label *ngIf="!dataFile.name" class="text-bold-500 btn btn-primary btn-sm font-small-3 danger mb-0"
                                     style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                                     for="fileDropRef">{{'documents.Select document' | translate }}</label>
-                                    <span *ngIf="preparingFile">
-                                        <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
-                                        <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
-                                    </span>
-                                    <span class="d-block">{{dataFile.name}} </span>
-                                    <small class="form-text text-muted danger"
-                                        *ngIf="submitted && !dataFile.url">{{'generics.required' |
-                                        translate }}</small>
+                                <span *ngIf="preparingFile">
+                                    <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
+                                    <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
+                                </span>
+                                <label *ngIf="!dataFile.name" class="ml-1 text-bold-500">
+                                    <span class="mr-1">Or</span>
+                                    <button type="button" class="text-bold-500 btn btn-primary btn-sm font-small-3 danger mb-0"
+                                        (click)="showTextArea();">
+                                        {{'documents.Write/paste something' | translate }}
+                                    </button>
+                                </label>
+                                <span class="d-block">{{dataFile.name}} <span *ngIf="dataFile.name"
+                                        (click)="unlinkFile()" class="pointer"><em
+                                            class="fa fa-trash danger"></em></span></span>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="submitted && !dataFile.url">{{'generics.required' |
+                                    translate }}</small>
+
+
                             </div>
                         </div>
-                        
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label>{{'generics.notes' | translate }}</label>
+                                <textarea maxlength="150" name="notes" formControlName="notes"
+                                    placeholder="{{'seizures.Write down any details' | translate }}"
+                                    class="autoajustable form-control"></textarea>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-md-12 center-elements">
-                        <button type="button" class="btn btn-dark" [disabled]="preparingFile" (click)="saveData();">{{'generics.SaveAndClose' |
+                        <button type="button" class="btn btn-dark" [disabled]="preparingFile"
+                            (click)="saveData();">{{'generics.SaveAndClose' |
                             translate }}</button>
                     </div>
                 </div>
 
             </div>
         </form>
+        <div class="col-md-12" *ngIf="showTextAreaFlag">
+            <textarea #inputTextArea id="textarea1" type="text" style="width: 100%;"
+                class="autoajustable searchTerm data-hj-allow" [(ngModel)]="medicalText" name="medicalText"
+                placeholder="{{'phenotype.HPO phenotype extractor placeholder' | translate }}" (ngModelChange)="resizeTextArea()"></textarea>
+            <div class="mt-2">
+                <button type="button" class="btn btn-secondary btn-sm font-small-3 mb-0 mr-1" (click)="hideTextArea();">
+                    {{'generics.Cancel' | translate }}
+                </button>
+                <button type="button" class="btn btn-primary btn-sm font-small-3 mb-0 ml-1" (click)="createFileTxt();" [disabled]="medicalText==''">
+                    {{'generics.Save' | translate }}
+                </button>
+            </div>
+
+        </div>
+
     </div>
 </ng-template>
 
@@ -525,10 +588,19 @@
                                 {{'documents.File' | translate }}: {{simplename}}
                             </div>
                         </div>
-                        
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label>{{'generics.notes' | translate }}</label>
+                                <textarea maxlength="150" name="notes" formControlName="notes"
+                                    placeholder="{{'seizures.Write down any details' | translate }}"
+                                    class="autoajustable form-control"></textarea>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-md-12 center-elements">
-                        <button type="button" class="btn btn-dark" [disabled]="preparingFile" (click)="updateData();">{{'generics.SaveAndClose' |
+                        <button type="button" class="btn btn-dark" [disabled]="preparingFile"
+                            (click)="updateData();">{{'generics.SaveAndClose' |
                             translate }}</button>
                     </div>
                 </div>

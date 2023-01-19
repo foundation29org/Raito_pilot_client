@@ -91,6 +91,8 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   actualDoc: any = {};
   simplename: string = '';
   isMobile: boolean = false;
+  showTextAreaFlag: boolean = false;
+  medicalText: string = '';
 
   constructor(private http: HttpClient, private blob: BlobStorageService, private authService: AuthService, private patientService: PatientService, private apiDx29ServerService: ApiDx29ServerService, public translate: TranslateService, public toastr: ToastrService, private apif29BioService: Apif29BioService, private searchService: SearchService, private sortService: SortService, private modalService: NgbModal, private authGuard: AuthGuard, private highlightSearch: HighlightSearch, private formBuilder: FormBuilder, private dateService: DateService, public cordovaService: CordovaService) {
     $.getScript("./assets/js/docs/jszip-utils.js").done(function (script, textStatus) {
@@ -320,6 +322,48 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     }
   }
+
+  showTextArea(){
+    this.showTextAreaFlag = true;
+  }
+
+  hideTextArea(){
+    this.showTextAreaFlag = false;
+  }
+
+  createFileTxt(){
+    //create a .txt file with the content of medicalText textarea
+    var uniqueFileName = this.getUniqueFileName();
+    var filename = 'raitofile/' + uniqueFileName + '/medicalText.txt';
+    var blob = new Blob([this.medicalText], {type: "text/plain;charset=utf-8"});
+    this.dataFile = {event:blob, url: filename, name: 'medicalText.txt'}
+    this.showTextAreaFlag = false;
+  }
+
+  unlinkFile(){
+    this.dataFile = {};
+  }
+
+  async resizeTextArea() {
+    setTimeout(() => {
+        $('.autoajustable').each(function () {
+            let height = this.scrollHeight;
+            if (height < 50) {
+                height = 50;
+            }
+            document.getElementById("textarea1").setAttribute("style", "height:" + (height) + "px;overflow-y:hidden; width: 100%;");
+        }).on('input', function () {
+            let height = this.scrollHeight;
+            if (height < 50) {
+                height = 50;
+            }
+            this.style.height = 'auto';
+            this.style.height = (height) + 'px';
+        });
+
+    },
+        100);
+}
 
   onFileChangeStep2(){
     const formData = new FormData();
@@ -688,6 +732,8 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   closeModal() {
+    this.dataFile = {};
+    this.showTextAreaFlag = false;
     document.getElementsByClassName("ModalClass-sm")[0].removeEventListener("scroll", this.myFunction);
     if (this.modalReference != undefined) {
       this.modalReference.close();
@@ -853,7 +899,8 @@ createDocument(contentDocument, typedocument){
     name: ['', Validators.required],
     dateDoc: ['', Validators.required],
     url:'',
-    description: []
+    description: [],
+    notes:'',
 });
 
   let ngbModalOptions: NgbModalOptions = {
@@ -910,7 +957,8 @@ editDocument(file, updateDocument){
       name: [this.actualDoc.name, Validators.required],
       dateDoc: [this.dateService.transformDate(this.actualDoc.dateDoc), Validators.required],
       url:this.actualDoc.url,
-      description: [this.actualDoc.description]
+      description: [this.actualDoc.description],
+      notes:this.actualDoc.notes
   });
     let ngbModalOptions: NgbModalOptions = {
       keyboard: false,
@@ -936,6 +984,7 @@ updateData(){
     this.documentForm.value.url=this.dataFile.url;
     this.actualDoc.name = this.documentForm.value.name;
     this.actualDoc.description = this.documentForm.value.description;
+    this.actualDoc.notes = this.documentForm.value.notes;
     this.actualDoc.dateDoc = this.documentForm.value.dateDoc;
     this.subscription.add( this.http.put(environment.api+'/api/document/'+this.actualDoc._id, this.actualDoc)
       .subscribe( (res : any) => {
