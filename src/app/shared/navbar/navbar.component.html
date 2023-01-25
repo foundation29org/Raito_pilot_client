@@ -41,10 +41,12 @@
               <a class="dropdown-item" routerLink="/calendar">
                 <span>{{'menu.Calendar' | translate }}</span>
               </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" routerLink="/seizures">
-                <span>{{'menu.Seizures' | translate }}</span>
-              </a>
+              <span *ngIf="showSeizuresModules">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" routerLink="/seizures">
+                  <span>{{'menu.Seizures' | translate }}</span>
+                </a>
+              </span>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" routerLink="/feel">
                 <span>{{'homeraito.p6' | translate }}</span>

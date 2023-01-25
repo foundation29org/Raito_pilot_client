@@ -45,6 +45,14 @@
 											<p *ngIf="user.lang != userCopy.lang" class="text-danger">{{'profile.Save the changes' | translate }}</p>
 										</div>
 									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="modules">Modules</label>
+											<mat-select class="form-control" id="modules" name="modules"  [(ngModel)]="user.modules" multiple>
+												<mat-option value="seizures">Seizures</mat-option>
+											</mat-select>
+										</div>
+									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">

@@ -10,6 +10,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { PipeModule } from "app/shared/pipes/pipe.module";
 import { CustomFormsModule } from 'ngx-custom-validators';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 import { UserProfilePageComponent } from "./user-profile/user-profile-page.component";
 import { SupportComponent } from './support/support.component';
@@ -29,7 +30,8 @@ import { SupportComponent } from './support/support.component';
     TranslateModule,
     PipeModule,
     CustomFormsModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSelectModule
   ],
   declarations: [
     UserProfilePageComponent,
