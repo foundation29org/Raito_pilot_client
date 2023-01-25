@@ -237,6 +237,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     {id: 11, es: 'Noviembre', en: 'November'},
     {id: 12, es: 'Diciembre', en: 'December'}
   ];
+  
+  modules: any = {seizures:false}
+  showSeizuresModules: boolean = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -260,6 +263,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.calculateGridSize();
     this.loadScripts();
     this.getPreferenceRangeDate();
+    this.getModules();
   }
 
   loadScripts(){
@@ -281,6 +285,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
   }
 
+  getModules(){
+    this.subscription.add(this.patientService.getModules()
+    .subscribe((res: any) => {
+        this.modules = res.modules;
+        this.showSeizuresModules = this.modules.includes("seizures");
+    }, (err) => {
+      console.log(err);
+      this.showSeizuresModules = false;
+    }));
+}
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -291,21 +306,37 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   updateProgress(){
-    if(this.basicInfoPatient.group!=null){
-      this.valueprogressbar = 20;
+    if(this.showSeizuresModules){
+      if(this.basicInfoPatient.group!=null){
+        this.valueprogressbar = 20;
+      }
+      if(this.medications.length > 0 && !this.showNotiDrugs){
+        this.valueprogressbar=this.valueprogressbar+20;
+      }
+      if(this.events.length > 0 && !this.showNotiSeizu){
+        this.valueprogressbar=this.valueprogressbar+20;
+      }
+      if(this.feels.length > 0 && !this.showNotiFeel){
+        this.valueprogressbar=this.valueprogressbar+20;
+      }
+      if(this.basicInfoPatient.consentgroup=='true'){
+        this.valueprogressbar=this.valueprogressbar+20;
+      }
+    }else{
+      if(this.basicInfoPatient.group!=null){
+        this.valueprogressbar = 25;
+      }
+      if(this.medications.length > 0 && !this.showNotiDrugs){
+        this.valueprogressbar=this.valueprogressbar+25;
+      }
+      if(this.feels.length > 0 && !this.showNotiFeel){
+        this.valueprogressbar=this.valueprogressbar+25;
+      }
+      if(this.basicInfoPatient.consentgroup=='true'){
+        this.valueprogressbar=this.valueprogressbar+25;
+      }
     }
-    if(this.medications.length > 0 && !this.showNotiDrugs){
-      this.valueprogressbar=this.valueprogressbar+20;
-    }
-    if(this.events.length > 0 && !this.showNotiSeizu){
-      this.valueprogressbar=this.valueprogressbar+20;
-    }
-    if(this.feels.length > 0 && !this.showNotiFeel){
-      this.valueprogressbar=this.valueprogressbar+20;
-    }
-    if(this.basicInfoPatient.consentgroup=='true'){
-      this.valueprogressbar=this.valueprogressbar+20;
-    }
+    
     this.calculateGridSize();
   }
 
@@ -757,7 +788,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     //cargar los datos del usuario
     this.loadedFeels = false;
     this.getFeels();
-    this.getSeizures();
+    if(this.showSeizuresModules){
+      this.getSeizures();
+    }else{
+      this.events = [];
+      this.showNotiSeizu = false;
+      this.getDrugs();
+    }
     this.calculateMinDate();
     this.getWeightAndAge();
   }

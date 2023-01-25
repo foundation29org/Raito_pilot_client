@@ -192,4 +192,14 @@ export class PatientService {
          })
     }
 
+    getModules() {
+      return this.http.get(environment.api+'/api/users/modules/'+ this.authService.getIdUser())
+      .map( (res : any) => {
+        return res;
+       }, (err) => {
+        console.log(err);
+        return err;
+       });
+    }
+
 }

@@ -8,6 +8,8 @@ import { CustomizerService } from '../services/customizer.service';
 import { UntypedFormControl } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { EventsService} from 'app/shared/services/events.service';
+import { PatientService } from 'app/shared/services/patient.service';
 
 declare global {
     interface Navigator {
@@ -20,7 +22,8 @@ declare global {
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"]
+  styleUrls: ["./navbar.component.scss"],
+  providers: [PatientService]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   placement = "bottom-right";
@@ -43,11 +46,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   role: string = 'User';
   actualUrl: string = '';
   isAndroid: boolean = false;
+  showSeizuresModules: boolean = false;
+  private subscription: Subscription = new Subscription();
 
   constructor(public translate: TranslateService,
     private layoutService: LayoutService,
     private router: Router,
-    private configService: ConfigService, private cdr: ChangeDetectorRef, private authService: AuthService) {
+    private configService: ConfigService, private cdr: ChangeDetectorRef, private authService: AuthService, private eventsService: EventsService, private patientService: PatientService) {
       
       this.role = this.authService.getRole();
 
@@ -83,7 +88,25 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.isSmallScreen = false;
     }
+
+    this.eventsService.on('changemodules', function(modules) {
+      this.showSeizuresModules = modules.includes("seizures");
+    }.bind(this));
+
+    this.getModules();
   }
+
+  getModules(){
+    this.subscription.add(this.patientService.getModules()
+    .subscribe((res: any) => {
+      console.log(res)
+      this.showSeizuresModules = res.modules.includes("seizures");
+      console.log(this.showSeizuresModules)
+    }, (err) => {
+      console.log(err);
+      this.showSeizuresModules = false;
+    }));
+}
 
   ngAfterViewInit() {
 

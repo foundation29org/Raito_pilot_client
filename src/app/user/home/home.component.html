@@ -240,7 +240,7 @@
                                       </a>
                                 </div>
                             </div>
-                            <div class="row font-small-3 mb-1" *ngIf="events.length > 0 && medications.length > 0 && (feels.length == 0 || showNotiFeel) && loadedFeels">
+                            <div class="row font-small-3 mb-1" *ngIf="loadedEvents && events.length > 0 && medications.length > 0 && (feels.length == 0 || showNotiFeel) && loadedFeels">
                                 <div class="col-1 pr-0">
                                     <em class="ft-heart"></em>
                                 </div>
@@ -305,7 +305,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && (events.length > 0 && !showNotiSeizu) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
+                            <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && (!showSeizuresModules || (events.length > 0 && !showNotiSeizu)) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
                                 <div class="col-12 center-elements">
                                     <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
                                 </div>
@@ -393,7 +393,7 @@
                     <i class="fa fa-spinner fa-spin fa-fw"></i>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 col-lg-6" *ngIf="!loadedEvents">
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedEvents && showSeizuresModules">
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
