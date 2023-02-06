@@ -8,6 +8,13 @@
           </div>
       </div>
       <app-footer-land></app-footer-land>
+      <div class="row  p-2">
+        <div class="col-md-12 center-elements">
+          <a routerLink="/privacy-policy">
+            <span>{{'registration.Privacy Policy' | translate }}</span>
+          </a>
+        </div>
+      </div>
       <!-- Scroll to top button -->
     <button class="btn btn-primary scroll-top" type="button" *ngIf="isScrollTopVisible" (click)="scrollToTop()"><i class="ft-arrow-up"></i></button>
     </div>
