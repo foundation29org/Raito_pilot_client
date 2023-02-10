@@ -11,5 +11,6 @@
     tokenVeriff:undefined, // veriff.com token
     privateVeriff:undefined, // veriff.com Private key
     web3authClient: undefined, // web3authClientProvider
-    urlOpenRaito:undefined // url openraito 
+    urlOpenRaito:undefined, // url openraito 
+    apiKeyGoogle:undefined // apikey google 
     };

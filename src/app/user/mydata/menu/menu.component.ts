@@ -268,7 +268,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     gapi.load('client:auth2', () => {
       gapi.auth2.init({
-        apiKey: 'AIzaSyBNIUs8qCh-5q81w4OHquZ4mu-uIdpttUM',
+        apiKey: environment.apiKeyGoogle,
         client_id: '608654262922-lkaunfbj3j9k6ih6ttearn5up2m0nt0i.apps.googleusercontent.com',
         scope: 'https://www.googleapis.com/auth/drive'
       });
