@@ -1001,7 +1001,7 @@ sendShare(){
 
 fieldStatusChanged(oneCustomShare, index){
   this.startingProcess = true;
-  this.individualShare[index].status = 'Pending'
+  this.individualShare[index].status = 'Accepted'
   this.newPermission = oneCustomShare;
   this.setIndividualShare(true);
 }
