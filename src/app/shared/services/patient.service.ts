@@ -147,6 +147,35 @@ export class PatientService {
          })
     }
 
+    createbackup(){
+      return this.http.get(environment.api+'/api/eo/createbackup/'+this.authService.getCurrentPatient().sub)
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+    saveFileId(fileId){
+      var info = {fileId:fileId}
+      return this.http.post(environment.api+'/api/eo/backupfile/'+this.authService.getIdUser(), info)
+        .map( (res : any) => {
+          return res;
+          }, (err) => {
+            console.log(err);
+          })
+    }
+
+    checkGoogleDrive(){
+      return this.http.get(environment.api+'/api/eo/checkgoogledrive/'+this.authService.getIdUser())
+        .map( (res : any) => {
+          return res;
+         }, (err) => {
+           console.log(err);
+         })
+    }
+
+
     checkIPFS(){
       return this.http.get(environment.api+'/api/eo/checkipfs/'+this.authService.getIdUser())
         .map( (res : any) => {

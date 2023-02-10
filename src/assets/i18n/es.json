@@ -922,6 +922,7 @@
     "desc": "Tu contenedor es tu propio espacio personal para almacenar tus datos y compartirlos para tu propia gestión e investigación de la enfermedad. Aquí puedes gestionar tu contenedor.",
     "q1": "Ubicación",
     "a1": "En Raito usted es el único propietario de sus datos. Puedes crear una copia de seguridad de tus datos, y te damos dos posibilidades para guardarla:",
+    "a0.1.2": "La copia de sus datos se almacena en los servidores de Google.",
     "a1.1.1": "Almacenamiento centralizado",
     "a1.1.2": "La copia de tus datos se guarda en lo servidores de Fundación 29. Nadie más que nosotros tendrá acceso a tus datos.",
     "a1.2.1": "Almacenamiento descentralizado",

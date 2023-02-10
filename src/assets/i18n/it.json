@@ -919,6 +919,7 @@
        "desc":"Il tuo contenitore è il tuo spazio personale per archiviare i tuoi dati e condividerli per la gestione e la ricerca della tua malattia. Qui puoi gestire il tuo container.",
        "q1":"Posizione",
        "a1":"In Raito l'utente è l'unico proprietario dei propri dati. Puoi creare un backup dei tuoi dati e ti diamo due possibilità per salvarlo.",
+       "a0.1.2": "La copia dei tuoi dati è archiviata sui server di Google.",
        "a1.1.1": "Stoccaggio centralizzato",
        "a1.1.2": "La copia dei tuoi dati è archiviata sui server di Fundación 29. Nessuno tranne noi avrà accesso ai tuoi dati.",
        "a1.2.1": "Archiviazione decentralizzata",

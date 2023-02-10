@@ -27,6 +27,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 declare let html2canvas: any;
 declare var device;
+declare const gapi: any;
 
 @Component({
   selector: 'app-menu',
@@ -42,6 +43,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   modalQr: NgbModalRef;
   loading: boolean = false;
   loadingFhir: boolean = false;
+  loadingGoogleDrive: boolean = false;
+  loadingGetGoogleDrive: boolean = false;
   loadingf29: boolean = false;
   loadingGetF29: boolean = false;
   loadingGetIPFS: boolean = false;
@@ -200,6 +203,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   urlOpenRaito: string = environment.urlOpenRaito;
   widthPanelCustomShare = null;
 
+  googleDrive: any = {};
   ipfs: any = {};
   f29: any = {};
   checkStatus: any = {};
@@ -260,6 +264,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.loadPatientId();
     this.checkIPFS();
     this.checkF29();
+    this.checkGoogleDrive();
+
+    gapi.load('client:auth2', () => {
+      gapi.auth2.init({
+        apiKey: 'AIzaSyBNIUs8qCh-5q81w4OHquZ4mu-uIdpttUM',
+        client_id: '608654262922-lkaunfbj3j9k6ih6ttearn5up2m0nt0i.apps.googleusercontent.com',
+        scope: 'https://www.googleapis.com/auth/drive'
+      });
+    });
   }
 
   ngOnDestroy() {
@@ -1314,6 +1327,223 @@ copyClipboard(data){
       setTimeout(function () {
         Swal.close();
       }, 2000);
+}
+
+
+checkGoogleDrive(){
+  this.subscription.add( this.patientService.checkGoogleDrive()
+  .subscribe( (res : any) => {
+    console.log(res)
+    this.googleDrive = res;
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
+backupData(update) {
+  // Aquí debes incluir la lógica para obtener los datos que deseas guardar en el Drive
+  // Ejemplo:
+  this.loadingGoogleDrive = true;
+  this.subscription.add( this.patientService.createbackup()
+  .subscribe( (res : any) => {
+    if(res.data){
+      gapi.auth2.getAuthInstance().signIn().then(() => {
+        gapi.client.load('drive', 'v3').then(() => {
+          console.log(res.data.result)
+          const data = JSON.stringify(res.data);
+          var dateNow = new Date();
+          var stringDateNow = this.dateService.transformDate(dateNow);
+          var fileName = 'dataRaito_fhir_'+stringDateNow+'.json';
+          if(update){
+            this.updateFileWithJSONContent(this.googleDrive.id, fileName, data, (file) => {
+              console.log(file);
+              if(file.error){
+                Swal.fire(this.translate.instant("generics.Warning"), file.error.message, "warning");
+                this.loadingGoogleDrive = false;
+                this.googleDrive = {};
+              }else{
+                this.continueBackupData(file);
+              }
+              
+            });
+          }else{
+            this.createFileWithJSONContent(fileName, data, (file) => {
+              console.log(file);
+              this.continueBackupData(file);
+            });
+          }
+          
+        });
+      }, function(reason) {
+        // rechazo
+        console.log(reason)
+        this.loadingGoogleDrive = false;
+      }.bind(this));
+    }else{
+      this.loadingGoogleDrive = false;
+    }
+    
+   }, (err) => {
+     console.log(err);
+     this.loadingGoogleDrive = false;
+   }));
+}
+
+continueBackupData(file){
+//save file id
+this.subscription.add( this.patientService.saveFileId(file.id)
+.subscribe( (res2 : any) => {
+  console.log(res2)
+  if(res2.message=='Available'){
+    this.googleDrive = res2;
+  }else{
+    this.googleDrive = {};
+  }
+  this.loadingGoogleDrive = false;
+ }, (err) => {
+   console.log(err);
+   this.loadingGoogleDrive = false;
+ }));
+}
+
+createFileWithJSONContent = function(name,data,callback) {
+  const boundary = '-------314159265358979323846';
+  const delimiter = "\r\n--" + boundary + "\r\n";
+  const close_delim = "\r\n--" + boundary + "--";
+
+  const contentType = 'application/json';
+
+  var metadata = {
+      'name': name,
+      'mimeType': contentType
+    };
+
+    var multipartRequestBody =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: ' + contentType + '\r\n\r\n' +
+        data +
+        close_delim;
+
+    var request = gapi.client.request({
+        'path': '/upload/drive/v3/files',
+        'method': 'POST',
+        'params': {'uploadType': 'multipart'},
+        'headers': {
+          'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+        },
+        'body': multipartRequestBody});
+    if (!callback) {
+      callback = function(file) {
+        console.log(file)
+      };
+    }
+    request.execute(callback);
+
+}
+
+updateFileWithJSONContent = function(idFile, name,data,callback) {
+  const boundary = '-------314159265358979323846';
+  const delimiter = "\r\n--" + boundary + "\r\n";
+  const close_delim = "\r\n--" + boundary + "--";
+
+  const contentType = 'application/json';
+
+  var metadata = {
+      'name': name,
+      'mimeType': contentType
+    };
+
+    var multipartRequestBody =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: ' + contentType + '\r\n\r\n' +
+        data +
+        close_delim;
+
+        var request = gapi.client.request({
+          path: '/upload/drive/v3/files/' + idFile,
+          method: 'PATCH',
+          params: {
+            uploadType: 'multipart'
+          },
+          headers: {
+            'Content-Type': 'multipart/related; boundary="' + boundary + '"'
+          },
+          body: multipartRequestBody
+        })
+          if (!callback) {
+            callback = function(file) {
+              console.log(file)
+            };
+          }
+        request.execute(callback);
+
+
+}
+
+printFile(fileId) {
+  this.loadingGetGoogleDrive = true;
+  gapi.auth2.getAuthInstance().signIn().then(() => {
+    gapi.client.load('drive', 'v3').then(() => {      
+      gapi.client.drive.files.get({
+        fileId: fileId,
+        alt: 'media',
+      }).then((res) => {
+      var blob = new Blob([res.body], {type: "application/json"});
+      var url  = URL.createObjectURL(blob);
+      var p = document.createElement('p');
+      var t = document.createTextNode(this.msgDownload+":");
+      p.appendChild(t);
+      document.getElementById('content').appendChild(p);
+
+      var a = document.createElement('a');
+      var dateNow = new Date();
+      var stringDateNow = this.dateService.transformDate(dateNow);
+      a.download    = "dataRaito_fhir_"+stringDateNow+".json";
+      a.target     = "_blank";
+      a.href        = url;
+      a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
+      a.setAttribute("id", "download")
+      if(this.isMobile){
+        if(device.platform != 'iOS'){
+          var p = document.createElement('p');
+          var t = document.createTextNode('Data saved on download folder');
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+          this.cordovaService.saveBlob2File(a.textContent, blob);
+        }else{
+          var p = document.createElement('p');
+          var t = document.createTextNode(this.msgtoDownload);
+          p.appendChild(t);
+          document.getElementById('content').appendChild(p);
+        }
+        this.cordovaService.goToExternalUrl(url);
+
+        //this.cordovaService.downloadFile(url, "dataRaito_fhir_"+stringDateNow+".json");
+      }else{
+        document.getElementById('content').appendChild(a);
+        document.getElementById("download").click();
+      }
+      this.loadingGetGoogleDrive = false;
+      }, function(reason) {
+        // rechazo
+        console.log(reason)
+        this.loadingGetGoogleDrive = false;
+        Swal.fire(this.translate.instant("generics.Warning"), reason.statusText, "warning");
+        this.googleDrive = {};
+      }.bind(this));
+      
+    });
+  }, function(reason) {
+    // rechazo
+    console.log(reason)
+    this.loadingGetGoogleDrive = false;
+  }.bind(this));
 }
 
 saveContainer(location){
