@@ -448,19 +448,19 @@
                                             [yAxisLabel]="barChartYAxisLabel" [yAxisTicks]="yAxisTicksSeizures" (select)="onSelect($event)" >
                                             <ng-template #tooltipTemplate let-model="model">
                                                 <span>{{ model.name }}: {{ model.value }}</span>
-                                                <span class="d-block"
+                                                <!--<span class="d-block"
                                                     *ngFor="let type of model.types ; let i = index">
                                                     {{type.type}}: {{type.count}}
-                                                </span>
+                                                </span>-->
                                             </ng-template>
                                             <ng-template #seriesTooltipTemplate let-model="model">
                                                 <div *ngFor="let mod of model; let i = index">
                                                     <span class="d-block">{{ mod.name}}: {{ mod.value
                                                         }}</span>
-                                                    <span class="d-block"
+                                                    <!--<span class="d-block"
                                                         *ngFor="let type of mod.types ; let j = index">
                                                         {{type.type}}: {{type.count}}
-                                                    </span>
+                                                    </span>-->
                                                 </div>
                                             </ng-template>
                                         </ngx-charts-bar-vertical-2d>
@@ -563,7 +563,7 @@
                                         </a>
                                         </div>
                                     </div>
-                                    <div id="line-chart2" class="height-100">
+                                    <div id="line-chart3" class="height-100">
                                         <ngx-charts-line-chart [scheme]="lineChartOneColorScheme"
                                             [results]="lineChartHeight" [gradient]="barChartGradient"
                                             [xAxis]="false" [yAxis]="true"
@@ -601,16 +601,17 @@
                                                 </div>
                                             </ng-template>
                                         </ngx-charts-line-chart>
-                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12">
-                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                        </div>
-                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                        </div>
+                                        
+                                    </div>
+                                    <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    </div>
+                                    <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -816,14 +817,14 @@
                                         
                                     </div>
                                     <div *ngIf="rangeDate=='month'" class="center-elements col-12">
-                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="ml-4 float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                         <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="mr-4 float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                     </div>
                                     <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="ml-4 float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
                                         <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="mr-4 float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                     </div>
                                     <ngx-charts-legend fxFlex="100%" 
                                                             class="chart-legend" 
