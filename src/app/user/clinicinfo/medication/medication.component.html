@@ -129,7 +129,9 @@
 																	</span>
 																</span>
 																<span *ngIf="recommendedDoses[medication.drug].data=='no' || (recommendedDoses[medication.drug].data=='onlyadults' && age.years<18) || (recommendedDoses[medication.drug].data=='onlykids' && age.years>=18)">
-																	{{'medication.We do not have recommended dose data for this drug' | translate}}
+																	<span class="d-block text-muted">
+																		{{'medication.We do not have recommended dose data for this drug' | translate}}
+																	</span>
 																</span>
 															</span>
 														</div>
