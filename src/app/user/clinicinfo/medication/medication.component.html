@@ -49,7 +49,12 @@
 														<div class="media-body white text-left">
 															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
-															<span *ngIf="age!=null && weight">
+															<span *ngIf="medication.recommendedDose">
+																<span class="d-block text-muted">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
+																<span class="d-block text-muted">Min: {{medication.recommendedDose.min}}</span>
+																<span class="d-block text-muted">Max: {{medication.recommendedDose.max}}</span>
+															</span>
+															<!--<span *ngIf="age!=null && weight">
 																<span *ngIf="recommendedDoses[medication.drug].data=='onlykids' && age.years<18">
 																	<span class="d-block">{{'medication.Recommended dose for children' | translate}} {{'medication.of' | translate}} {{weightUnits | number : '1.0-2'}} {{settings.massunit}}</span>
 																	<span class="text-muted">
@@ -133,7 +138,7 @@
 																		{{'medication.We do not have recommended dose data for this drug' | translate}}
 																	</span>
 																</span>
-															</span>
+															</span>-->
 														</div>
 													</div>
 												</div>

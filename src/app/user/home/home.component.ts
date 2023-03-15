@@ -23,6 +23,7 @@ import { createVeriffFrame } from '@veriff/incontext-sdk';
 import CryptoES from 'crypto-es';
 import * as decode from 'jwt-decode';
 import { ColorHelper } from '@swimlane/ngx-charts';
+import { OpenAiService } from 'app/shared/services/openAi.service';
 declare var Veriff: any;
 
 declare global {
@@ -35,7 +36,7 @@ declare global {
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [PatientService, Apif29BioService, ApiDx29ServerService]
+  providers: [PatientService, Apif29BioService, ApiDx29ServerService, OpenAiService]
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
@@ -241,7 +242,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   modules: any = {seizures:false}
   showSeizuresModules: boolean = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService) {
+  query: string = '';
+  queryCopy: string = '';
+  callinglangchainraito: boolean = false;
+  responseLangchain: string = '';
+
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService, private openAiService: OpenAiService) {
     this.adapter.setLocale(this.authService.getLang());
     this.lang = this.authService.getLang();
     switch (this.authService.getLang()) {
@@ -280,6 +286,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription.add(this.apiDx29ServerService.loadGroups()
       .subscribe((res: any) => {
         this.groups = res;
+        this.continueinitEnvironment();
       }, (err) => {
         console.log(err);
       }));
@@ -296,12 +303,51 @@ export class HomeComponent implements OnInit, OnDestroy {
     }));
 }
 
+  search(){
+    console.log(this.query)
+    this.callinglangchainraito = true;
+    var query = {"question": this.query};
+    this.responseLangchain = '';
+    this.subscription.add(this.openAiService.postOpenAi3(query)
+      .subscribe((res: any) => {
+        console.log(res)
+        if(res.data == " I don't know." || res.data == "  No sé."){
+          var value = { value: this.query };
+          this.subscription.add(this.openAiService.postOpenAi2(value)
+            .subscribe((res: any) => {
+              this.queryCopy = this.query;
+              this.query = '';
+              this.responseLangchain = res.choices[0].message.content;
+              this.callinglangchainraito = false;
+            }, (err) => {
+              this.callinglangchainraito = false;
+              console.log(err);
+              this.toastr.error('', this.translate.instant("generics.error try again"));
+              
+          }));
+        }else{
+          this.queryCopy = this.query;
+          this.query = '';
+          this.responseLangchain = res.data;
+          this.callinglangchainraito = false;
+        }
+        
+      }, (err) => {
+        this.callinglangchainraito = false;
+        console.log(err);
+        this.toastr.error('', this.translate.instant("generics.error try again"));
+        
+    }));
+
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
 
   ngOnInit() {
+    console.log('initenviroment')
     this.initEnvironment();
   }
 
@@ -395,6 +441,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.medications = [];
     this.actualMedications = [];
     this.group = this.authService.getGroup();
+    console.log(this.group)
+    this.setActualGroup();
     this.patient = {
     };
 
@@ -461,6 +509,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setActualGroup(){
+    console.log(this.groups)
+    console.log(this.authService.getGroup())
     for (var i = 0; i < this.groups.length; i++) {
       if(this.authService.getGroup()==this.groups[i]._id){
         this.actualGroup = this.groups[i];
@@ -663,6 +713,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   initEnvironment(){
     this.loadGroups();
+    
+  }
+
+  continueinitEnvironment(){
     //this.userId = this.authService.getIdUser();
     if(this.authService.getCurrentPatient()==null){
       this.loadPatientId();

@@ -428,7 +428,70 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
       }
     }
+    if (this.actualMedications.length > 0) {
+      var actualDrugs = '';
+      for (var j = 0; j < this.actualMedications.length; j++) {
+        //if is the first item
+        if (j == 0) {
+          actualDrugs = this.actualMedications[j].drug;
+        } else{
+          actualDrugs = actualDrugs + ', ' + this.actualMedications[j].drug;
+        }
+      }
+     this.getRecommendedDose(actualDrugs)
+    }
+      
   }
+  
+  getRecommendedDose(drugs){
+    var promDrug = 'Behave like a doctor.provide general information on the recommended dosage range for drugs for a patient';
+    if(this.weight){
+      promDrug = promDrug + ' who weighs ' + this.weight + ' kg.';
+    }
+    if(this.age!=null){
+      if(this.age.years>0){
+        promDrug = promDrug + ', and is ' + this.age.years + ' years old';
+      }else{
+        promDrug = promDrug + ', and is ' + this.age.months + ' months old';
+      }
+    }
+    promDrug = promDrug + ', and who is taking the following drugs: ';
+    var value = { value: promDrug +drugs };
+    //value.value+='. Returns only an array with de ranges in mg/day for all the drugs in the same array. Example: "Result: [min1-max1, min2-max2, min3-max3]" it is not a prescribe medication.'
+    value.value+=". For each drug, return '\n\n' and the name of the drug, and a array with the minimum and maximum dose recommended. Returns only numbers, not 'mg/kg/day'. Example for each drug: \n\nDrug1: [min1-max1] \n\nDrug2: [min2-max2]"
+    //value.value+=' . And returns an array with the ranges of all the drugs.'
+    //value.value+=' Return each drug with this format: \nname: min-max mg/kg/day'
+
+  this.subscription.add(this.openAiService.postOpenAi2(value)
+            .subscribe((res: any) => {
+                let parseChoices0 = res.choices[0].message.content;
+                const drugsArray = parseChoices0.split("\n");
+                const drugs = [];
+                drugsArray.forEach((drug) => {
+                  if(drug==''){
+                    return;
+                  }
+                  const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
+                  const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
+                  const recommendedDose = {
+                    min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
+                    max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
+                  };
+                  drugs.push(recommendedDose); // Agregar cada objeto de droga al array de drogas
+                });
+                for (var j = 0; j < this.actualMedications.length; j++) {
+                  this.actualMedications[j].recommendedDose = drugs[j];
+                }
+                console.log(this.actualMedications)
+            }, (err) => {
+              console.log(err);
+              this.callingOpenai = false;
+              Swal.close();
+              this.toastr.error('', this.translate.instant("generics.error try again"));
+              
+          }));
+  }
+
 
   loadTranslationsElements() {
     this.drugsLang = [];

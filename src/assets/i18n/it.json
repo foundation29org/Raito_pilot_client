@@ -467,6 +467,7 @@
        "The dose is higher than recommended":"La dose è superiore a quella raccomandata",
        "Are you sure you want to save the dose":"Sei sicuro di voler risparmiare la dose?",
        "Select drug":"Seleziona il farmaco",
+       "Recommended dose": "Dose consigliata per",
        "Recommended dose for children":"Dose consigliata per i bambini",
        "Recommended dose for adults":"Dose consigliata per adulti",
        "Initial":"Iniziale",
