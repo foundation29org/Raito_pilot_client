@@ -21,5 +21,25 @@ export class OpenAiService {
       })
     }
 
+    postOpenAi2(info){
+      return this.http.post(environment.api + '/api/callopenai2', info)
+      .map((res: any) => {
+        return res;
+      }, (err) => {
+        console.log(err);
+        return err;
+      })
+    }
+
+    postOpenAi3(info){
+      return this.http.post('https://langchainraito.azurewebsites.net/api/HttpTrigger1', info)
+      .map((res: any) => {
+        return res;
+      }, (err) => {
+        console.log(err);
+        return err;
+      })
+    }
+
 
 }
