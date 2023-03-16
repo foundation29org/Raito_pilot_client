@@ -984,11 +984,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   testDose() {
-    console.log(this.medication.recommendedDose)
-    console.log(Number(this.medication.dose))
-    console.log(Number(this.medication.recommendedDose.max))
-    console.log(Number(this.medication.recommendedDose.min))
-
     if(this.medication.recommendedDose == undefined){
       return true;
     }else{
