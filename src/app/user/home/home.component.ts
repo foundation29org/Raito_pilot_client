@@ -311,7 +311,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subscription.add(this.openAiService.postOpenAi3(query)
       .subscribe((res: any) => {
         console.log(res)
-        if(res.data == " I don't know." || res.data == "  No sé."){
+        if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
           var value = { value: this.query };
           this.subscription.add(this.openAiService.postOpenAi2(value)
             .subscribe((res: any) => {
