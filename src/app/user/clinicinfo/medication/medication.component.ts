@@ -483,6 +483,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
                 });
                 for (var j = 0; j < this.actualMedications.length; j++) {
                   this.actualMedications[j].recommendedDose = drugs[j];
+                  this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / drugs[j].max) * 100);
+                  if(this.actualMedications[j].dose<drugs[j].min){
+                    this.actualMedications[j].porcentajeDosis = Math.round(((this.actualMedications[j].dose-drugs[j].min) / drugs[j].max) * 100);
+                  }
+                  console.log(this.actualMedications[j].porcentajeDosis)
+                  /*if (this.actualMedications[j].porcentajeDosis  > 100) {
+                    this.actualMedications[j].porcentajeDosis = 100;
+                  }*/
                 }
                 console.log(this.actualMedications)
             }, (err) => {
@@ -633,8 +641,12 @@ export class MedicationComponent implements OnInit, OnDestroy {
     if (validDose) {
       this.sendChangeDose();
     } else {
+      var tirl = this.translate.instant("medication.The dose is higher than recommended");
+      if(Number(this.medication.dose) < Number(this.medication.recommendedDose.min)){
+        tirl = this.translate.instant("medication.The dose is lower than recommended");
+      }
       Swal.fire({
-        title: this.translate.instant("medication.The dose is higher than recommended"),
+        title: tirl,
         html: this.translate.instant("medication.Are you sure you want to save the dose"),
         icon: 'warning',
         showCancelButton: true,
@@ -984,11 +996,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   testDose() {
-    console.log(this.medication.recommendedDose)
-    console.log(Number(this.medication.dose))
-    console.log(Number(this.medication.recommendedDose.max))
-    console.log(Number(this.medication.recommendedDose.min))
-
     if(this.medication.recommendedDose == undefined){
       return true;
     }else{
@@ -1008,8 +1015,12 @@ export class MedicationComponent implements OnInit, OnDestroy {
     if (validDose) {
       this.sendData();
     } else {
+      var tirl = this.translate.instant("medication.The dose is higher than recommended");
+      if(Number(this.medication.dose) < Number(this.medication.recommendedDose.min)){
+        tirl = this.translate.instant("medication.The dose is lower than recommended");
+      }
       Swal.fire({
-        title: this.translate.instant("medication.The dose is higher than recommended"),
+        title: tirl,
         html: this.translate.instant("medication.Are you sure you want to save the dose"),
         icon: 'warning',
         showCancelButton: true,
