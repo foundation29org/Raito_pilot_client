@@ -25,6 +25,7 @@ import * as chartsData from 'app/shared/configs/general-charts.config';
 import { ColorHelper } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
+import { OpenAiService } from 'app/shared/services/openAi.service';
 declare let html2canvas: any;
 declare var device;
 declare const gapi: any;
@@ -33,7 +34,7 @@ declare const gapi: any;
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  providers: [PatientService, ApiDx29ServerService, jsPDFService, Apif29BioService]
+  providers: [PatientService, ApiDx29ServerService, jsPDFService, Apif29BioService, OpenAiService]
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('accordion') accordion: NgbAccordion;
@@ -73,7 +74,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   private group: any = {};
   patient: any;
   timeformat = "";
-  recommendedDoses: any = [];
   loadingDataGroup: boolean = false;
   dataGroup: any;
   drugsLang: any;
@@ -232,7 +232,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     {id: 12, es: 'Diciembre', en: 'December'}
   ];
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService) {     
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService) {     
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -1748,7 +1748,6 @@ initEnvironment(){
     this.selectedPatient = this.authService.getCurrentPatient();
     this.loadEnvironment();
   }
-  this.loadRecommendedDose();
 }
 
 loadEnvironment() {
@@ -1813,17 +1812,6 @@ ageFromDateOfBirthday(dateOfBirth: any) {
     age--;
   }
   this.age = age;
-}
-
-
-loadRecommendedDose() {
-  this.recommendedDoses = [];
-  //load countries file
-  this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
-    .subscribe((res: any) => {
-      this.recommendedDoses = res;
-    }));
-
 }
 
 loadTranslationsElements() {
@@ -2310,6 +2298,7 @@ getDrugs() {
         res.sort(this.sortService.DateSortInver("date"));
         this.searchTranslationDrugs();
         this.groupMedications();
+        this.getRecommendedDose();
         var datagraphseizures = [];
         
         this.lineChartDrugs = this.getStructure(res);
@@ -2332,11 +2321,6 @@ getDrugs() {
          tempColors.domain[this.chartNames.length]=tempColors2.domain[0];
          this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
 
-
-        this.normalizedChanged(this.normalized);
-        if(this.events.length>0){
-          this.getDataNormalizedDrugsVsSeizures();
-        }
         this.medications.sort(this.sortService.DateSortInver("endDate"));
       }
       this.loadedDrugs = true;
@@ -2346,6 +2330,71 @@ getDrugs() {
     }));
 
 }
+
+getRecommendedDose(){
+    console.log(this.actualMedications)
+    if (this.actualMedications.length > 0) {
+      var drugs = '';
+      for (var j = 0; j < this.actualMedications.length; j++) {
+        //if is the first item
+        if (j == 0) {
+          drugs = this.actualMedications[j].drug;
+        } else{
+          drugs = drugs + ', ' + this.actualMedications[j].drug;
+        }
+      }
+    var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
+    if(this.age!=null){
+      if(this.age>0){
+        promDrug = promDrug + ' who is ' + this.age + ' years old';
+      }else{
+        promDrug = promDrug + ' who is ' + this.age + ' months old';
+      }
+    }
+    promDrug = promDrug + ', and who is taking the following drugs: ';
+    var value = { value: promDrug +drugs };
+    value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
+
+  this.subscription.add(this.openAiService.postOpenAi2(value)
+            .subscribe((res: any) => {
+                let parseChoices0 = res.choices[0].message.content;
+                const drugsArray = parseChoices0.split("\n");
+                const drugs = [];
+                drugsArray.forEach((drug) => {
+                  if(drug==''){
+                    return;
+                  }
+                  const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
+                  const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
+                  const recommendedDose = {
+                    min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
+                    max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
+                  };
+                  drugs.push(recommendedDose); // Agregar cada objeto de droga al array de drogas
+                });
+                for (var j = 0; j < this.actualMedications.length; j++) {
+                  this.actualMedications[j].recommendedDose = drugs[j];
+                }
+                console.log(this.actualMedications)
+                this.continueGetDrugs();
+            }, (err) => {
+              console.log(err);
+              this.continueGetDrugs();
+              
+          }));
+    }else{
+      this.continueGetDrugs();
+    }
+    
+    
+  }
+
+  continueGetDrugs(){
+    this.normalizedChanged(this.normalized);
+    if(this.events.length>0){
+      this.getDataNormalizedDrugsVsSeizures();
+    }
+  }
 
 normalizedChanged(normalized){
   this.normalized = normalized;
@@ -2389,32 +2438,19 @@ normalize(value, min, max) {
   return normalized;
 }
 
-getMaxValueRecommededDrug(name){
-  var maxDose = 0;
-  var actualRecommendedDoses = this.recommendedDoses[name];
-  if(actualRecommendedDoses==undefined || !this.weight){
-    return maxDose;
-  }else{
-    if(this.age<18){
-      if(actualRecommendedDoses.data != 'onlyadults'){
-        if(actualRecommendedDoses.kids.perkg=='no'){
-          maxDose = actualRecommendedDoses.kids.maintenancedose.max
-        }else{
-          maxDose = actualRecommendedDoses.kids.maintenancedose.max * Number(this.weight);
-        }
-      }
+ getMaxValueRecommededDrug(name){
+    var maxDose = 0;
+    if( !this.weight){
+      return maxDose;
     }else{
-      if(actualRecommendedDoses.data != 'onlykids'){
-        if(actualRecommendedDoses.adults.perkg=='no'){
-          maxDose = actualRecommendedDoses.adults.maintenancedose.max
-        }else{
-          maxDose = actualRecommendedDoses.adults.maintenancedose.max * Number(this.weight);
+      for(var i=0;i<this.actualMedications.length;i++){
+        if(this.actualMedications[i].drug==name){
+          maxDose = this.actualMedications[i].recommendedDose.max;
         }
       }
+      return maxDose;
     }
-    return maxDose;
   }
-}
 
 searchTranslationDrugs() {
   for (var i = 0; i < this.medications.length; i++) {

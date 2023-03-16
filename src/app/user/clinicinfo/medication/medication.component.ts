@@ -53,7 +53,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   panelMedication: boolean = false;
   drugSelected: string = null;
   historyDrugSelected: any = [];
-  recommendedDoses: any = [];
   viewMeditationSection: boolean = false;
   modalReference: NgbModalRef;
   today = new Date();
@@ -78,6 +77,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
   newweight: any;
   drugToExtract: string = null;
   callingOpenai: boolean = false;
+  actualRecommendedDose: any = {
+    min: null,
+    max: null
+  };
 
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, private openAiService: OpenAiService, public cordovaService: CordovaService) {
@@ -136,8 +139,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
     }
 
     this.loadEnvir();
-    this.loadRecommendedDose();
-
     this.loadSettingsUser();
   }
 
@@ -444,21 +445,22 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
   
   getRecommendedDose(drugs){
-    var promDrug = 'Behave like a doctor.provide general information on the recommended dosage range for drugs for a patient';
-    if(this.weight){
+    //var promDrug = 'I am a doctor.provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
+    var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
+    /*if(this.weight){
       promDrug = promDrug + ' who weighs ' + this.weight + ' kg.';
-    }
+    }*/
     if(this.age!=null){
       if(this.age.years>0){
-        promDrug = promDrug + ', and is ' + this.age.years + ' years old';
+        promDrug = promDrug + ' who is ' + this.age.years + ' years old';
       }else{
-        promDrug = promDrug + ', and is ' + this.age.months + ' months old';
+        promDrug = promDrug + ' who is ' + this.age.months + ' months old';
       }
     }
     promDrug = promDrug + ', and who is taking the following drugs: ';
     var value = { value: promDrug +drugs };
     //value.value+='. Returns only an array with de ranges in mg/day for all the drugs in the same array. Example: "Result: [min1-max1, min2-max2, min3-max3]" it is not a prescribe medication.'
-    value.value+=". For each drug, return '\n\n' and the name of the drug, and a array with the minimum and maximum dose recommended. Returns only numbers, not 'mg/kg/day'. Example for each drug: \n\nDrug1: [min1-max1] \n\nDrug2: [min2-max2]"
+    value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
     //value.value+=' . And returns an array with the ranges of all the drugs.'
     //value.value+=' Return each drug with this format: \nname: min-max mg/kg/day'
 
@@ -483,6 +485,42 @@ export class MedicationComponent implements OnInit, OnDestroy {
                   this.actualMedications[j].recommendedDose = drugs[j];
                 }
                 console.log(this.actualMedications)
+            }, (err) => {
+              console.log(err);
+              this.callingOpenai = false;
+          }));
+  }
+
+  getRecommendedDoseOneDrug(){
+    var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drug for a patient';
+    if(this.age!=null){
+      if(this.age.years>0){
+        promDrug = promDrug + ' who is ' + this.age.years + ' years old';
+      }else{
+        promDrug = promDrug + ' who is ' + this.age.months + ' months old';
+      }
+    }
+    promDrug = promDrug + ', and who is taking the following drug: ';
+    var value = { value: promDrug +this.drugSelected };
+    value.value+=". Use only medical sources. Returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
+
+  this.subscription.add(this.openAiService.postOpenAi2(value)
+            .subscribe((res: any) => {
+                let parseChoices0 = res.choices[0].message.content;
+                const drugsArray = parseChoices0.split("\n");
+                drugsArray.forEach((drug) => {
+                  if(drug==''){
+                    return;
+                  }
+                  const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
+                  const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
+                  this.actualRecommendedDose = {
+                    min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
+                    max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
+                  };
+                });
+                this.medication.recommendedDose = this.actualRecommendedDose;
+                console.log(this.actualRecommendedDose)
             }, (err) => {
               console.log(err);
               this.callingOpenai = false;
@@ -574,6 +612,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
             }
           }
         }
+        this.drugsLang.sort(this.sortService.GetSortOrder("translation"));
       }
       
     }
@@ -761,6 +800,8 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.medication = {};
     this.medication.drug = this.drugSelected;
     this.viewMedicationForm = true;
+    console.log(this.medication)
+    this.getRecommendedDoseOneDrug();
   }
 
   editDrug(actualMedication) {
@@ -771,6 +812,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.startDate = new Date(this.medication.startDate);
     this.viewMedicationForm = true;
     this.viewMeditationSection = true;
+    if(this.medication.recommendedDose != undefined){
+      this.getRecommendedDoseOneDrug();
+    }
+    console.log(this.medication)
   }
   deleteEndDate() {
     this.medication.endDate = null;
@@ -939,50 +984,20 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   testDose() {
-    var actualRecommendedDoses = this.recommendedDoses[this.medication.drug];
-    this.medication.dose = this.medication.dose.replace(",", '.');
-    if (actualRecommendedDoses == undefined) {
+    console.log(this.medication.recommendedDose)
+    console.log(Number(this.medication.dose))
+    console.log(Number(this.medication.recommendedDose.max))
+    console.log(Number(this.medication.recommendedDose.min))
+
+    if(this.medication.recommendedDose == undefined){
       return true;
     }else{
-
-    }
-    var maxRecommended = 0;
-    if(this.age.years<18){
-      if(actualRecommendedDoses.data != 'onlyadults'){
-        if(actualRecommendedDoses.kids.perkg=='no'){
-          maxRecommended = actualRecommendedDoses.kids.maintenancedose.max
-        }else{
-          maxRecommended = actualRecommendedDoses.kids.maintenancedose.max * Number(this.weight);
-        }
-      }else{
+      if(Number(this.medication.dose) > Number(this.medication.recommendedDose.max)){
         return false;
       }
-      
-    }else{
-      if(actualRecommendedDoses.data != 'onlykids'){
-        if(actualRecommendedDoses.adults.perkg=='no'){
-          maxRecommended = actualRecommendedDoses.adults.maintenancedose.max
-        }else{
-          maxRecommended = actualRecommendedDoses.adults.maintenancedose.max * Number(this.weight);
-        }
-      }else{
+      if(Number(this.medication.dose) < Number(this.medication.recommendedDose.min)){
         return false;
       }
-      
-    }
-    
-    /*if (actualRecommendedDoses.data == 'onlykids') {
-      maxRecommended = actualRecommendedDoses.kids.maintenancedose.max;
-    }
-    if (actualRecommendedDoses.data == 'onlyadults') {
-      maxRecommended = actualRecommendedDoses.adults.maintenancedose.max;
-    }
-    if (actualRecommendedDoses.data == 'yes') {
-      maxRecommended = actualRecommendedDoses.adults.maintenancedose.max;
-    }*/
-    if (Number(this.medication.dose) > Number(maxRecommended)) {
-      return false;
-    } else {
       return true;
     }
 
@@ -1075,17 +1090,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   selectOtherDrug() {
-
-  }
-
-
-  loadRecommendedDose() {
-    this.recommendedDoses = [];
-    //load countries file
-    this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
-      .subscribe((res: any) => {
-        this.recommendedDoses = res;
-      }));
 
   }
 

@@ -176,7 +176,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   valueprogressbar=0;
   checks: any = {};
   consentgroup: string = 'false';
-  recommendedDoses: any = [];
   showNotiSeizu: boolean = false;
   showNotiFeel: boolean = false;
   showNotiDrugs: boolean = false;
@@ -725,17 +724,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.selectedPatient = this.authService.getCurrentPatient();
       this.loadEnvironment();
     }
-    this.loadRecommendedDose();
-  }
-
-  loadRecommendedDose() {
-    this.recommendedDoses = [];
-    //load countries file
-    this.subscription.add(this.http.get('assets/jsons/recommendedDose.json')
-      .subscribe((res: any) => {
-        this.recommendedDoses = res;
-      }));
-
   }
 
   loadPatientId(){
@@ -1255,11 +1243,11 @@ getWeek(newdate, dowOffset?) {
           this.showNotiDrugs = this.showNotifications(res[res.length-1].date, this.rangeResourcesDate.data['drugs'].daysToUpdate)
           this.searchTranslationDrugs();
           this.groupMedications();
+
+          this.getRecommendedDose();
           var datagraphseizures = [];
           
           this.lineChartDrugs = this.getStructure(res);
-          
-          
           this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
           this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
 
@@ -1276,12 +1264,8 @@ getWeek(newdate, dowOffset?) {
           var tempColors2 = JSON.parse(JSON.stringify(this.lineChartOneColorScheme2))
           tempColors.domain[this.chartNames.length]=tempColors2.domain[0];
           this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
-
           
-          this.normalizedChanged(this.normalized);
-          if(this.events.length>0){
-            this.getDataNormalizedDrugsVsSeizures();
-          }
+          
         }else{
           this.showNotiDrugs = false;
         }
@@ -1292,6 +1276,72 @@ getWeek(newdate, dowOffset?) {
         this.loadedDrugs = true;
       }));
 
+  }
+
+
+  getRecommendedDose(){
+    console.log(this.actualMedications)
+    if (this.actualMedications.length > 0) {
+      var drugs = '';
+      for (var j = 0; j < this.actualMedications.length; j++) {
+        //if is the first item
+        if (j == 0) {
+          drugs = this.actualMedications[j].drug;
+        } else{
+          drugs = drugs + ', ' + this.actualMedications[j].drug;
+        }
+      }
+    var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
+    if(this.age!=null){
+      if(this.age>0){
+        promDrug = promDrug + ' who is ' + this.age + ' years old';
+      }else{
+        promDrug = promDrug + ' who is ' + this.age + ' months old';
+      }
+    }
+    promDrug = promDrug + ', and who is taking the following drugs: ';
+    var value = { value: promDrug +drugs };
+    value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
+
+  this.subscription.add(this.openAiService.postOpenAi2(value)
+            .subscribe((res: any) => {
+                let parseChoices0 = res.choices[0].message.content;
+                const drugsArray = parseChoices0.split("\n");
+                const drugs = [];
+                drugsArray.forEach((drug) => {
+                  if(drug==''){
+                    return;
+                  }
+                  const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
+                  const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
+                  const recommendedDose = {
+                    min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
+                    max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
+                  };
+                  drugs.push(recommendedDose); // Agregar cada objeto de droga al array de drogas
+                });
+                for (var j = 0; j < this.actualMedications.length; j++) {
+                  this.actualMedications[j].recommendedDose = drugs[j];
+                }
+                console.log(this.actualMedications)
+                this.continueGetDrugs();
+            }, (err) => {
+              console.log(err);
+              this.continueGetDrugs();
+              
+          }));
+    }else{
+      this.continueGetDrugs();
+    }
+    
+    
+  }
+
+  continueGetDrugs(){
+    this.normalizedChanged(this.normalized);
+    if(this.events.length>0){
+      this.getDataNormalizedDrugsVsSeizures();
+    }
   }
 
   getStructure(res){
@@ -1683,25 +1733,12 @@ getWeek(newdate, dowOffset?) {
 
   getMaxValueRecommededDrug(name){
     var maxDose = 0;
-    var actualRecommendedDoses = this.recommendedDoses[name];
-    if(actualRecommendedDoses==undefined || !this.weight){
+    if( !this.weight){
       return maxDose;
     }else{
-      if(this.age<18){
-        if(actualRecommendedDoses.data != 'onlyadults'){
-          if(actualRecommendedDoses.kids.perkg=='no'){
-            maxDose = actualRecommendedDoses.kids.maintenancedose.max
-          }else{
-            maxDose = actualRecommendedDoses.kids.maintenancedose.max * Number(this.weight);
-          }
-        }
-      }else{
-        if(actualRecommendedDoses.data != 'onlykids'){
-          if(actualRecommendedDoses.adults.perkg=='no'){
-            maxDose = actualRecommendedDoses.adults.maintenancedose.max
-          }else{
-            maxDose = actualRecommendedDoses.adults.maintenancedose.max * Number(this.weight);
-          }
+      for(var i=0;i<this.actualMedications.length;i++){
+        if(this.actualMedications[i].drug==name){
+          maxDose = this.actualMedications[i].recommendedDose.max;
         }
       }
       return maxDose;
