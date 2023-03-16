@@ -464,6 +464,8 @@
        "msgDrugNotFoundpart1":"Se non trovi il farmaco,",
        "msgDrugNotFoundpart2":"clicca qui",
        "msgDrugNotFoundpart3":"per aggiungerlo alla sezione di altri farmaci o integratori",
+       "Out of range":"Fuori portata",
+       "The dose is lower than recommended":"La dose è inferiore a quella raccomandata",
        "The dose is higher than recommended":"La dose è superiore a quella raccomandata",
        "Are you sure you want to save the dose":"Sei sicuro di voler risparmiare la dose?",
        "Select drug":"Seleziona il farmaco",

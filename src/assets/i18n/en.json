@@ -464,6 +464,8 @@
     "msgDrugNotFoundpart1": "If you do not find the drug,",
     "msgDrugNotFoundpart2": "click here",
     "msgDrugNotFoundpart3": "to add it to the section of other drugs or supplements",
+    "Out of range": "Out of range",
+    "The dose is lower than recommended": "The dose is lower than recommended",
     "The dose is higher than recommended": "The dose is higher than recommended",
     "Are you sure you want to save the dose": "Are you sure you want to save the dose?",
     "Select drug": "Select drug",
