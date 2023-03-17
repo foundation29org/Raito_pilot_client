@@ -141,7 +141,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
     this.loadEnvir();
     this.loadSettingsUser();
-    this.getSavedRecommendations();
+    
   }
 
   getSavedRecommendations() {
@@ -149,6 +149,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
         .subscribe( (resDoses : any) => {
           console.log(resDoses)
             this.savedRecommendations = resDoses;
+            for (let i = 0; i < this.savedRecommendations.length; i++) {
+              this.savedRecommendations[i].min = Math.round(parseFloat(this.savedRecommendations[i].min)*parseFloat(this.weight));
+              this.savedRecommendations[i].max = Math.round(parseFloat(this.savedRecommendations[i].max)*parseFloat(this.weight));
+            }
           }, (err) => {
             console.log(err);
             this.toastr.error('', this.translate.instant("generics.error try again"));
@@ -257,6 +261,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
           }.bind(this))
         }else{
           this.weight = res.weight.value;
+          this.getSavedRecommendations();
           this.weightUnits = res.weight.value;
           if (this.settings.massunit == 'lb') {
             this.weightUnits = (Number(this.weightUnits) * 2.2046).toString();
@@ -343,6 +348,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
       this.subscription.add(this.http.post(environment.api + '/api/weight/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res: any) => {
           this.weight = res.weight.value
+          this.getSavedRecommendations();
           this.weightUnits = res.weight.value;
           if (this.settings.massunit == 'lb') {
             this.weightUnits = (Number(this.weightUnits) * 2.2046).toString();
@@ -482,6 +488,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
                       min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
                       max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
                     };
+
+                    const recommendedDose2 = {
+                      min: Math.round(parseFloat(rangeValues[0])*100)/100,
+                      max: Math.round(parseFloat(rangeValues[1])*100)/100
+                    };
                     
                     for (var j = 0; j < this.actualMedications.length; j++) {
                       if(this.actualMedications[j].drug==nameAndCommercialName[0]){
@@ -494,7 +505,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                         /*if (this.actualMedications[j].porcentajeDosis  > 100) {
                           this.actualMedications[j].porcentajeDosis = 100;
                         }*/
-                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose.min, max: recommendedDose.max});
+                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max});
                       }
                     }
                     
