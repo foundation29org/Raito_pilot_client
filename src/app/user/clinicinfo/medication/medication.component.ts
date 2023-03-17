@@ -145,7 +145,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   getSavedRecommendations() {
-    this.subscription.add( this.http.get(environment.api+'/api/dose/')
+    this.subscription.add( this.http.get(environment.api+'/api/dose/'+ this.authService.getCurrentPatient().sub)
         .subscribe( (resDoses : any) => {
           console.log(resDoses)
             this.savedRecommendations = resDoses;
@@ -443,7 +443,13 @@ export class MedicationComponent implements OnInit, OnDestroy {
               this.actualMedications[i].recommendedDose = {min : null, max : null};
               this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
               this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
-              found = true;
+              if(this.age!=null){
+                if(this.savedRecommendations[j].age == this.age.years){
+                  found = true;
+                }
+              }else{
+                found = true;
+              }
             }
           }
         }
@@ -460,14 +466,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
       var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
       /*if(this.weight){
         promDrug = promDrug + ' who weighs ' + this.weight + ' kg.';
-      }
+      }*/
       if(this.age!=null){
         if(this.age.years>0){
           promDrug = promDrug + ' who is ' + this.age.years + ' years old';
         }else{
           promDrug = promDrug + ' who is ' + this.age.months + ' months old';
         }
-      }*/
+      }
       promDrug = promDrug + ', and who is taking the following drugs: ';
       var value = { value: promDrug +actualDrugs};
       value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
@@ -495,7 +501,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                     };
                     console.log(this.actualMedications)
                     for (var j = 0; j < this.actualMedications.length; j++) {
-                      if(this.actualMedications[j].drug.indexOf(nameAndCommercialName[0])!=-1){
+                      if(this.actualMedications[j].drug==nameAndCommercialName[0]){
                         this.actualMedications[j].recommendedDose = recommendedDose;
                         this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose.max) * 100);
                         if(this.actualMedications[j].dose<recommendedDose.min){
@@ -505,7 +511,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                         /*if (this.actualMedications[j].porcentajeDosis  > 100) {
                           this.actualMedications[j].porcentajeDosis = 100;
                         }*/
-                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max});
+                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max, age: this.age.years});
                       }
                     }
                     
