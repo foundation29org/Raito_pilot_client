@@ -198,6 +198,15 @@
 													<h3 class="white font-medium-3 mb-0">{{actualMedication.dose}} {{'medication.mg/day' |
 														translate }}</h3>
 													<span>{{'medication.Current dose' | translate }}</span>
+													<span *ngIf="medication.recommendedDose" class="mt-2 d-block">
+														<h3 *ngIf="actualMedication.dose <medication.recommendedDose.min || actualMedication.dose >medication.recommendedDose.max" class="d-block mb-0">
+															{{'medication.Out of range' | translate }}
+													   </h3>
+														<span class="d-block">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
+														<span class="d-block">Min: {{medication.recommendedDose.min}}</span>
+														<span class="d-block">Max: {{medication.recommendedDose.max}}</span>
+													</span>
+													
 												</div>
 												<div class="media-right white text-right">
 													<i class="fa fa-medkit font-medium-3"></i>
