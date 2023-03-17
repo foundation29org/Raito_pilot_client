@@ -232,6 +232,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     {id: 12, es: 'Diciembre', en: 'December'}
   ];
 
+  savedRecommendations: any = [];
+
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService) {     
     this.subscription.add(this.route
       .queryParams
@@ -1748,6 +1750,18 @@ initEnvironment(){
     this.selectedPatient = this.authService.getCurrentPatient();
     this.loadEnvironment();
   }
+  this.getSavedRecommendations();
+}
+
+getSavedRecommendations() {
+  this.subscription.add( this.http.get(environment.api+'/api/dose/')
+      .subscribe( (resDoses : any) => {
+        console.log(resDoses)
+          this.savedRecommendations = resDoses;
+        }, (err) => {
+          console.log(err);
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+        }));
 }
 
 loadEnvironment() {
@@ -2298,29 +2312,7 @@ getDrugs() {
         res.sort(this.sortService.DateSortInver("date"));
         this.searchTranslationDrugs();
         this.groupMedications();
-        this.getRecommendedDose();
-        var datagraphseizures = [];
-        
-        this.lineChartDrugs = this.getStructure(res);
-        
-        
-        this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
-        this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
-
-         // Get chartNames
-         var chartNames = this.lineChartDrugs.map((d: any) => d.name);
-         this.chartNames = [...new Set(chartNames)];
-         //this.chartNames = this.lineChartDrugs.map((d: any) => d.name);
-         // Convert hex colors to ColorHelper for consumption by legend
-         this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
-         this.colors2 = new ColorHelper(this.lineChartOneColorScheme2, 'ordinal', this.chartNames, this.lineChartOneColorScheme2);
-           
-         //newColor
-         var tempColors = JSON.parse(JSON.stringify(this.lineChartColorScheme))
-         var tempColors2 = JSON.parse(JSON.stringify(this.lineChartOneColorScheme2))
-         tempColors.domain[this.chartNames.length]=tempColors2.domain[0];
-         this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
-
+        this.getRecommendedDose(res);
         this.medications.sort(this.sortService.DateSortInver("endDate"));
       }
       this.loadedDrugs = true;
@@ -2331,70 +2323,133 @@ getDrugs() {
 
 }
 
-getRecommendedDose(){
-    console.log(this.actualMedications)
-    if (this.actualMedications.length > 0) {
-      var drugs = '';
-      for (var j = 0; j < this.actualMedications.length; j++) {
-        //if is the first item
-        if (j == 0) {
-          drugs = this.actualMedications[j].drug;
-        } else{
-          drugs = drugs + ', ' + this.actualMedications[j].drug;
+getRecommendedDose(res2){
+  if (this.actualMedications.length > 0) {
+  var actualDrugs = '';
+  
+    for (var i = 0; i < this.actualMedications.length; i++) {
+      var found = false;
+      if(this.savedRecommendations.length > 0){
+        for(var j = 0; j < this.savedRecommendations.length && !found; j++){
+          if(this.actualMedications[i].drug == this.savedRecommendations[j].name){
+            this.actualMedications[i].recommendedDose = {min : null, max : null};
+            this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
+            this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
+            found = true;
+          }
         }
       }
-    var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
-    if(this.age!=null){
-      if(this.age>0){
-        promDrug = promDrug + ' who is ' + this.age + ' years old';
-      }else{
-        promDrug = promDrug + ' who is ' + this.age + ' months old';
+      if(!found){
+        if(actualDrugs == ''){
+          actualDrugs = this.actualMedications[i].drug;
+        }else{
+          actualDrugs = actualDrugs + ', ' + this.actualMedications[i].drug;
+        }
       }
     }
-    promDrug = promDrug + ', and who is taking the following drugs: ';
-    var value = { value: promDrug +drugs };
-    value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
-
-  this.subscription.add(this.openAiService.postOpenAi2(value)
-            .subscribe((res: any) => {
+    if(actualDrugs != ''){
+      var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
+      if(this.age!=null){
+        if(this.age>0){
+          promDrug = promDrug + ' who is ' + this.age + ' years old';
+        }else{
+          promDrug = promDrug + ' who is ' + this.age + ' months old';
+        }
+      }
+      promDrug = promDrug + ', and who is taking the following drugs: ';
+      var value = { value: promDrug +actualDrugs };
+      value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
+  
+    this.subscription.add(this.openAiService.postOpenAi2(value)
+              .subscribe((res: any) => {
                 let parseChoices0 = res.choices[0].message.content;
                 const drugsArray = parseChoices0.split("\n");
-                const drugs = [];
+                var drugsToSave = [];
                 drugsArray.forEach((drug) => {
                   if(drug==''){
                     return;
                   }
                   const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
+                  console.log(nameAndCommercialName)
                   const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
                   const recommendedDose = {
                     min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
                     max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
                   };
-                  drugs.push(recommendedDose); // Agregar cada objeto de droga al array de drogas
+                  
+                  for (var j = 0; j < this.actualMedications.length; j++) {
+                    if(this.actualMedications[j].drug==nameAndCommercialName[0]){
+                      this.actualMedications[j].recommendedDose = recommendedDose;
+                      this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose.max) * 100);
+                      if(this.actualMedications[j].dose<recommendedDose.min){
+                        this.actualMedications[j].porcentajeDosis = Math.round(((this.actualMedications[j].dose-recommendedDose.min) / recommendedDose.max) * 100);
+                      }
+                      console.log(this.actualMedications[j].porcentajeDosis)
+                      /*if (this.actualMedications[j].porcentajeDosis  > 100) {
+                        this.actualMedications[j].porcentajeDosis = 100;
+                      }*/
+                      drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose.min, max: recommendedDose.max});
+                    }
+                  }
+                  
                 });
-                for (var j = 0; j < this.actualMedications.length; j++) {
-                  this.actualMedications[j].recommendedDose = drugs[j];
-                }
+                console.log(drugsToSave)
                 console.log(this.actualMedications)
-                this.continueGetDrugs();
-            }, (err) => {
-              console.log(err);
-              this.continueGetDrugs();
-              
-          }));
+                if(drugsToSave.length>0){
+                  this.saveRecommendations(drugsToSave);
+                }
+                this.continueGetDrugs(res2);
+              }, (err) => {
+                console.log(err);
+                this.continueGetDrugs(res2);
+                
+            }));
     }else{
-      this.continueGetDrugs();
+      this.continueGetDrugs(res2);
     }
-    
-    
+  
+  }else{
+    this.continueGetDrugs(res2);
   }
+  
+  
+}
 
-  continueGetDrugs(){
-    this.normalizedChanged(this.normalized);
-    if(this.events.length>0){
-      this.getDataNormalizedDrugsVsSeizures();
-    }
+saveRecommendations(drugsToSave){
+  this.subscription.add(this.patientService.saveRecommendations(drugsToSave)
+  .subscribe((res: any) => {
+    console.log(res);
+    this.getSavedRecommendations();
+  }, (err) => {
+    console.log(err);
+  }));
+}
+
+continueGetDrugs(res){
+  console.log(this.actualMedications)
+  var datagraphseizures = [];
+  this.lineChartDrugs = this.getStructure(res);
+  this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
+  this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
+
+  // Get chartNames
+  var chartNames = this.lineChartDrugs.map((d: any) => d.name);
+  this.chartNames = [...new Set(chartNames)];
+  //this.chartNames = this.lineChartDrugs.map((d: any) => d.name);
+  // Convert hex colors to ColorHelper for consumption by legend
+  this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
+  this.colors2 = new ColorHelper(this.lineChartOneColorScheme2, 'ordinal', this.chartNames, this.lineChartOneColorScheme2);
+    
+  //newColor
+  var tempColors = JSON.parse(JSON.stringify(this.lineChartColorScheme))
+  var tempColors2 = JSON.parse(JSON.stringify(this.lineChartOneColorScheme2))
+  tempColors.domain[this.chartNames.length]=tempColors2.domain[0];
+  this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
+  this.normalizedChanged(this.normalized);
+  if(this.events.length>0){
+    this.getDataNormalizedDrugsVsSeizures();
   }
+}
 
 normalizedChanged(normalized){
   this.normalized = normalized;
