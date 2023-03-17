@@ -2543,6 +2543,9 @@ groupMedications() {
 getStructure(res){
   var lineChartDrugs = [];
   for (var i = 0; i < res.length; i++) {
+    if(res[i].drugTranslate == undefined ){
+      res[i].drugTranslate = res[i].drug;
+    }
     var foundElementDrugIndex = this.searchService.searchIndex(lineChartDrugs, 'name', res[i].drugTranslate);
     var splitDate = new Date(res[i].startDate);
     if(splitDate<this.minDateRange){
