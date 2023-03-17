@@ -716,7 +716,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getSavedRecommendations() {
-    this.subscription.add( this.http.get(environment.api+'/api/dose/'+ this.authService.getCurrentPatient().sub)
+    this.subscription.add( this.http.get(environment.api+'/api/dose/')
         .subscribe( (resDoses : any) => {
           console.log(resDoses)
             this.savedRecommendations = resDoses;
