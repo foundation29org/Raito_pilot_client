@@ -1888,9 +1888,8 @@ calculateMinDate(){
   this.xAxisTicks = [this.minDateRange.toISOString(),mediumDate.toISOString(),actualDate.toISOString()];
 }
 
-async loadData() {
+loadData() {
   //cargar los datos del usuario
-  await this.getSavedRecommendations();
   this.loadedFeels = false;
   this.getFeels();
   this.getSeizures();
@@ -1909,8 +1908,10 @@ getWeightAndAge() {
       if (res.message == 'There are no weight') {
       }else if(res.message == 'old weight'){
         this.weight = res.weight.value
+        this.getSavedRecommendations();
       }else{
         this.weight = res.weight.value
+        this.getSavedRecommendations();
       }
     }, (err) => {
       console.log(err);
@@ -2340,6 +2341,10 @@ getRecommendedDose(res2){
             this.actualMedications[i].recommendedDose = {min : null, max : null};
             this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
             this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
+            this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].max) * 100);
+            if(this.actualMedications[i].dose<this.savedRecommendations[j].min){
+              this.actualMedications[i].porcentajeDosis = Math.round(((this.actualMedications[i].dose-this.savedRecommendations[j].min) / this.savedRecommendations[j].max) * 100);
+            }
             found = true;
           }
         }

@@ -724,10 +724,9 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.savedRecommendations[i].min = Math.round(parseFloat(this.savedRecommendations[i].min)*parseFloat(this.weight));
               this.savedRecommendations[i].max = Math.round(parseFloat(this.savedRecommendations[i].max)*parseFloat(this.weight));
             }
-            this.loadEnvironment();
           }, (err) => {
             console.log(err);
-            this.loadEnvironment();
+            this.toastr.error('', this.translate.instant("generics.error try again"));
           }));
   }
 
@@ -738,7 +737,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }else{
       this.loadedPatientId = true;
       this.selectedPatient = this.authService.getCurrentPatient();
-      this.getSavedRecommendations();
+      this.loadEnvironment();
     }
   }
 
@@ -753,7 +752,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loadedPatientId = true;
         this.authService.setCurrentPatient(res);
         this.selectedPatient = res;
-        this.getSavedRecommendations();
+        this.loadEnvironment();
       }
      }, (err) => {
        console.log(err);
@@ -1289,6 +1288,10 @@ getWeek(newdate, dowOffset?) {
               this.actualMedications[i].recommendedDose = {min : null, max : null};
               this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
               this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
+              this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].max) * 100);
+              if(this.actualMedications[i].dose<this.savedRecommendations[j].min){
+                this.actualMedications[i].porcentajeDosis = Math.round(((this.actualMedications[i].dose-this.savedRecommendations[j].min) / this.savedRecommendations[j].max) * 100);
+              }
               found = true;
             }
           }
@@ -1808,8 +1811,10 @@ getWeek(newdate, dowOffset?) {
         if (res.message == 'There are no weight') {
         }else if(res.message == 'old weight'){
           this.weight = res.weight.value
+          this.getSavedRecommendations();
         }else{
           this.weight = res.weight.value
+          this.getSavedRecommendations();
         }
         
       }, (err) => {

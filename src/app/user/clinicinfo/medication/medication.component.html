@@ -49,12 +49,12 @@
 														<div class="media-body white text-left">
 															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
-															<span *ngIf="medication.recommendedDose">
+															<span *ngIf="medication.recommendedDose && weight">
 																<span class="d-block text-muted">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
 																<span class="d-block text-muted">Min: {{medication.recommendedDose.min}}</span>
 																<span class="d-block text-muted">Max: {{medication.recommendedDose.max}}</span>
 															</span>
-															<span *ngIf="medication.recommendedDose" class="d-block mt-2">
+															<span *ngIf="medication.recommendedDose && weight" class="d-block mt-2">
 																
 																<span *ngIf="medication.dose < medication.recommendedDose.min">
 																	<ngb-progressbar type="danger" class="w-50" [value]="medication.porcentajeDosis" [min]="medication.porcentajeDosis" [max]="100"></ngb-progressbar>
