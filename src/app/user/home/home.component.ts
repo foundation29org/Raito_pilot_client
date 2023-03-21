@@ -312,7 +312,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log(res)
         if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
-          var value = { value: this.query };
+          var value = { value: this.query, context: "" };
           this.subscription.add(this.openAiService.postOpenAi2(value)
             .subscribe((res: any) => {
               this.queryCopy = this.query;
@@ -1306,18 +1306,19 @@ getWeek(newdate, dowOffset?) {
         }
       }
       if(actualDrugs != ''){
-        var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
-        if(this.age!=null){
+        //var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
+        var promDrug = 'Give me the recommend maintenance dose range for a patient who is taking the following drugs:\n';
+        /*if(this.age!=null){
           if(this.age>0){
             promDrug = promDrug + ' who is ' + this.age + ' years old';
           }else{
             promDrug = promDrug + ' who is ' + this.age + ' months old';
           }
         }
-        promDrug = promDrug + ', and who is taking the following drugs: ';
-        var value = { value: promDrug +actualDrugs };
-        value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
-    
+        promDrug = promDrug + ', and who is taking the following drugs: ';*/
+        var value = { value: promDrug +actualDrugs, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
+        //value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
+        value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
       this.subscription.add(this.openAiService.postOpenAi2(value)
                 .subscribe((res: any) => {
                   let parseChoices0 = res.choices[0].message.content;
@@ -1351,7 +1352,7 @@ getWeek(newdate, dowOffset?) {
                         /*if (this.actualMedications[j].porcentajeDosis  > 100) {
                           this.actualMedications[j].porcentajeDosis = 100;
                         }*/
-                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max, age: this.age});
+                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max, actualDrugs: actualDrugs});
                       }
                     }
                     
