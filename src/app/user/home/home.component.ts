@@ -246,6 +246,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   callinglangchainraito: boolean = false;
   responseLangchain: string = '';
   savedRecommendations: any = [];
+  searchopenai: boolean = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService, private openAiService: OpenAiService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -304,6 +305,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 }
 
   search(){
+    this.searchopenai = false;
     console.log(this.query)
     this.callinglangchainraito = true;
     var query = {"question": this.query};
@@ -312,6 +314,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log(res)
         if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
+          this.searchopenai = true;
           var value = { value: this.query, context: "" };
           this.subscription.add(this.openAiService.postOpenAi2(value)
             .subscribe((res: any) => {
@@ -721,8 +724,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log(resDoses)
             this.savedRecommendations = resDoses;
             for (let i = 0; i < this.savedRecommendations.length; i++) {
-              this.savedRecommendations[i].min = Math.round(parseFloat(this.savedRecommendations[i].min)*parseFloat(this.weight));
-              this.savedRecommendations[i].max = Math.round(parseFloat(this.savedRecommendations[i].max)*parseFloat(this.weight));
+              this.savedRecommendations[i].recommendedDose = Math.round(parseFloat(this.savedRecommendations[i].recommendedDose)*parseFloat(this.weight));
             }
           }, (err) => {
             console.log(err);
@@ -1285,13 +1287,9 @@ getWeek(newdate, dowOffset?) {
         if(this.savedRecommendations.length > 0){
           for(var j = 0; j < this.savedRecommendations.length && !found; j++){
             if(this.actualMedications[i].drug == this.savedRecommendations[j].name){
-              this.actualMedications[i].recommendedDose = {min : null, max : null};
-              this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
-              this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
-              this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].max) * 100);
-              if(this.actualMedications[i].dose<this.savedRecommendations[j].min){
-                this.actualMedications[i].porcentajeDosis = Math.round(((this.actualMedications[i].dose-this.savedRecommendations[j].min) / this.savedRecommendations[j].max) * 100);
-              }
+              this.actualMedications[i].recommendedDose = null;
+              this.actualMedications[i].recommendedDose = this.savedRecommendations[j].recommendedDose;
+              this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].recommendedDose) * 100);
               found = true;
             }
           }
@@ -1322,19 +1320,9 @@ getWeek(newdate, dowOffset?) {
         }
       }
       if(actualDrugs != ''){
-        //var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
-        var promDrug = 'Give me the recommend maintenance dose range for a patient who is taking the following drugs:\n';
-        /*if(this.age!=null){
-          if(this.age>0){
-            promDrug = promDrug + ' who is ' + this.age + ' years old';
-          }else{
-            promDrug = promDrug + ' who is ' + this.age + ' months old';
-          }
-        }
-        promDrug = promDrug + ', and who is taking the following drugs: ';*/
-        var value = { value: promDrug +actualDrugs, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
-        //value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
-        value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
+        var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
+      promDrug+= ".\nGet in mg/kg/day but don't add to the answer 'mg/kg/day'.\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.";
+      var value = { value: promDrug, context: "You are a useful assistant to recommend maximum maintenance doses of drugs.\n\nUse only medical sources.\n\nReturn only the list of drugs, no add more text\n\nFor each drug, returns the full name of the drug (the full name that I have given it to you.), and a number (Without adding text before or after the number), nothing more."};
       this.subscription.add(this.openAiService.postOpenAi2(value)
                 .subscribe((res: any) => {
                   let parseChoices0 = res.choices[0].message.content;
@@ -1345,30 +1333,14 @@ getWeek(newdate, dowOffset?) {
                       return;
                     }
                     const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
-                    console.log(nameAndCommercialName)
-                    const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
-                    const recommendedDose = {
-                      min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
-                      max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
-                    };
-
-                    const recommendedDose2 = {
-                      min: Math.round(parseFloat(rangeValues[0])*100)/100,
-                      max: Math.round(parseFloat(rangeValues[1])*100)/100
-                    };
-                    
+                    const recommendedDose = Math.round(parseFloat(nameAndCommercialName[1])*parseFloat(this.weight))
+                    const recommendedDose2 = nameAndCommercialName[1];
                     for (var j = 0; j < this.actualMedications.length; j++) {
                       if(this.actualMedications[j].drug==nameAndCommercialName[0]){
                         this.actualMedications[j].recommendedDose = recommendedDose;
-                        this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose.max) * 100);
-                        if(this.actualMedications[j].dose<recommendedDose.min){
-                          this.actualMedications[j].porcentajeDosis = Math.round(((this.actualMedications[j].dose-recommendedDose.min) / recommendedDose.max) * 100);
-                        }
+                        this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose) * 100);
                         console.log(this.actualMedications[j].porcentajeDosis)
-                        /*if (this.actualMedications[j].porcentajeDosis  > 100) {
-                          this.actualMedications[j].porcentajeDosis = 100;
-                        }*/
-                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max, actualDrugs: actualDrugs});
+                        drugsToSave.push({name: nameAndCommercialName[0], recommendedDose: recommendedDose2, actualDrugs: actualDrugs});
                       }
                     }
                     
@@ -1831,7 +1803,7 @@ getWeek(newdate, dowOffset?) {
     }else{
       for(var i=0;i<this.actualMedications.length;i++){
         if(this.actualMedications[i].drug==name){
-          maxDose = this.actualMedications[i].recommendedDose.max;
+          maxDose = this.actualMedications[i].recommendedDose;
         }
       }
       return maxDose;

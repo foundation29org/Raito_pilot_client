@@ -816,6 +816,7 @@
        "MsgDisclaimer":"Sie sind dabei, GPT3, ein System der künstlichen Intelligenz, zu testen. Ihre Frage wird automatisch beantwortet und es gibt keine Garantie für die Qualität der Antwort. Schreiben Sie Ihren Namen, wenn Sie damit einverstanden sind und verstehen.",
        "I agree":"Ich stimme zu",
        "Type a question in the text box":"Geben Sie eine Frage in das Textfeld ein",
+       "nothingFound": "Wir haben in meinen Informationsquellen nichts gefunden, die folgende Antwort stammt von einer generischen künstlichen Intelligenz und kann Fehler enthalten:",
        "Any question about your disease?":"Haben Sie Fragen zu Ihrer Erkrankung?",
        "Normalized":"Normalisierte Daten",
        "Not normalized":"Nicht normalisierte Daten",

@@ -377,6 +377,9 @@
             <div *ngIf="!callinglangchainraito && responseLangchain!=''" class="white mt-3">
                 <h4 class="text-bold-500 white text-left">{{queryCopy}}</h4>
                 <div class="row">
+                    <div class="col-12" *ngIf="searchopenai">
+                        <p>{{'homeraito.nothingFound' | translate }}</p>
+                    </div>
                     <div class="col-12">
                         <p>{{responseLangchain}}</p>
                     </div>

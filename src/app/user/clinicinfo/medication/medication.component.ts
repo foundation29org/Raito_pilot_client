@@ -77,10 +77,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   newweight: any;
   drugToExtract: string = null;
   callingOpenai: boolean = false;
-  actualRecommendedDose: any = {
-    min: null,
-    max: null
-  };
+  actualRecommendedDose: any = null;
   savedRecommendations: any = [];
 
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
@@ -150,8 +147,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
           console.log(resDoses)
             this.savedRecommendations = resDoses;
             for (let i = 0; i < this.savedRecommendations.length; i++) {
-              this.savedRecommendations[i].min = Math.round(parseFloat(this.savedRecommendations[i].min)*parseFloat(this.weight));
-              this.savedRecommendations[i].max = Math.round(parseFloat(this.savedRecommendations[i].max)*parseFloat(this.weight));
+              this.savedRecommendations[i].recommendedDose = Math.round(parseFloat(this.savedRecommendations[i].recommendedDose)*parseFloat(this.weight));
             }
           }, (err) => {
             console.log(err);
@@ -441,13 +437,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
         if(this.savedRecommendations.length > 0){
           for(var j = 0; j < this.savedRecommendations.length && !found; j++){
             if(this.actualMedications[i].drug == this.savedRecommendations[j].name){
-              this.actualMedications[i].recommendedDose = {min : null, max : null};
-              this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
-              this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
-              this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].max) * 100);
-              if(this.actualMedications[i].dose<this.savedRecommendations[j].min){
-                this.actualMedications[i].porcentajeDosis = Math.round(((this.actualMedications[i].dose-this.savedRecommendations[j].min) / this.savedRecommendations[j].max) * 100);
-              }
+              this.actualMedications[i].recommendedDose = null;
+              this.actualMedications[i].recommendedDose = this.savedRecommendations[j].recommendedDose;
+              this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].recommendedDose) * 100);
               found = true;
             }
           }
@@ -480,22 +472,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
       
 
     if(actualDrugs != ''){
-      //var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';
-      var promDrug = 'Give me the recommend maintenance dose range for a patient who is taking the following drugs:\n';
-      /*if(this.weight){
-        promDrug = promDrug + ' who weighs ' + this.weight + ' kg.';
-      }*/
-      /*if(this.age!=null){
-        if(this.age.years>0){
-          promDrug = promDrug + ' who is ' + this.age.years + ' years old';
-        }else{
-          promDrug = promDrug + ' who is ' + this.age.months + ' months old';
-        }
-      }
-      promDrug = promDrug + ', and who is taking the following drugs: ';*/
-      var value = { value: promDrug +actualDrugs, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
-      //value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
-      value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
+      var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
+      promDrug+= ".\nGet in mg/kg/day but don't add to the answer 'mg/kg/day'.\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.";
+      var value = { value: promDrug, context: "You are a useful assistant to recommend maximum maintenance doses of drugs.\n\nUse only medical sources.\n\nReturn only the list of drugs, no add more text\n\nFor each drug, returns the full name of the drug (the full name that I have given it to you.), and a number (Without adding text before or after the number), nothing more."};
     this.subscription.add(this.openAiService.postOpenAi2(value)
               .subscribe((res: any) => {
                   let parseChoices0 = res.choices[0].message.content;
@@ -506,30 +485,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
                       return;
                     }
                     const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
-                    console.log(nameAndCommercialName)
-                    const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
-                    const recommendedDose = {
-                      min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
-                      max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
-                    };
-
-                    const recommendedDose2 = {
-                      min: Math.round(parseFloat(rangeValues[0])*100)/100,
-                      max: Math.round(parseFloat(rangeValues[1])*100)/100
-                    };
-                    console.log(this.actualMedications)
+                    const recommendedDose = Math.round(parseFloat(nameAndCommercialName[1])*parseFloat(this.weight))
+                    const recommendedDose2 = nameAndCommercialName[1];
                     for (var j = 0; j < this.actualMedications.length; j++) {
                       if(this.actualMedications[j].drug==nameAndCommercialName[0]){
                         this.actualMedications[j].recommendedDose = recommendedDose;
-                        this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose.max) * 100);
-                        if(this.actualMedications[j].dose<recommendedDose.min){
-                          this.actualMedications[j].porcentajeDosis = Math.round(((this.actualMedications[j].dose-recommendedDose.min) / recommendedDose.max) * 100);
-                        }
+                        this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose) * 100);
                         console.log(this.actualMedications[j].porcentajeDosis)
-                        /*if (this.actualMedications[j].porcentajeDosis  > 100) {
-                          this.actualMedications[j].porcentajeDosis = 100;
-                        }*/
-                        drugsToSave.push({name: nameAndCommercialName[0], min: recommendedDose2.min, max: recommendedDose2.max, actualDrugs: actualDrugs});
+                        drugsToSave.push({name: nameAndCommercialName[0], recommendedDose: recommendedDose2, actualDrugs: actualDrugs});
                       }
                     }
                     
@@ -565,28 +528,16 @@ export class MedicationComponent implements OnInit, OnDestroy {
       //si this.drugSelected esta en this.savedRecommendations, coger la dosis recomendada
       for(var i = 0; i < this.savedRecommendations.length && !found; i++){
         if(this.savedRecommendations[i].name == this.drugSelected){
-          this.medication.recommendedDose = {min : null, max : null};
-          this.medication.recommendedDose.min = this.savedRecommendations[i].min;
-          this.medication.recommendedDose.max = this.savedRecommendations[i].max;
+          this.medication.recommendedDose = null;
+          this.medication.recommendedDose = this.savedRecommendations[i];
           found = true;
         }
       }
     }
     if(!found){
-      //var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drug for a patient';
-      var promDrug = 'Give me the recommend maintenance dose range for a patient who is taking the following drug:\n';
-      /*if(this.age!=null){
-        if(this.age.years>0){
-          promDrug = promDrug + ' who is ' + this.age.years + ' years old';
-        }else{
-          promDrug = promDrug + ' who is ' + this.age.months + ' months old';
-        }
-      }
-      promDrug = promDrug + ', and who is taking the following drug: ';*/
-      var value = { value: promDrug +this.drugSelected, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
-      value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
-      //value.value+=". Use only medical sources. Returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
-  
+      var promDrug = 'Drugs: ['+this.drugSelected+ ']' ;
+      promDrug+= ".\nGet in mg/kg/day but don't add to the answer 'mg/kg/day'.\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.";
+      var value = { value: promDrug, context: "You are a useful assistant to recommend maximum maintenance doses of drugs.\n\nUse only medical sources.\n\nReturn only the list of drugs, no add more text\n\nFor each drug, returns the full name of the drug (the full name that I have given it to you.), and a number (Without adding text before or after the number), nothing more."};
     this.subscription.add(this.openAiService.postOpenAi2(value)
               .subscribe((res: any) => {
                   let parseChoices0 = res.choices[0].message.content;
@@ -596,11 +547,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                       return;
                     }
                     const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
-                    const rangeValues = nameAndCommercialName[1].match(/\d+\.*\d*/g);
-                    this.actualRecommendedDose = {
-                      min: Math.round(parseFloat(rangeValues[0])*parseFloat(this.weight)),
-                      max: Math.round(parseFloat(rangeValues[1])*parseFloat(this.weight))
-                    };
+                    this.actualRecommendedDose = Math.round(parseFloat(nameAndCommercialName[1])*parseFloat(this.weight))
                   });
                   this.medication.recommendedDose = this.actualRecommendedDose;
                   console.log(this.actualRecommendedDose)
@@ -719,9 +666,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
       this.sendChangeDose();
     } else {
       var tirl = this.translate.instant("medication.The dose is higher than recommended");
-      if(Number(this.medication.dose) < Number(this.medication.recommendedDose.min)){
-        tirl = this.translate.instant("medication.The dose is lower than recommended");
-      }
       Swal.fire({
         title: tirl,
         html: this.translate.instant("medication.Are you sure you want to save the dose"),
@@ -1084,10 +1028,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
     if(this.medication.recommendedDose == undefined){
       return true;
     }else{
-      if(Number(this.medication.dose) > Number(this.medication.recommendedDose.max)){
-        return false;
-      }
-      if(Number(this.medication.dose) < Number(this.medication.recommendedDose.min)){
+      if(Number(this.medication.dose) > Number(this.medication.recommendedDose)){
         return false;
       }
       return true;
@@ -1101,9 +1042,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
       this.sendData();
     } else {
       var tirl = this.translate.instant("medication.The dose is higher than recommended");
-      if(Number(this.medication.dose) < Number(this.medication.recommendedDose.min)){
-        tirl = this.translate.instant("medication.The dose is lower than recommended");
-      }
       Swal.fire({
         title: tirl,
         html: this.translate.instant("medication.Are you sure you want to save the dose"),
