@@ -144,7 +144,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
     
   }
 
-  getSavedRecommendations() {
+  async getSavedRecommendations() {
     this.subscription.add( this.http.get(environment.api+'/api/dose/'+ this.authService.getCurrentPatient().sub)
         .subscribe( (resDoses : any) => {
           console.log(resDoses)
@@ -153,9 +153,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
               this.savedRecommendations[i].min = Math.round(parseFloat(this.savedRecommendations[i].min)*parseFloat(this.weight));
               this.savedRecommendations[i].max = Math.round(parseFloat(this.savedRecommendations[i].max)*parseFloat(this.weight));
             }
+
+            
+          this.loadTranslationsElements();
+          this.getWeight();
           }, (err) => {
-            console.log(err);
-            this.toastr.error('', this.translate.instant("generics.error try again"));
+            console.log(err);            
+            this.loadTranslationsElements();
+            this.getWeight();
           }));
   }
 
@@ -175,11 +180,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
   loadEnvir() {
     this.loading = true;
     this.subscription.add(this.patientService.getPatientId()
-      .subscribe((res0: any) => {
+      .subscribe(async (res0: any) => {
         if (res0 != null && res0.group != null) {
-          this.loadTranslationsElements();
-          this.getWeight();
-          this.getSavedRecommendations();
+          await this.getSavedRecommendations();
+          
         } else {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
           this.router.navigate(['/patient-info']);
@@ -434,12 +438,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
     var actualDrugs = '';
     var prevDrugs = '';
-    
+      
       for (var i = 0; i < this.actualMedications.length; i++) {
         var found = false;
         if(this.savedRecommendations.length > 0){
           for(var j = 0; j < this.savedRecommendations.length && !found; j++){
             if(this.actualMedications[i].drug == this.savedRecommendations[j].name){
+              console.log(this.actualMedications[i])
+             console.log(this.savedRecommendations[j])
               this.actualMedications[i].recommendedDose = {min : null, max : null};
               this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
               this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;

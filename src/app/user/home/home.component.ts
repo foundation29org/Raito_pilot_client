@@ -724,9 +724,10 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.savedRecommendations[i].min = Math.round(parseFloat(this.savedRecommendations[i].min)*parseFloat(this.weight));
               this.savedRecommendations[i].max = Math.round(parseFloat(this.savedRecommendations[i].max)*parseFloat(this.weight));
             }
+            this.loadEnvironment();
           }, (err) => {
             console.log(err);
-            this.toastr.error('', this.translate.instant("generics.error try again"));
+            this.loadEnvironment();
           }));
   }
 
@@ -737,7 +738,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }else{
       this.loadedPatientId = true;
       this.selectedPatient = this.authService.getCurrentPatient();
-      this.loadEnvironment();
       this.getSavedRecommendations();
     }
   }
@@ -753,7 +753,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loadedPatientId = true;
         this.authService.setCurrentPatient(res);
         this.selectedPatient = res;
-        this.loadEnvironment();
         this.getSavedRecommendations();
       }
      }, (err) => {
