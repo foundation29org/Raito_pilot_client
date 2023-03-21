@@ -179,6 +179,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
         if (res0 != null && res0.group != null) {
           this.loadTranslationsElements();
           this.getWeight();
+          this.getSavedRecommendations();
         } else {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
           this.router.navigate(['/patient-info']);
@@ -261,7 +262,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
           }.bind(this))
         }else{
           this.weight = res.weight.value;
-          this.getSavedRecommendations();
           this.weightUnits = res.weight.value;
           if (this.settings.massunit == 'lb') {
             this.weightUnits = (Number(this.weightUnits) * 2.2046).toString();
@@ -348,7 +348,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
       this.subscription.add(this.http.post(environment.api + '/api/weight/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res: any) => {
           this.weight = res.weight.value
-          this.getSavedRecommendations();
           this.weightUnits = res.weight.value;
           if (this.settings.massunit == 'lb') {
             this.weightUnits = (Number(this.weightUnits) * 2.2046).toString();
@@ -434,6 +433,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   getRecommendedDose(){
 
     var actualDrugs = '';
+    var prevDrugs = '';
     
       for (var i = 0; i < this.actualMedications.length; i++) {
         var found = false;
@@ -443,13 +443,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
               this.actualMedications[i].recommendedDose = {min : null, max : null};
               this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
               this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
-              if(this.age!=null){
-                if(this.savedRecommendations[j].age == this.age.years){
-                  found = true;
-                }
-              }else{
-                found = true;
-              }
+              found = true;
             }
           }
         }
@@ -460,7 +454,25 @@ export class MedicationComponent implements OnInit, OnDestroy {
             actualDrugs = actualDrugs + ', ' + this.actualMedications[i].drug;
           }
         }
+        if(prevDrugs == ''){
+          prevDrugs = this.actualMedications[i].drug;
+        }else{
+          prevDrugs = prevDrugs + ', ' + this.actualMedications[i].drug;
+        }
       }
+      
+      if(prevDrugs != ''){
+        var finish = false;
+        for(var j = 0; j < this.savedRecommendations.length && !finish; j++){
+          if(prevDrugs!= this.savedRecommendations[j].actualDrugs){
+            finish = true;
+          }
+        }
+        if(finish){
+          actualDrugs = prevDrugs;
+        }
+      }
+      
 
     if(actualDrugs != ''){
       //var promDrug = 'I am a doctor. provide general information on the minimum and maximum dose recommended in mg/kg/day for drugs for a patient';

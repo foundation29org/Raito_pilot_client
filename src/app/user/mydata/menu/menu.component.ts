@@ -1890,6 +1890,7 @@ calculateMinDate(){
 
 loadData() {
   //cargar los datos del usuario
+  this.getSavedRecommendations();
   this.loadedFeels = false;
   this.getFeels();
   this.getSeizures();
@@ -1908,10 +1909,8 @@ getWeightAndAge() {
       if (res.message == 'There are no weight') {
       }else if(res.message == 'old weight'){
         this.weight = res.weight.value
-        this.getSavedRecommendations();
       }else{
         this.weight = res.weight.value
-        this.getSavedRecommendations();
       }
     }, (err) => {
       console.log(err);
@@ -2331,6 +2330,7 @@ getDrugs() {
 getRecommendedDose(res2){
   if (this.actualMedications.length > 0) {
   var actualDrugs = '';
+  var prevDrugs = '';
   
     for (var i = 0; i < this.actualMedications.length; i++) {
       var found = false;
@@ -2340,13 +2340,7 @@ getRecommendedDose(res2){
             this.actualMedications[i].recommendedDose = {min : null, max : null};
             this.actualMedications[i].recommendedDose.min = this.savedRecommendations[j].min;
             this.actualMedications[i].recommendedDose.max = this.savedRecommendations[j].max;
-            if(this.age!=null){
-              if(this.savedRecommendations[j].age == this.age){
-                found = true;
-              }
-            }else{
-              found = true;
-            }
+            found = true;
           }
         }
       }
@@ -2356,6 +2350,23 @@ getRecommendedDose(res2){
         }else{
           actualDrugs = actualDrugs + ', ' + this.actualMedications[i].drug;
         }
+      }
+      if(prevDrugs == ''){
+        prevDrugs = this.actualMedications[i].drug;
+      }else{
+        prevDrugs = prevDrugs + ', ' + this.actualMedications[i].drug;
+      }
+    }
+
+    if(prevDrugs != ''){
+      var finish = false;
+      for(var j = 0; j < this.savedRecommendations.length && !finish; j++){
+        if(prevDrugs!= this.savedRecommendations[j].actualDrugs){
+          finish = true;
+        }
+      }
+      if(finish){
+        actualDrugs = prevDrugs;
       }
     }
     if(actualDrugs != ''){
