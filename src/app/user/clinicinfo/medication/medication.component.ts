@@ -476,7 +476,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
         }
       }
       promDrug = promDrug + ', and who is taking the following drugs: ';*/
-      var value = { value: promDrug +actualDrugs};
+      var value = { value: promDrug +actualDrugs, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
       //value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
       value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
     this.subscription.add(this.openAiService.postOpenAi2(value)
@@ -566,7 +566,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
         }
       }
       promDrug = promDrug + ', and who is taking the following drug: ';*/
-      var value = { value: promDrug +this.drugSelected };
+      var value = { value: promDrug +this.drugSelected, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
       value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
       //value.value+=". Use only medical sources. Returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
   

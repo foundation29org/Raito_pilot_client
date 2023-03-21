@@ -312,7 +312,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log(res)
         if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
-          var value = { value: this.query };
+          var value = { value: this.query, context: "" };
           this.subscription.add(this.openAiService.postOpenAi2(value)
             .subscribe((res: any) => {
               this.queryCopy = this.query;
@@ -1316,7 +1316,7 @@ getWeek(newdate, dowOffset?) {
           }
         }
         promDrug = promDrug + ', and who is taking the following drugs: ';*/
-        var value = { value: promDrug +actualDrugs };
+        var value = { value: promDrug +actualDrugs, context: "You are a useful assistant to recommend maximum and minimum doses of drugs.\n\nUse only medical sources. \n\nFor each drug, returns in this format: \\n\\nNameOfTheDrug: [minDose-maxDose]\n\n"};
         //value.value+=". Use only medical sources. For each drug, returns only numbers, not 'mg/kg/day'. Format of the response: \n\nNameOfTheDrug: [minDose-maxDose]"
         value.value+=".\nGood response: 'nameOfTheDrug: [0.1-0.4]'\nBad response: 'nameOfTheDrug: [0.1-0.4 mg/kg/day]'\nDon't return the string mg/kg/day\nKeep in mind that the dose of some drugs is affected if you take other drugs."
       this.subscription.add(this.openAiService.postOpenAi2(value)
