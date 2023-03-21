@@ -1888,9 +1888,9 @@ calculateMinDate(){
   this.xAxisTicks = [this.minDateRange.toISOString(),mediumDate.toISOString(),actualDate.toISOString()];
 }
 
-loadData() {
+async loadData() {
   //cargar los datos del usuario
-  this.getSavedRecommendations();
+  await this.getSavedRecommendations();
   this.loadedFeels = false;
   this.getFeels();
   this.getSeizures();
