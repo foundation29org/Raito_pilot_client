@@ -724,7 +724,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log(resDoses)
             this.savedRecommendations = resDoses;
             for (let i = 0; i < this.savedRecommendations.length; i++) {
-              this.savedRecommendations[i].recommendedDose = Math.round(parseFloat(this.savedRecommendations[i].recommendedDose)*parseFloat(this.weight));
+              if(this.savedRecommendations[i].units == 'mg/day'){
+                this.savedRecommendations[i].recommendedDose = Math.round(parseFloat(this.savedRecommendations[i].recommendedDose));
+              }else{
+                this.savedRecommendations[i].recommendedDose = Math.round(parseFloat(this.savedRecommendations[i].recommendedDose)*parseFloat(this.weight));
+              }
             }
           }, (err) => {
             console.log(err);
@@ -1286,7 +1290,7 @@ getWeek(newdate, dowOffset?) {
         var found = false;
         if(this.savedRecommendations.length > 0){
           for(var j = 0; j < this.savedRecommendations.length && !found; j++){
-            if(this.actualMedications[i].drug == this.savedRecommendations[j].name){
+            if(this.actualMedications[i].drug.indexOf(this.savedRecommendations[j].name)!=-1){
               this.actualMedications[i].recommendedDose = null;
               this.actualMedications[i].recommendedDose = this.savedRecommendations[j].recommendedDose;
               this.actualMedications[i].porcentajeDosis = Math.round((this.actualMedications[i].dose / this.savedRecommendations[j].recommendedDose) * 100);
@@ -1321,8 +1325,8 @@ getWeek(newdate, dowOffset?) {
       }
       if(actualDrugs != ''){
         var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
-      promDrug+= ".\nGet in mg/kg/day but don't add to the answer 'mg/kg/day'.\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.";
-      var value = { value: promDrug, context: "You are a useful assistant to recommend maximum maintenance doses of drugs.\n\nUse only medical sources.\n\nReturn only the list of drugs, no add more text\n\nFor each drug, returns the full name of the drug (the full name that I have given it to you.), and a number (Without adding text before or after the number), nothing more."};
+      promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
+      var value = { value: promDrug, context: ""};
       this.subscription.add(this.openAiService.postOpenAi2(value)
                 .subscribe((res: any) => {
                   let parseChoices0 = res.choices[0].message.content;
@@ -1333,20 +1337,34 @@ getWeek(newdate, dowOffset?) {
                       return;
                     }
                     const nameAndCommercialName = drug.split(":"); // Separar el nombre de la droga y el nombre comercial
-                    const recommendedDose = Math.round(parseFloat(nameAndCommercialName[1])*parseFloat(this.weight))
-                    const recommendedDose2 = nameAndCommercialName[1];
+                    if(nameAndCommercialName[0].charAt(nameAndCommercialName[0].length-1) == ' '){
+                      nameAndCommercialName[0] = nameAndCommercialName[0].slice(0, -1);
+                    }
+                    var separate = nameAndCommercialName[1];
+                    const split = separate.split("(");
+                    var dose = split[0];
+                    dose = dose.replace(/\s/g, '');
+
+                    var units = split[1];
+                    if(units.charAt(units.length-1) == ')'){
+                      units = units.slice(0, -1);
+                    }
+                    
+                    let recommendedDose = Math.round(parseFloat(dose)*parseFloat(this.weight))
+                    if(units=='mg/day'){
+                      recommendedDose = dose;
+                    }
+                    const recommendedDose2 = dose;
                     for (var j = 0; j < this.actualMedications.length; j++) {
-                      if(this.actualMedications[j].drug==nameAndCommercialName[0]){
+                      if(this.actualMedications[j].drug.indexOf(nameAndCommercialName[0])!=-1){
                         this.actualMedications[j].recommendedDose = recommendedDose;
+                        this.actualMedications[j].units = units;
                         this.actualMedications[j].porcentajeDosis = Math.round((this.actualMedications[j].dose / recommendedDose) * 100);
-                        console.log(this.actualMedications[j].porcentajeDosis)
-                        drugsToSave.push({name: nameAndCommercialName[0], recommendedDose: recommendedDose2, actualDrugs: actualDrugs});
+                        drugsToSave.push({name: this.actualMedications[j].drug, recommendedDose: recommendedDose2, actualDrugs: actualDrugs, units: units});
                       }
                     }
                     
                   });
-                  console.log(drugsToSave)
-                  console.log(this.actualMedications)
                   if(drugsToSave.length>0){
                     this.saveRecommendations(drugsToSave);
                   }
