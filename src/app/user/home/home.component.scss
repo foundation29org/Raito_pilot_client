@@ -2,6 +2,15 @@
   margin-top: 0.4em !important;
 }
 
+
+.box-question:focus {
+  color: #ffffff;
+  background-color: transparent;
+  border-color: #636363;
+  outline: 0;
+  box-shadow: none;
+}
+
 ::ng-deep .chart-legend .legend-labels {
   border-top: 1px solid #dee2e6 !important;
 }

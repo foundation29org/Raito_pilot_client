@@ -177,7 +177,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.subscription.add(this.patientService.getPatientId()
       .subscribe((res0: any) => {
         if (res0 != null && res0.group != null) {
-          this.loadTranslationsElements();
           this.getWeight();
         } else {
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("personalinfo.Fill personal info"), "warning");
@@ -199,6 +198,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
     var patt = new RegExp('[0-9]+([\,\.][0-9]+)?$');
     this.subscription.add(this.patientService.getPatientWeight()
       .subscribe((res: any) => {
+        this.loadTranslationsElements();
         if (res.message == 'There are no weight') {
           if(this.age==null){
 
@@ -461,7 +461,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
           prevDrugs = prevDrugs + ', ' + this.actualMedications[i].drug;
         }
       }
-      
       if(prevDrugs != ''){
         var finish = false;
         for(var j = 0; j < this.savedRecommendations.length && !finish; j++){
@@ -473,8 +472,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
           actualDrugs = prevDrugs;
         }
       }
-      
-
     if(actualDrugs != ''){
       var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
@@ -680,6 +677,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
               foundTranslation = true;
             }
           }
+          if(!foundTranslation){
+            this.medications[i].drugTranslate = this.medications[i].drug;
+          }
         }
         this.drugsLang.sort(this.sortService.GetSortOrder("translation"));
       }
@@ -809,8 +809,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
     console.log(medication)
     this.drugSelected = medication.drug;
     this.findSideEffects();
-    //this.drugSelected.translation =medication.drugTranslate;
-    //this.drugSelected = {name: medication.drug, translation: medication.drugTranslate};
     this.medication = medication;
     this.medication.startDate = this.dateService.transformDate(medication.startDate);
     this.medication.endDate = this.dateService.transformDate(medication.endDate);
