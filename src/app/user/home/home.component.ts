@@ -247,6 +247,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   responseLangchain: string = '';
   savedRecommendations: any = [];
   searchopenai: boolean = false;
+  finishloadData: boolean = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService, private openAiService: OpenAiService) {
     this.adapter.setLocale(this.authService.getLang());
@@ -1271,6 +1272,7 @@ getWeek(newdate, dowOffset?) {
           
         }else{
           this.showNotiDrugs = false;
+          this.finishloadData = true;
         }
         this.loadedDrugs = true;
         this.updateProgress();
@@ -1418,6 +1420,8 @@ getWeek(newdate, dowOffset?) {
     this.normalizedChanged(this.normalized);
     if(this.events.length>0){
       this.getDataNormalizedDrugsVsSeizures();
+    }else{
+      this.finishloadData = true;
     }
   }
 
@@ -1634,6 +1638,7 @@ getWeek(newdate, dowOffset?) {
         templineChartDrugs[i].series.sort(this.sortService.DateSortInver("name"));
       }
       this.lineChartSeries = JSON.parse(JSON.stringify(templineChartDrugs));
+      this.finishloadData = true;
     }
   }
 
@@ -1736,6 +1741,7 @@ getWeek(newdate, dowOffset?) {
   }
 
   loadDataRangeDate(rangeDate) {
+    this.finishloadData = false;
     if(this.rangeDate!=rangeDate){
       this.lauchEvent('changerangeDate: '+rangeDate)
     }

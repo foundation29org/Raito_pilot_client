@@ -415,7 +415,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" [ngClass]="{'p-2': innerWidth>992}">
+        <div class="row" [ngClass]="{'p-2': innerWidth>992}" *ngIf="finishloadData">
             <div class="col-lg-12 pt-2">
                 <div *ngIf="!loadedInfoPatient">
                     <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -878,6 +878,13 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row" [ngClass]="{'p-2': innerWidth>992}" *ngIf="!finishloadData">
+            <div class="col-12 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">{{'reports.Loading' | translate }}...</span>
+                </div>
+            </div> 
         </div>
     </div>
 
