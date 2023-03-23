@@ -1638,8 +1638,8 @@ getWeek(newdate, dowOffset?) {
         templineChartDrugs[i].series.sort(this.sortService.DateSortInver("name"));
       }
       this.lineChartSeries = JSON.parse(JSON.stringify(templineChartDrugs));
-      this.finishloadData = true;
     }
+    this.finishloadData = true;
   }
 
   normalizedChanged2(normalized){
