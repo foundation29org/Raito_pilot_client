@@ -49,10 +49,6 @@
 														<div class="media-body white text-left">
 															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
-															<span *ngIf="medication.recommendedDose && weight">
-																<span class="d-block text-muted">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
-																<span class="d-block text-muted">Max: {{medication.recommendedDose}}</span>
-															</span>
 															<span *ngIf="medication.recommendedDose && weight" class="d-block mt-2">
 																<span *ngIf="medication.dose <= medication.recommendedDose">
 																	<ngb-progressbar showValue="true" class="w-50" type="info" [value]="medication.porcentajeDosis" [min]="0" [max]="100"></ngb-progressbar>
@@ -63,6 +59,7 @@
 																		{{'medication.Out of range' | translate }}: {{medication.porcentajeDosis}} %
 																   </span>
 																</span>
+																<span class="d-block">{{'medication.Recommended maximum dose' | translate }}: {{medication.recommendedDose}} {{'medication.mg/day' | translate }}</span>
 															</span>
 															
 														</div>
@@ -194,8 +191,7 @@
 														<h3 *ngIf="actualMedication.dose >medication.recommendedDose" class="d-block mb-0">
 															{{'medication.Out of range' | translate }}
 													   </h3>
-														<span class="d-block">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
-														<span class="d-block">Max: {{medication.recommendedDose}}</span>
+														<span class="d-block">{{'medication.Recommended maximum dose' | translate }}: {{medication.recommendedDose}} {{'medication.mg/day' | translate }}</span>
 													</span>
 													
 												</div>
@@ -246,8 +242,7 @@
 															<div class="form-group">
 																<ng-template #popContent>
 																	<span *ngIf="medication.recommendedDose">
-																		<span class="d-block text-muted">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
-																		<span class="d-block text-muted">Max: {{medication.recommendedDose}}</span>
+																		<span class="d-block text-muted">{{'medication.Recommended maximum dose' | translate }}: {{medication.recommendedDose}} {{'medication.mg/day' | translate }}</span>
 																	</span>
 																  </ng-template>
 																<label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="{{'generics.More information' | translate }}"></i></label>
@@ -528,8 +523,7 @@
 							<div class="form-group">
 								<ng-template #popContent>
 									<span *ngIf="medication.recommendedDose">
-										<span class="d-block text-muted">{{'medication.Recommended dose' | translate }} {{weightUnits | number : '1.0-2'}} {{settings.massunit}} in mg/day</span>
-										<span class="d-block text-muted">Max: {{medication.recommendedDose}}</span>
+										<span class="d-block text-muted">{{'medication.Recommended maximum dose' | translate }}: {{medication.recommendedDose}} {{'medication.mg/day' | translate }}</span>
 									</span>
 								  </ng-template>
 								  <label for="dose" style="display: block;">* {{'medication.Dose' | translate }} ({{'medication.mg/day' | translate }}) <i class="ft-help-circle danger"  style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContent" popoverTitle="{{'generics.More information' | translate }}"></i></label>
