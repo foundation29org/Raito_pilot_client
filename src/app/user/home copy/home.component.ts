@@ -136,6 +136,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   minDateRange = new Date();
   drugsBefore: boolean = false;
   xAxisTicks = [];
+  xAxisTicks2 = [];
+  xAxisTicks3 = [];
+  formatxAxisTicks2 = [];
   yAxisTicksSeizures = [];
   yAxisTicksDrugs = [];
   totalTaks: number = 0;
@@ -716,6 +719,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   initEnvironment(){
+    if (sessionStorage.getItem('lang') == 'es') {
+      this.formatDate = 'es-ES'
+    }else if(sessionStorage.getItem('lang')=='de'){
+      this.formatDate = 'de-DE';
+    }else if(sessionStorage.getItem('lang')=='fr'){
+      this.formatDate = 'fr-FR';
+    }else if(sessionStorage.getItem('lang')=='it'){
+      this.formatDate = 'it-IT';
+    }else if(sessionStorage.getItem('lang')=='pt'){
+      this.formatDate = 'pt-PT';
+    } else {
+      this.formatDate = 'en-EN'
+    }
     this.loadGroups();
   }
 
@@ -936,6 +952,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               "series": result
             }
           ];
+
+          console.log(this.lineChartHeight)
 
         }
 
@@ -1326,7 +1344,7 @@ getWeek(newdate, dowOffset?) {
         }
       }
       if(actualDrugs != ''){
-        var promDrug = 'I am an expert doctor in recommended doses. The patient is '+this.age+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+actualDrugs+ ']' ;
+        var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
       var value = { value: promDrug, context: ""};
       this.subscription.add(this.openAiService.postOpenAi2(value)
@@ -1403,6 +1421,7 @@ getWeek(newdate, dowOffset?) {
     this.lineChartDrugs = this.getStructure(res);
     this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
     this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
+    console.log(this.lineChartDrugs)
 
     // Get chartNames
     var chartNames = this.lineChartDrugs.map((d: any) => d.name);
@@ -1574,11 +1593,11 @@ getWeek(newdate, dowOffset?) {
         }
       }
       copydatagraphseizures[i].series.sort(this.sortService.DateSortInver("name"));
-      for (var j = 0; j < copydatagraphseizures[i].series.length; j++) {
+      /*for (var j = 0; j < copydatagraphseizures[i].series.length; j++) {
         copydatagraphseizures[i].series[j].name = copydatagraphseizures[i].series[j].name
         var theDate = new Date(copydatagraphseizures[i].series[j].name);
         copydatagraphseizures[i].series[j].name = this.tickFormattingDay(theDate)
-      }
+      }*/
     }
     return copydatagraphseizures;
   }
@@ -1696,6 +1715,19 @@ getWeek(newdate, dowOffset?) {
     }
   }
 
+  xAxisTickFormatting = (d: any) => {
+    const date = new Date(d);
+    const month = date.toLocaleString(this.formatDate, { month: 'short' });
+    const year = date.getFullYear().toString().slice(-2);
+    if(this.rangeDate=='month'){
+      const day = date.getDate();
+      return `${day}-${month}`;
+      
+    }else{
+      return `${month}-${year}`; // "Mar-23"
+    }
+  }
+
   tickFormatting(d: any) {
     if (sessionStorage.getItem('lang') == 'es') {
       this.formatDate = 'es-ES'
@@ -1785,16 +1817,68 @@ getWeek(newdate, dowOffset?) {
       period = 365;
     }
     var actualDate = new Date();
+    actualDate.setHours(0, 0, 0, 0);
     var pastDate=new Date(actualDate);
     pastDate.setDate(pastDate.getDate() - period);
     this.minDateRange = pastDate;
 
-    var actualDate1=new Date();
-    var pastDate1=new Date(actualDate1);
+    var pastDate1=new Date(actualDate);
     pastDate1.setDate(pastDate1.getDate() - Math.round((period+1)/2));
     var mediumDate = pastDate1;
     this.xAxisTicks = [this.minDateRange.toISOString(),mediumDate.toISOString(),actualDate.toISOString()];
+
+    //1/4 of period
+    var pastDate3=new Date(actualDate);
+    pastDate3.setDate(pastDate3.getDate() - Math.round((period+1)/4));
+    var mediumDate3 = pastDate3;
+
+    //3/4 of period
+    var pastDate4=new Date(actualDate);
+    pastDate4.setDate(pastDate4.getDate() - Math.round((period+1)*3/4));
+    var mediumDate4 = pastDate4;
+    this.xAxisTicks3 = [this.minDateRange.toISOString(), actualDate.toISOString()];
+    this.xAxisTicks2 = [this.minDateRange.toDateString(),mediumDate4.toDateString(), mediumDate.toDateString(),mediumDate3.toDateString(), actualDate.toDateString()];
+    console.log(this.gridSize )
+    if (this.gridSize  == "xl" && this.rangeDate=='year') {
+      var pastDateoctavo=new Date(actualDate);
+      pastDateoctavo.setDate(pastDateoctavo.getDate() - Math.round((period+1)*7/8));
+      var mediumDateoctavo = pastDateoctavo;
+
+      var pastDate5octavo=new Date(actualDate);
+      pastDate5octavo.setDate(pastDate5octavo.getDate() - Math.round((period+1)*5/8));
+      var mediumDate5octavo = pastDate5octavo;
+
+      var pastDate3octavo=new Date(actualDate);
+      pastDate3octavo.setDate(pastDate3octavo.getDate() - Math.round((period+1)*3/8));
+      var mediumDate3octavo = pastDate3octavo;
+
+      var pastDate1octavo=new Date(actualDate);
+      pastDate1octavo.setDate(pastDate1octavo.getDate() - Math.round((period+1)*1/8));
+      var mediumDate1octavo = pastDate1octavo;
+
+      this.xAxisTicks2 = [this.minDateRange.toDateString(),mediumDateoctavo.toDateString(), mediumDate5octavo.toDateString() ,mediumDate4.toDateString(), mediumDate3octavo.toDateString(), mediumDate.toDateString(),mediumDate3.toDateString(),mediumDate1octavo.toDateString(), actualDate.toDateString()];
+    }
+    this.formatAxis()
+
   } 
+
+  formatAxis(){
+    this.formatxAxisTicks2 = [];
+    for(var i=0; i<this.xAxisTicks3.length; i++){
+      const date = new Date(this.xAxisTicks3[i]);
+      const month = date.toLocaleString(this.formatDate, { month: 'short' });
+      const year = date.getFullYear().toString().slice(-2);
+      if(this.rangeDate=='month'){
+        const day = date.getDate();
+        this.formatxAxisTicks2.push(`${day}-${month}`);
+        
+      }else{
+        this.formatxAxisTicks2.push( `${month}-${year}`); // "Mar-23"
+      }
+    }
+    
+  }
+
 
   getWeightAndAge() {
     if(this.authService.getCurrentPatient().birthDate == null){
@@ -2166,6 +2250,7 @@ async calculateGridSize(){
   } else {
     this.gridSize  = "xl";
   }
+  this.calculateMinDate();
   await this.delay(200);
   if(document.getElementById('panelNotifications')!=null){
     this.clientHeight = document.getElementById('panelNotifications').clientHeight;

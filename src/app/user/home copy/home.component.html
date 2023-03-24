@@ -1,0 +1,908 @@
+<div class="mt-4 card card-block mx-auto width30rem" *ngIf="!loadedInfoPatient && step=='0'">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 center-elements">
+                <div>
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loadedInfoPatient && basicInfoPatient!=undefined">
+    <div class="mt-4 card card-block mx-auto" *ngIf="loadedInfoPatient && (basicInfoPatient.group==null || step!='0')" style="max-width: 30rem !important;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div *ngIf="!loadedInfoPatient">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+                <div *ngIf="loadedInfoPatient">
+                    <div *ngIf="basicInfoPatient.group==null || step!='0'"
+                        class="justify-content-center align-items-center text-center">
+                        <div *ngIf="step=='0'">
+                            <h2>{{'homeraito.t1' | translate }}</h2>
+                            <div class="center-elements">
+                                <button class="mr-1 btn btn-primary" (click)="question1('No');">{{'generics.No' |
+                                    translate }}</button>
+                                <button class="ml-1 btn btn-primary" (click)="question1('Yes');">{{'generics.Yes' |
+                                    translate }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='1'">
+                            <h2>{{'homeraito.t2' | translate }}</h2>
+                            <select id="group" name="group" class="form-control" ngModel
+                                [(ngModel)]="basicInfoPatient.group">
+                                <option [value]="null" disabled selected>--{{'registration.Please select a
+                                    group' | translate }}--</option>
+                                <option *ngFor="let group of groups" [ngValue]="group._id">
+                                    <span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed'  && group.name != 'None'">{{group.name}}</span>
+                                    <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
+                                    <span *ngIf="group.name == 'Childhood syndrome with epilepsy'">{{'personalinfo.Childhood syndrome with epilepsy' | translate }}</span>
+                                    <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
+                                    <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
+                                </option>
+                            </select>
+                            <div class="center-elements">
+                                <button class="mt-3 btn btn-dark mr-1"
+                                    (click)="step='0'">{{'generics.Previous' | translate }}</button>
+                                <button class="mt-3 btn btn-primary ml-1" [disabled]="basicInfoPatient.group==null"
+                                    (click)="question2();">{{'generics.Next' | translate }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='2'">
+                            <p class="mb-0 text-bold-500">{{'homeraito.twho' | translate }}</p>
+                            <p class="text-muted mb-1">
+                                {{'homeraito.stwho' | translate }}
+                            </p>
+                            <div class="form-group mb-2" *ngIf="userInfo">
+                                <mat-radio-group aria-label="Select an option" [(ngModel)]="userInfo.iscaregiver">
+                                    <mat-radio-button [value]=false (change)="changedCaretaker($event)">{{'homeraito.patient' | translate }}</mat-radio-button>
+                                    <mat-radio-button [value]=true class="ml-2" (change)="changedCaretaker($event)">{{'homeraito.caregiver' | translate }}</mat-radio-button>
+                                  </mat-radio-group>
+                            </div>
+                            <div class="center-elements">
+                                <button class="mt-3 btn btn-dark mr-1"
+                                    (click)="step='1'">{{'generics.Previous' | translate }}</button>
+                                    <button class="mt-3 btn btn-primary ml-1"
+                                    (click)="question3();">{{'generics.Next' | translate }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='3'">
+                            <h2>{{'homeraito.p2' | translate }}</h2>
+                            <div class="center-elements">
+                                <button class="btn btn-dark mr-1"
+                                    (click)="step='2'">{{'generics.Previous' | translate }}</button>
+                                <button class="btn btn-primary ml-1" (click)="goStep('0')">{{'wizard.btn' | translate
+                                    }}</button>
+                            </div>
+                        </div>
+                        <div *ngIf="step=='4'">
+                            <p>{{'homeraito.t1.1' | translate }}</p>
+                            <div class="center-elements">
+                                <button class="btn btn-dark mr-1"
+                                    (click)="step='0'">{{'generics.Previous' | translate }}</button>
+                                <button class="btn btn-primary ml-1" (click)="goStep('0');setNoneIdPatientGroup();">{{'wizard.btn' | translate
+                                    }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="" *ngIf="loadedInfoPatient && basicInfoPatient.group!=null && step=='0'">
+    <div class="mx-auto row no-gutters width30rem" *ngIf="tasksLoaded" [ngClass]="{'mt-3': innerWidth>992}">
+        <div class="col-md-12 col-lg-8" id="panelNotifications">
+            <div class="card" [ngClass]="{'mr-2': innerWidth>992}">
+                <div class="col-sm-12 card-header p-2" [ngClass]="{'panelHearder': innerWidth>992}">
+                    <h4 class="text-bold-500" [ngClass]="{'white mb-0': innerWidth>992}">{{'topnavbar.Notifications' | translate }}</h4>
+                </div>
+                <div class="card-block">
+                    <div *ngIf="!infoVerified.isVerified && loadVerifiedInfo" id='veriff-root'></div>
+                    <div class="pl-2 pr-2 pb-2" [ngClass]="{'pt-3': innerWidth>992}" style="line-height: 1.2em;">
+                        <!--One notification-->
+                        <div class="row font-small-3 mb-1" *ngIf="!checks.check1">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'charts.noti1a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck1(true)">
+                                    <span class="">
+                                        Ok
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3 mb-1" *ngIf="!checks.check2">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'charts.noti2a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck2(true)">
+                                    <span class="">
+                                        Ok
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3 mb-1" *ngIf="!infoVerified.isVerified && infoVerified.status=='Not started'">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'identity.t2' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="getUserInfo(true)">
+                                    <span class="">
+                                        {{'identity.t0' | translate }}
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3 mb-1" *ngIf="!infoVerified.isVerified && infoVerified.status!='Not started'">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted' || infoVerified.status =='started'">
+                                <p>{{'identity.t7' | translate }}</p>
+                                <p>{{'identity.t8' | translate }}</p>
+                                <p>{{'identity.t9' | translate }} <a class="primary" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>
+                            </div>
+                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='resubmission_requested'">
+                                <p>{{'identity.t5' | translate }}</p>
+                                <p>{{'identity.t9' | translate }} <a class="primary" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>
+                            </div>
+                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='declined'">
+                                <p>{{'identity.t11' | translate }}</p>
+                                <p>{{'identity.t12' | translate }}: {{infoVerified.info.value}}</p>
+                                <p>{{'identity.t13' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" [disabled]="checking" style="word-wrap: normal;" (click)="getUserInfo(true)" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted'">
+                                    <span class="">
+                                        {{'identity.t0.1' | translate }}
+                                    </span>
+                                    <span *ngIf="checking" class="ml-1">
+                                        <i class="fa fa-spinner pink fa-spin fa-fw"></i>
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3 mb-1" *ngIf="(!actualGroup.allowShare || basicInfoPatient.group==null) && !checks.check3">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'charts.noti6a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck3(true)">
+                                    <span class="">
+                                        Ok
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div class="row font-small-3 mb-1" *ngIf="actualGroup.allowShare && basicInfoPatient.consentgroup!='true'">
+                            <div class="col-1 pr-0">
+                                <em class="fas fa-info-circle"></em>
+                            </div>
+                            <div class="col-7 pl-2 pr-0">
+                                <p class="">{{'charts.noti7a' | translate }}</p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck4(true)">
+                                    <span class="">
+                                        Ok
+                                    </span>
+                                  </a>
+                            </div>
+                        </div>
+                        <div *ngIf="checks.check1 && checks.check2">
+                            <div class="row font-small-3 mb-1" *ngIf="(events.length == 0 || showNotiSeizu)&& loadedEvents">
+                                <div class="col-1 pr-0">
+                                    <em class="fas fa-bolt"></em>
+                                </div>
+                                <div class="col-7 pl-2 pr-0">
+                                    <p class="" *ngIf="events.length == 0">{{'charts.noti4a' | translate }}</p>
+                                    <p class="" *ngIf="events.length > 0">{{'charts.noti4b' | translate }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/seizures">
+                                        <span class="">
+                                            {{'charts.Answer' | translate }}
+                                        </span>
+                                      </a>
+                                </div>
+                            </div>
+                            <div class="row font-small-3 mb-1" *ngIf="(medications.length == 0 || showNotiDrugs) && loadedDrugs">
+                                <div class="col-1 pr-0">
+                                    <em class="fas fa-capsules"></em>
+                                </div>
+                                <div class="col-7 pl-2 pr-0">
+                                    <p class="" *ngIf="medications.length == 0">{{'charts.noti5a' | translate }}</p>
+                                    <p class="" *ngIf="medications.length > 0">{{'charts.noti5b' | translate }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/medication">
+                                        <span class="">
+                                            {{'charts.Answer' | translate }}
+                                        </span>
+                                      </a>
+                                </div>
+                            </div>
+                            <div class="row font-small-3 mb-1" *ngIf="loadedEvents && events.length > 0 && medications.length > 0 && (feels.length == 0 || showNotiFeel) && loadedFeels">
+                                <div class="col-1 pr-0">
+                                    <em class="ft-heart"></em>
+                                </div>
+                                <div class="col-7 pl-2 pr-0">
+                                    <p class="" *ngIf="feels.length == 0">{{'charts.noti3a' | translate }}</p>
+                                    <p class="" *ngIf="feels.length > 0">{{'charts.noti3b' | translate }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/feel">
+                                        <span class="">
+                                            {{'charts.Answer' | translate }}
+                                        </span>
+                                      </a>
+                                </div>
+                            </div>
+                            <div class="row font-small-3" *ngIf="totalTaks>0 && tasksLoaded">
+                                <div class="col-1 pr-0">
+                                    <em class="ft-bell"></em>
+                                </div>
+                                <div class="col-7 pl-2 pr-0">
+                                    <p class="mb-0">{{'prom.You have datapoints to complete' | translate }}</p>
+                                </div>
+                                <div class="col-4">
+                                    <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" [routerLink]="['/prom', { pendind: true}]">
+                                        <span class="">
+                                            {{'charts.Answer' | translate }}
+                                        </span>
+                                      </a>
+                                </div>
+                            </div>
+                            <div class="row font-small-3" *ngIf="nextEvents.length>0">
+                                <div class="col-1 pr-0">
+                                    <em class="fa fa-calendar"></em>
+                                </div>
+                                <div class="col-7 pl-2 pr-0">
+                                    <p class="mb-0"> {{'appointments.Next medical appointments' | translate }}:</p>
+                                </div>
+                                <div class="col-4">
+                                    <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" routerLink="/calendar">
+                                        <span class="">
+                                            {{'menu.Calendar' | translate }}
+                                        </span>
+                                      </a>
+                                </div>
+                                <div class="col-md-12">
+                                    <span class="row mt-1" *ngFor="let event of nextEvents ; let i = index">
+                                        <span class="col-1">
+                                        </span>
+                                        <span class="col-6 pl-2 pr-0">
+                                            <strong>{{event.title}}</strong>
+                                        </span>
+                                        <span class="col-5">
+                                            {{event.start | date}}
+                                            <a class="float-right mr-2" style="word-wrap: normal;" [routerLink]="['/calendar', { id: event._id}]">
+                                                <span class="">
+                                                    {{'generics.Edit' | translate }}
+                                                </span>
+                                              </a>
+                                        </span>
+                                        
+                                    </span>
+                                </div>
+                                
+                            </div>
+                            <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && (!showSeizuresModules || (events.length > 0 && !showNotiSeizu)) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
+                                <div class="col-12 center-elements">
+                                    <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-none d-lg-block col-4">
+            <div class="card ml-2">
+                <div class="col-sm-12 card-header p-2" [ngClass]="{'panelHearder': innerWidth>992}">
+                    <h4 class="text-bold-500" [ngClass]="{'white mb-0': innerWidth>992}">{{'charts.Your progress' | translate }}
+                        <em *ngIf="clientHeight<250" class="ft-info font-medium-1" style="cursor: pointer;" placement="bottom" #p1="ngbPopover" [ngbPopover]="popContentprogress" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                        <ng-template #popContentprogress>
+                            <span>
+                                {{'charts.If you dont keep data updated it will decrease' | translate }}
+                            </span>
+                          </ng-template>
+                    </h4>
+                </div>
+                <div class="card-block">
+                    <div class="pl-2 pr-2 pt-2">
+                        <p *ngIf="clientHeight>=250">
+                            {{'charts.If you dont keep data updated it will decrease' | translate }}
+                        </p>
+                    </div>
+                    <div class="pl-2 pr-2 pb-2">
+                        <ngb-progressbar type="dark" height="2rem" [value]="valueprogressbar"><b>{{valueprogressbar}}%</b></ngb-progressbar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mx-auto width30rem" [ngClass]="{'d-none': innerWidth>992}">
+        <div class="card">
+            <div class="card-block">
+                <div class="pl-2 pr-2 pt-2">
+                    <h4 class="text-bold-500">{{'charts.Your progress' | translate }}
+                        <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentprogress" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                        <ng-template #popContentprogress>
+                            <span>
+                                {{'charts.If you dont keep data updated it will decrease' | translate }}
+                            </span>
+                          </ng-template>
+                    </h4>
+                </div>
+                <div class="pl-2 pr-2 pb-2">
+                    <ngb-progressbar type="dark" height="2rem" [value]="valueprogressbar"><b>{{valueprogressbar}}%</b></ngb-progressbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="actualGroup.name == 'Dravet Syndrome European Federation' || actualGroup.name == 'Childhood syndrome with epilepsy'" class="mx-auto card width30rem" [ngClass]="{'mt-4': innerWidth>992}">
+        <div class="">
+            <div class="col-sm-12 card-header pb-3" [ngClass]="{'panelHearder': innerWidth>992}">
+                <h4 class="text-bold-500 white text-left">{{'homeraito.Question' | translate }}</h4>
+                <div class="row">
+                    <div class="col-10">
+                        <input type="text" class="form-control box-question" placeholder="{{'homeraito.Type a question in the text box' | translate }}" [(ngModel)]="query">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary" [disabled]="callinglangchainraito" (click)="search()">{{'homeraito.Search' | translate }}</button>
+                        <span *ngIf="callinglangchainraito"><em class="ml-2 fa fa-spinner fa-2x fa-spin fa-fw white"></em></span>
+                    </div>
+            </div>
+            <div *ngIf="!callinglangchainraito && responseLangchain!=''" class="white mt-3">
+                <h4 class="text-bold-500 white text-left">{{queryCopy}}</h4>
+                <div class="row">
+                    <div class="col-12" *ngIf="searchopenai">
+                        <p>{{'homeraito.nothingFound' | translate }}</p>
+                    </div>
+                    <div class="col-12">
+                        <p>{{responseLangchain}}</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="mx-auto card width30rem" [ngClass]="{'mt-4': innerWidth>992}">
+        <div class="">
+            <div class="col-sm-12 card-header pb-3" [ngClass]="{'panelHearder': innerWidth>992}">
+                <h4 class="text-bold-500 white text-left" [ngClass]="{'d-none': innerWidth<992}">{{'charts.My data' | translate }}</h4>
+                <div class="" [ngClass]="{'center-elements': innerWidth<992}">
+                    <span class="mr-2 white" [ngClass]="{'d-none': innerWidth<992}">{{'generics.Select' | translate }}:</span>
+                    <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='month'"
+                            (click)="loadDataRangeDate('month');">{{'charts.Last month' |
+                            translate }}</button></span>
+                    <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='quarter'"
+                            (click)="loadDataRangeDate('quarter');">{{'charts.Last quarter' |
+                            translate }}</button></span>
+                    <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='year'"
+                            (click)="loadDataRangeDate('year');">{{'charts.Last year' |
+                            translate }}</button></span>
+                    <span class="" [ngClass]="{'d-block mt-2': innerWidth<992, 'float-right': innerWidth>992}">
+                        <span class="mr-2" [ngClass]="{'white': innerWidth>992}">{{'charts.GroupBy' | translate }}:</span>
+                        <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Weeks'"
+                                (click)="changeGroupBy('Weeks');">{{'charts.Weeks' | translate }}</button></span>
+                        <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Months'"
+                                (click)="changeGroupBy('Months');">{{'charts.Months' | translate }}</button></span>
+                        </span>
+                </div>
+            </div>
+        </div>
+        <div class="row" [ngClass]="{'p-2': innerWidth>992}" *ngIf="finishloadData">
+            <div class="col-lg-12 pt-2">
+                <div *ngIf="!loadedInfoPatient">
+                    <i class="fa fa-spinner fa-spin fa-fw"></i>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedEvents && showSeizuresModules">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">
+                                        <span>{{'menu.Seizures' | translate }}</span>
+                                        <em class="ft-info font-small-2 ml-1" style="cursor: pointer;" placement="down"
+                                            #p1="ngbPopover" [ngbPopover]="popContentseizures"
+                                            popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                        <ng-template #popContentseizures>
+                                            <span>
+                                                {{'charts.infoSeizures' | translate }}
+                                            </span>
+                                            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;"
+                                                (click)="p1.close()">{{'generics.Close' |translate }}</button>
+                                        </ng-template>
+                                    </h4>
+                                    <div class="center-elements">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="events.length > 0 && loadedEvents">
+                        <div class="card mb-2 mt-2">
+                            <div class="mb-4">
+                                <div class="card-block">
+                                    <div class="row p-2">
+                                        <div class="col-8">
+                                            <h4 class="text-bold-500">{{'menu.Seizures' | translate }}
+                                                <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                <ng-template #popContentseizures>
+                                                    <span>
+                                                        {{'charts.infoSeizures' | translate }}
+                                                    </span>
+                                                    </ng-template>
+                                            </h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <a routerLink="/seizures" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                            title="{{'homeraito.p5' | translate }}">
+                                            <span class="menu-title">+</span>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div id="line-chart2" class="height-150">
+                                        <ngx-charts-bar-vertical-2d [scheme]="lineChartOneColorScheme"
+                                            [results]="lineChartSeizures" [gradient]="barChartGradient"
+                                            [xAxis]="false" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
+                                            [legend]="barChartShowLegend" [showXAxisLabel]="false"
+                                            [showYAxisLabel]="false" [xAxisLabel]="barChartXAxisLabel"
+                                            [yAxisLabel]="barChartYAxisLabel" [yAxisTicks]="yAxisTicksSeizures" (select)="onSelect($event)" >
+                                            <ng-template #tooltipTemplate let-model="model">
+                                                <span>{{ model.name }}: {{ model.value }}</span>
+                                                <!--<span class="d-block"
+                                                    *ngFor="let type of model.types ; let i = index">
+                                                    {{type.type}}: {{type.count}}
+                                                </span>-->
+                                            </ng-template>
+                                            <ng-template #seriesTooltipTemplate let-model="model">
+                                                <div *ngFor="let mod of model; let i = index">
+                                                    <span class="d-block">{{ mod.name}}: {{ mod.value
+                                                        }}</span>
+                                                    <!--<span class="d-block"
+                                                        *ngFor="let type of mod.types ; let j = index">
+                                                        {{type.type}}: {{type.count}}
+                                                    </span>-->
+                                                </div>
+                                            </ng-template>
+                                        </ngx-charts-bar-vertical-2d>
+                                        
+                                    </div>
+                                    <div class="ml-5 mr-5" style="display: flex; justify-content: space-between;">
+                                        <span *ngFor="let tick of formatxAxisTicks2; let i = index" class="font-small-3">
+                                            <span>{{tick}} </span>
+                                        </span>
+                                        <!--<div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                            <span class="ml-4 float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3 mr-4">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        </div>
+                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                            <span class="ml-4 float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3 mr-4">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        </div>-->
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="events.length == 0 && loadedEvents">
+                        <div class="card mb-2 mt-2">
+                            <div class="">
+                                <div class="card-block">
+                                    <div class="row p-2">
+                                        <div class="col-10">
+                                            <h4 class="text-bold-500 mb-0">{{'menu.Seizures' | translate }}
+                                                <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentseizures" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                <ng-template #popContentseizures>
+                                                    <span>
+                                                        {{'charts.infoSeizures' | translate }}
+                                                    </span>
+                                                    </ng-template>
+                                            </h4>
+                                            <p class="mb-0">{{'charts.Noseizures' | translate }}
+                                                <span *ngIf="rangeDate!=''">
+                                                    {{'charts.in the last' | translate }}
+                                                    <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                        translate }}</span>
+                                                    <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                        translate }}</span>
+                                                    <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                        }}</span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-2">
+                                            <a routerLink="/seizures" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                            title="{{'homeraito.p5' | translate }}">
+                                            <span class="menu-title">+</span>
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedFeels">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">
+                                        <span>{{'charts.Quality of life' |translate }}</span>
+                                        <em class="ft-info font-small-2 ml-1" style="cursor: pointer;" placement="down"
+                                            #p1="ngbPopover" [ngbPopover]="popContentfeel"
+                                            popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                        <ng-template #popContentfeel>
+                                            <span>
+                                                {{'charts.infoFeel' | translate }}
+                                            </span>
+                                            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;"
+                                                (click)="p1.close()">{{'generics.Close' |translate }}</button>
+                                        </ng-template>
+                                    </h4>
+                                    <div class="center-elements">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="feels.length > 0">
+                        <div class="card mb-2 mt-2">
+                            <div class="mb-4">
+                                <div class="card-block">
+                                    <div class="row p-2">
+                                        <div class="col-8">
+                                            <h4 class="text-bold-500">{{'charts.Quality of life' | translate }}
+                                                <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentfeel" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                <ng-template #popContentfeel>
+                                                    <span>
+                                                        {{'charts.infoFeel' | translate }}
+                                                    </span>
+                                                    </ng-template>
+                                            </h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <a routerLink="/feel" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                            title="{{'charts.I want to answer how I feel today' | translate }}">
+                                            <span class="menu-title">+</span>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div id="line-chart3" class="height-150">
+                                        <ngx-charts-line-chart [scheme]="lineChartOneColorScheme"
+                                            [results]="lineChartHeight" [gradient]="barChartGradient"
+                                            [xAxis]="true" [yAxis]="true"
+                                            [legend]="barChartShowLegend"
+                                            [showXAxisLabel]="false"
+                                            [xAxisTickFormatting]="xAxisTickFormatting"
+                                            [xAxisTicks]="xAxisTicks2"
+                                            [showYAxisLabel]="false" [xAxisLabel]=""
+                                            [autoScale]="false" [showText]="false" (select)="onSelect($event)"
+                                            [yAxisTicks]=[0,5] [yScaleMax]="5"
+                                            [yAxisTickFormatting]="axisFormat">
+                                            <ng-template #tooltipTemplate let-model="model">
+                                                <span class="d-block">{{ model.name |date }}</span>
+                                                <span *ngIf="model.value==5">{{'charts.Very happy' | translate
+                                                    }}</span>
+                                                <span *ngIf="model.value==4">{{'charts.Happy' | translate
+                                                    }}</span>
+                                                <span *ngIf="model.value==3">Normal</span>
+                                                <span *ngIf="model.value==2">{{'charts.Sad' | translate
+                                                    }}</span>
+                                                <span *ngIf="model.value==1">{{'charts.Very sad' | translate
+                                                    }}</span>
+                                            </ng-template>
+                                            <ng-template #seriesTooltipTemplate let-model="model">
+                                                <div *ngFor="let mod of model; let i = index">
+                                                    <span class="d-block">{{ mod.name |date }}</span>
+                                                    <span *ngIf="mod.value==5">{{'charts.Very happy' | translate
+                                                        }}</span>
+                                                    <span *ngIf="mod.value==4">{{'charts.Happy' | translate
+                                                        }}</span>
+                                                    <span *ngIf="mod.value==3">Normal</span>
+                                                    <span *ngIf="mod.value==2">{{'charts.Sad' | translate
+                                                        }}</span>
+                                                    <span *ngIf="mod.value==1">{{'charts.Very sad' | translate
+                                                        }}</span>
+                                                </div>
+                                            </ng-template>
+                                        </ngx-charts-line-chart>
+                                        
+                                    </div>
+                                    <!--<div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    </div>
+                                    <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6"  *ngIf="feels.length == 0 && loadedFeels">
+                        <div class="card mb-2 mt-2">
+                            <div class="">
+                                <div class="card-block">
+                                    <div class="row p-2">
+                                        <div class="col-10">
+                                            <h4 class="text-bold-500 mb-0">{{'charts.Quality of life' |translate }}
+                                                <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentfeel" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                <ng-template #popContentfeel>
+                                                    <span>
+                                                        {{'charts.infoFeel' | translate }}
+                                                    </span>
+                                                    </ng-template>
+                                            </h4>
+                                            <p class="mb-0">{{'charts.No data saved' | translate }}
+                                                <span
+                                                *ngIf="rangeDate!=''">{{'charts.in the last' | translate }} 
+                                                <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                    translate }}</span>
+                                                <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                    translate }}</span>
+                                                <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                    }}</span></span></p>
+                                        </div>
+                                        <div class="col-2">
+                                            <a routerLink="/feel" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                            title="{{'charts.I want to answer how I feel today' | translate }}">
+                                            <span class="menu-title">+</span>
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="!loadedDrugs">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-2">
+                                        <span>{{'clinicalinfo.Medication' |translate }}</span>
+                                        <em class="ft-info font-small-2 ml-1" style="cursor: pointer;" placement="down"
+                                            #p1="ngbPopover" [ngbPopover]="popContentdrugs"
+                                            popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                        <ng-template #popContentdrugs>
+                                            <span>
+                                                {{'charts.infoDrugs' | translate }}
+                                            </span>
+                                            <button class="pull-right mt-2" style="margin-top: 1em;margin-bottom: 1em;"
+                                                (click)="p1.close()">{{'generics.Close' |translate }}</button>
+                                        </ng-template>
+                                    </h4>
+                                    <div class="center-elements">
+                                        <i class="fa fa-spinner fa-spin fa-fw"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="medications.length > 0 && loadedDrugs">
+                        <div class="card mt-2 mb-2" #ContainerRef>
+                            <div class="mb-2">
+                                <div class="card-block m-0">
+                                    <div class="row p-2" [ngClass]="(normalized)?'mb-4':''">
+                                        <div class="col-8">
+                                            <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }} 
+                                                <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                <ng-template #popContentdrugs>
+                                                    <span>
+                                                        {{'charts.infoDrugs' | translate }}
+                                                    </span>
+                                                    </ng-template>
+                                            </h4>
+                                            <span class="text-muted"> 
+                                                <label class="container pl-0">
+                                                    <input type="checkbox" [(ngModel)]="normalized" (change)="normalizedChanged(normalized)">
+                                                    <span class="checkmark"></span>
+                                                    </label><span style="margin-left: 0.2rem !important;">{{titleDose}}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-4">
+                                            <a routerLink="/medication" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                            title="{{'homeraito.p7' | translate }}">
+                                            <span class="menu-title">+</span>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div >
+                                        <div class="height-150 pt-2">
+                                            <ngx-charts-line-chart                                                
+                                                [scheme]="lineChartColorScheme"
+                                                [results]="lineChartDrugs" [gradient]="barChartGradient"
+                                                [xAxis]="true" [yAxis]="true" [yAxisTickFormatting]='axisFormat'
+                                                [legend]="false" [legendPosition]="'below'" [showXAxisLabel]="false"
+                                                [xAxisTickFormatting]="xAxisTickFormatting"
+                                                [xAxisTicks]="xAxisTicks2"
+                                                [showYAxisLabel]="false" [xAxisLabel]="barChartXAxisLabel"
+                                                [yAxisLabel]="barChartYAxisLabel" [yAxisTicks]="yAxisTicksDrugs">
+                                                <!--[timeline]="true"-->
+                                            </ngx-charts-line-chart>                                    
+                                        </div>
+                                        <!--<div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        </div>
+                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                            <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        </div>-->
+                                        <ngx-charts-legend fxFlex="100%" 
+                                                            class="chart-legend" 
+                                                            [data]="chartNames" 
+                                                            [title]="'Legend Title'" 
+                                                            [colors]="colors">
+                                            </ngx-charts-legend>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="medications.length == 0 && loadedDrugs">
+                        <div class="card mb-2 mt-2">
+                            <div class="">
+                                <div class="card-block">
+                                    <div class="row p-2">
+                                        <div class="col-10">
+                                            <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }}
+                                                <em class="ft-info font-medium-1" style="cursor: pointer;" placement="down" #p1="ngbPopover" [ngbPopover]="popContentdrugs" popoverTitle="{{'charts.infoTitle' | translate }}"></em>
+                                                <ng-template #popContentdrugs>
+                                                    <span>
+                                                        {{'charts.infoDrugs' | translate }}
+                                                    </span>
+                                                    </ng-template>
+                                            </h4>
+                                            <p class="mb-0">{{'charts.There is no drug data stored' | translate }} <span
+                                                *ngIf="rangeDate!=''">{{'charts.in the last' | translate }}
+                                                <span *ngIf="rangeDate=='month'">{{'charts.month' |
+                                                    translate }}</span>
+                                                <span *ngIf="rangeDate=='quarter'">{{'charts.quarter' |
+                                                    translate }}</span>
+                                                <span *ngIf="rangeDate=='year'">{{'charts.year' | translate
+                                                    }}</span></span></p>
+                                        </div>
+                                        <div class="col-2">
+                                            <a routerLink="/medication" class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                            title="{{'homeraito.p7' | translate }}">
+                                            <span class="menu-title">+</span>
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" *ngIf="medications.length > 0 && loadedDrugs && events.length > 0 && loadedEvents">
+                        <div class="card mb-2 mt-2" #ContainerRef1 id="line-chart4">
+                            <div class="mb-2">
+                            <div class="card-block m-0">
+                                <div class="row p-2">
+                                        <div class="col-12">
+                                            <h4 class="text-bold-500 mb-0">{{'charts.Drugs vs Seizures' | translate }}</h4>
+                                            <span class="text-muted">
+                                                <label class="container pl-0">
+                                                    <input type="checkbox" [(ngModel)]="normalized2" (change)="normalizedChanged2(normalized2)">
+                                                    <span class="checkmark"></span>
+                                                </label><span style="margin-left: 0.2rem !important;">{{titleDrugsVsDrugs}}</span> 
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                    <div class="height-100">
+                                        <div id="chartdoseAvgDrugs" style="max-height: 150px;" class="ct-chart"
+                                            height="200px"></div>
+                                            <combo-chart-component
+                                            [view]="[(ContainerRef1.offsetWidth-90), 150]"
+                                            [scheme]="comboBarScheme"
+                                            [colorSchemeLine]="colors"
+                                            [colorsLineToll]="colorsLineToll"
+                                            [results]="barChart"
+                                            [animations]="animations"
+                                            [lineChart]="lineChartSeries"
+                                            [yAxisTickFormatting]="yLeftTickFormat"
+                                            [yLeftAxisScaleFactor]="yLeftAxisScale"
+                                            [yRightAxisScaleFactor]="yRightAxisScale"
+                                            [yRightAxisTickFormatting]="yRightTickFormat"
+                                            [gradient]="gradient"
+                                            [xAxis]="showXAxis"
+                                            [yAxis]="showYAxis"
+                                            [legend]="false"
+                                            [showGridLines]="showGridLines"
+                                            [showXAxisLabel]="showXAxisLabel"
+                                            [showYAxisLabel]="showYAxisLabel"
+                                            [showRightYAxisLabel]="showYAxisLabel"
+                                            [xAxisLabel]="false"
+                                            [yAxisLabel]="yAxisLabel"
+                                            [yAxisLabelRight]="yAxisLabelRight">
+                                            </combo-chart-component>
+                                        
+                                    </div>
+                                    <div class="ml-5 mr-5" style="display: flex; justify-content: space-between;">
+                                        <span *ngFor="let tick of formatxAxisTicks2; let i = index" class="font-small-3">
+                                            <span>{{tick}} </span>
+                                        </span>
+                                    </div>
+                                    <!--<div class="col-md-12">
+                                        <div *ngIf="rangeDate=='month'" class="center-elements col-12">
+                                            <span class="ml-4 float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3 mr-4">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        </div>
+                                        <div *ngIf="rangeDate!='month'" class="center-elements col-12">
+                                            <span class="ml-4 float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                            <span class="float-right font-small-3 mr-4">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        </div>
+                                    </div>-->
+                                    <ngx-charts-legend fxFlex="100%" 
+                                                            class="chart-legend" 
+                                                            [data]="chartNames" 
+                                                            [title]="'Legend Title'" 
+                                                            [colors]="colors">
+                                        </ngx-charts-legend>
+                                        <div>
+                                            <ngx-charts-legend fxFlex="100%" 
+                                                            class="chart-legend" 
+                                                            [data]="titleSeizuresLegend" 
+                                                            [title]="'Legend Title'" 
+                                                            [colors]="colors2">
+                                            </ngx-charts-legend>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" [ngClass]="{'p-2': innerWidth>992}" *ngIf="!finishloadData">
+            <div class="col-12 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">{{'reports.Loading' | translate }}...</span>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+</div>
+</div>

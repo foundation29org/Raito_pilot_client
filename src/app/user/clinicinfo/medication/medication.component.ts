@@ -473,7 +473,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
         }
       }
     if(actualDrugs != ''){
-      var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
+      var promDrug = 'I am an expert doctor in recommended doses. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+actualDrugs+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
       var value = { value: promDrug, context: ""};
     this.subscription.add(this.openAiService.postOpenAi2(value)
@@ -530,6 +530,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
     this.subscription.add(this.patientService.saveRecommendations(drugsToSave)
     .subscribe((res: any) => {
       console.log(res);
+      //this.loadEnvir();
       this.getSavedRecommendations();
     }, (err) => {
       console.log(err);
@@ -550,7 +551,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
       }
     }
     if(!found){
-      var promDrug = 'Drugs: ['+this.drugSelected+ ']' ;
+      var promDrug = 'I am an expert doctor in recommended doses. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+this.drugSelected+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
       var value = { value: promDrug, context: ""};
     this.subscription.add(this.openAiService.postOpenAi2(value)
