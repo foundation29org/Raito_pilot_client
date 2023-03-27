@@ -79,6 +79,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   callingOpenai: boolean = false;
   actualRecommendedDose: any = null;
   savedRecommendations: any = [];
+  loadedRecommendedDose: boolean = false;
 
   constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
     private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, private openAiService: OpenAiService, public cordovaService: CordovaService) {
@@ -292,8 +293,9 @@ export class MedicationComponent implements OnInit, OnDestroy {
   
 
   onSubmitWeightAndBirthdate(){
-    this.submitWeight(this.newweight);
     this.saveBirthDate(this.birthday);
+    this.submitWeight(this.newweight);
+    
     this.closeModal();
   }
 
@@ -305,6 +307,11 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
   onSubmitBirthdate(){
     this.saveBirthDate(this.birthday);
+    this.ageFromDateOfBirthday(this.birthday);
+    console.log(this.age)
+    if (this.actualMedications.length > 0 && this.age != null) {
+      this.getRecommendedDose()
+     }
     this.closeModal();
   }
 
@@ -425,14 +432,14 @@ export class MedicationComponent implements OnInit, OnDestroy {
 
       }
     }
-    if (this.actualMedications.length > 0) {
+    if (this.actualMedications.length > 0 && this.age != null) {
      this.getRecommendedDose()
     }
       
   }
   
   getRecommendedDose(){
-
+    this.loadedRecommendedDose = false;
     var actualDrugs = '';
     var prevDrugs = '';
     
@@ -473,7 +480,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
         }
       }
     if(actualDrugs != ''){
-      var promDrug = 'I am a student. A patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+actualDrugs+ ']' ;
+      var promDrug = 'I am a student doctor. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+actualDrugs+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
       var value = { value: promDrug, context: ""};
     this.subscription.add(this.openAiService.postOpenAi2(value)
@@ -501,7 +508,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                     
                     let recommendedDose = Math.round(parseFloat(dose)*parseFloat(this.weight))
                     if(units=='mg/day'){
-                      recommendedDose = dose;
+                      recommendedDose = parseFloat(dose);
                     }
                     const recommendedDose2 = dose;
                     for (var j = 0; j < this.actualMedications.length; j++) {
@@ -517,11 +524,15 @@ export class MedicationComponent implements OnInit, OnDestroy {
                   if(drugsToSave.length>0){
                     this.saveRecommendations(drugsToSave);
                   }
+                  this.loadedRecommendedDose = true;
                   
               }, (err) => {
                 console.log(err);
                 this.callingOpenai = false;
+                this.loadedRecommendedDose = true;
             }));
+    }else{
+      this.loadedRecommendedDose = true;
     }
     
   }
@@ -551,7 +562,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
       }
     }
     if(!found){
-      var promDrug = 'I am a student. A patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+this.drugSelected+ ']' ;
+      var promDrug = 'I am a student doctor. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+this.drugSelected+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
       var value = { value: promDrug, context: ""};
     this.subscription.add(this.openAiService.postOpenAi2(value)
@@ -580,7 +591,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
                     
                     let recommendedDose = Math.round(parseFloat(dose)*parseFloat(this.weight))
                     if(units=='mg/day'){
-                      recommendedDose = dose;
+                      recommendedDose = parseFloat(dose);
                     }
                     this.actualRecommendedDose = recommendedDose
                   });
