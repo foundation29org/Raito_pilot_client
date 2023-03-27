@@ -480,8 +480,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
         }
       }
     if(actualDrugs != ''){
-      var promDrug = 'I am a student doctor. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+actualDrugs+ ']' ;
+      var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
+      /*var promDrug = 'I am a student doctor. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+actualDrugs+ ']' ;
+      promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";*/
       var value = { value: promDrug, context: ""};
     this.subscription.add(this.openAiService.postOpenAi2(value)
               .subscribe((res: any) => {
@@ -562,8 +564,10 @@ export class MedicationComponent implements OnInit, OnDestroy {
       }
     }
     if(!found){
-      var promDrug = 'I am a student doctor. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+this.drugSelected+ ']' ;
+      var promDrug = 'Drugs: ['+this.drugSelected+ ']' ;
       promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
+      /*var promDrug = 'I am a student doctor. The patient is '+this.age.years+' years old and weighs '+this.weight+' kg. He is currently taking the following drugs: ['+this.drugSelected+ ']' ;
+      promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";*/
       var value = { value: promDrug, context: ""};
     this.subscription.add(this.openAiService.postOpenAi2(value)
               .subscribe((res: any) => {
