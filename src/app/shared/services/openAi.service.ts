@@ -32,7 +32,7 @@ export class OpenAiService {
     }
 
     postOpenAi3(info){
-      return this.http.post('https://langchainraito.azurewebsites.net/api/HttpTrigger1', info)
+      return this.http.post('https://af29.azurewebsites.net/api/HttpTrigger1', info)
       .map((res: any) => {
         return res;
       }, (err) => {
