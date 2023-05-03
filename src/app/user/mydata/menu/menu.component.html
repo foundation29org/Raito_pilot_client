@@ -50,19 +50,6 @@
                                             <span *ngIf="f29.message=='Available'" class="d-block">{{'mydata.Last backup' | translate }}: {{f29.date | date}} <em *ngIf="!loadingGetF29" class="primary fa fa-download pointer" (click)="getF29()"></em><em *ngIf="loadingGetF29" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 col-lg-6 mt-3">
-                                        <div class="">
-                                            <p class="text-bold-500 mt-0 mb-0" [innerHTML]="'mydata.a1.2.1' | translate"></p>
-                                            <p class="text-muted" [innerHTML]="'mydata.a1.2.2' | translate"></p>
-                                        </div>
-                                        <div class="">
-                                            <button class="btn btn-dark btn-100 mb-0" type="button" [disabled]="loading" (click)="saveContainer('IPFS')">{{'mydata.Decentralized' | translate }} 
-                                                <span *ngIf="ipfs.message=='Available' && !loading"> ({{'generics.Update' | translate }})</span>
-                                                <span *ngIf="loading" class="d-block"><i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i></span>
-                                            </button>
-                                            <span *ngIf="ipfs.message=='Available'" class="d-block">{{'mydata.Last backup' | translate }}: {{ipfs.date | date}} <em *ngIf="!loadingGetIPFS" class="primary fa fa-download pointer" (click)="getIPFS()"></em><em *ngIf="loadingGetIPFS" class="fa fa-spinner fa-spin fa-fw pink"></em></span>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="d-none"><span id="content"></span></div>
