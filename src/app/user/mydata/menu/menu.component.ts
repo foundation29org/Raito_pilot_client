@@ -48,7 +48,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   loadingGetGoogleDrive: boolean = false;
   loadingf29: boolean = false;
   loadingGetF29: boolean = false;
-  loadingGetIPFS: boolean = false;
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
   private msgDownload: string;
@@ -204,7 +203,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   widthPanelCustomShare = null;
 
   googleDrive: any = {};
-  ipfs: any = {};
   f29: any = {};
   checkStatus: any = {};
   showLinkMA: boolean = false;
@@ -264,7 +262,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
     this.loadTranslations();
     this.loadPatientId();
-    this.checkIPFS();
     this.checkF29();
     this.checkGoogleDrive();
 
@@ -1549,86 +1546,18 @@ printFile(fileId) {
 }
 
 saveContainer(location){
-  if(location=='IPFS'){
-    this.loading = true;
-  }else{
-    this.loadingf29 = true;
-  }
+  
+  this.loadingf29 = true;
+  
   this.subscription.add( this.patientService.saveContainer(location)
   .subscribe( (res : any) => {
-    if(location=='IPFS'){
-      this.checkIPFS();
-    }else{
-      this.checkF29();
-    }
+    this.checkF29();
     this.loading = false;
     this.loadingf29 = false;
    }, (err) => {
      console.log(err);
      this.loading = false;
      this.loadingf29 = false;
-   }));
-}
-
-checkIPFS(){
-  this.subscription.add( this.patientService.checkIPFS()
-  .subscribe( (res : any) => {
-    this.ipfs = res;
-   }, (err) => {
-     console.log(err);
-   }));
-}
-
-getIPFS(){
-  this.loadingGetIPFS = true;
-  this.subscription.add( this.patientService.getIPFS()
-  .subscribe( (res : any) => {
-    if(res.message=='Not available'){
-
-    }else{
-      this.checkIPFS();
-      var json = JSON.stringify(res.result);
-      var blob = new Blob([json], {type: "application/json"});
-      var url  = URL.createObjectURL(blob);
-      var p = document.createElement('p');
-      var t = document.createTextNode(this.msgDownload+":");
-      p.appendChild(t);
-      document.getElementById('content').appendChild(p);
-
-      var a = document.createElement('a');
-      var dateNow = new Date();
-      var stringDateNow = this.dateService.transformDate(dateNow);
-      a.download    = "dataRaito_fhir_"+stringDateNow+".json";
-      a.target     = "_blank";
-      a.href        = url;
-      a.textContent = "dataRaito_fhir_"+stringDateNow+".json";
-      a.setAttribute("id", "download")
-
-      if(this.isMobile){
-        if(device.platform != 'iOS'){
-          var p = document.createElement('p');
-          var t = document.createTextNode('Data saved on download folder');
-          p.appendChild(t);
-          document.getElementById('content').appendChild(p);
-          this.cordovaService.saveBlob2File(a.textContent, blob);
-        }else{
-          var p = document.createElement('p');
-          var t = document.createTextNode(this.msgtoDownload);
-          p.appendChild(t);
-          document.getElementById('content').appendChild(p);
-        }
-        this.cordovaService.goToExternalUrl(url);
-
-        //this.cordovaService.downloadFile(url, "dataRaito_fhir_"+stringDateNow+".json");
-      }else{
-        document.getElementById('content').appendChild(a);
-        document.getElementById("download").click();
-      }
-    }
-      
-      this.loadingGetIPFS = false;
-   }, (err) => {
-     console.log(err);
    }));
 }
 
