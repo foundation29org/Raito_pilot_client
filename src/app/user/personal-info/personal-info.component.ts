@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Injectable, Injector,  LOCALE_ID, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -124,7 +124,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   private group: string;
   timeformat="";
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, public searchTermService: SearchTermService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private modalService: NgbModal, private authGuard: AuthGuard) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, public searchTermService: SearchTermService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private modalService: NgbModal, private authGuard: AuthGuard, private inj: Injector) {
     this.dateAdapter.setLocale(this.authService.getLang());
     this.lang =this.authService.getLang();
     this.datainfo = {
@@ -334,6 +334,23 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     return this.translate.instant(literal);
   }
 
+  onGroupChange() {
+    let selectedGroup = this.groups.find(group => group._id === this.datainfo.group);
+    // Si no se encuentra el grupo (lo que no debería ocurrir), no hagas nada.
+    if (!selectedGroup) return;
+    console.log(selectedGroup.name)
+    switch(selectedGroup.name) {
+      case 'immunodeficiency':
+        this.datainfo.modules = ['immunodeficiency'];
+        Swal.fire('', this.translate.instant("menu.The immunodeficiency module has been activated"), "success");
+        break;
+      default:
+        this.datainfo.modules = ['seizures'];
+        Swal.fire('', this.translate.instant("menu.The seizure module has been activated"), "success");
+        break;
+    }
+  }
+
   submitInvalidForm() {
     if (!this.personalInfoForm) { return; }
     const base = this.personalInfoForm;
@@ -376,6 +393,17 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   }
 
+  differenceOf2Arrays (array1, array2) {
+    const temp = [];
+    for (var i in array1) {
+    if(!array2.includes(array1[i])) temp.push(array1[i]);
+    }
+    for(i in array2) {
+    if(!array1.includes(array2[i])) temp.push(array2[i]);
+    }
+    return temp.sort((a,b) => a-b);
+  }
+
   savePatient(deleteConsent){
     this.sending = true;
     var params = this.personalInfoForm.value;
@@ -387,11 +415,19 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     }
     this.datainfo.previousDiagnosis = this.actualInfoOneDisease.id;
     this.datainfo.deleteConsent = deleteConsent
-    this.datainfoCopy = JSON.parse(JSON.stringify(this.datainfo));
+    
     this.subscription.add( this.http.put(environment.api+'/api/patients/'+this.authService.getCurrentPatient().sub, this.datainfo)
       .subscribe((res: any) => {
+        //para no estar emitiendo sin haber cambiado los módulos, mirar si hay algún modulo distinto que haya cambiado
+        var result = this.differenceOf2Arrays (this.datainfoCopy.modules, this.datainfo.modules)
+          if(result.length>0){
+            var eventsService = this.inj.get(EventsService);
+            eventsService.broadcast('changemodules', this.datainfo.modules);
+          }
+        this.datainfoCopy = JSON.parse(JSON.stringify(this.datainfo));
         this.sending = false;
         this.authService.setGroup(this.datainfo.group);
+        this.toastr.success('', this.translate.instant("generics.Data saved successfully"));
       }, (err) => {
         console.log(err);
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");

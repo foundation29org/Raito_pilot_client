@@ -203,7 +203,7 @@ export class PatientService {
     }
 
     getModules() {
-      return this.http.get(environment.api+'/api/users/modules/'+ this.authService.getIdUser())
+      return this.http.get(environment.api+'/api/patient/modules/'+ this.authService.getCurrentPatient().sub)
       .map( (res : any) => {
         return res;
        }, (err) => {

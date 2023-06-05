@@ -10,6 +10,11 @@
        "Questionnaire":"Fragebögen",
        "Calendar":"Kalender",
        "Seizures":"Krampfanfälle",
+       "Clinical data of immunodeficiencies":"Klinische Daten von Patienten mit primärer Immundefizienz",
+       "Modules": "Module",
+       "InfoModules": "<div><p>Mit dieser Option können Sie Ihr Erlebnis auf unserer Plattform personalisieren, indem Sie die Informationsmodule auswählen, die für Sie am relevantesten sind. Durch die Aktivierung eines Moduls erhalten Sie Zugriff auf bestimmte Menüs und Informationen in der Anwendung. Hier erklären wir kurz jedes Modul:</p><ul><li><strong>Anfälle:</strong> Dieses Modul bietet Informationen und Tools im Zusammenhang mit der Verwaltung und Überwachung von Anfällen. Ideal, wenn Sie Informationen suchen oder sich mit dieser Erkrankung befassen.</li><li><strong>Klinische Daten zu Immundefekten:</strong> Dieses Modul bietet nützliche Daten und Informationen, wenn Sie sich für das Gebiet der Immundefekte interessieren. Es bietet Zugriff auf bestimmte Menüs und Funktionen im Zusammenhang mit diesen Bedingungen.</li></ul><p>Sie können je nach Bedarf eines, beide oder keines der Module auswählen. Denken Sie daran, dass Sie Ihre Auswahl jederzeit ändern können, um die Anwendung an Ihre Bedürfnisse anzupassen.</p></div>",
+       "The immunodeficiency module has been activated": "Das Modul für Immundefekte wurde aktiviert",
+       "The seizure module has been activated": "Das Anfallmodul wurde aktiviert",
        "Patient":"Geduldig",
        "Personal Info":"Meine Daten für die Recherche",
        "Feel":"Gefühl",
@@ -133,6 +138,7 @@
        "Language to edit":"Sprache zum Bearbeiten",
        "Cancel":"Absagen",
        "Save":"Speichern",
+       "Saving": "Speichern",
        "SaveAndClose":"Speichern & schließen",
        "Delete":"Löschen",
        "Delete data":"Ich möchte meine Daten löschen",
@@ -317,7 +323,15 @@
        "I dont belong to a patient group":"Ich gehöre keiner Patientengruppe an",
        "I dont have a diagnosis":"Ich habe keine Diagnose",
        "Patients with epilepsy":"Dravet-Syndrom Europäische Föderation",
-       "Childhood syndrome with epilepsy": "Kindheitssyndrom mit Epilepsie"
+       "Childhood syndrome with epilepsy": "Kindheitssyndrom mit Epilepsie",
+       "immunodeficiency": "Patienten mit primärer Immundefizienz",
+       "Tobacco use": "Raucher",
+       "Average cigarettes per day": "Durchschnittliche Zigaretten pro Tag",
+       "Number of smoking years": "Anzahl der Raucherjahre",
+       "Specific diet (ketogenic, gluten-free, etc.)": "Spezielle Diät (ketogen, glutenfrei, etc.)",
+       "Specify what kind of diet": "Geben Sie an, welche Art von Diät",
+       "Physical exercise": "Körperliche Bewegung",
+       "Hours per week": "Stunden pro Woche"
     },
     "groups":{
        "Groups":"Gruppen",
@@ -769,7 +783,10 @@
        "No further questions for today":"Keine weiteren Fragen für heute",
        "Please, tell us":"Bitte sagen Sie uns",
        "Enter your text here":"Geben Sie hier Ihr Zeugnis ein",
-       "See answers":"Siehe Antworten"
+       "See answers":"Siehe Antworten",
+       "Completed": "Vollendet",
+       "Estimated time": "Geschätzte Zeit: 2 Minuten",
+       "Score": "Punktzahl"
     },
     "landraito":{
        "t1":"Medizinische Daten retten Leben",

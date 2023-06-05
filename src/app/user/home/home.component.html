@@ -32,13 +32,14 @@
                         <div *ngIf="step=='1'">
                             <h2>{{'homeraito.t2' | translate }}</h2>
                             <select id="group" name="group" class="form-control" ngModel
-                                [(ngModel)]="basicInfoPatient.group">
+                                [(ngModel)]="basicInfoPatient.group" (change)="onGroupChange()">
                                 <option [value]="null" disabled selected>--{{'registration.Please select a
                                     group' | translate }}--</option>
                                 <option *ngFor="let group of groups" [ngValue]="group._id">
-                                    <span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed'  && group.name != 'None'">{{group.name}}</span>
+                                    <span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed' && group.name != 'immunodeficiency'  && group.name != 'None'">{{group.name}}</span>
                                     <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
                                     <span *ngIf="group.name == 'Childhood syndrome with epilepsy'">{{'personalinfo.Childhood syndrome with epilepsy' | translate }}</span>
+                                    <span *ngIf="group.name == 'immunodeficiency'">{{'personalinfo.immunodeficiency' | translate }}</span>
                                     <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
                                     <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
                                 </option>
@@ -256,7 +257,7 @@
                                       </a>
                                 </div>
                             </div>
-                            <div class="row font-small-3" *ngIf="totalTaks>0 && tasksLoaded">
+                            <div class="row font-small-3 mb-1" *ngIf="totalTaks>0 && tasksLoaded">
                                 <div class="col-1 pr-0">
                                     <em class="ft-bell"></em>
                                 </div>
@@ -271,7 +272,7 @@
                                       </a>
                                 </div>
                             </div>
-                            <div class="row font-small-3" *ngIf="nextEvents.length>0">
+                            <div class="row font-small-3 mb-1" *ngIf="nextEvents.length>0">
                                 <div class="col-1 pr-0">
                                     <em class="fa fa-calendar"></em>
                                 </div>
@@ -305,7 +306,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="row font-small-3" *ngIf="totalTaks==0 && tasksLoaded && (!showSeizuresModules || (events.length > 0 && !showNotiSeizu)) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
+                            <div class="row font-small-3 mb-1" *ngIf="totalTaks==0 && tasksLoaded && (!showSeizuresModules || (events.length > 0 && !showNotiSeizu)) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
                                 <div class="col-12 center-elements">
                                     <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
                                 </div>

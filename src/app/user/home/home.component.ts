@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Injector } from '@angular/core';
 import { Router } from "@angular/router";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -14,6 +14,7 @@ import 'rxjs/add/operator/toPromise';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { DateService } from 'app/shared/services/date.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
+import { EventsService } from 'app/shared/services/events.service';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Subscription } from 'rxjs/Subscription';
 import Swal from 'sweetalert2';
@@ -240,7 +241,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   
   modules: any = {seizures:false}
   showSeizuresModules: boolean = false;
-
+  showImmunodeficienciesModules: boolean = false;
   query: string = '';
   queryCopy: string = '';
   callinglangchainraito: boolean = false;
@@ -249,7 +250,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchopenai: boolean = false;
   finishloadData: boolean = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService, private openAiService: OpenAiService) {
+  constructor(private http: HttpClient, public translate: TranslateService, private authService: AuthService, private patientService: PatientService, public searchFilterPipe: SearchFilterPipe, public toastr: ToastrService, private dateService: DateService, private apiDx29ServerService: ApiDx29ServerService, private sortService: SortService, private adapter: DateAdapter<any>, private searchService: SearchService, private router: Router, public trackEventsService: TrackEventsService, private openAiService: OpenAiService, private inj: Injector) {
     this.adapter.setLocale(this.authService.getLang());
     this.lang = this.authService.getLang();
     switch (this.authService.getLang()) {
@@ -271,7 +272,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.calculateGridSize();
     this.loadScripts();
     this.getPreferenceRangeDate();
-    this.getModules();
+    
   }
 
   loadScripts(){
@@ -299,9 +300,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     .subscribe((res: any) => {
         this.modules = res.modules;
         this.showSeizuresModules = this.modules.includes("seizures");
+        this.showImmunodeficienciesModules = this.modules.includes("immunodeficiency");
     }, (err) => {
       console.log(err);
       this.showSeizuresModules = false;
+      this.showImmunodeficienciesModules = false;
     }));
 }
 
@@ -442,6 +445,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async loadEnvironment() {
+    this.getModules();
     this.medications = [];
     this.actualMedications = [];
     this.group = this.authService.getGroup();
@@ -2131,6 +2135,26 @@ saveDataVerfified(){
 
 reloadPage(){
   window.location.reload();
+}
+
+onGroupChange() {
+  let selectedGroup = this.groups.find(group => group._id === this.basicInfoPatient.group);
+  // Si no se encuentra el grupo (lo que no debería ocurrir), no hagas nada.
+  if (!selectedGroup) return;
+  console.log(selectedGroup.name)
+  
+  switch(selectedGroup.name) {
+    case 'immunodeficiency':
+      this.basicInfoPatient.modules = ['immunodeficiency'];
+      break;
+    default:
+      this.basicInfoPatient.modules = ['seizures'];
+      break;
+  }
+  this.showSeizuresModules = this.basicInfoPatient.modules.includes("seizures");
+  this.showImmunodeficienciesModules = this.basicInfoPatient.modules.includes("immunodeficiency");
+  var eventsService = this.inj.get(EventsService);
+  eventsService.broadcast('changemodules', this.basicInfoPatient.modules);
 }
 
 changedCaretaker(event) {

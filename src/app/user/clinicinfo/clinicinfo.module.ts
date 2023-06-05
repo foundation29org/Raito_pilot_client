@@ -22,12 +22,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatRadioModule} from '@angular/material/radio';
 import { SymptomsComponent } from './symptoms/symptoms.component';
 import { MedicalRecordsComponent } from './medical-records/medical-records.component';
 import { CalendarsComponent } from './calendar/calendar.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { DateTimePickerComponent } from './appointments/date-time-picker.component';
 import { MedicationComponent } from './medication/medication.component';
+import { ImmunodeficienciesComponent } from './immunodeficiencies/immunodeficiencies.component';
 import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomFormsModule } from 'ngx-custom-validators';
 
@@ -54,6 +57,8 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         MatInputModule,
         MatStepperModule,
         MatIconModule,
+        MatButtonModule,
+        MatRadioModule,
         NgbModalModule,
         NgbDatepickerModule,
         NgbTimepickerModule,
@@ -66,7 +71,8 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         CalendarsComponent,
         AppointmentsComponent,
         DateTimePickerComponent,
-        MedicationComponent
+        MedicationComponent,
+        ImmunodeficienciesComponent
     ],
     providers: [],
 })

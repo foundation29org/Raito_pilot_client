@@ -10,6 +10,11 @@
        "Questionnaire":"Questionnaires",
        "Calendar":"Calendrier",
        "Seizures":"Saisies",
+       "Clinical data of immunodeficiencies": "Données cliniques des immunodéficiences",
+       "Modules": "Modules",
+       "InfoModules": "<div><p>Cette option vous permet de personnaliser votre expérience sur notre plateforme en sélectionnant les modules d'informations les plus pertinents pour vous. En activant un module, vous aurez accès à des menus et informations spécifiques dans l'application. Nous expliquons ici brièvement chaque module:</p><ul><li><strong>Saisies:</strong> Ce module fournit des informations et des outils liés à la gestion et au suivi des crises. Idéal si vous recherchez des informations ou traitez cette condition.</li><li><strong>Données cliniques des immunodéficiences:</strong> Ce module fournit des données et des informations utiles si vous êtes intéressé par le domaine des immunodéficiences. Il donne accès à des menus et fonctions spécifiques liés à ces conditions.</li></ul><p>Vous pouvez sélectionner un, les deux ou aucun des modules, selon vos besoins. N'oubliez pas que vous pouvez modifier votre sélection à tout moment pour adapter l'application à vos besoins.</p></div>",
+       "The immunodeficiency module has been activated": "Le module d'immunodéficience a été activé",
+       "The seizure module has been activated": "Le module de saisie a été activé",
        "Patient":"Patient",
        "Personal Info":"Mes données pour la recherche",
        "Feel":"Se sentir",
@@ -133,6 +138,7 @@
        "Language to edit":"Langue à modifier",
        "Cancel":"Annuler",
        "Save":"sauvegarder",
+       "Saving": "Sauvegarde en cours",
        "SaveAndClose":"Sauvegarder et fermer",
        "Delete":"Effacer",
        "Delete data":"Je veux supprimer mes données",
@@ -317,7 +323,15 @@
        "I dont belong to a patient group":"Je n'appartiens pas à un groupe de patients",
        "I dont have a diagnosis":"je n'ai pas de diagnostic",
        "Patients with epilepsy":"Fédération européenne du syndrome de Dravet",
-       "Childhood syndrome with epilepsy": "Syndrome de l'enfance avec épilepsie"
+       "Childhood syndrome with epilepsy": "Syndrome de l'enfance avec épilepsie",
+       "immunodeficiency": "Patients présentant une immunodéficience primaire",
+       "Tobacco use": "Utilisation du tabac",
+       "Average cigarettes per day": "Nombre moyen de cigarettes par jour",
+       "Number of smoking years": "Nombre d'années de tabagisme",
+       "Specific diet (ketogenic, gluten-free, etc.)": "Régime spécifique (cétogène, sans gluten, etc.)",
+       "Specify what kind of diet": "Précisez quel type de régime",
+       "Physical exercise":"Exercice physique",
+       "Hours per week":"Heures par semaine"
     },
     "groups":{
        "Groups":"Groupes",
@@ -769,7 +783,10 @@
        "No further questions for today":"Plus de questions pour aujourd'hui",
        "Please, tell us":"S'il te plait dis nous",
        "Enter your text here":"Entrez votre témoignage ici",
-       "See answers":"Voir les réponses"
+       "See answers":"Voir les réponses",
+       "Completed": "Complété",
+       "Estimated time": "Temps estimé : 2 minutes",
+       "Score": "Score"
     },
     "landraito":{
        "t1":"Les données médicales sauvent des vies",

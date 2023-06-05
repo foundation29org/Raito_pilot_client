@@ -9,6 +9,7 @@ export const HROUTES: RouteInfo[] = [
     submenu: [
       { path: '/calendar', title: 'menu.Calendar', icon: 'ft-arrow-right submenu-icon', class: '', isExternalLink: false, submenu: [] },
       { path: '/seizures', title: 'menu.Seizures', icon: 'ft-arrow-right submenu-icon', class: '', isExternalLink: false, submenu: [] },
+      { path: '/immunodeficiencies', title: 'menu.Clinical data of immunodeficiencies', icon: 'ft-arrow-right submenu-icon', class: '', isExternalLink: false, submenu: [] },
       { path: '/feel', title: 'homeraito.p6', icon: 'ft-arrow-right submenu-icon', class: '', isExternalLink: false, submenu: [] },
       { path: '/medication', title: 'clinicalinfo.Medication', icon: 'ft-arrow-right submenu-icon', class: '', isExternalLink: false, submenu: [] },
       { path: '/symptoms', title: 'menu.Phenotype', icon: 'ft-arrow-right submenu-icon', class: '', isExternalLink: false, submenu: [] },
