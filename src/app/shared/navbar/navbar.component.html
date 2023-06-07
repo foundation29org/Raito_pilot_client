@@ -33,7 +33,7 @@
             <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle
               title="{{'menu.Personal Info' | translate }}">
               <i class="fas fa-microscope font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/immunodeficiencies' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
+                [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/inmunodeficiencies' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
               <p class="d-none">{{'navbar.menu.Personal Info' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
@@ -47,10 +47,10 @@
                   <span>{{'menu.Seizures' | translate }}</span>
                 </a>
               </span>
-              <span *ngIf="showImmunodeficienciesModules">
+              <span *ngIf="showInmunodeficienciesModules">
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" routerLink="/immunodeficiencies">
-                  <span>{{'menu.Clinical data of immunodeficiencies' | translate }}</span>
+                <a class="dropdown-item" routerLink="/inmunodeficiencies">
+                  <span>{{'menu.Clinical data of inmunodeficiencies' | translate }}</span>
                 </a>
               </span>
               <div class="dropdown-divider"></div>

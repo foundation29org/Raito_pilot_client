@@ -19,6 +19,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
@@ -30,8 +31,9 @@ import { CalendarsComponent } from './calendar/calendar.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { DateTimePickerComponent } from './appointments/date-time-picker.component';
 import { MedicationComponent } from './medication/medication.component';
-import { ImmunodeficienciesComponent } from './immunodeficiencies/immunodeficiencies.component';
+import { InmunodeficienciesComponent } from './inmunodeficiencies/inmunodeficiencies.component';
 import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CustomFormsModule } from 'ngx-custom-validators';
 
 @NgModule({
@@ -54,6 +56,7 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         MatCheckboxModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatTableModule,
         MatInputModule,
         MatStepperModule,
         MatIconModule,
@@ -62,6 +65,7 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         NgbModalModule,
         NgbDatepickerModule,
         NgbTimepickerModule,
+        NgxDatatableModule,
         CustomFormsModule
     ],
     exports: [TranslateModule],
@@ -72,7 +76,7 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         AppointmentsComponent,
         DateTimePickerComponent,
         MedicationComponent,
-        ImmunodeficienciesComponent
+        InmunodeficienciesComponent
     ],
     providers: [],
 })

@@ -47,7 +47,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   actualUrl: string = '';
   isAndroid: boolean = false;
   showSeizuresModules: boolean = false;
-  showImmunodeficienciesModules: boolean = false;
+  showInmunodeficienciesModules: boolean = false;
   private subscription: Subscription = new Subscription();
 
   constructor(public translate: TranslateService,
@@ -92,7 +92,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.eventsService.on('changemodules', function(modules) {
       this.showSeizuresModules = modules.includes("seizures");
-      this.showImmunodeficienciesModules = modules.includes("immunodeficiency");
+      this.showInmunodeficienciesModules = modules.includes("immunodeficiency");
     }.bind(this));
 
     this.getModules();
@@ -104,11 +104,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((res: any) => {
         console.log(res)
         this.showSeizuresModules = res.modules.includes("seizures");
-        this.showImmunodeficienciesModules = res.modules.includes("immunodeficiency");
+        this.showInmunodeficienciesModules = res.modules.includes("immunodeficiency");
       }, (err) => {
         console.log(err);
         this.showSeizuresModules = false;
-        this.showImmunodeficienciesModules = false;
+        this.showInmunodeficienciesModules = false;
       }));
     }else{
       this.loadPatientId();

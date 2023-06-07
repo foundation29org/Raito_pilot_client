@@ -241,7 +241,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   
   modules: any = {seizures:false}
   showSeizuresModules: boolean = false;
-  showImmunodeficienciesModules: boolean = false;
+  showInmunodeficienciesModules: boolean = false;
   query: string = '';
   queryCopy: string = '';
   callinglangchainraito: boolean = false;
@@ -300,11 +300,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     .subscribe((res: any) => {
         this.modules = res.modules;
         this.showSeizuresModules = this.modules.includes("seizures");
-        this.showImmunodeficienciesModules = this.modules.includes("immunodeficiency");
+        this.showInmunodeficienciesModules = this.modules.includes("immunodeficiency");
     }, (err) => {
       console.log(err);
       this.showSeizuresModules = false;
-      this.showImmunodeficienciesModules = false;
+      this.showInmunodeficienciesModules = false;
     }));
 }
 
@@ -2152,7 +2152,7 @@ onGroupChange() {
       break;
   }
   this.showSeizuresModules = this.basicInfoPatient.modules.includes("seizures");
-  this.showImmunodeficienciesModules = this.basicInfoPatient.modules.includes("immunodeficiency");
+  this.showInmunodeficienciesModules = this.basicInfoPatient.modules.includes("immunodeficiency");
   var eventsService = this.inj.get(EventsService);
   eventsService.broadcast('changemodules', this.basicInfoPatient.modules);
 }
