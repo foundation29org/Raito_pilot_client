@@ -96,21 +96,21 @@
                         <div class="mb-2 col-sm-6">
                           <div class="row">
                             <div class="row mb-3">
-                                <label class="col-md-12" for="treatment">IgG sérico <button (click)="openImmunoEditModal('serumIgGList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgGList">
-                                    <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgGList.length>0">
+                                <label class="col-md-12" for="treatment">IgG sérico <button (click)="openInmunoEditModal('serumIgGList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgGList">
+                                    <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgGList.length>0">
                                         <div class="col-md-6">
-                                            {{ inmunodeficiencies.immunologicalVariables.serumIgGList[0].value }} mg/dL
+                                            {{ inmunodeficiencies.inmunologicalVariables.serumIgGList[0].value }} mg/dL
                                         </div>
                                         <div class="col-md-6">
-                                            {{ inmunodeficiencies.immunologicalVariables.serumIgGList[0].date | date:'mediumDate' }}
+                                            {{ inmunodeficiencies.inmunologicalVariables.serumIgGList[0].date | date:'mediumDate' }}
                                         </div>
                                     </div>
-                                    <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgGList.length==0">
+                                    <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgGList.length==0">
                                         No data
                                     </div>
                                 </div>
-                                <div class="col-md-10" *ngIf="!inmunodeficiencies.immunologicalVariables.serumIgGList">
+                                <div class="col-md-10" *ngIf="!inmunodeficiencies.inmunologicalVariables.serumIgGList">
                                     No data
                                 </div>
                             </div>
@@ -119,31 +119,14 @@
                         <div class="mb-2 col-sm-6">
                             <div class="row">
                               <div class="row mb-3">
-                                  <label class="col-md-12" for="treatment">IgA sérico <button (click)="openImmunoEditModal('serumIgAList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                  <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgAList">
-                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgAList.length>0">
+                                  <label class="col-md-12" for="treatment">IgA sérico <button (click)="openInmunoEditModal('serumIgAList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgAList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgAList.length>0">
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.serumIgAList[0].value }} mg/dL
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgAList[0].value }} mg/dL
                                           </div>
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.serumIgAList[0].date | date:'mediumDate' }}
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="mb-2 col-sm-6">
-                            <div class="row">
-                              <div class="row mb-3">
-                                  <label class="col-md-12" for="treatment">IgM sérico <button (click)="openImmunoEditModal('serumIgMList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                  <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgMList">
-                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgMList.length>0">
-                                          <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.serumIgMList[0].value }} mg/dL
-                                          </div>
-                                          <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.serumIgMList[0].date | date:'mediumDate' }}
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgAList[0].date | date:'mediumDate' }}
                                           </div>
                                       </div>
                                   </div>
@@ -153,31 +136,14 @@
                           <div class="mb-2 col-sm-6">
                             <div class="row">
                               <div class="row mb-3">
-                                  <label class="col-md-12" for="treatment">IgE sérico <button (click)="openImmunoEditModal('serumIgEList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                  <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgEList">
-                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.serumIgEList.length>0">
+                                  <label class="col-md-12" for="treatment">IgM sérico <button (click)="openInmunoEditModal('serumIgMList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgMList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgMList.length>0">
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.serumIgEList[0].value }} mg/dL
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgMList[0].value }} mg/dL
                                           </div>
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.serumIgEList[0].date | date:'mediumDate' }}
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="mb-2 col-sm-6">
-                            <div class="row">
-                              <div class="row mb-3">
-                                  <label class="col-md-12" for="treatment">hb <button (click)="openImmunoEditModal('hbList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                  <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.hbList">
-                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.hbList.length>0">
-                                          <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.hbList[0].value }} g/dL
-                                          </div>
-                                          <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.hbList[0].date | date:'mediumDate' }}
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgMList[0].date | date:'mediumDate' }}
                                           </div>
                                       </div>
                                   </div>
@@ -187,14 +153,14 @@
                           <div class="mb-2 col-sm-6">
                             <div class="row">
                               <div class="row mb-3">
-                                  <label class="col-md-12" for="treatment">platelets<button (click)="openImmunoEditModal('plateletsList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                  <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.plateletsList">
-                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.plateletsList.length>0">
+                                  <label class="col-md-12" for="treatment">IgE sérico <button (click)="openInmunoEditModal('serumIgEList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgEList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgEList.length>0">
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.plateletsList[0].value }} células/microlitro (μL)
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgEList[0].value }} mg/dL
                                           </div>
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.plateletsList[0].date | date:'mediumDate' }}
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgEList[0].date | date:'mediumDate' }}
                                           </div>
                                       </div>
                                   </div>
@@ -204,14 +170,48 @@
                           <div class="mb-2 col-sm-6">
                             <div class="row">
                               <div class="row mb-3">
-                                  <label class="col-md-12" for="treatment">lymphocytes<button (click)="openImmunoEditModal('lymphocytesList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
-                                  <div class="col-md-10" *ngIf="inmunodeficiencies.immunologicalVariables.lymphocytesList">
-                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.immunologicalVariables.lymphocytesList.length>0">
+                                  <label class="col-md-12" for="treatment">hb <button (click)="openInmunoEditModal('hbList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.hbList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.hbList.length>0">
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.lymphocytesList[0].value }} células/microlitro (μL)
+                                              {{ inmunodeficiencies.inmunologicalVariables.hbList[0].value }} g/dL
                                           </div>
                                           <div class="col-md-6">
-                                              {{ inmunodeficiencies.immunologicalVariables.lymphocytesList[0].date | date:'mediumDate' }}
+                                              {{ inmunodeficiencies.inmunologicalVariables.hbList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">platelets<button (click)="openInmunoEditModal('plateletsList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.plateletsList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.plateletsList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.plateletsList[0].value }} células/microlitro (μL)
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.plateletsList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">lymphocytes<button (click)="openInmunoEditModal('lymphocytesList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.lymphocytesList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.lymphocytesList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.lymphocytesList[0].value }} células/microlitro (μL)
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.lymphocytesList[0].date | date:'mediumDate' }}
                                           </div>
                                       </div>
                                   </div>
@@ -319,7 +319,7 @@
         <div>
             <div class="">
               <div>
-                <div *ngFor="let item of inmunodeficiencies.immunologicalVariables[variable]; let i=index;" class="mb-2">
+                <div *ngFor="let item of inmunodeficiencies.inmunologicalVariables[variable]; let i=index;" class="mb-2">
                     <label class="" for="treatment">{{variable}} {{i+1}}</label>
                     <div class="">
                         <div class="row">
@@ -336,13 +336,13 @@
                               </mat-form-field>
                           </div>
                             <div class="col-md-2">
-                                <button (click)="removeImmunologicalItem(i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button>
+                                <button (click)="removeInmunologicalItem(i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="border-top">
-                    <button (click)="addImmunologicalItem()" class="btn btn-dark mt-3 mb-2"><em class="ft-plus mr-1"></em>{{'generics.New' | translate}}</button>
+                    <button (click)="addInmunologicalItem()" class="btn btn-dark mt-3 mb-2"><em class="ft-plus mr-1"></em>{{'generics.New' | translate}}</button>
                     <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditInmunoModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
                 </div>
               </div>

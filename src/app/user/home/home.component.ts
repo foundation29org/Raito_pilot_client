@@ -300,7 +300,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     .subscribe((res: any) => {
         this.modules = res.modules;
         this.showSeizuresModules = this.modules.includes("seizures");
-        this.showInmunodeficienciesModules = this.modules.includes("immunodeficiency");
+        this.showInmunodeficienciesModules = this.modules.includes("inmunodeficiency");
     }, (err) => {
       console.log(err);
       this.showSeizuresModules = false;
@@ -2144,15 +2144,15 @@ onGroupChange() {
   console.log(selectedGroup.name)
   
   switch(selectedGroup.name) {
-    case 'immunodeficiency':
-      this.basicInfoPatient.modules = ['immunodeficiency'];
+    case 'inmunodeficiency':
+      this.basicInfoPatient.modules = ['inmunodeficiency'];
       break;
     default:
       this.basicInfoPatient.modules = ['seizures'];
       break;
   }
   this.showSeizuresModules = this.basicInfoPatient.modules.includes("seizures");
-  this.showInmunodeficienciesModules = this.basicInfoPatient.modules.includes("immunodeficiency");
+  this.showInmunodeficienciesModules = this.basicInfoPatient.modules.includes("inmunodeficiency");
   var eventsService = this.inj.get(EventsService);
   eventsService.broadcast('changemodules', this.basicInfoPatient.modules);
 }

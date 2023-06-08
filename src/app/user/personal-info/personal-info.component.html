@@ -114,10 +114,10 @@
 												<option [value]="null" disabled selected>--{{'registration.Please select a
 													group' | translate }}--</option>
 													<option *ngFor="let group of groups" [ngValue]="group._id">
-														<span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed' && group.name != 'immunodeficiency' && group.name != 'None'">{{group.name}}</span>
+														<span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed' && group.name != 'inmunodeficiency' && group.name != 'None'">{{group.name}}</span>
 														<span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
 														<span *ngIf="group.name == 'Childhood syndrome with epilepsy'">{{'personalinfo.Childhood syndrome with epilepsy' | translate }}</span>
-														<span *ngIf="group.name == 'immunodeficiency'">{{'personalinfo.immunodeficiency' | translate }}</span>
+														<span *ngIf="group.name == 'inmunodeficiency'">{{'personalinfo.inmunodeficiency' | translate }}</span>
 														<span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
 														<span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
 													</option>
@@ -143,7 +143,7 @@
 											</label>
 											<mat-select class="form-control" id="modules" name="modules"  [(ngModel)]="datainfo.modules" multiple>
 												<mat-option value="seizures">{{'menu.Seizures' | translate }}</mat-option>
-												<mat-option value="immunodeficiency">{{'menu.Clinical data of inmunodeficiencies' | translate }}</mat-option>
+												<mat-option value="inmunodeficiency">{{'menu.Clinical data of inmunodeficiencies' | translate }}</mat-option>
 											</mat-select>
 										</div>
 									</div>

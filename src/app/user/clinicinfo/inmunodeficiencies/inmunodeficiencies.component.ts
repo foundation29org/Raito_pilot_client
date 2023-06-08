@@ -80,7 +80,7 @@ export class InmunodeficienciesComponent implements OnInit, OnDestroy{
         emergencyAntibiotics: [],
         emergencyCorticosteroids: []
       },
-      immunologicalVariables: {
+      inmunologicalVariables: {
         serumIgGList: [],
         serumIgAList: [],
         serumIgMList: [],
@@ -291,29 +291,29 @@ closeUsualTreatmentModalComponent(){
 
 
   // Function to add an item to the FormArray
-  addImmunologicalItem(): void {
-    this.inmunodeficiencies.immunologicalVariables[this.variable].push({
+  addInmunologicalItem(): void {
+    this.inmunodeficiencies.inmunologicalVariables[this.variable].push({
       value: '',
       date: ''
     });
   }
 
   // Function to remove an item from the FormArray
-  removeImmunologicalItem(index: number): void {
-    this.inmunodeficiencies.immunologicalVariables[this.variable].splice(index, 1);
+  removeInmunologicalItem(index: number): void {
+    this.inmunodeficiencies.inmunologicalVariables[this.variable].splice(index, 1);
   }
 
-  openImmunoEditModal(variable){
+  openInmunoEditModal(variable){
     window.scrollTo(0, 0)
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
       windowClass: 'ModalClass-sm'// xl, lg, sm
     };
-    console.log(this.inmunodeficiencies.immunologicalVariables)
+    console.log(this.inmunodeficiencies.inmunologicalVariables)
     this.variable = variable;
-    if(this.inmunodeficiencies.immunologicalVariables[variable].length==0){
-      this.inmunodeficiencies.immunologicalVariables[variable].push({
+    if(this.inmunodeficiencies.inmunologicalVariables[variable].length==0){
+      this.inmunodeficiencies.inmunologicalVariables[variable].push({
         value: '',
         date: ''
       });
@@ -324,9 +324,9 @@ closeUsualTreatmentModalComponent(){
 
   closesEditInmunoModalComponent(){
 
-    for (let i = this.inmunodeficiencies.immunologicalVariables[this.variable].length - 1; i >= 0; i--) {
-      if(this.inmunodeficiencies.immunologicalVariables[this.variable][i].value=='' || this.inmunodeficiencies.immunologicalVariables[this.variable][i].value==null){
-        this.inmunodeficiencies.immunologicalVariables[this.variable].splice(i, 1);
+    for (let i = this.inmunodeficiencies.inmunologicalVariables[this.variable].length - 1; i >= 0; i--) {
+      if(this.inmunodeficiencies.inmunologicalVariables[this.variable][i].value=='' || this.inmunodeficiencies.inmunologicalVariables[this.variable][i].value==null){
+        this.inmunodeficiencies.inmunologicalVariables[this.variable].splice(i, 1);
       }
     }
     if(this.modalReference!=undefined){
@@ -335,7 +335,7 @@ closeUsualTreatmentModalComponent(){
   }
 
   saveEditInmunoModalComponent(){
-    this.inmunodeficiencies.immunologicalVariables[this.variable].sort(this.sortService.DateSort("date"));
+    this.inmunodeficiencies.inmunologicalVariables[this.variable].sort(this.sortService.DateSort("date"));
     this.closesEditInmunoModalComponent();
     this.onSubmit();
   }
@@ -380,27 +380,27 @@ closeUsualTreatmentModalComponent(){
             if(res.eventdb.data){
               console.log('inmunodeficiencies')
               
-              if(res.eventdb.data.immunologicalVariables){
-                if(res.eventdb.data.immunologicalVariables.serumIgGList) {
-                  res.eventdb.data.immunologicalVariables.serumIgGList.sort(this.sortService.DateSort("date"));
+              if(res.eventdb.data.inmunologicalVariables){
+                if(res.eventdb.data.inmunologicalVariables.serumIgGList) {
+                  res.eventdb.data.inmunologicalVariables.serumIgGList.sort(this.sortService.DateSort("date"));
                }
-               if(res.eventdb.data.immunologicalVariables.serumIgAList) {
-                res.eventdb.data.immunologicalVariables.serumIgAList.sort(this.sortService.DateSort("date"));
+               if(res.eventdb.data.inmunologicalVariables.serumIgAList) {
+                res.eventdb.data.inmunologicalVariables.serumIgAList.sort(this.sortService.DateSort("date"));
                }
-               if(res.eventdb.data.immunologicalVariables.serumIgMList) {
-                res.eventdb.data.immunologicalVariables.serumIgMList.sort(this.sortService.DateSort("date"));
+               if(res.eventdb.data.inmunologicalVariables.serumIgMList) {
+                res.eventdb.data.inmunologicalVariables.serumIgMList.sort(this.sortService.DateSort("date"));
                }
-               if(res.eventdb.data.immunologicalVariables.serumIgEList) {
-                res.eventdb.data.immunologicalVariables.serumIgEList.sort(this.sortService.DateSort("date"));
+               if(res.eventdb.data.inmunologicalVariables.serumIgEList) {
+                res.eventdb.data.inmunologicalVariables.serumIgEList.sort(this.sortService.DateSort("date"));
                }
-               if(res.eventdb.data.immunologicalVariables.hbList) {
-                res.eventdb.data.immunologicalVariables.hbList.sort(this.sortService.DateSort("date"));
+               if(res.eventdb.data.inmunologicalVariables.hbList) {
+                res.eventdb.data.inmunologicalVariables.hbList.sort(this.sortService.DateSort("date"));
                }
-               if(res.eventdb.data.immunologicalVariables.plateletsList) {
-                res.eventdb.data.immunologicalVariables.plateletsList.sort(this.sortService.DateSort("date"));
+               if(res.eventdb.data.inmunologicalVariables.plateletsList) {
+                res.eventdb.data.inmunologicalVariables.plateletsList.sort(this.sortService.DateSort("date"));
                }
-               if(res.eventdb.data.immunologicalVariables.lymphocytesList) {
-                res.eventdb.data.immunologicalVariables.lymphocytesList.sort(this.sortService.DateSort("date"));
+               if(res.eventdb.data.inmunologicalVariables.lymphocytesList) {
+                res.eventdb.data.inmunologicalVariables.lymphocytesList.sort(this.sortService.DateSort("date"));
                }
               }
               this.inmunodeficiencies = res.eventdb.data;

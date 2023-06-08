@@ -92,7 +92,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.eventsService.on('changemodules', function(modules) {
       this.showSeizuresModules = modules.includes("seizures");
-      this.showInmunodeficienciesModules = modules.includes("immunodeficiency");
+      this.showInmunodeficienciesModules = modules.includes("inmunodeficiency");
     }.bind(this));
 
     this.getModules();
@@ -104,7 +104,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((res: any) => {
         console.log(res)
         this.showSeizuresModules = res.modules.includes("seizures");
-        this.showInmunodeficienciesModules = res.modules.includes("immunodeficiency");
+        this.showInmunodeficienciesModules = res.modules.includes("inmunodeficiency");
       }, (err) => {
         console.log(err);
         this.showSeizuresModules = false;
