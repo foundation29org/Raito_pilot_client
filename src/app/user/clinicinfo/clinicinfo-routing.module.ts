@@ -8,6 +8,7 @@ import { MedicalRecordsComponent } from './medical-records/medical-records.compo
 import { CalendarsComponent } from './calendar/calendar.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { MedicationComponent } from './medication/medication.component';
+import { InmunodeficienciesComponent } from './inmunodeficiencies/inmunodeficiencies.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,15 @@ const routes: Routes = [
         component: MedicationComponent,
         data: {
           title: 'clinicalinfo.Medication',
+          expectedRole: ['User']
+        },
+        canActivate: [AuthGuard, RoleGuard]
+      },
+      {
+        path: 'inmunodeficiencies',
+        component: InmunodeficienciesComponent,
+        data: {
+          title: 'menu.Clinical data of inmunodeficiencies',
           expectedRole: ['User']
         },
         canActivate: [AuthGuard, RoleGuard]

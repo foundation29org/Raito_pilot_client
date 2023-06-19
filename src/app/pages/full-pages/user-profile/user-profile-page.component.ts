@@ -158,21 +158,12 @@ export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestro
         this.sending = true;
         this.subscription.add( this.http.put(environment.api+'/api/users/'+this.authService.getIdUser(), this.user)
         .subscribe( (res : any) => {
-          //para no estar emitiendo sin haber cambiado los módulos, mirar si hay algún modulo distinto que haya cambiado
-          var result = this.differenceOf2Arrays (this.userCopy.modules, this.user.modules)
-          if(result.length>0){
-            var eventsService = this.inj.get(EventsService);
-            eventsService.broadcast('changemodules', this.user.modules);
-          }
           this.user = res.user;
           this.userCopy = JSON.parse(JSON.stringify(res.user));
           this.authService.setLang(this.user.lang);
           this.translate.use(this.user.lang);
           var eventsLang = this.inj.get(EventsService);
           eventsLang.broadcast('changelang', this.authService.getLang());
-
-          
-
           this.sending = false;
           this.toastr.success('', this.msgDataSavedOk);
          }, (err) => {

@@ -1,0 +1,499 @@
+<div class="h-100">
+    <div class="card card-block mx-auto">
+        <h3 class="mt-3 ml-2 p-2">{{'menu.Clinical data of inmunodeficiencies' | translate }}</h3>
+        <div class="p-2 ml-2">
+            <form *ngIf="loaded">
+                <h4>1. Infecciones y complicaciones</h4>
+                <div class="form-group">
+                    <label class="mr-2">Do you have infecciones?</label>
+                    <mat-radio-group aria-label="Select an option" (change)="checkAndAddInfection($event)" [(ngModel)]="inmunodeficiencies.hasInfections" name="hasInfections">
+                        <mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+                        <mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div *ngIf="inmunodeficiencies.hasInfections == 'yes'" class="">
+                    <button class="btn btn-white" (click)="createInfection()" type="button"><i class="fa fa-plus"></i> New infection</button>
+                    <div class="card-body table-responsive" *ngIf="inmunodeficiencies.infections.length>0">
+                        <table  class="table text-center">
+                            <thead>
+                              <tr>
+                                <th>Tipo</th>
+                                <th>Fecha de inicio</th>
+                                <th>Fecha de finalización</th>
+                                <th>Tratamientos</th>
+                                <th>Options</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let infection of inmunodeficiencies.infections; let i=index">
+                                  <td>{{infection.name}}</td>
+                                  <td>{{infection.start | date:'mediumDate'}} </td>
+                                  <td>{{infection.duration | date:'mediumDate'}}</td>
+                                  <td>
+                                    <span *ngFor="let treatment of infection.treatments; let t=index">
+                                        <span>{{treatment.treatment}} <span *ngIf="t<infection.treatments.length-2">,</span></span>
+                                      </span>
+                                  </td>
+                                  <td>
+                                    <a class="success mr-1" data-original-title="" title="" (click)="editInfection(i)">
+                                        <i class="ft-edit"></i>
+                                    </a>
+                                    <a class="danger" data-original-title="" title="" (click)="removeInfection(i)">
+                                        <i class="ft-x"></i>
+                                    </a>
+                                  </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="mr-2">Do you have other complications?</label>
+                    <mat-radio-group aria-label="Select an option" (change)="checkAndAddComplication($event)" [(ngModel)]="inmunodeficiencies.hasComplications" name="hasComplications">
+                        <mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+                        <mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div *ngIf="inmunodeficiencies.hasComplications == 'yes'" class="">
+                    <button class="btn btn-white" (click)="createComplication()" type="button"><i class="fa fa-plus"></i> New complication</button>
+                    <div class="card-body table-responsive" *ngIf="inmunodeficiencies.complications.length>0">
+                        <table  class="table text-center">
+                            <thead>
+                              <tr>
+                                <th>Tipo</th>
+                                <th>Fecha de inicio</th>
+                                <th>Fecha de finalización</th>
+                                <th>Tratamientos</th>
+                                <th>Options</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let complication of inmunodeficiencies.complications; let i=index">
+                                  <td>{{complication.name}}</td>
+                                  <td>{{complication.start | date:'mediumDate'}} </td>
+                                  <td>{{complication.duration | date:'mediumDate'}}</td>
+                                  <td>
+                                    <span *ngFor="let treatment of complication.treatments; let t=index">
+                                        <span>{{treatment.treatment}} <span *ngIf="t<complication.treatments.length-2">,</span></span>
+                                      </span>
+                                  </td>
+                                  <td>
+                                    <a class="success mr-1" data-original-title="" title="" (click)="editComplication(i)">
+                                        <i class="ft-edit"></i>
+                                    </a>
+                                    <a class="danger" data-original-title="" title="" (click)="removeComplication(i)">
+                                        <i class="ft-x"></i>
+                                    </a>
+                                  </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <h4 class="mt-4">2. Variables Inmunológicas</h4>
+                <div class="form-group mt-3">
+                    <div class="row col-md-12">
+                        <div class="mb-2 col-sm-6">
+                          <div class="row">
+                            <div class="row mb-3">
+                                <label class="col-md-12" for="treatment">IgG sérico <button (click)="openInmunoEditModal('serumIgGList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgGList">
+                                    <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgGList.length>0">
+                                        <div class="col-md-6">
+                                            {{ inmunodeficiencies.inmunologicalVariables.serumIgGList[0].value }} mg/dL
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{ inmunodeficiencies.inmunologicalVariables.serumIgGList[0].date | date:'mediumDate' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgGList.length==0">
+                                        No data
+                                    </div>
+                                </div>
+                                <div class="col-md-10" *ngIf="!inmunodeficiencies.inmunologicalVariables.serumIgGList">
+                                    No data
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">IgA sérico <button (click)="openInmunoEditModal('serumIgAList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgAList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgAList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgAList[0].value }} mg/dL
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgAList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">IgM sérico <button (click)="openInmunoEditModal('serumIgMList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgMList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgMList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgMList[0].value }} mg/dL
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgMList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">IgE sérico <button (click)="openInmunoEditModal('serumIgEList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgEList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.serumIgEList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgEList[0].value }} mg/dL
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.serumIgEList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">hb <button (click)="openInmunoEditModal('hbList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.hbList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.hbList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.hbList[0].value }} g/dL
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.hbList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">platelets<button (click)="openInmunoEditModal('plateletsList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.plateletsList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.plateletsList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.plateletsList[0].value }} células/microlitro (μL)
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.plateletsList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="mb-2 col-sm-6">
+                            <div class="row">
+                              <div class="row mb-3">
+                                  <label class="col-md-12" for="treatment">lymphocytes<button (click)="openInmunoEditModal('lymphocytesList')" class="ml-1 btn btn-white btn-sm fa fa-edit"></button></label>
+                                  <div class="col-md-10" *ngIf="inmunodeficiencies.inmunologicalVariables.lymphocytesList">
+                                      <div class="col-md-12 row" *ngIf="inmunodeficiencies.inmunologicalVariables.lymphocytesList.length>0">
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.lymphocytesList[0].value }} células/microlitro (μL)
+                                          </div>
+                                          <div class="col-md-6">
+                                              {{ inmunodeficiencies.inmunologicalVariables.lymphocytesList[0].date | date:'mediumDate' }}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>              
+                  </div>
+                  <h4 class="mt-4">3. Tratamientos</h4>
+                  <div class="form-group">
+                      <label class="mr-2">Do you have usual treatments?</label>
+                      <mat-radio-group aria-label="Select an option" (change)="checkAndAddTreatment($event)" [(ngModel)]="inmunodeficiencies.hasUsualTreatments" name="hasUsualTreatments">
+                          <mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+                          <mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+                  <div *ngIf="inmunodeficiencies.hasUsualTreatments == 'yes'" class="">
+                    <button class="btn btn-white" (click)="createUsualTreatments()" type="button"><i class="fa fa-plus"></i> New treatment</button>
+                    <div class="card-body table-responsive" *ngIf="inmunodeficiencies.usualTreatments.length>0">
+                        <table  class="table text-center">
+                            <thead>
+                              <tr>
+                                <th>Tipo</th>
+                                <th>{{'seizures.Starts At' | translate }}</th>
+                                <th>Dosis (mg)</th>
+                                <th>Frecuencia (days)</th>
+                                <th>Options</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let treatment of inmunodeficiencies.usualTreatments; let i=index">
+                                  <td>{{treatment.name}}</td>
+                                  <td>{{treatment.start | date:'mediumDate'}}</td>
+                                  <td>{{treatment.usualDose}} </td>
+                                  <td>{{treatment.usualFrequency}}</td>
+                                  <td>
+                                    <a class="success mr-1" data-original-title="" title="" (click)="editUsualTreatment(i)">
+                                        <i class="ft-edit"></i>
+                                    </a>
+                                    <a class="danger" data-original-title="" title="" (click)="removeUsualTreatment(i)">
+                                        <i class="ft-x"></i>
+                                    </a>
+                                  </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="mr-2">Do you have emergency treatments?</label>
+                      <mat-radio-group aria-label="Select an option"  [(ngModel)]="inmunodeficiencies.hasEmergencyTreatments" name="hasEmergencyTreatments">
+                          <mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+                          <mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+                  <div *ngIf="inmunodeficiencies.hasEmergencyTreatments == 'yes'" class="">
+                    <div class="row mt-3 mb-3">
+                        <div class="col-md-12">
+                            <label>Antibióticos</label>
+                            <div class="row">
+                              <div *ngFor="let antibiotic of inmunodeficiencies.emergencyTreatments.emergencyAntibiotics; let i=index" class="col-md-3 mb-2">
+                                <div><label><strong>Antibiótico {{i+1}}</strong><button (click)="removeItem('emergencyAntibiotics', i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button></label> </div>
+                                <input class="col-md-11 form-control" [(ngModel)]="antibiotic.treatment" name="antibiotic{{i}}">
+                              </div>
+                              <div class="col-md-12">
+                                <button (click)="addItem('emergencyAntibiotics')" class="btn btn-dark mb-3 mt-2">Agregar antibiótico</button>
+                              </div>
+                              
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <label>Corticosteroides</label>
+                            <div class="row">
+                              <div *ngFor="let corticosteroid of inmunodeficiencies.emergencyTreatments.emergencyCorticosteroids; let i=index" class="col-md-3 mb-2">
+                                <div><label><strong>Corticosteroide {{i+1}}</strong><button (click)="removeItem('emergencyCorticosteroids', i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button></label> </div>
+                                <input class="col-md-11 form-control" [(ngModel)]="corticosteroid.treatment" name="corticosteroid{{i}}">
+                              </div>
+                              <div class="col-md-12">
+                                <button (click)="addItem('emergencyCorticosteroids')" class="btn btn-dark mb-3 mt-2">Agregar corticosteroides</button>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+
+                <button class="mt-4 mb-2 btn btn-primary" type="button" [disabled]="saving" (click)="onSubmit()"><span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+<ng-template #EditInmunoModalComponent let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header">
+        <h4 class="modal-title">Editar {{variable}} 
+            <span *ngIf="variable == 'serumIgGList' || variable == 'serumIgAList' || variable == 'serumIgMList' ||variable == 'serumIgEList'">(mg/dL)</span>
+            <span *ngIf="variable == 'hbList'">(g/dL)</span>
+            <span *ngIf="variable == 'plateletsList' || variable == 'lymphocytesList'">(células/microlitro (μL))</span>
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="closesEditInmunoModalComponent()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form class="p-2">
+        <div>
+            <div class="">
+              <div>
+                <div *ngFor="let item of inmunodeficiencies.inmunologicalVariables[variable]; let i=index;" class="mb-2">
+                    <label class="" for="treatment">{{variable}} {{i+1}}</label>
+                    <div class="">
+                        <div class="row">
+                            <span class="col-md-4">
+                                <input class="form-control" type="number" [(ngModel)]="item.value" name="value{{i}}">
+                            </span>
+                            
+                            <div class="col-md-5">
+                              <mat-form-field class="mr-sm-24" fxFlex  >
+                                  <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                                                 autocomplete="off" [(ngModel)]="item.date" name="date{{i}}">
+                                  <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
+                                  <mat-datepicker  #pickeri></mat-datepicker>
+                              </mat-form-field>
+                          </div>
+                            <div class="col-md-2">
+                                <button (click)="removeInmunologicalItem(i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-top">
+                    <button (click)="addInmunologicalItem()" class="btn btn-dark mt-3 mb-2"><em class="ft-plus mr-1"></em>{{'generics.New' | translate}}</button>
+                    <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditInmunoModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+    </form>
+    
+</ng-template>
+<ng-template #EditInfectionModalComponent let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header">
+        <h4 class="modal-title">Editar Infectionss</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closesInfectionsModalComponent()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form class="p-2">
+        <div class="row">
+            <div class="col-md-12"><label><strong>Infection</strong> <button (click)="removeInfection(i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button></label> </div>
+            <div class="col-md-3">
+                <label for="name">Tipo</label>
+                <input id="name" name="name" class="form-control" [(ngModel)]="inmunodeficiencies.infections[actualIndex].name">
+            </div>
+            <div class="col-md-3">
+                <label for="start">{{'generics.Start Date' | translate }}</label>
+                <div class="">
+                    <mat-form-field class="mr-sm-24" fxFlex  >
+                        <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.infections[actualIndex].start" ngModel name="start">
+                        <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
+                        <mat-datepicker  #pickeri></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="duration">{{'generics.End Date' | translate }}</label>
+                <div class="">
+                    <mat-form-field class="mr-sm-24" fxFlex  >
+                        <input matInput class="grey" readonly [matDatepicker]="pickerd"
+                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.infections[actualIndex].duration" ngModel name="duration">
+                        <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                        <mat-datepicker  #pickerd></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div>
+                  <div *ngFor="let treatment of inmunodeficiencies.infections[actualIndex].treatments; let t=index">
+                    <label for="treatment">Tratamiento {{t+1}} <button (click)="removeTreatmentInfection(t)" class="ml-1 btn btn-white btn-sm fa fa-trash"></button></label>
+                    <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="inmunodeficiencies.infections[actualIndex].treatments[t].treatment">
+                  </div>
+                  <button (click)="addTreatmentinfection()" class="btn btn-dark mb-3 mt-2">Agregar tratamiento</button>
+                </div>
+              </div>
+    </div>
+        <div class="border-top">
+            <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditCustomModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
+        </div>
+        
+    </form>
+    
+</ng-template>
+<ng-template #EditComplicationModalComponent let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header">
+        <h4 class="modal-title">Editar complications</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeComplicationModalComponent()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form class="p-2">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="name">Tipo</label>
+                <input id="name" name="name" class="form-control" [(ngModel)]="inmunodeficiencies.complications[actualIndex].name">
+            </div>
+            <div class="col-md-3">
+                <label for="start">{{'generics.Start Date' | translate }}</label>
+                <div class="">
+                    <mat-form-field class="mr-sm-24" fxFlex  >
+                        <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.complications[actualIndex].start" ngModel name="start">
+                        <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
+                        <mat-datepicker  #pickeri></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="duration">{{'generics.End Date' | translate }}</label>
+                <div class="">
+                    <mat-form-field class="mr-sm-24" fxFlex  >
+                        <input matInput class="grey" readonly [matDatepicker]="pickerd"
+                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.complications[actualIndex].duration" ngModel name="duration">
+                        <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                        <mat-datepicker  #pickerd></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div>
+                  <div *ngFor="let treatment of inmunodeficiencies.complications[actualIndex].treatments; let t=index">
+                    <label for="treatment">Tratamiento {{t+1}} <button (click)="removeTreatmentComplication(t)" class="ml-1 btn btn-white btn-sm fa fa-trash"></button></label>
+                    <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="inmunodeficiencies.complications[actualIndex].treatments[t].treatment">
+                  </div>
+                  <button (click)="addTreatmentComplication()" class="btn btn-dark mb-3 mt-2">Agregar tratamiento</button>
+                </div>
+              </div>
+    </div>
+        <div class="border-top">
+            <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditCustomModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
+        </div>
+        
+    </form>
+    
+</ng-template>
+<ng-template #EditUsualTreatmentModalComponent let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header">
+        <h4 class="modal-title">Editar usualTreatment</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeUsualTreatmentModalComponent()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form class="p-2">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="name">Tipo</label>
+                <input id="name" name="name" class="form-control" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].name">
+            </div>
+            <div class="col-md-3">
+                <label for="start">{{'generics.Start Date' | translate }}</label>
+                <div class="">
+                    <mat-form-field class="mr-sm-24" fxFlex  >
+                        <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].start" ngModel name="start">
+                        <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
+                        <mat-datepicker  #pickeri></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="usualDose">Dosis (mg)</label>
+                <input type="number" id="usualDose" name="usualDose" class="form-control"  [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].usualDose">
+            </div>
+            <div class="col-md-3">
+                <label for="usualFrequency">Frecuencia (days)</label>
+                <input type="number" id="usualFrequency" name="usualFrequency" class="form-control" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].usualFrequency">
+            </div>
+    </div>
+        <div class="border-top">
+            <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditCustomModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
+        </div>
+        
+    </form>
+    
+</ng-template>

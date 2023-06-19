@@ -47,6 +47,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   actualUrl: string = '';
   isAndroid: boolean = false;
   showSeizuresModules: boolean = false;
+  showInmunodeficienciesModules: boolean = false;
   private subscription: Subscription = new Subscription();
 
   constructor(public translate: TranslateService,
@@ -91,22 +92,44 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.eventsService.on('changemodules', function(modules) {
       this.showSeizuresModules = modules.includes("seizures");
+      this.showInmunodeficienciesModules = modules.includes("inmunodeficiency");
     }.bind(this));
 
     this.getModules();
   }
 
   getModules(){
-    this.subscription.add(this.patientService.getModules()
-    .subscribe((res: any) => {
-      console.log(res)
-      this.showSeizuresModules = res.modules.includes("seizures");
-      console.log(this.showSeizuresModules)
-    }, (err) => {
-      console.log(err);
-      this.showSeizuresModules = false;
-    }));
+    if(this.authService.getCurrentPatient()!=null){
+      this.subscription.add(this.patientService.getModules()
+      .subscribe((res: any) => {
+        console.log(res)
+        this.showSeizuresModules = res.modules.includes("seizures");
+        this.showInmunodeficienciesModules = res.modules.includes("inmunodeficiency");
+      }, (err) => {
+        console.log(err);
+        this.showSeizuresModules = false;
+        this.showInmunodeficienciesModules = false;
+      }));
+    }else{
+      this.loadPatientId();
+    }
+    
 }
+
+loadPatientId(){
+  this.subscription.add( this.patientService.getPatientId()
+  .subscribe( (res : any) => {
+    if(res==null){
+      this.authService.logout();
+    }else{
+      this.authService.setCurrentPatient(res);
+      this.getModules();
+    }
+   }, (err) => {
+     console.log(err);
+   }));
+}
+
 
   ngAfterViewInit() {
 

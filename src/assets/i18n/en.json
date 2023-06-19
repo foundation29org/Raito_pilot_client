@@ -10,6 +10,11 @@
     "Questionnaire": "Questionnaires",
     "Calendar": "Calendar",
     "Seizures": "Seizures",
+    "Clinical data of inmunodeficiencies": "Clinical data of inmunodeficiencies",
+    "Modules": "Modules",
+    "InfoModules": "<div><p>This option allows you to personalize your experience on our platform by selecting the information modules that are most relevant to you. By activating a module, you will have access to specific menus and information in the application. Here we briefly explain each module:</p><ul><li><strong>Seizures:</strong> This module provides information and tools related to the management and monitoring of seizures. Ideal if you are looking for information or dealing with this condition.</li><li><strong>Clinical data of inmunodeficiencies:</strong> This module provides useful data and information if you are interested in the field of inmunodeficiencies. It provides access to specific menus and functions related to these conditions.</li></ul><p>You can select one, both or none of the modules, depending on your needs. Remember that you can change your selection at any time to adapt the application to your needs.</p></div>",
+    "The inmunodeficiency module has been activated": "The inmunodeficiency module has been activated",
+    "The seizure module has been activated": "The seizure module has been activated",
     "Patient": "Patient",
     "Personal Info": "My data for research",
     "Feel": "Feel",
@@ -133,6 +138,7 @@
     "Language to edit": "Language to edit",
     "Cancel": "Cancel",
     "Save": "Save",
+    "Saving": "Saving",
     "SaveAndClose": "Save & close",
     "Delete": "Delete",
     "Delete data": "I want to delete my data",
@@ -317,7 +323,15 @@
     "I dont belong to a patient group": "I don't belong to a patient group",
     "I dont have a diagnosis": "I don't have a diagnosis",
     "Patients with epilepsy": "Dravet Syndrome European Federation",
-    "Childhood syndrome with epilepsy": "Childhood syndrome with epilepsy"
+    "Childhood syndrome with epilepsy": "Childhood syndrome with epilepsy",
+    "inmunodeficiency": "Patients with primary inmunodeficiency",
+    "Tobacco use": "Tobacco use",
+    "Average cigarettes per day": "Average cigarettes per day",
+       "Number of smoking years": "Number of smoking years",
+    "Specific diet (ketogenic, gluten-free, etc.)": "Specific diet (ketogenic, gluten-free, etc.)",
+    "Specify what kind of diet": "Specify what kind of diet",
+    "Physical exercise": "Physical exercise",
+    "Hours per week": "Hours per week"
   },
   "groups":{
     "Groups": "Groups",
@@ -769,7 +783,10 @@
     "No further questions for today": "No further questions for today",
     "Please, tell us": "Please, tell us",
     "Enter your text here": "Enter your testimony here",
-    "See answers": "See answers"
+    "See answers": "See answers",
+    "Completed": "Completed",
+    "Estimated time": "Estimated time: 2 minutes",
+    "Score": "Score"
   },
   "landraito":{
     "t1": "Medical data saves lives",
