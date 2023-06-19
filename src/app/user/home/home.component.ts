@@ -312,9 +312,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.searchopenai = false;
     console.log(this.query)
     this.callinglangchainraito = true;
-    var query = {"question": this.query};
+    var query = {"question": this.query, "lang": this.authService.getLang()};
     this.responseLangchain = '';
-    this.subscription.add(this.openAiService.postOpenAi3(query)
+    this.subscription.add(this.openAiService.postOpenAi3(query, this.actualGroup.name)
       .subscribe((res: any) => {
         console.log(res)
         if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
