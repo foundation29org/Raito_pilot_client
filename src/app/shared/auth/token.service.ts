@@ -27,9 +27,9 @@ export class TokenService {
 
 
   isTokenValid():boolean{
-    if(localStorage.getItem('token') && this.authService.getIdUser()!=undefined){
-      if((this.authService.getToken() == localStorage.getItem('token'))&& this.authService.getIdUser()!=undefined){
-        const tokenPayload = decode(localStorage.getItem('token'));
+    if(sessionStorage.getItem('token') && this.authService.getIdUser()!=undefined){
+      if((this.authService.getToken() == sessionStorage.getItem('token'))&& this.authService.getIdUser()!=undefined){
+        const tokenPayload = decode(sessionStorage.getItem('token'));
         if(tokenPayload.sub ==this.authService.getIdUser()){
           return true;
         }else{

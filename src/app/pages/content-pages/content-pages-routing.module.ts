@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ErrorPageComponent } from "./error/error-page.component";
 import { PrivacyPolicyPageComponent } from "./privacy-policy/privacy-policy.component";
-
+import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
+import { LoginPageComponent } from "./login/login-page.component";
+import { RegisterPageComponent } from "./register/register-page.component";
+import { VerifyEmailPageComponent } from "./verify-email/verify-email-page.component";
 
 const routes: Routes = [
   {
@@ -22,7 +25,29 @@ const routes: Routes = [
         data: {
           title: 'registration.Privacy Policy'
         }
-      }
+      },
+      {
+        path: 'forgotpassword',
+        component: ForgotPasswordPageComponent,
+        data: {
+          title: 'menu.Forgot Password'
+        }
+      },
+      {
+        path: 'login',
+        component: LoginPageComponent,
+        data: {
+          title: 'menu.Login'
+        }
+      },
+      {
+        path: 'register',
+        component: RegisterPageComponent,
+        data: {
+          title: 'menu.Register'
+        }
+      },
+      { path: 'verify-email-address', component: VerifyEmailPageComponent },
 
     ]
   }

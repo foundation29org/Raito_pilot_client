@@ -41,6 +41,7 @@
   },
   "profile":{
     "Save the changes": "Save the changes, so that in future sessions it appears in the selected language",
+    "To continue, we need to verify that it is you": "To continue, we need to verify that it is you",
     "General": "General",
     "Current password": "Current password",
     "Repeat the new password": "Repeat the new password",
@@ -51,7 +52,8 @@
     "Pound": "Pound",
     "Length unit": "Height",
     "Centimetre": "Centimetre",
-    "Foot": "Foot"
+    "Foot": "Foot",
+    "Delete account": "Delete account"
   },
   "login":{
     "Login": "Login",
@@ -76,7 +78,12 @@
     "Create an account clicking here": "Create an account clicking here:",
     "or Log in with": "or Log in with",
     "copypsw": "Escriba esta contraseña en un papel y guárdela, la necesitará si desea eliminar la cuenta o restaurar una copia de seguridad.",
-    "The login has expired": "The login has expired"
+    "The login has expired": "The login has expired",
+    "Dont have an account?": "Don't have an account?",
+    "Sign Up": "Sign Up",
+    "Log In": "Log In",
+    "Already have an account?": "Already have an account?",
+    "Or Continue With": "or Continue With"
   },
   "registration":{
     "Registration": "User Registration",
@@ -749,6 +756,16 @@
         "syptomsDetected": "{{value}} new symptoms have been detected"
       }
     }
+  },
+  "reg":{
+    "p1": "Thank You for Registering",
+    "p2": "We have sent a confirmation email to",
+    "p3": "Please check your email and click on the link to verfiy your email address.",
+    "p4": "Resend Verification Email",
+    "p5": "Go back to?",
+    "p6": "Sign in",
+    "p7": "Please enter your email address to request a password reset.",
+    "p8": "Please check your email and click on the link to verify your email address."
   },
   "seo":{
     "home":{

@@ -41,6 +41,7 @@
   },
   "profile":{
     "Save the changes": "Guarde los cambios para que en sesiones futuras aparezca en el idioma seleccionado",
+    "To continue, we need to verify that it is you": "Para continuar, necesitamos verificar que eres tú",
     "General": "General",
     "Current password": "Contraseña actual",
     "Repeat the new password": "Repita la nueva contraseña",
@@ -51,7 +52,8 @@
     "Pound": "Libra",
     "Length unit": "Altura",
     "Centimetre": "Centímetro",
-    "Foot": "Pie"
+    "Foot": "Pie",
+    "Delete account": "Eliminar cuenta"
   },
   "login":{
     "Login": "Iniciar sesión",
@@ -76,7 +78,12 @@
     "Create an account clicking here": "Cree una cuenta haciendo clic aquí:",
     "or Log in with": "o inicie sesión con",
     "copypsw": "Write this password on a piece of paper and keep it, you will need it if you want to delete the account or restore a backup.",
-    "The login has expired": "El inicio de sesión ha caducado"
+    "The login has expired": "El inicio de sesión ha caducado",
+    "Dont have an account?": "¿No tienes una cuenta?",
+    "Sign Up": "Regístrate",
+    "Log In": "Iniciar sesión",
+    "Already have an account?": "¿Ya tienes una cuenta?",
+    "Or Continue With": "o continuar con"
   },
   "registration":{
     "Registration": "Registro de usuario",
@@ -749,6 +756,16 @@
         "syptomsDetected": "Se han detectado {{value}} nuevos síntomas"
       }
     }
+  },
+  "reg":{
+    "p1": "Gracias por registrarte",
+     "p2": "Hemos enviado un correo electrónico de confirmación a",
+     "p3": "Revise su correo electrónico y haga clic en el enlace para verificar su dirección de correo electrónico.",
+     "p4": "Reenviar correo electrónico de verificación",
+     "p5": "¿Volver a?",
+     "p6": "Iniciar sesión",
+     "p7": "Ingrese su dirección de correo electrónico para solicitar un restablecimiento de contraseña.",
+     "p8": "Por favor revise su correo electrónico y haga clic en el enlace para verificar su dirección de correo electrónico."
   },
   "seo":{
     "home":{

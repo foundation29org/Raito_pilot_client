@@ -29,6 +29,7 @@ import { OpenAiService } from 'app/shared/services/openAi.service';
 declare let html2canvas: any;
 declare var device;
 declare const gapi: any;
+import { AuthServiceFirebase } from "app/shared/services/auth.service.firebase";
 
 @Component({
   selector: 'app-menu',
@@ -232,7 +233,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   savedRecommendations: any = [];
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService) {     
+  showPanelDelete: boolean = false;
+  deleting: boolean = false;
+
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService, public authServiceFirebase: AuthServiceFirebase) {     
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -272,6 +276,20 @@ export class MenuComponent implements OnInit, OnDestroy {
         scope: 'https://www.googleapis.com/auth/drive.file'//.../auth/drive.file
       });
     });
+
+    this.subscription.add(this.authServiceFirebase.newuserDataEmit.subscribe(userData => {
+      console.log(userData)
+      if(userData.actual != userData.new){
+        Swal.fire(this.translate.instant("generics.error try again"), this.translate.instant("mydata.we will close your session"), "warning");
+        setTimeout(function () {
+          this.authService.logout();
+        }.bind(this), 1500);
+        this.authService.logout();
+      }else{
+        var info = {uid: userData.new, email: userData.email};
+        this.deleteData(info);
+      }
+     }));
   }
 
   ngOnDestroy() {
@@ -778,70 +796,24 @@ loadSymptoms() {
   
 }
 
-async confirmDelete(index, index2) {
-  await this.authService.logout2();
-  await this.delay(500);
-  Swal.fire({
-    title: this.translate.instant("generics.This action will not be reversed"),
-    html: this.translate.instant("generics.confirm delete data"),
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#2F8BE6',
-    cancelButtonColor: '#B0B6BB',
-    confirmButtonText: this.translate.instant("generics.Yes"),
-    cancelButtonText: this.translate.instant("generics.No"),
-    showLoaderOnConfirm: true,
-    allowOutsideClick: false,
-    reverseButtons: true
-  }).then((result) => {
-    if (result.value) {
-      this.loginAgain();
-      /*Swal.fire({
-        title: this.translate.instant("mydata.please enter your password"),
-        inputPlaceholder: this.translate.instant("mydata.Write your password here"),
-        input: 'password',
-        confirmButtonText: this.translate.instant("mydata.Deletedata"),
-        cancelButtonText: this.translate.instant("generics.Cancel"),
-        showCancelButton: true,
-        reverseButtons: true
-      }).then(function (pw) {
-        if (pw.value) {
-          var password = sha512(pw.value);
-          this.deleteData(password);
-        } else {
-          console.log('rechaza');
-        }
-        
-      }.bind(this))*/
-      
-    }
-  });
+deleteAccount(){
+  this.showPanelDelete = true;
+}
 
+cancelDeleteAccount(){
+  this.showPanelDelete = false;
 }
 
 delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async loginAgain(){
-  
-  try {
-    
-    this.authService.initWeb3Auth();
-    var res = await this.authService.login();
-    this.deleteData(res);
-  } catch (error) {
-    console.log(error.message);
-    
-    this.authService.logout();
-    //this.router.navigate([this.authService.getLoginUrl()]);
-  }
-}
 
 deleteData(data){
   //cargar los datos del usuario
-  this.loading = true;
-  var info = {ethAddress: data.ethAddress}
+  this.deleting = true;
+  var password = sha512(data.uid);
+  var info = {email:data.email,password:password, uid:data.uid};
   this.subscription.add( this.http.post(environment.api+'/api/deleteaccount/'+this.authService.getIdUser(), info)
   .subscribe( (res : any) => {
     if(res.message=='The case has been eliminated'){
@@ -855,28 +827,18 @@ deleteData(data){
     
       });
         setTimeout(function () {
-          
           Swal.close();
           this.authService.logout();
-          //this.router.navigate([this.authService.getLoginUrl()]);
-          //window.location.reload();
       }.bind(this), 1500);
     }else{
       Swal.fire(this.translate.instant("mydata.incorrect account"), this.translate.instant("mydata.we will close your session"), "warning");
-      
       setTimeout(function () {
         this.authService.logout();
-        //window.location.reload();
-        //this.router.navigate([this.authService.getLoginUrl()]);
-        //window.location.reload();
       }.bind(this), 1500);
-      //this.router.navigate([this.authService.getLoginUrl()]);
     }
-    /*this.authService.logout();
-    this.router.navigate([this.authService.getLoginUrl()]);*/
    }, (err) => {
      console.log(err);
-     this.loading = false;
+     this.deleting = false;
    }));
 }
 

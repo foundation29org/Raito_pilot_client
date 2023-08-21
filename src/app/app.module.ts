@@ -22,6 +22,12 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { StoreModule } from "@ngrx/store";
 import { DragulaService } from "ng2-dragula";
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from 'environments/environment';
 
 import {
   PerfectScrollbarModule,
@@ -55,6 +61,7 @@ import { Data } from 'app/shared/services/data.service';
 import { CordovaService } from 'app/shared/services/cordova.service';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
+import { AuthServiceFirebase } from "./shared/services/auth.service.firebase";
 
 import { QRCodeModule } from 'angularx-qrcode';
 
@@ -87,7 +94,12 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     PerfectScrollbarModule,
-    QRCodeModule
+    QRCodeModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
   ],
   providers: [
     AuthService,
@@ -118,7 +130,8 @@ export function createTranslateLoader(http: HttpClient) {
     LocalizedDatePipe,
     SearchFilterPipe,
     Data,
-    CordovaService
+    CordovaService,
+    AuthServiceFirebase
   ],
   bootstrap: [AppComponent]
 })

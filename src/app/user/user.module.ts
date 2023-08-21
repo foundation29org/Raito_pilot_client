@@ -7,6 +7,7 @@ import { UserRoutingModule } from "./user-routing.module";
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from "app/shared/shared.module";
 
 import { MatchHeightModule } from 'app/shared/directives/match-height.directive';
 
@@ -49,7 +50,8 @@ import {MatRadioModule} from '@angular/material/radio';
         MatNativeDateModule,
         NgxChartsModule,
         MatCheckboxModule,
-        MatRadioModule
+        MatRadioModule,
+        SharedModule
     ],
     declarations: [
         HomeComponent,

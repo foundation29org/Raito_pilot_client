@@ -40,18 +40,20 @@
        "About us":"Über uns"
     },
     "profile":{
-       "Save the changes":"Speichern Sie die Änderungen, damit sie in zukünftigen Sitzungen in der ausgewählten Sprache angezeigt werden",
-       "General":"Allgemein",
-       "Current password":"Jetziges Passwort",
-       "Repeat the new password":"Wiederholen Sie das neue Passwort",
-       "The current password is incorrect":"Das aktuelle Passwort ist falsch",
-       "Settings":"Einstellungen",
-       "Mass unit":"Gewicht",
-       "Kilogram":"Kilogramm",
-       "Pound":"Pfund",
-       "Length unit":"Höhe",
-       "Centimetre":"Zentimeter",
-       "Foot":"Fuß"
+      "Save the changes":"Speichern Sie die Änderungen, damit sie in zukünftigen Sitzungen in der ausgewählten Sprache angezeigt werden",
+      "To continue, we need to verify that it is you":"Um fortzufahren, müssen wir überprüfen, ob Sie es sind",
+      "General":"Allgemein",
+      "Current password":"Jetziges Passwort",
+      "Repeat the new password":"Wiederholen Sie das neue Passwort",
+      "The current password is incorrect":"Das aktuelle Passwort ist falsch",
+      "Settings":"Einstellungen",
+      "Mass unit":"Gewicht",
+      "Kilogram":"Kilogramm",
+      "Pound":"Pfund",
+      "Length unit":"Höhe",
+      "Centimetre":"Zentimeter",
+      "Foot":"Fuß",
+      "Delete account":"Konto löschen"
     },
     "login":{
        "Login":"Anmeldung",
@@ -76,7 +78,12 @@
        "Create an account clicking here":"Erstellen Sie ein Konto, indem Sie hier klicken:",
        "or Log in with":"oder Melden Sie sich mit an",
        "copypsw": "Schreiben Sie dieses Passwort auf ein Blatt Papier und bewahren Sie es auf, Sie benötigen es, wenn Sie das Konto löschen oder ein Backup wiederherstellen möchten.",
-       "The login has expired": "Die Anmeldung ist abgelaufen"
+       "The login has expired": "Die Anmeldung ist abgelaufen",
+       "Dont have an account?": "Haben Sie noch kein Konto?",
+       "Sign Up": "Anmelden",
+       "Log In": "Einloggen",
+       "Already have an account?": "Haben Sie bereits ein Konto?",
+       "Or Continue With": "oder weiter mit"
     },
     "registration":{
        "Registration":"Benutzer Registration",
@@ -749,6 +756,16 @@
              "syptomsDetected":"{{value}} neue Symptome wurden erkannt"
           }
        }
+    },
+    "reg":{
+      "p1": "Vielen Dank für Ihre Registrierung",
+     "p2": "Wir haben eine Bestätigungs-E-Mail an gesendet",
+     "p3": "Bitte überprüfen Sie Ihre E-Mails und klicken Sie auf den Link, um Ihre E-Mail-Adresse zu bestätigen.",
+     "p4": "Bestätigungs-E-Mail erneut senden",
+     "p5": "Zurück gehen zu?",
+     "p6": "Anmelden",
+     "p7": "Bitte geben Sie Ihre E-Mail-Adresse ein, um eine Passwortzurücksetzung anzufordern.",
+     "p8": "Bitte überprüfen Sie Ihre E-Mails und klicken Sie auf den Link, um Ihre E-Mail-Adresse zu bestätigen."
     },
     "seo":{
        "home":{
