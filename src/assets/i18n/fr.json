@@ -40,18 +40,20 @@
        "About us":"À propos de nous"
     },
     "profile":{
-       "Save the changes":"Enregistrez les modifications afin qu'elles apparaissent dans la langue sélectionnée lors des sessions futures",
-       "General":"Général",
-       "Current password":"Mot de passe actuel",
-       "Repeat the new password":"Répétez le nouveau mot de passe",
-       "The current password is incorrect":"Le mot de passe actuel est incorrect",
-       "Settings":"Réglages",
-       "Mass unit":"Lester",
-       "Kilogram":"Kilogramme",
-       "Pound":"Livre",
-       "Length unit":"Hauteur",
-       "Centimetre":"Centimètre",
-       "Foot":"Le pied"
+      "Save the changes":"Enregistrez les modifications afin qu'elles apparaissent dans la langue sélectionnée lors des sessions futures",
+      "To continue, we need to verify that it is you":"Pour continuer, nous devons vérifier que c'est vous",
+      "General":"Général",
+      "Current password":"Mot de passe actuel",
+      "Repeat the new password":"Répétez le nouveau mot de passe",
+      "The current password is incorrect":"Le mot de passe actuel est incorrect",
+      "Settings":"Réglages",
+      "Mass unit":"Lester",
+      "Kilogram":"Kilogramme",
+      "Pound":"Livre",
+      "Length unit":"Hauteur",
+      "Centimetre":"Centimètre",
+      "Foot":"Le pied",
+      "Delete account":"Supprimer le compte"
     },
     "login":{
        "Login":"Connexion",
@@ -76,7 +78,12 @@
        "Create an account clicking here":"Créez un compte en cliquant ici :",
        "or Log in with":"ou Connectez-vous avec",
        "copypsw": "Écrivez ce mot de passe sur une feuille de papier et conservez-le, vous en aurez besoin si vous souhaitez supprimer le compte ou restaurer une sauvegarde.",
-       "The login has expired": "La connexion a expiré"
+       "The login has expired": "La connexion a expiré",
+       "Dont have an account?": "Vous n'avez pas de compte ?",
+       "Sign Up": "S'inscrire",
+       "Log In": "Se connecter",
+       "Already have an account?": "Vous avez déjà un compte ?",
+       "Or Continue With": "ou continuer avec"
     },
     "registration":{
        "Registration":"Enregistrement de l'utilisateur",
@@ -749,6 +756,16 @@
              "syptomsDetected":"{{value}} nouveaux symptômes ont été détectés"
           }
        }
+    },
+    "reg":{
+      "p1": "Merci pour votre inscription",
+     "p2": "Nous avons envoyé un e-mail de confirmation à",
+     "p3": "Veuillez vérifier votre e-mail et cliquez sur le lien pour vérifier votre adresse e-mail.",
+     "p4": "Renvoyer l'e-mail de vérification",
+     "p5": "Revenir à?",
+     "p6": "Connexion",
+     "p7": "Veuillez saisir votre adresse e-mail pour demander une réinitialisation du mot de passe.",
+     "p8": "Veuillez vérifier votre e-mail et cliquez sur le lien pour vérifier votre adresse e-mail."
     },
     "seo":{
        "home":{

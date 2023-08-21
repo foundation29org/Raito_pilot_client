@@ -40,18 +40,20 @@
        "About us":"Sobre nós"
     },
     "profile":{
-       "Save the changes":"Salve as alterações, para que em sessões futuras apareçam no idioma selecionado",
-       "General":"Em geral",
-       "Current password":"Senha atual",
-       "Repeat the new password":"Repita a nova senha",
-       "The current password is incorrect":"A senha atual está incorreta",
-       "Settings":"Definições",
-       "Mass unit":"Peso",
-       "Kilogram":"Quilograma",
-       "Pound":"Libra",
-       "Length unit":"Altura",
-       "Centimetre":"Centímetro",
-       "Foot":"Pé"
+      "Save the changes":"Salve as alterações, para que em sessões futuras apareçam no idioma selecionado",
+      "To continue, we need to verify that it is you":"Para continuar, precisamos verificar se é você",
+      "General":"Em geral",
+      "Current password":"Senha atual",
+      "Repeat the new password":"Repita a nova senha",
+      "The current password is incorrect":"A senha atual está incorreta",
+      "Settings":"Definições",
+      "Mass unit":"Peso",
+      "Kilogram":"Quilograma",
+      "Pound":"Libra",
+      "Length unit":"Altura",
+      "Centimetre":"Centímetro",
+      "Foot":"Pé",
+      "Delete account":"Excluir conta"
     },
     "login":{
        "Login":"Conecte-se",
@@ -76,7 +78,12 @@
        "Create an account clicking here":"Crie uma conta clicando aqui:",
        "or Log in with":"ou Faça login com",
        "copypsw": "Escreva essa senha em um pedaço de papel e guarde-a, você precisará dela se quiser excluir a conta ou restaurar um backup.",
-       "The login has expired": "O login expirou"
+       "The login has expired": "O login expirou",
+       "Dont have an account?": "Não tem uma conta?",
+       "Sign Up": "Inscrever-se",
+       "Log In": "Entrar",
+       "Already have an account?": "Já tem uma conta?",
+       "Or Continue With": "ou continue com"
     },
     "registration":{
        "Registration":"Registro do usuário",
@@ -749,6 +756,16 @@
              "syptomsDetected":"{{value}} novos sintomas foram detectados"
           }
        }
+    },
+    "reg":{
+      "p1": "Obrigado por se registrar",
+     "p2": "Enviamos um e-mail de confirmação para",
+     "p3": "Verifique seu e-mail e clique no link para verificar seu endereço de e-mail.",
+     "p4": "Reenviar e-mail de verificação",
+     "p5": "Voltar para?",
+     "p6": "Entrar",
+     "p7": "Digite seu endereço de e-mail para solicitar uma redefinição de senha.",
+     "p8": "Verifique seu e-mail e clique no link para verificar seu endereço de e-mail."
     },
     "seo":{
        "home":{

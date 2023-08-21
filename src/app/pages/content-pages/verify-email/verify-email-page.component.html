@@ -1,0 +1,35 @@
+<section id="login">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center flex-column">
+      
+      <div class="col-xl-4 card" >
+        <div class="center-elements card-content p-3">
+          <div class="card-body">
+              <div class="authBlock">
+                <h3>{{'reg.p1' | translate }}</h3>
+                <div class="formGroup" *ngIf="authServiceFirebase.userData as user">
+                  <p class="text-center">{{'reg.p2' | translate }} <strong>{{user.email}}</strong>.</p>
+                  <p class="text-center">{{'reg.p3' | translate }}</p>
+                </div>
+                <!-- Calling SendVerificationMail() method using authService Api -->
+            <div class="formGroup">
+              <button type="button" class="btn btn-dark" (click)="authServiceFirebase.SendVerificationMail()">
+                <i class="fas fa-redo-alt"></i>
+                {{'reg.p4' | translate }}
+              </button>
+            </div>
+              </div>
+          </div>
+          <hr>
+          <div class="card-footer">
+            
+            <div class="redirectToLogin">
+              <span class="d-block">{{'reg.p5' | translate }}</span>
+              <button class="redirect btn btn-primary" (click)="onLogin()"> {{'reg.p6' | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -233,9 +233,54 @@
                                     </span></h5>
                             </ng-template>
                             <ng-template ngbPanelContent>
-                                <div class="center-elements mb-3 mt-3">
+                                <div class="center-elements mb-3 mt-3" *ngIf="!showPanelDelete">
                                     <button class="btn btn-primary" type="button"
-                                        (click)="confirmDelete()">{{'generics.Delete data' | translate }}</button>
+                                        (click)="deleteAccount()">{{'generics.Delete data' | translate }}</button>
+                                </div>
+                                <div class="col-12 d-flex align-items-center justify-content-center flex-column" *ngIf="showPanelDelete">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12" *ngIf="!deleting">
+                                                <span style="position: absolute;right: 5px;" (click)="cancelDeleteAccount()" title="{{'generics.Cancel' | translate }}" class="pointer"><em class="fa fa-times"></em></span>
+                                                <h4 class="form-section"><i class="ft-alert-triangle danger"></i> {{'profile.Delete account' |
+                                                    translate }}</h4>
+                                                <p>{{'profile.To continue, we need to verify that it is you' | translate }}</p>
+                                                <div class="formGroup">
+                                                    <input type="text" class="form-control" placeholder="{{'generics.Email' | translate }}" #userName required>
+                                                </div>
+                                                <div class="formGroup mt-2">
+                                                    <input type="password" class="form-control" placeholder="{{'generics.Password' | translate }}" #userPassword required>
+                                                </div>
+                                                <!-- Calling SignIn Api from AuthService -->
+                                                <div class="formGroup mt-2">
+                                                    <input type="button" class="btn btn-dark" value="{{'wizard.btn' | translate}}"
+                                                        (click)="authServiceFirebase.SignIn(userName.value, userPassword.value)">
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                                    <h6 class="text-primary m-0">{{'login.Or Continue With' | translate }}</h6>
+                                                    <div class="login-options">
+                                                        <button type="button" class="btn btn-sm btn-white btn-google mr-1"
+                                                            (click)="authServiceFirebase.GoogleAuth()">
+                                                            <i class="fa-brands fa-google fa-2x"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-white btn-microsoft mr-1"
+                                                            (click)="authServiceFirebase.signInWithMicrosoft()">
+                                                            <i class="fa fa-windows fa-2x"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-white btn-github"
+                                                            (click)="authServiceFirebase.signInWithApple()">
+                                                            <i class="fa fa-apple fa-2x"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" *ngIf="deleting">
+                                                <div>
+                                                    <p class="centerSpinner"><i class="fa fa-spinner fa-spin fa-3x fa-fw primary"></i></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </ng-template>
                         </ngb-panel>

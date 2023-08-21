@@ -301,10 +301,20 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.modules = res.modules;
         this.showSeizuresModules = this.modules.includes("seizures");
         this.showInmunodeficienciesModules = this.modules.includes("inmunodeficiency");
+        if(this.authService.getGroup()!=null){
+          this.loadGroupFile();
+        }else{
+          this.getInfoPatient();
+        }
     }, (err) => {
       console.log(err);
       this.showSeizuresModules = false;
       this.showInmunodeficienciesModules = false;
+      if(this.authService.getGroup()!=null){
+        this.loadGroupFile();
+      }else{
+        this.getInfoPatient();
+      }
     }));
 }
 
@@ -489,11 +499,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.timeformat = "M/d/yy";
         break;
 
-    }
-    if(this.authService.getGroup()!=null){
-      this.loadGroupFile();
-    }else{
-      this.getInfoPatient();
     }
     
   }
@@ -1331,7 +1336,10 @@ getWeek(newdate, dowOffset?) {
       }
       if(actualDrugs != ''){
         var promDrug = 'Drugs: ['+actualDrugs+ ']' ;
-      promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day)";
+      promDrug+= ".\nKeep in mind that the dose of some drugs is affected if you take other drugs.\nDon't give me ranges, give me the maximum recommended for the drugs I give you.\nIndicates if the dose is (mg/kg/day) or (mg/day)\nThe response has to have this format: \ndrug1:5 (mg/day)\ndrug2:12 (mg/kg/day). Specify the dose and include its unit in parentheses";
+      
+      /*var promDrug = "Please provide the maximum recommended dose for the drugs I will list. Specify the dose and include its unit in parentheses, like this (mg/kg/day) or (mg/day). I am looking for the response in the following format:'drug1: dose (unit)\ndrug2: dose (unit)'."
+      promDrug += "\nDrugs: ["+actualDrugs+ "]";*/
       var value = { value: promDrug, context: ""};
       this.subscription.add(this.openAiService.postOpenAi2(value)
                 .subscribe((res: any) => {
