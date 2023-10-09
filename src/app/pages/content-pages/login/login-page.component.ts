@@ -1,28 +1,12 @@
-import { Component, ViewChild, OnDestroy, OnInit, ElementRef  } from '@angular/core';
-import { environment } from 'environments/environment';
+import { Component, ViewChild, OnDestroy, OnInit  } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { sha512 } from "js-sha512";
 import { AuthService } from '../../../../app/shared/auth/auth.service';
 import { AuthServiceFirebase } from "../../../../app/shared/services/auth.service.firebase";
-import { AuthGuard } from '../../../../app/shared/auth/auth-guard.service';
-import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { EventsService} from 'app/shared/services/events.service';
-import { Injectable, Injector } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
-
-const options = {
-  clientID: 'com.company.app', // Apple Client ID
-  redirectUri: 'http://localhost:4200/auth/apple/callback',
-  // OPTIONAL
-  state: 'state', // optional, An unguessable random string. It is primarily used to protect against CSRF attacks.
-  responseMode: 'form_post', // Force set to form_post if scope includes 'email'
-  scope: 'email' // optional
-};
 
 @Component({
     selector: 'app-login-page',
@@ -57,7 +41,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     user: any;
   haveToken: boolean = false;
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public authService: AuthService, private authGuard: AuthGuard,  public translate: TranslateService, private inj: Injector, public toastr: ToastrService, public authServiceFirebase: AuthServiceFirebase) {
+    constructor(private router: Router, public authService: AuthService,  public translate: TranslateService, public toastr: ToastrService, public authServiceFirebase: AuthServiceFirebase) {
       if(this.authService.getEnvironment()){
         this.translate.use(this.authService.getLang());
         sessionStorage.setItem('lang', this.authService.getLang());

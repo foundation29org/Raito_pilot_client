@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
-import { environment } from 'environments/environment';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
@@ -9,8 +8,6 @@ import { LangService } from 'app/shared/services/lang.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Injectable, Injector } from '@angular/core';
-
-declare let gtag: any;
 
 @Component({
   selector: 'app-navbar-dx29',
@@ -44,7 +41,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   _startTime: any;
   private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private route: ActivatedRoute, private inj: Injector, private eventsService: EventsService, public trackEventsService: TrackEventsService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private inj: Injector, public trackEventsService: TrackEventsService) {
 
     this.loadLanguages();
 

@@ -1,19 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute } from "@angular/router";
-import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
-import { DateService } from 'app/shared/services/date.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
-import Swal from 'sweetalert2';
-import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
-import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { MatRadioChange } from '@angular/material/radio';
@@ -42,10 +35,11 @@ export class InmunodeficienciesComponent implements OnInit, OnDestroy{
   @ViewChild('EditComplicationModalComponent', { static: false }) contentComplicationEditModal: TemplateRef<any>;
   @ViewChild('EditUsualTreatmentModalComponent', { static: false }) contentUsualTreatmentEditModal: TemplateRef<any>;
   variable: string = null;
+  varName: string = null;
   inmunodeficiencies: any = {};
   actualIndex: number = null;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService, private searchService: SearchService, private _formBuilder: FormBuilder, private cdRef:ChangeDetectorRef) { 
+  constructor(private http: HttpClient, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private sortService: SortService, private cdRef:ChangeDetectorRef) { 
   }
 
   ngOnDestroy() {
@@ -303,7 +297,8 @@ closeUsualTreatmentModalComponent(){
     this.inmunodeficiencies.inmunologicalVariables[this.variable].splice(index, 1);
   }
 
-  openInmunoEditModal(variable){
+  openInmunoEditModal(variable, name){
+    console.log(name)
     window.scrollTo(0, 0)
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
@@ -312,6 +307,7 @@ closeUsualTreatmentModalComponent(){
     };
     console.log(this.inmunodeficiencies.inmunologicalVariables)
     this.variable = variable;
+    this.varName = name;
     if(this.inmunodeficiencies.inmunologicalVariables[variable].length==0){
       this.inmunodeficiencies.inmunologicalVariables[variable].push({
         value: '',
@@ -497,6 +493,10 @@ closeUsualTreatmentModalComponent(){
          }));
       }
     }
+  }
+
+  getLiteral(literal) {
+    return this.translate.instant(literal);
   }
 
 

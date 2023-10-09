@@ -15,7 +15,7 @@ import * as chartsData from 'app/shared/configs/general-charts.config';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge } from 'rxjs/operators'
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators'
 import { DateAdapter } from '@angular/material/core';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
@@ -118,13 +118,13 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   private msgDataSavedOk: string;
   private msgDataSavedFail: string;
-  private transWeight: string;
-  private transHeight: string;
-  private msgDate: string;
-  private group: string;
+  transWeight: string;
+  transHeight: string;
+  msgDate: string;
+  group: string;
   timeformat="";
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, public searchTermService: SearchTermService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private modalService: NgbModal, private authGuard: AuthGuard, private inj: Injector) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, public searchTermService: SearchTermService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private modalService: NgbModal, private authGuard: AuthGuard, private inj: Injector) {
     this.dateAdapter.setLocale(this.authService.getLang());
     this.lang =this.authService.getLang();
     this.datainfo = {

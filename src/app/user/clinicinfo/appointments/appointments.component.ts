@@ -1,14 +1,11 @@
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
-import { startOfDay, endOfDay,endOfHour, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
-import { Router } from "@angular/router";
+import { startOfDay,endOfHour, isSameDay, isSameMonth } from 'date-fns';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
-import { DateService } from 'app/shared/services/date.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import Swal from 'sweetalert2';
@@ -16,8 +13,8 @@ import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from 'app/shared/services/search.service';
 import { Subscription } from 'rxjs/Subscription';
-import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 
 const colors: any = {
   red: {
@@ -104,7 +101,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
   locale: string = sessionStorage.getItem('lang')
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService, private searchService: SearchService) { 
+  constructor(private http: HttpClient, private authService: AuthService, private authGuard: AuthGuard, private modal: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService, private searchService: SearchService) { 
     this.subscription.add( this.route.params.subscribe(params => {
       if(params['id']!=undefined){
         this.idOpen = params['id'];

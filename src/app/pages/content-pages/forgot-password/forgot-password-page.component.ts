@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
 import { AuthServiceFirebase } from "../../../../app/shared/services/auth.service.firebase";
 import { Subscription } from 'rxjs';
@@ -14,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class ForgotPasswordPageComponent implements OnDestroy, OnInit{
     private subscription: Subscription = new Subscription();
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public translate: TranslateService, public authServiceFirebase: AuthServiceFirebase) { }
+    constructor(private router: Router, public translate: TranslateService, public authServiceFirebase: AuthServiceFirebase) { }
 
     ngOnInit() {
     }

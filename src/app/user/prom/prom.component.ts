@@ -1,21 +1,15 @@
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { DateService } from 'app/shared/services/date.service';
-import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
-import { Observable, of, OperatorFunction } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge } from 'rxjs/operators'
 
 import { DateAdapter } from '@angular/material/core';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -27,7 +21,7 @@ export function getCulture() {
   selector: 'app-prom',
   templateUrl: './prom.component.html',
   styleUrls: ['./prom.component.scss'],
-  providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService]
+  providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }]
 })
 export class PromComponent {
   lang: string = 'en';
@@ -54,7 +48,7 @@ export class PromComponent {
   pageLength = 1; // Determina cuántas preguntas se mostrarán a la vez
 
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute) {
     this.subscription.add( this.route.params.subscribe(params => {
       if(params['pendind']!=undefined){
         this.pendind = params['pendind'];
@@ -273,9 +267,12 @@ export class PromComponent {
             if(this.questionnaires[i].title=='Cuestionario CVID_QoL'){
               this.questionnaires[i].points = points;
             }
-            if((this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length))==(this.questionnaires[i].info.items.length)){
-              this.questionnaires[i].completed = true;
+            if(this.questionnaires[i].info.items){
+              if((this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length))==(this.questionnaires[i].info.items.length)){
+                this.questionnaires[i].completed = true;
+              }
             }
+            
           }
           this.loadedProms = true;
         }, (err) => {

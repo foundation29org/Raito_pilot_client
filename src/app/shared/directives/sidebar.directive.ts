@@ -2,7 +2,6 @@ import { Directive, HostListener, ChangeDetectorRef, OnInit, OnDestroy, HostBind
 import { SidebarLinkDirective } from './sidebar-link.directive';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
-import { LayoutService } from '../services/layout.service';
 import { Router } from '@angular/router';
 
 @Directive({ selector: '[appSidebar]' })
@@ -25,7 +24,7 @@ export class SidebarDirective implements OnInit, AfterViewInit, OnDestroy {
   protected _navExpanded: boolean;
   protected innerWidth: any;
 
-  constructor(private cdr: ChangeDetectorRef, private router: Router, private configService: ConfigService, private layoutService: LayoutService) {
+  constructor(private cdr: ChangeDetectorRef, private router: Router, private configService: ConfigService) {
     this.config = this.configService.templateConf;
     this.sidebarExpanded = !this.config.layout.sidebar.collapsed;
   }

@@ -8,7 +8,6 @@ import {
    } from '@angular/core';
   import {
     trigger,
-    state,
     style,
     animate,
     transition
@@ -176,7 +175,6 @@ import {
         
         this.getSeriesTooltips(this.seriesLine, index);
         const lineValue = this.seriesLine[0].series[index].value;
-        const lineName = this.seriesLine[0].series[index].name;
         bar.tooltipText = `
           <span class="tooltip-label">${tooltipLabel }</span>
           <span class="tooltip-val"> Y1 - ${value.toLocaleString()} • Y2 - ${lineValue.toLocaleString()}%</span>

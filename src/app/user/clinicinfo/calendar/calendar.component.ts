@@ -1,6 +1,6 @@
 import { Component, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
+import { startOfDay, isSameDay, isSameMonth } from 'date-fns';
 import { Router } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -61,7 +61,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   importing: boolean = false;
 
   private msgDataSavedOk: string;
-  private msgDataSavedFail: string;
   step: string = '0';
   private subscription: Subscription = new Subscription();
   imported: number = 0;
@@ -99,9 +98,6 @@ export class CalendarsComponent implements OnInit, OnDestroy{
   loadTranslations(){
     this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
       this.msgDataSavedOk=res;
-    });
-    this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-      this.msgDataSavedFail=res;
     });
   }
 

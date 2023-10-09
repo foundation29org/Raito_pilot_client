@@ -1,6 +1,5 @@
-import { Directive, HostListener, ChangeDetectorRef, OnInit, OnDestroy, HostBinding, Input } from '@angular/core';
+import { Directive, HostListener, OnInit} from '@angular/core';
 import { TopMenuLinkDirective } from './topmenu-link.directive';
-import { Subscription } from 'rxjs';
 
 @Directive({ selector: '[appTopMenu]' })
 export class TopMenuDirective implements OnInit {

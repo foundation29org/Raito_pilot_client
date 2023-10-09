@@ -1,6 +1,6 @@
-import { Component, ViewChild, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { startOfDay } from 'date-fns';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { NgForm, FormControl } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -12,7 +12,6 @@ import { ToastrService } from 'ngx-toastr';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
-import { Data } from 'app/shared/services/data.service';
 import Swal from 'sweetalert2';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { DateAdapter } from '@angular/material/core';
@@ -40,7 +39,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   actualMedications: any;
   oldMedications: any;
   private msgDataSavedOk: string;
-  private msgDataSavedFail: string;
   loading: boolean = false;
   sending: boolean = false;
   viewMedicationForm: boolean = false;
@@ -81,8 +79,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   savedRecommendations: any = [];
   loadedRecommendedDose: boolean = false;
 
-  constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private route: ActivatedRoute, private modalService: NgbModal,
-    private data: Data, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, private openAiService: OpenAiService, public cordovaService: CordovaService) {
+  constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private modalService: NgbModal, private adapter: DateAdapter<any>, private sortService: SortService, private patientService: PatientService, private openAiService: OpenAiService, public cordovaService: CordovaService) {
     this.adapter.setLocale(this.authService.getLang());
     switch (this.authService.getLang()) {
       case 'en':
@@ -372,9 +369,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
   loadTranslations() {
     this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
       this.msgDataSavedOk = res;
-    });
-    this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-      this.msgDataSavedFail = res;
     });
   }
 
@@ -1291,8 +1285,6 @@ export class MedicationComponent implements OnInit, OnDestroy {
        this.importing = false;
        if(err.error.message=='Token expired' || err.error.message=='Invalid Token'){
          this.authGuard.testtoken();
-       }else{
-         //this.toastr.error('', this.msgDataSavedFail, { showCloseButton: true });
        }
      }));
   }

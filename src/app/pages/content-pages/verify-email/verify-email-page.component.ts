@@ -1,11 +1,8 @@
 import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
-import { environment } from 'environments/environment';
-import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
 import { AuthServiceFirebase } from "../../../../app/shared/services/auth.service.firebase";
-import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,7 +17,7 @@ export class VerifyEmailPageComponent implements OnDestroy, OnInit{
     sending: boolean = false;
     private subscription: Subscription = new Subscription();
 
-    constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public translate: TranslateService, public authServiceFirebase: AuthServiceFirebase) { }
+    constructor(private router: Router, public translate: TranslateService, public authServiceFirebase: AuthServiceFirebase) { }
 
     ngOnInit() {
 
