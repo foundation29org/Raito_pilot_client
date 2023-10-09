@@ -26,7 +26,8 @@
       "https": ["./node_modules/https-browserify"],
       "os": ["./node_modules/os-browserify"],
       "process": ["./node_modules/process"],
-    }
+    },
+    //"noUnusedLocals": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false

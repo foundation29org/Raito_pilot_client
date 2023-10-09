@@ -59,7 +59,7 @@
 
   </style>
 
-<script type="text/javascript">
+<script async type="text/javascript">
     var isMobile = false;
     var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
     console.log('touchDevice', touchDevice)
@@ -98,7 +98,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XKB1KWQC9Y"></script>
 <script async src="https://apis.google.com/js/api.js"></script>
-<script>
+<script async>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -110,7 +110,7 @@
 <body class="layout-dark">
   <app-root></app-root>
   <div class="page-loading">
-    <img src="assets/img/oval.svg" class="loading-icon" />
+    <img src="assets/img/oval.svg" alt="loading icon" class="loading-icon" />
   </div>
 </body>
 

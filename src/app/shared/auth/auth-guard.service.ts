@@ -1,16 +1,15 @@
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
-import * as decode from 'jwt-decode';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, public toastr: ToastrService, public translate: TranslateService, private tokenService: TokenService) {}
+  constructor(private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private tokenService: TokenService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.authService.getEnvironment()

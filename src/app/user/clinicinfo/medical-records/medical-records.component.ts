@@ -1,6 +1,6 @@
 import { Component, OnInit, LOCALE_ID, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -580,7 +580,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
 
     var oReq = new XMLHttpRequest();
     var lang = this.authService.getLang();
-    var self = this;
 
     oReq.open("PUT", environment.f29api + '/api/Document/Parse?Timeout=5000&language=' + lang + '&Strategy=OcrOnly', true);
 
@@ -697,7 +696,6 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
     this.nameTitle = nameTitle;
     var url = name.substr(0, name.lastIndexOf('/') + 1)
     var fileNameNcr = url + 'textanaresult.json';
-    var url2 = this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken;
     this.subscription.add(this.http.get(this.accessToken.blobAccountUrl + this.accessToken.containerName + '/' + fileNameNcr + this.accessToken.sasToken)
       .subscribe((res: any) => {
         this.resultTextNcr = res.medicalText;

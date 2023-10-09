@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CanDeactivateGuard } from 'app/shared/auth/can-deactivate-guard.service';
 
 import { LandPageComponent } from "./land/land-page.component";
 

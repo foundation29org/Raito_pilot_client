@@ -7,16 +7,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DateService } from 'app/shared/services/date.service';
-import { EventsService } from 'app/shared/services/events.service';
-import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
-import { Observable, of, OperatorFunction } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge } from 'rxjs/operators'
 
 import { DateAdapter } from '@angular/material/core';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -28,7 +23,7 @@ export function getCulture() {
   selector: 'app-feel',
   templateUrl: './feel.component.html',
   styleUrls: ['./feel.component.scss'],
-  providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService]
+  providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }]
 })
 export class FeelComponent implements OnInit {
   lang: string = 'en';
@@ -45,7 +40,7 @@ export class FeelComponent implements OnInit {
   feelForm: FormGroup;
   submitted = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private eventsService: EventsService, private sortService: SortService, private apiDx29ServerService: ApiDx29ServerService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private dateService: DateService, private patientService: PatientService, private formBuilder: FormBuilder, private router: Router) {
 
     this.lang = sessionStorage.getItem('lang');        
 

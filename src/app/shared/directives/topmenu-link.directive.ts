@@ -1,5 +1,5 @@
 import {
-  Directive, HostBinding, Inject, Input, OnInit, OnDestroy, Output, EventEmitter
+  Directive, HostBinding, Inject, Input, OnInit, OnDestroy
 } from '@angular/core';
 
 import { TopMenuDirective } from "./topmenu.directive";

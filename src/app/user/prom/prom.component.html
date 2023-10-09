@@ -16,7 +16,7 @@
                         <div *ngIf="questionnaires.length>0">
                             <p class="text-muted" style="line-height:normal;">{{'prom.subtitle' | translate }}</p>
                             <span *ngFor="let questionnaire of questionnaires ; let j = index" class="pb-2">
-                                <div class="row mb-2">
+                                <div class="row mb-2" *ngIf="questionnaire.info.items">
                                     <div class="col-md-9">
                                         <span><strong>{{questionnaire.info.title}}</strong></span> 
                                         <span class="d-block" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.answers.length))!=(questionnaire.info.items.length)">{{'prom.Estimated time' | translate }}</span>

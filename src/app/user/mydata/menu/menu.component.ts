@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
@@ -52,9 +52,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   loadedShareData: boolean = false;
   private subscription: Subscription = new Subscription();
   private msgDownload: string;
-  private tittleExportData: string;
-  private msgDataSavedOk: string;
-  private msgDataSavedFail: string;
   loadedPatientId: boolean = false;
   hasGroup: boolean = false;
   consentgroup: string = 'false';
@@ -71,7 +68,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   medications: any = [];
   actualMedications: any;
   private groupId: string;
-  private group: any = {};
+  group: any = {};
   patient: any;
   timeformat = "";
   loadingDataGroup: boolean = false;
@@ -138,12 +135,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   maxValueDrugsVsSeizu: number = 0;
   normalized: boolean = true;
   normalized2: boolean = true;
-  private titleDose: string;
+  titleDose: string;
   private titleDrugsVsNormalized: string;
    titleDrugsVsDrugs: string;
    private titleDrugsVsNoNormalized: string;
-   private transWeight: string;
-   private msgDate: string;
    yAxisLabelRight: string;
    yAxisTicksDrugs = [];
    //lastchart
@@ -236,7 +231,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   showPanelDelete: boolean = false;
   deleting: boolean = false;
 
-  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private router: Router, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService, public authServiceFirebase: AuthServiceFirebase) {     
+  constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService, public authServiceFirebase: AuthServiceFirebase) {     
     this.subscription.add(this.route
       .queryParams
       .subscribe(params => {
@@ -330,25 +325,9 @@ axisFormat(val) {
 
 //traducir cosas
 loadTranslations(){
-  this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
-    this.msgDataSavedOk=res;
-  });
-  this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-    this.msgDataSavedFail=res;
-  });
-  this.translate.get('generics.ExportData').subscribe((res: string) => {
-    this.tittleExportData=res;
-  });
   this.translate.get('generics.Download').subscribe((res: string) => {
     this.msgDownload=res;
   });
-  this.translate.get('anthropometry.Weight').subscribe((res: string) => {
-    this.transWeight = res;
-  });
-  this.translate.get('generics.Date').subscribe((res: string) => {
-    this.msgDate = res;
-  });
-
   this.translate.get('menu.Seizures').subscribe((res: string) => {
     this.titleSeizures = res;
     var tempTitle = this.titleSeizures+' ('+this.translate.instant("pdf.Vertical bars")+')';
@@ -651,7 +630,6 @@ exportPDF2(){
 
 saveResultPdf(blob){
   if (this.isMobile) {
-    var url  = URL.createObjectURL(blob);
     var p = document.createElement('p');
     var t = document.createTextNode(this.msgDownload+":");
     if(device.platform == 'iOS'){
@@ -787,12 +765,6 @@ async callGetInfoTempSymptomsJSON(hposStrins, phenotype) {
         resolve ([]);
       }));
   }.bind(this));
-  
-}
-
-loadSymptoms() {
-  var para = this.authService.getCurrentPatient();
-  //cargar el fenotipo del usuario
   
 }
 
@@ -2339,7 +2311,6 @@ saveRecommendations(drugsToSave){
 
 continueGetDrugs(res){
   console.log(this.actualMedications)
-  var datagraphseizures = [];
   this.lineChartDrugs = this.getStructure(res);
   this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
   this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
@@ -2632,14 +2603,7 @@ getDataNormalizedDrugsVsSeizures(){
       this.maxValueDrugsVsSeizu=Number(this.lineChartSeizures[0].series[i].value);
     }
   }
-  
-  var percen = 0;
-  if(this.maxValue>this.maxValueDrugsVsSeizu){
-    percen = this.maxValue/this.maxValueDrugsVsSeizu
-  }else{
-    percen = this.maxValueDrugsVsSeizu/this.maxValue
-  }
-  
+
 
   this.barChart = seizu;
   this.lineChartSeries = copymeds;

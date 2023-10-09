@@ -1,4 +1,4 @@
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 //Route for content layout with sidebar, navbar and footer.

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy, Inject, Renderer2, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms'
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
@@ -10,10 +10,8 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { LangService } from 'app/shared/services/lang.service';
 import { Subscription } from 'rxjs';
-import { DOCUMENT } from '@angular/common';
 import { ConfigService } from 'app/shared/services/config.service';
-import { LayoutService } from 'app/shared/services/layout.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 
 @Component({
     selector: 'app-user-profile-page',
@@ -33,7 +31,6 @@ export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestro
   langs: any;
   private msgDataSavedOk: string;
   private msgDataSavedFail: string;
-  private msgDownload: string;
   loading: boolean = false;
   sending: boolean = false;
   item: number = 0;
@@ -41,11 +38,8 @@ export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestro
   subrole: string = '';
   private subscription: Subscription = new Subscription();
 
-  constructor(private configService: ConfigService,
-    private layoutService: LayoutService,
-    @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2, private cdr: ChangeDetectorRef,
-    private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private langService:LangService, private patientService: PatientService, private inj: Injector
+  constructor(private configService: ConfigService, private cdr: ChangeDetectorRef,
+    private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public translate: TranslateService, private authGuard: AuthGuard, private langService:LangService, private inj: Injector
   ) {
     this.config = this.configService.templateConf;
 
@@ -95,9 +89,6 @@ export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestro
       });
       this.translate.get('generics.Data saved fail').subscribe((res: string) => {
         this.msgDataSavedFail=res;
-      });
-      this.translate.get('generics.Download').subscribe((res: string) => {
-        this.msgDownload=res;
       });
     }
 

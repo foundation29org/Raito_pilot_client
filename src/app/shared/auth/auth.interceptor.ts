@@ -1,6 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient, HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/operator/catch';
@@ -10,20 +9,17 @@ import { TokenService } from './token.service';
 import { environment } from 'environments/environment';
 
 import { EventsService } from 'app/shared/services/events.service';
-import { takeUntil } from 'rxjs/operators';
-import * as decode from 'jwt-decode';
 
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private inj: Injector, private router: Router) { }
+  constructor(private inj: Injector) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     var eventsService = this.inj.get(EventsService);
 
     let authService = this.inj.get(AuthService); //authservice is an angular service
         // Get the auth header from the service.
-    const Authorization = authService.getToken();
     if(authService.getToken()==undefined){
       const authReq = req.clone({ headers: req.headers});
       return next.handle(authReq)

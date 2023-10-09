@@ -20,12 +20,10 @@ import { Subscription } from 'rxjs/Subscription';
 import Swal from 'sweetalert2';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { DateAdapter } from '@angular/material/core';
-import { createVeriffFrame } from '@veriff/incontext-sdk';
 import CryptoES from 'crypto-es';
 import * as decode from 'jwt-decode';
 import { ColorHelper } from '@swimlane/ngx-charts';
 import { OpenAiService } from 'app/shared/services/openAi.service';
-declare var Veriff: any;
 
 declare global {
   interface Window {
@@ -89,13 +87,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     barChartYAxisLabel = chartsData.barChartYAxisLabel;
     barChartColorScheme = chartsData.barChartColorScheme;
 
-   private msgDataSavedOk: string;
-   private msgDataSavedFail: string;
-   private transWeight: string;
-   private transHeight: string;
-   private msgDate: string;
+
    private titleSeizures: string;
-   private titleDose: string;
+   titleDose: string;
    private titleDrugsVsNormalized: string;
    titleDrugsVsDrugs: string;
    private titleDrugsVsNoNormalized: string;
@@ -651,23 +645,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   //traducir cosas
   loadTranslations() {
-    this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
-      this.msgDataSavedOk = res;
-    });
-    this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-      this.msgDataSavedFail = res;
-    });
-
-    this.translate.get('anthropometry.Weight').subscribe((res: string) => {
-      this.transWeight = res;
-    });
-    this.translate.get('menu.Feel').subscribe((res: string) => {
-      this.transHeight = res;
-    });
-    this.translate.get('generics.Date').subscribe((res: string) => {
-      this.msgDate = res;
-    });
-
     this.translate.get('menu.Seizures').subscribe((res: string) => {
       this.titleSeizures = res;
       var tempTitle = this.titleSeizures+' ('+this.translate.instant("pdf.Vertical bars")+')';
@@ -678,7 +655,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     this.translate.get('homeraito.Normalized').subscribe((res: string) => {
       this.titleDrugsVsNormalized= res;
-      this.titleDose = res;
       this.titleDrugsVsDrugs = this.titleDrugsVsNormalized;
     });
     this.translate.get('homeraito.Not normalized').subscribe((res: string) => {
@@ -1410,8 +1386,6 @@ getWeek(newdate, dowOffset?) {
   }
 
   continueGetDrugs(res){
-    console.log(this.actualMedications)
-    var datagraphseizures = [];
     this.lineChartDrugs = this.getStructure(res);
     this.lineChartDrugs = this.add0Drugs(this.lineChartDrugs);
     this.lineChartDrugsCopy = JSON.parse(JSON.stringify(this.lineChartDrugs));
@@ -1616,13 +1590,6 @@ getWeek(newdate, dowOffset?) {
       if(this.maxValueDrugsVsSeizu<Number(this.lineChartSeizures[0].series[i].value)){
         this.maxValueDrugsVsSeizu=Number(this.lineChartSeizures[0].series[i].value);
       }
-    }
-    
-    var percen = 0;
-    if(this.maxValue>this.maxValueDrugsVsSeizu){
-      percen = this.maxValue/this.maxValueDrugsVsSeizu
-    }else{
-      percen = this.maxValueDrugsVsSeizu/this.maxValue
     }
     
 

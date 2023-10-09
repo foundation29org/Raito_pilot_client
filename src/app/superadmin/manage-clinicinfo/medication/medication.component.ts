@@ -1,11 +1,9 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Router } from "@angular/router";
 import { NgForm, FormControl } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { LangService } from 'app/shared/services/lang.service';
 import { AuthService } from 'app/shared/auth/auth.service';
-import { DateService } from 'app/shared/services/date.service';
 import { ToastrService } from 'ngx-toastr';
 import { SearchFilterPipe} from 'app/shared/services/search-filter.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -28,8 +26,6 @@ export class MedicationComponent implements OnInit, OnDestroy{
   @ViewChild('f') medicationsForm: NgForm;
   medications: any;
   medicationsCopy: any;
-  private msgDataSavedOk: string;
-  private msgDataSavedFail: string;
   loading: boolean = false;
   sending: boolean = false;
   drugName: string = '';
@@ -53,7 +49,7 @@ export class MedicationComponent implements OnInit, OnDestroy{
   editingIndexAe: number = -1;
   private subscription: Subscription = new Subscription();
 
-  constructor(private http: HttpClient, private authService: AuthService, private dateService: DateService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private router: Router, private langService: LangService, private sortService: SortService) {
+  constructor(private http: HttpClient, private authService: AuthService, public toastr: ToastrService, public searchFilterPipe: SearchFilterPipe, public translate: TranslateService, private authGuard: AuthGuard, private langService: LangService, private sortService: SortService) {
       this.loadLanguages();
   }
 
@@ -91,9 +87,6 @@ export class MedicationComponent implements OnInit, OnDestroy{
       sideEffects: [],
       adverseEffects : []
     };
-
-
-    this.loadTranslations();
 
     this.loadGroups();
 
@@ -141,16 +134,6 @@ export class MedicationComponent implements OnInit, OnDestroy{
       sideEffects: [],
       adverseEffects : []
     };
-  }
-
-  //traducir cosas
-  loadTranslations(){
-    this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
-      this.msgDataSavedOk=res;
-    });
-    this.translate.get('generics.Data saved fail').subscribe((res: string) => {
-      this.msgDataSavedFail=res;
-    });
   }
 
   addDrug(){

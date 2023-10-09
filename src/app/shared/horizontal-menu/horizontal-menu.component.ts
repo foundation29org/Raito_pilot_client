@@ -1,9 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { HROUTES } from './navigation-routes.config';
-import { LayoutService } from '../services/layout.service';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,10 +19,9 @@ export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy
 
   layoutSub: Subscription;
 
-  constructor(private layoutService: LayoutService,
+  constructor(
     private configService: ConfigService,
-    private cdr: ChangeDetectorRef,
-    private router: Router) {
+    private cdr: ChangeDetectorRef,) {
     this.config = this.configService.templateConf;
   }
 

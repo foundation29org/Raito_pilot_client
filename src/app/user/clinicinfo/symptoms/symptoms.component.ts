@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
-import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap, merge, mergeMap, concatMap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
 
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
@@ -86,7 +86,6 @@ export class SymptomsComponent implements OnInit {
   phenotype: any = {};
   phenotypeCopy: any = {};
   sending: boolean = false;
-  private msgDataSavedOk: string;
   private msgDataSavedFail: string;
   today = new Date();
 
@@ -106,9 +105,6 @@ export class SymptomsComponent implements OnInit {
   }
 
   loadTranslations() {
-    this.translate.get('generics.Data saved successfully').subscribe((res: string) => {
-      this.msgDataSavedOk = res;
-    });
     this.translate.get('generics.Data saved fail').subscribe((res: string) => {
       this.msgDataSavedFail = res;
     });
@@ -200,7 +196,6 @@ export class SymptomsComponent implements OnInit {
 
   lauchEvent(category) {
     //traquear
-    var secs = this.getElapsedSeconds();
     var savedEvent = this.searchService.search(this.eventList, 'name', category);
     if (category == "Symptoms") {
       var subCategory = category + ' - ' + this.optionSymptomAdded;
@@ -254,11 +249,9 @@ export class SymptomsComponent implements OnInit {
 
   deleteSymptom(symptom, index2) {
     var index = -1;
-    var found = false;
     for (var i = 0; i < this.phenotype.data.length; i++) {
       if (symptom.id == this.phenotype.data[i].id) {
         index = i;
-        found = true;
         this.confirmDeletePhenotype2(index, index2);
       }
     }

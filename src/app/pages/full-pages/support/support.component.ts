@@ -7,15 +7,11 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
-import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
-import Swal from 'sweetalert2';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-support',
   templateUrl: './support.component.html',
-  styleUrls: ['./support.component.scss'],
-  providers: [ApiDx29ServerService]
+  styleUrls: ['./support.component.scss']
 })
 export class SupportComponent implements OnDestroy{
   @ViewChild('f') supportForm: NgForm;
@@ -26,7 +22,7 @@ export class SupportComponent implements OnDestroy{
   msgList: any = [];
   sending: boolean = false;
 
-  constructor(private http: HttpClient, private translate : TranslateService, private authService: AuthService, private authGuard: AuthGuard, public toastr: ToastrService, private apiDx29ServerService: ApiDx29ServerService) {
+  constructor(private http: HttpClient, private translate : TranslateService, private authService: AuthService, private authGuard: AuthGuard, public toastr: ToastrService) {
 
     this.initVars();
 

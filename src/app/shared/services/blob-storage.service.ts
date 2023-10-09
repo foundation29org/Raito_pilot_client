@@ -23,7 +23,6 @@ export class BlobStorageService {
   @Output() changeFilesPatientBlob: EventEmitter<any> = new EventEmitter();
   @Output() changeNcrFilesPatientBlob: EventEmitter<any> = new EventEmitter();
 
-  private finishedOrError = false;
   uploaded = false;
   filesOnBlob: any = [];
   filesMapOnBlob: any = [];
@@ -115,7 +114,6 @@ export class BlobStorageService {
 
   private callback(filename: string, section: string, progress$: Subject<number>, accessToken: IBlobAccessToken): (error, result, response) => void {
     return (error, result, response) => {
-      this.finishedOrError = true;
       if (error) {
         progress$.error('Error uploading to blob storage: ' + JSON.stringify(accessToken));
         this.uploaded = false;
@@ -168,7 +166,6 @@ export class BlobStorageService {
       publicAccessLevel: 'blob'
     }, function(error, result, response) {
       if (!error) {
-        var filesgeno = [];
         var filesgenovcf = [];
         for (var i = 0; i < result.entries.length; i++) {
           if(result.entries[i].name.indexOf(patternFileNameVcf)!=-1){

@@ -1,5 +1,4 @@
 import { Directive, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
 import { TopMenuLinkDirective } from './topmenu-link.directive';
 
 @Directive({
@@ -12,7 +11,7 @@ export class TopMenuDropdownDirective implements OnInit {
       //write your code here!
     }
 
-    constructor( private router: Router) {
+    constructor() {
     }
 
 
