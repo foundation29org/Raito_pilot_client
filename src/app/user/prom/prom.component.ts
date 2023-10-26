@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatientService } from 'app/shared/services/patient.service';
+import { SortService} from 'app/shared/services/sort.service';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/toPromise';
 
@@ -48,7 +49,7 @@ export class PromComponent {
   pageLength = 1; // Determina cuántas preguntas se mostrarán a la vez
 
 
-  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private authService: AuthService, public toastr: ToastrService, private patientService: PatientService, private route: ActivatedRoute, private sortService: SortService) {
     this.subscription.add( this.route.params.subscribe(params => {
       if(params['pendind']!=undefined){
         this.pendind = params['pendind'];
@@ -69,6 +70,7 @@ export class PromComponent {
      this.actualProm = {};
      this.step = 0;
      this.showListQuestionnaires=true;
+     this.currentIndex = 0;
     this.initEnvironment();
     
   }
@@ -91,10 +93,12 @@ export class PromComponent {
 
   filterNewProms(){
     var copyProms = [];
+    console.log(this.newproms)
+    console.log(this.proms)
     for(var i=0;i<this.newproms.length;i++){
       var foundProm = false;
       for(var j=0;j<this.proms.length && !foundProm;j++){
-        if(this.newproms[i].idProm == this.proms[j].idProm){
+        if(this.newproms[i].idProm == this.proms[j].idProm && this.proms[j].data!=null){
           foundProm = true;
         }
       }
@@ -110,6 +114,7 @@ export class PromComponent {
 
   showAll(){
     this.numSaved = 0;
+    console.log(this.newproms)
     for(var i=0;i<this.newproms.length;i++){
       var foundProm = false;
       for(var j=0;j<this.proms.length && !foundProm;j++){
@@ -205,6 +210,7 @@ export class PromComponent {
           await Promise.all(promises3)
           .then(async function (data){
             console.log(data);
+            console.log(this.questionnaires)
             this.getProms();
           }.bind(this))
           
@@ -245,36 +251,100 @@ export class PromComponent {
     var info = {rangeDate: '', questionnaires: questionnaires}
         this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
         .subscribe((res:any)=>{
-          for(var i=0;i<this.questionnaires.length;i++){
-            this.questionnaires[i].answers = [];
-            if(this.questionnaires[i].title=='Cuestionario CVID_QoL'){
-              var points = 0;
-            }
-            for(var j=0;j<res.length;j++){
-              if(this.questionnaires[i].id == res[j].idQuestionnaire){
-                this.questionnaires[i].answers.push(res[j]);
-                if(res[j].data=='Raramente'){
-                  points = points + 1;
-                }else if(res[j].data=='A veces'){
-                  points = points + 2;
-                }else if(res[j].data=='A menudo'){
-                  points = points + 3;
-                }else if(res[j].data=='Siempre'){
-                  points = points + 4;
+          if(res.length>0){
+            var tempNewQuestionnaires = [];
+            for(var i=0;i<res.length;i++){
+              for(var j=0;j<this.questionnaires.length;j++){
+                if(res[i].idQuestionnaire == this.questionnaires[j].id){
+                  res[i].info = this.questionnaires[j].info;
+                  res[i].title = this.questionnaires[j].title;
+                  res[i].description = this.questionnaires[j].description;
+                  res[i].items = this.questionnaires[j].items;
+                  res[i].periodicity = this.questionnaires[j].periodicity;
+                  res[i].id = this.questionnaires[j].id;
+                  var completed = true;
+                  var points = 0;
+                  let remainingQuestions = 0;
+                  for(var k=0;k<res[i].values.length;k++){
+                    if(res[i].values[k].data==null){
+                      completed = false;
+                      remainingQuestions++;
+                    }
+                    if(this.questionnaires[j].title=='Cuestionario CVID_QoL'){
+                      if(res[i].values[k].data=='Raramente'){
+                        points = points + 1;
+                      }else if(res[i].values[k].data=='A veces'){
+                        points = points + 2;
+                      }else if(res[i].values[k].data=='A menudo'){
+                        points = points + 3;
+                      }else if(res[i].values[k].data=='Siempre'){
+                        points = points + 4;
+                      }
+                    }
+                  }
+                  res[i].points = points;
+
+                  if(res[i].info.items){
+                    res[i].size = res[i].info.items.length;
+                    res[i].completed = completed;
+                    res[i].percentage = 0;
+                    if(res[i].size>0){
+                      res[i].percentage = Math.round((res[i].size-remainingQuestions)*100/res[i].size);
+                    }
+                    
+                    /*if((res[i].size-(res[i].size-res[i].values.length))==(res[i].size)){
+                      res[i].completed = true;
+                    }*/
+                  }
+                }
+              }
+              
+              if(res[i].completed && res[i].dateFinish){
+                var actualDate = new Date();
+                var actualDateTime = actualDate.getTime();
+                var pastDate = new Date(res[i].dateFinish);
+                pastDate.setDate(pastDate.getDate() + res[i].periodicity);
+                var pastDateDateTime = pastDate.getTime();
+                if(actualDateTime > pastDateDateTime){
+                  //add a empty copy of the questionnaire
+                  var copy = JSON.parse(JSON.stringify(res[i]));
+                  copy.completed = false;
+                  copy.dateFinish = null;
+                  copy.values = [];
+                  copy.points = 0;
+                  copy.percentage = 0;
+                  copy._id = null;
+                  tempNewQuestionnaires.push(copy);
                 }
               }
             }
-            if(this.questionnaires[i].title=='Cuestionario CVID_QoL'){
-              this.questionnaires[i].points = points;
-            }
-            if(this.questionnaires[i].info.items){
-              if((this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length))==(this.questionnaires[i].info.items.length)){
-                this.questionnaires[i].completed = true;
+            this.questionnaires = res;
+            for(var i=0;i<tempNewQuestionnaires.length;i++){
+              var found = false;
+              for(var j=0;j<this.questionnaires.length;j++){
+                if(tempNewQuestionnaires[i].id == this.questionnaires[j].id && (this.questionnaires[j].dateFinish == null || this.questionnaires[j].dateFinish == undefined || !this.questionnaires[j].completed)){
+                  found = true;
+                }
               }
+              if(!found){
+                this.questionnaires.push(tempNewQuestionnaires[i]);
+              }
+              
             }
-            
+            //sort by date
+            this.questionnaires.sort(this.sortService.DateSortInver("dateFinish"));
+            this.loadedProms = true;
+          }else{
+            for(var j=0;j<this.questionnaires.length;j++){
+              this.questionnaires[j].size = this.questionnaires[j].info.items.length;
+              this.questionnaires[j].completed = false;
+              this.questionnaires[j].values = [];
+              this.questionnaires[j].percentage = 0;
+            }
+            //this.questionnaires = [];
+            this.loadedProms = true;
           }
-          this.loadedProms = true;
+          
         }, (err) => {
           console.log(err);
           this.loadedProms = true;
@@ -283,56 +353,45 @@ export class PromComponent {
 
   selectQuestionnaire(index){
     this.actualQuestionnaire = this.questionnaires[index]
+    console.log(this.actualQuestionnaire)
+    console.log(index)
+    console.log(this.questionnaires)
     this.loadPromQuestions(this.questionnaires[index].id);
-        this.proms = this.actualQuestionnaire.answers;
-          if(this.pendind && this.actualQuestionnaire.answers.length<this.actualQuestionnaire.info.items.length){
-            this.filterNewProms();
-          }else{
-            this.pendind = false;
-            this.showAll();
-          }
+    this.proms = this.actualQuestionnaire.values;
+    if((this.pendind|| !this.actualQuestionnaire.completed) && this.actualQuestionnaire.percentage<100){
+      this.filterNewProms();
+    }else{
+      this.pendind = false;
+      this.showAll();
+    }
   }
 
-  //  On submit click, reset field value
-  saveProm(){
-    this.sending = true;
-      this.subscription.add( this.http.post(environment.api+'/api/prom/'+this.authService.getCurrentPatient().sub, this.actualProm)
-        .subscribe((res: any) => {
-          this.sending = false;
-          this.newproms[this.step] = res.prom;
-          this.step++;
-          if(this.step+1<=this.newproms.length){
-            this.actualProm = this.newproms[this.step];
-          }
-          this.goNext = false;
-        }, (err) => {
-          console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
-          this.sending = false;
-        }));
-  }
-
-  updateProm(){
-    this.sending = true;
-      this.subscription.add( this.http.put(environment.api+'/api/prom/'+this.actualProm._id, this.actualProm)
-        .subscribe((res: any) => {
-          this.sending = false;
-          this.newproms[this.step] = res.prom;
-          this.step++;
-          if(this.step+1<=this.newproms.length){
-            this.actualProm = this.newproms[this.step];
-          }
-          this.goNext = false;
-        }, (err) => {
-          console.log(err);
-          Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
-          this.sending = false;
-        }));
-  }
 
   saveChanges(){
     this.sending = true;
-      this.subscription.add( this.http.post(environment.api+'/api/proms/'+this.authService.getCurrentPatient().sub, this.newproms)
+    var dateFinish = null;
+    console.log(this.step)
+    console.log(this.newproms)
+   
+    if((this.actualQuestionnaire.size-(this.actualQuestionnaire.size-this.actualQuestionnaire.values.length))==(this.actualQuestionnaire.size)){
+      this.actualQuestionnaire.completed = true;
+      dateFinish = new Date();
+    }
+    for(var i=0;i<this.newproms.length;i++){
+      var foundProm = false;
+      for(var j=0;j<this.actualQuestionnaire.values.length;j++){
+        if(this.newproms[i].idProm==this.actualQuestionnaire.values[j].idProm){
+          this.actualQuestionnaire.values[j].data = this.newproms[i].data;
+          foundProm = true;
+        }
+      }
+      if(!foundProm){
+        this.actualQuestionnaire.values.push(this.newproms[i]);
+      }
+    }
+    console.log(this.actualQuestionnaire)
+    let info = {questionnaireId: this.actualQuestionnaire._id, values: this.actualQuestionnaire.values, dateFinish: dateFinish, idQuestionnaire: this.actualQuestionnaire.id}
+      this.subscription.add( this.http.post(environment.api+'/api/proms/'+this.authService.getCurrentPatient().sub, info)
         .subscribe((res: any) => {
           this.sending = false;
           this.init();
@@ -350,15 +409,11 @@ export class PromComponent {
 
   nextProm(){
     this.goNext = true;
-    if(this.actualProm.data!=null){
-      if(this.actualProm._id){
-        this.updateProm();
-      }else{
-        this.saveProm();
-      }
-      
+    this.step++;
+    if(this.step+1<=this.newproms.length){
+      this.actualProm = this.newproms[this.step];
     }
-    
+    this.goNext = false;
   }
 
   setValue(value){
