@@ -314,41 +314,56 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   search(){
     this.searchopenai = false;
-    console.log(this.query)
     this.callinglangchainraito = true;
-    var query = {"question": this.query, "lang": this.authService.getLang()};
-    this.responseLangchain = '';
-    this.subscription.add(this.openAiService.postOpenAi3(query, this.actualGroup.name)
-      .subscribe((res: any) => {
-        console.log(res)
-        if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
-          this.searchopenai = true;
-          var value = { value: this.query, context: "" };
-          this.subscription.add(this.openAiService.postOpenAi2(value)
-            .subscribe((res: any) => {
-              this.queryCopy = this.query;
-              this.query = '';
-              this.responseLangchain = res.choices[0].message.content;
-              this.callinglangchainraito = false;
-            }, (err) => {
-              this.callinglangchainraito = false;
-              console.log(err);
-              this.toastr.error('', this.translate.instant("generics.error try again"));
-              
-          }));
-        }else{
+    if(this.actualGroup.name == 'Dravet Syndrome European Federation' || this.actualGroup.name == 'Childhood syndrome with epilepsy' || this.actualGroup.name == 'Duchenne Muscular Dystrophy'){
+      var query = {"question": this.query, "lang": this.authService.getLang()};
+      this.responseLangchain = '';
+      this.subscription.add(this.openAiService.postOpenAi3(query, this.actualGroup.name)
+        .subscribe((res: any) => {
+          if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {
+            this.searchopenai = true;
+            var value = { value: this.query, context: "" };
+            this.subscription.add(this.openAiService.postOpenAi2(value)
+              .subscribe((res: any) => {
+                this.queryCopy = this.query;
+                this.query = '';
+                this.responseLangchain = res.choices[0].message.content;
+                this.callinglangchainraito = false;
+              }, (err) => {
+                this.callinglangchainraito = false;
+                console.log(err);
+                this.toastr.error('', this.translate.instant("generics.error try again"));
+                
+            }));
+          }else{
+            this.queryCopy = this.query;
+            this.query = '';
+            this.responseLangchain = res.data;
+            this.callinglangchainraito = false;
+          }
+          
+        }, (err) => {
+          this.callinglangchainraito = false;
+          console.log(err);
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+          
+      }));
+    }else{
+      var value = { value: this.query, context: "" };
+      this.subscription.add(this.openAiService.postOpenAi2(value)
+        .subscribe((res: any) => {
           this.queryCopy = this.query;
           this.query = '';
-          this.responseLangchain = res.data;
+          this.responseLangchain = res.choices[0].message.content;
           this.callinglangchainraito = false;
-        }
-        
-      }, (err) => {
-        this.callinglangchainraito = false;
-        console.log(err);
-        this.toastr.error('', this.translate.instant("generics.error try again"));
-        
-    }));
+        }, (err) => {
+          this.callinglangchainraito = false;
+          console.log(err);
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+          
+      }));
+    }
+    
 
   }
 
@@ -358,7 +373,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log('initenviroment')
     this.initEnvironment();
   }
 
@@ -453,7 +467,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.medications = [];
     this.actualMedications = [];
     this.group = this.authService.getGroup();
-    console.log(this.group)
     this.setActualGroup();
     this.patient = {
     };
@@ -516,8 +529,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setActualGroup(){
-    console.log(this.groups)
-    console.log(this.authService.getGroup())
     for (var i = 0; i < this.groups.length; i++) {
       if(this.authService.getGroup()==this.groups[i]._id){
         this.actualGroup = this.groups[i];
@@ -603,22 +614,40 @@ export class HomeComponent implements OnInit, OnDestroy {
     var info = {rangeDate: '', questionnaires: questionnaires}
     this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
       .subscribe((res: any) => {
-        for(var i=0;i<this.questionnaires.length;i++){
-          this.questionnaires[i].answers = [];
-          for(var j=0;j<res.length;j++){
-            if(this.questionnaires[i].id = res[j].idQuestionnaire){
-              this.questionnaires[i].answers.push(res[j]);
+        if(res.length>0){
+          for(var i=0;i<this.questionnaires.length;i++){
+            this.questionnaires[i].values = [];
+            for(var j=0;j<res.length;j++){
+              if(this.questionnaires[i].id = res[j].idQuestionnaire){
+                this.questionnaires[i].values = res[j].values;
+              }
             }
-          }
-          if(this.questionnaires[i].info.items){
-            if(this.questionnaires[i].info.items.length-(this.questionnaires[i].info.items.length-this.questionnaires[i].answers.length)!=(this.questionnaires[i].info.items.length)){
-              this.totalTaks++;
+            if(this.questionnaires[i].values.length>0){
+              var completed = true;
+              for(var k=0;k<this.questionnaires[i].values.length;k++){
+                if(this.questionnaires[i].values[k].data==null){
+                  completed = false;
+                }
+              }
+              if(!completed){
+                this.totalTaks++;
+              }
             }
+            
           }
-          
+          this.tasksLoaded = true;
+          this.calculateGridSize();
+        }else{
+          for(var j=0;j<this.questionnaires.length;j++){
+            this.questionnaires[j].size = this.questionnaires[j].info.items.length;
+            this.questionnaires[j].completed = false;
+            this.questionnaires[j].values = [];
+            this.totalTaks++;
+          }
+          this.tasksLoaded = true;
+          this.calculateGridSize();
         }
-        this.tasksLoaded = true;
-        this.calculateGridSize();
+        
       }, (err) => {
         console.log(err);
         this.tasksLoaded = true;
@@ -707,7 +736,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   getSavedRecommendations() {
     this.subscription.add( this.http.get(environment.api+'/api/dose/'+ this.authService.getCurrentPatient().sub)
         .subscribe( (resDoses : any) => {
-          console.log(resDoses)
             this.savedRecommendations = resDoses;
             for (let i = 0; i < this.savedRecommendations.length; i++) {
               if(this.savedRecommendations[i].units == 'mg/day'){
@@ -1378,7 +1406,6 @@ getWeek(newdate, dowOffset?) {
   saveRecommendations(drugsToSave){
     this.subscription.add(this.patientService.saveRecommendations(drugsToSave)
     .subscribe((res: any) => {
-      console.log(res);
       this.getSavedRecommendations();
     }, (err) => {
       console.log(err);
@@ -2116,7 +2143,6 @@ onGroupChange() {
   let selectedGroup = this.groups.find(group => group._id === this.basicInfoPatient.group);
   // Si no se encuentra el grupo (lo que no debería ocurrir), no hagas nada.
   if (!selectedGroup) return;
-  console.log(selectedGroup.name)
   
   switch(selectedGroup.name) {
     case 'inmunodeficiency':
@@ -2168,7 +2194,6 @@ async calculateGridSize(){
   await this.delay(200);
   if(document.getElementById('panelNotifications')!=null){
     this.clientHeight = document.getElementById('panelNotifications').clientHeight;
-    console.log(this.clientHeight);
   }
   
 }
