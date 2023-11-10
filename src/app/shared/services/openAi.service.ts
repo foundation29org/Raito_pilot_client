@@ -30,22 +30,17 @@ export class OpenAiService {
 
     postOpenAi3(info, group){
       if(group == 'Dravet Syndrome European Federation' || group =='Childhood syndrome with epilepsy'){
-        return this.http.post('https://af29.azurewebsites.net/api/HttpTrigger1', info)
-        .map((res: any) => {
-          return res;
-        }, (err) => {
-          console.log(err);
-          return err;
-        })
+        info.funct = 'HttpTrigger1';
       }else if(group == 'Duchenne Muscular Dystrophy'){
-        return this.http.post('https://af29.azurewebsites.net/api/duchenne', info)
-        .map((res: any) => {
-          return res;
-        }, (err) => {
-          console.log(err);
-          return err;
-        })
+        info.funct = 'duchenne';
       }
+      return this.http.post(environment.api + '/api/callbook', info)
+      .map((res: any) => {
+        return res;
+      }, (err) => {
+        console.log(err);
+        return err;
+      })
       
     }
 
