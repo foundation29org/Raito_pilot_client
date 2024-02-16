@@ -300,6 +300,7 @@ export class PromComponent {
               }
               
               if(res[i].completed && res[i].dateFinish){
+
                 var actualDate = new Date();
                 var actualDateTime = actualDate.getTime();
                 var pastDate = new Date(res[i].dateFinish);
@@ -315,6 +316,12 @@ export class PromComponent {
                   copy.percentage = 0;
                   copy._id = null;
                   tempNewQuestionnaires.push(copy);
+                }else{
+                  for(var j=0;j<tempNewQuestionnaires.length;j++){
+                    if(tempNewQuestionnaires[j].idQuestionnaire == res[i].idQuestionnaire){
+                      tempNewQuestionnaires.splice(j, 1);
+                    }
+                  }
                 }
               }
             }
