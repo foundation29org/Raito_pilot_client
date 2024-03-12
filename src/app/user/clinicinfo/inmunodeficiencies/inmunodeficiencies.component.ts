@@ -109,6 +109,12 @@ export class InmunodeficienciesComponent implements OnInit, OnDestroy{
 
 removeInfection(index) {
   this.inmunodeficiencies.infections.splice(index, 1);
+  if(this.inmunodeficiencies.infections.length==0){
+    this.inmunodeficiencies.hasInfections = 'no';
+    if(this.modalReference!=undefined){
+      this.modalReference.close();
+    }
+  }
 }
 
 editInfection(index) {

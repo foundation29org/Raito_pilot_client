@@ -329,7 +329,7 @@
                             
                             <div class="col-md-5">
                               <mat-form-field class="mr-sm-24" fxFlex  >
-                                  <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                                  <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
                                                  autocomplete="off" [(ngModel)]="item.date" name="date{{i}}">
                                   <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                                   <mat-datepicker  #pickeri></mat-datepicker>
@@ -370,7 +370,7 @@
                 <label for="start">{{'generics.Start Date' | translate }}</label>
                 <div class="">
                     <mat-form-field class="mr-sm-24" fxFlex  >
-                        <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                        <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
                                        autocomplete="off" [(ngModel)]="inmunodeficiencies.infections[actualIndex].start" ngModel name="start">
                         <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                         <mat-datepicker  #pickeri></mat-datepicker>
@@ -381,7 +381,7 @@
                 <label for="duration">{{'generics.End Date' | translate }}</label>
                 <div class="">
                     <mat-form-field class="mr-sm-24" fxFlex  >
-                        <input matInput class="grey" readonly [matDatepicker]="pickerd"
+                        <input (focus)="pickerd.open()" matInput class="grey" readonly [matDatepicker]="pickerd"
                                        autocomplete="off" [(ngModel)]="inmunodeficiencies.infections[actualIndex].duration" ngModel name="duration">
                         <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
                         <mat-datepicker  #pickerd></mat-datepicker>
@@ -390,7 +390,7 @@
             </div>
             <div class="col-md-3">
                 <div>
-                  <div *ngFor="let treatment of inmunodeficiencies.infections[actualIndex].treatments; let t=index">
+                  <div *ngFor="let treatment of inmunodeficiencies.infections[actualIndex].treatments; let t=index" class="mb-2">
                     <label for="treatment">{{'inmuno.m1.8' | translate }} {{t+1}} <button (click)="removeTreatmentInfection(t)" class="ml-1 btn btn-white btn-sm fa fa-trash"></button></label>
                     <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="inmunodeficiencies.infections[actualIndex].treatments[t].treatment">
                   </div>
@@ -422,7 +422,7 @@
                 <label for="start">{{'generics.Start Date' | translate }}</label>
                 <div class="">
                     <mat-form-field class="mr-sm-24" fxFlex  >
-                        <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                        <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
                                        autocomplete="off" [(ngModel)]="inmunodeficiencies.complications[actualIndex].start" ngModel name="start">
                         <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                         <mat-datepicker  #pickeri></mat-datepicker>
@@ -433,7 +433,7 @@
                 <label for="duration">{{'generics.End Date' | translate }}</label>
                 <div class="">
                     <mat-form-field class="mr-sm-24" fxFlex  >
-                        <input matInput class="grey" readonly [matDatepicker]="pickerd"
+                        <input (focus)="pickerd.open()" matInput class="grey" readonly [matDatepicker]="pickerd"
                                        autocomplete="off" [(ngModel)]="inmunodeficiencies.complications[actualIndex].duration" ngModel name="duration">
                         <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
                         <mat-datepicker  #pickerd></mat-datepicker>
@@ -442,7 +442,7 @@
             </div>
             <div class="col-md-3">
                 <div>
-                  <div *ngFor="let treatment of inmunodeficiencies.complications[actualIndex].treatments; let t=index">
+                  <div *ngFor="let treatment of inmunodeficiencies.complications[actualIndex].treatments; let t=index" class="mb-2">
                     <label for="treatment">{{'inmuno.m1.8' | translate }} {{t+1}} <button (click)="removeTreatmentComplication(t)" class="ml-1 btn btn-white btn-sm fa fa-trash"></button></label>
                     <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="inmunodeficiencies.complications[actualIndex].treatments[t].treatment">
                   </div>
@@ -474,7 +474,7 @@
                 <label for="start">{{'generics.Start Date' | translate }}</label>
                 <div class="">
                     <mat-form-field class="mr-sm-24" fxFlex  >
-                        <input matInput class="grey" readonly [matDatepicker]="pickeri"
+                        <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
                                        autocomplete="off" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].start" ngModel name="start">
                         <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                         <mat-datepicker  #pickeri></mat-datepicker>
