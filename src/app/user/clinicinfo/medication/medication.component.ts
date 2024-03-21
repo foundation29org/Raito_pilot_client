@@ -1290,10 +1290,7 @@ export class MedicationComponent implements OnInit, OnDestroy {
   }
 
   extractDrug(){
-    console.log(this.drugToExtract);
     this.callingOpenai = true;
-    var promDrug = 'Behave like a doctor. Returns only the name of the active ingredient of the following drug: ';
-    var value = { value: promDrug +this.drugToExtract };
     Swal.fire({
       title: this.translate.instant("generics.Please wait"),
       showCancelButton: false,
@@ -1302,21 +1299,22 @@ export class MedicationComponent implements OnInit, OnDestroy {
     }).then((result) => {
 
     });
-    this.subscription.add(this.openAiService.postOpenAi(value)
+    var values = { value: this.drugToExtract, context: ""};
+    this.subscription.add(this.openAiService.postOpenAi(values)
             .subscribe((res: any) => {
               console.log(res)
-              let tempDrug = res.choices[0].text;
+              let tempDrug = res.choices[0].message.content;
 
-              if (res.choices[0].text.indexOf("\n\n") == 0) {
-                tempDrug = res.choices[0].text.split("\n\n");
+              if (res.choices[0].message.content.indexOf("\n\n") == 0) {
+                tempDrug = res.choices[0].message.content.split("\n\n");
                 tempDrug.shift();
                 this.drugSelected = tempDrug[0];
-              }else if (res.choices[0].text.indexOf("\n") == 0){
-                tempDrug = res.choices[0].text.split("\n");
+              }else if (res.choices[0].message.content.indexOf("\n") == 0){
+                tempDrug = res.choices[0].message.content.split("\n");
                 tempDrug.shift();
                 this.drugSelected = tempDrug[0];
               }else{
-                this.drugSelected = res.choices[0].text;
+                this.drugSelected = res.choices[0].message.content;
               }
               this.drugToExtract = this.drugSelected;
               console.log(this.drugToExtract )
