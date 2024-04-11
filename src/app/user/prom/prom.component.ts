@@ -389,7 +389,7 @@ export class PromComponent {
   console.log(`Número de respuestas completadas: ${completedCount+1}`);
   console.log(`Total de ítems esperados: ${this.actualQuestionnaire.size}`);
 console.log(`Total de ítems en 'values': ${this.actualQuestionnaire.values.length}`);
-    if(completedCount >= this.actualQuestionnaire.size){
+    if(completedCount >= this.actualQuestionnaire.size || this.actualQuestionnaire.size == this.actualQuestionnaire.values.length){
       this.actualQuestionnaire.completed = true;
       dateFinish = new Date();
     }
