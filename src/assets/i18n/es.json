@@ -857,7 +857,9 @@
     "twho": "¿Es usted el paciente o un cuidador?",
     "stwho": "Selecciona quién eres a continuación.",
     "caregiver": "Yo soy el cuidador",
-    "patient": "Yo soy el paciente"
+    "patient": "Yo soy el paciente",
+    "The patient belongs to the group": "El paciente pertenece al grupo",
+    "The question is": "La pregunta es"
   },
   "charts":{
     "GroupBy": "Agrupar por",

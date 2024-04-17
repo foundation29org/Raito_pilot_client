@@ -857,7 +857,9 @@
        "twho": "Êtes-vous le patient ou un soignant?",
        "stwho": "Sélectionnez ci-dessous qui vous êtes.",
        "caregiver": "Je suis le soignant",
-       "patient": "Je suis la patiente"
+       "patient": "Je suis la patiente",
+       "The patient belongs to the group": "Le patient appartient au groupe",
+       "The question is": "La question est"
     },
     "charts":{
        "Noseizures":"Il n'y a pas de saisies enregistrées",

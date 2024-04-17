@@ -857,7 +857,9 @@
        "twho": "Você é o paciente ou um cuidador?",
        "stwho": "Selecione quem você é abaixo.",
        "caregiver": "Eu sou o cuidador",
-       "patient": "Eu sou o paciente"
+       "patient": "Eu sou o paciente",
+       "The patient belongs to the group": "O paciente pertence ao grupo",
+       "The question is": "A pergunta é"
     },
     "charts":{
        "Noseizures":"Não há apreensões salvas",

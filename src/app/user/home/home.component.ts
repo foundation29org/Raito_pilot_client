@@ -315,9 +315,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   search(){
     this.searchopenai = false;
     this.callinglangchainraito = true;
-    if(this.actualGroup.name == 'Dravet Syndrome European Federation' || this.actualGroup.name == 'Childhood syndrome with epilepsy' || this.actualGroup.name == 'Duchenne Muscular Dystrophy'){
+    if(this.actualGroup.name == 'Dravet Syndrome European Federation' || this.actualGroup.name == 'Childhood syndrome with epilepsy' || this.actualGroup.name == 'Duchenne Muscular Dystrophy' || this.actualGroup.name == 'inmunodeficiency'){
       var query = {"question": this.query, "lang": this.authService.getLang()};
       this.responseLangchain = '';
+      let groupInfo = this.translate.instant("homeraito.The patient belongs to the group")+' '+this.actualGroup.name;
+      query.question = groupInfo + '. '+this.translate.instant("homeraito.The question is")+': ' + query.question;
       this.subscription.add(this.openAiService.postOpenAi3(query, this.actualGroup.name)
         .subscribe((res: any) => {
           if(res.data.indexOf("I don't know") !=-1 || res.data.indexOf("No sé") !=-1 ) {

@@ -857,7 +857,9 @@
        "twho": "Sind Sie der Patient oder eine Pflegekraft?",
        "stwho": "Wählen Sie unten aus, wer Sie sind.",
        "caregiver": "Ich bin die Pflegekraft",
-       "patient": "Ich bin der Patient"
+       "patient": "Ich bin der Patient",
+       "The patient belongs to the group": "Der Patient gehört zur Gruppe",
+       "The question is": "Die Frage lautet"
     },
     "charts":{
        "Noseizures":"Es gibt keine gespeicherten Anfälle",
