@@ -384,11 +384,11 @@ export class PromComponent {
     let completedCount = this.proms.reduce((acc, item, index) => {
       console.log(`Ítem ${index + 1}: data = ${item.data}`); // Depuración para ver cada valor de 'data'
       return acc + (item.data !== null && item.data !== "" ? 1 : 0);
-  }, 0);
-  
-  console.log(`Número de respuestas completadas: ${completedCount+1}`);
-  console.log(`Total de ítems esperados: ${this.actualQuestionnaire.size}`);
-console.log(`Total de ítems en 'values': ${this.actualQuestionnaire.values.length}`);
+    }, 0);
+    
+    console.log(`Número de respuestas completadas: ${completedCount+1}`);
+    console.log(`Total de ítems esperados: ${this.actualQuestionnaire.size}`);
+    console.log(`Total de ítems en 'values': ${this.actualQuestionnaire.values.length}`);
     if(completedCount >= this.actualQuestionnaire.size || this.actualQuestionnaire.size == this.actualQuestionnaire.values.length){
       this.actualQuestionnaire.completed = true;
       dateFinish = new Date();
