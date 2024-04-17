@@ -33,6 +33,8 @@ export class OpenAiService {
         info.funct = 'HttpTrigger1';
       }else if(group == 'Duchenne Muscular Dystrophy'){
         info.funct = 'duchenne';
+      }else if(group == 'inmunodeficiency'){
+        info.funct = 'raitoInmuno';
       }
       return this.http.post(environment.api + '/api/callbook', info)
       .map((res: any) => {

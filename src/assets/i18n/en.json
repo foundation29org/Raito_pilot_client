@@ -857,7 +857,9 @@
     "twho": "Are you the patient or a caregiver?",
     "stwho": "Select who you are below.",
     "caregiver": "I am the caregiver",
-    "patient": "I am the patient"
+    "patient": "I am the patient",
+    "The patient belongs to the group": "The patient belongs to the group",
+    "The question is": "The question is"
   },
   "charts":{
     "GroupBy": "Group by",
