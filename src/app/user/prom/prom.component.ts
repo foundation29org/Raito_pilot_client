@@ -239,12 +239,13 @@ export class PromComponent {
     
   }
 
-  getProms(){
+  getProms2(){
 
     console.log('obtener proms');
     this.proms = [];
     this.loadedProms = false;
     var questionnaires = [];
+    console.log(this.questionnaires)
     for(var i=0;i<this.questionnaires.length;i++){
       questionnaires.push(this.questionnaires[i].id)
     }
@@ -341,6 +342,7 @@ export class PromComponent {
             //sort by date
             this.questionnaires.sort(this.sortService.DateSortInver("dateFinish"));
             this.loadedProms = true;
+            console.log(this.questionnaires)
           }else{
             for(var j=0;j<this.questionnaires.length;j++){
               this.questionnaires[j].size = this.questionnaires[j].info.items.length;
@@ -357,6 +359,133 @@ export class PromComponent {
           this.loadedProms = true;
         }));
   }
+
+  getProms(){
+    console.log('obtener proms');
+    this.proms = [];
+    this.loadedProms = false;
+    var questionnaires = [];
+    console.log(this.questionnaires);
+    for (var i = 0; i < this.questionnaires.length; i++) {
+        questionnaires.push(this.questionnaires[i].id);
+    }
+    var info = { rangeDate: '', questionnaires: questionnaires };
+    this.subscription.add(this.http.post(environment.api + '/api/prom/dates/' + this.authService.getCurrentPatient().sub, info)
+        .subscribe((res: any) => {
+          if (res.length > 0) {
+            var tempNewQuestionnaires = [];
+            for (var i = 0; i < res.length; i++) {
+                for (var j = 0; j < this.questionnaires.length; j++) {
+                    if (res[i].idQuestionnaire == this.questionnaires[j].id) {
+                        res[i].info = this.questionnaires[j].info;
+                        res[i].title = this.questionnaires[j].title;
+                        res[i].description = this.questionnaires[j].description;
+                        res[i].items = this.questionnaires[j].items;
+                        res[i].periodicity = this.questionnaires[j].periodicity;
+                        res[i].id = this.questionnaires[j].id;
+                        var completed = true;
+                        var points = 0;
+                        let remainingQuestions = 0;
+                        res[i].values = res[i].values || []; // Asegurar que values siempre esté definido
+                        for (var k = 0; k < res[i].values.length; k++) {
+                            if (res[i].values[k].data == null) {
+                                completed = false;
+                                remainingQuestions++;
+                            }
+                            if (this.questionnaires[j].title == 'Cuestionario CVID_QoL') {
+                                if (res[i].values[k].data == 'Raramente') {
+                                    points = points + 1;
+                                } else if (res[i].values[k].data == 'A veces') {
+                                    points = points + 2;
+                                } else if (res[i].values[k].data == 'A menudo') {
+                                    points = points + 3;
+                                } else if (res[i].values[k].data == 'Siempre') {
+                                    points = points + 4;
+                                }
+                            }
+                        }
+                        res[i].points = points;
+    
+                        if (res[i].info.items) {
+                            res[i].size = res[i].info.items.length;
+                            res[i].completed = completed;
+                            res[i].percentage = 0;
+                            if (res[i].size > 0) {
+                                res[i].percentage = Math.round((res[i].size - remainingQuestions) * 100 / res[i].size);
+                            }
+                        }
+                    }
+                }
+    
+                if (res[i].completed && res[i].dateFinish) {
+                    var actualDate = new Date();
+                    var actualDateTime = actualDate.getTime();
+                    var pastDate = new Date(res[i].dateFinish);
+                    pastDate.setDate(pastDate.getDate() + res[i].periodicity);
+                    var pastDateDateTime = pastDate.getTime();
+                    if (actualDateTime > pastDateDateTime) {
+                        // Add an empty copy of the questionnaire
+                        var copy = JSON.parse(JSON.stringify(res[i]));
+                        copy.completed = false;
+                        copy.dateFinish = null;
+                        copy.values = [];
+                        copy.points = 0;
+                        copy.percentage = 0;
+                        copy._id = null;
+                        tempNewQuestionnaires.push(copy);
+                    } else {
+                        for (var j = 0; j < tempNewQuestionnaires.length; j++) {
+                            if (tempNewQuestionnaires[j].idQuestionnaire == res[i].idQuestionnaire) {
+                                tempNewQuestionnaires.splice(j, 1);
+                            }
+                        }
+                    }
+                }
+            }
+            // Add missing questionnaires from the initial list
+            for (var j = 0; j < this.questionnaires.length; j++) {
+                var found = false;
+                for (var i = 0; i < res.length; i++) {
+                    if (this.questionnaires[j].id == res[i].idQuestionnaire) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    this.questionnaires[j].values = []; // Asegurar que values siempre esté definido
+                    res.push(this.questionnaires[j]);
+                }
+            }
+            this.questionnaires = res;
+            for (var i = 0; i < tempNewQuestionnaires.length; i++) {
+                var found = false;
+                for (var j = 0; j < this.questionnaires.length; j++) {
+                    if (tempNewQuestionnaires[i].id == this.questionnaires[j].id && (this.questionnaires[j].dateFinish == null || this.questionnaires[j].dateFinish == undefined || !this.questionnaires[j].completed)) {
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    this.questionnaires.push(tempNewQuestionnaires[i]);
+                }
+            }
+            // Sort by date
+            this.questionnaires.sort(this.sortService.DateSortInver("dateFinish"));
+            this.loadedProms = true;
+            console.log(this.questionnaires);
+        } else {
+            for (var j = 0; j < this.questionnaires.length; j++) {
+                this.questionnaires[j].size = this.questionnaires[j].info.items.length;
+                this.questionnaires[j].completed = false;
+                this.questionnaires[j].values = [];
+                this.questionnaires[j].percentage = 0;
+            }
+            this.loadedProms = true;
+        }
+    }, (err) => {
+        console.log(err);
+        this.loadedProms = true;
+    }));
+}
 
   selectQuestionnaire(index){
     this.actualQuestionnaire = this.questionnaires[index]
