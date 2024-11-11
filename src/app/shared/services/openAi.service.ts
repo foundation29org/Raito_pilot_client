@@ -8,15 +8,6 @@ import 'rxjs/add/operator/toPromise';
 export class OpenAiService {
     constructor(private http: HttpClient) {}
 
-    postOpenAi(info){
-      return this.http.post(environment.api + '/api/callopenai', info)
-      .map((res: any) => {
-        return res;
-      }, (err) => {
-        console.log(err);
-        return err;
-      })
-    }
 
     postOpenAi2(info){
       return this.http.post(environment.api + '/api/callopenai2', info)
