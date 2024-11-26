@@ -53,8 +53,8 @@ export class LoginPageComponent implements OnDestroy, OnInit{
      ngOnInit() {
       this.subscription3 = this.authServiceFirebase.userDataEmit.subscribe(userData => {
         if(!userData.emailVerified){
-          this.authServiceFirebase.SendVerificationMail()
-          //Swal.fire(this.translate.instant("reg.p3"),'', "warning");
+          //this.authServiceFirebase.SendVerificationMail()
+          this.router.navigate(['/verify-email-address']);
         }else{
           if(!this.haveToken){
             this.user = userData;
@@ -95,7 +95,13 @@ export class LoginPageComponent implements OnDestroy, OnInit{
      getToken(){
       this.haveToken = false;
       var password = sha512(this.user.uid);
-      var info = {email:this.user.email,password:password,provider:this.user.provider, userName:this.user.displayName, emailVerified:this.user.emailVerified, lastName:'', lang: this.authService.getLang()};
+      let lang = '';
+      if(sessionStorage.getItem('lang')){
+        lang = sessionStorage.getItem('lang');
+      }else{
+        lang = this.authService.getLang();
+      }
+      var info = {email:this.user.email,password:password,provider:this.user.provider, userName:this.user.displayName, emailVerified:this.user.emailVerified, lastName:'', lang: lang};
       this.subscription2 = this.authService.signinWith(info).subscribe(
         authenticated => {
          //this.loginForm.reset();

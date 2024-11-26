@@ -44,7 +44,8 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
 
     this.subscription3 = this.authServiceFirebase.userDataEmit.subscribe(userData => {
       if(!userData.emailVerified){
-        this.authServiceFirebase.SendVerificationMail()
+        //this.authServiceFirebase.SendVerificationMail()
+        this.router.navigate(['/verify-email-address']);
         Swal.fire(this.translate.instant("reg.p3"),'', "warning");
       }else{
         if(!this.haveToken){

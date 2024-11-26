@@ -203,11 +203,15 @@ export class AppComponent implements OnInit, OnDestroy {
         this.eventsService.on('changelang', function (lang) {
             (async () => {
                 await this.delay(500);
-                var titulo = this.translate.instant(this.tituloEvent);
-                this.titleService.setTitle(titulo);
-                sessionStorage.setItem('lang', lang);
-                this.changeMeta();
+                if(this.tituloEvent){
+                  var titulo = this.translate.instant(this.tituloEvent);
+                  this.titleService.setTitle(titulo);
+                  this.changeMeta();
                 this.loadCultures();
+                }
+                
+                sessionStorage.setItem('lang', lang);
+                
             })();
         }.bind(this));
     }
