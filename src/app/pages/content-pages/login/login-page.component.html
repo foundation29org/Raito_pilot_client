@@ -1,7 +1,7 @@
 <!--Login Page Starts-->
 <section id="login">
   <div class="row auth-height full-height-vh m-0">
-    <div class="col-12 d-flex align-items-center justify-content-center flex-column">
+    <div class="col-12 d-flex align-items-center justify-content-center">
       
       <div class="card">
         <div class="card-content">
@@ -15,8 +15,18 @@
                 <div class="formGroup">
                   <input type="text" class="form-control" placeholder="{{'generics.Email' | translate }}" #userName required>
                 </div>
-                <div class="formGroup mt-2">
-                  <input type="password" class="form-control" placeholder="{{'generics.Password' | translate }}" #userPassword required>
+                <div class="formGroup mt-2 position-relative">
+                  <input [type]="showPassword ? 'text' : 'password'" 
+                         class="form-control" 
+                         placeholder="{{'generics.Password' | translate }}" 
+                         #userPassword 
+                         required>
+                  <span class="password-toggle" 
+                        (click)="showPassword = !showPassword">
+                    <i class="fa" 
+                       [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                       aria-hidden="true"></i>
+                  </span>
                   <div class="danger pointer">
                     <span routerLink="/forgotpassword">{{'menu.Forgot Password' | translate }}</span>
                   </div>
@@ -32,8 +42,8 @@
                   <span>{{'login.Dont have an account?' | translate }}<span class="danger pointer" (click)="onRegister()"> {{'login.Sign Up' | translate }}</span></span>
                 </div>
                 <hr class="mt-0">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="m-0">{{'login.or Log in with' | translate }}</h6>
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="m-0 mb-2">{{'login.or Log in with' | translate }}</h6>
                   <div class="login-options">
                     <button type="button" class="btn btn-sm btn-white mr-1" (click)="authServiceFirebase.GoogleAuth()">
                       <i class="fa-brands fa-google fa-2x"></i>

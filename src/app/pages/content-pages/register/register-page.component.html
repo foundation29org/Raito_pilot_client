@@ -1,7 +1,7 @@
 <!--Login Page Starts-->
 <section id="login">
   <div class="row auth-height full-height-vh m-0">
-    <div class="col-12 d-flex align-items-center justify-content-center flex-column">
+    <div class="col-12 d-flex align-items-center justify-content-center">
       <div class="card">
         <div class="card-content">
           <div class="card-body auth-img">
@@ -14,8 +14,18 @@
                 <div class="formGroup">
                   <input type="email" class="form-control" placeholder="{{'generics.Email' | translate }}" #userEmail required />
                 </div>
-                <div class="formGroup mt-2">
-                  <input type="password" class="form-control" placeholder="{{'generics.Password' | translate }}" #userPwd required />
+                <div class="formGroup mt-2 position-relative">
+                  <input [type]="showPassword ? 'text' : 'password'" 
+                         class="form-control" 
+                         placeholder="{{'generics.Password' | translate }}" 
+                         #userPwd 
+                         required />
+                  <span class="password-toggle" 
+                        (click)="showPassword = !showPassword">
+                    <i class="fa" 
+                       [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                       aria-hidden="true"></i>
+                  </span>
                 </div>
                 <div class="formGroup mt-2">
                   <input type="button" class="btn btn-dark" value="{{'registration.Get Started' | translate }}"
@@ -27,8 +37,8 @@
                     <span class="danger pointer" (click)="goToLogin()">{{'login.Log In' | translate}}</span></span>
                 </div>
                 <hr class="mt-0">
-                <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="m-0">{{'login.Or Continue With' | translate}}</h6>
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="m-0 mb-2">{{'login.Or Continue With' | translate}}</h6>
                   <div class="login-options">
                     <button type="button" class="btn btn-sm btn-white btn-google mr-1"
                       (click)="authServiceFirebase.GoogleAuth()">

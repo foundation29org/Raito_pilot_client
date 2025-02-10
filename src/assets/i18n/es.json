@@ -849,7 +849,7 @@
     "Response": "Respuesta",
     "MsgDisclaimer": "Está a punto de probar GTP3 en modo avanzado, por lo que obtendrá una respuesta automática de esta inteligencia artificial. Escriba su nombre si está de acuerdo y lo ha entendido.",
     "I agree": "Estoy de acuerdo",
-    "Type a question in the text box": "Escriba una pregunta en la caja de texto",
+    "Type a question": "Escriba una pregunta",
     "nothingFound": "No hemos encontrado nada en mis fuentes de información, la siguiente respuesta esta obtenida de una inteligencia artificial generica y puede contener errores:",
     "Any question about your disease?": "¿Alguna pregunta?",
     "Normalized": "Normalizado",

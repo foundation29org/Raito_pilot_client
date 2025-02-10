@@ -230,6 +230,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   showPanelDelete: boolean = false;
   deleting: boolean = false;
+  showPassword = false;
 
   constructor(private modalService: NgbModal, private http: HttpClient, private authService: AuthService, public translate: TranslateService, private dateService: DateService, private patientService: PatientService, private route: ActivatedRoute, private apiDx29ServerService: ApiDx29ServerService, public jsPDFService: jsPDFService, private sortService: SortService, private apif29BioService: Apif29BioService, private clipboard: Clipboard, private adapter: DateAdapter<any>, private searchService: SearchService, private sanitizer:DomSanitizer, public cordovaService: CordovaService, public toastr: ToastrService, private openAiService: OpenAiService, public authServiceFirebase: AuthServiceFirebase) {     
     this.subscription.add(this.route
@@ -1168,6 +1169,15 @@ closeModalQr() {
     this.modalQr.close();
     this.modalQr = undefined;
   }
+}
+
+copyUrl(data){
+  this.generateUrlQr = environment.urlOpenRaito+data;
+  this.clipboard.copy(this.generateUrlQr);
+  Swal.fire({
+    icon: 'success',
+    html: this.translate.instant("generics.Copied to the clipboard"),
+  })
 }
 
 copyClipboard2(){

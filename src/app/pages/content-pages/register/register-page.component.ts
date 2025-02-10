@@ -30,6 +30,7 @@ export class RegisterPageComponent implements OnDestroy, OnInit {
   private subscription2: Subscription = new Subscription();
   private subscription3: Subscription = new Subscription();
   sending: boolean = false;
+  showPassword = false;
   constructor(private router: Router, public translate: TranslateService, private dateAdapter: DateAdapter<Date>, private eventsService: EventsService, public authServiceFirebase: AuthServiceFirebase, public toastr: ToastrService, public authService: AuthService) {
     this.lang = sessionStorage.getItem('lang');
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));

@@ -849,7 +849,7 @@
     "Response": "Response",
     "MsgDisclaimer": "You are about to test GPT3, artificial intelligence system. It will answer your question automatically and there is no guarantee about the quality of the answer. Write your name if you agree and understand.",
     "I agree": "I agree",
-    "Type a question in the text box": "Type a question in the text box",
+    "Type a question": "Type a question",
     "nothingFound": "We have not found anything in my sources of information, the following response is obtained from a generic artificial intelligence and may contain errors:",
     "Any question about your disease?": "Any question about your disease?",
     "Normalized": "Normalized data",

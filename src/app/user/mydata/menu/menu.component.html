@@ -237,7 +237,7 @@
                                     <button class="btn btn-primary" type="button"
                                         (click)="deleteAccount()">{{'generics.Delete data' | translate }}</button>
                                 </div>
-                                <div class="col-12 d-flex align-items-center justify-content-center flex-column" *ngIf="showPanelDelete">
+                                <div class="col-12 d-flex align-items-center justify-content-center" *ngIf="showPanelDelete">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12" *ngIf="!deleting">
@@ -248,16 +248,26 @@
                                                 <div class="formGroup">
                                                     <input type="text" class="form-control" placeholder="{{'generics.Email' | translate }}" #userName required>
                                                 </div>
-                                                <div class="formGroup mt-2">
-                                                    <input type="password" class="form-control" placeholder="{{'generics.Password' | translate }}" #userPassword required>
+                                                <div class="formGroup mt-2 position-relative">
+                                                    <input [type]="showPassword ? 'text' : 'password'" 
+                                                           class="form-control" 
+                                                           placeholder="{{'generics.Password' | translate }}" 
+                                                           #userPassword 
+                                                           required>
+                                                    <span class="password-toggle" 
+                                                          (click)="showPassword = !showPassword">
+                                                        <i class="fa" 
+                                                           [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                                                           aria-hidden="true"></i>
+                                                    </span>
                                                 </div>
                                                 <!-- Calling SignIn Api from AuthService -->
                                                 <div class="formGroup mt-2">
                                                     <input type="button" class="btn btn-dark" value="{{'wizard.btn' | translate}}"
                                                         (click)="authServiceFirebase.SignIn(userName.value, userPassword.value)">
                                                 </div>
-                                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                                    <h6 class="text-primary m-0">{{'login.Or Continue With' | translate }}</h6>
+                                                <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
+                                                    <h6 class="m-0 mb-2">{{'login.Or Continue With' | translate }}</h6>
                                                     <div class="login-options">
                                                         <button type="button" class="btn btn-sm btn-white btn-google mr-1"
                                                             (click)="authServiceFirebase.GoogleAuth()">
@@ -450,15 +460,18 @@
                         <h5 class="mb-0 white mt-2">{{'generics.Date' | translate }}</h5>
                         <span class="grey">{{oneCustomShare.date | date}}</span>
                     </div>
-                    <div class=""  [ngClass]="(widthPanelCustomShare<433)?'col-md-12 mt-2':'col-5 imgqr'">
+                    <!--<div class=""  [ngClass]="(widthPanelCustomShare<433)?'col-md-12 mt-2':'col-5 imgqr'">
                         <qrcode  [ngClass]="(widthPanelCustomShare<433)?'':'sample'" id="qrcodeimg" [qrdata]="urlOpenRaito + oneCustomShare.token" elementType="url" [width]="120" [errorCorrectionLevel]="'M'"></qrcode>
-                    </div>
+                    </div>-->
                     <div class="row bottonsactions"  >
                         <div class="float-right" [ngClass]="(widthPanelCustomShare<300)?'bottonsactionsSm mt-2':'bottonsactionsDefault'">
                             <span class="mr-2">
-                                <button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="showQR(oneCustomShare.token, qrPanel)">
+                                <button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="copyUrl(oneCustomShare.token)">
                                     <i class="fas fa-share"></i>
                                 </button>
+                                <!--<button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="showQR(oneCustomShare.token, qrPanel)">
+                                    <i class="fas fa-share"></i>
+                                </button>-->
                                 </span>
                                 <span class="mr-2">
                                 <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
