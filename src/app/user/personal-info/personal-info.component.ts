@@ -342,11 +342,12 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     switch(selectedGroup.name) {
       case 'inmunodeficiency':
         this.datainfo.modules = ['inmunodeficiency'];
-        Swal.fire('', this.translate.instant("menu.The inmunodeficiency module has been activated"), "success");
+        //Swal.fire('', this.translate.instant("menu.The inmunodeficiency module has been activated"), "success");
         break;
       default:
         this.datainfo.modules = ['seizures'];
-        Swal.fire('', this.translate.instant("menu.The seizure module has been activated"), "success");
+
+        //Swal.fire('', this.translate.instant("menu.The seizure module has been activated"), "success");
         break;
     }
   }
