@@ -4,6 +4,19 @@
   color: #000 !important;
 }
 
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-100%);
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.password-toggle:hover {
+  color: #495057;
+}
+
 @media ( max-width: 380px ){
 
   .centerdiv{
@@ -11,3 +24,4 @@
     float: none !important;
   }
 }
+

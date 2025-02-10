@@ -153,5 +153,8 @@
   "browser": {
     "crypto": false,
     "stream": false
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }

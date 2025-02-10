@@ -19,6 +19,7 @@ export class LoginPageComponent implements OnDestroy, OnInit{
     @ViewChild('f') loginForm: NgForm;
     //loginForm: FormGroup;
     sending: boolean = false;
+    showPassword = false;
 
     isBlockedAccount: boolean = false;
     isLoginFailed: boolean = false;

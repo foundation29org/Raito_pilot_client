@@ -1,3 +1,16 @@
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.password-toggle:hover {
+  color: #495057;
+}
+
 ::ng-deep .chart-legend .legend-label-text {
   margin-top: 0.4em !important;
 }
