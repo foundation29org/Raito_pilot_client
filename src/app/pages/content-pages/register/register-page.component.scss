@@ -2,6 +2,18 @@
   z-index: 0;
 }
 
+.back-to-home {
+  border-bottom: 1px solid #eee;
+}
+
+.back-to-home a {
+  text-decoration: none;
+}
+
+.back-to-home a:hover {
+  background-color: #e9ecef;
+}
+
 .card .card-block {
     padding: 1.5rem 1.5rem 1.5rem;
 }
