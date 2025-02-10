@@ -190,6 +190,14 @@ margin-top: 0.75rem !important;
     }
   }
 
+  @media ( max-width: 300px ){
+
+    .password-toggle:hover {
+      right: -20px;
+    }
+  }
+  
+
   ::ng-deep .imgqr > .sample > .qrcode > img{
     float: right !important;
   }
