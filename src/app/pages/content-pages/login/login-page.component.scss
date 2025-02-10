@@ -4,6 +4,18 @@
   color: #000 !important;
 }
 
+.back-to-home {
+  border-bottom: 1px solid #eee;
+}
+
+.back-to-home a {
+  text-decoration: none;
+}
+
+.back-to-home a:hover {
+  background-color: #e9ecef;
+}
+
 .password-toggle {
   position: absolute;
   right: 10px;
