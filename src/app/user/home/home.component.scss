@@ -119,6 +119,12 @@
   transform: rotate(45deg);
 }
 
+@media ( max-width: 991px ){
+  .box-question:focus {
+    color: #000000;
+  }
+}
+
 @media ( max-width: 350px ){
 
   .optionsCharts > span > button{
