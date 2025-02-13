@@ -365,7 +365,7 @@
     <div *ngIf="actualGroup.name == 'Dravet Syndrome European Federation' || actualGroup.name == 'Childhood syndrome with epilepsy' || actualGroup.name == 'Duchenne Muscular Dystrophy' || actualGroup.name == 'inmunodeficiency'" class="mx-auto card width30rem" [ngClass]="{'mt-4': innerWidth>992}">
         <div class="">
             <div class="col-sm-12 card-header pb-3" [ngClass]="{'panelHearder': innerWidth>992}">
-                <h4 class="text-bold-500 white text-left">{{'homeraito.Question' | translate }}</h4>
+                <h4 class="text-bold-500 letter-chat text-left">{{'homeraito.Question' | translate }}</h4>
                 <div class="row">
                     <div class="col-12 col-lg-10 mb-2">
                         <input type="text" class="form-control box-question" placeholder="{{'homeraito.Type a question' | translate }}" [(ngModel)]="query" (keyup.enter)="search()">
@@ -374,13 +374,13 @@
                         <button class="btn btn-primary w-100" [disabled]="callinglangchainraito" (click)="search()">
                             {{'homeraito.Search' | translate }}
                             <span *ngIf="callinglangchainraito" class="ml-2">
-                                <em class="fa fa-spinner fa-spin fa-fw white"></em>
+                                <em class="fa fa-spinner fa-spin fa-fw letter-chat"></em>
                             </span>
                         </button>
                     </div>
                 </div>
-                <div *ngIf="!callinglangchainraito && responseLangchain!=''" class="white mt-3">
-                    <h4 class="text-bold-500 white text-left">{{queryCopy}}</h4>
+                <div *ngIf="!callinglangchainraito && responseLangchain!=''" class="letter-chat mt-3">
+                    <h4 class="text-bold-500 letter-chat text-left">{{queryCopy}}</h4>
                     <div class="row">
                         <div class="col-12" *ngIf="searchopenai">
                             <p>{{'homeraito.nothingFound' | translate }}</p>

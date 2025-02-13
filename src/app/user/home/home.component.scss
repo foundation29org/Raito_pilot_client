@@ -119,9 +119,16 @@
   transform: rotate(45deg);
 }
 
+.letter-chat{
+  color: #ffffff !important;
+}
+
 @media ( max-width: 991px ){
   .box-question:focus {
     color: #000000;
+  }
+  .letter-chat{
+    color: #000000 !important;
   }
 }
 
