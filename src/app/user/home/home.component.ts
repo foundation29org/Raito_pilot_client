@@ -546,6 +546,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getConsentGroup();
     this.getChecks();
   }
+
+  checkPopups(){
+
+      if (this.basicInfoPatient && this.basicInfoPatient.consentgroup !== 'true' && this.basicInfoPatient.group!=null) {
+        Swal.fire({
+          title: this.translate.instant('alerts.attention'),
+          text: this.translate.instant('alerts.consent_needed_message'),
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonText: this.translate.instant('alerts.go_to_sharing'),
+          cancelButtonText: this.translate.instant('generics.Cancel')
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/mydata'], { queryParams: { panel : 'static-2' } })
+          }
+        });
+      }
+  }
   
   loadNotifications() {
     this.tasksLoaded = false;
@@ -797,6 +815,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           
         }*/
         this.getUserInfo(false);
+        this.checkPopups();
       }, (err) => {
         console.log(err);
         this.loadedInfoPatient = true;

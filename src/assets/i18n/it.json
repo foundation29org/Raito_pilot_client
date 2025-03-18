@@ -1181,5 +1181,18 @@
        "t3.5.2": "Corticosteroide",
        "t3.5.3": "Aggiungi corticosteroide",
        "t3.6": "Modifica trattamento abituale"
+    },
+    "alerts": {
+      "attention": "Attenzione",
+      "select_group_message": "Devi selezionare un gruppo per continuare. Vai al tuo profilo e scegli un gruppo.",
+      "go_to_profile": "Vai al profilo",
+      "consent_needed_message": "Per collaborare alla ricerca sulla tua malattia, devi concedere l'accesso all'organizzazione dei pazienti. Vai a 'Il tuo contenitore di dati' e attiva il consenso clicando su 'Doy accesso' nella sezione condivisione.",
+      "go_to_sharing": "Vai alla condivisione"
+    },
+    "symptoms": {
+      "Add custom symptom": "Aggiungi sintomo personalizzato",
+      "Enter symptom name": "Inserisci il nome del sintomo",
+      "Symptom name required": "Il nome del sintomo è obbligatorio",
+      "Custom symptom": "Sintomo personalizzato"
     }
  }
