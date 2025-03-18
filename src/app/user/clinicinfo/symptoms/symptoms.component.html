@@ -14,19 +14,25 @@
                                 slice:0:140)+'...':(r.desc) }}</span>
                             </ng-template>
                             <div class="mt-2" style="padding-bottom: 1rem !important;">
-                              <span class="d-inline mr-2"><i class="fas fa-search"></i></span>
-                              <input #input type="text"
-                                #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
-                                [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
-                                placeholder="{{'symptomssection.manualinput' | translate }}"
-                                (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
-                                <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
-                                <span *ngIf="nothingFoundSymptoms">
-                                  <span *ngIf="(modelTemp).trim().length>3">
-                                    <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
-                                  </span>
+                              <div class="d-flex align-items-center">
+                                <span class="d-inline mr-2"><i class="fas fa-search"></i></span>
+                                <input #input type="text"
+                                  #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                  [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
+                                  placeholder="{{'symptomssection.manualinput' | translate }}"
+                                  (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
+                                <button type="button" class="btn btn-outline-primary btn-sm ml-2" *ngIf="(modelTemp).trim().length>3" (click)="addCustomSymptom($event)">
+                                  <i class="fa fa-plus"></i>
+                                </button>
+                              </div>
+                              
+                              <em *ngIf="callListOfSymptoms" class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
+                              <span *ngIf="nothingFoundSymptoms">
+                                <span *ngIf="(modelTemp).trim().length>3">
+                                  <span class="d-block">{{'dashboardpatient.Nothing found. Try again.' | translate }}</span>
                                 </span>
-                                <span class="d-block text-muted" style="margin-left: 1.7rem !important;">{{'symptomssection.samplemanualinput' | translate }}</span>
+                              </span>
+                              <span class="d-block text-muted" style="margin-left: 1.7rem !important;">{{'symptomssection.samplemanualinput' | translate }}</span>
                             </div>
                           </div>
                           <div *ngIf="phenotype.data.length>0">

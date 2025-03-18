@@ -1185,5 +1185,18 @@
     "t3.5.2": "Corticosteroid",
     "t3.5.3": "Add corticosteroid",
     "t3.6": "Edit usual treatment"
+  },
+  "alerts": {
+    "attention": "Attention",
+    "select_group_message": "You need to select a group to continue. Please go to your profile and choose a group.",
+    "go_to_profile": "Go to profile",
+    "consent_needed_message": "To collaborate in research about your disease, you need to give access to the patient organization. Please go to 'My Data Container' and enable consent by clicking on 'I give access' in the sharing section.",
+    "go_to_sharing": "Go to data sharing"
+  },
+  "symptoms": {
+    "Add custom symptom": "Add custom symptom",
+    "Enter symptom name": "Enter symptom name",
+    "Symptom name required": "Symptom name is required",
+    "Custom symptom": "Custom symptom"
   }
 }

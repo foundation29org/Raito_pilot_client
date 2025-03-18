@@ -1181,5 +1181,18 @@
       "t3.5.2": "Kortikosteroid",
       "t3.5.3": "Kortikosteroid hinzufügen",
       "t3.6": "Übliche Behandlung bearbeiten"
+    },
+    "alerts": {
+      "attention": "Achtung",
+      "select_group_message": "Sie müssen eine Gruppe auswählen, um fortzufahren. Bitte gehen Sie zu Ihrem Profil und wählen Sie eine Gruppe aus.",
+      "go_to_profile": "Zum Profil gehen",
+      "consent_needed_message": "Um an der Forschung über Ihre Krankheit mitzuwirken, müssen Sie der Patientenorganisation Zugang gewähren. Bitte gehen Sie zu 'Mein Datencontainer' und aktivieren Sie die Einwilligung, indem Sie im Bereich Teilen auf 'Ich gebe Zugang' klicken.",
+      "go_to_sharing": "Zum Freigaben gehen"
+    },
+    "symptoms": {
+      "Add custom symptom": "Benutzerdefiniertes Symptom hinzufügen",
+      "Enter symptom name": "Symptomname eingeben",
+      "Symptom name required": "Symptomname ist erforderlich",
+      "Custom symptom": "Benutzerdefiniertes Symptom"
     }
  }

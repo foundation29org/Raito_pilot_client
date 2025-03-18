@@ -67,7 +67,7 @@ export class SymptomsComponent implements OnInit {
   private subscription: Subscription = new Subscription();
   callListOfSymptoms: boolean = false;
   nothingFoundSymptoms: boolean = false;
-  modelTemp: any;
+  modelTemp: string = '';
   formatter1 = (x: { name: string }) => x.name;
   optionSymptomAdded: string = "";
   eventList: any = [];
@@ -218,11 +218,14 @@ export class SymptomsComponent implements OnInit {
   }
 
   focusOutFunctionSymptom() {
-    if (this.showErrorMsg && this.modelTemp.length > 2) {
+    // Variable para guardar la referencia al valor actual
+    const currentValue = this.modelTemp;
+    
+    if (this.showErrorMsg && currentValue.length > 2) {
       this.sendSympTerms = true;
       var params: any = {}
       params.uuid = sessionStorage.getItem('uuid');
-      params.Term = this.modelTemp;
+      params.Term = currentValue;
       params.Lang = sessionStorage.getItem('lang');
       var d = new Date(Date.now());
       var a = d.toString();
@@ -231,10 +234,70 @@ export class SymptomsComponent implements OnInit {
         .subscribe((res: any) => {
         }, (err) => {
         }));
-
     }
-    this.modelTemp = '';
-    this.callListOfSymptoms = false;
+    
+    // Usar un pequeño retraso para permitir que otros eventos (como click en el botón) se ejecuten primero
+    setTimeout(() => {
+      this.modelTemp = '';
+      this.callListOfSymptoms = false;
+    }, 200);
+  }
+
+  addCustomSymptom(event: MouseEvent) {
+    // Prevenir que se ejecute el evento focusout que limpia el input
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Verificar que hay un texto ingresado y guardarlo
+    const currentSymptomName = this.modelTemp;
+    if (!currentSymptomName || currentSymptomName.trim() === '') {
+      return;
+    }
+    
+    // Evitar que se ejecute focusOutFunctionSymptom
+    setTimeout(() => {
+      Swal.fire({
+        title: this.translate.instant('symptoms.Add custom symptom'),
+        text: this.translate.instant('symptoms.Enter symptom name'),
+        input: 'text',
+        inputValue: currentSymptomName,
+        showCancelButton: true,
+        confirmButtonText: this.translate.instant('generics.Save'),
+        cancelButtonText: this.translate.instant('generics.Cancel'),
+        inputValidator: (value) => {
+          if (!value || value.trim() === '') {
+            return this.translate.instant('symptoms.Symptom name required');
+          }
+          return null;
+        }
+      }).then((result) => {
+        if (result.isConfirmed && result.value) {
+          // Crear un síntoma personalizado con el nombre ingresado
+          const customSymptom = {
+            id: 'CUSTOM_' + new Date().getTime(), // Generar un ID único
+            name: result.value,
+            def: this.translate.instant('symptoms.Custom symptom'),
+            synonyms: [],
+            categories: ['Custom'],
+            inputType: 'manual',
+            isCustom: true // Marcar como personalizado
+          };
+          
+          // Agregar a la lista de síntomas
+          if (!this.phenotype.data) {
+            this.phenotype.data = [];
+          }
+          this.phenotype.data.push(customSymptom);
+          this.phenotypeCopy = JSON.parse(JSON.stringify(this.phenotype));
+          
+          // Guardar los cambios
+          this.saveSymptomsToDb();
+          
+          // Limpiar el campo de búsqueda manualmente después de guardar
+          this.modelTemp = '';
+        }
+      });
+    }, 100);
   }
 
   showMoreInfoSymptomPopup(symptomIndex, contentInfoSymptomNcr) {
