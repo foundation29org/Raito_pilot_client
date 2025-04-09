@@ -548,21 +548,142 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   checkPopups(){
+    console.log(this.basicInfoPatient.group);
+    if (this.basicInfoPatient){
+      //get the group name
+      if(this.basicInfoPatient.group !=null){
+        var groupName = this.groups.find(group => group._id === this.basicInfoPatient.group).name;
+        console.log(groupName);
+        if(groupName == 'None'){
+          //show a swal to select a group, 
+          /* <option [value]="null" disabled selected>--{{'registration.Please select a
+          group' | translate }}--</option>
+          <option *ngFor="let group of groups" [ngValue]="group._id">
+              <span *ngIf="group.name != 'Dravet Syndrome European Federation' && group.name != 'Childhood syndrome with epilepsy' && group.name != 'Undiagnosed' && group.name != 'inmunodeficiency'  && group.name != 'None'">{{group.name}}</span>
+              <span *ngIf="group.name == 'Dravet Syndrome European Federation'">{{'personalinfo.Patients with epilepsy' | translate }}</span>
+              <span *ngIf="group.name == 'Childhood syndrome with epilepsy'">{{'personalinfo.Childhood syndrome with epilepsy' | translate }}</span>
+              <span *ngIf="group.name == 'inmunodeficiency'">{{'personalinfo.inmunodeficiency' | translate }}</span>
+              <span *ngIf="group.name == 'Undiagnosed'">{{'personalinfo.I dont have a diagnosis' | translate }}</span>
+              <span *ngIf="group.name == 'None'">{{'personalinfo.I dont belong to a patient group' | translate }}</span>
+          </option>*/
+          // if confirm ejecute this.setPatientGroup(this.basicInfoPatient.group);
+          if (!localStorage.getItem('hideGroupSelectionPopup')) {
+            Swal.fire({
+              title: this.translate.instant('homeraito.t2'),
+              html: `
+                <select id="groupSelect" class="form-control mb-3">
+                  <option value="" disabled selected>--${this.translate.instant('registration.Please select a group')}--</option>
+                  ${this.groups.map(group => `
+                    <option value="${group._id}">
+                      ${group.name === 'Dravet Syndrome European Federation' ? this.translate.instant('personalinfo.Patients with epilepsy') :
+                      group.name === 'Childhood syndrome with epilepsy' ? this.translate.instant('personalinfo.Childhood syndrome with epilepsy') :
+                      group.name === 'inmunodeficiency' ? this.translate.instant('personalinfo.inmunodeficiency') :
+                      group.name === 'Undiagnosed' ? this.translate.instant('personalinfo.I dont have a diagnosis') :
+                      group.name === 'None' ? this.translate.instant('personalinfo.I dont belong to a patient group') :
+                      group.name}
+                    </option>
+                  `).join('')}
+                </select>
+                <div class="form-check text-left">
+                  <input type="checkbox" id="dontShowAgain" class="form-check-input">
+                  <label class="form-check-label" for="dontShowAgain">
+                    ${this.translate.instant('alerts.dont_show_again')}
+                  </label>
+                </div>
+              `,
+              icon: 'info',
+              showCancelButton: false,
+              confirmButtonText: this.translate.instant('generics.Save'),
+              allowEscapeKey: false,
+              allowOutsideClick: false,
+              preConfirm: () => {
+                const selectElement = document.getElementById('groupSelect') as HTMLSelectElement;
+                const dontShowAgain = (document.getElementById('dontShowAgain') as HTMLInputElement).checked;
+                const selectedGroup = selectElement.value;
+                if (!selectedGroup) {
+                  Swal.showValidationMessage(this.translate.instant('registration.Please select a group'));
+                  return false;
+                }
+                return {
+                  groupId: selectedGroup,
+                  dontShowAgain: dontShowAgain
+                };
+              }
+            }).then((result) => {
+              if (result.isConfirmed && result.value) {
+                // Si marcó la casilla de no mostrar de nuevo
+                if (result.value.dontShowAgain) {
+                  localStorage.setItem('hideGroupSelectionPopup', 'true');
+                }
+                this.setPatientGroup(result.value.groupId);
+              }
+            });
+          }
 
-      if (this.basicInfoPatient && this.basicInfoPatient.consentgroup !== 'true' && this.basicInfoPatient.group!=null) {
+
+        }else if(groupName == 'inmunodeficiency'){
+          if(this.actualGroup.allowShare && this.basicInfoPatient.consentgroup !== 'true' && this.basicInfoPatient.group!=null && this.step == '0'){
+            const hideConsentPopup = localStorage.getItem('hideConsentPopup');
+            if (!hideConsentPopup) {
+              Swal.fire({
+                title: this.translate.instant('alerts.attention'),
+                text: this.translate.instant('homeraito.p1'),
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: this.translate.instant('mydata.I give my consent'),
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                cancelButtonText: this.translate.instant('generics.Cancel'),
+                input: 'checkbox',
+                inputValue: 0,
+                inputPlaceholder: this.translate.instant('alerts.dont_show_again'),
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Si el usuario marcó la casilla de no mostrar de nuevo
+                  if (result.value) {
+                    localStorage.setItem('hideConsentPopup', 'true');
+                  }
+                  this.changeConsentGroup('true');
+                }else{
+                  localStorage.setItem('hideConsentPopup', 'true');
+                }
+              });
+            }
+          }
+        }
+      }
+      
+    }
+    
+      if (this.basicInfoPatient && this.basicInfoPatient.consentgroup !== 'true' && this.basicInfoPatient.group!=null && this.step == '0') {
+        
+      }
+  }
+
+  changeConsentGroup(value){
+    var paramssend = { consentgroup: value };
+    this.subscription.add( this.http.put(environment.api+'/api/patient/consentgroup/'+this.authService.getCurrentPatient().sub, paramssend)
+    .subscribe( (res : any) => {
+      if(res.message == 'qrgenerated'){
+      }else if(res.message == 'consent changed'){
+        this.consentgroup = res.consent;
+        //Mostrar swal diciendo que se están compartiendo datos con la organización de pacientes
         Swal.fire({
-          title: this.translate.instant('alerts.attention'),
-          text: this.translate.instant('alerts.consent_needed_message'),
-          icon: 'info',
-          showCancelButton: true,
-          confirmButtonText: this.translate.instant('alerts.go_to_sharing'),
-          cancelButtonText: this.translate.instant('generics.Cancel')
+          text: this.translate.instant('alerts.consent_granted'),
+          icon: 'success',
+          confirmButtonText: 'Ok',
         }).then((result) => {
           if (result.isConfirmed) {
-            this.router.navigate(['/mydata'], { queryParams: { panel : 'static-2' } })
+           
           }
         });
+        
+
       }
+     }, (err) => {
+       console.log(err.error);
+     }));
   }
   
   loadNotifications() {
@@ -880,6 +1001,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   goStep(index) {
     this.step = index;
     this.updateProgress();
+    this.checkPopups();
   }
 
   loadData() {

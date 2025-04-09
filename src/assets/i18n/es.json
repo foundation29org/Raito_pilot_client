@@ -1187,11 +1187,13 @@
       "t3.6": "Editar tratamiento habitual"
   },
   "alerts": {
-    "attention": "Atención",
+    "attention": "Compartir con tu organización de pacientes",
     "select_group_message": "Necesitas seleccionar un grupo para poder continuar. Por favor, ve a tu perfil y elige un grupo.",
     "go_to_profile": "Ir a mi perfil",
     "consent_needed_message": "Para colaborar en la investigación sobre tu enfermedad, necesitas dar acceso a la organización de pacientes. Por favor, ve a 'Mi Contenedor de Datos' y activa el consentimiento clicando en 'Doy acceso' en la sección de compartir.",
-    "go_to_sharing": "Ir a compartir datos"
+    "go_to_sharing": "Ir a compartir datos",
+    "consent_granted": "Se están compartiendo datos con la organización de pacientes, muchas gracias!",
+    "dont_show_again": "No mostrar este mensaje de nuevo"
   },
   "symptoms": {
     "Add custom symptom": "Añadir síntoma personalizado",

@@ -1183,11 +1183,13 @@
        "t3.6": "Modifier le traitement habituel"
     },
     "alerts": {
-      "attention": "Attention",
+      "attention": "Partager avec votre organisation de patients",
       "select_group_message": "Vous devez sélectionner un groupe pour continuer. Veuillez aller à votre profil et choisir un groupe.",
       "go_to_profile": "Aller au profil",
       "consent_needed_message": "Pour collaborer à la recherche sur votre maladie, vous devez accorder l'accès à l'organisation de patients. Veuillez aller à 'Mon conteneur de données' et activer le consentement dans la section partager.",
-      "go_to_sharing": "Aller à la partage"
+      "go_to_sharing": "Aller à la partage",
+      "consent_granted": "Les données sont partagées avec l'organisation de patients, merci !",
+      "dont_show_again": "Ne pas afficher ce message de nouveau"
     },
     "symptoms": {
       "Add custom symptom": "Ajouter un symptôme personnalisé",
