@@ -1183,11 +1183,13 @@
        "t3.6": "Modifica trattamento abituale"
     },
     "alerts": {
-      "attention": "Attenzione",
+      "attention": "Condividi con la tua organizzazione di pazienti",
       "select_group_message": "Devi selezionare un gruppo per continuare. Vai al tuo profilo e scegli un gruppo.",
       "go_to_profile": "Vai al profilo",
       "consent_needed_message": "Per collaborare alla ricerca sulla tua malattia, devi concedere l'accesso all'organizzazione dei pazienti. Vai a 'Il tuo contenitore di dati' e attiva il consenso clicando su 'Doy accesso' nella sezione condivisione.",
-      "go_to_sharing": "Vai alla condivisione"
+      "go_to_sharing": "Vai alla condivisione",
+      "consent_granted": "I tuoi dati sono condivisi con la tua organizzazione di pazienti, grazie!",
+      "dont_show_again": "Non mostrare questo messaggio di nuovo"
     },
     "symptoms": {
       "Add custom symptom": "Aggiungi sintomo personalizzato",

@@ -1183,11 +1183,13 @@
       "t3.6": "Übliche Behandlung bearbeiten"
     },
     "alerts": {
-      "attention": "Achtung",
+      "attention": "Teilen mit Ihrer Patientenorganisation",
       "select_group_message": "Sie müssen eine Gruppe auswählen, um fortzufahren. Bitte gehen Sie zu Ihrem Profil und wählen Sie eine Gruppe aus.",
       "go_to_profile": "Zum Profil gehen",
       "consent_needed_message": "Um an der Forschung über Ihre Krankheit mitzuwirken, müssen Sie der Patientenorganisation Zugang gewähren. Bitte gehen Sie zu 'Mein Datencontainer' und aktivieren Sie die Einwilligung, indem Sie im Bereich Teilen auf 'Ich gebe Zugang' klicken.",
-      "go_to_sharing": "Zum Freigaben gehen"
+      "go_to_sharing": "Zum Freigaben gehen",
+      "consent_granted": "Daten werden mit der Patientenorganisation geteilt, vielen Dank!",
+      "dont_show_again": "Dieses Nachricht nicht mehr anzeigen"
     },
     "symptoms": {
       "Add custom symptom": "Benutzerdefiniertes Symptom hinzufügen",
