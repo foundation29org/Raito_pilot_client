@@ -93,8 +93,6 @@ export class PromComponent {
 
   filterNewProms(){
     var copyProms = [];
-    console.log(this.newproms)
-    console.log(this.proms)
     for(var i=0;i<this.newproms.length;i++){
       var foundProm = false;
       for(var j=0;j<this.proms.length && !foundProm;j++){
@@ -114,7 +112,6 @@ export class PromComponent {
 
   showAll(){
     this.numSaved = 0;
-    console.log(this.newproms)
     for(var i=0;i<this.newproms.length;i++){
       var foundProm = false;
       for(var j=0;j<this.proms.length && !foundProm;j++){
@@ -131,7 +128,6 @@ export class PromComponent {
             }
           }
           if(this.actualQuestionnaire.info.items[j].type=='radioButtons'){
-            console.log(this.newproms[i].data)
             if(this.newproms[i].data!=null || this.newproms[i].data!=undefined || this.newproms[i].data!=''){
               this.newproms[i].hasAnswer = true;
               this.numSaved++;
@@ -209,8 +205,6 @@ export class PromComponent {
           }
           await Promise.all(promises3)
           .then(async function (data){
-            console.log(data);
-            console.log(this.questionnaires)
             this.getProms();
           }.bind(this))
           
@@ -228,7 +222,6 @@ export class PromComponent {
       this.subscription.add(this.http.get(environment.api + '/api/resources/questionnaire/'+questionnaireId)
       .subscribe((res: any) => {
         this.questionnaires[index].info=res;
-        console.log('otro cuestionario cargado');
         resolve({questionnaireId:questionnaireId, msg:'loaded'}) 
       }, (err) => {
         console.log(err);
@@ -240,12 +233,9 @@ export class PromComponent {
   }
 
   getProms2(){
-
-    console.log('obtener proms');
     this.proms = [];
     this.loadedProms = false;
     var questionnaires = [];
-    console.log(this.questionnaires)
     for(var i=0;i<this.questionnaires.length;i++){
       questionnaires.push(this.questionnaires[i].id)
     }
@@ -342,7 +332,6 @@ export class PromComponent {
             //sort by date
             this.questionnaires.sort(this.sortService.DateSortInver("dateFinish"));
             this.loadedProms = true;
-            console.log(this.questionnaires)
           }else{
             for(var j=0;j<this.questionnaires.length;j++){
               this.questionnaires[j].size = this.questionnaires[j].info.items.length;
@@ -365,7 +354,6 @@ export class PromComponent {
     this.proms = [];
     this.loadedProms = false;
     var questionnaires = [];
-    console.log(this.questionnaires);
     for (var i = 0; i < this.questionnaires.length; i++) {
         questionnaires.push(this.questionnaires[i].id);
     }
@@ -471,7 +459,6 @@ export class PromComponent {
             // Sort by date
             this.questionnaires.sort(this.sortService.DateSortInver("dateFinish"));
             this.loadedProms = true;
-            console.log(this.questionnaires);
         } else {
             for (var j = 0; j < this.questionnaires.length; j++) {
                 this.questionnaires[j].size = this.questionnaires[j].info.items.length;
@@ -489,9 +476,6 @@ export class PromComponent {
 
   selectQuestionnaire(index){
     this.actualQuestionnaire = this.questionnaires[index]
-    console.log(this.actualQuestionnaire)
-    console.log(index)
-    console.log(this.questionnaires)
     this.loadPromQuestions(this.questionnaires[index].id);
     this.proms = this.actualQuestionnaire.values;
     if((this.pendind|| !this.actualQuestionnaire.completed) && this.actualQuestionnaire.percentage<100){
@@ -506,22 +490,22 @@ export class PromComponent {
   saveChanges(){
     this.sending = true;
     var dateFinish = null;
-    console.log(this.step)
-    console.log(this.newproms)
-    console.log(this.actualQuestionnaire.size)
-    console.log(this.actualQuestionnaire.values.length)
-    let completedCount = this.proms.reduce((acc, item, index) => {
-      console.log(`Ítem ${index + 1}: data = ${item.data}`); // Depuración para ver cada valor de 'data'
-      return acc + (item.data !== null && item.data !== "" ? 1 : 0);
-    }, 0);
     
-    console.log(`Número de respuestas completadas: ${completedCount+1}`);
-    console.log(`Total de ítems esperados: ${this.actualQuestionnaire.size}`);
-    console.log(`Total de ítems en 'values': ${this.actualQuestionnaire.values.length}`);
-    if(completedCount >= this.actualQuestionnaire.size || this.actualQuestionnaire.size == this.actualQuestionnaire.values.length){
+    // Verificar si todas las preguntas han sido respondidas
+    let allQuestionsAnswered = true;
+    for(let prom of this.newproms) {
+      if(prom.data === null || prom.data === undefined || prom.data === '') {
+        allQuestionsAnswered = false;
+        break;
+      }
+    }
+
+    if(allQuestionsAnswered) {
       this.actualQuestionnaire.completed = true;
       dateFinish = new Date();
     }
+
+    // Actualizar o agregar las respuestas
     for(var i=0;i<this.newproms.length;i++){
       var foundProm = false;
       for(var j=0;j<this.actualQuestionnaire.values.length;j++){
@@ -534,7 +518,6 @@ export class PromComponent {
         this.actualQuestionnaire.values.push(this.newproms[i]);
       }
     }
-    console.log(this.actualQuestionnaire)
     let info = {questionnaireId: this.actualQuestionnaire._id, values: this.actualQuestionnaire.values, dateFinish: dateFinish, idQuestionnaire: this.actualQuestionnaire.id}
       this.subscription.add( this.http.post(environment.api+'/api/proms/'+this.authService.getCurrentPatient().sub, info)
         .subscribe((res: any) => {
