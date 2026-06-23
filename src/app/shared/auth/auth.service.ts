@@ -6,9 +6,17 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators'
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
-import * as decode from 'jwt-decode';
+import decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
 import { AuthServiceFirebase } from "app/shared/services/auth.service.firebase";
+
+interface JwtPayload {
+  sub: string;
+  exp: number;
+  role: string;
+  subrole?: string;
+  group?: string;
+}
 
 
 @Injectable({ providedIn: 'root' })
@@ -62,7 +70,7 @@ export class AuthService {
         sessionStorage.setItem('culture', 'en-EN');
       }
       this.setAuthenticated(sessionStorage.getItem('token'));
-      const tokenPayload = decode(sessionStorage.getItem('token'));
+      const tokenPayload = decode<JwtPayload>(sessionStorage.getItem('token'));
       this.setIdUser(tokenPayload.sub);
       this.setExpToken(tokenPayload.exp);
       this.setRole(tokenPayload.role);
@@ -101,7 +109,7 @@ export class AuthService {
   setEnvironment(token:string):void{
     this.setAuthenticated(token);
     // decode the token to get its payload
-    const tokenPayload = decode(token);
+    const tokenPayload = decode<JwtPayload>(token);
     this.setIdUser(tokenPayload.sub);
     this.setExpToken(tokenPayload.exp);
     this.setRole(tokenPayload.role);
