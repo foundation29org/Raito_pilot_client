@@ -32,10 +32,11 @@ declare var JSZipUtils: any;
 declare var Docxgen: any;
 
 @Component({
-  selector: 'app-medical-records',
-  templateUrl: './medical-records.component.html',
-  styleUrls: ['./medical-records.component.scss'],
-  providers: [PatientService, ApiDx29ServerService, { provide: LOCALE_ID, useFactory: getCulture }, Apif29BioService]
+    selector: 'app-medical-records',
+    templateUrl: './medical-records.component.html',
+    styleUrls: ['./medical-records.component.scss'],
+    providers: [PatientService, ApiDx29ServerService, { provide: LOCALE_ID, useFactory: getCulture }, Apif29BioService],
+    standalone: false
 })
 export class MedicalRecordsComponent implements OnInit, OnDestroy {
 

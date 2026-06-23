@@ -29,7 +29,8 @@ declare global {
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    providers: [LangService]
+    providers: [LangService],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.loadCultures();
 
           this.isMobile = false;
-          var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+          var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
           console.log('touchDevice', touchDevice)
           if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
             this.isMobile = true;

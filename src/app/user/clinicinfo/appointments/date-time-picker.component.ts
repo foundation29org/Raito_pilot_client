@@ -23,8 +23,8 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'mwl-demo-utils-date-time-picker',
-  template: `
+    selector: 'mwl-demo-utils-date-time-picker',
+    template: `
     <form class="form-inline col-md-6">
       <div class="form-group">
         <div class="input-group">
@@ -51,8 +51,8 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
       [meridian]="true">
     </ngb-timepicker>
   `,
-  styles: [
-    `
+    styles: [
+        `
     .form-group {
       width: 100%;
     }
@@ -61,8 +61,9 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
     }
 
   `
-  ],
-  providers: [DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR]
+    ],
+    providers: [DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR],
+    standalone: false
 })
 export class DateTimePickerComponent implements ControlValueAccessor {
   @Input() placeholder: string;

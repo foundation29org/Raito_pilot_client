@@ -13,10 +13,11 @@ import { MatRadioChange } from '@angular/material/radio';
 
 
 @Component({
-  selector: 'app-inmunodeficiencies',
-  templateUrl: './inmunodeficiencies.component.html',
-  styleUrls: ['./inmunodeficiencies.component.scss'],
-  providers: [PatientService]
+    selector: 'app-inmunodeficiencies',
+    templateUrl: './inmunodeficiencies.component.html',
+    styleUrls: ['./inmunodeficiencies.component.scss'],
+    providers: [PatientService],
+    standalone: false
 })
 
 export class InmunodeficienciesComponent implements OnInit, OnDestroy{

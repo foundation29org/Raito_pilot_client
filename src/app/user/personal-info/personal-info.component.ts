@@ -44,10 +44,11 @@ export class SearchTermService {
 }
 
 @Component({
-  selector: 'app-personal-info',
-  templateUrl: './personal-info.component.html',
-  styleUrls: ['./personal-info.component.scss'],
-  providers: [PatientService, SearchTermService, { provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService]
+    selector: 'app-personal-info',
+    templateUrl: './personal-info.component.html',
+    styleUrls: ['./personal-info.component.scss'],
+    providers: [PatientService, SearchTermService, { provide: LOCALE_ID, useFactory: getCulture }, ApiDx29ServerService],
+    standalone: false
 })
 export class PersonalInfoComponent implements OnInit, OnDestroy {
   lang: string = 'en';

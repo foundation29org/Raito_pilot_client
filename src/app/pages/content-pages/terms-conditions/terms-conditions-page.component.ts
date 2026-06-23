@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-terms-conditions-page',
     templateUrl: './terms-conditions-page.component.html',
-    styleUrls: ['./terms-conditions-page.component.scss']
+    styleUrls: ['./terms-conditions-page.component.scss'],
+    standalone: false
 })
 
 export class TermsConditionsPageComponent implements OnInit{

@@ -33,12 +33,11 @@
         <div class="card">
           <div class="card-body">
             <div class="card-block">
-              <ngb-accordion [closeOthers]="true">
-                <ngb-panel [id]="i" *ngFor="let section of keys ; let i = index">
-                    <ng-template ngbPanelTitle>
+              <div ngbAccordion [closeOthers]="true">
+                <div *ngFor="let section of keys; let i = index" [ngbAccordionItem]="i">
+                    <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
                        <h5><i class="icon-note mr-2"></i> {{'generics.Section' | translate }}: <span> {{section}}</span></h5>
-                      </ng-template>
-                  <ng-template ngbPanelContent>
+                      </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                     <div class="card-block">
                       <div class="col-md-12" *ngFor="let line of keyslevel2[i] ; let j = index">
                         <div class="form-group" *ngIf="line!='listqna'">
@@ -51,10 +50,9 @@
                         </div>
                       </div>
                     </div>
-                  </ng-template>
-                </ngb-panel>
-              </ngb-accordion>
-            </div>
+                  </ng-template></div></div></div>
+                </div>
+              </div>
           </div>
         </div>
       </div>

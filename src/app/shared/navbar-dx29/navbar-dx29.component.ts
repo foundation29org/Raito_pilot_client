@@ -10,10 +10,11 @@ import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Injectable, Injector } from '@angular/core';
 
 @Component({
-  selector: 'app-navbar-dx29',
-  templateUrl: './navbar-dx29.component.html',
-  styleUrls: ['./navbar-dx29.component.scss'],
-  providers: [LangService]
+    selector: 'app-navbar-dx29',
+    templateUrl: './navbar-dx29.component.html',
+    styleUrls: ['./navbar-dx29.component.scss'],
+    providers: [LangService],
+    standalone: false
 })
 
 @Injectable()

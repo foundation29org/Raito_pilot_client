@@ -15,7 +15,8 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
     selector: 'app-medication',
     templateUrl: './medication.component.html',
-    styleUrls: ['./medication.component.scss']
+    styleUrls: ['./medication.component.scss'],
+    standalone: false
 })
 
 export class MedicationComponent implements OnInit, OnDestroy{

@@ -1,12 +1,12 @@
 // Custom Components
 
 // Core variables and mixins
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
 
 // Core variables and mixins overrides
 @import "core/variables/variables";
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/variables";
 
 // Mixins
 @import "core/mixins/buttons";
@@ -30,8 +30,7 @@
 @import "components/demo";
 @import "components/ex-component-avatar";
 
-@import "~perfect-scrollbar/css/perfect-scrollbar.css";
-@import '~@angular/cdk/overlay-prebuilt.css';
+@import '@angular/cdk/overlay-prebuilt.css';
 
 //------------------- below are the files where _palette-variables.scss is included and map-get() is used -------------------
 // Layouts

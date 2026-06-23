@@ -3,14 +3,15 @@ import { fromEvent, Observable } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-option',
-  template: `
+    selector: 'app-option',
+    template: `
     <div class="option">
       <ng-content></ng-content>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./option.component.scss']
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: ['./option.component.scss'],
+    standalone: false
 })
 export class OptionComponent implements OnInit {
   @Input() value: string;

@@ -16,7 +16,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MenuComponent } from './menu/menu.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ComboChartComponent2, ComboSeriesVerticalComponent2 } from './menu/combo-chart';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @NgModule({
     exports: [
@@ -35,7 +35,7 @@ import { QRCodeModule } from 'angularx-qrcode';
         MatNativeDateModule,
         MatCheckboxModule,
         NgxChartsModule,
-        QRCodeModule
+        QRCodeComponent
     ],
     declarations: [
         MenuComponent,

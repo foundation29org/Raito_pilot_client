@@ -107,7 +107,7 @@ form,
       transform: translate(5px);
       transition: all .3s ease;
     }
-    ~.form-control-position{
+    .form-control-position{
       i{
         color: map-get($primary-color, base);
       }
@@ -137,7 +137,7 @@ form,
 
   // validation feedback
   &[class*="is-"] {
-    ~[class*="-feedback"] {
+    [class*="-feedback"] {
       i:before {
         font-size: 0.5rem;
         margin-right: 2px;
@@ -200,7 +200,7 @@ form,
         }
       }
       input:checked {
-        &~label:after {
+        + label:after {
           top: 8px !important;
           left: 8px !important;
         }
@@ -224,7 +224,7 @@ form,
   }
 }
 .custom-checkbox {
-  input.custom-control-input ~ .custom-control-label {
+  input.custom-control-input  .custom-control-label {
     &:before {
       width: 1.1rem;
       height: 1.1rem;
@@ -261,7 +261,7 @@ form,
 
     // Checked Radio
     &:checked{
-      ~label::after {
+      label::after {
         opacity: 1;
         transform : scale(1);
         transition : all .3s cubic-bezier(.35,.9,.4,.9);
@@ -269,14 +269,14 @@ form,
     }
     // Disabled Radio
     &:disabled{
-      &~label {
+      + label {
         color: $gray-500;
       }
-      ~label::before {
+      label::before {
         background-color: $body-bg !important;
         border: 1px solid $input-border-color !important;
       }
-      ~label::after {
+      label::after {
         background-color: map-get($map: $grey-color, $key: lighten-1);
       }
     }
@@ -313,11 +313,11 @@ form,
   // small radio
   &.radio-sm {
     input {
-      &~label::before{
+      + label::before{
         width: 15px;
         height: 15px;
       }
-      &~label::after{
+      + label::after{
         width: 9px;
         height: 9px;
         left: 3px;
@@ -337,7 +337,7 @@ form,
     display: none;
     // checkbox checked
     &:checked {
-      &~label {
+      + label {
         // after
         &:after {
           border-top-style: none;
@@ -356,7 +356,7 @@ form,
     }
     // disabled checkbox
     &:disabled{
-      ~label{
+      label{
         color: $gray-500;
         // before
         &:before {
@@ -365,7 +365,7 @@ form,
         }
       }
       &:checked {
-        ~label {
+        label {
           // after
           &:after {
             border-color: map-get($grey-color, lighten-1);
@@ -408,7 +408,7 @@ form,
   // Small Checkbox
   &.checkbox-sm{
     // checked checkbox
-    input:checked ~ label:after{
+    input:checked  label:after{
       height: 5px;
       width: 8px;
       top: 7px;
@@ -430,10 +430,10 @@ form,
 //----------------------------------
 .custom-switch {
   input[type='checkbox'] {
-    &:focus:not(:checked) ~ .custom-control-label::before {
+    &:focus:not(:checked)  .custom-control-label::before {
       border-color: $gray-500;
     }
-    &~label {
+    + label {
       // Before - Outer bg, border
       &:before {
         top: 0;
@@ -453,7 +453,7 @@ form,
     }
     // checked switch
     &:checked {
-      &~label {
+      + label {
         &:after {
           left: -3.5rem;
           background-color: $white !important;

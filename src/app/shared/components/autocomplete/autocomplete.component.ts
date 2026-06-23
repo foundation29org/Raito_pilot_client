@@ -5,16 +5,17 @@ import { switchMap } from 'rxjs/operators';
 import { merge } from 'rxjs';
 
 @Component({
-  selector: 'app-autocomplete',
-  template: `
+    selector: 'app-autocomplete',
+    template: `
     <ng-template #root>
       <div class="autocomplete search-list" >
         <ng-container *ngTemplateOutlet="content ? content.tpl : null"></ng-container>
       </div>
     </ng-template>
   `,
-  exportAs: 'appAutocomplete',
-  styleUrls: ['./autocomplete.component.css']
+    exportAs: 'appAutocomplete',
+    styleUrls: ['./autocomplete.component.css'],
+    standalone: false
 })
 export class AutocompleteComponent {
   @ViewChild('root') rootTemplate: TemplateRef<any>;

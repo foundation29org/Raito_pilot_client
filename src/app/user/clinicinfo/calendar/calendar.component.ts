@@ -29,10 +29,11 @@ interface MyEvent{
 }
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
-  providers: [PatientService]
+    selector: 'app-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    providers: [PatientService],
+    standalone: false
 })
 
 export class CalendarsComponent implements OnInit, OnDestroy{

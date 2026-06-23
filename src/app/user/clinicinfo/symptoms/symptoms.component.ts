@@ -56,10 +56,11 @@ export class SearchTermService {
 }
 
 @Component({
-  selector: 'app-symptoms',
-  templateUrl: './symptoms.component.html',
-  styleUrls: ['./symptoms.component.scss'],
-  providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }],
+    selector: 'app-symptoms',
+    templateUrl: './symptoms.component.html',
+    styleUrls: ['./symptoms.component.scss'],
+    providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }],
+    standalone: false
 })
 
 

@@ -19,10 +19,11 @@ export function getCulture() {
 }
 
 @Component({
-  selector: 'app-prom',
-  templateUrl: './prom.component.html',
-  styleUrls: ['./prom.component.scss'],
-  providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }]
+    selector: 'app-prom',
+    templateUrl: './prom.component.html',
+    styleUrls: ['./prom.component.scss'],
+    providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }],
+    standalone: false
 })
 export class PromComponent {
   lang: string = 'en';

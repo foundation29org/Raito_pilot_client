@@ -3,9 +3,10 @@ import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-notification-sidebar',
-  templateUrl: './notification-sidebar.component.html',
-  styleUrls: ['./notification-sidebar.component.scss']
+    selector: 'app-notification-sidebar',
+    templateUrl: './notification-sidebar.component.html',
+    styleUrls: ['./notification-sidebar.component.scss'],
+    standalone: false
 })
 export class NotificationSidebarComponent implements OnInit, OnDestroy {
 

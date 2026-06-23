@@ -6,7 +6,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { PerfectScrollbarStubDirective } from './directives/perfect-scrollbar-stub.directive';
 
 import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
 import { PipeModule } from 'app/shared/pipes/pipe.module';
@@ -56,7 +56,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         FormsModule,
         OverlayModule,
         ReactiveFormsModule ,
-        PerfectScrollbarModule,
         AutocompleteModule,
         PipeModule
     ],
@@ -77,6 +76,7 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TopMenuDropdownDirective,
         TopMenuAnchorToggleDirective,
         TopMenuDirective,
+        PerfectScrollbarStubDirective,
     ]
 })
 export class SharedModule { }

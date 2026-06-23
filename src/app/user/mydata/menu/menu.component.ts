@@ -6,7 +6,7 @@ import { HttpClient } from "@angular/common/http";
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { DateService } from 'app/shared/services/date.service';
-import { NgbAccordion } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionDirective } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { PatientService } from 'app/shared/services/patient.service';
@@ -22,7 +22,7 @@ import { Clipboard } from "@angular/cdk/clipboard"
 import { DateAdapter } from '@angular/material/core';
 import { SearchService } from 'app/shared/services/search.service';
 import * as chartsData from 'app/shared/configs/general-charts.config';
-import { ColorHelper } from '@swimlane/ngx-charts';
+import { ColorHelper, ScaleType } from '@swimlane/ngx-charts';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { OpenAiService } from 'app/shared/services/openAi.service';
@@ -32,13 +32,14 @@ declare const gapi: any;
 import { AuthServiceFirebase } from "app/shared/services/auth.service.firebase";
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
-  providers: [PatientService, ApiDx29ServerService, jsPDFService, Apif29BioService, OpenAiService]
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    providers: [PatientService, ApiDx29ServerService, jsPDFService, Apif29BioService, OpenAiService],
+    standalone: false
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  @ViewChild('accordion') accordion: NgbAccordion;
+  @ViewChild('accordion') accordion: NgbAccordionDirective;
   data: any[];
   modalReference: NgbModalRef;
   modalProfileReference: NgbModalRef;
@@ -293,12 +294,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   isOpen(i): boolean {
-    if(this.accordion){
-      return this.accordion && this.accordion.activeIds.includes(i.toFixed());
-    }else{
-      return false;
+    if (this.accordion) {
+      return this.accordion.isExpanded(i.toFixed());
     }
- }
+    return false;
+  }
  
  showHelpFHIRPopup(contentInfoFHIR) {
   let ngbModalOptions: NgbModalOptions = {
@@ -363,8 +363,8 @@ loadPatientId(){
         this.hasGroup = true;
         this.getConsentGroup();
         this.loadGroups();
-        if(this.accordion){
-          this.accordion.activeIds=this.activeIds;
+        if (this.accordion && this.activeIds?.length) {
+          this.activeIds.forEach((id) => this.accordion.expand(String(id)));
         }
       }
     }
@@ -476,7 +476,7 @@ showPanelIssuerOrganization(info){
       clearInterval(this.checkStatusOrg);
     }));
 
-    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
     console.log('touchDevice', touchDevice)
 
     if(touchDevice>1 && /Android/i.test(navigator.userAgent) ) {
@@ -1041,7 +1041,7 @@ showPanelIssuer(info){
       clearInterval(this.checkStatus);
     }));
 
-    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
     console.log('touchDevice', touchDevice)
 
     if(touchDevice>1 && /Android/i.test(navigator.userAgent) ) {
@@ -2330,14 +2330,14 @@ continueGetDrugs(res){
   this.chartNames = [...new Set(chartNames)];
   //this.chartNames = this.lineChartDrugs.map((d: any) => d.name);
   // Convert hex colors to ColorHelper for consumption by legend
-  this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
-  this.colors2 = new ColorHelper(this.lineChartOneColorScheme2, 'ordinal', this.chartNames, this.lineChartOneColorScheme2);
+  this.colors = new ColorHelper(this.lineChartColorScheme as any, ScaleType.Ordinal, this.chartNames, this.lineChartColorScheme);
+  this.colors2 = new ColorHelper(this.lineChartOneColorScheme2 as any, ScaleType.Ordinal, this.chartNames, this.lineChartOneColorScheme2);
     
   //newColor
   var tempColors = JSON.parse(JSON.stringify(this.lineChartColorScheme))
   var tempColors2 = JSON.parse(JSON.stringify(this.lineChartOneColorScheme2))
   tempColors.domain[this.chartNames.length]=tempColors2.domain[0];
-  this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
+  this.colorsLineToll = new ColorHelper(tempColors as any, ScaleType.Ordinal, this.chartNames, tempColors);
   this.normalizedChanged(this.normalized);
   if(this.events.length>0){
     this.getDataNormalizedDrugsVsSeizures();

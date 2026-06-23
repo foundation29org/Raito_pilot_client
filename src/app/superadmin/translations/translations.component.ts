@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs/Subscription';
     templateUrl: './translations.component.html',
     styleUrls: ['./translations.component.scss'],
     providers: [LangService],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 
 export class TranslationsComponent implements OnDestroy{

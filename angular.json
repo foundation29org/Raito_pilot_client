@@ -46,7 +46,6 @@
             ],
             "styles": [
               "node_modules/sweetalert2/dist/sweetalert2.min.css",
-              "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/demo.css",
@@ -136,18 +135,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "matngular:build"
+            "buildTarget": "matngular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "matngular:build:production"
+              "buildTarget": "matngular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "matngular:build"
+            "buildTarget": "matngular:build"
           }
         }
       }

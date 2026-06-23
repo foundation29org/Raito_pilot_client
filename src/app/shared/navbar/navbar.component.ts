@@ -18,10 +18,11 @@ declare global {
 }
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"],
-  providers: [PatientService]
+    selector: "app-navbar",
+    templateUrl: "./navbar.component.html",
+    styleUrls: ["./navbar.component.scss"],
+    providers: [PatientService],
+    standalone: false
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   placement = "bottom-right";
@@ -71,7 +72,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       );
 
       this.isAndroid = false;
-      var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+      var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
       console.log('touchDevice', touchDevice)
       if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
         this.isAndroid = true;

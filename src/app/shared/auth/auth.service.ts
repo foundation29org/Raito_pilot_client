@@ -39,7 +39,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, public authServiceFirebase: AuthServiceFirebase) {
     this.isMobile = false;
-    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
     console.log('touchDevice', touchDevice)
     if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
       this.isMobile = true;

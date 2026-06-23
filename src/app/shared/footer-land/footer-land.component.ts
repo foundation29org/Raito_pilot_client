@@ -12,7 +12,8 @@ declare let gtag: any;
 @Component({
     selector: 'app-footer-land',
     templateUrl: './footer-land.component.html',
-    styleUrls: ['./footer-land.component.scss']
+    styleUrls: ['./footer-land.component.scss'],
+    standalone: false
 })
 
 export class FooterLandComponent implements OnDestroy{

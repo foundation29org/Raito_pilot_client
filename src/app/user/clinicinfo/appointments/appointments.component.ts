@@ -32,11 +32,12 @@ const colors: any = {
 };
 
 @Component({
-  selector: 'app-appointments',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './appointments.component.html',
-  styleUrls: ['./appointments.component.scss'],
-  providers: [PatientService]
+    selector: 'app-appointments',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './appointments.component.html',
+    styleUrls: ['./appointments.component.scss'],
+    providers: [PatientService],
+    standalone: false
 })
 
 export class AppointmentsComponent implements OnInit, OnDestroy{

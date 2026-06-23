@@ -1,9 +1,9 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
 
 // Load variable overrides
 @import "../core/variables/variables";
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/variables";
 
 // Overrides user variable
 @import "../core/variables/app-variables";
@@ -1072,7 +1072,7 @@ form {
 // Radio
 .radio input[type="radio"] {
   &:disabled {
-    &~label {
+    + label {
       @include transparent-style() {
         color: $tl-disabled-color;
       }
@@ -1096,13 +1096,13 @@ form {
 
 // Checkbox
 .checkbox label:before,
-.checkbox input[type='checkbox']:not(:checked)~label:after {
+.checkbox input[type='checkbox']:not(:checked)label:after {
   @include dark-style() {
     border-color: $dl-border-color;
   }
 }
 
-.checkbox input[type='checkbox']:disabled~label {
+.checkbox input[type='checkbox']:disabledlabel {
   @include transparent-style() {
     color: $tl-disabled-color;
   }
@@ -1127,7 +1127,7 @@ form {
 .custom-checkbox,
 .custom-switch {
   .custom-control-input:disabled:not(:checked) {
-    ~.custom-control-label:before {
+    .custom-control-label:before {
       @include transparent-style() {
         background-color: $tl-card-bg-color;
       }
@@ -1141,7 +1141,7 @@ form {
 
 // Custom disabled input
 .custom-control-input {
-  &:disabled~.custom-control-label {
+  &:disabled.custom-control-label {
     @include transparent-style() {
       color: $tl-disabled-color;
     }
@@ -1393,7 +1393,7 @@ form {
         }
       }
 
-      ~li {
+      li {
 
         &:before,
         &:after {
@@ -1478,7 +1478,7 @@ form {
   }
 
   .checkbox label:before,
-  .checkbox input[type='checkbox']:not(:checked)~label:after {
+  .checkbox input[type='checkbox']:not(:checked)label:after {
     @include transparent-style() {
       border-color: $dl-border-color;
     }
@@ -1496,7 +1496,7 @@ form {
   }
 
   .checkbox label:before,
-  .checkbox input[type='checkbox']:not(:checked)~label:after {
+  .checkbox input[type='checkbox']:not(:checked)label:after {
     @include transparent-style() {
       border-color: $dl-border-color;
     }

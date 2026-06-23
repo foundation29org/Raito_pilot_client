@@ -5,7 +5,8 @@ import { Router } from "@angular/router";
 @Component({
     selector: 'app-privacy-policy',
     templateUrl: './privacy-policy.component.html',
-    styleUrls: ['./privacy-policy.component.scss']
+    styleUrls: ['./privacy-policy.component.scss'],
+    standalone: false
 })
 
 export class PrivacyPolicyPageComponent {

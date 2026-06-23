@@ -20,10 +20,11 @@ export function getCulture() {
 }
 
 @Component({
-  selector: 'app-feel',
-  templateUrl: './feel.component.html',
-  styleUrls: ['./feel.component.scss'],
-  providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }]
+    selector: 'app-feel',
+    templateUrl: './feel.component.html',
+    styleUrls: ['./feel.component.scss'],
+    providers: [PatientService, { provide: LOCALE_ID, useFactory: getCulture }],
+    standalone: false
 })
 export class FeelComponent implements OnInit {
   lang: string = 'en';

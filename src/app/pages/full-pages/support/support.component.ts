@@ -9,9 +9,10 @@ import { environment } from 'environments/environment';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-  selector: 'app-support',
-  templateUrl: './support.component.html',
-  styleUrls: ['./support.component.scss']
+    selector: 'app-support',
+    templateUrl: './support.component.html',
+    styleUrls: ['./support.component.scss'],
+    standalone: false
 })
 export class SupportComponent implements OnDestroy{
   @ViewChild('f') supportForm: NgForm;

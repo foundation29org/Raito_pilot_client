@@ -12,9 +12,10 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
 
 @Component({
-  selector: "app-sidebar",
-  templateUrl: "./vertical-menu.component.html",
-  animations: customAnimations
+    selector: "app-sidebar",
+    templateUrl: "./vertical-menu.component.html",
+    animations: customAnimations,
+    standalone: false
 })
 export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 

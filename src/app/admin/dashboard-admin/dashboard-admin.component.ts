@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs/Subscription';
     selector: 'app-dashboard-admin',
     templateUrl: './dashboard-admin.component.html',
     styleUrls: ['./dashboard-admin.component.scss'],
-    providers: [LangService]
+    providers: [LangService],
+    standalone: false
 })
 
 export class DashboardAdminComponent implements OnDestroy{
@@ -85,7 +86,7 @@ export class DashboardAdminComponent implements OnDestroy{
         if(res.message=="request for new language sent"){
           Swal.fire(this.translate.instant("lang.Request for new language sent"), this.translate.instant("generics.We will reply as soon as possible"), "success");
 
-        }else if("already exists"){
+        }else if(res.message=="already exists"){
           Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("lang.The language already exists"), "error");
         }
 

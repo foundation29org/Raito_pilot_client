@@ -20,10 +20,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { CordovaService } from 'app/shared/services/cordova.service';
 
 @Component({
-  selector: 'app-medication',
-  templateUrl: './medication.component.html',
-  styleUrls: ['./medication.component.scss'],
-  providers: [PatientService, OpenAiService]
+    selector: 'app-medication',
+    templateUrl: './medication.component.html',
+    styleUrls: ['./medication.component.scss'],
+    providers: [PatientService, OpenAiService],
+    standalone: false
 })
 
 export class MedicationComponent implements OnInit, OnDestroy {
