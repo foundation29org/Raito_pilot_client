@@ -1110,24 +1110,6 @@
        "Accept or reject from mobile":"Vom Handy annehmen oder ablehnen",
        "Access to":"Zugriff auf"
     },
-    "identity":{
-       "t0":"Verifizieren",
-       "t0.1":"Status überprüfen",
-       "t1":"Überprüfung Ihrer Identität",
-       "t2":"Wir müssen Ihre Identität überprüfen, um Betrug zu verhindern.",
-       "t3":"Ihre Identität wurde erfolgreich verifiziert",
-       "t4":"Vielen Dank!",
-       "t5":"Beim Verifizierungsprozess ist ein Fehler aufgetreten.",
-       "t6":"Bitte versuche es erneut",
-       "t7":"Ihre Verifizierungsdaten wurden erfolgreich übermittelt. Die Ergebnisse erhalten Sie in Kürze.",
-       "t8":"Bitte warten Sie, dieser Vorgang dauert in der Regel 1-2 Minuten. Wenn Sie nach 2 Minuten keine Änderungen sehen, klicken Sie auf „Status prüfen“.",
-       "t9":"Falls Sie das Veriff-Fenster versehentlich geschlossen haben, bitte",
-       "t10":"um den Überprüfungsprozess fortzusetzen.",
-       "t11":"Ihre Verifizierung konnte nicht akzeptiert werden, Sie wurden abgelehnt.",
-       "t12":"Grund",
-       "t13":"Wenn Sie denken, dass dies ein Fehler ist, schreiben Sie bitte an support@foundation29.org",
-       "click here":"Klick hier"
-    },
     "appointments": {
       "Next medical appointments":"Nächste arzttermine",
       "Add appointment": "Termin hinzufügen",

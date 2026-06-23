@@ -1114,24 +1114,6 @@
     "Accept or reject from mobile": "Accept or reject from mobile",
     "Access to": "Access to"
   },
-  "identity":{
-    "t0": "Verify",
-    "t0.1": "Check status",
-    "t1": "Verification of your identity",
-    "t2": "We need to verify your identity to prevent fraud.",
-    "t3": "Your identity has been successfully verified",
-    "t4": "Thank you!",
-    "t5": "There was an error in the verification process.",
-    "t6": "Please try again",
-    "t7": "Your verification data has been successfully submitted. You'll get the results shortly.",
-    "t8": "Please wait, this process usually takes 1-2 minutes. If after 2 minutes you haven't seen any changes, click on 'Check Status'.",
-    "t9": "If you have closed the Veriff window by mistake, please",
-    "t10": "to continue the verification process.",
-    "t11": "Your verification could not be accepted, you have been rejected.",
-    "t12": "Reason",
-    "t13": "If you think this is an error, please write to support@foundation29.org",
-    "click here": "click here"
-  },
   "appointments": {
     "Next medical appointments":"Next medical appointments",
     "Add appointment": "Add appointment",
