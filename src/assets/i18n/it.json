@@ -1110,24 +1110,6 @@
        "Accept or reject from mobile":"Accetta o rifiuta dal cellulare",
        "Access to":"Accesso a"
     },
-    "identity":{
-       "t0":"Verificare",
-       "t0.1":"Controllare lo stato",
-       "t1":"Verifica della tua identità",
-       "t2":"Abbiamo bisogno di verificare la tua identità per prevenire le frodi.",
-       "t3":"La tua identità è stata verificata con successo",
-       "t4":"Grazie!",
-       "t5":"Si è verificato un errore nel processo di verifica.",
-       "t6":"Per favore riprova",
-       "t7":"I tuoi dati di verifica sono stati inviati con successo. Riceverai i risultati a breve.",
-       "t8":"Si prega di attendere, questo processo richiede solitamente 1-2 minuti. Se dopo 2 minuti non hai visto alcuna modifica, fai clic su 'Verifica stato'.",
-       "t9":"Se hai chiuso la finestra di Verif per errore, per favore",
-       "t10":"per continuare il processo di verifica.",
-       "t11":"La tua verifica non può essere accettata, sei stato rifiutato.",
-       "t12":"Motivo",
-       "t13":"Se ritieni che si tratti di un errore, scrivi a support@foundation29.org",
-       "click here":"clicca qui"
-    },
     "appointments": {
       "Next medical appointments":"Prossimi appuntamenti medici",
       "Add appointment": "Aggiungi appuntamento",

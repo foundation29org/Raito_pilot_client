@@ -101,7 +101,6 @@
                     <h4 class="text-bold-500" [ngClass]="{'white mb-0': innerWidth>992}">{{'topnavbar.Notifications' | translate }}</h4>
                 </div>
                 <div class="card-block">
-                    <div *ngIf="!infoVerified.isVerified && loadVerifiedInfo" id='veriff-root'></div>
                     <div class="pl-2 pr-2 pb-2" [ngClass]="{'pt-3': innerWidth>992}" style="line-height: 1.2em;">
                         <!--One notification-->
                         <div class="row font-small-3 mb-1" *ngIf="!checks.check1">
@@ -130,50 +129,6 @@
                                 <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="setCheck2(true)">
                                     <span class="">
                                         Ok
-                                    </span>
-                                  </a>
-                            </div>
-                        </div>
-                        <div class="row font-small-3 mb-1" *ngIf="!infoVerified.isVerified && infoVerified.status=='Not started'">
-                            <div class="col-1 pr-0">
-                                <em class="fas fa-info-circle"></em>
-                            </div>
-                            <div class="col-7 pl-2 pr-0">
-                                <p class="">{{'identity.t2' | translate }}</p>
-                            </div>
-                            <div class="col-4">
-                                <a class="btn btn-white btn-sm w-100" style="word-wrap: normal;" (click)="getUserInfo(true)">
-                                    <span class="">
-                                        {{'identity.t0' | translate }}
-                                    </span>
-                                  </a>
-                            </div>
-                        </div>
-                        <div class="row font-small-3 mb-1" *ngIf="!infoVerified.isVerified && infoVerified.status!='Not started'">
-                            <div class="col-1 pr-0">
-                                <em class="fas fa-info-circle"></em>
-                            </div>
-                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted' || infoVerified.status =='started'">
-                                <p>{{'identity.t7' | translate }}</p>
-                                <p>{{'identity.t8' | translate }}</p>
-                                <p>{{'identity.t9' | translate }} <a class="primary" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>
-                            </div>
-                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='resubmission_requested'">
-                                <p>{{'identity.t5' | translate }}</p>
-                                <p>{{'identity.t9' | translate }} <a class="primary" (click)="getUserInfo(true)">{{'identity.click here' | translate }}</a> {{'identity.t10' | translate }}</p>
-                            </div>
-                            <div class="col-7 pl-2 pr-0" *ngIf="infoVerified.status =='declined'">
-                                <p>{{'identity.t11' | translate }}</p>
-                                <p>{{'identity.t12' | translate }}: {{infoVerified.info.value}}</p>
-                                <p>{{'identity.t13' | translate }}</p>
-                            </div>
-                            <div class="col-4">
-                                <a class="btn btn-white btn-sm w-100" [disabled]="checking" style="word-wrap: normal;" (click)="getUserInfo(true)" *ngIf="infoVerified.status =='created' || infoVerified.status =='submitted'">
-                                    <span class="">
-                                        {{'identity.t0.1' | translate }}
-                                    </span>
-                                    <span *ngIf="checking" class="ml-1">
-                                        <i class="fa fa-spinner pink fa-spin fa-fw"></i>
                                     </span>
                                   </a>
                             </div>
@@ -306,7 +261,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="row font-small-3 mb-1" *ngIf="totalTaks==0 && tasksLoaded && (!showSeizuresModules || (events.length > 0 && !showNotiSeizu)) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && infoVerified.isVerified && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
+                            <div class="row font-small-3 mb-1" *ngIf="totalTaks==0 && tasksLoaded && (!showSeizuresModules || (events.length > 0 && !showNotiSeizu)) && (medications.length > 0 && !showNotiDrugs) && (feels.length > 0 && !showNotiFeel) && nextEvents.length==0 && ((actualGroup.allowShare && basicInfoPatient.consentgroup=='true') || (!actualGroup.allowShare && checks.check3))">
                                 <div class="col-12 center-elements">
                                     <p class="mb-0">{{'topnavbar.There are no notifications to show' | translate }}</p>
                                 </div>

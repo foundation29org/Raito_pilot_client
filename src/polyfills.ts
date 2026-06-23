@@ -25,8 +25,6 @@ import '@angular/localize/init';
 
 /** Evergreen browsers require these. **/
 import 'core-js/es/reflect';
-import 'core-js/es/reflect';  // Run `npm install --save web-animations-js`.
-
 
 
 /***************************************************************************************************
@@ -54,8 +52,5 @@ import 'core-js/es/array';
 // import 'intl/locale-data/jsonp/en';
 (window as any).global = window;
 
-import 'zone.js';  // Included with Angular CLI.
-
-(window as any).global = window;
 global.Buffer = global.Buffer || require('buffer').Buffer;
 global.process = global.process || require('process');
