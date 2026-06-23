@@ -19,14 +19,8 @@ import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { StoreModule } from "@ngrx/store";
-import { DragulaService } from "ng2-dragula";
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from 'environments/environment';
 
 import {
@@ -37,7 +31,6 @@ import {
 
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
-import * as fromApp from './store/app.reducer';
 import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
@@ -79,13 +72,11 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot(fromApp.appReducer),
     AppRoutingModule,
     SharedModule,
     HttpClientModule,
     ToastrModule.forRoot(),
     NgbModule,
-    NgxSpinnerModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -97,9 +88,6 @@ export function createTranslateLoader(http: HttpClient) {
     QRCodeModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
   ],
   providers: [
     AuthService,
@@ -111,12 +99,10 @@ export function createTranslateLoader(http: HttpClient) {
       useClass: AuthInterceptor,
       multi   : true
     },
-    DragulaService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     },
-    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     WINDOW_PROVIDERS,
     { provide: LOCALE_ID, useValue: 'es-ES' },
     SortService,

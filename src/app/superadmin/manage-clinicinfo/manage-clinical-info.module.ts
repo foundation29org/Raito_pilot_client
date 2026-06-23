@@ -7,7 +7,6 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { MedicationComponent } from './medication/medication.component';
 
-import { CustomFormsModule } from 'ngx-custom-validators';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -25,7 +24,6 @@ import { MatNativeDateModule } from '@angular/material/core';
         ManageClinicalInfoRoutingModule,
         FormsModule,
         TranslateModule,
-        CustomFormsModule,
         NgbModule,
         MatSelectModule,
         MatInputModule,

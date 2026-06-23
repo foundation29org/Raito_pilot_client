@@ -7,7 +7,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
-import { ClickOutsideModule } from 'ng-click-outside';
 
 import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
 import { PipeModule } from 'app/shared/pipes/pipe.module';
@@ -23,7 +22,6 @@ import { CustomizerComponent } from './customizer/customizer.component';
 import { NotificationSidebarComponent } from './notification-sidebar/notification-sidebar.component';
 
 //DIRECTIVES
-import { ToggleFullscreenDirective } from "./directives/toggle-fullscreen.directive";
 import { SidebarLinkDirective } from './directives/sidebar-link.directive';
 import { SidebarDropdownDirective } from './directives/sidebar-dropdown.directive';
 import { SidebarAnchorToggleDirective } from './directives/sidebar-anchor-toggle.directive';
@@ -45,7 +43,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         HorizontalMenuComponent,
         CustomizerComponent,
         NotificationSidebarComponent,
-        ToggleFullscreenDirective,
         SidebarDirective,
         TopMenuDirective,
         NgbModule,
@@ -60,7 +57,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         OverlayModule,
         ReactiveFormsModule ,
         PerfectScrollbarModule,
-        ClickOutsideModule,
         AutocompleteModule,
         PipeModule
     ],
@@ -73,7 +69,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         HorizontalMenuComponent,
         CustomizerComponent,
         NotificationSidebarComponent,
-        ToggleFullscreenDirective,
         SidebarLinkDirective,
         SidebarDropdownDirective,
         SidebarAnchorToggleDirective,
