@@ -49,9 +49,9 @@
               "node_modules/angular-calendar/scss/angular-calendar.scss",
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/demo.css",
+              "src/assets/sass/material/theme.scss",
               "src/assets/sass/core.scss",
-              "src/styles.css",
-              "src/assets/css/custom.css"
+              "src/styles.css"
             ],
             "scripts": [
               "src/assets/vendor/pace/pace.min.js",

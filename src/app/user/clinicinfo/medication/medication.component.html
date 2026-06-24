@@ -541,11 +541,13 @@
 							<div class="form-group">
 								<label for="startDate">* {{'medication.Date of dose change' | translate }}</label>
 								<div>
-									{{medication.startDate | date: timeformat}}
-									<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
-										[matDatepicker]="picker3" [min]="minDateChangeDose" [max]="today"
-										[(ngModel)]="medication.startDate" required startDate #startDate="ngModel">
-									<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									<span class="date-inline-picker">
+										<span class="date-inline-picker__value" (click)="picker3.open()">{{medication.startDate | date: timeformat}}</span>
+										<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
+											[matDatepicker]="picker3" [min]="minDateChangeDose" [max]="today"
+											[(ngModel)]="medication.startDate" required startDate #startDate="ngModel">
+										<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									</span>
 									<mat-datepicker touchUi="true" #picker3></mat-datepicker>
 									<small class="form-text text-muted danger"
 										*ngIf="!startDate.valid && (startDate.dirty || startDate.touched)">{{'generics.required'
@@ -596,11 +598,13 @@
 								<label for="startDate">* {{'medication.Date you stopped taking the drug' | translate
 									}}</label>
 								<div>
-									{{medication.startDate | date: timeformat}}
-									<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
-										[matDatepicker]="picker4" [min]="minDateChangeDose" [max]="today"
-										[(ngModel)]="medication.startDate" required startDate #startDate="ngModel">
-									<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+									<span class="date-inline-picker">
+										<span class="date-inline-picker__value" (click)="picker4.open()">{{medication.startDate | date: timeformat}}</span>
+										<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
+											[matDatepicker]="picker4" [min]="minDateChangeDose" [max]="today"
+											[(ngModel)]="medication.startDate" required startDate #startDate="ngModel">
+										<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+									</span>
 									<mat-datepicker touchUi="true" #picker4></mat-datepicker>
 									<small class="form-text text-muted danger"
 										*ngIf="!startDate.valid && (startDate.dirty || startDate.touched)">{{'generics.required'
@@ -756,11 +760,13 @@
 							<div class="form-group">
 								<label>* {{'medication.Select date of birth' | translate }}</label>
 								<div>
-									{{birthday | date: timeformat}}
-									<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
-										[matDatepicker]="picker3" [max]="today"
-										required startDate #startDate="ngModel" ngModel [(ngModel)]="birthday">
-									<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									<span class="date-inline-picker">
+										<span class="date-inline-picker__value" (click)="picker3.open()">{{birthday | date: timeformat}}</span>
+										<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
+											[matDatepicker]="picker3" [max]="today"
+											required startDate #startDate="ngModel" ngModel [(ngModel)]="birthday">
+										<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									</span>
 									<mat-datepicker startView="multi-year" touchUi="true" #picker3></mat-datepicker>
 									<small class="form-text text-muted danger"
 										*ngIf="!startDate.valid && (startDate.dirty || startDate.touched)">{{'generics.required'
@@ -822,11 +828,13 @@
 							<div class="form-group">
 								<label>* {{'medication.Select date of birth' | translate }}</label>
 								<div>
-									{{birthday | date: timeformat}}
-									<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
-										[matDatepicker]="picker3" [max]="today"
-										required startDate #startDate="ngModel" ngModel [(ngModel)]="birthday">
-									<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									<span class="date-inline-picker">
+										<span class="date-inline-picker__value" (click)="picker3.open()">{{birthday | date: timeformat}}</span>
+										<input class="form-control w-75 d-none" id="startDate" name="startDate" matInput
+											[matDatepicker]="picker3" [max]="today"
+											required startDate #startDate="ngModel" ngModel [(ngModel)]="birthday">
+										<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+									</span>
 									<mat-datepicker startView="multi-year" touchUi="true" #picker3></mat-datepicker>
 									<small class="form-text text-muted danger"
 										*ngIf="!startDate.valid && (startDate.dirty || startDate.touched)">{{'generics.required'
