@@ -19,8 +19,6 @@ import { SortService } from 'app/shared/services/sort.service';
 import { SearchService } from 'app/shared/services/search.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { DateService } from 'app/shared/services/date.service';
-
-import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import { TrackEventsService } from 'app/shared/services/track-events.service';
 
 import { DateAdapter } from '@angular/material/core';
@@ -57,7 +55,7 @@ export class SearchTermService {
     selector: 'app-symptoms',
     templateUrl: './symptoms.component.html',
     styleUrls: ['./symptoms.component.scss'],
-    providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }],
+    providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, { provide: LOCALE_ID, useFactory: getCulture }],
     standalone: false
 })
 
@@ -88,7 +86,7 @@ export class SymptomsComponent implements OnInit {
   private msgDataSavedFail: string;
   today = new Date();
 
-  constructor(private http: HttpClient, private authService: AuthService, public searchTermService: SearchTermService, private sortService: SortService, private searchService: SearchService, private modalService: NgbModal, public translate: TranslateService, private clipboard: Clipboard, private eventsService: EventsService, public jsPDFService: jsPDFService, private apiDx29ServerService: ApiDx29ServerService, private patientService: PatientService, private apif29BioService: Apif29BioService, private authGuard: AuthGuard, public toastr: ToastrService, private dateAdapter: DateAdapter<Date>, private dateService: DateService, public trackEventsService: TrackEventsService) {
+  constructor(private http: HttpClient, private authService: AuthService, public searchTermService: SearchTermService, private sortService: SortService, private searchService: SearchService, private modalService: NgbModal, public translate: TranslateService, private clipboard: Clipboard, private eventsService: EventsService, private apiDx29ServerService: ApiDx29ServerService, private patientService: PatientService, private apif29BioService: Apif29BioService, private authGuard: AuthGuard, public toastr: ToastrService, private dateAdapter: DateAdapter<Date>, private dateService: DateService, public trackEventsService: TrackEventsService) {
     this._startTime = Date.now();
     this.lang = sessionStorage.getItem('lang');
     this.dateAdapter.setLocale(sessionStorage.getItem('lang'));
