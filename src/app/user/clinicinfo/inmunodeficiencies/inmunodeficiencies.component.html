@@ -328,7 +328,7 @@
                             </span>
                             
                             <div class="col-md-5">
-                              <mat-form-field class="mr-sm-24" fxFlex  >
+                              <mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
                                   <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
                                                  autocomplete="off" [(ngModel)]="item.date" name="date{{i}}">
                                   <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
@@ -360,18 +360,19 @@
         </button>
     </div>
     <form class="p-2">
+        <ng-container *ngIf="getSelectedInfection() as infection">
         <div class="row">
             <div class="col-md-12"><label><strong>{{'inmuno.p1.1.4' | translate }}</strong> <button (click)="removeInfection(i)" class="ml-1 btn-sm btn btn-white fa fa-trash"></button></label> </div>
             <div class="col-md-3">
                 <label for="name">{{'inmuno.m1.1' | translate }}</label>
-                <input id="name" name="name" class="form-control" [(ngModel)]="inmunodeficiencies.infections[actualIndex].name">
+                <input id="name" name="name" class="form-control" [(ngModel)]="infection.name">
             </div>
             <div class="col-md-3">
                 <label for="start">{{'generics.Start Date' | translate }}</label>
                 <div class="">
-                    <mat-form-field class="mr-sm-24" fxFlex  >
+                    <mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
                         <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
-                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.infections[actualIndex].start" ngModel name="start">
+                                       autocomplete="off" [(ngModel)]="infection.start" ngModel name="start">
                         <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                         <mat-datepicker  #pickeri></mat-datepicker>
                     </mat-form-field>
@@ -380,9 +381,9 @@
             <div class="col-md-3">
                 <label for="duration">{{'generics.End Date' | translate }}</label>
                 <div class="">
-                    <mat-form-field class="mr-sm-24" fxFlex  >
+                    <mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
                         <input (focus)="pickerd.open()" matInput class="grey" readonly [matDatepicker]="pickerd"
-                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.infections[actualIndex].duration" ngModel name="duration">
+                                       autocomplete="off" [(ngModel)]="infection.duration" ngModel name="duration">
                         <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
                         <mat-datepicker  #pickerd></mat-datepicker>
                     </mat-form-field>
@@ -390,9 +391,9 @@
             </div>
             <div class="col-md-3">
                 <div>
-                  <div *ngFor="let treatment of inmunodeficiencies.infections[actualIndex].treatments; let t=index" class="mb-2">
+                  <div *ngFor="let treatment of infection.treatments; let t=index" class="mb-2">
                     <label for="treatment">{{'inmuno.m1.8' | translate }} {{t+1}} <button (click)="removeTreatmentInfection(t)" class="ml-1 btn btn-white btn-sm fa fa-trash"></button></label>
-                    <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="inmunodeficiencies.infections[actualIndex].treatments[t].treatment">
+                    <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="infection.treatments[t].treatment">
                   </div>
                   <button (click)="addTreatmentinfection()" class="btn btn-dark mb-3 mt-2">{{'inmuno.m1.9' | translate }}</button>
                 </div>
@@ -401,7 +402,7 @@
         <div class="border-top">
             <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditCustomModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
         </div>
-        
+        </ng-container>
     </form>
     
 </ng-template>
@@ -413,17 +414,18 @@
         </button>
     </div>
     <form class="p-2">
+        <ng-container *ngIf="getSelectedComplication() as complication">
         <div class="row">
             <div class="col-md-3">
                 <label for="name">{{'inmuno.m1.1' | translate }}</label>
-                <input id="name" name="name" class="form-control" [(ngModel)]="inmunodeficiencies.complications[actualIndex].name">
+                <input id="name" name="name" class="form-control" [(ngModel)]="complication.name">
             </div>
             <div class="col-md-3">
                 <label for="start">{{'generics.Start Date' | translate }}</label>
                 <div class="">
-                    <mat-form-field class="mr-sm-24" fxFlex  >
+                    <mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
                         <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
-                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.complications[actualIndex].start" ngModel name="start">
+                                       autocomplete="off" [(ngModel)]="complication.start" ngModel name="start">
                         <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                         <mat-datepicker  #pickeri></mat-datepicker>
                     </mat-form-field>
@@ -432,9 +434,9 @@
             <div class="col-md-3">
                 <label for="duration">{{'generics.End Date' | translate }}</label>
                 <div class="">
-                    <mat-form-field class="mr-sm-24" fxFlex  >
+                    <mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
                         <input (focus)="pickerd.open()" matInput class="grey" readonly [matDatepicker]="pickerd"
-                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.complications[actualIndex].duration" ngModel name="duration">
+                                       autocomplete="off" [(ngModel)]="complication.duration" ngModel name="duration">
                         <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
                         <mat-datepicker  #pickerd></mat-datepicker>
                     </mat-form-field>
@@ -442,9 +444,9 @@
             </div>
             <div class="col-md-3">
                 <div>
-                  <div *ngFor="let treatment of inmunodeficiencies.complications[actualIndex].treatments; let t=index" class="mb-2">
+                  <div *ngFor="let treatment of complication.treatments; let t=index" class="mb-2">
                     <label for="treatment">{{'inmuno.m1.8' | translate }} {{t+1}} <button (click)="removeTreatmentComplication(t)" class="ml-1 btn btn-white btn-sm fa fa-trash"></button></label>
-                    <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="inmunodeficiencies.complications[actualIndex].treatments[t].treatment">
+                    <input id="treatment{{i}}{{t}}" name="treatment{{i}}{{t}}" class="form-control" [(ngModel)]="complication.treatments[t].treatment">
                   </div>
                   <button (click)="addTreatmentComplication()" class="btn btn-dark mb-3 mt-2">{{'inmuno.m1.9' | translate }}</button>
                 </div>
@@ -453,7 +455,7 @@
         <div class="border-top">
             <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditCustomModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
         </div>
-        
+        </ng-container>
     </form>
     
 </ng-template>
@@ -465,17 +467,18 @@
         </button>
     </div>
     <form class="p-2">
+        <ng-container *ngIf="getSelectedUsualTreatment() as treatment">
         <div class="row">
             <div class="col-md-3">
                 <label for="name">{{'inmuno.m1.1' | translate }}</label>
-                <input id="name" name="name" class="form-control" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].name">
+                <input id="name" name="name" class="form-control" [(ngModel)]="treatment.name">
             </div>
             <div class="col-md-3">
                 <label for="start">{{'generics.Start Date' | translate }}</label>
                 <div class="">
-                    <mat-form-field class="mr-sm-24" fxFlex  >
+                    <mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
                         <input (focus)="pickeri.open()" matInput class="grey" readonly [matDatepicker]="pickeri"
-                                       autocomplete="off" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].start" ngModel name="start">
+                                       autocomplete="off" [(ngModel)]="treatment.start" ngModel name="start">
                         <mat-datepicker-toggle matSuffix [for]="pickeri"></mat-datepicker-toggle>
                         <mat-datepicker  #pickeri></mat-datepicker>
                     </mat-form-field>
@@ -483,17 +486,17 @@
             </div>
             <div class="col-md-3">
                 <label for="usualDose">{{'inmuno.m1.6' | translate }} (mg)</label>
-                <input type="number" id="usualDose" name="usualDose" class="form-control"  [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].usualDose">
+                <input type="number" id="usualDose" name="usualDose" class="form-control"  [(ngModel)]="treatment.usualDose">
             </div>
             <div class="col-md-3">
                 <label for="usualFrequency">{{'inmuno.m1.7' | translate }}</label>
-                <input type="number" id="usualFrequency" name="usualFrequency" class="form-control" [(ngModel)]="inmunodeficiencies.usualTreatments[actualIndex].usualFrequency">
+                <input type="number" id="usualFrequency" name="usualFrequency" class="form-control" [(ngModel)]="treatment.usualFrequency">
             </div>
     </div>
         <div class="border-top">
             <button class="mt-3 mb-2 btn btn-primary float-right" type="button" [disabled]="saving" (click)="saveEditCustomModalComponent()"><em class="ft-save mr-1"></em> <span *ngIf="!saving">{{'generics.Save' | translate}}</span><span *ngIf="saving">{{'generics.Saving' | translate}}</span> <span *ngIf="saving" class="ml-2"><em class="fa fa-spinner fa-spin fa-fw"></em></span></button>
         </div>
-        
+        </ng-container>
     </form>
     
 </ng-template>

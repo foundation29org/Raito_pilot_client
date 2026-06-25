@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     let authService = this.inj.get(AuthService); //authservice is an angular service
         // Get the auth header from the service.
-    if(authService.getToken()==undefined){
+    if(!authService.getToken()){
       const authReq = req.clone({ headers: req.headers});
       return next.handle(authReq)
     }

@@ -50,6 +50,7 @@
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/demo.css",
               "src/assets/sass/material/theme.scss",
+              "src/assets/sass/ngb-bootstrap4-compat.scss",
               "src/assets/sass/core.scss",
               "src/styles.css"
             ],

@@ -12,7 +12,7 @@
                         <h2 class="content-header mt-0 mb-2">{{'homeraito.p6' | translate }}</h2>
                         <span [formGroup]="feelForm" class="mt-2">
                             <div class="form-group mt-3 mb-1">
-                                <mat-form-field class="mr-sm-24" fxFlex (click)="open()" >
+                                <mat-form-field appearance="outline" class="mr-sm-24" fxFlex (click)="open()" >
                                     <input matInput [matDatepicker]="picker" placeholder="Date"
                                                    autocomplete="off"
                                                    name="date" formControlName="date">

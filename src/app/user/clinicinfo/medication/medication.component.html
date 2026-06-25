@@ -338,7 +338,7 @@
 															<div class="col-md-12" *ngIf="sideEffectsLang.length>0">
 																<div class="form-group">
 																	<label for="sideEffects">{{'medication.Side Effect' | translate }}</label>
-																	<mat-form-field class="mat-app-background">
+																	<mat-form-field appearance="outline" class="mat-app-background">
 																		<mat-select id="sideEffects" name="sideEffects" multiple
 																			[(ngModel)]="medication.sideEffects">
 																			<mat-option *ngFor="let sideEffect of sideEffectsLang"
@@ -702,7 +702,7 @@
 						<div class="col-md-12" *ngIf="sideEffectsLang.length>0">
 							<div class="form-group">
 								<div>
-									<mat-form-field class="mat-app-background">
+									<mat-form-field appearance="outline" class="mat-app-background">
 										<mat-select id="sideEffects" name="sideEffects" multiple
 											[(ngModel)]="medication.sideEffects">
 											<mat-option *ngFor="let sideEffect of sideEffectsLang"

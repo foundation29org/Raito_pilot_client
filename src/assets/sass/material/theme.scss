@@ -40,15 +40,15 @@ html {
   calendar-date-selected-state-text-color: #ffffff,
   calendar-date-today-outline-color: rgba(0, 0, 0, 0.38),
   calendar-date-today-selected-state-outline-color: #ffffff,
+  calendar-period-button-text-color: rgba(0, 0, 0, 0.87),
+  calendar-period-button-icon-color: rgba(0, 0, 0, 0.87),
 ));
 
 @include mat.form-field-overrides((
-  filled-container-color: #ffffff,
-  filled-disabled-container-color: #f5f5f5,
-  filled-focus-active-indicator-color: rgba(0, 0, 0, 0.87),
-  filled-active-indicator-color: rgba(0, 0, 0, 0.42),
-  filled-hover-active-indicator-color: rgba(0, 0, 0, 0.87),
-  filled-focus-label-text-color: rgba(0, 0, 0, 0.6),
-  filled-label-text-color: rgba(0, 0, 0, 0.6),
-  filled-input-text-color: rgba(0, 0, 0, 0.87),
+  outlined-outline-color: rgba(0, 0, 0, 0.42),
+  outlined-hover-outline-color: rgba(0, 0, 0, 0.87),
+  outlined-focus-outline-color: rgba(0, 0, 0, 0.87),
+  outlined-label-text-color: rgba(0, 0, 0, 0.6),
+  outlined-input-text-color: rgba(0, 0, 0, 0.87),
+  outlined-disabled-outline-color: rgba(0, 0, 0, 0.06),
 ));

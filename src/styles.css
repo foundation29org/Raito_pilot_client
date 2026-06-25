@@ -499,73 +499,7 @@ ngb-modal-backdrop.modal-backdrop {
   z-index: 1055 !important;
 }
 
-/* ng-bootstrap 18 progressbar: emits Bootstrap 5 text-bg-*; app still uses Bootstrap 4 */
-.progress-bar.text-bg-dark {
-  background-color: #343a40 !important;
-  color: #fff;
-}
-
-.progress-bar.text-bg-info {
-  background-color: #2f8be6 !important;
-  color: #fff;
-}
-
-.progress-bar.text-bg-danger {
-  background-color: #f55252 !important;
-  color: #fff;
-}
-
-.progress-bar.text-bg-success {
-  background-color: #40c057 !important;
-  color: #fff;
-}
-
-.progress-bar.text-bg-warning {
-  background-color: #ffc107 !important;
-  color: #212529;
-}
-
-.progress-bar.text-bg-primary {
-  background-color: #f9423a !important;
-  color: #fff;
-}
-
-/* mat-form-field fill: neutral white (M3 primary palette tints the default container) */
-.mat-mdc-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: #fff !important;
-}
-
-.mat-mdc-form-field .mdc-text-field--filled.mdc-text-field--disabled {
-  background-color: #f5f5f5 !important;
-}
-
-/* Material datepicker layout tweaks (theme colors come from material/theme.scss) */
-.mat-datepicker-content {
-  background-color: #fff !important;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.mat-datepicker-content .mat-calendar-period-button {
-  --mdc-text-button-label-text-color: rgba(0, 0, 0, 0.87);
-  color: rgba(0, 0, 0, 0.87) !important;
-  background-color: transparent !important;
-}
-
-/* Keep calendar panel opaque; mat-primary on content must not clear the container bg */
-.mat-datepicker-content.mat-primary {
-  background-color: #fff !important;
-  color: rgba(0, 0, 0, 0.87) !important;
-}
-
-.mat-datepicker-content .mat-calendar-body-selected {
-  background-color: #333 !important;
-  color: #fff !important;
-}
-
-.mat-datepicker-content .mat-calendar-body-today:not(.mat-calendar-body-selected) {
-  border-color: rgba(0, 0, 0, 0.38) !important;
-}
-
+/* Material datepicker: layout only (colors in assets/sass/material/theme.scss) */
 .cdk-overlay-pane.mat-datepicker-popup {
   z-index: 1070 !important;
 }
