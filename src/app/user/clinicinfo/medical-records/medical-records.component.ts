@@ -6,7 +6,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { BlobStorageService, IBlobAccessToken } from 'app/shared/services/blob-storage.service';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { PatientService } from 'app/shared/services/patient.service';
@@ -20,9 +20,7 @@ import { CordovaService } from 'app/shared/services/cordova.service';
 
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs';
 
 export function getCulture() {
   return sessionStorage.getItem('culture');

@@ -11,10 +11,10 @@ import { DateService } from 'app/shared/services/date.service';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import Swal from 'sweetalert2';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from 'app/shared/services/search.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { CordovaService } from 'app/shared/services/cordova.service';
 
@@ -133,7 +133,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
             res[i].start = new Date(res[i].start);
           }
           this.events = res;
-          this.refresh.next();
+          this.refresh.next(undefined);
           this.lastEvent = JSON.parse(JSON.stringify(res[0]));
           this.lastEvent._id =null;
         }else{
@@ -186,9 +186,9 @@ export class CalendarsComponent implements OnInit, OnDestroy{
 
     //this.events.push(this.newEvent);
 
-    // this.refresh.next();
+    // this.refresh.next(undefined);
     this.handleEvent('Save seizure', this.newEvent);
-     this.refresh.next();
+     this.refresh.next(undefined);
   }
 
   saveData(){
@@ -395,7 +395,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
           this.imported++;
         }
       }
-      this.refresh.next();
+      this.refresh.next(undefined);
       this.importing = false;
       if(this.imported>0){
         var msg = this.translate.instant("seizures.Imported seizures") + " " +this.imported;
@@ -460,7 +460,7 @@ export class CalendarsComponent implements OnInit, OnDestroy{
       start: startOfDay(new Date()),
     }
     this.modalData.event=emptydata;
-    this.refresh.next();
+    this.refresh.next(undefined);
   }
 
   openStats(){

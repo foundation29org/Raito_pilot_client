@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 declare var AzureStorage: any;
 

@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 declare let gtag: any;

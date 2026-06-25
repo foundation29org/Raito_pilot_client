@@ -9,10 +9,10 @@ import { ToastrService } from 'ngx-toastr';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import Swal from 'sweetalert2';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchService } from 'app/shared/services/search.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 
@@ -174,13 +174,13 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
               if(this.events.length>0){
                 this.events.sort(this.sortService.DateSortInver("start"));
               }
-              this.refresh.next();
+              this.refresh.next(undefined);
               this.lastEvent = JSON.parse(JSON.stringify(res[0]));
               this.lastEvent.color = colors.red;
               this.lastEvent.meta._id =null;
             }else{
               this.events = [];
-              this.refresh.next();
+              this.refresh.next(undefined);
             }
 
           }
@@ -265,9 +265,9 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
     }
     this.events.push(this.newEvent);
 
-    // this.refresh.next();
+    // this.refresh.next(undefined);
     this.handleEvent('Add new event', this.newEvent);
-    this.refresh.next();
+    this.refresh.next(undefined);
   }
 
   saveData(param){
@@ -361,7 +361,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy{
       }
     }
     this.modalData.event=emptydata;
-    this.refresh.next();
+    this.refresh.next(undefined);
   }
 
   closeModal() {

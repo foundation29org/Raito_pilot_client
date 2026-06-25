@@ -8,7 +8,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { LangService } from 'app/shared/services/lang.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-translations',

@@ -1,8 +1,7 @@
+import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'environments/environment';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class Apif29BioService {
@@ -11,13 +10,13 @@ export class Apif29BioService {
 
     getInfoOfSymptoms(lang,listIds){
         //var startTime = new Date().getTime();
-        return this.http.post(environment.urlDxv2+'/api/v1/F29Bio/phenotypes/'+lang, listIds)
-        .map( (res : any) => {
+        return this.http.post(environment.urlDxv2+'/api/v1/F29Bio/phenotypes/'+lang, listIds).pipe(
+          map((res: any) => {
             return res;
-        }, (err) => {
-            console.log(err);
-            return err;
-        })
+        }),
+          catchError((err) => { console.log(err);
+            return err; })
+        )
     }
 
 }

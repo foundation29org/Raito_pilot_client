@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
@@ -64,7 +65,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.hideSidebar = !isShow;
       });
 
-      this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+      this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(
         event => {
           const tempUrl = (event.url).toString().split('?');
           this.actualUrl = tempUrl[0];

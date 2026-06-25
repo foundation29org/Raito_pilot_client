@@ -1,31 +1,30 @@
+import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'environments/environment';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class OpenAiService {
     constructor(private http: HttpClient) {}
 
     postOpenAi(info){
-      return this.http.post(environment.api + '/api/callopenai', info)
-      .map((res: any) => {
+      return this.http.post(environment.api + '/api/callopenai', info).pipe(
+        map((res: any) => {
         return res;
-      }, (err) => {
-        console.log(err);
-        return err;
-      })
+      }),
+        catchError((err) => { console.log(err);
+        return err; })
+      )
     }
 
     postOpenAi2(info){
-      return this.http.post(environment.api + '/api/callopenai2', info)
-      .map((res: any) => {
+      return this.http.post(environment.api + '/api/callopenai2', info).pipe(
+        map((res: any) => {
         return res;
-      }, (err) => {
-        console.log(err);
-        return err;
-      })
+      }),
+        catchError((err) => { console.log(err);
+        return err; })
+      )
     }
 
     postOpenAi3(info, group){
@@ -36,13 +35,13 @@ export class OpenAiService {
       }else if(group == 'inmunodeficiency'){
         info.funct = 'raitoInmuno';
       }
-      return this.http.post(environment.api + '/api/callbook', info)
-      .map((res: any) => {
+      return this.http.post(environment.api + '/api/callbook', info).pipe(
+        map((res: any) => {
         return res;
-      }, (err) => {
-        console.log(err);
-        return err;
-      })
+      }),
+        catchError((err) => { console.log(err);
+        return err; })
+      )
       
     }
 

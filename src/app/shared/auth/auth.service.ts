@@ -4,8 +4,6 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators'
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
 import decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
 import { AuthServiceFirebase } from "app/shared/services/auth.service.firebase";

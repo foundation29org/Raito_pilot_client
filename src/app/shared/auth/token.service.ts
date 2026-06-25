@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
 import decode from 'jwt-decode';
 import { AuthService } from './auth.service';
 

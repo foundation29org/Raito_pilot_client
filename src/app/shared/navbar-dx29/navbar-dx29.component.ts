@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -46,7 +47,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadLanguages();
 
-    this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(
 
       event => {
         var tempUrl = (event.url).toString();

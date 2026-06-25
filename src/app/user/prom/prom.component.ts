@@ -7,12 +7,10 @@ import { AuthService } from 'app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatientService } from 'app/shared/services/patient.service';
 import { SortService} from 'app/shared/services/sort.service';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 
 import { DateAdapter } from '@angular/material/core';
 import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 export function getCulture() {
   return sessionStorage.getItem('culture');

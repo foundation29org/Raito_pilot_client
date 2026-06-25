@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { DateAdapter } from '@angular/material/core';
 import { SortService } from 'app/shared/services/sort.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { CordovaService } from 'app/shared/services/cordova.service';
 
 @Component({

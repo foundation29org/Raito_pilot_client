@@ -13,13 +13,11 @@ import { PatientService } from 'app/shared/services/patient.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { Observable, of, OperatorFunction } from 'rxjs';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators'
 import { DateAdapter } from '@angular/material/core';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 export function getCulture() {
   return sessionStorage.getItem('culture');

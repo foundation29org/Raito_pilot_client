@@ -48,8 +48,7 @@
     "ngx-device-detector": "6.0.2",
     "ngx-take-until-destroy": "5.4.0",
     "ngx-toastr": "17.0.2",
-    "rxjs": "6.6.3",
-    "rxjs-compat": "6.6.3",
+    "rxjs": "^7.8.2",
     "sweetalert2": "10.16.11",
     "tslib": "2.8.1",
     "zone.js": "~0.15.1"

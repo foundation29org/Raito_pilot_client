@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { MatRadioChange } from '@angular/material/radio';
 
