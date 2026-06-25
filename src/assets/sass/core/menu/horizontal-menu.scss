@@ -379,11 +379,11 @@
                   margin: 0;
                   border-radius: 0;
 
-                  ~ul {
+                  ul {
                     li {
                       &.menu-collapsed-open {
                         >a {
-                          ~ul {
+                          ul {
                             margin-top: 4px;
 
                             li {

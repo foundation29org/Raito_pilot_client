@@ -3,7 +3,7 @@
         <div class="card-body pb-0">
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
-                    <a *ngIf="!showListQuestionnaires" (click)="showListQuestionnaires=true;init();" class="btn btn-primary float-right mb-2" title="{{'generics.Back' | translate }}">
+                    <a *ngIf="!showListQuestionnaires" (click)="showListQuestionnaires=true;init();" class="btn btn-primary float-end mb-2" title="{{'generics.Back' | translate }}">
                         <span class="menu-title">{{'generics.Back' | translate }}</span>
                     </a>
                     <h2 class="content-header mt-0 mb-2" *ngIf="showListQuestionnaires">{{'menu.Questionnaire' | translate }}</h2>
@@ -22,12 +22,12 @@
                                         <span><strong>{{questionnaire.info.title}}</strong></span> 
                                         <span *ngIf="questionnaire.completed" class="d-block font-small-2 text-muted">{{questionnaire.dateFinish | date}} </span>
                                         <span class="d-block" *ngIf="(questionnaire.info.items.length-(questionnaire.info.items.length-questionnaire.values.length))!=(questionnaire.info.items.length)">{{'prom.Estimated time' | translate }}</span>
-                                        <span class="d-block text-muted" *ngIf="questionnaire.title!='Cuestionario CVID_QoL' || !questionnaire.completed">{{'prom.Completed' | translate }}: {{ questionnaire.percentage | number:'1.0-0' }}% <span *ngIf="questionnaire.percentage==100"><i class="ml-1 success fa fa-check"></i></span></span>
+                                        <span class="d-block text-muted" *ngIf="questionnaire.title!='Cuestionario CVID_QoL' || !questionnaire.completed">{{'prom.Completed' | translate }}: {{ questionnaire.percentage | number:'1.0-0' }}% <span *ngIf="questionnaire.percentage==100"><i class="ms-1 success fa fa-check"></i></span></span>
                                         <span class="d-block" *ngIf="questionnaire.title=='Cuestionario CVID_QoL' && questionnaire.completed">
                                             {{'prom.Score' | translate }}: {{questionnaire.points}}
                                         </span>
                                     </div>
-                                    <div class="col-md-3 pr-0 pl-0">
+                                    <div class="col-md-3 pe-0 ps-0">
                                         <a class="btn btn-white btn-sm d-block" (click)="showListQuestionnaires=false;selectQuestionnaire(j)">
                                             <span class="" *ngIf="questionnaire.completed">
                                                 {{'prom.See answers' | translate }}
@@ -90,10 +90,10 @@
                                     <div class="card-footer" *ngIf="step+1<=newproms.length">
                                         <div class="col-md-12 center-elements mt-2">
                                             <div class="form-actions center" *ngIf="!sending">
-                                                <button *ngIf="step+1>1" type="button" class="float-left btn btn-dark" (click)="previousProm()">{{'generics.Previous' | translate }}</button>
+                                                <button *ngIf="step+1>1" type="button" class="float-start btn btn-dark" (click)="previousProm()">{{'generics.Previous' | translate }}</button>
                                                 
-                                                <button *ngIf="step+1<newproms.length" type="button" class="float-right btn btn-dark" (click)="nextProm()">{{'generics.Next' | translate }}</button>
-                                                <button *ngIf="step+1==newproms.length" type="button" class="float-right btn btn-dark" (click)="nextProm()">{{'generics.Finish' | translate }}</button>
+                                                <button *ngIf="step+1<newproms.length" type="button" class="float-end btn btn-dark" (click)="nextProm()">{{'generics.Next' | translate }}</button>
+                                                <button *ngIf="step+1==newproms.length" type="button" class="float-end btn btn-dark" (click)="nextProm()">{{'generics.Finish' | translate }}</button>
                                                 <!--<button type="button" class="btn btn-raised btn-primary" (click)="saveSymptomsOfDiseaseSuggested()">{{'generics.Save' | translate }}</button>-->
                                             </div>
                                         </div>
@@ -140,8 +140,8 @@
                                 </div>
                               
                                 <div class="center-elements mt-3 mb-3" style="position: sticky; top: 100vh; z-index: 1;">
-                                  <button *ngIf="currentIndex>0" type="button" class="mr-1 btn btn-secondary" (click)="previous()">{{'generics.Previous' | translate }}</button>
-                                  <button *ngIf="currentIndex< newproms.length-1" type="button" class="mr-1 btn btn-dark" (click)="next()">{{'generics.Next' | translate }}</button>
+                                  <button *ngIf="currentIndex>0" type="button" class="me-1 btn btn-secondary" (click)="previous()">{{'generics.Previous' | translate }}</button>
+                                  <button *ngIf="currentIndex< newproms.length-1" type="button" class="me-1 btn btn-dark" (click)="next()">{{'generics.Next' | translate }}</button>
                                 </div>
                               </div>
                               <div *ngIf="actualQuestionnaire.completed">
@@ -180,7 +180,7 @@
 
                               </div>
                             <div class="center-elements mt-3 mb-3" style="position: sticky; top: 100vh; z-index: 1;">
-                                <button type="button" class="mr-1 btn btn-primary" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
+                                <button type="button" class="me-1 btn btn-primary" (click)="saveChanges()">{{'generics.Save changes' | translate }}</button>
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,8 @@ import { Directive, HostListener, Inject } from '@angular/core';
 import { SidebarLinkDirective } from "./sidebar-link.directive";
 
 @Directive({
-  selector: "[appSidebarAnchorToggle]"
+    selector: "[appSidebarAnchorToggle]",
+    standalone: false
 })
 export class SidebarAnchorToggleDirective {
   protected navlink: SidebarLinkDirective;

@@ -13,7 +13,7 @@ input[class*="birthdate"] {
 }
 
 // specific css had to be written for border-radius due to the div that generates picker popup
-.input-group>.input-group-prepend~.form-control.picker__input {
+.input-group>.input-group-prepend.form-control.picker__input {
   border-top-right-radius: .35rem;
   border-bottom-right-radius: .35rem;
 }

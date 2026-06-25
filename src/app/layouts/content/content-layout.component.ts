@@ -6,10 +6,11 @@ import { CustomizerService } from 'app/shared/services/customizer.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-content-layout',
-  templateUrl: './content-layout.component.html',
-  styleUrls: ['./content-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-content-layout',
+    templateUrl: './content-layout.component.html',
+    styleUrls: ['./content-layout.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 
 export class ContentLayoutComponent implements OnInit, OnDestroy {

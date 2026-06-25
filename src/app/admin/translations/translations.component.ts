@@ -8,14 +8,15 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { LangService } from 'app/shared/services/lang.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-translations',
     templateUrl: './translations.component.html',
     styleUrls: ['./translations.component.scss'],
     providers: [LangService],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 
 export class TranslationsComponent implements OnDestroy{

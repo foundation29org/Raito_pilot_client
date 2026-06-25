@@ -15,11 +15,11 @@ export function getCulture() {
 }
 
 @Component({
-  selector: 'app-register-page',
-  templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.scss'],
-  providers: [{ provide: LOCALE_ID, useFactory: getCulture }]
-
+    selector: 'app-register-page',
+    templateUrl: './register-page.component.html',
+    styleUrls: ['./register-page.component.scss'],
+    providers: [{ provide: LOCALE_ID, useFactory: getCulture }],
+    standalone: false
 })
 
 export class RegisterPageComponent implements OnDestroy, OnInit {

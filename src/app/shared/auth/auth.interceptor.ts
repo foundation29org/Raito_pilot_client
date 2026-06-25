@@ -1,8 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/observable/throw'
-import 'rxjs/add/operator/catch';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
@@ -20,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     let authService = this.inj.get(AuthService); //authservice is an angular service
         // Get the auth header from the service.
-    if(authService.getToken()==undefined){
+    if(!authService.getToken()){
       const authReq = req.clone({ headers: req.headers});
       return next.handle(authReq)
     }
@@ -71,11 +70,11 @@ export class AuthInterceptor implements HttpInterceptor {
     }*/
 
     // Pass on the cloned request instead of the original request.
-    return next.handle(authReq)
-      .catch((error, caught) => {
+    return next.handle(authReq).pipe(
+      catchError((error) => {
         if (error.status === 401 || error.status === 403) {
           authService.logout();
-          return Observable.throw(error);
+          return throwError(() => error);
         }
 
         if (error.status === 404 || error.status === 0) {
@@ -89,15 +88,16 @@ export class AuthInterceptor implements HttpInterceptor {
             eventsService.broadcast('http-error-external', 'no external conexion');
 
           }
-          return Observable.throw(error);
+          return throwError(() => error);
         }
 
         if (error.status === 419) {
-          return Observable.throw(error);
+          return throwError(() => error);
         }
 
         //return all others errors
-        return Observable.throw(error);
-      }) as any;
+        return throwError(() => error);
+      })
+    );
   }
 }

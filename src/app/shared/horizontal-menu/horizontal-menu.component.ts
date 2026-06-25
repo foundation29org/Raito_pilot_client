@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 
 
 @Component({
-  selector: 'app-horizontal-menu',
-  templateUrl: './horizontal-menu.component.html',
-  styleUrls: ['./horizontal-menu.component.scss']
+    selector: 'app-horizontal-menu',
+    templateUrl: './horizontal-menu.component.html',
+    styleUrls: ['./horizontal-menu.component.scss'],
+    standalone: false
 })
 export class HorizontalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 

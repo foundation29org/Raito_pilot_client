@@ -43,7 +43,8 @@
 	&.has-sub {
 		>a:not(.mm-next):after {
 			content: "\f105";
-			font-family: 'FontAwesome';
+			font-family: "Font Awesome 6 Free";
+			font-weight: 900;
 			font-size: $arrow-font-size;
 			display: inline-block;
 			position: absolute;

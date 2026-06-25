@@ -3,7 +3,8 @@ import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'localizedDate',
-    pure: false
+    pure: false,
+    standalone: false
 })
 
 @Injectable()

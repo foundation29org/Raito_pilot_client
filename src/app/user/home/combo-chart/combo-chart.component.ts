@@ -15,7 +15,9 @@ import {
     LineSeriesComponent,
     calculateViewDimensions,
     ViewDimensions,
-    ColorHelper
+    ColorHelper,
+    ScaleType,
+    LegendPosition
   } from '@swimlane/ngx-charts';
   import { curveLinear } from 'd3-shape';
   import { scaleBand, scaleLinear, scalePoint, scaleTime } from 'd3-scale';
@@ -136,13 +138,14 @@ import {
       </ngx-charts-chart>
     `,
     styleUrls: ['./combo-chart.component.scss'],
-    encapsulation: ViewEncapsulation.None
-  })
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
+})
   export class ComboChartComponent extends BaseChartComponent {
     @Input() curve: any = curveLinear;
     @Input() legend = false;
     @Input() legendTitle: string = 'Legend';
-    @Input() legendPosition: string = 'right';
+    @Input() legendPosition: LegendPosition = LegendPosition.Right;
     @Input() xAxis;
     @Input() yAxis;
     @Input() showXAxisLabel;
@@ -155,7 +158,7 @@ import {
     @Input() gradient: boolean;
     @Input() showGridLines: boolean = true;
     @Input() activeEntries: any[] = [];
-    @Input() schemeType: string;
+    @Input() schemeType: ScaleType = ScaleType.Ordinal;
     @Input() xAxisTickFormatting: any;
     @Input() yAxisTickFormatting: any;
     @Input() yRightAxisTickFormatting: any;
@@ -461,8 +464,8 @@ import {
       } else {
         domain = this.yDomain;
       }
-      this.colors = new ColorHelper(this.scheme, this.schemeType, domain, this.customColors);
-      this.colorsLine = new ColorHelper(this.colorSchemeLine, this.schemeType, domain, this.customColors);
+      this.colors = new ColorHelper(this.scheme as any, this.schemeType as ScaleType, domain, this.customColors);
+      this.colorsLine = new ColorHelper(this.colorSchemeLine as any, this.schemeType as ScaleType, domain, this.customColors);
     }
   
     getLegendOptions() {

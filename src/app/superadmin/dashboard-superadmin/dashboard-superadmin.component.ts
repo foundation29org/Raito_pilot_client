@@ -3,7 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-dashboard-superadmin',
     templateUrl: './dashboard-superadmin.component.html',
-    styleUrls: ['./dashboard-superadmin.component.scss']
+    styleUrls: ['./dashboard-superadmin.component.scss'],
+    standalone: false
 })
 
 export class DashboardSuperAdminComponent{

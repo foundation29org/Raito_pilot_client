@@ -1,10 +1,32 @@
 // Core variables and mixins
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
 
 // Load variable overrides
 @import "core/variables/variables";
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+
+$theme-color-interval: 8% !default;
+
+@function theme-color($name) {
+  @return map-get($theme-colors, $name);
+}
+
+@function theme-color-level($color-name: "primary", $level: 0) {
+  $color: theme-color($color-name);
+  $color-base: if($level > 0, $black, $white);
+  $level: abs($level);
+  @return mix($color-base, $color, $level * $theme-color-interval);
+}
+
+@function color($name) {
+  @if $name == "gray" {
+    @return $gray-600;
+  }
+  @return map-get($theme-colors, $name);
+}
+
 @import "core/mixins/shadows";
 @import "core/mixins/typography";
 @import "core/mixins/utilities";

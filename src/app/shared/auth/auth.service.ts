@@ -4,11 +4,17 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators'
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map';
-import * as decode from 'jwt-decode';
+import decode from 'jwt-decode';
 import { ICurrentPatient } from './ICurrentPatient.interface';
 import { AuthServiceFirebase } from "app/shared/services/auth.service.firebase";
+
+interface JwtPayload {
+  sub: string;
+  exp: number;
+  role: string;
+  subrole?: string;
+  group?: string;
+}
 
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +37,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, public authServiceFirebase: AuthServiceFirebase) {
     this.isMobile = false;
-    var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+    var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
     console.log('touchDevice', touchDevice)
     if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
       this.isMobile = true;
@@ -62,7 +68,7 @@ export class AuthService {
         sessionStorage.setItem('culture', 'en-EN');
       }
       this.setAuthenticated(sessionStorage.getItem('token'));
-      const tokenPayload = decode(sessionStorage.getItem('token'));
+      const tokenPayload = decode<JwtPayload>(sessionStorage.getItem('token'));
       this.setIdUser(tokenPayload.sub);
       this.setExpToken(tokenPayload.exp);
       this.setRole(tokenPayload.role);
@@ -101,7 +107,7 @@ export class AuthService {
   setEnvironment(token:string):void{
     this.setAuthenticated(token);
     // decode the token to get its payload
-    const tokenPayload = decode(token);
+    const tokenPayload = decode<JwtPayload>(token);
     this.setIdUser(tokenPayload.sub);
     this.setExpToken(tokenPayload.exp);
     this.setRole(tokenPayload.role);

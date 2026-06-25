@@ -24,7 +24,8 @@ import { filter } from 'rxjs/operators';
     selector: 'app-land-page-layout',
     templateUrl: './land-page-layout.component.html',
     styleUrls: ['./land-page-layout.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false
 })
 
 export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy {

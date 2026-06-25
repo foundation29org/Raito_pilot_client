@@ -7,7 +7,7 @@
                         <h2 class="content-header mt-0 mb-2">{{'menu.Phenotype' | translate }}
                         </h2>
                         <span class="text-muted d-block mt-1" style="font-weight: normal;line-height: normal;">{{'symptomssection.subtitleheader' | translate }}</span>
-                        <div class="pl-0 pr-0">
+                        <div class="ps-0 pe-0">
                             <ng-template #rt let-r="result" let-t="term">
                               <strong title="{{r.name}}">{{ r.name}}</strong>
                               <span *ngIf="r.desc!=null" class="d-block" title="{{r.desc}}">{{ (r.desc.length>140)? (r.desc |
@@ -15,13 +15,13 @@
                             </ng-template>
                             <div class="mt-2" style="padding-bottom: 1rem !important;">
                               <div class="d-flex align-items-center">
-                                <span class="d-inline mr-2"><i class="fas fa-search"></i></span>
+                                <span class="d-inline me-2"><i class="fas fa-search"></i></span>
                                 <input #input type="text"
-                                  #inputManualSymptoms class="form-control ml-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
+                                  #inputManualSymptoms class="form-control ms-1 inputSearch2 d-inline data-hj-allow" [(ngModel)]="modelTemp"
                                   [ngbTypeahead]="searchSymptoms" [resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchSymptoms"
                                   placeholder="{{'symptomssection.manualinput' | translate }}"
                                   (selectItem)="selected($event)" (focusout)="focusOutFunctionSymptom()"/>
-                                <button type="button" class="btn btn-outline-primary btn-sm ml-2" *ngIf="(modelTemp).trim().length>3" (click)="addCustomSymptom($event)">
+                                <button type="button" class="btn btn-outline-primary btn-sm ms-2" *ngIf="(modelTemp).trim().length>3" (click)="addCustomSymptom($event)">
                                   <i class="fa fa-plus"></i>
                                 </button>
                               </div>
@@ -38,8 +38,8 @@
                           <div *ngIf="phenotype.data.length>0">
                             <div class="row ">
                               <div class="col-md-12">
-                                <span class="mr-2 mb-1 float-right icons-opt-symptoms">
-                                  <em class="mt-1 fas fa-copy grey mr-2" title="{{'land.Copy symptoms' | translate }}"
+                                <span class="me-2 mb-1 float-end icons-opt-symptoms">
+                                  <em class="mt-1 fas fa-copy grey me-2" title="{{'land.Copy symptoms' | translate }}"
                                   (click)="copySymptoms()" style="cursor: pointer;"></em>
                                 </span>
                               </div>
@@ -48,23 +48,23 @@
                               <div class="">
                                 <div *ngFor="let hpo of phenotype.data ; let i = index" class="border-top">
                                   <div class="mt-2 mb-2">
-                                    <span class="float-right ml-1">
+                                    <span class="float-end ms-1">
                                       <button (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                                        class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                        class="btn-outline-secondary btn btn-sm me-1 mb-0 btn-fab round"
                                         title="{{'generics.More information' | translate }} ({{hpo.id}})">
                                         <em class="fa fa-info w-13"></em>
                                       </button>
                                       <button (click)="deleteSymptom(hpo, i)"
-                                        class="btn btn-sm mr-1 mb-0 btn-fab round btn-outline-danger"
+                                        class="btn btn-sm me-1 mb-0 btn-fab round btn-outline-danger"
                                         href="javascript:void(0)"
                                         title="{{'generics.Delete' | translate }}">
                                         <em class="fa fa-trash w-13"></em>
                                       </button>
                                     </span>
                                     <span>
-                                      <span class="ml-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
+                                      <span class="ms-1 custom-bold pointer" (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
                                       
-                                        <div class="ml-1" style="line-height: 0.5em !important;">
+                                        <div class="ms-1" style="line-height: 0.5em !important;">
                                           <input class="form-control d-none" id="onset_{{i}}" name="onset{{i}}" matInput
                                               placeholder="{{'personalinfo.Birth Date' | translate }}" readonly
                                               [matDatepicker]="pickerOnset" [max]="today" (click)="pickerOnset.open()"
@@ -103,12 +103,10 @@
 
 <ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
-      <div class="content-header text-left">
+      <div class="content-header text-start">
         <h4>{{phenotype.data[selectedInfoSymptomIndex].name }} - {{phenotype.data[selectedInfoSymptomIndex].id }}</h4>
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
       <div class="row col-md-12" class="p-2">

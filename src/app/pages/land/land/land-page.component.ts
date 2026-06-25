@@ -4,9 +4,10 @@ import { AuthService } from '../../../../app/shared/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-land-page',
-  templateUrl: './land-page.component.html',
-  styleUrls: ['./land-page.component.scss']
+    selector: 'app-land-page',
+    templateUrl: './land-page.component.html',
+    styleUrls: ['./land-page.component.scss'],
+    standalone: false
 })
 
 export class LandPageComponent {

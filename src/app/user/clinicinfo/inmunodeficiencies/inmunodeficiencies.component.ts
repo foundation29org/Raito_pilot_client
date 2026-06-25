@@ -7,16 +7,17 @@ import { ToastrService } from 'ngx-toastr';
 import { SortService } from 'app/shared/services/sort.service';
 import { PatientService } from 'app/shared/services/patient.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { MatRadioChange } from '@angular/material/radio';
 
 
 @Component({
-  selector: 'app-inmunodeficiencies',
-  templateUrl: './inmunodeficiencies.component.html',
-  styleUrls: ['./inmunodeficiencies.component.scss'],
-  providers: [PatientService]
+    selector: 'app-inmunodeficiencies',
+    templateUrl: './inmunodeficiencies.component.html',
+    styleUrls: ['./inmunodeficiencies.component.scss'],
+    providers: [PatientService],
+    standalone: false
 })
 
 export class InmunodeficienciesComponent implements OnInit, OnDestroy{
@@ -37,7 +38,69 @@ export class InmunodeficienciesComponent implements OnInit, OnDestroy{
   variable: string = null;
   varName: string = null;
   inmunodeficiencies: any = {};
-  actualIndex: number = null;
+  actualIndex: number = 0;
+
+  getSelectedInfection() {
+    return this.inmunodeficiencies?.infections?.[this.actualIndex] ?? null;
+  }
+
+  getSelectedComplication() {
+    return this.inmunodeficiencies?.complications?.[this.actualIndex] ?? null;
+  }
+
+  getSelectedUsualTreatment() {
+    return this.inmunodeficiencies?.usualTreatments?.[this.actualIndex] ?? null;
+  }
+
+  private removeEmptyNamedItems(items: any[]) {
+    for (let i = items.length - 1; i >= 0; i--) {
+      if (items[i].name === '' || items[i].name == null) {
+        items.splice(i, 1);
+      }
+    }
+  }
+
+  private closeModalAndCleanup(items: any[], onAfterCleanup?: () => void) {
+    const modalRef = this.modalReference;
+    this.modalReference = undefined;
+    if (!modalRef) {
+      this.removeEmptyNamedItems(items);
+      this.syncActualIndex(items);
+      if (onAfterCleanup) {
+        onAfterCleanup();
+      }
+      return;
+    }
+
+    const cleanupSub = modalRef.closed.subscribe(() => {
+      this.removeEmptyNamedItems(items);
+      this.syncActualIndex(items);
+      if (onAfterCleanup) {
+        onAfterCleanup();
+      }
+      cleanupSub.unsubscribe();
+    });
+    modalRef.close();
+  }
+
+  private syncActualIndex(items: any[]) {
+    if (items.length === 0) {
+      this.actualIndex = 0;
+      return;
+    }
+    if (this.actualIndex == null || items[this.actualIndex] == null) {
+      this.actualIndex = items.length - 1;
+    }
+  }
+
+  private ensureActualIndex(items: any[]) {
+    if (items.length === 0) {
+      return;
+    }
+    if (this.actualIndex == null || items[this.actualIndex] == null) {
+      this.actualIndex = items.length - 1;
+    }
+  }
 
   constructor(private http: HttpClient, private authService: AuthService, private authGuard: AuthGuard, private modalService: NgbModal, public translate: TranslateService, public toastr: ToastrService, private patientService: PatientService, private sortService: SortService, private cdRef:ChangeDetectorRef) { 
   }
@@ -141,19 +204,12 @@ openInfectionsModal(){
   if(this.inmunodeficiencies.infections.length==0){
     this.addInfection();
   }
+  this.ensureActualIndex(this.inmunodeficiencies.infections);
   this.modalReference = this.modalService.open(this.contentInfectionEditModal, ngbModalOptions);
 }
 
 closesInfectionsModalComponent(){
-for (let i = this.inmunodeficiencies.infections.length - 1; i >= 0; i--) {
-  if(this.inmunodeficiencies.infections[i].name=='' || this.inmunodeficiencies.infections[i].name==null){
-    this.inmunodeficiencies.infections.splice(i, 1);
-  }
-}
-
-if(this.modalReference!=undefined){
-  this.modalReference.close();
-}
+  this.closeModalAndCleanup(this.inmunodeficiencies.infections);
 }
 
 
@@ -206,19 +262,12 @@ openComplicationModal(){
   if(this.inmunodeficiencies.complications.length==0){
     this.addComplication();
   }
+  this.ensureActualIndex(this.inmunodeficiencies.complications);
   this.modalReference = this.modalService.open(this.contentComplicationEditModal, ngbModalOptions);
 }
 
 closeComplicationModalComponent(){
-for (let i = this.inmunodeficiencies.complications.length - 1; i >= 0; i--) {
-  if(this.inmunodeficiencies.complications[i].name=='' || this.inmunodeficiencies.complications[i].name==null){
-    this.inmunodeficiencies.complications.splice(i, 1);
-  }
-}
-
-if(this.modalReference!=undefined){
-  this.modalReference.close();
-}
+  this.closeModalAndCleanup(this.inmunodeficiencies.complications);
 }
 
 
@@ -262,19 +311,16 @@ openUsualTreatmentsModal(){
   if(this.inmunodeficiencies.usualTreatments.length==0){
     this.addUsualTreatment();
   }
+  this.ensureActualIndex(this.inmunodeficiencies.usualTreatments);
   this.modalReference = this.modalService.open(this.contentUsualTreatmentEditModal, ngbModalOptions);
 }
 
 closeUsualTreatmentModalComponent(){
-  for (let i = this.inmunodeficiencies.usualTreatments.length - 1; i >= 0; i--) {
-    if(this.inmunodeficiencies.usualTreatments[i].name=='' || this.inmunodeficiencies.usualTreatments[i].name==null){
-      this.inmunodeficiencies.usualTreatments.splice(i, 1);
+  this.closeModalAndCleanup(this.inmunodeficiencies.usualTreatments, () => {
+    if (this.inmunodeficiencies.usualTreatments.length === 0) {
+      this.inmunodeficiencies.hasUsualTreatments = 'no';
     }
-  }
-  
-  if(this.modalReference!=undefined){
-    this.modalReference.close();
-  }
+  });
   }
 
   
