@@ -6,72 +6,91 @@
   <div class="navbar-container main-menu-content center-layout" data-menu="menu-container">
     <ul appTopMenuDropdown class="navigation-main nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
       <!-- First level menu -->
-      <li appTopMenulink *ngFor="let menuItem of menuItems" [parent]="menuItem.title" level="{{level + 1}}"
-        [attr.data-menu]="menuItem.class === 'dropdown nav-item' ? 'dropdown' : null" [ngClass]="[menuItem.class]"
-        [routerLinkActive]="menuItem.submenu.length != 0 ? 'active' : 'active'" [routerLinkActiveOptions]="{exact: true}">
-
-        <a appTopMenuAnchorToggle *ngIf="menuItem.submenu.length > 0 && !menuItem.isExternalLink" data-toggle="dropdown"
-          class="dropdown-toggle nav-link d-flex align-items-center">
-          <i [ngClass]="[menuItem.icon]"></i>
-          <span>{{menuItem.title | translate }}</span>
-        </a>
-        <a appTopMenuAnchorToggle routerLink="{{menuItem.path}}" *ngIf="menuItem.submenu.length === 0 && !menuItem.isExternalLink"
-          data-toggle="dropdown" class="nav-link d-flex align-items-center">
-          <i [ngClass]="[menuItem.icon]"></i>
-          <span>{{menuItem.title | translate }}</span>
-        </a>
-        <a [href]="[menuItem.path]" target="_blank" *ngIf="menuItem.isExternalLink" data-toggle="dropdown"
-          class="nav-link d-flex align-items-center">
-          <i [ngClass]="[menuItem.icon]"></i>
-          <span>{{menuItem.title | translate }}</span>
-        </a>
-
-        <!-- Second level menu -->
-        <ul appTopMenuDropdown class="dropdown-menu" *ngIf="menuItem.submenu.length > 0">
-          <li appTopMenulink [attr.data-menu]="menuSubItem.class === 'dropdown-item' ? '' : 'dropdown-submenu'"
-            *ngFor="let menuSubItem of menuItem.submenu" [parent]="menuItem.title" level="{{level + 2}}"
-            [routerLinkActive]="menuSubItem.submenu.length != 0 ? 'active' : 'active'"
-            [ngClass]="menuSubItem.class === 'dropdown-item' ? '' : 'has-sub dropdown dropdown-submenu'">
-
-            <a appTopMenuAnchorToggle *ngIf="menuSubItem.submenu.length > 0 && !menuSubItem.isExternalLink"
-              [ngClass]="'dropdown-toggle dropdown-item d-flex align-items-center'">
-              <i [ngClass]="[menuSubItem.icon]"></i>
-              <span>{{menuSubItem.title | translate }}</span>
+      @for (menuItem of menuItems; track menuItem) {
+        <li appTopMenulink [parent]="menuItem.title" level="{{level + 1}}"
+          [attr.data-menu]="menuItem.class === 'dropdown nav-item' ? 'dropdown' : null" [ngClass]="[menuItem.class]"
+          [routerLinkActive]="menuItem.submenu.length != 0 ? 'active' : 'active'" [routerLinkActiveOptions]="{exact: true}">
+          @if (menuItem.submenu.length > 0 && !menuItem.isExternalLink) {
+            <a appTopMenuAnchorToggle data-toggle="dropdown"
+              class="dropdown-toggle nav-link d-flex align-items-center">
+              <i [ngClass]="[menuItem.icon]"></i>
+              <span>{{menuItem.title | translate }}</span>
             </a>
-            <a appTopMenuAnchorToggle routerLink="{{menuSubItem.path}}" *ngIf="menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink"
-              [ngClass]="'dropdown-item d-flex align-items-center'">
-              <i [ngClass]="[menuSubItem.icon]"></i>
-              <span>{{menuSubItem.title | translate }}</span>
+          }
+          @if (menuItem.submenu.length === 0 && !menuItem.isExternalLink) {
+            <a appTopMenuAnchorToggle routerLink="{{menuItem.path}}"
+              data-toggle="dropdown" class="nav-link d-flex align-items-center">
+              <i [ngClass]="[menuItem.icon]"></i>
+              <span>{{menuItem.title | translate }}</span>
             </a>
-            <a [href]="[menuSubItem.path]" *ngIf="menuSubItem.isExternalLink"
-              [ngClass]="'dropdown-item d-flex align-items-center'">
-              <i [ngClass]="[menuSubItem.icon]"></i>
-              <span>{{menuSubItem.title | translate }}</span>
+          }
+          @if (menuItem.isExternalLink) {
+            <a [href]="[menuItem.path]" target="_blank" data-toggle="dropdown"
+              class="nav-link d-flex align-items-center">
+              <i [ngClass]="[menuItem.icon]"></i>
+              <span>{{menuItem.title | translate }}</span>
             </a>
-
-            <!-- Third level menu -->
-            <ul appTopMenuDropdown class="dropdown-menu" *ngIf="menuSubItem.submenu.length > 0">
-              <li appTopMenulink data-menu="" data-toggle="dropdown" *ngFor="let menuSubsubItem of menuSubItem.submenu"
-                [parent]="menuItem.title" level="{{level + 3}}" routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact: true}">
-                <a appTopMenuAnchorToggle data-toggle="dropdown" [ngClass]="'dropdown-item d-flex align-items-center'"
-                  [routerLink]="[menuSubsubItem.path]"
-                  *ngIf="!menuSubsubItem.isExternalLink; else externalSubSubLinkBlock">
-                  <i [ngClass]="[menuSubsubItem.icon]"></i>
-                  <span class="">{{menuSubsubItem.title}}</span>
-                </a>
-                <ng-template #externalSubSubLinkBlock>
-                  <a data-toggle="dropdown" [ngClass]="'dropdown-item d-flex align-items-center'"
-                    [href]="[menuSubsubItem.path]" target="_blank">
-                    <i [ngClass]="[menuSubsubItem.icon]"></i>
-                    <span class="">{{menuSubsubItem.title}}</span>
-                  </a>
-                </ng-template>
-              </li>
+          }
+          <!-- Second level menu -->
+          @if (menuItem.submenu.length > 0) {
+            <ul appTopMenuDropdown class="dropdown-menu">
+              @for (menuSubItem of menuItem.submenu; track menuSubItem) {
+                <li appTopMenulink [attr.data-menu]="menuSubItem.class === 'dropdown-item' ? '' : 'dropdown-submenu'"
+                  [parent]="menuItem.title" level="{{level + 2}}"
+                  [routerLinkActive]="menuSubItem.submenu.length != 0 ? 'active' : 'active'"
+                  [ngClass]="menuSubItem.class === 'dropdown-item' ? '' : 'has-sub dropdown dropdown-submenu'">
+                  @if (menuSubItem.submenu.length > 0 && !menuSubItem.isExternalLink) {
+                    <a appTopMenuAnchorToggle
+                      [ngClass]="'dropdown-toggle dropdown-item d-flex align-items-center'">
+                      <i [ngClass]="[menuSubItem.icon]"></i>
+                      <span>{{menuSubItem.title | translate }}</span>
+                    </a>
+                  }
+                  @if (menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink) {
+                    <a appTopMenuAnchorToggle routerLink="{{menuSubItem.path}}"
+                      [ngClass]="'dropdown-item d-flex align-items-center'">
+                      <i [ngClass]="[menuSubItem.icon]"></i>
+                      <span>{{menuSubItem.title | translate }}</span>
+                    </a>
+                  }
+                  @if (menuSubItem.isExternalLink) {
+                    <a [href]="[menuSubItem.path]"
+                      [ngClass]="'dropdown-item d-flex align-items-center'">
+                      <i [ngClass]="[menuSubItem.icon]"></i>
+                      <span>{{menuSubItem.title | translate }}</span>
+                    </a>
+                  }
+                  <!-- Third level menu -->
+                  @if (menuSubItem.submenu.length > 0) {
+                    <ul appTopMenuDropdown class="dropdown-menu">
+                      @for (menuSubsubItem of menuSubItem.submenu; track menuSubsubItem) {
+                        <li appTopMenulink data-menu="" data-toggle="dropdown"
+                          [parent]="menuItem.title" level="{{level + 3}}" routerLinkActive="active"
+                          [routerLinkActiveOptions]="{exact: true}">
+                          @if (!menuSubsubItem.isExternalLink) {
+                            <a appTopMenuAnchorToggle data-toggle="dropdown" [ngClass]="'dropdown-item d-flex align-items-center'"
+                              [routerLink]="[menuSubsubItem.path]"
+                              >
+                              <i [ngClass]="[menuSubsubItem.icon]"></i>
+                              <span class="">{{menuSubsubItem.title}}</span>
+                            </a>
+                          } @else {
+                            <a data-toggle="dropdown" [ngClass]="'dropdown-item d-flex align-items-center'"
+                              [href]="[menuSubsubItem.path]" target="_blank">
+                              <i [ngClass]="[menuSubsubItem.icon]"></i>
+                              <span class="">{{menuSubsubItem.title}}</span>
+                            </a>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  }
+                </li>
+              }
             </ul>
-          </li>
-        </ul>
-      </li>
+          }
+        </li>
+      }
     </ul>
   </div>
 </div>

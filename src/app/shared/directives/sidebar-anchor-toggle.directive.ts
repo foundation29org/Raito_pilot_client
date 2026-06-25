@@ -15,7 +15,7 @@ export class SidebarAnchorToggleDirective {
     this.navlink = navlink;
   }
 
-  @HostListener("click", ["$event"])
+  @HostListener("click")
   onClick() {
     this.navlink.toggle();
   }

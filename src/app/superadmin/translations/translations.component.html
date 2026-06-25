@@ -6,58 +6,84 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6" *ngIf="langs">
-    <div class="form-group">
-      <label for="lang">{{'generics.Example language' | translate }}</label>
-      <select id="lang" name="lang" class="form-control"  [(ngModel)]="lang" (ngModelChange)="onChangeLang($event)">
-        <option *ngFor="let lang of langs" [ngValue]="lang.code"> {{lang.name}}</option>
-      </select>
+  @if (langs) {
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="lang">{{'generics.Example language' | translate }}</label>
+        <select id="lang" name="lang" class="form-control"  [(ngModel)]="lang" (ngModelChange)="onChangeLang($event)">
+          @for (lang of langs; track lang) {
+            <option [ngValue]="lang.code"> {{lang.name}}</option>
+          }
+        </select>
+      </div>
     </div>
-  </div>
-  <div class="col-md-6" *ngIf="langs">
-    <div class="form-group">
-      <label for="lang2">{{'generics.Language to edit' | translate }}</label>
-      <select id="lang2" name="lang2" class="form-control"  [(ngModel)]="lang2" (ngModelChange)="onChangeLang2($event)">
-        <option *ngFor="let lang of langs" [ngValue]="lang.code"> {{lang.name}}</option>
-      </select>
+  }
+  @if (langs) {
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="lang2">{{'generics.Language to edit' | translate }}</label>
+        <select id="lang2" name="lang2" class="form-control"  [(ngModel)]="lang2" (ngModelChange)="onChangeLang2($event)">
+          @for (lang of langs; track lang) {
+            <option [ngValue]="lang.code"> {{lang.name}}</option>
+          }
+        </select>
+      </div>
     </div>
-  </div>
+  }
 </div>
-<div class="row" *ngIf="datadest">
-  <div class="col-12">
-    <form class="form" (ngSubmit)="onSubmit()" #form="ngForm">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="card-block">
-              <div ngbAccordion [closeOthers]="true">
-                <div *ngFor="let section of keys; let i = index" [ngbAccordionItem]="i">
-                    <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
-                       <h5><i class="icon-note me-2"></i> {{'generics.Section' | translate }}: <span> {{section}}</span></h5>
+@if (datadest) {
+  <div class="row">
+    <div class="col-12">
+      <form class="form" (ngSubmit)="onSubmit()" #form="ngForm">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-block">
+                <div ngbAccordion [closeOthers]="true">
+                  @for (section of keys; track section; let i = $index) {
+                    <div [ngbAccordionItem]="i">
+                      <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
+                        <h5><i class="icon-note me-2"></i> {{'generics.Section' | translate }}: <span> {{section}}</span></h5>
                       </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
-                    <div class="card-block">
-                      <div class="col-md-12" *ngFor="let line of keyslevel2[i] ; let j = index">
-                        <div class="form-group" *ngIf="line!='listqna'">
-                          <label>{{line}}</label>
-                          <p *ngIf="dataorigin" class="text-primary"><small><b>{{lang}}:</b> {{dataorigin[section][line]}}</small></p>
-                          <textarea name="f{{i}}{{j}}" required #f="ngModel" class="form-control" style="padding: 8px;border-radius: 10px" [(ngModel)]="datadest[section][line]"  name="datadest[section][line]"></textarea>
-                          <div *ngIf="f.errors && (f.dirty || f.touched)">
-                            <small class="form-text text-muted danger" *ngIf="f.errors.required"> {{'generics.required' | translate }} </small>
+                      <div class="card-block">
+                        @for (line of keyslevel2[i] ; track line; let j = $index) {
+                          <div class="col-md-12">
+                            @if (line!='listqna') {
+                              <div class="form-group">
+                                <label>{{line}}</label>
+                                @if (dataorigin) {
+                                  <p class="text-primary"><small><b>{{lang}}:</b> {{dataorigin[section][line]}}</small></p>
+                                }
+                                <textarea name="f{{i}}{{j}}" required #f="ngModel" class="form-control" style="padding: 8px;border-radius: 10px" [(ngModel)]="datadest[section][line]"  name="datadest[section][line]"></textarea>
+                                @if (f.errors && (f.dirty || f.touched)) {
+                                  <div>
+                                    @if (f.errors.required) {
+                                      <small class="form-text text-muted danger"> {{'generics.required' | translate }} </small>
+                                    }
+                                  </div>
+                                }
+                              </div>
+                            }
                           </div>
-                        </div>
+                        }
                       </div>
-                    </div>
-                  </ng-template></div></div></div>
+                    </ng-template></div></div></div>
+                  }
                 </div>
               </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-actions center">
-        <div *ngIf="form.valid;then formValid else formError"></div>
-        <ng-template #formValid><button class="btn btn-raised btn-raised btn-primary" type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button></ng-template>
-        <ng-template #formError><button class="btn btn-raised btn-raised btn-primary" type="button" (click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button> <p *ngIf="!form.valid" class="form-text text-muted danger">{{'generics.requiredfieldsmissing' | translate }}</p></ng-template>
+        <div class="form-actions center">
+          @if (form.valid) {
+            <button class="btn btn-raised btn-raised btn-primary" type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button>
+          } @else {
+            <button class="btn btn-raised btn-raised btn-primary" type="button" (click)="submitInvalidForm()"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button> @if (!form.valid) {
+            <p class="form-text text-muted danger">{{'generics.requiredfieldsmissing' | translate }}</p>
+          }
+        }
       </div>
     </form>
   </div>
 </div>
+}

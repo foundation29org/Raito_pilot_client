@@ -11,18 +11,21 @@
         <div class="navbar-header">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <div class="logo"><a class="logo-text" [routerLink]="['/']" *ngIf="config?.layout.menuPosition === 'Top'">
+              <div class="logo">@if (config?.layout.menuPosition === 'Top') {
+                <a class="logo-text" [routerLink]="['/']">
                   <div class="logo-img"><img class="logo-img" alt="logo raito" alt="raito logo" [src]="logoUrl"></div><span
-                    class="text">Raito</span>
-                </a></div>
-            </li>
-          </ul>
-        </div>
+                class="text">Raito</span>
+              </a>
+            }</div>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="navbar-container">
-      <div id="navbarSupportedContent">
-        <ul class="navbar-nav m-r-0" *ngIf="role=='User'">
+  </div>
+  <div class="navbar-container">
+    <div id="navbarSupportedContent">
+      @if (role=='User') {
+        <ul class="navbar-nav m-r-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/home">
               <i class="ft-home font-medium-3 white" [ngClass]="{'grey': actualUrl=='/home'}"></i>
@@ -33,26 +36,29 @@
             <a class="nav-link position-relative" id="dropdownBasic2" ngbDropdownToggle
               title="{{'menu.Personal Info' | translate }}">
               <i class="fas fa-microscope font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/inmunodeficiencies' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
+              [ngClass]="{'grey': actualUrl=='/symptoms' || actualUrl=='/medical-records' || actualUrl=='/seizures' || actualUrl=='/inmunodeficiencies' || actualUrl=='/medication' || actualUrl=='/prom' || actualUrl=='/feel' || actualUrl=='/medical-records'}"></i>
               <p class="d-none">{{'navbar.menu.Personal Info' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-
               <a class="dropdown-item" routerLink="/calendar">
                 <span>{{'menu.Calendar' | translate }}</span>
               </a>
-              <span *ngIf="showSeizuresModules">
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" routerLink="/seizures">
-                  <span>{{'menu.Seizures' | translate }}</span>
-                </a>
-              </span>
-              <span *ngIf="showInmunodeficienciesModules">
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" routerLink="/inmunodeficiencies">
-                  <span>{{'menu.Clinical data of inmunodeficiencies' | translate }}</span>
-                </a>
-              </span>
+              @if (showSeizuresModules) {
+                <span>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" routerLink="/seizures">
+                    <span>{{'menu.Seizures' | translate }}</span>
+                  </a>
+                </span>
+              }
+              @if (showInmunodeficienciesModules) {
+                <span>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" routerLink="/inmunodeficiencies">
+                    <span>{{'menu.Clinical data of inmunodeficiencies' | translate }}</span>
+                  </a>
+                </span>
+              }
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" routerLink="/feel">
                 <span>{{'homeraito.p6' | translate }}</span>
@@ -70,9 +76,9 @@
                 <span>{{'menu.My documents' | translate }}</span>
               </a>
               <!--<div class="dropdown-divider"></div>
-                      <a class="dropdown-item" routerLink="/anthropometry">
-                        <span>{{'clinicalinfo.Anthropometry' | translate }}</span>
-                      </a>-->
+              <a class="dropdown-item" routerLink="/anthropometry">
+                <span>{{'clinicalinfo.Anthropometry' | translate }}</span>
+              </a>-->
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" routerLink="/prom">
                 <span>{{'menu.Questionnaire' | translate }}</span>
@@ -89,7 +95,7 @@
             <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle
               title="{{'generics.Options' | translate }}">
               <i class="fa fa-cog font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+              [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
               <p class="d-none">{{'navbar.User Settings' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
@@ -117,15 +123,21 @@
                 <i class="ft-power fa-xs me-2"></i>
                 <span>{{'navbar.Logout' | translate }}</span>
               </a>
-              <div *ngIf="isAndroid" class="dropdown-divider"></div>
-              <a *ngIf="isAndroid" class="dropdown-item" href="javascript:;" (click)="exit()">
-                <i class="ft-log-out fa-xs me-2"></i>
-                <span>{{'navbar.Exit' | translate }}</span>
-              </a>
+              @if (isAndroid) {
+                <div class="dropdown-divider"></div>
+              }
+              @if (isAndroid) {
+                <a class="dropdown-item" href="javascript:;" (click)="exit()">
+                  <i class="ft-log-out fa-xs me-2"></i>
+                  <span>{{'navbar.Exit' | translate }}</span>
+                </a>
+              }
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav m-r-0" *ngIf="role=='Admin'">
+      }
+      @if (role=='Admin') {
+        <ul class="navbar-nav m-r-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/dashboard-admin">
               <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/admin/dashboard-admin'}"></i>
@@ -142,7 +154,7 @@
             <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle
               title="{{'generics.Options' | translate }}">
               <i class="fa fa-cog font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+              [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
               <p class="d-none">{{'navbar.User Settings' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
@@ -158,7 +170,9 @@
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav m-r-0" *ngIf="role=='SuperAdmin'">
+      }
+      @if (role=='SuperAdmin') {
+        <ul class="navbar-nav m-r-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/superadmin/dashboard-superadmin">
               <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/dashboard-superadmin'}"></i>
@@ -181,7 +195,7 @@
             <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle
               title="{{'generics.Options' | translate }}">
               <i class="fa fa-cog font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+              [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
               <p class="d-none">{{'navbar.User Settings' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
@@ -197,7 +211,9 @@
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav m-r-0" *ngIf="role=='Admin'">
+      }
+      @if (role=='Admin') {
+        <ul class="navbar-nav m-r-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/dashboard-admin">
               <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/admin/dashboard-admin'}"></i>
@@ -214,7 +230,7 @@
             <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle
               title="{{'generics.Options' | translate }}">
               <i class="fa fa-cog font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+              [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
               <p class="d-none">{{'navbar.User Settings' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
@@ -230,7 +246,9 @@
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav m-r-0" *ngIf="role=='SuperAdmin'">
+      }
+      @if (role=='SuperAdmin') {
+        <ul class="navbar-nav m-r-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/superadmin/dashboard-superadmin">
               <i class="ft-home fa-2x white" [ngClass]="{'grey': actualUrl=='/superadmin/dashboard-superadmin'}"></i>
@@ -252,7 +270,7 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/superadmin/manageclinicinfo/medication">
               <i class="fa-solid fa-pills fa-2x white"
-                [ngClass]="{'grey': actualUrl=='/superadmin/manageclinicinfo/medication'}"></i>
+              [ngClass]="{'grey': actualUrl=='/superadmin/manageclinicinfo/medication'}"></i>
               <p class="d-none">{{'menu.Dashboard' | translate }}</p>
             </a>
           </li>
@@ -260,7 +278,7 @@
             <a class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle
               title="{{'generics.Options' | translate }}">
               <i class="fa fa-cog font-medium-3 white"
-                [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
+              [ngClass]="{'grey': actualUrl=='/pages/profile' || actualUrl=='/pages/support' || actualUrl=='/privacy-policy' || actualUrl=='/patient-info'}"></i>
               <p class="d-none">{{'navbar.User Settings' | translate }}</p>
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
@@ -276,9 +294,10 @@
             </div>
           </li>
         </ul>
-      </div>
+      }
     </div>
   </div>
+</div>
 
 
 

@@ -7,10 +7,11 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  HostListener
+  HostListener,
+  DOCUMENT
 } from "@angular/core";
 import { ConfigService } from "app/shared/services/config.service";
-import { DOCUMENT } from "@angular/common";
+
 import { Subscription } from "rxjs";
 import { CustomizerService } from 'app/shared/services/customizer.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
