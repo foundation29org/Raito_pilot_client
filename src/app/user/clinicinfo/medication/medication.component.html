@@ -46,7 +46,7 @@
 											<div class="card-body">
 												<div class="card-block pb-0">
 													<div class="media">
-														<div class="media-body white text-left">
+														<div class="media-body white text-start">
 															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
 															<span *ngIf="medication.recommendedDose && weight && loadedRecommendedDose" class="d-block mt-2">
@@ -68,7 +68,7 @@
 												<div class="pt-2 card-block pb-0">
 					
 													<div ngbDropdown class="d-inline-block">
-														<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1"
+														<button class="btn btn-primary btn-raised mb-0 btn-round me-1" id="dropdownBasic1"
 															ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 														<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 															<a class="dropdown-item"
@@ -97,7 +97,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row col-md-12 ml-0" *ngIf="actualMedications.length==0">
+								<div class="row col-md-12 ms-0" *ngIf="actualMedications.length==0">
 									<h4 class="text-bold-400">{{'medication.Currently it is not taking drugs' | translate }}</h4>
 								</div>
 								<div class="row" *ngIf="oldMedications.length>0">
@@ -109,7 +109,7 @@
 											<div class="card-body">
 												<div class="card-block pb-0">
 													<div class="media">
-														<div class="media-body white text-left">
+														<div class="media-body white text-start">
 															<h3 class="white font-medium-3 mb-0">{{medication.drugTranslate}}</h3>
 															<span>{{medication.dose}} {{'medication.mg/day' | translate }}</span>
 															<p>{{medication.endDate | date: timeformat}}</p>
@@ -119,7 +119,7 @@
 												</div>
 												<div class="pt-2 card-block pb-0">
 													<div ngbDropdown class="d-inline-block">
-														<button class="btn btn-primary btn-raised mb-0 btn-round mr-1" id="dropdownBasic1"
+														<button class="btn btn-primary btn-raised mb-0 btn-round me-1" id="dropdownBasic1"
 															ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 														<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 															<a class="dropdown-item"
@@ -183,7 +183,7 @@
 									<div class="card-body">
 										<div class="card-block pb-0">
 											<div class="media">
-												<div class="media-body white text-left">
+												<div class="media-body white text-start">
 													<h3 class="white font-medium-3 mb-0">{{actualMedication.dose}} {{'medication.mg/day' |
 														translate }}</h3>
 													<span>{{'medication.Current dose' | translate }}</span>
@@ -195,14 +195,14 @@
 													</span>
 													
 												</div>
-												<div class="media-right white text-right">
+												<div class="media-right white text-end">
 													<i class="fa fa-medkit font-medium-3"></i>
 												</div>
 											</div>
 										</div>
 										<div class="pt-2 card-block pb-0">
 											<div ngbDropdown class="d-inline-block">
-												<button class="btn btn-secondary btn-raised btn-round mr-1" id="dropdownBasic1"
+												<button class="btn btn-secondary btn-raised btn-round me-1" id="dropdownBasic1"
 													ngbDropdownToggle>{{'generics.Options' | translate }}</button>
 												<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 													<a class="dropdown-item" (click)="editDrug(actualMedication)">{{'generics.Edit' |
@@ -435,8 +435,8 @@
 													<tbody>
 														<tr *ngFor="let drug of historyDrugSelected ; let i = index">
 															<td>
-																<div ngbDropdown class="ml-1 d-inline-block">
-																	<button class="btn btn-primary btn-raised mb-0 btn-round mr-1"
+																<div ngbDropdown class="ms-1 d-inline-block">
+																	<button class="btn btn-primary btn-raised mb-0 btn-round me-1"
 																		id="dropdownBasic1" ngbDropdownToggle><i
 																			class="icon-settings font-medium-4 fa  white align-middle"></i></button>
 																	<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -510,9 +510,7 @@
 	<form class="form" (ngSubmit)="onSubmitNewDose()" #f="ngForm" *ngIf="medication">
 		<div class="modal-header">
 			<h4 class="modal-title">{{'medication.New Dose' | translate }}</h4>
-			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-				<span aria-hidden="true">&times;</span>
-			</button>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
 		</div>
 		<div class="modal-body">
 			<div class="">
@@ -584,9 +582,7 @@
 	<form class="form" (ngSubmit)="onSubmitStopTaking()" #f="ngForm" *ngIf="medication">
 		<div class="modal-header">
 			<h4 class="modal-title">{{'medication.Stop taking the drug' | translate }}</h4>
-			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-				<span aria-hidden="true">&times;</span>
-			</button>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
 		</div>
 		<div class="modal-body">
 			<div class="">
@@ -643,9 +639,7 @@
 	<form class="form" (ngSubmit)="onSubmitChangeNotes()" #f="ngForm" *ngIf="medication">
 		<div class="modal-header">
 			<h4 class="modal-title">{{'generics.notes' | translate }}</h4>
-			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-				<span aria-hidden="true">&times;</span>
-			</button>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
 		</div>
 		<div class="modal-body">
 			<div class="">
@@ -690,9 +684,7 @@
 	<form class="form" (ngSubmit)="onSubmitSideEffect()" #f="ngForm" *ngIf="medication">
 		<div class="modal-header">
 			<h4 class="modal-title">{{'medication.Side Effect' | translate }}</h4>
-			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-				<span aria-hidden="true">&times;</span>
-			</button>
+			<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
 		</div>
 		<div class="modal-body">
 			<div class="">

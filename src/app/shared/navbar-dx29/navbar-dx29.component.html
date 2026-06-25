@@ -7,10 +7,10 @@
             <img *ngIf="!isHomePage" class="logo-img" alt="logo raito" src='assets/img/logo-lg-white.png' routerLink="/." (click)="lauchEvent('Logo');" style="cursor: pointer;"/>
           </span>
       </div>
-        <div class="navbar-container pl-0">
+        <div class="navbar-container ps-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
-                  <li class="nav-item mr-2 d-inline" ngbDropdown display="dynamic" placement="bottom-right">
+                  <li class="nav-item me-2 d-inline" ngbDropdown display="dynamic" placement="bottom-right">
                     <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle role="button">
                         <u>{{currentLang}}</u>
                     </a>

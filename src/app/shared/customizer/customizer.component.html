@@ -12,15 +12,15 @@
     <!-- Layout Options Starts-->
     <div class="ct-layout">
       <hr>
-      <h6 class="mb-3 d-flex align-items-center"><i class="ft-layout font-medium-2 mr-2"></i><span>Layout Options</span>
+      <h6 class="mb-3 d-flex align-items-center"><i class="ft-layout font-medium-2 me-2"></i><span>Layout Options</span>
       </h6>
       <div class="layout-switch">
-        <div class="radio radio-sm d-inline-block light-layout mr-3">
+        <div class="radio radio-sm d-inline-block light-layout me-3">
           <input id="ll-switch" type="radio" name="layout-switch" [checked]="config.layout.variant === 'Light'"
             (click)="customizerService.switchLayout('light', isBgImageDisplay)">
           <label for="ll-switch">Light</label>
         </div>
-        <div class="radio radio-sm d-inline-block dark-layout mr-3">
+        <div class="radio radio-sm d-inline-block dark-layout me-3">
           <input id="dl-switch" type="radio" name="layout-switch" [checked]="config.layout.variant === 'Dark'"
             (click)="customizerService.switchLayout('dark', isBgImageDisplay)">
           <label for="dl-switch">Dark</label>

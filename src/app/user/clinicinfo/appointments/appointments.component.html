@@ -2,7 +2,7 @@
 <section id="calendar">
 	<div class="row">
 		<div class="col-sm-12">
-			<button class="mt-3 btn btn-raised btn-primary float-right" (click)="addEvent(null)">
+			<button class="mt-3 btn btn-raised btn-primary float-end" (click)="addEvent(null)">
 				{{'appointments.Add appointment' | translate }}
 			</button>
 			<div class="content-header">{{'menu.Calendar' | translate }}</div>
@@ -43,7 +43,7 @@
 						</div>
 					</div>
 					
-					<!--<div class="col text-right">
+					<!--<div class="col text-end">
 						<div class="btn-group d-none d-sm-none d-md-none d-lg-block">
 							<a class="btn btn-raised btn-primary" (click)="view = 'month'" [class.active]="view === 'month'">
 								{{'appointments.Month' | translate }}
@@ -88,9 +88,7 @@
 				<span *ngIf="modalData.action=='Add new event'"> {{'appointments.Add new event' | translate }}</span>
 				<span *ngIf="modalData.action!='Add new event'"> {{'appointments.Edit this event' | translate }}</span>
 			</h5>
-			<button type="button" class="close" (click)="closeModal()">
-				<span aria-hidden="true">&times;</span>
-			</button>
+			<button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
 		</div>
 		<div class="modal-body">
 			
@@ -149,15 +147,15 @@
 		</div>
 		<div class="modal-footer">
 			<div class="col-md-12 center-elements" *ngIf="modalData.action=='Add new event'">
-				<button type="button" class="btn btn-primary mr-1" (click)="clearData(modalData.event);">{{'appointments.Clean form' |
+				<button type="button" class="btn btn-primary me-1" (click)="clearData(modalData.event);">{{'appointments.Clean form' |
 					translate }}</button>
-				<button type="button" class="btn btn-dark ml-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |
+				<button type="button" class="btn btn-dark ms-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |
 					translate }}</button>
 			</div>
 			<div class="col-md-12 center-elements" *ngIf="modalData.action!='Add new event'">
-				<button type="button" class="btn btn-primary mr-1" (click)="confirmDeleteSeizure(modalData.event);">{{'generics.Delete' |
+				<button type="button" class="btn btn-primary me-1" (click)="confirmDeleteSeizure(modalData.event);">{{'generics.Delete' |
 					translate }}</button>
-				<button type="button" class="btn btn-dark ml-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |
+				<button type="button" class="btn btn-dark ms-1" (click)="close();saveData(modalData.event);">{{'generics.SaveAndClose' |
 					translate }}</button>
 			</div>
 		</div>

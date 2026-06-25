@@ -8,14 +8,15 @@
                         <h2 class="content-header mt-0">{{'mydata.title' | translate }}</h2>
                         <p>{{'mydata.desc' | translate }}</p>
                         <!--One open panel at a time Starts-->
-                    <div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true">
+                    <div ngbAccordion #accordion="ngbAccordion" [closeOthers]="true" class="mydata-accordion">
                         <div ngbAccordionItem="1" [collapsed]="false">
-                            <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
-                                <h5 class="mb-0"><i class="fa fa-cloud-upload mr-2 float-left margin-icon"></i> <span> {{'mydata.q1' | translate }}</span> <span class="float-right">
-                                        <span
-                                            [ngClass]="{'ft-chevron-up': isOpen(1), 'ft-chevron-down': !isOpen(1)}"></span>
-                                    </span></h5>
-                            </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
+                            <h2 ngbAccordionHeader>
+                              <button ngbAccordionButton class="mydata-accordion-btn">
+                                <i class="fa fa-cloud-upload mydata-accordion-icon" aria-hidden="true"></i>
+                                <span class="mydata-accordion-title">{{'mydata.q1' | translate }}</span>
+                                <span class="mydata-accordion-chevron" [ngClass]="{'ft-chevron-up': isOpen(1), 'ft-chevron-down': !isOpen(1)}"></span>
+                              </button>
+                            </h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                                 <div class="mb-3 row">
                                     <p class="text-muted col-md-12">{{'mydata.a1' | translate }}</p>
 
@@ -59,12 +60,13 @@
                                 
                             </ng-template></div></div></div>
                         <div ngbAccordionItem="3">
-                          <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
-                              <h5 class="mb-0"><i class="fas fa-share mr-2 float-left margin-icon"></i> <span> {{'generics.Share' | translate }}</span> <span class="float-right">
-                                      <span
-                                          [ngClass]="{'ft-chevron-up': isOpen(3), 'ft-chevron-down': !isOpen(3)}"></span>
-                                  </span></h5>
-                          </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
+                          <h2 ngbAccordionHeader>
+                            <button ngbAccordionButton class="mydata-accordion-btn">
+                              <i class="fas fa-share mydata-accordion-icon" aria-hidden="true"></i>
+                              <span class="mydata-accordion-title">{{'generics.Share' | translate }}</span>
+                              <span class="mydata-accordion-chevron" [ngClass]="{'ft-chevron-up': isOpen(3), 'ft-chevron-down': !isOpen(3)}"></span>
+                            </button>
+                          </h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                                 <div class="row">
                                     <div class="col-md-12 col-lg-4 mt-3">
                                         <div class="">
@@ -90,9 +92,9 @@
                                               <button class="btn btn-dark btn-100" type="button" routerLink="/patient-info">{{'mydata.Add patient group' | translate }}</button>
                                           </div>
                                           <div class="" *ngIf="hasGroup && group.allowShare" [ngClass]="{'mb-2': innerWidth<992}">
-                                              <p class="text-left mb-0"><strong>{{'groups.Group' | translate }}:</strong> {{group.name}}</p>
+                                              <p class="text-start mb-0"><strong>{{'groups.Group' | translate }}:</strong> {{group.name}}</p>
                                               <span *ngIf="!startingProcessOrg" class="">
-                                                  <p class="text-left text-muted mb-0 mt-2" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
+                                                  <p class="text-start text-muted mb-0 mt-2" *ngIf="consentgroup=='true'">{{'mydata.a2.5' | translate }}</p>
                                                   <!--<p class="text-muted mb-0" *ngIf="consentgroup=='false'">{{'mydata.a2.7' | translate }}</p>-->
                                                   <button *ngIf="consentgroup=='false'" class="btn btn-dark btn-100 mt-2" type="button"
                                                       (click)="changeConsentGroup('true')">{{'mydata.I give my consent' | translate }}</button>
@@ -101,8 +103,8 @@
                                               </span>
                                               <div class="mt-2" *ngIf="consentgroup=='Pending'">
                                                   <div *ngIf="qrImageOrg!='' && displayOrg!='Expired'">
-                                                      <p class="text-muted text-left">{{'mydata.vcintro1' | translate }}</p>
-                                                      <p class="text-muted text-left" [innerHTML]="'mydata.vcintro2' | translate"></p>
+                                                      <p class="text-muted text-start">{{'mydata.vcintro1' | translate }}</p>
+                                                      <p class="text-muted text-start" [innerHTML]="'mydata.vcintro2' | translate"></p>
                                                       <span *ngIf="showLinkMA" class="d-block font-small-3" [innerHTML]="'open.instructionMA' | translate"></span>
                                                       <img [src]="qrImageOrg" style="max-width: 200px;">
                                                       <span class="d-block">PIN: {{pinOrg}}</span>
@@ -142,12 +144,13 @@
 
                           </ng-template></div></div></div>
                         <div ngbAccordionItem="4">
-                            <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
-                                <h5 class="mb-0"><i class="fas fa-download mr-2 float-left margin-icon"></i> <span> {{'mydata.fhirtitle' | translate }}</span> <span class="float-right">
-                                        <span
-                                            [ngClass]="{'ft-chevron-up': isOpen(4), 'ft-chevron-down': !isOpen(4)}"></span>
-                                    </span></h5>
-                            </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
+                            <h2 ngbAccordionHeader>
+                              <button ngbAccordionButton class="mydata-accordion-btn">
+                                <i class="fas fa-download mydata-accordion-icon" aria-hidden="true"></i>
+                                <span class="mydata-accordion-title">{{'mydata.fhirtitle' | translate }}</span>
+                                <span class="mydata-accordion-chevron" [ngClass]="{'ft-chevron-up': isOpen(4), 'ft-chevron-down': !isOpen(4)}"></span>
+                              </button>
+                            </h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                                 <div class="row mt-3 mb-3">
                                     <div class="col-md-12 col-lg-6">
                                         <p class="text-muted">{{'mydata.sharecontent1' | translate }}</p>
@@ -184,12 +187,13 @@
   
                             </ng-template></div></div></div>
                         <div ngbAccordionItem="5">
-                            <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
-                                <h5 class="mb-0"><i class="fas fa-upload mr-2 float-left margin-icon"></i> <span> {{'mydata.importfhir' | translate }}</span> <span class="float-right">
-                                        <span
-                                            [ngClass]="{'ft-chevron-up': isOpen(5), 'ft-chevron-down': !isOpen(5)}"></span>
-                                    </span></h5>
-                            </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
+                            <h2 ngbAccordionHeader>
+                              <button ngbAccordionButton class="mydata-accordion-btn">
+                                <i class="fas fa-upload mydata-accordion-icon" aria-hidden="true"></i>
+                                <span class="mydata-accordion-title">{{'mydata.importfhir' | translate }}</span>
+                                <span class="mydata-accordion-chevron" [ngClass]="{'ft-chevron-up': isOpen(5), 'ft-chevron-down': !isOpen(5)}"></span>
+                              </button>
+                            </h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                                 <div class="row mt-3 mb-3">
                                     <div class="col-md-12 col-lg-6" [ngClass]="{'mt-2': innerWidth<992}">
                                         <div class="row">
@@ -218,12 +222,13 @@
   
                             </ng-template></div></div></div>
                         <div ngbAccordionItem="6">
-                            <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
-                                <h5 class="mb-0"><i class="fa fa-trash mr-2 float-left margin-icon"></i> <span> {{'generics.Delete' | translate }}</span> <span class="float-right">
-                                        <span
-                                            [ngClass]="{'ft-chevron-up': isOpen(6), 'ft-chevron-down': !isOpen(6)}"></span>
-                                    </span></h5>
-                            </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
+                            <h2 ngbAccordionHeader>
+                              <button ngbAccordionButton class="mydata-accordion-btn">
+                                <i class="fa fa-trash mydata-accordion-icon" aria-hidden="true"></i>
+                                <span class="mydata-accordion-title">{{'generics.Delete' | translate }}</span>
+                                <span class="mydata-accordion-chevron" [ngClass]="{'ft-chevron-up': isOpen(6), 'ft-chevron-down': !isOpen(6)}"></span>
+                              </button>
+                            </h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                                 <div class="center-elements mb-3 mt-3" *ngIf="!showPanelDelete">
                                     <button class="btn btn-primary" type="button"
                                         (click)="deleteAccount()">{{'generics.Delete data' | translate }}</button>
@@ -260,11 +265,11 @@
                                                 <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
                                                     <h6 class="m-0 mb-2">{{'login.Or Continue With' | translate }}</h6>
                                                     <div class="login-options">
-                                                        <button type="button" class="btn btn-sm btn-white btn-google mr-1"
+                                                        <button type="button" class="btn btn-sm btn-white btn-google me-1"
                                                             (click)="authServiceFirebase.GoogleAuth()">
                                                             <i class="fa-brands fa-google fa-2x"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-sm btn-white btn-microsoft mr-1"
+                                                        <button type="button" class="btn btn-sm btn-white btn-microsoft me-1"
                                                             (click)="authServiceFirebase.signInWithMicrosoft()">
                                                             <i class="fa fa-windows fa-2x"></i>
                                                         </button>
@@ -293,7 +298,7 @@
         <div class="card-footer ">
             <a class="primary font-small-1 mt-2" style="position: relative;top: 8px;"
                 (click)="showHelpFHIRPopup(contentInfoFHIR);">{{'mydata.All data saved with FHIR standard' | translate }}</a> <img (click)="showHelpFHIRPopup(contentInfoFHIR);"
-                class="logo-img mt-1 pointer ml-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
+                class="logo-img mt-1 pointer ms-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' />
         </div>
     </div>
 </div>
@@ -303,10 +308,8 @@
 <ng-template #contentInfoFHIR let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
         <h4 class="modal-title"><span class="" style="position: relative;top: 8px;">{{'mydata.What is FHIR' | translate }}</span> <img
-                class="logo-img ml-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' /></h4>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+                class="logo-img ms-2" style="height: 40px;" src='assets/img/elements/hl7_fhir.png' /></h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
         <p>{{'mydata.FHIR1' | translate }}</p>
@@ -322,9 +325,7 @@
     <span class="font-small-2 d-block mt-1"></span>
   </h4>
 
-        <button type="button" class="close" aria-label="Close" (click)="c('Close click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="c('Close click')"></button>
     </div>
 <div *ngIf="!loadedShareData" class="center-elements mt-3 mb-3">
   <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
@@ -373,9 +374,7 @@
     <span class="font-small-2 d-block mt-1" *ngIf="loadedShareData && showNewCustom">{{newPermission.date | date}} </span>
   </h4>
 
-        <button type="button" class="close" aria-label="Close" (click)="closeModalShare();" *ngIf="!showNewCustom">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModalShare();" *ngIf="!showNewCustom"></button>
     </div>
 <div *ngIf="!loadedShareData" class="center-elements mt-3 mb-3">
   <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
@@ -406,13 +405,13 @@
     </div>
     <div class="col-md-12">
       <div class="center-elements" *ngIf="!sending">
-        <button class="btn btn-secondary mr-1" (click)="cancelCustom()"><span>{{'generics.Cancel' | translate }}</span></button>
+        <button class="btn btn-secondary me-1" (click)="cancelCustom()"><span>{{'generics.Cancel' | translate }}</span></button>
         <div *ngIf="f.valid;then formValid else formError"></div>
         <ng-template #formValid>
-          <button class="btn btn-dark ml-1" (click)="sendShare()"><span *ngIf="newPermission._id==null">{{'open.Create link' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
+          <button class="btn btn-dark ms-1" (click)="sendShare()"><span *ngIf="newPermission._id==null">{{'open.Create link' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
         </ng-template>
         <ng-template #formError>
-          <button class="btn btn-dark ml-1" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="newPermission._id==null">{{'open.Create link' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
+          <button class="btn btn-dark ms-1" type="button" disabled="true" (click)="submitInvalidForm()"> <span *ngIf="newPermission._id==null">{{'open.Create link' | translate }}</span><span *ngIf="newPermission._id!=null">{{'generics.Update' | translate }}</span></button>
         </ng-template>
         
       </div>
@@ -454,8 +453,8 @@
                         <qrcode  [ngClass]="(widthPanelCustomShare<433)?'':'sample'" id="qrcodeimg" [qrdata]="urlOpenRaito + oneCustomShare.token" elementType="url" [width]="120" [errorCorrectionLevel]="'M'"></qrcode>
                     </div>-->
                     <div class="row bottonsactions"  >
-                        <div class="float-right" [ngClass]="(widthPanelCustomShare<300)?'bottonsactionsSm mt-2':'bottonsactionsDefault'">
-                            <span class="mr-2">
+                        <div class="float-end" [ngClass]="(widthPanelCustomShare<300)?'bottonsactionsSm mt-2':'bottonsactionsDefault'">
+                            <span class="me-2">
                                 <button class="btn btn-dark btn-sm" data-original-title="" title="{{'generics.ShareData' | translate }}" (click)="copyUrl(oneCustomShare.token)">
                                     <i class="fas fa-share"></i>
                                 </button>
@@ -463,7 +462,7 @@
                                     <i class="fas fa-share"></i>
                                 </button>-->
                                 </span>
-                                <span class="mr-2">
+                                <span class="me-2">
                                 <a class="btn btn-info btn-sm" data-original-title="" title="{{'generics.Edit' | translate }}" (click)="editcustom(i)">
                                     <i class="ft-edit"></i>
                                 </a>
@@ -525,8 +524,8 @@
                             </div>
                             <div *ngIf="inProcess && oneCustomShare.status =='Pending'" class="mt-2 mb-2">
                                 <div *ngIf="qrImage!='' && display!='Expired'">
-                                    <p class="text-left">{{'mydata.vcintro1' | translate }}</p>
-                                    <p class="text-left" [innerHTML]="'mydata.vcintro2' | translate"></p>
+                                    <p class="text-start">{{'mydata.vcintro1' | translate }}</p>
+                                    <p class="text-start" [innerHTML]="'mydata.vcintro2' | translate"></p>
                                     <span *ngIf="showLinkMA" class="d-block font-small-3 mb-1" [innerHTML]="'open.instructionMA' | translate"></span>
                                     <img [src]="qrImage" style="max-width: 200px;">
                                     <span class="white d-block">PIN: {{pin}}</span>
@@ -563,9 +562,7 @@
 
 <ng-template #pdfPanel let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
-      <button type="button" class="close" aria-label="Close" (click)="closeModalProfile();">
-          <span aria-hidden="true">&times;</span>
-      </button>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModalProfile();"></button>
   </div>
 <div class="modal-body card mb-0" >
   <div class="row mb-2">
@@ -574,21 +571,21 @@
         {{'pdf.selectperiod' | translate }}
         </label>
         <span class="optionsCharts">
-            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='month'"
+            <span><button class="mb-0 btn btn-sm btn-white round me-1" [disabled]="rangeDate=='month'"
                     (click)="loadDataRangeDate('month');">{{'charts.Last month' |
                     translate }}</button></span>
-            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='quarter'"
+            <span><button class="mb-0 btn btn-sm btn-white round me-1" [disabled]="rangeDate=='quarter'"
                     (click)="loadDataRangeDate('quarter');">{{'charts.Last quarter' |
                     translate }}</button></span>
-            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="rangeDate=='year'"
+            <span><button class="mb-0 btn btn-sm btn-white round me-1" [disabled]="rangeDate=='year'"
                     (click)="loadDataRangeDate('year');">{{'charts.Last year' |
                     translate }}</button></span>
         </span>
         <span class="d-block mt-2">
-            <span class="mr-2">{{'charts.GroupBy' | translate }}:</span>
-            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Weeks'"
+            <span class="me-2">{{'charts.GroupBy' | translate }}:</span>
+            <span><button class="mb-0 btn btn-sm btn-white round me-1" [disabled]="groupBy=='Weeks'"
                     (click)="changeGroupBy('Weeks');">{{'charts.Weeks' | translate }}</button></span>
-            <span><button class="mb-0 btn btn-sm btn-white round mr-1" [disabled]="groupBy=='Months'"
+            <span><button class="mb-0 btn btn-sm btn-white round me-1" [disabled]="groupBy=='Months'"
                     (click)="changeGroupBy('Months');">{{'charts.Months' | translate }}</button></span>
         </span>
 
@@ -643,14 +640,14 @@
                                     
                                 </div>
                                 <div *ngIf="rangeDate=='month'" class="center-elements col-12">
-                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                     <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                 </div>
                                 <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
                                     <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                 </div>
                                 </div>
                                 
@@ -737,14 +734,14 @@
                                         </ng-template>
                                     </ngx-charts-line-chart>
                                     <div *ngIf="rangeDate=='month'" class="center-elements col-12">
-                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                         <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                        <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                     </div>
                                     <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                        <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
                                         <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                        <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                        <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                     </div>
                                 </div>
                                 </div>
@@ -789,7 +786,7 @@
                                         <h4 class="text-bold-500 mb-0">{{'clinicalinfo.Medication' | translate }}</h4>
                                         <span class="text-muted">{{'pdf.grap3' | translate }}</span>
                                         <span class="text-muted d-block"> 
-                                            <label class="container pl-0">
+                                            <label class="container ps-0">
                                                 <input type="checkbox" [(ngModel)]="normalized" (change)="normalizedChanged(normalized)">
                                                 <span class="checkmark"></span>
                                               </label><span style="margin-left: 0.2rem !important;">{{titleDose}}</span>
@@ -809,14 +806,14 @@
                                       </ngx-charts-line-chart>                                    
                                   </div>
                                   <div *ngIf="rangeDate=='month'" class="center-elements col-12">
-                                      <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                      <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                       <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                      <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                      <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                   </div>
                                   <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                      <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                      <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
                                       <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                      <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                      <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                   </div>
                                   <ngx-charts-legend fxFlex="100%" 
                                                         class="chart-legend" 
@@ -865,7 +862,7 @@
                                     <div class="col-12">
                                         <h4 class="text-bold-500 mb-0">{{'charts.Drugs vs Seizures' | translate }}</h4>
                                         <span class="text-muted">
-                                            <label class="container pl-0">
+                                            <label class="container ps-0">
                                                 <input type="checkbox" [(ngModel)]="normalized2" (change)="normalizedChanged2(normalized2)">
                                                 <span class="checkmark"></span>
                                               </label><span style="margin-left: 0.2rem !important;">{{titleDrugsVsDrugs}}</span> 
@@ -903,14 +900,14 @@
                                        
                                 </div>
                                 <div *ngIf="rangeDate=='month'" class="center-elements col-12">
-                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                     <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'dd MMM': '' : translate.currentLang}}</span>
-                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
+                                    <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'dd MMM': '' : translate.currentLang}}</span>
                                 </div>
                                 <div *ngIf="rangeDate!='month'" class="center-elements col-12">
-                                    <span class="float-left font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-start font-small-3">{{xAxisTicks[0] | date: 'MMM y': '' : translate.currentLang}}</span>
                                     <span class="d-none d-sm-inline font-small-3">{{xAxisTicks[1] | date: 'MMM y': '' : translate.currentLang}}</span>
-                                    <span class="float-right font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
+                                    <span class="float-end font-small-3">{{xAxisTicks[2] | date: 'MMM y': '' : translate.currentLang}}</span>
                                 </div>
                                 <ngx-charts-legend fxFlex="100%" 
                                                         class="chart-legend" 
@@ -942,7 +939,7 @@
 <div class="modal-footer">
   <div class="col-md-12 center-elements">
     <div ><span id="content"></span></div>
-    <button *ngIf="loadedDrugs" class="btn btn-dark mr-1" type="button"
+    <button *ngIf="loadedDrugs" class="btn btn-dark me-1" type="button"
     (click)="exportPDF2()">{{'generics.ExportData' | translate }}</button>
     <i *ngIf="!loadedDrugs" class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
   </div>
@@ -951,9 +948,7 @@
 
 <ng-template #qrPanel let-c="close" let-d="dismiss" appendTo="body">
   <div class="modal-header" id="idHeader">
-      <button type="button" class="close" aria-label="Close" (click)="closeModalQr();">
-          <span aria-hidden="true">&times;</span>
-      </button>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModalQr();"></button>
   </div>
 <div class="modal-body card mb-0">
   <div class="row">
@@ -970,9 +965,7 @@
 <ng-template #infoSharePanel let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
         <h4 class="mb-0">{{'mydata.q2' | translate }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
   <div class="modal-body card mb-0">
     <div class="row">

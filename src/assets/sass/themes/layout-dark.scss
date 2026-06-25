@@ -574,7 +574,9 @@ pre {
   }
 
   @include dark-style() {
-    background: $dl-bg-color;
+    background-color: $white;
+    color: $body-color;
+    box-shadow: $dl-card-shadow;
   }
 }
 
@@ -1951,8 +1953,8 @@ body {
 
     // Modal
     .modal-content {
-      .close {
-        color: $white;
+      .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
       }
     }
 

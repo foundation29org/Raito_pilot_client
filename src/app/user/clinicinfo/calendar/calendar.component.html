@@ -6,7 +6,7 @@
 					<div *ngIf="step=='0'">
 						<div class="row ">
 							<div class="col-md-12">
-								<button *ngIf="events.length>0" class="ml-1 float-right btn btn-primary btn-sm" (click)="openStats()">
+								<button *ngIf="events.length>0" class="ms-1 float-end btn btn-primary btn-sm" (click)="openStats()">
 									<i class="icon-folder-alt font-medium-3"></i>
 								</button>
 								<div class="row">
@@ -86,7 +86,7 @@
 												<div class="form-group">
 													<label class="mb-0">{{'seizures.Starts At' | translate }}</label>
 													<div class="">
-														<mat-form-field appearance="outline" class="mr-sm-24" fxFlex  >
+														<mat-form-field appearance="outline" class="me-sm-24" fxFlex  >
 															<input matInput class="grey" readonly [matDatepicker]="picker"
 																		   autocomplete="off"
 																		   name="start" formControlName="start">
@@ -254,7 +254,7 @@
 						<div>
 							<div ngbAccordion [closeOthers]="true">
 								<div ngbAccordionItem="init">
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Simple Focal' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -264,7 +264,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Complex Focal' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -274,7 +274,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Secondarily Generalized' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -284,7 +284,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Tonic' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -294,7 +294,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Clonic' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -304,7 +304,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Tonic–clonic' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -314,7 +314,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Myoclonic' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -324,7 +324,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Myoclonic Cluster' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -334,7 +334,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Atonic' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -344,7 +344,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Absence' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -354,7 +354,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Atypical Absence' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -364,7 +364,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Infantile Spasms' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -374,7 +374,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Status' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -384,7 +384,7 @@
 										</div>
 									</ng-template></div></div></div>
 								<div ngbAccordionItem>
-									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
+									<h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
 										<h5>{{'seizures.Other' | translate }}</h5>
 									</button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
 										<div class="card-block">
@@ -403,9 +403,7 @@
 <ng-template #contentInfoSeizureTracker let-c="close" let-d="dismiss" appendTo="body">
 	<div class="modal-header" id="idHeader">
 		{{'seizures.How do I export the data' | translate }}
-		<button type="button" class="close" aria-label="Close" (click)="closeModal();">
-			<span aria-hidden="true">&times;</span>
-		</button>
+		<button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
 	</div>
 	<div class="modal-body content-wrapper p-2" id="idBody">
 		<img class="logo-img w-100" src='assets/img/elements/tracker.jpg' />

@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 align-items-center">
                     <div *ngIf="step=='0' || step=='1'">
-                        <button class="ml-1 float-right btn btn-primary btn-sm" (click)="openStats()">
+                        <button class="ms-1 float-end btn btn-primary btn-sm" (click)="openStats()">
                             <i class="icon-folder-alt font-medium-3"></i>
                         </button>
                     </div>
@@ -12,7 +12,7 @@
                         <h2 class="content-header mt-0 mb-2">{{'homeraito.p6' | translate }}</h2>
                         <span [formGroup]="feelForm" class="mt-2">
                             <div class="form-group mt-3 mb-1">
-                                <mat-form-field appearance="outline" class="mr-sm-24" fxFlex (click)="open()" >
+                                <mat-form-field appearance="outline" class="me-sm-24" fxFlex (click)="open()" >
                                     <input matInput [matDatepicker]="picker" placeholder="Date"
                                                    autocomplete="off"
                                                    name="date" formControlName="date">

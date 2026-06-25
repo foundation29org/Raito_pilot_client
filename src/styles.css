@@ -38,10 +38,6 @@ html body.layout-dark:not(.layout-transparent) .modal-content {
   background: #000 !important;
 }
 
-html body.layout-dark:not(.layout-transparent) .card {
-  box-shadow: none;
-}
-
 .layout-transparent .primary {
   color: #FFCDD3 !important;
 }
@@ -559,3 +555,19 @@ ngb-modal-backdrop.modal-backdrop {
 @import url("../src/assets/css/data-table/icons.css");
 @import url("../src/assets/css/demo.css"); 
 @import "../css/custom.css";*/
+
+/* BS5 sets font-family on .btn, which breaks Font Awesome icons on the button element */
+.btn.fa,
+.btn[class*="fa-"] {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* BS5 native select chevron on dark layout (light theme: bootstrap-extended/_forms.scss) */
+.layout-dark select.form-control:not([multiple]):not([size]) {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23adb5bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}

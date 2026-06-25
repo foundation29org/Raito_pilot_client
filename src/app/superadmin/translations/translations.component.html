@@ -32,8 +32,8 @@
             <div class="card-block">
               <div ngbAccordion [closeOthers]="true">
                 <div *ngFor="let section of keys; let i = index" [ngbAccordionItem]="i">
-                    <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-left bg-transparent border-0 p-0">
-                       <h5><i class="icon-note mr-2"></i> {{'generics.Section' | translate }}: <span> {{section}}</span></h5>
+                    <h2 ngbAccordionHeader><button ngbAccordionButton class="w-100 text-start bg-transparent border-0 p-0">
+                       <h5><i class="icon-note me-2"></i> {{'generics.Section' | translate }}: <span> {{section}}</span></h5>
                       </button></h2><div ngbAccordionCollapse><div ngbAccordionBody><ng-template>
                     <div class="card-block">
                       <div class="col-md-12" *ngFor="let line of keyslevel2[i] ; let j = index">

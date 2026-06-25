@@ -562,7 +562,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     </option>
                   `).join('')}
                 </select>
-                <div class="form-check text-left">
+                <div class="form-check text-start">
                   <input type="checkbox" id="dontShowAgain" class="form-check-input">
                   <label class="form-check-label" for="dontShowAgain">
                     ${this.translate.instant('alerts.dont_show_again')}

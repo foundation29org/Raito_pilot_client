@@ -6,9 +6,9 @@
                     <div *ngIf="step=='0'">
                         <h2 class="content-header mt-0 mb-2">{{'menu.My documents' | translate }}</h2>
                         <div>
-                            <span class="float-right">
+                            <span class="float-end">
                                 <a *ngIf="!importing" (click)="createDocument(contentDocument, 'general');"
-                                    class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                    class="text-bold-500 float-end btn btn-primary btn-sm font-small-3 danger"
                                     title="">
                                     +
                                 </a>
@@ -18,7 +18,7 @@
                                 <p class="text-muted">{{'documents.medicalRecordsSubtitle' | translate }}</p>
                             </div>
                             <div class="center-elements">
-                                <!--<span class="mr-1"><button class="ml-2 btn btn-primary customHeight" (click)="newDoc();">
+                                <!--<span class="me-1"><button class="ms-2 btn btn-primary customHeight" (click)="newDoc();">
                                     {{'reports.Create-paste a report' | translate }}</button></span>-->
 
                             </div>
@@ -72,38 +72,38 @@
                                                             <a class="dropdown-item py-1" *ngIf="onefile.hasResults" href="javascript:;"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">
                                                                 <i class="ft-eye fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.View' | translate
+                                                                    class="ms-2">{{'generics.View' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="editDocument(onefile,updateDocument);">
                                                                 <i class="ft-edit fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Edit' | translate
+                                                                    class="ms-2">{{'generics.Edit' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Share' | translate
+                                                                    class="ms-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a *ngIf="!isMobile" class="dropdown-item py-1"
                                                                 href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}"
                                                                 target="_blank" download>
                                                                 <i class="ft-download fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Download' | translate
+                                                                    class="ms-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a *ngIf="isMobile" class="dropdown-item py-1"
                                                                 (click)="downloadFile(accessToken.containerName,onefile.name)">
                                                                 <i class="ft-download fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Download' | translate
+                                                                    class="ms-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1 danger" href="javascript:;"
                                                                 (click)="deleteFile(onefile,i,'general');">
                                                                 <i class="ft-trash fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Delete' | translate
+                                                                    class="ms-2">{{'generics.Delete' | translate
                                                                     }}</span>
                                                             </a>
                                                         </div>
@@ -119,9 +119,9 @@
                             </div>
                         </div>
                         <div>
-                            <span class="float-right">
+                            <span class="float-end">
                                 <a *ngIf="!importing" (click)="createDocument(contentDocument, 'emergency');"
-                                    class="text-bold-500 float-right btn btn-primary btn-sm font-small-3 danger"
+                                    class="text-bold-500 float-end btn btn-primary btn-sm font-small-3 danger"
                                     title="">
                                     +
                                 </a>
@@ -182,38 +182,38 @@
                                                             <a class="dropdown-item py-1" *ngIf="onefile.hasResults" href="javascript:;"
                                                             (click)="openResults(onefile.name, contentviewDoc, onefile.simplename);">
                                                                 <i class="ft-eye fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.View' | translate
+                                                                    class="ms-2">{{'generics.View' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="editDocument(onefile,updateDocument);">
                                                                 <i class="ft-edit fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Edit' | translate
+                                                                    class="ms-2">{{'generics.Edit' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1" href="javascript:;"
                                                                 (click)="shareFile(onefile,i);">
                                                                 <i class="ft-share-2 fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Share' | translate
+                                                                    class="ms-2">{{'generics.Share' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a *ngIf="!isMobile" class="dropdown-item py-1"
                                                                 href="{{accessToken.blobAccountUrl}}{{accessToken.containerName}}/{{onefile.name}}{{accessToken.sasToken}}"
                                                                 target="_blank" download>
                                                                 <i class="ft-download fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Download' | translate
+                                                                    class="ms-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a *ngIf="isMobile" class="dropdown-item py-1"
                                                                 (click)="downloadFile(accessToken.containerName,onefile.name)">
                                                                 <i class="ft-download fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Download' | translate
+                                                                    class="ms-2">{{'generics.Download' | translate
                                                                     }}</span>
                                                             </a>
                                                             <a class="dropdown-item py-1 danger" href="javascript:;"
                                                                 (click)="deleteFile(onefile,i, 'emergency');">
                                                                 <i class="ft-trash fa-xs"></i><span
-                                                                    class="ml-2">{{'generics.Delete' | translate
+                                                                    class="ms-2">{{'generics.Delete' | translate
                                                                     }}</span>
                                                             </a>
                                                         </div>
@@ -230,13 +230,13 @@
                         </div>
                     </div>
                     <div *ngIf="step=='1'">
-                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate
+                        <p><button class="ms-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate
                                 }}</button></p>
                         <div *ngIf="temporalSymptoms.length>0">
-                            <thead class="pr-1 pl-1">
+                            <thead class="pe-1 ps-1">
                                 <tr>
                                     <th id="headerTable" style="border-top-style: none;padding-bottom: 4px;">
-                                        <span class="icons-title-symptoms ml-1"
+                                        <span class="icons-title-symptoms ms-1"
                                             style="font-weight: normal;">{{'land.SelectSymptoms' | translate
                                             }}</span>
                                     </th>
@@ -249,23 +249,23 @@
                                         <tr *ngFor="let hpo of temporalSymptoms ; let i = index">
                                             <td>
                                                 <span>
-                                                    <span class="float-right ml-1">
+                                                    <span class="float-end ms-1">
                                                         <button
                                                             (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);"
-                                                            class="btn-outline-secondary btn btn-sm mr-1 mb-0 btn-fab round"
+                                                            class="btn-outline-secondary btn btn-sm me-1 mb-0 btn-fab round"
                                                             title="{{'generics.More information' | translate }} ({{hpo.id}})">
                                                             <em class="fa fa-info w-13"></em>
                                                         </button>
                                                     </span>
                                                     <span>
                                                         <button (click)="changeStateSymptom(i)"
-                                                            class="btn btn-sm mr-1 mb-0 btn-fab round white"
+                                                            class="btn btn-sm me-1 mb-0 btn-fab round white"
                                                             [ngClass]="(hpo.checked==true)?'btn-primary':'btn-secondary'"
                                                             href="javascript:void(0)"
                                                             title="{{'phenotype.Click to check it' | translate }}">
                                                             <em class="fa fa-check w-13"></em>
                                                         </button>
-                                                        <span class="ml-1 custom-bold pointer"
+                                                        <span class="ms-1 custom-bold pointer"
                                                             (click)="showMoreInfoSymptomPopup(i, contentInfoSymptomNcr);">{{hpo.name}}</span>
                                                     </span>
                                                 </span>
@@ -275,7 +275,7 @@
                                 </table>
                             </div>
                             <div class="center-elements mt-2">
-                                <p><button class="ml-2 btn btn-primary" (click)="saveSymptomsToDb();">{{'generics.Save'
+                                <p><button class="ms-2 btn btn-primary" (click)="saveSymptomsToDb();">{{'generics.Save'
                                         | translate }}</button></p>
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                         </div>
                     </div>
                     <div *ngIf="step=='2'">
-                        <p><button class="ml-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate
+                        <p><button class="ms-2 btn btn-primary" (click)="back('0');">{{'generics.Back' | translate
                                 }}</button></p>
                         <div class="p-2">
                             <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;"
@@ -314,13 +314,11 @@
 
 <ng-template #contentInfoSymptomNcr let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
-        <div class="content-header text-left">
+        <div class="content-header text-start">
             <h4>{{temporalSymptoms[selectedInfoSymptomIndex].name }} - {{temporalSymptoms[selectedInfoSymptomIndex].id
                 }}</h4>
         </div>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
         <div class="row col-md-12" class="p-2">
@@ -404,12 +402,10 @@
 
 <ng-template #contentviewDoc id="contentviewDoc" let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
-        <div class="content-header text-left">
+        <div class="content-header text-start">
             <h4>{{nameTitle}}</h4>
         </div>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
         <div class="p-2">
@@ -433,9 +429,7 @@
 <ng-template #contentDocument let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
         {{'documents.New document' | translate }}
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
         <form action="#" class="form form-horizontal" [formGroup]="documentForm" *ngIf="!showTextAreaFlag">
@@ -487,8 +481,8 @@
                                     <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
                                     <i class="fa fa-spinner fa-spin fa-3x fa-fw pink"></i>
                                 </span>
-                                <label *ngIf="!dataFile.name" class="ml-1 text-bold-500">
-                                    <span class="mr-1">Or</span>
+                                <label *ngIf="!dataFile.name" class="ms-1 text-bold-500">
+                                    <span class="me-1">Or</span>
                                     <button type="button" class="text-bold-500 btn btn-primary btn-sm font-small-3 danger mb-0"
                                         (click)="showTextArea();">
                                         {{'documents.Write/paste something' | translate }}
@@ -528,10 +522,10 @@
                 class="autoajustable searchTerm data-hj-allow" [(ngModel)]="medicalText" name="medicalText"
                 placeholder="{{'phenotype.HPO phenotype extractor placeholder' | translate }}" (ngModelChange)="resizeTextArea()"></textarea>
             <div class="mt-2">
-                <button type="button" class="btn btn-secondary btn-sm font-small-3 mb-0 mr-1" (click)="hideTextArea();">
+                <button type="button" class="btn btn-secondary btn-sm font-small-3 mb-0 me-1" (click)="hideTextArea();">
                     {{'generics.Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-primary btn-sm font-small-3 mb-0 ml-1" (click)="createFileTxt();" [disabled]="medicalText==''">
+                <button type="button" class="btn btn-primary btn-sm font-small-3 mb-0 ms-1" (click)="createFileTxt();" [disabled]="medicalText==''">
                     {{'generics.Save' | translate }}
                 </button>
             </div>
@@ -544,9 +538,7 @@
 <ng-template #updateDocument let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
         {{'documents.Update document' | translate }}
-        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal();"></button>
     </div>
     <div class="modal-body content-wrapper p-2" id="idBody">
         <form action="#" class="form form-horizontal" [formGroup]="documentForm">

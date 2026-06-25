@@ -102,7 +102,7 @@
 										<input type="text" class="form-control w-75 d-inline" name="actualInfoOneDisease"
 											id="actualInfoOneDisease" value="{{actualInfoOneDisease.name}}" readonly>
 										<button (click)="clearsearchDiseaseField()"
-											class="btn btn-sm ml-2 mb-0 btn-fab danger" href="javascript:void(0)"
+											class="btn btn-sm ms-2 mb-0 btn-fab danger" href="javascript:void(0)"
 											title="{{'generics.Delete' | translate }}">
 											<em class="fa fa-trash fa-2x"></em>
 										</button>
@@ -132,7 +132,7 @@
 										<div class="">
 											<label for="modules">
 												<span>{{'menu.Modules' | translate }}</span>
-												<em class="ft-info ml-1" style="cursor: pointer;" placement="auto"
+												<em class="ft-info ms-1" style="cursor: pointer;" placement="auto"
 													#p1="ngbPopover" [ngbPopover]="popContentmodules"
 													popoverTitle="{{'menu.Modules' | translate }}"></em>
 												<ng-template #popContentmodules>
@@ -152,9 +152,9 @@
 								<div class="col-xl-6">
 									<div class="form-group">
 										<div class="">
-											<label class="mr-2">{{'personalinfo.Tobacco use' | translate }}</label>
+											<label class="me-2">{{'personalinfo.Tobacco use' | translate }}</label>
 											<mat-radio-group aria-label="Select an option" [(ngModel)]="datainfo.tobaccoUse" name="tobaccoUse">
-												<mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+												<mat-radio-button value="yes" class="me-2">{{'generics.Yes' | translate }}</mat-radio-button>
 												<mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
 											</mat-radio-group>
 										</div>
@@ -175,9 +175,9 @@
 									</div>
 									<div class="form-group">
 										<div class="">
-											<label class="mr-2">{{'personalinfo.Specific diet (ketogenic, gluten-free, etc.)' | translate }}</label>
+											<label class="me-2">{{'personalinfo.Specific diet (ketogenic, gluten-free, etc.)' | translate }}</label>
 											<mat-radio-group class="d-block" aria-label="Select an option" [(ngModel)]="datainfo.specificDiet" name="specificDiet">
-												<mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+												<mat-radio-button value="yes" class="me-2">{{'generics.Yes' | translate }}</mat-radio-button>
 												<mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
 											</mat-radio-group>
 										</div>
@@ -189,9 +189,9 @@
 									</div>
 									<div class="form-group">
 										<div class="">
-											<label class="mr-2">{{'personalinfo.Physical exercise' | translate }}</label>
+											<label class="me-2">{{'personalinfo.Physical exercise' | translate }}</label>
 											<mat-radio-group aria-label="Select an option" [(ngModel)]="datainfo.physicalExercise" name="physicalExercise">
-												<mat-radio-button value="yes" class="mr-2">{{'generics.Yes' | translate }}</mat-radio-button>
+												<mat-radio-button value="yes" class="me-2">{{'generics.Yes' | translate }}</mat-radio-button>
 												<mat-radio-button value="no">{{'generics.No' | translate }}</mat-radio-button>
 											</mat-radio-group>
 										</div>
@@ -210,9 +210,9 @@
 							<div class="form-group text-center mb-0 mt-3">
 								<span *ngIf="!sending">
 									<div *ngIf="f.valid;then formValid else formError"></div>
-									<ng-template #formValid><button class="ml-2 mb-0 btn btn-dark" type="button" (click)="onSubmit()">
+									<ng-template #formValid><button class="ms-2 mb-0 btn btn-dark" type="button" (click)="onSubmit()">
 											{{'generics.Save' | translate }}</button></ng-template>
-									<ng-template #formError><button class="ml-2 mb-0 btn btn-dark" type="button"
+									<ng-template #formError><button class="ms-2 mb-0 btn btn-dark" type="button"
 											(click)="submitInvalidForm()"> {{'generics.Save' | translate
 											}}</button></ng-template>
 								</span>
@@ -248,12 +248,12 @@
 							<div class="" *ngIf="!settingWeight && !settingHeight">
 								<div class="row mt-1" *ngIf="loadedWeight">
 									<div class="col-12">
-										<button *ngIf="!actualWeight._id" type="button" class="btn btn-dark float-right"
+										<button *ngIf="!actualWeight._id" type="button" class="btn btn-dark float-end"
 												(click)="setWeight()"><em class="fas fa-edit"></em></button>
-												<button *ngIf="actualWeight._id" type="button" class="mt-2 btn btn-dark ml-1 float-right"
+												<button *ngIf="actualWeight._id" type="button" class="mt-2 btn btn-dark ms-1 float-end"
 													(click)="updateWeight()"><em class="fas fa-edit"></em></button>
 												<button *ngIf="weightHistory.length>1" type="button"
-													class="mt-2 btn btn-dark float-right"
+													class="mt-2 btn btn-dark float-end"
 													(click)="openWeightHistory(contentWeightHistory)"><em class="fas fa-chart-area"></em></button>
 										<p class="text-bold-500 mb-0">{{'anthropometry.Weight' | translate }}</p>
 										<p class="mb-0" *ngIf="!actualWeight._id">{{'anthropometry.You have not added the weight' | translate }}</p>
@@ -267,12 +267,12 @@
 								</div>
 								<div class="row mt-2" *ngIf="loadedHeight">
 									<div class="col-12">
-										<button *ngIf="!actualHeight._id" type="button" class="btn btn-dark float-right"
+										<button *ngIf="!actualHeight._id" type="button" class="btn btn-dark float-end"
 												(click)="setHeight()"><em class="fas fa-edit"></em></button>
-										<button *ngIf="actualHeight._id" type="button" class="mt-2 btn btn-dark float-right ml-1"
+										<button *ngIf="actualHeight._id" type="button" class="mt-2 btn btn-dark float-end ms-1"
 													(click)="updateHeight()"><em class="fas fa-edit"></em></button>
 										<button *ngIf="heightHistory.length>1" type="button"
-											class="mt-2 btn btn-dark float-right"
+											class="mt-2 btn btn-dark float-end"
 											(click)="openHeightHistory(contentHeightHistory)"><em class="fas fa-chart-area"></em></button>
 										<p class="text-bold-500 mb-0">{{'anthropometry.Height' | translate }}</p>
 										<p class="mb-0" *ngIf="!actualHeight._id">{{'anthropometry.You have not added the height' | translate }}</p>
@@ -332,14 +332,14 @@
 													</div>
 													<div class="form-actions mt-0 pb-0 center-elements">
 														<button type="button" (click)="resetFormWeight()"
-															class="btn btn-secondary mr-1 mb-0">
+															class="btn btn-secondary me-1 mb-0">
 															<i class="ft-x"></i> {{'generics.Cancel' | translate }}
 														</button>
 														<div *ngIf="fWeight.valid;then formValid else formError"></div>
-														<ng-template #formValid><button class="ml-1 mb-0 btn btn-dark"
+														<ng-template #formValid><button class="ms-1 mb-0 btn btn-dark"
 																type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 																}}</button></ng-template>
-														<ng-template #formError><button class="ml-1 mb-0 btn btn-dark"
+														<ng-template #formError><button class="ms-1 mb-0 btn btn-dark"
 																type="button" (click)="submitInvalidFormWeight()"><i
 																	class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button>
 														</ng-template>
@@ -427,14 +427,14 @@
 													</div>
 													<div class="form-actions mt-0 pb-0 center-elements">
 														<button type="button" (click)="resetFormHeight()"
-															class="btn btn-secondary mr-1 mb-0">
+															class="btn btn-secondary me-1 mb-0">
 															<i class="ft-x"></i> {{'generics.Cancel' | translate }}
 														</button>
 														<div *ngIf="fHeight.valid;then formValid else formError"></div>
-														<ng-template #formValid><button class="ml-1 mb-0 btn btn-dark"
+														<ng-template #formValid><button class="ms-1 mb-0 btn btn-dark"
 																type="submit"><i class="fa fa-check-square-o"></i> {{'generics.Save' | translate
 																}}</button></ng-template>
-														<ng-template #formError><button class="ml-1 mb-0 btn btn-dark"
+														<ng-template #formError><button class="ms-1 mb-0 btn btn-dark"
 																type="button" (click)="submitInvalidFormHeight()"><i
 																	class="fa fa-check-square-o"></i> {{'generics.Save' | translate }}</button>
 														</ng-template>
@@ -450,12 +450,12 @@
 							<div class="row">
 								<div class="col-sm-12" *ngIf="editingWeightHistory">
 									<div class="content-header mt-0 mb-2">{{'anthropometry.Weight history' | translate }}<button type="button"
-											class="float-right btn btn-primary mb-2" (click)="back()">{{'generics.Back' | translate
+											class="float-end btn btn-primary mb-2" (click)="back()">{{'generics.Back' | translate
 											}}</button></div>
 								</div>
 								<div class="col-sm-12" *ngIf="editingHeightHistory">
 									<div class="content-header mt-0 mb-2">{{'anthropometry.Height history' | translate }}<button type="button"
-											class="float-right btn btn-primary mb-2" (click)="back()">{{'generics.Back' | translate
+											class="float-end btn btn-primary mb-2" (click)="back()">{{'generics.Back' | translate
 											}}</button></div>
 								</div>
 							</div>
@@ -516,9 +516,7 @@
 <ng-template #contentWeightHistory let-c="close" let-d="dismiss">
 	<div class="modal-header">
 		<h4 class="modal-title">{{'anthropometry.Weight history' | translate }} <span>({{settings.massunit}})</span></h4>
-		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-			<span aria-hidden="true">&times;</span>
-		</button>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
 	</div>
 	<div class="modal-body">
 		<div *ngIf="lineChartWeight.length > 0">
@@ -549,9 +547,7 @@
 <ng-template #contentHeightHistory let-c="close" let-d="dismiss">
 	<div class="modal-header">
 		<h4 class="modal-title">{{'anthropometry.Height history' | translate }} <span>({{settings.lengthunit}})</span></h4>
-		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-			<span aria-hidden="true">&times;</span>
-		</button>
+		<button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
 	</div>
 	<div class="modal-body">
 		<div *ngIf="lineChartHeight.length > 0">
