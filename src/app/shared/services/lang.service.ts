@@ -18,12 +18,17 @@ export class LangService {
       //load the available languages
       return this.http.get(environment.api+'/api/langs').pipe(
           map((res: any) => {
+            if (!Array.isArray(res)) {
+              this.langs = [];
+              return [];
+            }
             this.langs = res;
             res.sort(this.sortService.GetSortOrder("name"));
             return res;
          }),
           catchError((err) => { console.log(err);
-           return of({}); })
+           this.langs = [];
+           return of([]); })
         )
     }
 
@@ -31,10 +36,10 @@ export class LangService {
       //load the available languages
       return this.http.get('assets/jsons/all-languages.json').pipe(
           map((res: any) => {
-            return res;
+            return Array.isArray(res) ? res : [];
          }),
           catchError((err) => { console.log(err);
-           return of({}); })
+           return of([]); })
         )
     }
 
@@ -45,7 +50,7 @@ export class LangService {
             return { lang: lang, jsonData: res };
          }),
           catchError((err) => { console.log(err);
-           return of({}); })
+           return of({ lang: lang, jsonData: {} }); })
         )
     }
 
