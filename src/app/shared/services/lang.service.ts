@@ -1,3 +1,5 @@
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from "@angular/common/http";
@@ -14,37 +16,42 @@ export class LangService {
 
     getLangs(){
       //load the available languages
-      return this.http.get(environment.api+'/api/langs')
-        .map( (res : any) => {
+      return this.http.get(environment.api+'/api/langs').pipe(
+          map((res: any) => {
+            if (!Array.isArray(res)) {
+              this.langs = [];
+              return [];
+            }
             this.langs = res;
             res.sort(this.sortService.GetSortOrder("name"));
             return res;
-         }, (err) => {
-           console.log(err);
-           return {};
-         })
+         }),
+          catchError((err) => { console.log(err);
+           this.langs = [];
+           return of([]); })
+        )
     }
 
     getAllLangs(){
       //load the available languages
-      return this.http.get('assets/jsons/all-languages.json')
-        .map( (res : any) => {
-            return res;
-         }, (err) => {
-           console.log(err);
-           return {};
-         })
+      return this.http.get('assets/jsons/all-languages.json').pipe(
+          map((res: any) => {
+            return Array.isArray(res) ? res : [];
+         }),
+          catchError((err) => { console.log(err);
+           return of([]); })
+        )
     }
 
     loadDataJson(lang: string){
       //cargar las palabras del idioma
-      return this.http.get(environment.api+'/assets/i18n/'+lang+'.json')
-        .map( (res : any) => {
+      return this.http.get(environment.api+'/assets/i18n/'+lang+'.json').pipe(
+          map((res: any) => {
             return { lang: lang, jsonData: res };
-         }, (err) => {
-           console.log(err);
-           return {};
-         })
+         }),
+          catchError((err) => { console.log(err);
+           return of({ lang: lang, jsonData: {} }); })
+        )
     }
 
 }

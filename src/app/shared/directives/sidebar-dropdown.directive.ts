@@ -2,7 +2,8 @@ import { Directive, OnInit } from '@angular/core';
 import { SidebarLinkDirective } from './sidebar-link.directive';
 
 @Directive({
-  selector: '[appSidebarDropdown]'
+    selector: '[appSidebarDropdown]',
+    standalone: false
 })
 export class SidebarDropdownDirective implements OnInit {
   protected navlinks: Array<SidebarLinkDirective> = [];

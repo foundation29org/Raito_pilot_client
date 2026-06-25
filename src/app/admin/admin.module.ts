@@ -7,12 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatchHeightModule } from "../shared/directives/match-height.directive";
-import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 
 import { TranslationsComponent } from "./translations/translations.component";
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
     imports: [
@@ -22,8 +20,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
         MatchHeightModule,
         TranslateModule,
         FormsModule,
-        UiSwitchModule,
-        NgxDatatableModule
     ],
     exports: [TranslateModule],
     declarations: [

@@ -44,17 +44,18 @@ import {
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
-      trigger('animationState', [
-        transition('* => void', [
-          style({
-            opacity: 1,
-            transform: '*',
-          }),
-          animate(500, style({opacity: 0, transform: 'scale(0)'}))
+        trigger('animationState', [
+            transition('* => void', [
+                style({
+                    opacity: 1,
+                    transform: '*',
+                }),
+                animate(500, style({ opacity: 0, transform: 'scale(0)' }))
+            ])
         ])
-      ])
-    ]
-  })
+    ],
+    standalone: false
+})
   export class ComboSeriesVerticalComponent implements OnChanges {
   
     @Input() dims;

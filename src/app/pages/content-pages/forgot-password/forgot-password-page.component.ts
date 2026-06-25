@@ -7,7 +7,8 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-forgot-password-page',
     templateUrl: './forgot-password-page.component.html',
-    styleUrls: ['./forgot-password-page.component.scss']
+    styleUrls: ['./forgot-password-page.component.scss'],
+    standalone: false
 })
 
 export class ForgotPasswordPageComponent implements OnDestroy, OnInit{

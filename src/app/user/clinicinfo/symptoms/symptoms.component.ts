@@ -6,10 +6,8 @@ import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstr
 import { environment } from 'environments/environment';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { Observable, of, OperatorFunction } from 'rxjs';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
 
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
@@ -56,10 +54,11 @@ export class SearchTermService {
 }
 
 @Component({
-  selector: 'app-symptoms',
-  templateUrl: './symptoms.component.html',
-  styleUrls: ['./symptoms.component.scss'],
-  providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }],
+    selector: 'app-symptoms',
+    templateUrl: './symptoms.component.html',
+    styleUrls: ['./symptoms.component.scss'],
+    providers: [PatientService, ApiDx29ServerService, Apif29BioService, SearchTermService, jsPDFService, { provide: LOCALE_ID, useFactory: getCulture }],
+    standalone: false
 })
 
 

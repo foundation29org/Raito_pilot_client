@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { NgForm } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 declare let gtag: any;
@@ -12,7 +12,8 @@ declare let gtag: any;
 @Component({
     selector: 'app-footer-land',
     templateUrl: './footer-land.component.html',
-    styleUrls: ['./footer-land.component.scss']
+    styleUrls: ['./footer-land.component.scss'],
+    standalone: false
 })
 
 export class FooterLandComponent implements OnDestroy{

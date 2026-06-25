@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,10 +11,11 @@ import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Injectable, Injector } from '@angular/core';
 
 @Component({
-  selector: 'app-navbar-dx29',
-  templateUrl: './navbar-dx29.component.html',
-  styleUrls: ['./navbar-dx29.component.scss'],
-  providers: [LangService]
+    selector: 'app-navbar-dx29',
+    templateUrl: './navbar-dx29.component.html',
+    styleUrls: ['./navbar-dx29.component.scss'],
+    providers: [LangService],
+    standalone: false
 })
 
 @Injectable()
@@ -45,7 +47,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
 
     this.loadLanguages();
 
-    this.router.events.filter((event: any) => event instanceof NavigationEnd).subscribe(
+    this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)).subscribe(
 
       event => {
         var tempUrl = (event.url).toString();

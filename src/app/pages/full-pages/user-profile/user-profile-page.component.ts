@@ -17,7 +17,8 @@ import { Injector } from '@angular/core';
     selector: 'app-user-profile-page',
     templateUrl: './user-profile-page.component.html',
     styleUrls: ['./user-profile-page.component.scss'],
-    providers: [LangService, PatientService]
+    providers: [LangService, PatientService],
+    standalone: false
 })
 
 export class UserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {

@@ -9,25 +9,24 @@ import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.servic
 import { ToastrService } from 'ngx-toastr';
 import { SearchService } from 'app/shared/services/search.service';
 import { SortService } from 'app/shared/services/sort.service';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/toPromise';
 import { Apif29BioService } from 'app/shared/services/api-f29bio.service';
 import { DateService } from 'app/shared/services/date.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { EventsService } from 'app/shared/services/events.service';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import * as chartsData from 'app/shared/configs/general-charts.config';
 import { DateAdapter } from '@angular/material/core';
-import { ColorHelper } from '@swimlane/ngx-charts';
+import { ColorHelper, ScaleType } from '@swimlane/ngx-charts';
 import { OpenAiService } from 'app/shared/services/openAi.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  providers: [PatientService, Apif29BioService, ApiDx29ServerService, OpenAiService]
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    providers: [PatientService, Apif29BioService, ApiDx29ServerService, OpenAiService],
+    standalone: false
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
@@ -563,7 +562,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     </option>
                   `).join('')}
                 </select>
-                <div class="form-check text-left">
+                <div class="form-check text-start">
                   <input type="checkbox" id="dontShowAgain" class="form-check-input">
                   <label class="form-check-label" for="dontShowAgain">
                     ${this.translate.instant('alerts.dont_show_again')}
@@ -1544,14 +1543,14 @@ getWeek(newdate, dowOffset?) {
     this.chartNames = [...new Set(chartNames)];
     //this.chartNames = this.lineChartDrugs.map((d: any) => d.name);
     // Convert hex colors to ColorHelper for consumption by legend
-    this.colors = new ColorHelper(this.lineChartColorScheme, 'ordinal', this.chartNames, this.lineChartColorScheme);
-    this.colors2 = new ColorHelper(this.lineChartOneColorScheme2, 'ordinal', this.chartNames, this.lineChartOneColorScheme2);
+    this.colors = new ColorHelper(this.lineChartColorScheme as any, ScaleType.Ordinal, this.chartNames, this.lineChartColorScheme);
+    this.colors2 = new ColorHelper(this.lineChartOneColorScheme2 as any, ScaleType.Ordinal, this.chartNames, this.lineChartOneColorScheme2);
       
     //newColor
     var tempColors = JSON.parse(JSON.stringify(this.lineChartColorScheme))
     var tempColors2 = JSON.parse(JSON.stringify(this.lineChartOneColorScheme2))
     tempColors.domain[this.chartNames.length]=tempColors2.domain[0];
-    this.colorsLineToll = new ColorHelper(tempColors, 'ordinal', this.chartNames, tempColors);
+    this.colorsLineToll = new ColorHelper(tempColors as any, ScaleType.Ordinal, this.chartNames, tempColors);
     this.normalizedChanged(this.normalized);
     if(this.events.length>0){
       this.getDataNormalizedDrugsVsSeizures();

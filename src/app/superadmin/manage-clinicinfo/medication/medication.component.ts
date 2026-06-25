@@ -10,12 +10,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import Swal from 'sweetalert2';
 import { SortService} from 'app/shared/services/sort.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-medication',
     templateUrl: './medication.component.html',
-    styleUrls: ['./medication.component.scss']
+    styleUrls: ['./medication.component.scss'],
+    standalone: false
 })
 
 export class MedicationComponent implements OnInit, OnDestroy{

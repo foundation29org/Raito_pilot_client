@@ -61,7 +61,7 @@
         &:after {
           background-color: $body-bg;
         }
-        ~ li {
+         li {
           &:before,
           &:after {
             background-color: $body-bg;

@@ -22,7 +22,7 @@ export class CordovaService {
     permissions:any;
     list_permissions:any;
     constructor() {
-      var touchDevice = (navigator.maxTouchPoints || 'ontouchstart' in document.documentElement);
+      var touchDevice = navigator.maxTouchPoints || ('ontouchstart' in document.documentElement ? 1 : 0);
       console.log('touchDevice', touchDevice)
       if (touchDevice>1 && /Android/i.test(navigator.userAgent)) {
         this.isMobile = true;

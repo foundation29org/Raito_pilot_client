@@ -1,0 +1,10 @@
+// Brand-specific ngb-progressbar colors (override Bootstrap theme primary per app).
+.progress-bar.text-bg-primary {
+  background-color: #f9423a !important;
+  color: #fff;
+}
+
+.progress-bar.text-bg-dark {
+  background-color: #343a40 !important;
+  color: #fff;
+}

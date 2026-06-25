@@ -11,7 +11,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatchHeightModule } from 'app/shared/directives/match-height.directive';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { UiSwitchModule } from 'ngx-ui-switch';
 
 import {MatSelectModule} from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -33,8 +32,6 @@ import { DateTimePickerComponent } from './appointments/date-time-picker.compone
 import { MedicationComponent } from './medication/medication.component';
 import { InmunodeficienciesComponent } from './inmunodeficiencies/inmunodeficiencies.component';
 import { NgbModalModule, NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CustomFormsModule } from 'ngx-custom-validators';
 
 @NgModule({
     imports: [
@@ -49,7 +46,6 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         MatchHeightModule,
         TranslateModule,
         NgxChartsModule,
-        UiSwitchModule,
         MatSelectModule,
         ReactiveFormsModule,
         MatExpansionModule,
@@ -65,8 +61,6 @@ import { CustomFormsModule } from 'ngx-custom-validators';
         NgbModalModule,
         NgbDatepickerModule,
         NgbTimepickerModule,
-        NgxDatatableModule,
-        CustomFormsModule
     ],
     exports: [TranslateModule],
     declarations: [

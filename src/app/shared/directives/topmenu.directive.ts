@@ -1,7 +1,10 @@
 import { Directive, HostListener, OnInit} from '@angular/core';
 import { TopMenuLinkDirective } from './topmenu-link.directive';
 
-@Directive({ selector: '[appTopMenu]' })
+@Directive({
+    selector: '[appTopMenu]',
+    standalone: false
+})
 export class TopMenuDirective implements OnInit {
 
   protected navlinks: Array<TopMenuLinkDirective> = [];

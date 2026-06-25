@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-verify-email-page',
     templateUrl: './verify-email-page.component.html',
-    styleUrls: ['./verify-email-page.component.scss']
+    styleUrls: ['./verify-email-page.component.scss'],
+    standalone: false
 })
 
 export class VerifyEmailPageComponent implements OnDestroy, OnInit{

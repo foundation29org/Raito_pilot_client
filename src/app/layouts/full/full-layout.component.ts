@@ -20,10 +20,11 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: "app-full-layout",
-  templateUrl: "./full-layout.component.html",
-  styleUrls: ["./full-layout.component.scss"],
-  changeDetection: ChangeDetectionStrategy.Default
+    selector: "app-full-layout",
+    templateUrl: "./full-layout.component.html",
+    styleUrls: ["./full-layout.component.scss"],
+    changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false
 })
 export class FullLayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 

@@ -4,7 +4,10 @@ import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 import { Router } from '@angular/router';
 
-@Directive({ selector: '[appSidebar]' })
+@Directive({
+    selector: '[appSidebar]',
+    standalone: false
+})
 export class SidebarDirective implements OnInit, AfterViewInit, OnDestroy {
 
   @HostBinding("class.expanded")

@@ -1,6 +1,7 @@
 import { Injectable, NgZone, EventEmitter, Output } from '@angular/core';
 import { User } from '../services/user';
-import * as auth from 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,7 +31,7 @@ export class AuthServiceFirebase {
   // Sign in with email/password
   SignIn(email: string, password: string) {
     return this.afAuth
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email?.trim(), password)
       .then((result) => {
         this.SetUserData(result.user);
         /*this.afAuth.authState.subscribe((user) => {
@@ -91,7 +92,7 @@ export class AuthServiceFirebase {
 
   // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
+    return this.AuthLogin(new firebase.auth.GoogleAuthProvider()).then((res: any) => {
       //this.router.navigate(['dashboard']);
     }).catch(error => {
       // manejar el error 
@@ -100,13 +101,13 @@ export class AuthServiceFirebase {
   }
 
   signInWithMicrosoft() {
-    return this.AuthLogin(new auth.OAuthProvider('microsoft.com')).then((res: any) => {
+    return this.AuthLogin(new firebase.auth.OAuthProvider('microsoft.com')).then((res: any) => {
       //this.router.navigate(['dashboard']);
     });
   }
 
   signInWithApple() {
-    return this.AuthLogin(new auth.OAuthProvider('apple.com')).then((res: any) => {
+    return this.AuthLogin(new firebase.auth.OAuthProvider('apple.com')).then((res: any) => {
       //this.router.navigate(['dashboard']);
     });
   }
@@ -120,7 +121,7 @@ export class AuthServiceFirebase {
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error);
+        window.alert(error?.message || error);
       });
   }
   /* Setting up user data when sign in with username/password, 

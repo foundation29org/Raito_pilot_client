@@ -4,11 +4,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { FullPagesRoutingModule } from "./full-pages-routing.module";
 import { TranslateModule } from '@ngx-translate/core';
-import { ChartistModule } from "ng-chartist";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NgSelectModule } from "@ng-select/ng-select";
 import { PipeModule } from "app/shared/pipes/pipe.module";
-import { CustomFormsModule } from 'ngx-custom-validators';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 
@@ -24,12 +21,9 @@ import { SupportComponent } from './support/support.component';
     FullPagesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ChartistModule,
-    NgSelectModule,
     NgbModule,
     TranslateModule,
     PipeModule,
-    CustomFormsModule,
     MatRadioModule,
     MatSelectModule
   ],

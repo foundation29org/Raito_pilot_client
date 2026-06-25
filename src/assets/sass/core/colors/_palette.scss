@@ -143,7 +143,7 @@
         &:focus {
           color: $white;
         }
-        &~.dropdown-menu {
+        &.dropdown-menu {
           .dropdown-item.active {
             color: $white !important;
             background-color: $color_value !important;
@@ -185,10 +185,10 @@
       .radio {
         &.radio-#{$color_name} {
           input[type="radio"] {
-            &~label::before {
+            + label::before {
               border-color: $color_value;
             }
-            &:checked~label::after {
+            &:checked + label::after {
               background-color: $color_value;
             }
           }
@@ -198,7 +198,7 @@
       .checkbox {
         &.checkbox-#{$color_name} {
           input[type="checkbox"] {
-            &:checked ~ label:after {
+            &:checked  label:after {
               border-color: $color_value;
             }
           }
@@ -208,7 +208,7 @@
       .custom-switch {
         &.custom-switch-#{$color_name} {
           input[type="checkbox"] {
-            &:checked ~ label:before {
+            &:checked  label:before {
               border-color: $color_value;
               background-color: $color_value;
             }
@@ -248,7 +248,7 @@
         box-shadow: $color_value 0px 0px 0px 7px inset !important;
       }
 
-      input:focus ~ .bg-#{$color_name} {
+      input:focus  .bg-#{$color_name} {
         box-shadow: 0 0 0 0.075rem $white, 0 0 0 0.21rem $color_value !important;
       }
     } @else {
@@ -284,7 +284,7 @@
           background-color: $color_value;
         }
       }
-      input:focus ~ .bg-#{$color_name} {
+      input:focus  .bg-#{$color_name} {
         box-shadow: 0 0 0 0.075rem $white, 0 0 0 0.21rem $color_value !important;
       }
       .border-#{$color_name}.border-#{$color_type} {

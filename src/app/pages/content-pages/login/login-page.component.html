@@ -6,7 +6,7 @@
         <div class="card-content">
           <div class="back-to-home p-3">
             <a routerLink="/" class="btn btn-outline-secondary btn-sm">
-              <i class="fa fa-arrow-left mr-1"></i> {{'menu.Dashboard' | translate }}
+              <i class="fa fa-arrow-left me-1"></i> {{'menu.Dashboard' | translate }}
             </a>
           </div>
           <div class="card-body auth-img">
@@ -49,10 +49,10 @@
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                   <h6 class="m-0 mb-2">{{'login.or Log in with' | translate }}</h6>
                   <div class="login-options">
-                    <button type="button" class="btn btn-sm btn-white mr-1" (click)="authServiceFirebase.GoogleAuth()">
+                    <button type="button" class="btn btn-sm btn-white me-1" (click)="authServiceFirebase.GoogleAuth()">
                       <i class="fa-brands fa-google fa-2x"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-white mr-1" (click)="authServiceFirebase.signInWithMicrosoft()">
+                    <button type="button" class="btn btn-sm btn-white me-1" (click)="authServiceFirebase.signInWithMicrosoft()">
                       <i class="fa fa-windows fa-2x"></i>
                     </button>
                     <button type="button" class="btn btn-sm btn-white" (click)="authServiceFirebase.signInWithApple()">

@@ -50,7 +50,9 @@ import 'core-js/es/array';
  * Need to import at least one locale-data with intl.
  */
 // import 'intl/locale-data/jsonp/en';
+import { Buffer } from 'buffer';
+import process from 'process';
 (window as any).global = window;
-
-global.Buffer = global.Buffer || require('buffer').Buffer;
-global.process = global.process || require('process');
+const globalScope = window as any;
+globalScope.Buffer = globalScope.Buffer || Buffer;
+globalScope.process = globalScope.process || process;

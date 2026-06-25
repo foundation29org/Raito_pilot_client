@@ -16,28 +16,15 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { StoreModule } from "@ngrx/store";
-import { DragulaService } from "ng2-dragula";
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from 'environments/environment';
-
-import {
-  PerfectScrollbarModule,
-  PERFECT_SCROLLBAR_CONFIG,
-  PerfectScrollbarConfigInterface
-} from 'ngx-perfect-scrollbar';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
-import * as fromApp from './store/app.reducer';
 import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
@@ -63,76 +50,53 @@ import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
 import { AuthServiceFirebase } from "./shared/services/auth.service.firebase";
 
-import { QRCodeModule } from 'angularx-qrcode';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-  wheelPropagation: false
-};
+import { QRCodeComponent } from 'angularx-qrcode';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
 }
 
-@NgModule({
-  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, LandPageLayoutComponent, SearchFilterPipe, HighlightSearch, LocalizedDatePipe],
-  imports: [
-    CommonModule,
-    BrowserAnimationsModule,
-    StoreModule.forRoot(fromApp.appReducer),
-    AppRoutingModule,
-    SharedModule,
-    HttpClientModule,
-    ToastrModule.forRoot(),
-    NgbModule,
-    NgxSpinnerModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
-    PerfectScrollbarModule,
-    QRCodeModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-  ],
-  providers: [
-    AuthService,
-    TokenService,
-    AuthGuard,
-    RoleGuard,
-    {
-      provide : HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi   : true
-    },
-    DragulaService,
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    },
-    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    WINDOW_PROVIDERS,
-    { provide: LOCALE_ID, useValue: 'es-ES' },
-    SortService,
-    EventsService,
-    DatePipe,
-    DateService,
-    SearchService,
-    TrackEventsService,
-    BlobStorageService,
-    HighlightSearch,
-    LocalizedDatePipe,
-    SearchFilterPipe,
-    Data,
-    CordovaService,
-    AuthServiceFirebase
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, LandPageLayoutComponent, SearchFilterPipe, HighlightSearch, LocalizedDatePipe],
+    bootstrap: [AppComponent], imports: [CommonModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        SharedModule,
+        ToastrModule.forRoot(),
+        NgbModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient]
+            }
+        }),
+        QRCodeComponent,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule], providers: [
+        AuthService,
+        TokenService,
+        AuthGuard,
+        RoleGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        WINDOW_PROVIDERS,
+        { provide: LOCALE_ID, useValue: 'es-ES' },
+        SortService,
+        EventsService,
+        DatePipe,
+        DateService,
+        SearchService,
+        TrackEventsService,
+        BlobStorageService,
+        HighlightSearch,
+        LocalizedDatePipe,
+        SearchFilterPipe,
+        Data,
+        CordovaService,
+        AuthServiceFirebase,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}

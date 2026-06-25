@@ -1,12 +1,12 @@
 // Custom Components
 
 // Core variables and mixins
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
 
 // Core variables and mixins overrides
 @import "core/variables/variables";
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/variables";
 
 // Mixins
 @import "core/mixins/buttons";
@@ -30,17 +30,7 @@
 @import "components/demo";
 @import "components/ex-component-avatar";
 
-@import "core/mixins/chartist";
-@import "plugins/chartist";
-
-@import "~perfect-scrollbar/css/perfect-scrollbar.css";
-@import "~prismjs/plugins/toolbar/prism-toolbar.css";
-@import "~prismjs/themes/prism-okaidia";
-@import "~ngx-ui-switch/ui-switch.component.scss";
-@import "~@ng-select/ng-select/themes/default.theme.css";
-@import '~@angular/cdk/overlay-prebuilt.css';
-@import '~angular-archwizard/archwizard.css';
-@import '~swiper/swiper-bundle.min.css';
+@import '@angular/cdk/overlay-prebuilt.css';
 
 //------------------- below are the files where _palette-variables.scss is included and map-get() is used -------------------
 // Layouts
@@ -61,10 +51,6 @@
 @import "pages/app-chat";
 @import "pages/app-taskboard";
 @import "pages/app-calendar";
-@import "pages/charts-apex";
 
 @import "pages/ex-component-sweet-alerts";
 @import "pages/ex-component-toastr";
-@import "pages/ex-component-nouislider";
-@import "pages/ex-component-dragndrop";
-@import "pages/ex-component-swiper";

@@ -1,11 +1,11 @@
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
-export class RoleGuard implements CanActivate {
+export class RoleGuard  {
 
   constructor(public authService: AuthService, public router: Router,  public toastr: ToastrService, public translate: TranslateService) {}
 

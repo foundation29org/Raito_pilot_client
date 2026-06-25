@@ -11,9 +11,6 @@ import { DashboardSuperAdminComponent } from "./dashboard-superadmin/dashboard-s
 import { TranslationsComponent } from "./translations/translations.component";
 import { LangsComponent } from "./langs/langs.component";
 
-import { UiSwitchModule } from 'ngx-ui-switch';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
 
 @NgModule({
     imports: [
@@ -23,8 +20,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
         MatchHeightModule,
         TranslateModule,
         FormsModule,
-        UiSwitchModule,
-        NgxDatatableModule
     ],
     exports: [TranslateModule],
     declarations: [
