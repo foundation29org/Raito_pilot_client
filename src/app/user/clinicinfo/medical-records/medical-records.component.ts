@@ -576,31 +576,26 @@ export class MedicalRecordsComponent implements OnInit, OnDestroy {
   }
 
   callParser(file, blobName) {
-
-    var oReq = new XMLHttpRequest();
     var lang = this.authService.getLang();
+    const params = {
+      timeout: '5000',
+      language: lang,
+      strategy: 'OcrOnly'
+    };
 
-    oReq.open("PUT", environment.f29api + '/api/Document/Parse?Timeout=5000&language=' + lang + '&Strategy=OcrOnly', true);
-
-    oReq.onload = function (oEvent) {
-      // Uploaded.
-      let file2 = oEvent.target;
-      var target: any = {};
-      target = file2;
-      //target--> status, strategy, content
-      var text = '';
-      if (target.response.content == undefined) {
-        text = '';
-      } else {
-        text = target.response.content
-        text = text.split("\n").join(" ");
-      }
-      this.startExtractor(text, blobName);
-
-    }.bind(this);
-    oReq.send(file);
-    const rt = "json";
-    oReq.responseType = rt;
+    this.http.put<any>(environment.api + '/api/gateway/document/parse', file, { params })
+      .subscribe({
+        next: (response) => {
+          const text = response && response.content
+            ? response.content.split('\n').join(' ')
+            : '';
+          this.startExtractor(text, blobName);
+        },
+        error: (error) => {
+          console.error('Document parsing failed', error);
+          this.extractingData = false;
+        }
+      });
   }
 
   loadFile(url, callback) {
