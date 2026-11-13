@@ -86,7 +86,7 @@
 												[(ngModel)]="searchDiseaseField" [ngbTypeahead]="searchDiseases"
 												[resultTemplate]="rt" [inputFormatter]="formatter1" (paste)="searchDiseases"
 												placeholder="{{'dashboardpatient.Search condition' | translate }}"
-												(selectItem)="selected($event)" (focusout)="focusOutFunctionDiseases()" />
+												(selectItem)="selected($event)" />
 											<em *ngIf="callListOfDiseases"
 												class="fa fa-spinner fa-spin fa-2x fa-fw secondary spinner-absolute"></em>
 											<span *ngIf="nothingFoundDisease">
