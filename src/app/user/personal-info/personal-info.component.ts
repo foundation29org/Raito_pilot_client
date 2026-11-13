@@ -63,7 +63,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   countrySelected: string = null;
   searchDiseaseField: string = '';
   callListOfDiseases: boolean = false;
-  sendTerms: boolean = false;
   listOfFilteredDiseases: any = [];
   loadingOneDisease: boolean = false;
   selectedDiseaseIndex: number = -1;
@@ -433,33 +432,6 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
         Swal.fire(this.translate.instant("generics.Warning"), this.translate.instant("generics.error try again"), "warning");
         this.sending = false;
       }));
-  }
-
-  focusOutFunctionDiseases() {
-    if (this.searchDiseaseField.trim().length > 3 && !this.callListOfDiseases) {
-      //send text
-      var tempModelTimp = this.searchDiseaseField.trim();
-      this.sendTerms = true;
-      var params: any = {}
-      params.uuid = sessionStorage.getItem('uuid');
-      params.Term = tempModelTimp;
-      params.Lang = sessionStorage.getItem('lang');
-      params.Found = "No";
-      if (this.listOfFilteredDiseases.length > 0) {
-        params.Found = "Yes";
-      }
-
-      var d = new Date(Date.now());
-      var a = d.toString();
-      params.Date = a;
-      this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/5af138b9f41f400f89ecebc580d7668f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=v0VAnuKXpQjW_0o4XcPesTwy4AU62wTko1xBwZAWAiE', params)
-        .subscribe((res: any) => {
-         
-          
-        }, (err) => {
-          console.log(err);
-        }));
-    }
   }
 
   showMoreInfoDiagnosePopup(index) {

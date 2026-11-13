@@ -70,7 +70,6 @@ export class SymptomsComponent implements OnInit {
   eventList: any = [];
   _startTime: any;
   showErrorMsg: boolean = false;
-  sendSympTerms: boolean = false;
   ncrResultView: boolean = false;
   selectedInfoSymptomIndex: number = -1;
   modalReference: NgbModalRef;
@@ -215,24 +214,6 @@ export class SymptomsComponent implements OnInit {
   }
 
   focusOutFunctionSymptom() {
-    // Variable para guardar la referencia al valor actual
-    const currentValue = this.modelTemp;
-    
-    if (this.showErrorMsg && currentValue.length > 2) {
-      this.sendSympTerms = true;
-      var params: any = {}
-      params.uuid = sessionStorage.getItem('uuid');
-      params.Term = currentValue;
-      params.Lang = sessionStorage.getItem('lang');
-      var d = new Date(Date.now());
-      var a = d.toString();
-      params.Date = a;
-      this.subscription.add(this.http.post('https://default163d001a45914200a300b9062d2e31.ec.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/95df9b0148cf409f9a8f2b0853820beb/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PQFhuMOgHuksXt62y0lbCPQyCm0kugj9FOcghvXizfg', params)
-        .subscribe((res: any) => {
-        }, (err) => {
-        }));
-    }
-    
     // Usar un pequeño retraso para permitir que otros eventos (como click en el botón) se ejecuten primero
     setTimeout(() => {
       this.modelTemp = '';
